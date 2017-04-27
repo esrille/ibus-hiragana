@@ -1,0 +1,1 @@
+# ibus-replace-with-kanji
