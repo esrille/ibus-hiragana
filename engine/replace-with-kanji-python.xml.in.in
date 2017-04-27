@@ -1,0 +1,27 @@
+<?xml version=\"1.0\" encoding=\"utf-8\"?>
+<!-- filename: replace-with-kanji-python.xml -->
+<component>
+	<name>org.freedesktop.IBus.ReplaceWithKanji</name>
+	<description>Replace With Kanji Input Method</description>
+	<exec>${libexecdir}/ibus-engine-replace-with-kanji --ibus</exec>
+	<version>@VERSION@</version>
+	<author>Esrille Inc. &lt;info@esrille.com&gt;</author>
+	<license>Apache</license>
+	<homepage>https://github.com/esrille/ibus-replace-with-kanji</homepage>
+	<textdomain>ibus-replace-with-kanji</textdomain>
+
+	<engines>
+		<engine>
+			<name>replace-with-kanji-python</name>
+			<language>ja</language>
+			<license>Apache</license>
+			<author>Esrille Inc. &lt;info@esrille.com&gt;</author>
+			<icon>${pkgdatadir}/icons/ibus-replace-with-kanji.png</icon>
+			<layout>us</layout>
+			<longname>ReplaceWithKanji</longname>
+			<description>Replace With Kanji Input Method</description>
+			<rank>0</rank>
+		</engine>
+	</engines>
+
+</component>

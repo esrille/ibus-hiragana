@@ -1,0 +1,56 @@
+Replace With Kanji input method for IBus
+Copyright 2017 Esrille Inc.
+
+This product includes software developed at
+Esrille Inc. (http://www.esrille.com/).
+
+Except as otherwise noted, the content of this software are licensed
+under Apache 2.0 License.
+
+Please consult,
+    https://github.com/esrille/ibus-replace-with-kanji
+for how to report problems.
+
+== The es shield logo ==
+
+The es shield logo is a trademark of Esrille Inc. All rights reserved.
+
+The es shield logo is a special trademark to identify the ES operating
+system projects and any software developed and distributed by the ES
+operating system projects.
+
+The es shield logo can be used by anyone if that use of the logo is
+nominative. The "nominative use" authorizes everyone (even commercial
+companies) to use the trademark of another if:
+
+  1. The product or service cannot be readily identified without use of
+     the trademark;
+  2. The user only uses as much of the mark as is necessary to identify
+     the product or service; and,
+  3. The user does nothing to suggest sponsorship or endorsement by the
+     trademark holder.
+
+== Credits ==
+
+This product uses the source code derived from,
+    ibus-tmpl - The Input Bus template project
+ibus-tmpl is released under GPLV2 with the following exception:
+
+> This is a template engine for IME developers. You could start your IME engine
+> from it.
+>
+> Ibus-tmpl was released under GPLV2. We wish ibus engine developers would release
+> new engines under open source license too, but we do not force it. We allow
+> developers start your work from ibus-tmpl and swith to other license.
+>
+> src - engine in c language
+> engine - engine in python language
+
+The original software is available from,
+    https://github.com/ibus/ibus-tmpl
+
+
+mazegaki.dic generated in tc2 is used to create restrained.dic.
+tc2 is released under GNU General Public License v2.0. The original
+software is available from,
+    https://github.com/kanchoku/tc
