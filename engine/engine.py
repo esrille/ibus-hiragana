@@ -235,6 +235,8 @@ class EngineReplaceWithKanji(IBus.Engine):
     def do_focus_in(self):
         print("focus_in", flush=True)
         self.register_properties(self.__prop_list)
+        # Request the initial surrounding-text in addition to the "enable" handler.
+        self.get_surrounding_text()
 
     def do_focus_out(self):
         print("focus_out", flush=True)
