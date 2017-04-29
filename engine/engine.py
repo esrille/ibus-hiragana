@@ -67,7 +67,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         self.__lookup_table = IBus.LookupTable.new(10, 0, True, False)
         self.__prop_list = IBus.PropList()
 
-        self.__lookup_table.set_orientation(IBus.Orientation.HORIZONTAL)
+        self.__lookup_table.set_orientation(IBus.Orientation.VERTICAL)
 
         # Initialize the dictionary
         self.__dict = Dictionary()
@@ -101,10 +101,10 @@ class EngineReplaceWithKanji(IBus.Engine):
                     return self.do_page_up()
                 elif keyval == keysyms.Page_Down or keyval == keysyms.KP_Page_Down:
                     return self.do_page_down()
-                elif keyval == keysyms.Left or keyval == keysyms.space and (state & IBus.ModifierType.SHIFT_MASK):
-                    return self.do_cursor_left()
-                elif (keyval == keysyms.Right or keyval == keysyms.space) and not (state & IBus.ModifierType.SHIFT_MASK):
-                    return self.do_cursor_right()
+                elif keyval == keysyms.Up or keyval == keysyms.space and (state & IBus.ModifierType.SHIFT_MASK):
+                    return self.do_cursor_up()
+                elif keyval == keysyms.Down or keyval == keysyms.space and not (state & IBus.ModifierType.SHIFT_MASK):
+                    return self.do_cursor_down()
                 elif keyval == keysyms.Escape:
                     print("escape", flush=True)
                     self.__previous_text = self.handle_escape(state)
@@ -120,7 +120,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.__commit()
             return False
 
-        if keyval == keysyms.space or keyval == keysyms.Right:
+        if keyval == keysyms.space or keyval == keysyms.Right and (state & IBus.ModifierType.SHIFT_MASK):
             return self.handle_replace(keyval, state)
         if keysyms.Shift_L <= keyval and keyval <= keysyms.Hyper_R:
             return False
@@ -229,13 +229,13 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.__update_candidate()
         return True
 
-    def do_cursor_left(self):
+    def do_cursor_up(self):
         if self.__lookup_table.cursor_up():
             self.__update_lookup_table()
             self.__update_candidate()
         return True
 
-    def do_cursor_right(self):
+    def do_cursor_down(self):
         if self.__lookup_table.cursor_down():
             self.__update_lookup_table()
             self.__update_candidate()
