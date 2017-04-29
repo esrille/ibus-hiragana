@@ -1,6 +1,6 @@
-# 漢字置換変換インプット メソッド for IBus
+# 日本語漢字置換インプット メソッド for IBus
 
-漢字[置換変換](https://github.com/esrille/replace-with-kanji-by-tutcode)をIBusで利用するための日本語インプット メソッドです。いまところFedoraデスクトップで日本語入力環境の実検用につくっているものです。
+[置換変換](https://github.com/esrille/replace-with-kanji-by-tutcode)をIBusで利用するための日本語インプット メソッドです。いまところFedoraデスクトップで日本語入力環境の実検用につくっているものです。
 
 インプット メソッド エンジンは、プログラミング言語Pythonで実装されています。
 
