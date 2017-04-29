@@ -16,6 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os
 import re
 
 _re_not_yomi = re.compile(r'[^ぁ-んァ-ヶー]')
@@ -29,7 +30,8 @@ class Dictionary:
     __cand = []
 
     def __init__(self):
-        pathname = '${pkgdatadir}/restrained.dic'
+        pathname = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'restrained.dic')
+        print(pathname, flush=True)
         file = open(pathname, 'r')
         for line in file:
             if line[0] == ';':

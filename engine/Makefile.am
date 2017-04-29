@@ -35,19 +35,9 @@ CLEANFILES = \
 	$(NULL)
 
 EXTRA_DIST = \
-	dictionary.py.in.in \
 	ibus-engine-replace-with-kanji.in \
 	replace-with-kanji-python.xml.in.in \
 	$(NULL)
-
-dictionary.py: dictionary.py.in
-	$(AM_V_GEN) \
-	( \
-		libexecdir=${libexecdir}; \
-		pkgdatadir=${pkgdatadir}; \
-		s=`cat $<`; \
-		eval "echo \"$${s}\""; \
-	) > $@
 
 replace-with-kanji-python.xml: replace-with-kanji-python.xml.in
 	$(AM_V_GEN) \

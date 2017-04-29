@@ -17,4 +17,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-exec python3 @prefix@/share/ibus-replace-with-kanji/main.py $@
+PYTHON=@PYTHON@
+prefix=@prefix@
+export IBUS_REPLACE_WITH_KANJI_LOCATION=${prefix}/share/ibus-replace-with-kanji
+
+exec ${PYTHON} @prefix@/share/ibus-replace-with-kanji/main.py $@

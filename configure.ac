@@ -54,7 +54,6 @@ AC_CONFIG_FILES(Makefile
 engine/Makefile
 engine/ibus-engine-replace-with-kanji
 engine/replace-with-kanji-python.xml.in
-engine/dictionary.py.in
 icons/Makefile
 m4/Makefile
 dic/Makefile
