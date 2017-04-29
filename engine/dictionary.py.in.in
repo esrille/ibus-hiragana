@@ -84,7 +84,7 @@ class Dictionary:
         return self.current()
 
     def confirm(self):
-        if not self.__yomi:
+        if not self.__yomi or self.__no == 0:
             return
         # Update the order of the candidates.
         last = self.__cand[self.__no]
