@@ -275,6 +275,7 @@ class EngineReplaceWithKanji(IBus.Engine):
     def do_focus_out(self):
         print("focus_out", flush=True)
         self.__reset()
+        self.__dict.save_orders()
 
     def do_enable(self):
         print("enable", flush=True)
@@ -284,10 +285,12 @@ class EngineReplaceWithKanji(IBus.Engine):
     def do_disable(self):
         print("disable", flush=True)
         self.__reset()
+        self.__dict.save_orders()
 
     def do_reset(self):
         print("reset", flush=True)
         self.__reset()
+        self.__dict.save_orders()
 
     def do_property_activate(self, prop_name):
         print("PropertyActivate(%s)" % prop_name, flush=True)
