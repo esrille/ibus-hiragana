@@ -35,6 +35,30 @@ class EngineReplaceWithKanji(IBus.Engine):
     __gtype_name__ = 'EngineReplaceWithKanji'
 
     __state = 0   # 0: Alphabet mode, 1: Kana mode
+    __previous_text = ''
+    __ignore_surrounding_text = False
+
+    def __get_surrounding_text(self):
+        # Note self.get_surrounding_text() may not work as expected such as in Firefox, Chrome, etc.
+        if self.__ignore_surrounding_text:
+            return self.__previous_text
+        tuple = self.get_surrounding_text()
+        text = tuple[0].get_text()
+        pos = tuple[1]
+        print("surrounding text: '", text, "', ", pos, ", [", self.__previous_text, "]", sep='', flush=True)
+        if self.__previous_text and pos < len(self.__previous_text) or text[pos - len(self.__previous_text):pos] != self.__previous_text:
+            self.__ignore_surrounding_text = True
+            return self.__previous_text
+        return text[:pos]
+
+    def __delete_surrounding_text(self, size):
+        if not self.__ignore_surrounding_text:
+            self.delete_surrounding_text(-size, size)
+        else:
+            for i in range(size):
+                self.forward_key_event(IBus.BackSpace, 14, 0)
+                time.sleep(0.01)
+            self.forward_key_event(IBus.BackSpace, 14, IBus.ModifierType.RELEASE_MASK)
 
     def __init__(self):
         super(EngineReplaceWithKanji, self).__init__()
@@ -67,7 +91,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         elif self.__state == 1:
             if keyval == keysyms.Muhenkan or keyval == 0x1008ff45:      # Disable IME
                 self.__dict.confirm()
-                self.reset()
+                self.__reset()
                 self.__state = 0
                 self.__update()
                 return True
@@ -102,6 +126,8 @@ class EngineReplaceWithKanji(IBus.Engine):
                 self.__preedit_string = self.__preedit_string[:-1]
                 self.__update()
                 return True
+            elif 0 < len(self.__previous_text):
+                self.__previous_text = self.__previous_text[:-1]
         elif keysyms.exclam <= keyval and keyval <= keysyms.asciitilde:
             yomi, self.__preedit_string = roomazi.to_kana(self.__preedit_string, keyval, state)
             if yomi:
@@ -110,6 +136,8 @@ class EngineReplaceWithKanji(IBus.Engine):
                 return True
             self.__update()
             return True
+        else:
+            self.__previous_text = ''
         return False
 
     def lookup_dictionary(self, yomi):
@@ -126,17 +154,14 @@ class EngineReplaceWithKanji(IBus.Engine):
             print("replace", flush=True)
             if keyval != keysyms.space:
                 return False
-            tuple = self.get_surrounding_text()
-            text = tuple[0].get_text()
-            pos = tuple[1]
-            print("surrounding_text: '", text, "', ", pos, sep='', flush=True)
-            if pos == 0:
-                return False
-            (cand, size) = self.lookup_dictionary(text[0:pos])
+            text = self.__get_surrounding_text()
+            (cand, size) = self.lookup_dictionary(text)
         elif keyval == keysyms.Right:
             text = self.handle_escape(state)
             if 1 < len(text):
                 (cand, size) = self.lookup_dictionary(text[1:])
+                # Note a nap is needed here especially for applications that do not support surrounding text.
+                time.sleep(0.1)
             else:
                 self.__dict.reset()
                 return True
@@ -147,7 +172,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             else:
                 cand = self.__dict.previous()
         if self.__dict.current():
-            self.delete_surrounding_text(-size, size)
+            self.__delete_surrounding_text(size)
             self.__commit_string(cand)
             self.__preedit_string = ''
             self.__update()
@@ -158,31 +183,34 @@ class EngineReplaceWithKanji(IBus.Engine):
         if not self.__dict.current():
             return
         size = len(self.__dict.current())
-        self.delete_surrounding_text(-size, size)
+        self.__delete_surrounding_text(size)
         yomi = self.__dict.reading()
         time.sleep(0.02)
         self.__commit_string(yomi)
-        self.reset()
+        self.__reset()
         self.__update()
         return yomi
 
     def __commit(self):
-        self.__dict.confirm()
-        self.__dict.reset()
-        self.__lookup_table.clear()
-        visible = 0 < self.__lookup_table.get_number_of_candidates()
-        self.update_lookup_table(self.__lookup_table, visible)
+        if self.__dict.current():
+            self.__dict.confirm()
+            self.__dict.reset()
+            self.__lookup_table.clear()
+            visible = 0 < self.__lookup_table.get_number_of_candidates()
+            self.update_lookup_table(self.__lookup_table, visible)
+            self.__previous_text = ''
 
     def __commit_string(self, text):
         self.commit_text(IBus.Text.new_from_string(text))
         self.__update()
+        self.__previous_text += text
 
     def __update_candidate(self):
         index = self.__lookup_table.get_cursor_pos()
         candidate = self.__lookup_table.get_candidate(index)
         size = len(self.__dict.current())
         self.__dict.set_current(index)
-        self.delete_surrounding_text(-size, size)
+        self.__delete_surrounding_text(size)
         self.__commit_string(candidate.text);
 
     def do_page_up(self):
@@ -226,11 +254,13 @@ class EngineReplaceWithKanji(IBus.Engine):
         else:
             self.hide_lookup_table()
 
-    def reset(self):
+    def __reset(self):
         self.__dict.reset()
         self.__preedit_string = ''
         self.__lookup_table.clear()
         self.__update_lookup_table()
+        self.__previous_text = ''
+        self.__ignore_surrounding_text = False
 
     def do_focus_in(self):
         print("focus_in", flush=True)
@@ -240,7 +270,7 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def do_focus_out(self):
         print("focus_out", flush=True)
-        self.reset()
+        self.__reset()
 
     def do_enable(self):
         print("enable", flush=True)
@@ -249,11 +279,11 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def do_disable(self):
         print("disable", flush=True)
-        self.reset()
+        self.__reset()
 
     def do_reset(self):
         print("reset", flush=True)
-        self.reset()
+        self.__reset()
 
     def do_property_activate(self, prop_name):
         print("PropertyActivate(%s)" % prop_name, flush=True)
