@@ -59,6 +59,7 @@ class EngineReplaceWithKanji(IBus.Engine):
                 self.forward_key_event(IBus.BackSpace, 14, 0)
                 time.sleep(0.01)
             self.forward_key_event(IBus.BackSpace, 14, IBus.ModifierType.RELEASE_MASK)
+            time.sleep(0.02)
 
     def __init__(self):
         super(EngineReplaceWithKanji, self).__init__()
@@ -189,7 +190,6 @@ class EngineReplaceWithKanji(IBus.Engine):
         size = len(self.__dict.current())
         self.__delete_surrounding_text(size)
         yomi = self.__dict.reading()
-        time.sleep(0.02)
         self.__commit_string(yomi)
         self.__reset()
         self.__update()
