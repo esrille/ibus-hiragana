@@ -104,6 +104,10 @@ class EngineReplaceWithKanji(IBus.Engine):
                     return self.do_cursor_left()
                 elif (keyval == keysyms.Right or keyval == keysyms.space) and not (state & IBus.ModifierType.SHIFT_MASK):
                     return self.do_cursor_right()
+                elif keyval == keysyms.Escape:
+                    print("escape", flush=True)
+                    self.__previous_text = self.handle_escape(state)
+                    return True
                 elif keyval == keysyms.Return:
                     self.__commit()
                     return True
