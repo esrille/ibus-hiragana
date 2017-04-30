@@ -21,6 +21,7 @@ engine_replace_with_kanji_PYTHON = \
 	main.py \
 	roomazi.py \
 	new_stickney.py \
+	nicola.py \
 	tron.py \
 	$(NULL)
 

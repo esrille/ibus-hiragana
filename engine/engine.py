@@ -30,6 +30,7 @@ from dictionary import Dictionary
 
 import roomazi
 import new_stickney
+import nicola
 import tron
 
 keysyms = IBus
@@ -87,6 +88,8 @@ class EngineReplaceWithKanji(IBus.Engine):
         print("layout:", layout, flush=True)
         if layout == 'new_stickney':
             self.__to_kana = new_stickney.to_kana
+        elif layout == 'nicola':
+            self.__to_kana = nicola.to_kana
         elif layout == 'tron':
             self.__to_kana = tron.to_kana
         else:
