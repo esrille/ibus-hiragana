@@ -132,35 +132,20 @@ _romaji_to_kana = {
     'z]': '』',
 }
 
-def to_katakana(kana, lock):
-    if not lock:
-        return kana
-    result = ''
-    for c in kana:
-        pos = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんゔがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっぱぴぷぺぽゎゐゑ".find(c)
-        if pos < 0:
-            result += c
-        else:
-            result += "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンヴガギグゲゴザジズゼゾダヂヅデドバビブベボァィゥェォャュョッパピプペポヮヰヱ"[pos]
-    return result
-
 def to_kana(preedit, keyval, state = 0):
-    lock = (state & IBus.ModifierType.LOCK_MASK) != 0;
+    yomi = ''
     if keysyms.exclam <= keyval and keyval <= keysyms.asciitilde:
         preedit += chr(keyval).lower()
         if preedit in _romaji_to_kana:
-            yomi = to_katakana(_romaji_to_kana[preedit], lock)
-            preedit = ""
-            return yomi, preedit
-        if 2 <= len(preedit) and preedit[0] == 'n' and preedit[1] != 'y':
-            yomi = to_katakana('ん', lock)
+            yomi = _romaji_to_kana[preedit]
+            preedit = ''
+        elif 2 <= len(preedit) and preedit[0] == 'n' and preedit[1] != 'y':
+            yomi = 'ん'
             preedit = preedit[1:]
-            return yomi, preedit
-        if 2 <= len(preedit) and preedit[0] == preedit[1] and _re_tu.search(preedit[1]):
-            yomi = to_katakana('っ', lock)
+        elif 2 <= len(preedit) and preedit[0] == preedit[1] and _re_tu.search(preedit[1]):
+            yomi = 'っ'
             preedit = preedit[1:]
-            return yomi, preedit
-    return '', preedit
+    return yomi, preedit
 
 #
 # test
@@ -178,5 +163,5 @@ if __name__ == '__main__':
     print(yomi, preedit)
     yomi, preedit = to_kana('\\', keysyms.backslash)
     print(yomi, preedit)
-    yomi, preedit = to_kana('sh', keysyms.a, IBus.ModifierType.LOCK_MASK)
+    yomi, preedit = to_kana('sh', keysyms.a)
     print(yomi, preedit)

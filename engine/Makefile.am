@@ -20,6 +20,7 @@ engine_replace_with_kanji_PYTHON = \
 	engine.py \
 	main.py \
 	roomazi.py \
+	new_stickney.py \
 	$(NULL)
 engine_replace_with_kanjidir = $(datadir)/ibus-replace-with-kanji
 

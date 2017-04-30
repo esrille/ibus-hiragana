@@ -22,21 +22,65 @@
 from gi import require_version
 require_version('IBus', '1.0')
 from gi.repository import IBus
+from gi.repository import GLib
 
 import time
 
 from dictionary import Dictionary
+import roomazi
+import new_stickney
 
 keysyms = IBus
 
-import roomazi
+_hiragana = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんゔがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっぱぴぷぺぽゎゐゑ"
+_katakana = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンヴガギグゲゴザジズゼゾダヂヅデドバビブベボァィゥェォャュョッパピプペポヮヰヱ"
+
+_non_daku = 'あいうえおかきくけこさしすせそたちつてとはひふへほやゆよアイウエオカキクケコサシスセソタチツテトハヒフヘホヤユヨぁぃぅぇぉがぎぐげござじずぜぞだぢづでどばびぶべぼゃゅょァィゥェォガギグゲゴザジズゼゾダヂヅデドバビブベボャュョゔヴ'
+_daku = 'ぁぃぅぇぉがぎぐげござじずぜぞだぢづでどばびぶべぼゃゅょァィゥェォガギグゲゴザジズゼゾダヂヅデドバビブベボャュョあいゔえおかきくけこさしすせそたちつてとはひふへほやゆよアイヴエオカキクケコサシスセソタチツテトハヒフヘホヤユヨうウ'
+
+_non_handaku = 'はひふへほハヒフヘホぱぴぷぺぽパピプペポ'
+_handaku = 'ぱぴぷぺぽパピプペポはひふへほハヒフヘホ'
+
+def to_katakana(kana, lock):
+    if not lock:
+        return kana
+    result = ''
+    for c in kana:
+        pos = _hiragana.find(c)
+        if pos < 0:
+            result += c
+        else:
+            result += _katakana[pos]
+    return result
 
 class EngineReplaceWithKanji(IBus.Engine):
     __gtype_name__ = 'EngineReplaceWithKanji'
 
-    __state = 0   # 0: Alphabet mode, 1: Kana mode
-    __previous_text = ''
-    __ignore_surrounding_text = False
+    def __init__(self):
+        super(EngineReplaceWithKanji, self).__init__()
+        self.__state = 0   # 0: Alphabet mode, 1: Kana mode
+
+        self.__preedit_string = ''
+        self.__previous_text = ''
+        self.__ignore_surrounding_text = False
+
+        self.__lookup_table = IBus.LookupTable.new(10, 0, True, False)
+        self.__lookup_table.set_orientation(IBus.Orientation.VERTICAL)
+        self.__prop_list = IBus.PropList()
+
+        self.__dict = Dictionary()
+
+        config = IBus.Bus().get_config()
+        var = config.get_value('engine/replace-with-kanji-python', 'layout')
+        if not var:
+            var = GLib.Variant.new_string('roomazi')
+            config.set_value('engine/replace-with-kanji-python', 'layout', GLib.Variant.new_string('roomazi'))
+        layout = var.get_string()
+        print("layout:", layout, flush=True)
+        if layout == 'new_stickney':
+            self.__to_kana = new_stickney.to_kana
+        else:
+            self.__to_kana = roomazi.to_kana
 
     def __get_surrounding_text(self):
         # Note self.get_surrounding_text() may not work as expected such as in Firefox, Chrome, etc.
@@ -52,6 +96,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         return text[:pos]
 
     def __delete_surrounding_text(self, size):
+        self.__previous_text = self.__previous_text[:-size]
         if not self.__ignore_surrounding_text:
             self.delete_surrounding_text(-size, size)
         else:
@@ -60,17 +105,6 @@ class EngineReplaceWithKanji(IBus.Engine):
                 time.sleep(0.01)
             self.forward_key_event(IBus.BackSpace, 14, IBus.ModifierType.RELEASE_MASK)
             time.sleep(0.02)
-
-    def __init__(self):
-        super(EngineReplaceWithKanji, self).__init__()
-        self.__preedit_string = ''
-        self.__lookup_table = IBus.LookupTable.new(10, 0, True, False)
-        self.__prop_list = IBus.PropList()
-
-        self.__lookup_table.set_orientation(IBus.Orientation.VERTICAL)
-
-        # Initialize the dictionary
-        self.__dict = Dictionary()
 
     def do_process_key_event(self, keyval, keycode, state):
         print("process_key_event(%04x, %04x, %04x)" % (keyval, keycode, state), flush=True)
@@ -112,15 +146,17 @@ class EngineReplaceWithKanji(IBus.Engine):
                 elif keyval == keysyms.Return:
                     self.__commit()
                     return True
-            return self.handle_romaji(keyval, state)
+            return self.handle_roomazi(keyval, state)
         return False
 
-    def handle_romaji(self, keyval, state):
+    def handle_roomazi(self, keyval, state):
         if (state & (IBus.ModifierType.CONTROL_MASK | IBus.ModifierType.MOD1_MASK)) != 0:
             self.__commit()
             return False
 
-        if keyval == keysyms.space or keyval == keysyms.Right and (state & IBus.ModifierType.SHIFT_MASK):
+        if keyval == keysyms.space:
+            return self.handle_replace(keyval, state)
+        if keyval == keysyms.Right and (state & IBus.ModifierType.SHIFT_MASK):
             return self.handle_replace(keyval, state)
         if keysyms.Shift_L <= keyval and keyval <= keysyms.Hyper_R:
             return False
@@ -134,8 +170,9 @@ class EngineReplaceWithKanji(IBus.Engine):
             elif 0 < len(self.__previous_text):
                 self.__previous_text = self.__previous_text[:-1]
         elif keysyms.exclam <= keyval and keyval <= keysyms.asciitilde:
-            yomi, self.__preedit_string = roomazi.to_kana(self.__preedit_string, keyval, state)
+            yomi, self.__preedit_string = self.__to_kana(self.__preedit_string, keyval, state)
             if yomi:
+                yomi = to_katakana(yomi, state & IBus.ModifierType.LOCK_MASK)
                 self.__commit_string(yomi)
                 self.__update()
                 return True
@@ -146,8 +183,14 @@ class EngineReplaceWithKanji(IBus.Engine):
         return False
 
     def lookup_dictionary(self, yomi):
+        # Handle dangling 'n' for 'ん' here to minimize the access to the surrounding text API,
+        # which could cause an unexpected behaviour occasionally at race conditions.
+        if self.__preedit_string == 'n':
+            yomi += 'ん'
         cand = self.__dict.lookup(yomi)
         size = len(self.__dict.reading())
+        if 0 < size and self.__preedit_string == 'n':
+            size -= 1
         self.__lookup_table.clear()
         if cand and 1 < len(self.__dict.cand()):
             for c in self.__dict.cand():
@@ -156,7 +199,6 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def handle_replace(self, keyval, state):
         if not self.__dict.current():
-            print("replace", flush=True)
             if keyval != keysyms.space:
                 return False
             text = self.__get_surrounding_text()
@@ -205,8 +247,21 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.__previous_text = ''
 
     def __commit_string(self, text):
+        if text == '゛':
+            prev = self.__get_surrounding_text()
+            if 0 < len(prev):
+                pos = _non_daku.find(prev[-1])
+                if 0 <= pos:
+                    self.__delete_surrounding_text(1)
+                    text = _daku[pos]
+        elif text == '゜':
+            prev = self.__get_surrounding_text()
+            if 0 < len(prev):
+                pos = _non_handaku.find(prev[-1])
+                if 0 <= pos:
+                    self.__delete_surrounding_text(1)
+                    text = _handaku[pos]
         self.commit_text(IBus.Text.new_from_string(text))
-        self.__update()
         self.__previous_text += text
 
     def __update_candidate(self):
