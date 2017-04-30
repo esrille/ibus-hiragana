@@ -23,12 +23,25 @@ _re_not_yomi = re.compile(r'[^ぁ-んァ-ヶー]')
 
 class Dictionary:
 
-    __dict = {}
+    def __init__(self):
+        self.__dict_base = {}
+        self.__dict = {}
 
-    __yomi = ''
-    __no = 0
-    __cand = []
-    __dirty = False
+        self.__yomi = ''
+        self.__no = 0
+        self.__cand = []
+        self.__dirty = False
+
+        # Load system dictionary
+        dict_path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'restrained.dic')
+        print(dict_path, flush=True)
+        self.__load_dict(self.__dict_base, dict_path);
+        self.__dict = self.__dict_base.copy()
+
+        # Load private dictionary
+        home_path = os.getenv("HOME")
+        orders_path = os.path.join(home_path, ".replace-with-kanji.dic")
+        self.__load_dict(self.__dict, orders_path, 'a+');
 
     def __load_dict(self, dict, path, mode='r'):
         with open(path, mode) as file:
@@ -40,17 +53,6 @@ class Dictionary:
                 yomi = p[0]
                 cand = p[1].strip(' \n/').split('/')
                 dict[yomi] = cand
-
-    def __init__(self):
-        # Load system dictionary
-        dict_path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'restrained.dic')
-        print(dict_path, flush=True)
-        self.__load_dict(self.__dict, dict_path);
-
-        # Load private dictionary
-        home_path = os.getenv("HOME")
-        orders_path = os.path.join(home_path, ".replace-with-kanji.dic")
-        self.__load_dict(self.__dict, orders_path, 'a+');
 
     def reset(self):
         self.__yomi = ''
@@ -109,14 +111,11 @@ class Dictionary:
     def save_orders(self):
         if not self.__dirty:
             return
-        dict_path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'restrained.dic')
-        orig_dict = {}
-        self.__load_dict(orig_dict, dict_path);
         home_path = os.getenv("HOME")
         orders_path = os.path.join(home_path, ".replace-with-kanji.dic")
         with open(orders_path, 'w') as file:
             for yomi, cand in self.__dict.items():
-                if not yomi in orig_dict or cand != orig_dict[yomi]:
+                if not yomi in self.__dict_base or cand != self.__dict_base[yomi]:
                     print(yomi, " /", '/'.join(cand), "/", sep='', flush=True)
                     file.write(yomi + " /" + '/'.join(cand) + "/\n")
         self.__dirty = False
