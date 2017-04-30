@@ -67,7 +67,8 @@ class EngineReplaceWithKanji(IBus.Engine):
     def __init__(self):
         super(EngineReplaceWithKanji, self).__init__()
         self.__state = 0        # 0: Alphabet mode, 1: Kana mode
-        self.__modifiers = 0
+        self.__modifiers = 0    # 1: ShiftL, 2: ShiftR
+        self.__delay = 25       # Delay for non-shift keys in milliseconds (mainly for Nicola layout)
 
         self.__preedit_string = ''
         self.__previous_text = ''
@@ -80,10 +81,12 @@ class EngineReplaceWithKanji(IBus.Engine):
         self.__dict = Dictionary()
 
         config = IBus.Bus().get_config()
+
+        # Load the layout setting
         var = config.get_value('engine/replace-with-kanji-python', 'layout')
-        if not var:
+        if var == None or var.get_type_string() != 's':
             var = GLib.Variant.new_string('roomazi')
-            config.set_value('engine/replace-with-kanji-python', 'layout', GLib.Variant.new_string('roomazi'))
+            config.set_value('engine/replace-with-kanji-python', 'layout', var)
         layout = var.get_string()
         print("layout:", layout, flush=True)
         if layout == 'new_stickney':
@@ -94,6 +97,15 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.__to_kana = tron.to_kana
         else:
             self.__to_kana = roomazi.to_kana
+
+        # Load the delay setting
+        var = config.get_value('engine/replace-with-kanji-python', 'delay')
+        if var == None or var.get_type_string() != 'i':
+            print("delay:", var, var.get_type_string(), flush=True)
+            var = GLib.Variant.new_int32(25)
+            config.set_value('engine/replace-with-kanji-python', 'delay', var)
+        self.__delay = var.get_int32()
+        print("delay:", self.__delay, flush=True)
 
     def __get_surrounding_text(self):
         # Note self.get_surrounding_text() may not work as expected such as in Firefox, Chrome, etc.
@@ -132,6 +144,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             elif keyval == keysyms.Shift_R:
                 self.__modifiers &= ~self.ShiftR_Bit
         print("process_key_event(%04x, %04x, %04x) %02x" % (keyval, keycode, state, self.__modifiers), flush=True)
+
         # Ignore key release events
         if not is_press:
             return False
@@ -146,43 +159,57 @@ class EngineReplaceWithKanji(IBus.Engine):
                 return True
             return False
         elif self.__state == 1:
-            if keyval == keysyms.Muhenkan or keyval == 0x1008ff45:      # Disable IME
-                self.__dict.confirm()
-                self.__reset()
-                self.__state = 0
-                self.__update()
+            if 0 < self.__delay:
+                GLib.timeout_add(self.__delay, self.handle_key_event_timeout, keyval, keycode, state)
                 return True
-            if 0 < self.__lookup_table.get_number_of_candidates():
-                if keyval == keysyms.Page_Up or keyval == keysyms.KP_Page_Up:
-                    return self.do_page_up()
-                elif keyval == keysyms.Page_Down or keyval == keysyms.KP_Page_Down:
-                    return self.do_page_down()
-                elif keyval == keysyms.Up or keyval == keysyms.space and (state & IBus.ModifierType.SHIFT_MASK):
-                    return self.do_cursor_up()
-                elif keyval == keysyms.Down or keyval == keysyms.space and not (state & IBus.ModifierType.SHIFT_MASK):
-                    return self.do_cursor_down()
-                elif keyval == keysyms.Escape:
-                    print("escape", flush=True)
-                    self.__previous_text = self.handle_escape(state)
-                    return True
-                elif keyval == keysyms.Return:
-                    self.__commit()
-                    return True
-            return self.handle_roomazi(keyval, state)
+            return self.handle_key_event(keyval, keycode, state)
         return False
 
-    def handle_roomazi(self, keyval, state):
+    def handle_key_event_timeout(self, keyval, keycode, state):
+        if not self.handle_key_event(keyval, keycode, state):
+            self.forward_key_event(keyval, keycode, state)
+        return False    # Stop timer
+
+    def handle_key_event(self, keyval, keycode, state):
+        print("handle_key_event(%04x, %04x, %04x) %02x" % (keyval, keycode, state, self.__modifiers), flush=True)
+
+        if keyval == keysyms.Muhenkan or keyval == 0x1008ff45:      # Disable IME
+            self.__dict.confirm()
+            self.__reset()
+            self.__state = 0
+            self.__update()
+            return True
+
+        # Handle Candidate window
+        if 0 < self.__lookup_table.get_number_of_candidates():
+            if keyval == keysyms.Page_Up or keyval == keysyms.KP_Page_Up:
+                return self.do_page_up()
+            elif keyval == keysyms.Page_Down or keyval == keysyms.KP_Page_Down:
+                return self.do_page_down()
+            elif keyval == keysyms.Up or keyval == keysyms.space and (state & IBus.ModifierType.SHIFT_MASK):
+                return self.do_cursor_up()
+            elif keyval == keysyms.Down or keyval == keysyms.space and not (state & IBus.ModifierType.SHIFT_MASK):
+                return self.do_cursor_down()
+            elif keyval == keysyms.Escape:
+                print("escape", flush=True)
+                self.__previous_text = self.handle_escape(state)
+                return True
+            elif keyval == keysyms.Return:
+                self.__commit()
+                return True
+
+        # Ignore modifier keys
+        if keysyms.Shift_L <= keyval and keyval <= keysyms.Hyper_R:
+            return False
         if (state & (IBus.ModifierType.CONTROL_MASK | IBus.ModifierType.MOD1_MASK)) != 0:
             self.__commit()
             return False
 
+        # Handle Japanese text
         if keyval == keysyms.space:
             return self.handle_replace(keyval, state)
         if keyval == keysyms.Right and (state & IBus.ModifierType.SHIFT_MASK):
-            return self.handle_replace(keyval, state)
-        if keysyms.Shift_L <= keyval and keyval <= keysyms.Hyper_R:
-            return False
-
+            return self.handle_shrink(keyval, state)
         self.__commit()
         if keyval == keysyms.BackSpace:
             if 1 <= len(self.__preedit_string):
@@ -221,19 +248,8 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def handle_replace(self, keyval, state):
         if not self.__dict.current():
-            if keyval != keysyms.space:
-                return False
             text = self.__get_surrounding_text()
             (cand, size) = self.lookup_dictionary(text)
-        elif keyval == keysyms.Right:
-            text = self.handle_escape(state)
-            if 1 < len(text):
-                (cand, size) = self.lookup_dictionary(text[1:])
-                # Note a nap is needed here especially for applications that do not support surrounding text.
-                time.sleep(0.1)
-            else:
-                self.__dict.reset()
-                return True
         else:
             size = len(self.__dict.current())
             if not (state & IBus.ModifierType.SHIFT_MASK):
@@ -245,7 +261,24 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.__commit_string(cand)
             self.__preedit_string = ''
             self.__update()
+        return True
 
+    def handle_shrink(self, keyval, state):
+        if not self.__dict.current():
+            return False
+        text = self.handle_escape(state)
+        if 1 < len(text):
+            (cand, size) = self.lookup_dictionary(text[1:])
+            # Note a nap is needed here especially for applications that do not support surrounding text.
+            time.sleep(0.1)
+        else:
+            self.__dict.reset()
+            return True
+        if self.__dict.current():
+            self.__delete_surrounding_text(size)
+            self.__commit_string(cand)
+            self.__preedit_string = ''
+            self.__update()
         return True
 
     def handle_escape(self, state):
@@ -368,7 +401,9 @@ class EngineReplaceWithKanji(IBus.Engine):
     def do_reset(self):
         print("reset", flush=True)
         self.__reset()
-        self.__state = 0
+        # 'reset' seems to be sent due to an internal error, and
+        # we don't switch back to the Alphabet mode here.
+        # NG: self.__state = 0
         self.__dict.save_orders()
 
     def do_property_activate(self, prop_name):
