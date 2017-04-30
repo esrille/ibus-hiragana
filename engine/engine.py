@@ -27,8 +27,10 @@ from gi.repository import GLib
 import time
 
 from dictionary import Dictionary
+
 import roomazi
 import new_stickney
+import tron
 
 keysyms = IBus
 
@@ -39,6 +41,7 @@ _non_daku = 'あいうえおかきくけこさしすせそたちつてとはひ�
 _daku = 'ぁぃぅぇぉがぎぐげござじずぜぞだぢづでどばびぶべぼゃゅょァィゥェォガギグゲゴザジズゼゾダヂヅデドバビブベボャュョあいゔえおかきくけこさしすせそたちつてとはひふへほやゆよアイヴエオカキクケコサシスセソタチツテトハヒフヘホヤユヨうウ'
 
 _non_handaku = 'はひふへほハヒフヘホぱぴぷぺぽパピプペポ'
+
 _handaku = 'ぱぴぷぺぽパピプペポはひふへほハヒフヘホ'
 
 def to_katakana(kana, lock):
@@ -56,9 +59,14 @@ def to_katakana(kana, lock):
 class EngineReplaceWithKanji(IBus.Engine):
     __gtype_name__ = 'EngineReplaceWithKanji'
 
+    # self.__modifiers bits
+    ShiftL_Bit = 1 << 0
+    ShiftR_Bit = 1 << 1
+
     def __init__(self):
         super(EngineReplaceWithKanji, self).__init__()
-        self.__state = 0   # 0: Alphabet mode, 1: Kana mode
+        self.__state = 0        # 0: Alphabet mode, 1: Kana mode
+        self.__modifiers = 0
 
         self.__preedit_string = ''
         self.__previous_text = ''
@@ -79,6 +87,8 @@ class EngineReplaceWithKanji(IBus.Engine):
         print("layout:", layout, flush=True)
         if layout == 'new_stickney':
             self.__to_kana = new_stickney.to_kana
+        elif layout == 'tron':
+            self.__to_kana = tron.to_kana
         else:
             self.__to_kana = roomazi.to_kana
 
@@ -107,10 +117,19 @@ class EngineReplaceWithKanji(IBus.Engine):
             time.sleep(0.02)
 
     def do_process_key_event(self, keyval, keycode, state):
-        print("process_key_event(%04x, %04x, %04x)" % (keyval, keycode, state), flush=True)
-
-        # Ignore key release events
         is_press = ((state & IBus.ModifierType.RELEASE_MASK) == 0)
+        if is_press:
+            if keyval == keysyms.Shift_L:
+                self.__modifiers |= self.ShiftL_Bit
+            elif keyval == keysyms.Shift_R:
+                self.__modifiers |= self.ShiftR_Bit
+        else:
+            if keyval == keysyms.Shift_L:
+                self.__modifiers &= ~self.ShiftL_Bit
+            elif keyval == keysyms.Shift_R:
+                self.__modifiers &= ~self.ShiftR_Bit
+        print("process_key_event(%04x, %04x, %04x) %02x" % (keyval, keycode, state, self.__modifiers), flush=True)
+        # Ignore key release events
         if not is_press:
             return False
 
@@ -170,7 +189,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             elif 0 < len(self.__previous_text):
                 self.__previous_text = self.__previous_text[:-1]
         elif keysyms.exclam <= keyval and keyval <= keysyms.asciitilde:
-            yomi, self.__preedit_string = self.__to_kana(self.__preedit_string, keyval, state)
+            yomi, self.__preedit_string = self.__to_kana(self.__preedit_string, keyval, state, self.__modifiers)
             if yomi:
                 yomi = to_katakana(yomi, state & IBus.ModifierType.LOCK_MASK)
                 self.__commit_string(yomi)

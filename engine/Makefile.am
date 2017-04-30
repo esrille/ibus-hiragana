@@ -21,7 +21,9 @@ engine_replace_with_kanji_PYTHON = \
 	main.py \
 	roomazi.py \
 	new_stickney.py \
+	tron.py \
 	$(NULL)
+
 engine_replace_with_kanjidir = $(datadir)/ibus-replace-with-kanji
 
 libexec_SCRIPTS= ibus-engine-replace-with-kanji

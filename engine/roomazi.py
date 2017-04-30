@@ -132,7 +132,7 @@ _romaji_to_kana = {
     'z]': '』',
 }
 
-def to_kana(preedit, keyval, state = 0):
+def to_kana(preedit, keyval, state = 0, modifiers = 0):
     yomi = ''
     if keysyms.exclam <= keyval and keyval <= keysyms.asciitilde:
         preedit += chr(keyval).lower()
