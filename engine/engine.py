@@ -285,11 +285,13 @@ class EngineReplaceWithKanji(IBus.Engine):
     def do_disable(self):
         print("disable", flush=True)
         self.__reset()
+        self.__state = 0
         self.__dict.save_orders()
 
     def do_reset(self):
         print("reset", flush=True)
         self.__reset()
+        self.__state = 0
         self.__dict.save_orders()
 
     def do_property_activate(self, prop_name):
