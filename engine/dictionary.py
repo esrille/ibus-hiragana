@@ -102,10 +102,11 @@ class Dictionary:
         if not self.__yomi or self.__no == 0:
             return
         # Update the order of the candidates.
-        last = self.__cand[self.__no]
-        self.__cand.remove(last)
-        self.__cand.insert(0, last)
-        self.__dict[self.__yomi] = self.__cand
+        cand = self.__cand[:]
+        last = cand[self.__no]
+        cand.remove(last)
+        cand.insert(0, last)
+        self.__dict[self.__yomi] = cand
         self.__dirty = True;
 
     def save_orders(self):
