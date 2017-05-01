@@ -28,6 +28,8 @@ import time
 
 from dictionary import Dictionary
 
+import bits
+
 import roomazi
 import new_stickney
 import nicola
@@ -45,9 +47,7 @@ _non_handaku = 'はひふへほハヒフヘホぱぴぷぺぽパピプペポ'
 
 _handaku = 'ぱぴぷぺぽパピプペポはひふへほハヒフヘホ'
 
-def to_katakana(kana, lock):
-    if not lock:
-        return kana
+def to_katakana(kana):
     result = ''
     for c in kana:
         pos = _hiragana.find(c)
@@ -60,15 +60,13 @@ def to_katakana(kana, lock):
 class EngineReplaceWithKanji(IBus.Engine):
     __gtype_name__ = 'EngineReplaceWithKanji'
 
-    # self.__modifiers bits
-    ShiftL_Bit = 1 << 0
-    ShiftR_Bit = 1 << 1
-
     def __init__(self):
         super(EngineReplaceWithKanji, self).__init__()
-        self.__state = 0        # 0: Alphabet mode, 1: Kana mode
-        self.__modifiers = 0    # 1: ShiftL, 2: ShiftR
-        self.__delay = 25       # Delay for non-shift keys in milliseconds (mainly for Nicola layout)
+        self.__state = 0                # 0: Alphabet mode, 1: Kana mode
+        self.__katakana_mode = False    # True to input Katakana
+        self.__modifiers = 0            # See bits.py
+        self.__delay = 0                # Delay for non-shift keys in milliseconds (mainly for Nicola layout)
+        self.__SandS = False            # True to use SandS
 
         self.__preedit_string = ''
         self.__previous_text = ''
@@ -90,6 +88,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         layout = var.get_string()
         print("layout:", layout, flush=True)
         if layout == 'new_stickney':
+            self.__SandS = True
             self.__to_kana = new_stickney.to_kana
         elif layout == 'nicola':
             self.__to_kana = nicola.to_kana
@@ -101,8 +100,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         # Load the delay setting
         var = config.get_value('engine/replace-with-kanji-python', 'delay')
         if var == None or var.get_type_string() != 'i':
-            print("delay:", var, var.get_type_string(), flush=True)
-            var = GLib.Variant.new_int32(25)
+            var = GLib.Variant.new_int32(self.__delay)
             config.set_value('engine/replace-with-kanji-python', 'delay', var)
         self.__delay = var.get_int32()
         print("delay:", self.__delay, flush=True)
@@ -131,34 +129,73 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.forward_key_event(IBus.BackSpace, 14, IBus.ModifierType.RELEASE_MASK)
             time.sleep(0.02)
 
+    def __enable_ime(self):
+        self.__preedit_string = ''
+        self.__state = 1
+        self.__dict.confirm()
+        self.__dict.reset()
+        self.__update()
+
+    def __disable_ime(self):
+        self.__dict.confirm()
+        self.__reset()
+        self.__state = 0
+        self.__update()
+
+    def __is_enabled(self):
+        return self.__state == 1
+
     def do_process_key_event(self, keyval, keycode, state):
+        self.__modifiers &= ~(bits.SandS_Bit | bits.Katakana_Bit)
         is_press = ((state & IBus.ModifierType.RELEASE_MASK) == 0)
         if is_press:
-            if keyval == keysyms.Shift_L:
-                self.__modifiers |= self.ShiftL_Bit
+            if keyval == keysyms.space:
+                self.__modifiers |= bits.Space_Bit
+                self.__modifiers &= ~bits.NotSandS_Bit
+            elif keyval == keysyms.Shift_L:
+                self.__modifiers |= bits.ShiftL_Bit
             elif keyval == keysyms.Shift_R:
-                self.__modifiers |= self.ShiftR_Bit
+                self.__modifiers |= bits.ShiftR_Bit
+                self.__modifiers &= ~bits.NotKatakana_Bit
+            if (self.__modifiers & bits.Space_Bit) and keyval != keysyms.space:
+                self.__modifiers |= bits.NotSandS_Bit
+            if (self.__modifiers & bits.ShiftR_Bit) and keyval != keysyms.Shift_R:
+                self.__modifiers |= bits.NotKatakana_Bit
         else:
-            if keyval == keysyms.Shift_L:
-                self.__modifiers &= ~self.ShiftL_Bit
+            if keyval == keysyms.space:
+                if not (self.__modifiers & bits.NotSandS_Bit):
+                    self.__modifiers |= bits.SandS_Bit
+                self.__modifiers &= ~bits.Space_Bit
+            elif keyval == keysyms.Shift_L:
+                self.__modifiers &= ~bits.ShiftL_Bit
             elif keyval == keysyms.Shift_R:
-                self.__modifiers &= ~self.ShiftR_Bit
+                if not (self.__modifiers & bits.NotKatakana_Bit):
+                    self.__modifiers |= bits.Katakana_Bit
+                self.__modifiers &= ~bits.ShiftR_Bit
+
+        # Use CAPS LOCK for IME on/off
+        is_lock = ((state & IBus.ModifierType.LOCK_MASK) != 0)
+        if self.__state != is_lock:
+            if is_lock:
+                self.__enable_ime()
+            else:
+                self.__disable_ime()
+
+        if self.__is_enabled() and self.__SandS:
+            if (self.__modifiers & bits.Space_Bit) and keyval == keysyms.space:
+                return True
+            if self.__modifiers & bits.SandS_Bit:
+                is_press = True
+            if self.__modifiers & bits.Katakana_Bit:
+                self.__katakana_mode = True
+
         print("process_key_event(%04x, %04x, %04x) %02x" % (keyval, keycode, state, self.__modifiers), flush=True)
 
         # Ignore key release events
         if not is_press:
             return False
 
-        if self.__state == 0:
-            if keyval == keysyms.Henkan_Mode or keyval == 0x1008ff81:   # Enable IME
-                self.__preedit_string = ''
-                self.__state = 1
-                self.__dict.confirm()
-                self.__dict.reset()
-                self.__update()
-                return True
-            return False
-        elif self.__state == 1:
+        if self.__is_enabled():
             if 0 < self.__delay:
                 GLib.timeout_add(self.__delay, self.handle_key_event_timeout, keyval, keycode, state)
                 return True
@@ -172,13 +209,6 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def handle_key_event(self, keyval, keycode, state):
         print("handle_key_event(%04x, %04x, %04x) %02x" % (keyval, keycode, state, self.__modifiers), flush=True)
-
-        if keyval == keysyms.Muhenkan or keyval == 0x1008ff45:      # Disable IME
-            self.__dict.confirm()
-            self.__reset()
-            self.__state = 0
-            self.__update()
-            return True
 
         # Handle Candidate window
         if 0 < self.__lookup_table.get_number_of_candidates():
@@ -198,6 +228,12 @@ class EngineReplaceWithKanji(IBus.Engine):
                 self.__commit()
                 return True
 
+        # Check Katakana mode
+        if keyval == keysyms.Henkan_Mode or keyval == 0x1008ff81:
+            self.__katakana_mode = True
+        elif keyval == keysyms.Muhenkan or keyval == 0x1008ff45:
+            self.__katakana_mode = False
+
         # Ignore modifier keys
         if keysyms.Shift_L <= keyval and keyval <= keysyms.Hyper_R:
             return False
@@ -207,8 +243,10 @@ class EngineReplaceWithKanji(IBus.Engine):
 
         # Handle Japanese text
         if keyval == keysyms.space:
+            self.__katakana_mode = False
             return self.handle_replace(keyval, state)
         if keyval == keysyms.Right and (state & IBus.ModifierType.SHIFT_MASK):
+            self.__katakana_mode = False
             return self.handle_shrink(keyval, state)
         self.__commit()
         if keyval == keysyms.BackSpace:
@@ -221,7 +259,8 @@ class EngineReplaceWithKanji(IBus.Engine):
         elif keysyms.exclam <= keyval and keyval <= keysyms.asciitilde:
             yomi, self.__preedit_string = self.__to_kana(self.__preedit_string, keyval, state, self.__modifiers)
             if yomi:
-                yomi = to_katakana(yomi, state & IBus.ModifierType.LOCK_MASK)
+                if self.__katakana_mode:
+                    yomi = to_katakana(yomi)
                 self.__commit_string(yomi)
                 self.__update()
                 return True
@@ -362,7 +401,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         self.__update_lookup_table()
 
     def __update_lookup_table(self):
-        if self.__state == 1:
+        if self.__is_enabled():
             visible = 0 < self.__lookup_table.get_number_of_candidates()
             self.update_lookup_table(self.__lookup_table, visible)
         else:

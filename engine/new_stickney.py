@@ -24,6 +24,8 @@ keysyms = IBus
 
 import re
 
+import bits
+
 _normal = {
     '1' :'１', '!' :'１', '2' :'２', '@' :'２', '3' :'３', '#' :'３', '4' :'４', '$' :'４', '5' :'５', '%' :'５',
     '6' :'６', '^' :'６', '7' :'７', '&' :'７', '8' :'８', '*' :'８', '9' :'９', '(' :'９', '0' :'０', ')' :'０',
@@ -53,7 +55,7 @@ _shift = {
 def to_kana(preedit, keyval, state = 0, modifiers = 0):
     yomi = ''
     if keysyms.exclam <= keyval and keyval <= keysyms.asciitilde:
-        if (state & IBus.ModifierType.SHIFT_MASK):
+        if (state & IBus.ModifierType.SHIFT_MASK) or (modifiers & bits.Space_Bit):
             yomi = _shift[chr(keyval).lower()]
         else:
             yomi = _normal[chr(keyval).lower()]

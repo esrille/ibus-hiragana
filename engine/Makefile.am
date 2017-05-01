@@ -16,6 +16,7 @@
 # limitations under the License.
 
 engine_replace_with_kanji_PYTHON = \
+	bits.py \
 	dictionary.py \
 	engine.py \
 	main.py \
