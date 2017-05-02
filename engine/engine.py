@@ -207,6 +207,9 @@ class EngineReplaceWithKanji(IBus.Engine):
     def __is_sands(self):
         return self.__is_enabled() and self.__sands
 
+    def __is_roomazi_mode(self):
+        return self.__to_kana == self.__handle_roomazi_layout
+
     def do_process_key_event(self, keyval, keycode, state):
         self.__modifiers &= ~(bits.SandS_Bit | bits.Katakana_Bit)
         is_press = ((state & IBus.ModifierType.RELEASE_MASK) == 0)
@@ -250,6 +253,8 @@ class EngineReplaceWithKanji(IBus.Engine):
                 is_press = True
             if self.__modifiers & bits.Katakana_Bit:
                 self.__katakana_mode = True
+        if self.__is_roomazi_mode() and (self.__modifiers & bits.Katakana_Bit):
+            self.__katakana_mode = True
 
         print("process_key_event(%04x, %04x, %04x) %02x" % (keyval, keycode, state, self.__modifiers), flush=True)
 
