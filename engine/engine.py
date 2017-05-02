@@ -121,16 +121,32 @@ class EngineReplaceWithKanji(IBus.Engine):
         yomi = ''
         if keysyms.exclam <= keyval and keyval <= keysyms.asciitilde:
             c = chr(keyval).lower()
-            if self.__sands and (modifiers & bits.Space_Bit):
-                yomi = self.__layout['Shift'][c]
-            elif modifiers & bits.ShiftL_Bit:
-                yomi = self.__layout['ShiftL'][c]
-            elif modifiers & bits.ShiftR_Bit:
-                yomi = self.__layout['ShiftR'][c]
-            elif state & IBus.ModifierType.SHIFT_MASK:
-                yomi = self.__layout['Shift'][c]
+            if preedit == '\\':
+                preedit = ''
+                if self.__sands and (modifiers & bits.Space_Bit):
+                    yomi = self.__layout['\\Shift'][c]
+                elif modifiers & bits.ShiftL_Bit:
+                    yomi = self.__layout['\\ShiftL'][c]
+                elif modifiers & bits.ShiftR_Bit:
+                    yomi = self.__layout['\\ShiftR'][c]
+                elif state & IBus.ModifierType.SHIFT_MASK:
+                    yomi = self.__layout['\\Shift'][c]
+                else:
+                    yomi = self.__layout['\\Normal'][c]
             else:
-                yomi = self.__layout['Normal'][c]
+                if self.__sands and (modifiers & bits.Space_Bit):
+                    yomi = self.__layout['Shift'][c]
+                elif modifiers & bits.ShiftL_Bit:
+                    yomi = self.__layout['ShiftL'][c]
+                elif modifiers & bits.ShiftR_Bit:
+                    yomi = self.__layout['ShiftR'][c]
+                elif state & IBus.ModifierType.SHIFT_MASK:
+                    yomi = self.__layout['Shift'][c]
+                else:
+                    yomi = self.__layout['Normal'][c]
+                if yomi == '\\':
+                    preedit += c
+                    yomi = ''
         return yomi, preedit
 
     def __handle_roomazi_layout(self, preedit, keyval, state = 0, modifiers = 0):
