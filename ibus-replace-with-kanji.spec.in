@@ -1,0 +1,48 @@
+Name:       @PACKAGE_NAME@
+Version:    @PACKAGE_VERSION@
+Release:    1%{?dist}
+Summary:    Replace With Kanji Input Method
+License:    Apache License, Version 2.0
+Group:      System Environment/Libraries
+URL:        https://github.com/esrille/ibus-replace-with-kanji
+Source0:    %{name}-%{version}.tar.gz
+Requires:   ibus >= 1.5.3
+Requires:   python3 >= 3.3
+Requires:   python3-dbus
+Requires:   python3-enchant
+Requires:   python3-pyxdg
+BuildRequires:  ibus-devel
+%if 0%{?fedora} >= 24
+BuildRequires:  python3-devel
+%else
+BuildRequires:  python34-devel
+%endif
+BuildArch:  noarch
+
+%description
+ibus-replace-with-kanji is a "Replace with Kanji" Japanese input method for IBus.
+
+%global __python %{__python3}
+
+%prep
+%setup -q
+
+%build
+%configure --disable-static
+make %{?_smp_mflags}
+
+%install
+rm -rf $RPM_BUILD_ROOT
+make install DESTDIR=${RPM_BUILD_ROOT} install
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%files
+%doc README.md
+%license LICENSE NOTICE
+%{_datadir}/%{name}
+%{_datadir}/ibus/component/replace-with-kanji-python.xml
+%{_libexecdir}/ibus-engine-replace-with-kanji
+
+%changelog

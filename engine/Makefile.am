@@ -27,8 +27,6 @@ engine_replace_with_kanjidir = $(datadir)/ibus-replace-with-kanji
 
 libexec_SCRIPTS= ibus-engine-replace-with-kanji
 
-bin_SCRIPTS = ibus-engine-replace-with-kanji
-
 component_DATA = replace-with-kanji-python.xml
 componentdir = @IBUS_DATADIR@/ibus/component
 

@@ -27,6 +27,8 @@ ACLOCAL_AMFLAGS = -I m4
 
 EXTRA_DIST = \
 	autogen.sh \
+	@PACKAGE_NAME@.spec \
+	@PACKAGE_NAME@.spec.in \
 	README.md \
 	LICENSE \
 	NOTICE\

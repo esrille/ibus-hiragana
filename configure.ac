@@ -27,7 +27,7 @@ m4_define(ibus_maybe_datestamp,
 m4_define([ibus_version],
     ibus_major_version.ibus_minor_version.ibus_micro_version[]ibus_maybe_datestamp)
 
-AC_INIT([package_name], [ibus_version], [https://github.com/esrille/ibus-replace-with-kanji], [package_name])
+AC_INIT([package_name], [ibus_version], [https://github.com/esrille/ibus-replace-with-kanji/issues], [package_name])
 AM_INIT_AUTOMAKE([1.10])
 
 AC_CONFIG_MACRO_DIR([m4])
@@ -51,6 +51,7 @@ AM_PATH_PYTHON([3.0])
 
 # OUTPUT files
 AC_CONFIG_FILES(Makefile
+ibus-replace-with-kanji.spec
 engine/Makefile
 engine/ibus-engine-replace-with-kanji
 engine/replace-with-kanji-python.xml.in
