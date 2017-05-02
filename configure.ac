@@ -55,6 +55,7 @@ engine/Makefile
 engine/ibus-engine-replace-with-kanji
 engine/replace-with-kanji-python.xml.in
 icons/Makefile
+layouts/Makefile
 m4/Makefile
 dic/Makefile
 )

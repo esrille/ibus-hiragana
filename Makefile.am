@@ -18,6 +18,7 @@
 SUBDIRS = \
 	engine \
 	icons \
+	layouts \
 	m4 \
 	dic \
 	$(NULL)

@@ -19,21 +19,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import json
+import os
+import re
+import time
+
 from gi import require_version
 require_version('IBus', '1.0')
 from gi.repository import IBus
 from gi.repository import GLib
 
-import time
-
 from dictionary import Dictionary
 
 import bits
-
 import roomazi
-import new_stickney
-import nicola
-import tron
 
 keysyms = IBus
 
@@ -46,6 +45,8 @@ _daku = 'ぁぃぅぇぉがぎぐげござじずぜぞだぢづでどばびぶ�
 _non_handaku = 'はひふへほハヒフヘホぱぴぷぺぽパピプペポ'
 
 _handaku = 'ぱぴぷぺぽパピプペポはひふへほハヒフヘホ'
+
+_re_tu = re.compile(r'[kstnhmyrwgzdbpfjv]')
 
 def to_katakana(kana):
     result = ''
@@ -66,7 +67,10 @@ class EngineReplaceWithKanji(IBus.Engine):
         self.__katakana_mode = False    # True to input Katakana
         self.__modifiers = 0            # See bits.py
         self.__delay = 0                # Delay for non-shift keys in milliseconds (mainly for Nicola layout)
-        self.__SandS = False            # True to use SandS
+
+        self.__layout = roomazi.layout
+        self.__sands = False            # True to use SandS
+        self.__to_kana = self.__handle_roomazi_layout
 
         self.__preedit_string = ''
         self.__previous_text = ''
@@ -83,19 +87,27 @@ class EngineReplaceWithKanji(IBus.Engine):
         # Load the layout setting
         var = config.get_value('engine/replace-with-kanji-python', 'layout')
         if var == None or var.get_type_string() != 's':
-            var = GLib.Variant.new_string('roomazi')
+            layout_path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'layouts')
+            layout_path = os.path.join(layout_path, 'roomazi.json')
+            print(layout_path, flush=True)
+            var = GLib.Variant.new_string(layout_path)
             config.set_value('engine/replace-with-kanji-python', 'layout', var)
-        layout = var.get_string()
-        print("layout:", layout, flush=True)
-        if layout == 'new_stickney':
-            self.__SandS = True
-            self.__to_kana = new_stickney.to_kana
-        elif layout == 'nicola':
-            self.__to_kana = nicola.to_kana
-        elif layout == 'tron':
-            self.__to_kana = tron.to_kana
-        else:
-            self.__to_kana = roomazi.to_kana
+        print("layout:", var.get_string(), flush=True)
+        try:
+            with open(var.get_string()) as f:
+                self.__layout = json.loads(f.read(), "utf-8")
+        except:
+            print("Cannot open: ", var.get_string(), flush=True)
+            self.__layout = roomazi.layout
+        print(json.dumps(self.__layout, ensure_ascii=False), flush=True)
+        if 'SandS' in self.__layout:
+            self.__sands = True
+
+        if 'Type' in self.__layout:
+            if self.__layout['Type'] == 'Kana':
+                self.__to_kana = self.__handle_kana_layout
+            else:
+                self.__to_kana = self.__handle_roomazi_layout
 
         # Load the delay setting
         var = config.get_value('engine/replace-with-kanji-python', 'delay')
@@ -104,6 +116,37 @@ class EngineReplaceWithKanji(IBus.Engine):
             config.set_value('engine/replace-with-kanji-python', 'delay', var)
         self.__delay = var.get_int32()
         print("delay:", self.__delay, flush=True)
+
+    def __handle_kana_layout(self, preedit, keyval, state = 0, modifiers = 0):
+        yomi = ''
+        if keysyms.exclam <= keyval and keyval <= keysyms.asciitilde:
+            c = chr(keyval).lower()
+            if self.__sands and (modifiers & bits.Space_Bit):
+                yomi = self.__layout['Shift'][c]
+            elif modifiers & bits.ShiftL_Bit:
+                yomi = self.__layout['ShiftL'][c]
+            elif modifiers & bits.ShiftR_Bit:
+                yomi = self.__layout['ShiftR'][c]
+            elif state & IBus.ModifierType.SHIFT_MASK:
+                yomi = self.__layout['Shift'][c]
+            else:
+                yomi = self.__layout['Normal'][c]
+        return yomi, preedit
+
+    def __handle_roomazi_layout(self, preedit, keyval, state = 0, modifiers = 0):
+        yomi = ''
+        if keysyms.exclam <= keyval and keyval <= keysyms.asciitilde:
+            preedit += chr(keyval).lower()
+            if preedit in self.__layout['Roomazi']:
+                yomi = self.__layout['Roomazi'][preedit]
+                preedit = ''
+            elif 2 <= len(preedit) and preedit[0] == 'n' and preedit[1] != 'y':
+                yomi = 'ん'
+                preedit = preedit[1:]
+            elif 2 <= len(preedit) and preedit[0] == preedit[1] and _re_tu.search(preedit[1]):
+                yomi = 'っ'
+                preedit = preedit[1:]
+        return yomi, preedit
 
     def __get_surrounding_text(self):
         # Note self.get_surrounding_text() may not work as expected such as in Firefox, Chrome, etc.
@@ -145,6 +188,9 @@ class EngineReplaceWithKanji(IBus.Engine):
     def __is_enabled(self):
         return self.__state == 1
 
+    def __is_sands(self):
+        return self.__is_enabled() and self.__sands
+
     def do_process_key_event(self, keyval, keycode, state):
         self.__modifiers &= ~(bits.SandS_Bit | bits.Katakana_Bit)
         is_press = ((state & IBus.ModifierType.RELEASE_MASK) == 0)
@@ -181,7 +227,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             else:
                 self.__disable_ime()
 
-        if self.__is_enabled() and self.__SandS:
+        if self.__is_sands():
             if (self.__modifiers & bits.Space_Bit) and keyval == keysyms.space:
                 return True
             if self.__modifiers & bits.SandS_Bit:

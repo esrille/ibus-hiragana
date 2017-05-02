@@ -15,38 +15,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-engine_replace_with_kanji_PYTHON = \
-	bits.py \
-	dictionary.py \
-	engine.py \
-	main.py \
-	roomazi.py \
+layouts_DATA = \
+	roomazi.json \
+	new_stickney.json \
+	tron.json \
+	nicola.json \
 	$(NULL)
 
-engine_replace_with_kanjidir = $(datadir)/ibus-replace-with-kanji
-
-libexec_SCRIPTS= ibus-engine-replace-with-kanji
-
-bin_SCRIPTS = ibus-engine-replace-with-kanji
-
-component_DATA = replace-with-kanji-python.xml
-componentdir = @IBUS_DATADIR@/ibus/component
-
-CLEANFILES = \
-	*.pyc \
-	$(NULL)
+layoutsdir = $(pkgdatadir)/layouts
 
 EXTRA_DIST = \
-	ibus-engine-replace-with-kanji.in \
-	replace-with-kanji-python.xml.in.in \
+	roomazi.json \
+	new_stickney.json \
+	tron.json \
+	nicola.json \
 	$(NULL)
-
-replace-with-kanji-python.xml: replace-with-kanji-python.xml.in
-	$(AM_V_GEN) \
-	( \
-		libexecdir=${libexecdir}; \
-		pkgdatadir=${pkgdatadir}; \
-		s=`cat $<`; \
-		eval "echo \"$${s}\""; \
-	) > $@
-
