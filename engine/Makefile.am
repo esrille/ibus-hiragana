@@ -19,6 +19,7 @@ engine_replace_with_kanji_PYTHON = \
 	bits.py \
 	dictionary.py \
 	engine.py \
+	event.py \
 	main.py \
 	roomazi.py \
 	$(NULL)

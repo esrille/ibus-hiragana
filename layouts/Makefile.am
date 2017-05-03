@@ -16,7 +16,9 @@
 # limitations under the License.
 
 layouts_DATA = \
+	jis.109.json \
 	roomazi.json \
+	roomazi.109.json \
 	new_stickney.json \
 	tron.json \
 	nicola.json \
@@ -25,7 +27,9 @@ layouts_DATA = \
 layoutsdir = $(pkgdatadir)/layouts
 
 EXTRA_DIST = \
+	jis.109.json \
 	roomazi.json \
+	roomazi.109.json \
 	new_stickney.json \
 	tron.json \
 	nicola.json \
