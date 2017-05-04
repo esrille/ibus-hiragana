@@ -259,6 +259,11 @@ class EngineReplaceWithKanji(IBus.Engine):
                 self.__commit()
                 return True
 
+        if self.__preedit_string and keyval == keysyms.Escape:
+            self.__preedit_string = ''
+            self.__update()
+            return True
+
         # Ignore modifier keys
         if self.__event.is_modifier():
             return False
