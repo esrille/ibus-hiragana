@@ -36,8 +36,9 @@ class Event:
         self.__Muhenkan = keysyms.VoidSymbol    # or keysyms.Muhenkan
         self.__Katakana = keysyms.Shift_R       # or keysyms.Hiragana_Katakana, keysyms.Control_R
         self.__CapsIME = True                   # or False
-        self.__Eisuu = keysyms.VoidSymbol       # or F14
-        self.__Kana = keysyms.VoidSymbol        # or F13
+        self.__Eisuu = keysyms.F14              # or keysyms.VoidSymbol
+        self.__Kana = keysyms.F13               # or keysyms.VoidSymbol
+        self.__Space = keysyms.F13              # Extra space key in Kana mode
         self.__Thumb = False                    # or True for using Muhenkan/Henkan
         self.__Yen = False
 
@@ -48,6 +49,9 @@ class Event:
                 self.__Muhenkan = keysyms.Muhenkan
                 self.__Katakana = keysyms.Hiragana_Katakana
                 self.__Yen = True
+            if keyboard == "NISSE":
+                self.__CapsIME = False
+                self.__Katakana = keysyms.Control_R
 
         if "SandS" in layout:
             self.__SandS = True
@@ -66,7 +70,7 @@ class Event:
 
     def is_ascii(self, keyval):
         # keysyms.yen is treated as '¥' for Japanese 109 keyboard.
-        return keysyms.exclam <= keyval and keyval <= keysyms.asciitilde or keyval == keysyms.yen
+        return keysyms.exclam <= keyval and keyval <= keysyms.asciitilde or keyval == keysyms.yen or keyval == self.__Space
 
     def is_modifier(self):
         return keysyms.Shift_L <= self.__keyval and self.__keyval <= keysyms.Hyper_R
@@ -99,7 +103,7 @@ class Event:
         return False
 
     def process_key_event(self, keyval, keycode, state):
-        self.__modifiers &= ~(bits.Dual_Space_Bit | bits.Dual_ShiftR_Bit)
+        self.__modifiers &= ~(bits.Dual_Space_Bit | bits.Dual_ShiftR_Bit | bits.Dual_ControlR_Bit)
         is_press = ((state & IBus.ModifierType.RELEASE_MASK) == 0)
         if is_press:
             if keyval == keysyms.space:
@@ -163,11 +167,23 @@ class Event:
         if not is_press:
             return False
 
+        if keyval == self.__Kana:
+            if self.__engine.enable_ime():
+                return True
+        elif keyval == self.__Eisuu:
+            if self.__engine.disable_ime():
+                return True
+
         if self.__engine.is_enabled():
             if 0 < self.__delay:
                 GLib.timeout_add(self.__delay, self.handle_key_event_timeout, keyval, keycode, state)
                 return True
             return self.handle_key_event(keyval, keycode, state)
+
+        # Prevent an extra action for F13 and F14 taken by other software.
+        if keysyms.F13 <= keyval and keyval <= keysyms.F14:
+            return True
+
         return False
 
     def handle_key_event_timeout(self, keyval, keycode, state):
@@ -187,7 +203,19 @@ class Event:
             if self.__Katakana == keyval:
                 self.__engine.set_katakana_mode(True)
                 return True
+
         return self.__engine.handle_key_event(keyval, keycode, state, self.__modifiers)
+
+    def chr(self, keyval):
+        c = ''
+        if self.is_ascii(keyval):
+            if keyval == keysyms.yen:
+                c = '¥'
+            elif keyval == self.__Space:
+                c = ' '
+            else:
+                c = chr(keyval).lower()
+        return c
 
 #
 # test

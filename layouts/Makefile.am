@@ -22,6 +22,7 @@ layouts_DATA = \
 	new_stickney.json \
 	tron.json \
 	nicola.json \
+	nicola_f.json \
 	$(NULL)
 
 layoutsdir = $(pkgdatadir)/layouts
@@ -33,4 +34,5 @@ EXTRA_DIST = \
 	new_stickney.json \
 	tron.json \
 	nicola.json \
+	nicola_f.json \
 	$(NULL)

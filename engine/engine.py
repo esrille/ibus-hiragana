@@ -119,10 +119,7 @@ class EngineReplaceWithKanji(IBus.Engine):
     def __handle_kana_layout(self, preedit, keyval, state = 0, modifiers = 0):
         yomi = ''
         if self.__event.is_ascii(keyval):
-            if keyval == keysyms.yen:
-                c = '¥'
-            else:
-                c = chr(keyval).lower()
+            c = self.__event.chr(keyval)
             if preedit == '\\':
                 preedit = ''
                 if 'Shift' in self.__layout and self.__event.is_shift():
@@ -143,7 +140,7 @@ class EngineReplaceWithKanji(IBus.Engine):
                 else:
                     yomi = self.__layout['Normal'][c]
                 if yomi == '\\':
-                    preedit += c
+                    preedit += yomi
                     yomi = ''
         elif keyval == keysyms.Zenkaku_Hankaku:
             if preedit == '\\':
@@ -156,11 +153,7 @@ class EngineReplaceWithKanji(IBus.Engine):
     def __handle_roomazi_layout(self, preedit, keyval, state = 0, modifiers = 0):
         yomi = ''
         if self.__event.is_ascii(keyval):
-            if keyval == keysyms.yen:
-                c = '¥'
-            else:
-                c = chr(keyval).lower()
-            preedit += c
+            preedit += self.__event.chr(keyval)
             if preedit in self.__layout['Roomazi']:
                 yomi = self.__layout['Roomazi'][preedit]
                 preedit = ''
@@ -196,28 +189,35 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.forward_key_event(IBus.BackSpace, 14, IBus.ModifierType.RELEASE_MASK)
             time.sleep(0.02)
 
-    def enable_ime(self):
-        print("enable_ime", flush=True);
-        self.__preedit_string = ''
-        self.__enabled = True
-        self.__dict.confirm()
-        self.__dict.reset()
-        self.__update()
-
-    def disable_ime(self):
-        print("disable_ime", flush=True);
-        self.__dict.confirm()
-        self.__reset()
-        self.__enabled = False
-        self.__update()
-
     def is_enabled(self):
         return self.__enabled
+
+    def enable_ime(self):
+        if not self.is_enabled():
+            print("enable_ime", flush=True);
+            self.__preedit_string = ''
+            self.__enabled = True
+            self.__dict.confirm()
+            self.__dict.reset()
+            self.__update()
+            return True
+        return False
+
+    def disable_ime(self):
+        if self.is_enabled():
+            print("disable_ime", flush=True);
+            self.__dict.confirm()
+            self.__reset()
+            self.__enabled = False
+            self.__update()
+            return True
+        return False
 
     def __is_roomazi_mode(self):
         return self.__to_kana == self.__handle_roomazi_layout
 
     def set_katakana_mode(self, enable):
+        print("set_katakana_mode:", enable, flush=True)
         self.__katakana_mode = enable
 
     def do_process_key_event(self, keyval, keycode, state):
@@ -253,10 +253,10 @@ class EngineReplaceWithKanji(IBus.Engine):
 
         # Handle Japanese text
         if self.__event.is_henkan():
-            self.__katakana_mode = False
+            self.set_katakana_mode(False)
             return self.handle_replace(keyval, state)
         if self.__event.is_shrink():
-            self.__katakana_mode = False
+            self.set_katakana_mode(False)
             return self.handle_shrink(keyval, state)
         self.__commit()
         if self.__event.is_backspace():
