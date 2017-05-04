@@ -79,8 +79,15 @@ class EngineReplaceWithKanji(IBus.Engine):
         self.__prop_list = IBus.PropList()
 
         config = IBus.Bus().get_config()
+        config.connect('value-changed', self.__config_value_changed_cb)
 
-        # Load the layout setting
+        self.__layout = self.__load_layout(config)
+        self.__delay = self.__load_delay(config)
+
+        self.__event = Event(self, self.__delay, self.__layout)
+        self.__dict = Dictionary()
+
+    def __load_layout(self, config):
         var = config.get_value('engine/replace-with-kanji-python', 'layout')
         if var == None or var.get_type_string() != 's':
             layout_path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'layouts')
@@ -91,30 +98,38 @@ class EngineReplaceWithKanji(IBus.Engine):
         print("layout:", var.get_string(), flush=True)
         try:
             with open(var.get_string()) as f:
-                self.__layout = json.loads(f.read(), "utf-8")
+                layout = json.loads(f.read(), "utf-8")
         except ValueError as error:
             print("JSON error:", error)
         except:
             print("Cannot open: ", var.get_string(), flush=True)
-            self.__layout = roomazi.layout
-        print(json.dumps(self.__layout, ensure_ascii=False), flush=True)
+            layout = roomazi.layout
+        self.__to_kana = self.__handle_roomazi_layout
+        if 'Type' in layout:
+            if layout['Type'] == 'Kana':
+                self.__to_kana = self.__handle_kana_layout
+        print(json.dumps(layout, ensure_ascii=False), flush=True)
+        return layout
 
-        # Load the delay setting
+    def __load_delay(self, config):
         var = config.get_value('engine/replace-with-kanji-python', 'delay')
         if var == None or var.get_type_string() != 'i':
             var = GLib.Variant.new_int32(delay)
             config.set_value('engine/replace-with-kanji-python', 'delay', var)
         delay = var.get_int32()
         print("delay:", delay, flush=True)
+        return delay
 
-        self.__event = Event(self, delay, self.__layout)
-        self.__dict = Dictionary()
-
-        if 'Type' in self.__layout:
-            if self.__layout['Type'] == 'Kana':
-                self.__to_kana = self.__handle_kana_layout
-            else:
-                self.__to_kana = self.__handle_roomazi_layout
+    def __config_value_changed_cb(self, config, section, name, value):
+        print("config value changed:", name, flush=True)
+        if name == "delay":
+            self.__reset()
+            self.__delay = self.__load_layout(config)
+            self.__event = Event(self, self.__delay, self.__layout)
+        elif name == "layout":
+            self.__reset()
+            self.__layout = self.__load_layout(config)
+            self.__event = Event(self, self.__delay, self.__layout)
 
     def __handle_kana_layout(self, preedit, keyval, state = 0, modifiers = 0):
         yomi = ''
