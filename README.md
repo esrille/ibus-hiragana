@@ -19,7 +19,6 @@
 
 ## つかいかた
 
-* ローマ字は99式をつかって入力できます(基本部分は訓令式とおなじです)。
 * 同音異義語ウィンドウは置換候補が複数ある場合にだけ表示されます。
 * カタカナは、カタカナ入力モードにきりかえて入力します。
 * 辞書の学習結果は、ホームディレクトリの.replace-with-kanji.dicのなかに保存されます。
@@ -40,14 +39,15 @@
 
 ### キーボード配列の選択
 
-下記のキーボード配列に対応しています。
+下記のキーボード配列に対応しています。ファイル名に.109がふくまれているものは、JISキーボード用です。
 
 キーボード配列 | 設定ファイル名 | 補足
 ------------ | ------------- | -------------
-99式ローマ字 | roomazi.json | デフォルト
+99式ローマ字 | roomazi.json<br>roomazi.109.json | デフォルト
+JISかな配列 | jis.109.json |
 [ニュー スティックニー配列](https://github.com/esrille/new-stickney) | new_stickney.json |
-TRONかな配列 | tron.json |
-NICOLA(親指シフト) | nicola.json | 同時打鍵判定の遅延時間はIBus configのengine/replace-with-kanji-python:delayにmsec単位で指定できます。
+TRONかな配列 | tron.json | エスリルNISSE用。
+NICOLA(親指シフト) | nicola.json<br>nicola_f.json | エスリルNISSE用。<br>同時打鍵判定の遅延時間はIBus configのengine/replace-with-kanji-python:delayにmsec単位で指定できます。
 
 いまのところ設定用の専用UIやコマンドはまだ準備していません。設定を変更するときは、IBus configの、
 
@@ -67,12 +67,10 @@ IBus configの設定は、dconf Editorを実行して、
 
 を実行します。
 
-※ エスリルのNISSEをつかわれている場合は、xmodmapで以下のような感じに設定しておくと、TRONかな配列やNICOLAでひらがなとカタカナのモードきりかえができるようになりします。
+※ エスリルのNISSEをつかわれている場合は、キーボードをpcモードに設定して、~/.Xmodmapを以下のように設定しておくと、FNキーで〔英数〕と〔かな〕のモードきりかえができるようになります。(IMEのon/offにCaps Lock はつかいません。)
 
-    keycode 130 = Henkan
-    keycode 131 = Muhenkan
-    keycode 191 = Henkan
-    keycode 192 = Muhenkan
+    keycode 191 = F13 F13 F13
+    keycode 192 = F14 F14 F14
 
 ### 制限事項
 
