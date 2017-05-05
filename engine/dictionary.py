@@ -52,7 +52,14 @@ class Dictionary:
                 p = line.strip(' \n/').split(' ', 1)
                 yomi = p[0]
                 cand = p[1].strip(' \n/').split('/')
-                dict[yomi] = cand
+                if not yomi in dict:
+                    dict[yomi] = cand
+                else:
+                    update = list(dict[yomi])
+                    for i in reversed(cand):
+                        update.remove(i)
+                        update.insert(0, i)
+                    dict[yomi] = update
 
     def reset(self):
         self.__yomi = ''
