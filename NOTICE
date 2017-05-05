@@ -50,7 +50,7 @@ The original software is available from,
     https://github.com/ibus/ibus-tmpl
 
 
-mazegaki.dic generated in tc2 is used to create restrained.dic.
-tc2 is released under GNU General Public License v2.0. The original
-software is available from,
-    https://github.com/kanchoku/tc
+'restrained.dic' is generated from dictionaries for SKK system.
+Dictionaries for SKK system is released under GNU General Public License
+v2.0. The original software is available from,
+    http://openlab.ring.gr.jp/skk/

@@ -59,6 +59,7 @@ icons/Makefile
 layouts/Makefile
 m4/Makefile
 dic/Makefile
+dic_tools/Makefile
 )
 
 AC_OUTPUT

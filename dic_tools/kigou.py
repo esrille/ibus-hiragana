@@ -1,7 +1,7 @@
-# Copyright (c) 2017 Esrille Inc.
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
 #
-# Using source code derived from
-#   ibus-tmpl - The Input Bus template project
+# Copyright (c) 2017 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,29 +15,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-SUBDIRS = \
-	engine \
-	icons \
-	layouts \
-	m4 \
-	dic \
-	dic_tools \
-	$(NULL)
+import codecs
+import re
+import sys
 
-ACLOCAL_AMFLAGS = -I m4
+from signal import signal, SIGPIPE, SIG_DFL
 
-EXTRA_DIST = \
-	autogen.sh \
-	@PACKAGE_NAME@.spec \
-	@PACKAGE_NAME@.spec.in \
-	README.md \
-	LICENSE \
-	NOTICE\
-	$(NULL)
+import dic
 
-noinst_DIST = \
-	$(NULL)
-
-DISTCLEANFILES = \
-	$(NULL)
-
+if __name__ == '__main__':
+    signal(SIGPIPE, SIG_DFL)
+    path = 'restrained.dic'
+    if 2 <= len(sys.argv):
+        path = sys.argv[1]
+    dict = dic.load(path)
+    kigou = dic.kigou(dict)
+    for yomi, kanji in sorted(kigou.items()):
+        print(yomi, " /", '/'.join(kanji), "/", sep='')

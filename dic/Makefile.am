@@ -3,4 +3,5 @@ dicdir = $(pkgdatadir)
 
 EXTRA_DIST = \
 	restrained.dic \
+	COPYING
 	$(NULL)

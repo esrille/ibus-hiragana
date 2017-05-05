@@ -15,29 +15,28 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-SUBDIRS = \
-	engine \
-	icons \
-	layouts \
-	m4 \
-	dic \
-	dic_tools \
+noinst_PYTHON = \
+	dic.py \
+	difference.py \
+	hyougai.py \
+	intersection.py \
+	kigou.py \
+	restrain.py \
+	taigen.py \
+	union.py \
+	wago.py \
+	yougen.py \
+	zinmei.py \
 	$(NULL)
 
-ACLOCAL_AMFLAGS = -I m4
+noinst_SCRIPTS = \
+	restrain \
+	$(NULL)
 
 EXTRA_DIST = \
-	autogen.sh \
-	@PACKAGE_NAME@.spec \
-	@PACKAGE_NAME@.spec.in \
-	README.md \
-	LICENSE \
-	NOTICE\
-	$(NULL)
-
-noinst_DIST = \
-	$(NULL)
-
-DISTCLEANFILES = \
+	restrain \
+	zyouyou-kanji.csv \
+	fuhyou.dic \
+	my.dic \
 	$(NULL)
 
