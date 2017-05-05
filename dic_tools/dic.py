@@ -73,10 +73,7 @@ def yougen():
                 pos = yomi.find('-')
                 if pos < 1:
                     continue
-                gokan = yomi[:pos]
-                if gokan in row:
-                    continue
-                gokan += '―'
+                gokan = yomi[:pos] + '―'
                 if not gokan in dict:
                     dict[gokan] = set(kanji)
                 else:

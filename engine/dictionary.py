@@ -19,7 +19,7 @@
 import os
 import re
 
-_re_not_yomi = re.compile(r'[^ぁ-んァ-ヶー]')
+_re_not_yomi = re.compile(r'[^ぁ-んァ-ヶー―]')
 
 class Dictionary:
 
