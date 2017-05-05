@@ -361,8 +361,14 @@ class EngineReplaceWithKanji(IBus.Engine):
         size = len(self.__dict.current())
         self.__delete_surrounding_text(size)
         yomi = self.__dict.reading()
+        preedit = ''
+        if yomi[-1] == '―':
+            yomi = yomi[:-1]
+            preedit = '\\'
         self.__commit_string(yomi)
         self.__reset()
+        if preedit:
+            self.__preedit_string = preedit
         self.__update()
         return yomi
 
