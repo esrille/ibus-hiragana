@@ -310,7 +310,6 @@ class EngineReplaceWithKanji(IBus.Engine):
         elif self.__preedit_string == '\\':
             yomi += '―'
             adjust = 1
-            print(yomi, adjust, flush=True);
         cand = self.__dict.lookup(yomi)
         size = len(self.__dict.reading())
         if 0 < size:
@@ -332,10 +331,10 @@ class EngineReplaceWithKanji(IBus.Engine):
             else:
                 cand = self.__dict.previous()
         if self.__dict.current():
-            self.__delete_surrounding_text(size)
-            self.__commit_string(cand)
             self.__preedit_string = ''
             self.__update()
+            self.__delete_surrounding_text(size)
+            self.__commit_string(cand)
         return True
 
     def handle_shrink(self, keyval, state):
