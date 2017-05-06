@@ -190,6 +190,20 @@ def difference(a, b):
                 del c[yomi]
     return c
 
+# 2つの辞書のよみの共通部分をとりだした辞書をかえします。
+def intersection_yomi(a, b):
+    dict = {}
+    keys = set(a.keys()).intersection(set(b.keys()))
+    for yomi in keys:
+        if yomi in a and yomi in b:
+            kanji = a[yomi].union(b[yomi])
+        elif yomi in a:
+            kanji = a[yomi]
+        else:
+            kanji = b[yomi]
+        dict[yomi] = kanji
+    return dict
+
 # 記号をつかっている熟語をとりだします。
 def kigou(dict):
     d = {}
