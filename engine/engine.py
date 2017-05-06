@@ -433,12 +433,15 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def __update(self):
         preedit_len = len(self.__preedit_string)
-        attrs = IBus.AttrList()
-        attrs.append(IBus.Attribute.new(IBus.AttrType.UNDERLINE,
-                IBus.AttrUnderline.SINGLE, 0, preedit_len))
         text = IBus.Text.new_from_string(self.__preedit_string)
-        text.set_attributes(attrs)
-        self.update_preedit_text(text, preedit_len, preedit_len > 0)
+        if 0 < preedit_len:
+            attrs = IBus.AttrList()
+            attrs.append(IBus.Attribute.new(IBus.AttrType.UNDERLINE, IBus.AttrUnderline.SINGLE, 0, preedit_len))
+            text.set_attributes(attrs)
+        # Note self.hide_preedit_text() does not seem to work as expected with Kate.
+        # cf. "Qt5 IBus input context does not implement hide_preedit_text()",
+        #     https://bugreports.qt.io/browse/QTBUG-48412
+        self.update_preedit_text(text, preedit_len, 0 < preedit_len)
         self.__update_lookup_table()
 
     def __update_lookup_table(self):
