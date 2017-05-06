@@ -19,7 +19,7 @@
 import os
 import re
 
-_re_not_yomi = re.compile(r'[^ぁ-んァ-ヶー―]')
+_re_not_yomi = re.compile(r'[^ぁ-ゖァ-ー―]')
 
 class Dictionary:
 
@@ -36,9 +36,14 @@ class Dictionary:
         dict_path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'restrained.dic')
         print(dict_path, flush=True)
         self.__load_dict(self.__dict_base, dict_path);
-        self.__dict = self.__dict_base.copy()
+
+        # Load Katakana dictionary
+        dict_path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'katakana.dic')
+        print(dict_path, flush=True)
+        self.__load_dict(self.__dict_base, dict_path);
 
         # Load private dictionary
+        self.__dict = self.__dict_base.copy()
         home_path = os.getenv("HOME")
         orders_path = os.path.join(home_path, ".replace-with-kanji.dic")
         self.__load_dict(self.__dict, orders_path, 'a+');
@@ -57,7 +62,8 @@ class Dictionary:
                 else:
                     update = list(dict[yomi])
                     for i in reversed(cand):
-                        update.remove(i)
+                        if i in update:
+                            update.remove(i)
                         update.insert(0, i)
                     dict[yomi] = update
 

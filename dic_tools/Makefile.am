@@ -20,6 +20,7 @@ noinst_PYTHON = \
 	difference.py \
 	hyougai.py \
 	intersection.py \
+	katakana.py \
 	kigou.py \
 	restrain.py \
 	taigen.py \
