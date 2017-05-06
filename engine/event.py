@@ -167,10 +167,11 @@ class Event:
         if not is_press:
             return False
 
-        if keyval == self.__Kana:
+        # Take over XF86Tools (F13) and XF86Launch5 (F14) as well.
+        if keyval == self.__Kana or keyval == 0x1008ff81:
             if self.__engine.enable_ime():
                 return True
-        elif keyval == self.__Eisuu:
+        elif keyval == self.__Eisuu or keyval == 0x1008ff45:
             if self.__engine.disable_ime():
                 return True
 
