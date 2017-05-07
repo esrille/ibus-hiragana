@@ -28,6 +28,5 @@ if __name__ == '__main__':
     if 2 <= len(sys.argv):
         path = sys.argv[1]
     dict = dic.load(path)
-    jinmei = dic.hyougai(dict)
-    for yomi, kanji in sorted(jinmei.items()):
-        print(yomi, " /", '/'.join(kanji), "/", sep='')
+    hyougai = dic.hyougai(dict)
+    dic.output(hyougai)

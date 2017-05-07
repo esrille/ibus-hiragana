@@ -33,5 +33,4 @@ if __name__ == '__main__':
         b = sys.argv[2]
     dict = dic.intersection(dic.load(a), dic.load(b))
     print(";", a, "∩", b)
-    for yomi, kanji in sorted(dict.items()):
-        print(yomi, " /", '/'.join(kanji), "/", sep='')
+    dic.output(dict)

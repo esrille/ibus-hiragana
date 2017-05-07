@@ -25,13 +25,12 @@ import dic
 
 if __name__ == '__main__':
     signal(SIGPIPE, SIG_DFL)
-    a = '/usr/share/skk/SKK-JISYO.ML'
+    a = 'restrained.dic'
     if 2 <= len(sys.argv):
         a = sys.argv[1]
-    b = '/usr/share/skk/SKK-JISYO.jinmei'
+    b = 'katakana.dic'
     if 3 <= len(sys.argv):
         b = sys.argv[2]
     print(";", a, "∪", b)
     dict = dic.union(dic.load(a), dic.load(b))
-    for yomi, kanji in sorted(dict.items()):
-        print(yomi, " /", '/'.join(sorted(kanji)), "/", sep='')
+    dic.output(dict)

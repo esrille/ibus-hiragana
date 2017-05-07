@@ -30,5 +30,4 @@ if __name__ == '__main__':
         path = sys.argv[1]
     dict = dic.load(path)
     kigou = dic.kigou(dict)
-    for yomi, kanji in sorted(kigou.items()):
-        print(yomi, " /", '/'.join(kanji), "/", sep='')
+    dic.output(kigou)

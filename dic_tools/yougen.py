@@ -26,5 +26,4 @@ if __name__ == '__main__':
     signal(SIGPIPE, SIG_DFL)
     dict = dic.yougen()
     # dict = dic.kyouiku(dict)
-    for yomi, kanji in sorted(dict.items()):
-        print(yomi, " /", '/'.join(kanji), "/", sep='')
+    dic.output(dict)

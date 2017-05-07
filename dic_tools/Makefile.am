@@ -21,7 +21,6 @@ noinst_PYTHON = \
 	katakana.py \
 	kigou.py \
 	restrain.py \
-	taigen.py \
 	union.py \
 	wago.py \
 	yougen.py \

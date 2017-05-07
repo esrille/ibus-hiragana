@@ -37,5 +37,4 @@ if __name__ == '__main__':
         b = 'restrained.dic'
     print(";", a, "−", b)
     dict = dic.difference(dic.load(a), dic.load(b))
-    for yomi, kanji in sorted(dict.items()):
-        print(yomi, " /", '/'.join(sorted(kanji)), "/", sep='')
+    dic.output(dict)

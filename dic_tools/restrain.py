@@ -31,23 +31,23 @@ if __name__ == '__main__':
     base = dic.load(path)
 
     # 人名、地名、駅名、記号については、人名漢字の使用を許容し、例外辞書に格納しておきます。
-    jinmei = dic.load('/usr/share/skk/SKK-JISYO.jinmei')
-    reigai_jinmei = dic.intersection(base, jinmei)
+    zinmei = dic.load('/usr/share/skk/SKK-JISYO.jinmei')
+    reigai_zinmei = dic.intersection(base, zinmei)
     geo = dic.load('/usr/share/skk/SKK-JISYO.geo')
     reigai_geo = dic.intersection(base, geo)
     station = dic.load('/usr/share/skk/SKK-JISYO.station')
     reigai_station = dic.intersection(base, station)
     reigai_kigou = dic.kigou(base)
-    reigai = dic.union(reigai_jinmei, reigai_geo)
+    reigai = dic.union(reigai_zinmei, reigai_geo)
     reigai = dic.union(reigai, reigai_station)
     reigai = dic.union(reigai, reigai_kigou)
 
     # 基本辞書をつくります。
     base = dic.difference(base, reigai)                     # 例外辞書の内容を削除
     base  = dic.difference(base, dic.hyougai(base))         # 表外の漢字を使用している熟語を削除
-    base = dic.difference(base, dic.jinmei(base))           # 人名漢字を使用している熟語を削除
+    base = dic.difference(base, dic.zinmei(base))           # 人名漢字を使用している熟語を削除
     base = dic.difference(base, dic.okuri(base))            # おくりがなのついた熟語を削除
-    base = dic.difference(base, dic.hyougai_yomi(base))  # 表外のよみかたをつかっている熟語を削除
+    base = dic.difference(base, dic.hyougai_yomi(base))     # 表外のよみかたをつかっている熟語を削除
     base = dic.difference(base, dic.wago(base))             # 和語の熟語を削除
 
     # 実際に使用する辞書をつくります。
@@ -72,5 +72,4 @@ if __name__ == '__main__':
     print(';;')
     print(';;')
     dic.copy_header(path)
-    for yomi, kanji in sorted(dict.items()):
-        print(yomi, ' /', '/'.join(sorted(kanji)), '/', sep='')
+    dic.output(dict)
