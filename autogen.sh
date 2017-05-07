@@ -2,7 +2,7 @@
 set -e
 set -x
 
-aclocal -I m4
-automake -a --foreign --copy
+aclocal
+automake --add-missing --copy
 autoconf
-./configure --enable-maintainer-mode "$@"
+./configure "$@"

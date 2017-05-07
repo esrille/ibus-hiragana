@@ -19,12 +19,9 @@ SUBDIRS = \
 	engine \
 	icons \
 	layouts \
-	m4 \
 	dic \
 	dic_tools \
 	$(NULL)
-
-ACLOCAL_AMFLAGS = -I m4
 
 EXTRA_DIST = \
 	autogen.sh \
