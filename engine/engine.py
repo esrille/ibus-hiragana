@@ -92,23 +92,23 @@ class EngineReplaceWithKanji(IBus.Engine):
         if var == None or var.get_type_string() != 's':
             layout_path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'layouts')
             layout_path = os.path.join(layout_path, 'roomazi.json')
-            print(layout_path, flush=True)
+            print(layout_path)
             var = GLib.Variant.new_string(layout_path)
             config.set_value('engine/replace-with-kanji-python', 'layout', var)
-        print("layout:", var.get_string(), flush=True)
+        print("layout:", var.get_string())
         try:
             with open(var.get_string()) as f:
                 layout = json.loads(f.read(), "utf-8")
         except ValueError as error:
             print("JSON error:", error)
         except:
-            print("Cannot open: ", var.get_string(), flush=True)
+            print("Cannot open: ", var.get_string())
             layout = roomazi.layout
         self.__to_kana = self.__handle_roomazi_layout
         if 'Type' in layout:
             if layout['Type'] == 'Kana':
                 self.__to_kana = self.__handle_kana_layout
-        print(json.dumps(layout, ensure_ascii=False), flush=True)
+        print(json.dumps(layout, ensure_ascii=False))
         return layout
 
     def __load_delay(self, config):
@@ -117,11 +117,11 @@ class EngineReplaceWithKanji(IBus.Engine):
             var = GLib.Variant.new_int32(0)
             config.set_value('engine/replace-with-kanji-python', 'delay', var)
         delay = var.get_int32()
-        print("delay:", delay, flush=True)
+        print("delay:", delay)
         return delay
 
     def __config_value_changed_cb(self, config, section, name, value):
-        print("config value changed:", name, flush=True)
+        print("config value changed:", name)
         if name == "delay":
             self.__reset()
             self.__delay = self.__load_layout(config)
@@ -193,9 +193,9 @@ class EngineReplaceWithKanji(IBus.Engine):
         if 0 < preedit_len and preedit_len <= len(text) and text[-preedit_len:] == self.__preedit_string:
             text = text[:-preedit_len]
             pos -= preedit_len
-        print("surrounding text: '", text, "', ", pos, ", [", self.__previous_text, "]", sep='', flush=True)
+        print("surrounding text: '", text, "', ", pos, ", [", self.__previous_text, "]", sep='')
         if self.__previous_text and pos < len(self.__previous_text) or text[pos - len(self.__previous_text):pos] != self.__previous_text:
-            print("Ignore surrounding text from now on.", flush=True)
+            print("Ignore surrounding text from now on.")
             self.__ignore_surrounding_text = True
             return self.__previous_text
         return text[:pos]
@@ -216,7 +216,7 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def enable_ime(self):
         if not self.is_enabled():
-            print("enable_ime", flush=True);
+            print("enable_ime");
             self.__preedit_string = ''
             self.__enabled = True
             self.__dict.confirm()
@@ -227,7 +227,7 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def disable_ime(self):
         if self.is_enabled():
-            print("disable_ime", flush=True);
+            print("disable_ime");
             self.__dict.confirm()
             self.__reset()
             self.__enabled = False
@@ -239,14 +239,14 @@ class EngineReplaceWithKanji(IBus.Engine):
         return self.__to_kana == self.__handle_roomazi_layout
 
     def set_katakana_mode(self, enable):
-        print("set_katakana_mode:", enable, flush=True)
+        print("set_katakana_mode:", enable)
         self.__katakana_mode = enable
 
     def do_process_key_event(self, keyval, keycode, state):
         return self.__event.process_key_event(keyval, keycode, state)
 
     def handle_key_event(self, keyval, keycode, state, modifiers):
-        print("handle_key_event(%04x, %04x, %04x, %04x)" % (keyval, keycode, state, modifiers), flush=True)
+        print("handle_key_event(%04x, %04x, %04x, %04x)" % (keyval, keycode, state, modifiers))
 
         # Handle Candidate window
         if 0 < self.__lookup_table.get_number_of_candidates():
@@ -259,7 +259,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             elif keyval == keysyms.Down or self.__event.is_henkan():
                 return self.do_cursor_down()
             elif keyval == keysyms.Escape:
-                print("escape", flush=True)
+                print("escape")
                 self.__previous_text = self.handle_escape(state)
                 return True
             elif keyval == keysyms.Return:
@@ -467,29 +467,29 @@ class EngineReplaceWithKanji(IBus.Engine):
         self.__ignore_surrounding_text = False
 
     def do_focus_in(self):
-        print("focus_in", flush=True)
+        print("focus_in")
         self.register_properties(self.__prop_list)
         # Request the initial surrounding-text in addition to the "enable" handler.
         self.get_surrounding_text()
 
     def do_focus_out(self):
-        print("focus_out", flush=True)
+        print("focus_out")
         self.__reset()
         self.__dict.save_orders()
 
     def do_enable(self):
-        print("enable", flush=True)
+        print("enable")
         # Request the initial surrounding-text when enabled as documented.
         self.get_surrounding_text()
 
     def do_disable(self):
-        print("disable", flush=True)
+        print("disable")
         self.__reset()
         self.__enabled = False
         self.__dict.save_orders()
 
     def do_reset(self):
-        print("reset", flush=True)
+        print("reset")
         self.__reset()
         # 'reset' seems to be sent due to an internal error, and
         # we don't switch back to the Alphabet mode here.
@@ -497,4 +497,4 @@ class EngineReplaceWithKanji(IBus.Engine):
         self.__dict.save_orders()
 
     def do_property_activate(self, prop_name):
-        print("PropertyActivate(%s)" % prop_name, flush=True)
+        print("PropertyActivate(%s)" % prop_name)

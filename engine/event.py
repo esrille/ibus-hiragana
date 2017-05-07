@@ -161,7 +161,7 @@ class Event:
         if self.is_katakana():
             self.__engine.set_katakana_mode(True)
 
-        print("process_key_event(%04x, %04x, %04x) %02x" % (keyval, keycode, state, self.__modifiers), flush=True)
+        print("process_key_event(%04x, %04x, %04x) %02x" % (keyval, keycode, state, self.__modifiers))
 
         # Ignore key release events
         if not is_press:
@@ -236,7 +236,7 @@ if __name__ == '__main__':
         def set_katakana_mode(self, enable):
             self.__katakana_mode = enable
         def handle_key_event(self, keyval, keycode, state, modifiers):
-            print("handle_key_event(%04x, %04x, %04x, %04x)" % (keyval, keycode, state, modifiers), flush=True)
+            print("handle_key_event(%04x, %04x, %04x, %04x)" % (keyval, keycode, state, modifiers))
 
     engine = EngineMock();
     event = Event(engine, 0, True)

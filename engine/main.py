@@ -78,6 +78,15 @@ def print_help(v = 0):
 
 def main():
 
+    # Create user specific data directory
+    if not os.path.isdir(os.path.expanduser('~/.local/share/ibus-replace-with-kanji')):
+        os.system('mkdir -p ~/.local/share/ibus-replace-with-kanji')
+
+    # Create a debug log file
+    logfile = os.path.expanduser('~/.local/share/ibus-replace-with-kanji/ibus-replace-with-kanji.log')
+    sys.stdout = open(logfile, mode='w', buffering=1)
+    sys.stderr = open(logfile, mode='a', buffering=1)
+
     exec_by_ibus = False
     daemonize = False
 

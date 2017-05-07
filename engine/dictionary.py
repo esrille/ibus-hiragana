@@ -34,18 +34,18 @@ class Dictionary:
 
         # Load system dictionary
         dict_path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'restrained.dic')
-        print(dict_path, flush=True)
+        print(dict_path)
         self.__load_dict(self.__dict_base, dict_path);
 
         # Load Katakana dictionary
         dict_path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'katakana.dic')
-        print(dict_path, flush=True)
+        print(dict_path)
         self.__load_dict(self.__dict_base, dict_path);
 
         # Load private dictionary
         self.__dict = self.__dict_base.copy()
-        home_path = os.getenv("HOME")
-        orders_path = os.path.join(home_path, ".replace-with-kanji.dic")
+        orders_path = os.path.expanduser('~/.local/share/ibus-replace-with-kanji/restrained.dic')
+
         self.__load_dict(self.__dict, orders_path, 'a+');
 
     def __load_dict(self, dict, path, mode='r'):
@@ -125,30 +125,13 @@ class Dictionary:
     def save_orders(self):
         if not self.__dirty:
             return
-        home_path = os.getenv("HOME")
-        orders_path = os.path.join(home_path, ".replace-with-kanji.dic")
+        orders_path = os.path.expanduser('~/.local/share/ibus-replace-with-kanji/restrained.dic')
         with open(orders_path, 'w') as file:
             for yomi, cand in self.__dict.items():
                 if not yomi in self.__dict_base or cand != self.__dict_base[yomi]:
-                    print(yomi, " /", '/'.join(cand), "/", sep='', flush=True)
+                    print(yomi, " /", '/'.join(cand), "/", sep='')
                     file.write(yomi + " /" + '/'.join(cand) + "/\n")
         self.__dirty = False
 
     def dump(self):
-        print('\'', self.__yomi, '\' ', self.__no, ' ', self.__cand, sep='', flush=True)
-
-#
-# test
-#
-if __name__ == '__main__':
-    dic = Dictionary()
-    yomi = 'かんじ'
-    cand = dic.lookup(yomi)
-    print(yomi, cand)
-    cand = dic.next()
-    print(yomi, cand)
-    cand = dic.next()
-    print(yomi, cand)
-    dic.confirm()
-    cand = dic.lookup(yomi)
-    print(yomi, cand)
+        print('\'', self.__yomi, '\' ', self.__no, ' ', self.__cand, sep='')
