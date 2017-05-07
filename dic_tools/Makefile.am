@@ -35,6 +35,8 @@ EXTRA_DIST = \
 	restrain \
 	zyouyou-kanji.csv \
 	fuhyou.dic \
+	greece.dic \
 	my.dic \
+	tc2.compat.dic \
 	$(NULL)
 

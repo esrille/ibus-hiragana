@@ -25,12 +25,12 @@ import dic
 
 if __name__ == '__main__':
     signal(SIGPIPE, SIG_DFL)
-    a = 'restrained.dic'
-    if 2 <= len(sys.argv):
-        a = sys.argv[1]
-    b = 'katakana.dic'
-    if 3 <= len(sys.argv):
-        b = sys.argv[2]
-    print(";", a, "∪", b)
-    dict = dic.union(dic.load(a), dic.load(b))
+    dict = {};
+    op = ''
+    print(";", end='')
+    for path in sys.argv[1:]:
+        print(op, path, end='')
+        op = " ∪"
+        dict = dic.union(dict, dic.load(path))
+    print('')
     dic.output(dict)

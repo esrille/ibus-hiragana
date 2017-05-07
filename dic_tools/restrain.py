@@ -57,6 +57,8 @@ if __name__ == '__main__':
     dict = dic.union(dict, yougen)                          # 和語の用言を追加
     dict = dic.union(dict, reigai)                          # 例外を追加
     dict = dic.union(dict, dic.load('fuhyou.dic'))          # 常用漢字表・付表の熟語を追加。
+    dict = dic.union(dict, dic.load('greece.dic'))          # ギリシア文字辞書を追加。
+    dict = dic.union(dict, dic.load('tc2.compat.dic'))      # tc2のmazegaki.dic辞書から選択した単語を追加。
     dict = dic.union(dict, dic.load('my.dic'))              # 独自に追加したい熟語を追加。
 
     # ヘッダーを出力します。
