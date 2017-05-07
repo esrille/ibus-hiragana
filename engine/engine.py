@@ -114,7 +114,7 @@ class EngineReplaceWithKanji(IBus.Engine):
     def __load_delay(self, config):
         var = config.get_value('engine/replace-with-kanji-python', 'delay')
         if var == None or var.get_type_string() != 'i':
-            var = GLib.Variant.new_int32(delay)
+            var = GLib.Variant.new_int32(0)
             config.set_value('engine/replace-with-kanji-python', 'delay', var)
         delay = var.get_int32()
         print("delay:", delay, flush=True)
