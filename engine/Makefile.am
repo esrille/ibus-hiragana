@@ -32,7 +32,6 @@ component_DATA = replace-with-kanji-python.xml
 componentdir = @IBUS_DATADIR@/ibus/component
 
 CLEANFILES = \
-	*.pyc \
 	$(NULL)
 
 EXTRA_DIST = \
@@ -48,4 +47,3 @@ replace-with-kanji-python.xml: replace-with-kanji-python.xml.in
 		s=`cat $<`; \
 		eval "echo \"$${s}\""; \
 	) > $@
-
