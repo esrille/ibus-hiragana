@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# ibus-replace-with-kanji - Replace With Kanji input method for IBus
+# ibus-replace-with-kanji - Replace with Kanji Japanese input method for IBus
 #
 # Using source code derived from
 #   ibus-tmpl - The Input Bus template project
