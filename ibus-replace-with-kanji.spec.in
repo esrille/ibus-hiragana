@@ -1,7 +1,7 @@
 Name:       @PACKAGE_NAME@
 Version:    @PACKAGE_VERSION@
 Release:    1%{?dist}
-Summary:    Replace With Kanji Input Method
+Summary:    Replace with Kanji Japanese input method for IBus
 License:    Apache License, Version 2.0
 Group:      System Environment/Libraries
 URL:        https://github.com/esrille/ibus-replace-with-kanji
