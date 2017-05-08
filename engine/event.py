@@ -152,7 +152,7 @@ class Event:
                 else:
                     self.__engine.disable_ime()
 
-        if self.__SandS:
+        if self.__SandS and self.__engine.is_enabled():
             if (self.__modifiers & bits.Space_Bit) and keyval == keysyms.space:
                 return True
             if self.__modifiers & bits.Dual_Space_Bit:
