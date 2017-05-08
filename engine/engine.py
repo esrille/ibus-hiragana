@@ -246,7 +246,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         return self.__event.process_key_event(keyval, keycode, state)
 
     def handle_key_event(self, keyval, keycode, state, modifiers):
-        print("handle_key_event(%04x, %04x, %04x, %04x)" % (keyval, keycode, state, modifiers))
+        print("handle_key_event(%s, %04x, %04x, %04x)" % (IBus.keyval_name(keyval), keycode, state, modifiers))
 
         # Handle Candidate window
         if 0 < self.__lookup_table.get_number_of_candidates():

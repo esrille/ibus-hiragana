@@ -161,7 +161,7 @@ class Event:
         if self.is_katakana():
             self.__engine.set_katakana_mode(True)
 
-        print("process_key_event(%04x, %04x, %04x) %02x" % (keyval, keycode, state, self.__modifiers))
+        print("process_key_event(%s, %04x, %04x) %02x" % (IBus.keyval_name(keyval), keycode, state, self.__modifiers))
 
         # Ignore key release events
         if not is_press:
