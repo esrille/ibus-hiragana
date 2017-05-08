@@ -32,13 +32,13 @@ class Dictionary:
         self.__cand = []
         self.__dirty = False
 
-        # Load system dictionary
-        dict_path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'restrained.dic')
+        # Load Katakana dictionary first so that Katakana words come after Kanji words.
+        dict_path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'katakana.dic')
         print(dict_path)
         self.__load_dict(self.__dict_base, dict_path);
 
-        # Load Katakana dictionary
-        dict_path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'katakana.dic')
+        # Load system dictionary
+        dict_path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'restrained.dic')
         print(dict_path)
         self.__load_dict(self.__dict_base, dict_path);
 
