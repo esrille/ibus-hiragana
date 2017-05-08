@@ -352,21 +352,27 @@ class EngineReplaceWithKanji(IBus.Engine):
         return True
 
     def handle_shrink(self, keyval, state):
+        print("handle_shrink:", self.__dict.current())
         if not self.__dict.current():
             return False
         text = self.handle_escape(state)
+        # Note a nap is needed here especially for applications that do not support surrounding text.
+        time.sleep(0.1)
         if 1 < len(text):
             (cand, size) = self.lookup_dictionary(text[1:])
-            # Note a nap is needed here especially for applications that do not support surrounding text.
-            time.sleep(0.1)
         else:
             self.__dict.reset()
             return True
         if self.__dict.current():
             self.__delete_surrounding_text(size)
             self.__commit_string(cand)
-            self.__preedit_string = ''
-            self.__update()
+            if self.__ignore_surrounding_text and 2 < len(text):
+                # It looks set_cursor_location() signal is cached at the remote
+                # side for the previous __commit_string() if the surrounding text
+                # API is not supported. To amend this, we set a long time out for
+                # __handle_cursor_move_timeout() here.
+                self.__expect_cursor_move += 1
+                GLib.timeout_add_seconds(3, self.__handle_cursor_move_timeout)
         return True
 
     def handle_escape(self, state):
@@ -380,7 +386,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             yomi = yomi[:-1]
             preedit = '\\'
         self.__commit_string(yomi)
-        self.__reset()
+        self.__reset(False)
         if preedit:
             self.__preedit_string = preedit
         self.__update()
@@ -465,14 +471,15 @@ class EngineReplaceWithKanji(IBus.Engine):
         else:
             self.hide_lookup_table()
 
-    def __reset(self):
+    def __reset(self, full=True):
         self.__dict.reset()
         self.__preedit_string = ''
         self.__lookup_table.clear()
         self.__update_lookup_table()
         self.__previous_text = ''
-        self.__ignore_surrounding_text = False
-        self.__expect_cursor_move = 0
+        if full:
+            self.__ignore_surrounding_text = False
+            self.__expect_cursor_move = 0
 
     def do_focus_in(self):
         print("focus_in")
@@ -517,5 +524,6 @@ class EngineReplaceWithKanji(IBus.Engine):
     def __handle_cursor_move_timeout(self):
         if 0 < self.__expect_cursor_move:
             self.__expect_cursor_move -= 1
+        print("__handle_cursor_move_timeout:", self.__expect_cursor_move)
         # Stop timer by returning False
         return False
