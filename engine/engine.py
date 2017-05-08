@@ -87,6 +87,8 @@ class EngineReplaceWithKanji(IBus.Engine):
         self.__event = Event(self, self.__delay, self.__layout)
         self.__dict = Dictionary()
 
+        self.__expect_cursor_move = False
+
     def __load_layout(self, config):
         var = config.get_value('engine/replace-with-kanji-python', 'layout')
         if var == None or var.get_type_string() != 's':
@@ -248,6 +250,16 @@ class EngineReplaceWithKanji(IBus.Engine):
     def handle_key_event(self, keyval, keycode, state, modifiers):
         print("handle_key_event(%s, %04x, %04x, %04x)" % (IBus.keyval_name(keyval), keycode, state, modifiers))
 
+        # Ignore modifier keys
+        if self.__event.is_modifier():
+            return False
+        if (state & (IBus.ModifierType.CONTROL_MASK | IBus.ModifierType.MOD1_MASK)) != 0:
+            self.__commit()
+            return False
+
+        self.__expect_cursor_move = True
+        GLib.timeout_add(200, self.__handle_cursor_move_timeout)
+
         # Handle Candidate window
         if 0 < self.__lookup_table.get_number_of_candidates():
             if keyval == keysyms.Page_Up or keyval == keysyms.KP_Page_Up:
@@ -270,13 +282,6 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.__preedit_string = ''
             self.__update()
             return True
-
-        # Ignore modifier keys
-        if self.__event.is_modifier():
-            return False
-        if (state & (IBus.ModifierType.CONTROL_MASK | IBus.ModifierType.MOD1_MASK)) != 0:
-            self.__commit()
-            return False
 
         # Handle Japanese text
         if self.__event.is_henkan():
@@ -497,4 +502,16 @@ class EngineReplaceWithKanji(IBus.Engine):
         self.__dict.save_orders()
 
     def do_property_activate(self, prop_name):
-        print("PropertyActivate(%s)" % prop_name)
+        print("property_activate(%s)" % prop_name)
+
+    def do_set_cursor_location(self, x, y, w, h):
+        print("set_cursor_location(%d, %d, %d, %d)" % (x, y, w, h), self.__expect_cursor_move)
+        if self.__expect_cursor_move:
+            return
+        # Maybe cursor was moved by mouse
+        self.__reset()
+
+    def __handle_cursor_move_timeout(self):
+        self.__expect_cursor_move = False
+        # Stop timer by returning False
+        return False
