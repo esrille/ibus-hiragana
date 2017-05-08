@@ -87,7 +87,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         self.__event = Event(self, self.__delay, self.__layout)
         self.__dict = Dictionary()
 
-        self.__expect_cursor_move = False
+        self.__expect_cursor_move = 0
 
     def __load_layout(self, config):
         var = config.get_value('engine/replace-with-kanji-python', 'layout')
@@ -207,11 +207,13 @@ class EngineReplaceWithKanji(IBus.Engine):
         if not self.__ignore_surrounding_text:
             self.delete_surrounding_text(-size, size)
         else:
+            # Note a short delay after each BackSpace is necessary for the target application to catch up.
             for i in range(size):
                 self.forward_key_event(IBus.BackSpace, 14, 0)
                 time.sleep(0.01)
             self.forward_key_event(IBus.BackSpace, 14, IBus.ModifierType.RELEASE_MASK)
-            time.sleep(0.02)
+            self.__expect_cursor_move += 1
+            GLib.timeout_add(200, self.__handle_cursor_move_timeout)
 
     def is_enabled(self):
         return self.__enabled
@@ -257,7 +259,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.__commit()
             return False
 
-        self.__expect_cursor_move = True
+        self.__expect_cursor_move += 1
         GLib.timeout_add(200, self.__handle_cursor_move_timeout)
 
         # Handle Candidate window
@@ -470,6 +472,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         self.__update_lookup_table()
         self.__previous_text = ''
         self.__ignore_surrounding_text = False
+        self.__expect_cursor_move = 0
 
     def do_focus_in(self):
         print("focus_in")
@@ -506,12 +509,13 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def do_set_cursor_location(self, x, y, w, h):
         print("set_cursor_location(%d, %d, %d, %d)" % (x, y, w, h), self.__expect_cursor_move)
-        if self.__expect_cursor_move:
+        if 0 < self.__expect_cursor_move:
             return
         # Maybe cursor was moved by mouse
         self.__reset()
 
     def __handle_cursor_move_timeout(self):
-        self.__expect_cursor_move = False
+        if 0 < self.__expect_cursor_move:
+            self.__expect_cursor_move -= 1
         # Stop timer by returning False
         return False
