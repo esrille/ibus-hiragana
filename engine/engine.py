@@ -185,6 +185,7 @@ class EngineReplaceWithKanji(IBus.Engine):
     def __get_surrounding_text(self):
         # Note self.get_surrounding_text() may not work as expected such as in Firefox, Chrome, etc.
         if self.__ignore_surrounding_text:
+            print("surrounding text: [", self.__previous_text, "]", sep='')
             return self.__previous_text
         tuple = self.get_surrounding_text()
         text = tuple[0].get_text()
@@ -273,8 +274,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             elif keyval == keysyms.Down or self.__event.is_henkan():
                 return self.do_cursor_down()
             elif keyval == keysyms.Escape:
-                print("escape")
-                self.__previous_text = self.handle_escape(state)
+                self.handle_escape(state)
                 return True
             elif keyval == keysyms.Return:
                 self.__commit()
@@ -357,7 +357,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             return False
         yomi = self.__dict.reading()
         if yomi == 1:
-            self.__previous_text += self.handle_escape(state)
+            self.handle_escape(state)
             return True
         current_size = len(self.__dict.current())
         (cand, size) = self.lookup_dictionary(yomi[1:])
@@ -384,7 +384,6 @@ class EngineReplaceWithKanji(IBus.Engine):
         self.__commit_string(yomi)
         self.__reset(False)
         self.__update()
-        return yomi
 
     def __commit(self):
         if self.__dict.current():
@@ -412,6 +411,16 @@ class EngineReplaceWithKanji(IBus.Engine):
                     text = _handaku[pos]
         self.commit_text(IBus.Text.new_from_string(text))
         self.__previous_text += text
+
+    def __reset(self, full=True):
+        self.__dict.reset()
+        self.__lookup_table.clear()
+        self.__update_lookup_table()
+        if full:
+            self.__previous_text = ''
+            self.__preedit_string = ''
+            self.__ignore_surrounding_text = False
+            self.__expect_cursor_move = 0
 
     def __update_candidate(self):
         index = self.__lookup_table.get_cursor_pos()
@@ -464,16 +473,6 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.update_lookup_table(self.__lookup_table, visible)
         else:
             self.hide_lookup_table()
-
-    def __reset(self, full=True):
-        self.__dict.reset()
-        self.__lookup_table.clear()
-        self.__update_lookup_table()
-        self.__previous_text = ''
-        if full:
-            self.__preedit_string = ''
-            self.__ignore_surrounding_text = False
-            self.__expect_cursor_move = 0
 
     def do_focus_in(self):
         print("focus_in")
