@@ -324,14 +324,15 @@ class EngineReplaceWithKanji(IBus.Engine):
         elif self.__preedit_string == '\\':
             yomi += '―'
             adjust = 1
+        self.__lookup_table.clear()
         cand = self.__dict.lookup(yomi)
         size = len(self.__dict.reading())
         if 0 < size:
+            self.__preedit_string = ''
             size -= adjust
-        self.__lookup_table.clear()
-        if cand and 1 < len(self.__dict.cand()):
-            for c in self.__dict.cand():
-                self.__lookup_table.append_candidate(IBus.Text.new_from_string(c))
+            if 1 < len(self.__dict.cand()):
+                for c in self.__dict.cand():
+                    self.__lookup_table.append_candidate(IBus.Text.new_from_string(c))
         return (cand, size)
 
     def handle_replace(self, keyval, state):
@@ -345,7 +346,6 @@ class EngineReplaceWithKanji(IBus.Engine):
             else:
                 cand = self.__dict.previous()
         if self.__dict.current():
-            self.__preedit_string = ''
             self.__update()
             self.__delete_surrounding_text(size)
             self.__commit_string(cand)
@@ -355,43 +355,35 @@ class EngineReplaceWithKanji(IBus.Engine):
         print("handle_shrink:", self.__dict.current())
         if not self.__dict.current():
             return False
-        text = self.handle_escape(state)
-        if 1 < len(text):
-            (cand, size) = self.lookup_dictionary(text[1:])
-        else:
-            self.__dict.reset()
+        yomi = self.__dict.reading()
+        if yomi == 1:
+            self.__previous_text += self.handle_escape(state)
             return True
-        if self.__dict.current():
-            self.__preedit_string = ''
-            self.__update()
-            self.__delete_surrounding_text(size)
-            self.__commit_string(cand)
-            if self.__ignore_surrounding_text and 2 < len(text):
-                # It looks set_cursor_location() signal is cached at the remote
-                # side for the previous __commit_string() if the surrounding text
-                # API is not supported. To amend this, we set a long time out for
-                # __handle_cursor_move_timeout() here.
-                self.__expect_cursor_move += 1
-                GLib.timeout_add_seconds(3, self.__handle_cursor_move_timeout)
+        current_size = len(self.__dict.current())
+        (cand, size) = self.lookup_dictionary(yomi[1:])
+        if 0 < size:
+            yomi = yomi[:-size]
+        elif yomi[-1] == '―':
+            yomi = yomi[:-1]
+            self.__preedit_string = '\\'
+        self.__delete_surrounding_text(current_size)
+        self.__commit_string(yomi + cand)
+        # Update preedit *after* committing the string to append preedit.
+        self.__update()
         return True
 
     def handle_escape(self, state):
         if not self.__dict.current():
             return
         size = len(self.__dict.current())
-        self.__delete_surrounding_text(size)
         yomi = self.__dict.reading()
-        preedit = ''
         if yomi[-1] == '―':
             yomi = yomi[:-1]
-            preedit = '\\'
+            self.__preedit_string = '\\'
+        self.__delete_surrounding_text(size)
         self.__commit_string(yomi)
         self.__reset(False)
-        if preedit:
-            self.__preedit_string = preedit
         self.__update()
-        # Note a nap is needed here especially for applications that do not support surrounding text.
-        time.sleep(0.1)
         return yomi
 
     def __commit(self):
@@ -475,11 +467,11 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def __reset(self, full=True):
         self.__dict.reset()
-        self.__preedit_string = ''
         self.__lookup_table.clear()
         self.__update_lookup_table()
         self.__previous_text = ''
         if full:
+            self.__preedit_string = ''
             self.__ignore_surrounding_text = False
             self.__expect_cursor_move = 0
 
