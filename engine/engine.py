@@ -88,6 +88,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         self.__dict = Dictionary()
 
         self.__expect_cursor_move = 0
+        self.__cursor_moved_by_mouse = False    # True if cursor might be moved by mouse
 
     def __load_layout(self, config):
         var = config.get_value('engine/replace-with-kanji-python', 'layout')
@@ -198,9 +199,11 @@ class EngineReplaceWithKanji(IBus.Engine):
             pos -= preedit_len
         print("surrounding text: '", text, "', ", pos, ", [", self.__previous_text, "]", sep='')
         if self.__previous_text and pos < len(self.__previous_text) or text[pos - len(self.__previous_text):pos] != self.__previous_text:
-            print("Ignore surrounding text from now on.")
-            self.__ignore_surrounding_text = True
-            return self.__previous_text
+            if not self.__cursor_moved_by_mouse:
+                print("Ignore surrounding text from now on.")
+                self.__ignore_surrounding_text = True
+                return self.__previous_text
+        self.__cursor_moved_by_mouse = False
         return text[:pos]
 
     def __delete_surrounding_text(self, size):
@@ -421,6 +424,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.__preedit_string = ''
             self.__ignore_surrounding_text = False
             self.__expect_cursor_move = 0
+            self.__cursor_moved_by_mouse = False
 
     def __update_candidate(self):
         index = self.__lookup_table.get_cursor_pos()
@@ -471,8 +475,6 @@ class EngineReplaceWithKanji(IBus.Engine):
         if self.is_enabled():
             visible = 0 < self.__lookup_table.get_number_of_candidates()
             self.update_lookup_table(self.__lookup_table, visible)
-        else:
-            self.hide_lookup_table()
 
     def do_focus_in(self):
         print("focus_in")
@@ -511,8 +513,13 @@ class EngineReplaceWithKanji(IBus.Engine):
         print("set_cursor_location(%d, %d, %d, %d)" % (x, y, w, h), self.__expect_cursor_move)
         if 0 < self.__expect_cursor_move:
             return
-        # Maybe cursor was moved by mouse
-        self.__reset()
+        # Maybe cursor was moved by mouse, but it is hard to tell since
+        # an invocation to do_set_cursor_location() can be postponed till
+        # just before the next key event.
+        # We should prioritize the support for applications that support
+        # the surrounding text API, even if it causes unexpected behavior
+        # in the non-conforming applications.
+        self.__cursor_moved_by_mouse = True
 
     def __handle_cursor_move_timeout(self):
         if 0 < self.__expect_cursor_move:
