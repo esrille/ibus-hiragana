@@ -356,14 +356,14 @@ class EngineReplaceWithKanji(IBus.Engine):
         if not self.__dict.current():
             return False
         text = self.handle_escape(state)
-        # Note a nap is needed here especially for applications that do not support surrounding text.
-        time.sleep(0.1)
         if 1 < len(text):
             (cand, size) = self.lookup_dictionary(text[1:])
         else:
             self.__dict.reset()
             return True
         if self.__dict.current():
+            self.__preedit_string = ''
+            self.__update()
             self.__delete_surrounding_text(size)
             self.__commit_string(cand)
             if self.__ignore_surrounding_text and 2 < len(text):
@@ -390,6 +390,8 @@ class EngineReplaceWithKanji(IBus.Engine):
         if preedit:
             self.__preedit_string = preedit
         self.__update()
+        # Note a nap is needed here especially for applications that do not support surrounding text.
+        time.sleep(0.1)
         return yomi
 
     def __commit(self):
