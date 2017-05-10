@@ -196,13 +196,13 @@ IBus configの設定は、dconf Editorをつかう場合は、
     ./restrain.py /usr/share/skk/SKK-JISYO.ML > restrained.dic
     
     # カタカナ語辞書
-    ./katakana.py  edict2 > katakana.dic
+    ./katakana.py edict2 > katakana.dic
 
 restrain.pyスクリプトは、'my.dic'というファイルの中にある単語を自動的にrestrained.dicに追加します。辞書ファイルの単語が不足している場合は、'my.dic'に単語を追加して、restrain.pyスクリプトを実行しなおすのが簡単です。できあがった辞書ファイルを利用するには、ソース ディレクトリのdicサブ ディレクトリに辞書ファイルをコピーして、漢字置換インプット メソッドをインストールしなおします。
 
 ※ SKK辞書はSKK(ibus-skk等)をインストールするとあわせてインストールされます。edict2は配付元から入手してください。
 
-### 制限事項
+## 制限事項
 
 * 置換変換はIBusの周辺テキストAPIをつかって実現しています。周辺テキストAPIに未対応あるいは完全には対応できていないアプリケーションでは、直前に入力した文字列にたいしてのみ置換変換をすることができます(カーソルを移動してあとから置換変換することはできなくなります)。GNOMEの標準のテキスト エディターgeditなどは周辺テキストAPIにきちんと対応しているようです。
 
