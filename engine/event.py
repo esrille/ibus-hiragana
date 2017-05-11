@@ -125,6 +125,21 @@ class Event:
                 self.__modifiers |= bits.Not_Dual_ShiftR_Bit
             if (self.__modifiers & bits.ControlR_Bit) and keyval != keysyms.Control_R:
                 self.__modifiers |= bits.Not_Dual_ControlR_Bit
+
+            # Check CAPS LOCK for IME on/off
+            if self.__CapsIME:
+                if keyval == keysyms.Caps_Lock:
+                    # Note CAPS LOCK LED is turned off after the key release event.
+                    if state & IBus.ModifierType.LOCK_MASK:
+                        self.__engine.disable_ime()
+                    else:
+                        self.__engine.enable_ime()
+                else:
+                    if state & IBus.ModifierType.LOCK_MASK:
+                        self.__engine.enable_ime()
+                    else:
+                        self.__engine.disable_ime()
+
         else:
             if keyval == keysyms.space:
                 if not (self.__modifiers & bits.Not_Dual_Space_Bit):
@@ -142,15 +157,6 @@ class Event:
                 if not (self.__modifiers & bits.Not_Dual_ControlR_Bit):
                     self.__modifiers |= bits.Dual_ControlR_Bit
                 self.__modifiers &= ~bits.ControlR_Bit
-
-        # Check CAPS LOCK for IME on/off
-        if self.__CapsIME:
-            is_lock = ((state & IBus.ModifierType.LOCK_MASK) != 0)
-            if self.__engine.is_enabled() != is_lock:
-                if is_lock:
-                    self.__engine.enable_ime()
-                else:
-                    self.__engine.disable_ime()
 
         if self.__SandS and self.__engine.is_enabled():
             if (self.__modifiers & bits.Space_Bit) and keyval == keysyms.space:
