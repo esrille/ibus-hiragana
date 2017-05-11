@@ -16,7 +16,9 @@ AC_INIT([ibus-replace-with-kanji], [0.1.0], [https://github.com/esrille/ibus-rep
 AM_INIT_AUTOMAKE([foreign])
 
 # Check IBus
-PKG_CHECK_MODULES(IBUS, [ibus-1.0 >= 1.5.3])
+#   Note replace-with-kanji-python.xml uses icon_prop_key and
+#   ibus 1.5.11 or later is required
+PKG_CHECK_MODULES(IBUS, [ibus-1.0 >= 1.5.11])
 AC_SUBST(IBUS_DATADIR, $($PKG_CONFIG --variable=datadir ibus-1.0) )
 
 # Check Python

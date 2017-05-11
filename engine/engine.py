@@ -76,7 +76,8 @@ class EngineReplaceWithKanji(IBus.Engine):
 
         self.__lookup_table = IBus.LookupTable.new(10, 0, True, False)
         self.__lookup_table.set_orientation(IBus.Orientation.VERTICAL)
-        self.__prop_list = IBus.PropList()
+
+        self.__init_props()
 
         config = IBus.Bus().get_config()
         config.connect('value-changed', self.__config_value_changed_cb)
@@ -89,6 +90,33 @@ class EngineReplaceWithKanji(IBus.Engine):
 
         self.__expect_cursor_move = 0
         self.__cursor_moved_by_mouse = False    # True if cursor might be moved by mouse
+
+    def __init_props(self):
+        self.__prop_list = IBus.PropList()
+        symbol = 'A'
+        self.__input_mode_prop = IBus.Property(
+            key = 'InputMode',
+            prop_type = IBus.PropType.NORMAL,
+            symbol = IBus.Text.new_from_string(symbol),
+            label = IBus.Text.new_from_string('Input mode (%s)' % symbol),
+            icon = None,
+            tooltip = None,
+            sensitive = False,
+            visible = True,
+            state = IBus.PropState.UNCHECKED,
+            sub_props = None)
+        self.__prop_list.append(self.__input_mode_prop)
+
+    def __update_input_mode(self):
+        if not self.is_enabled():
+            symbol = 'A'
+        elif not self.__katakana_mode:
+            symbol = 'あ'
+        else:
+            symbol = 'ア'
+        self.__input_mode_prop.set_symbol(IBus.Text.new_from_string(symbol))
+        self.__input_mode_prop.set_label(IBus.Text.new_from_string('Input mode (%s)' % symbol))
+        self.update_property(self.__input_mode_prop)
 
     def __load_layout(self, config):
         var = config.get_value('engine/replace-with-kanji-python', 'layout')
@@ -230,6 +258,8 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.__dict.confirm()
             self.__dict.reset()
             self.__update()
+            self.set_katakana_mode(False)
+            self.__update_input_mode()
             return True
         return False
 
@@ -240,6 +270,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.__reset()
             self.__enabled = False
             self.__update()
+            self.__update_input_mode()
             return True
         return False
 
@@ -249,6 +280,7 @@ class EngineReplaceWithKanji(IBus.Engine):
     def set_katakana_mode(self, enable):
         print("set_katakana_mode:", enable)
         self.__katakana_mode = enable
+        self.__update_input_mode()
 
     def do_process_key_event(self, keyval, keycode, state):
         return self.__event.process_key_event(keyval, keycode, state)
@@ -506,8 +538,8 @@ class EngineReplaceWithKanji(IBus.Engine):
         # NG: self.__enabled = False
         self.__dict.save_orders()
 
-    def do_property_activate(self, prop_name):
-        print("property_activate(%s)" % prop_name)
+    def do_property_activate(self, prop_name, state):
+        print("property_activate(%s, %d)" % (prop_name, state))
 
     def do_set_cursor_location(self, x, y, w, h):
         print("set_cursor_location(%d, %d, %d, %d)" % (x, y, w, h), self.__expect_cursor_move)
