@@ -34,27 +34,29 @@ class Dictionary:
 
         # Load Katakana dictionary first so that Katakana words come after Kanji words.
         dict_path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'katakana.dic')
-        print(dict_path)
         self.__load_dict(self.__dict_base, dict_path);
 
         # Load system dictionary
         dict_path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'restrained.dic')
-        print(dict_path)
         self.__load_dict(self.__dict_base, dict_path);
 
         # Load private dictionary
         self.__dict = self.__dict_base.copy()
-        orders_path = os.path.expanduser('~/.local/share/ibus-replace-with-kanji/restrained.dic')
 
+        orders_path = os.path.expanduser('~/.local/share/ibus-replace-with-kanji/my.dic')
+        self.__load_dict(self.__dict, orders_path, 'a+');
+
+        orders_path = os.path.expanduser('~/.local/share/ibus-replace-with-kanji/restrained.dic')
         self.__load_dict(self.__dict, orders_path, 'a+');
 
     def __load_dict(self, dict, path, mode='r'):
         with open(path, mode) as file:
             file.seek(0, 0)
             for line in file:
-                if line[0] == ';':
+                line = line.strip(' \n/')
+                if not line or line[0] == ';':
                     continue;
-                p = line.strip(' \n/').split(' ', 1)
+                p = line.split(' ', 1)
                 yomi = p[0]
                 cand = p[1].strip(' \n/').split('/')
                 if not yomi in dict:
@@ -66,6 +68,7 @@ class Dictionary:
                             update.remove(i)
                         update.insert(0, i)
                     dict[yomi] = update
+            print("Loaded", path)
 
     def reset(self):
         self.__yomi = ''
@@ -129,7 +132,6 @@ class Dictionary:
         with open(orders_path, 'w') as file:
             for yomi, cand in self.__dict.items():
                 if not yomi in self.__dict_base or cand != self.__dict_base[yomi]:
-                    print(yomi, " /", '/'.join(cand), "/", sep='')
                     file.write(yomi + " /" + '/'.join(cand) + "/\n")
         self.__dirty = False
 
