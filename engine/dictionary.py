@@ -17,7 +17,10 @@
 # limitations under the License.
 
 import os
+import logging
 import re
+
+logger = logging.getLogger(__name__)
 
 _re_not_yomi = re.compile(r'[^ぁ-ゖァ-ー―]')
 
@@ -68,7 +71,7 @@ class Dictionary:
                             update.remove(i)
                         update.insert(0, i)
                     dict[yomi] = update
-            print("Loaded", path)
+            logger.info("Loaded %s", path)
 
     def reset(self):
         self.__yomi = ''

@@ -16,6 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import logging
+
 from gi import require_version
 require_version('IBus', '1.0')
 from gi.repository import IBus
@@ -24,6 +26,8 @@ from gi.repository import GLib
 import bits
 
 keysyms = IBus
+
+logger = logging.getLogger(__name__)
 
 class Event:
     def __init__(self, engine, delay, layout):
@@ -167,7 +171,7 @@ class Event:
         if self.is_katakana():
             self.__engine.set_katakana_mode(True)
 
-        print("process_key_event(%s, %04x, %04x) %02x" % (IBus.keyval_name(keyval), keycode, state, self.__modifiers))
+        logger.debug("process_key_event(%s, %04x, %04x) %02x" % (IBus.keyval_name(keyval), keycode, state, self.__modifiers))
 
         # Ignore key release events
         if not is_press:

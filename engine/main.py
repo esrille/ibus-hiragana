@@ -20,6 +20,7 @@
 # limitations under the License.
 
 import os
+import logging
 import sys
 import getopt
 
@@ -86,9 +87,10 @@ def main():
 
     # Create a debug log file
     logfile = os.path.expanduser('~/.local/share/ibus-replace-with-kanji/ibus-replace-with-kanji.log')
-    sys.stdout = open(logfile, mode='w', buffering=1)
-    sys.stderr = open(logfile, mode='a', buffering=1)
+    sys.stderr = open(logfile, mode='w', buffering=1)
     os.chmod(logfile, 0o600)    # For logfile created by v0.2.0 or earlier
+
+    logging.basicConfig(level=logging.WARNING)
 
     exec_by_ibus = False
     daemonize = False

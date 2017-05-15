@@ -20,6 +20,7 @@
 # limitations under the License.
 
 import json
+import logging
 import os
 import re
 import time
@@ -37,6 +38,8 @@ import roomazi
 
 keysyms = IBus
 
+logger = logging.getLogger(__name__)
+
 _hiragana = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんゔがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっぱぴぷぺぽゎゐゑ"
 _katakana = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンヴガギグゲゴザジズゼゾダヂヅデドバビブベボァィゥェォャュョッパピプペポヮヰヱ"
 
@@ -48,6 +51,14 @@ _non_handaku = 'はひふへほハヒフヘホぱぴぷぺぽパピプペポ'
 _handaku = 'ぱぴぷぺぽパピプペポはひふへほハヒフヘホ'
 
 _re_tu = re.compile(r'[kstnhmyrwgzdbpfjv]')
+
+_name_to_logging_level = {
+    'DEBUG': logging.DEBUG,
+    'INFO': logging.INFO,
+    'WARNING': logging.WARNING,
+    'ERROR': logging.ERROR,
+    'CRITICAL': logging.CRITICAL,
+}
 
 def to_katakana(kana):
     result = ''
@@ -82,6 +93,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         config = IBus.Bus().get_config()
         config.connect('value-changed', self.__config_value_changed_cb)
 
+        self.__logging_level = self.__load_logging_level(config)
         self.__layout = self.__load_layout(config)
         self.__delay = self.__load_delay(config)
 
@@ -118,28 +130,36 @@ class EngineReplaceWithKanji(IBus.Engine):
         self.__input_mode_prop.set_label(IBus.Text.new_from_string('Input mode (%s)' % symbol))
         self.update_property(self.__input_mode_prop)
 
+    def __load_logging_level(self, config):
+        var = config.get_value('engine/replace-with-kanji-python', 'logging_level')
+        if var == None or var.get_type_string() != 's' or not var.get_string() in _name_to_logging_level:
+            var = GLib.Variant.new_string('WARNING')
+            config.set_value('engine/replace-with-kanji-python', 'logging_level', var)
+        level = var.get_string()
+        logger.info("logging_level: %s", level)
+        logging.getLogger().setLevel(_name_to_logging_level[level])
+        return level
+
     def __load_layout(self, config):
         var = config.get_value('engine/replace-with-kanji-python', 'layout')
         if var == None or var.get_type_string() != 's':
             layout_path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'layouts')
             layout_path = os.path.join(layout_path, 'roomazi.json')
-            print(layout_path)
             var = GLib.Variant.new_string(layout_path)
             config.set_value('engine/replace-with-kanji-python', 'layout', var)
-        print("layout:", var.get_string())
+        logger.info("layout: %s", var.get_string())
+        layout = roomazi.layout     # Use 'roomazi'y as default
         try:
             with open(var.get_string()) as f:
                 layout = json.loads(f.read(), "utf-8")
         except ValueError as error:
-            print("JSON error:", error)
+            logger.error("JSON error: %s", error)
         except:
-            print("Cannot open: ", var.get_string())
-            layout = roomazi.layout
+            logger.error("file %s not found", var.get_string())
         self.__to_kana = self.__handle_roomazi_layout
         if 'Type' in layout:
             if layout['Type'] == 'Kana':
                 self.__to_kana = self.__handle_kana_layout
-        print(json.dumps(layout, ensure_ascii=False))
         return layout
 
     def __load_delay(self, config):
@@ -148,12 +168,17 @@ class EngineReplaceWithKanji(IBus.Engine):
             var = GLib.Variant.new_int32(0)
             config.set_value('engine/replace-with-kanji-python', 'delay', var)
         delay = var.get_int32()
-        print("delay:", delay)
+        logger.info("delay: %d", delay)
         return delay
 
     def __config_value_changed_cb(self, config, section, name, value):
-        print("config value changed:", name)
-        if name == "delay":
+        section = section.replace('_', '-')
+        if section != 'engine/replace-with-kanji-python':
+            return
+        logger.info("config_value_changed(%s, %s, %s)" % (section, name, value))
+        if name == "logging_level":
+            self.__logging_level = self.__load_logging_level(config)
+        elif name == "delay":
             self.__reset()
             self.__delay = self.__load_layout(config)
             self.__event = Event(self, self.__delay, self.__layout)
@@ -215,7 +240,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         if not (self.client_capabilities & IBus.Capabilite.SURROUNDING_TEXT):
             self.__ignore_surrounding_text = True
         if self.__ignore_surrounding_text:
-            print("surrounding text: [", self.__previous_text, "]", sep='')
+            logger.debug("surrounding text: [%s]", self.__previous_text)
             return self.__previous_text
         tuple = self.get_surrounding_text()
         text = tuple[0].get_text()
@@ -226,10 +251,10 @@ class EngineReplaceWithKanji(IBus.Engine):
         if 0 < preedit_len and preedit_len <= len(text) and text[-preedit_len:] == self.__preedit_string:
             text = text[:-preedit_len]
             pos -= preedit_len
-        print("surrounding text: '", text, "', ", pos, ", [", self.__previous_text, "]", sep='')
+        logger.debug("surrounding text: '%s', %d, [%s]", text, pos, self.__previous_text)
         if self.__previous_text and pos < len(self.__previous_text) or text[pos - len(self.__previous_text):pos] != self.__previous_text:
             if not self.__cursor_moved_by_mouse:
-                print("Ignore surrounding text from now on.")
+                logger.info("Ignore surrounding text from now on.")
                 self.__ignore_surrounding_text = True
                 return self.__previous_text
         self.__cursor_moved_by_mouse = False
@@ -253,7 +278,7 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def enable_ime(self):
         if not self.is_enabled():
-            print("enable_ime");
+            logger.info("enable_ime");
             self.__preedit_string = ''
             self.__enabled = True
             self.__dict.confirm()
@@ -266,7 +291,7 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def disable_ime(self):
         if self.is_enabled():
-            print("disable_ime");
+            logger.info("disable_ime");
             self.__dict.confirm()
             self.__reset()
             self.__enabled = False
@@ -279,7 +304,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         return self.__to_kana == self.__handle_roomazi_layout
 
     def set_katakana_mode(self, enable):
-        print("set_katakana_mode:", enable)
+        logger.info("set_katakana_mode(%s)" % (enable))
         self.__katakana_mode = enable
         self.__update_input_mode()
 
@@ -287,7 +312,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         return self.__event.process_key_event(keyval, keycode, state)
 
     def handle_key_event(self, keyval, keycode, state, modifiers):
-        print("handle_key_event(%s, %04x, %04x, %04x)" % (IBus.keyval_name(keyval), keycode, state, modifiers))
+        logger.debug("handle_key_event(%s, %04x, %04x, %04x)" % (IBus.keyval_name(keyval), keycode, state, modifiers))
 
         # Ignore modifier keys
         if self.__event.is_modifier():
@@ -388,7 +413,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         return True
 
     def handle_shrink(self, keyval, state):
-        print("handle_shrink:", self.__dict.current())
+        logger.debug("handle_shrink: %s", self.__dict.current())
         if not self.__dict.current():
             return False
         yomi = self.__dict.reading()
@@ -510,29 +535,29 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.update_lookup_table(self.__lookup_table, visible)
 
     def do_focus_in(self):
-        print("focus_in")
+        logger.info("focus_in")
         self.register_properties(self.__prop_list)
         # Request the initial surrounding-text in addition to the "enable" handler.
         self.get_surrounding_text()
 
     def do_focus_out(self):
-        print("focus_out")
+        logger.info("focus_out")
         self.__reset()
         self.__dict.save_orders()
 
     def do_enable(self):
-        print("enable")
+        logger.info("enable")
         # Request the initial surrounding-text when enabled as documented.
         self.get_surrounding_text()
 
     def do_disable(self):
-        print("disable")
+        logger.info("disable")
         self.__reset()
         self.__enabled = False
         self.__dict.save_orders()
 
     def do_reset(self):
-        print("reset")
+        logger.info("reset")
         self.__reset()
         # 'reset' seems to be sent due to an internal error, and
         # we don't switch back to the Alphabet mode here.
@@ -540,10 +565,10 @@ class EngineReplaceWithKanji(IBus.Engine):
         self.__dict.save_orders()
 
     def do_property_activate(self, prop_name, state):
-        print("property_activate(%s, %d)" % (prop_name, state))
+        logger.info("property_activate(%s, %d)" % (prop_name, state))
 
     def do_set_cursor_location(self, x, y, w, h):
-        print("set_cursor_location(%d, %d, %d, %d)" % (x, y, w, h), self.__expect_cursor_move)
+        logger.info("set_cursor_location(%d, %d, %d, %d) : %d" % (x, y, w, h, self.__expect_cursor_move))
         if 0 < self.__expect_cursor_move:
             return
         # Maybe cursor was moved by mouse, but it is hard to tell since
@@ -557,6 +582,6 @@ class EngineReplaceWithKanji(IBus.Engine):
     def __handle_cursor_move_timeout(self):
         if 0 < self.__expect_cursor_move:
             self.__expect_cursor_move -= 1
-        print("__handle_cursor_move_timeout:", self.__expect_cursor_move)
+        logger.info("__handle_cursor_move_timeout: %d" % (self.__expect_cursor_move))
         # Stop timer by returning False
         return False
