@@ -212,7 +212,8 @@ class EngineReplaceWithKanji(IBus.Engine):
         return yomi, preedit
 
     def __get_surrounding_text(self):
-        # Note self.get_surrounding_text() may not work as expected such as in Firefox, Chrome, etc.
+        if not (self.client_capabilities & IBus.Capabilite.SURROUNDING_TEXT):
+            self.__ignore_surrounding_text = True
         if self.__ignore_surrounding_text:
             print("surrounding text: [", self.__previous_text, "]", sep='')
             return self.__previous_text
