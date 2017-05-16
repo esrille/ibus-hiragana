@@ -140,7 +140,10 @@ def load(path):
                     i = i[:pos]
                 s.add(i)
             if s:
-                dict[yomi] = s
+                if not yomi in dict:
+                    dict[yomi] = s
+                else:
+                    dict[yomi] = dict[yomi].union(s)
         file.close()
     return dict
 
