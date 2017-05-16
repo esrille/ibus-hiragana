@@ -34,6 +34,7 @@ noinst_SCRIPTS = \
 EXTRA_DIST = \
 	restrain \
 	zyouyou-kanji.csv \
+	drop.dic \
 	fuhyou.dic \
 	greece.dic \
 	my.dic \
