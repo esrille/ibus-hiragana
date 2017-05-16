@@ -9,7 +9,6 @@ Source0:    %{name}-%{version}.tar.gz
 Requires:   ibus >= 1.5.11
 Requires:   python3 >= 3.3
 Requires:   python3-dbus
-Requires:   python3-enchant
 Requires:   python3-pyxdg
 BuildRequires:  ibus-devel
 %if 0%{?fedora} >= 24
