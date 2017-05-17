@@ -5,7 +5,7 @@ Summary:    Replace with Kanji Japanese input method for IBus
 License:    Apache License, Version 2.0
 Group:      System Environment/Libraries
 URL:        https://github.com/esrille/ibus-replace-with-kanji
-Source0:    %{name}-%{version}.tar.gz
+Source0:    https://github.com/esrille/ibus-replace-with-kanji/releases/download/v%{version}/%{name}-%{version}.tar.gz
 Requires:   ibus >= 1.5.11
 Requires:   python3 >= 3.3
 Requires:   python3-dbus
