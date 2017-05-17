@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+#
 # Copyright (c) 2017 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,36 +15,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-noinst_PYTHON = \
-	dic.py \
-	difference.py \
-	hyougai.py \
-	intersection.py \
-	intersection-yomi.py \
-	katakana.py \
-	kigou.py \
-	kyouiku.py \
-	okuri.py \
-	restrain.py \
-	taigen_wago.py \
-	union.py \
-	wago.py \
-	yougen.py \
-	zinmei.py \
-	$(NULL)
+import codecs
+import re
+import sys
 
-noinst_SCRIPTS = \
-	restrain \
-	$(NULL)
+from signal import signal, SIGPIPE, SIG_DFL
 
-EXTRA_DIST = \
-	restrain \
-	zyouyou-kanji.csv \
-	drop.dic \
-	fuhyou.dic \
-	greece.dic \
-	my.dic \
-	tc2.compat.dic \
-	zyosuusi.dic \
-	$(NULL)
+import dic
 
+if __name__ == '__main__':
+    signal(SIGPIPE, SIG_DFL)
+    path = 'restrained.dic'
+    if 2 <= len(sys.argv):
+        path = sys.argv[1]
+    dict = dic.load(path)
+    okuri = dic.okuri(dict)
+    dic.output(okuri)

@@ -44,23 +44,22 @@ if __name__ == '__main__':
 
     # 基本辞書をつくります。
     base = dic.difference(base, reigai)                     # 例外辞書の内容を削除
-    base  = dic.difference(base, dic.hyougai(base))         # 表外の漢字を使用している熟語を削除
+    base = dic.difference(base, dic.load('drop.dic'))       # 独自に削除したい熟語を削除。
+    base = dic.difference(base, dic.hyougai(base))         # 表外の漢字を使用している熟語を削除
     base = dic.difference(base, dic.zinmei(base))           # 人名漢字を使用している熟語を削除
     base = dic.difference(base, dic.okuri(base))            # おくりがなのついた熟語を削除
     base = dic.difference(base, dic.hyougai_yomi(base))     # 表外のよみかたをつかっている熟語を削除
     base = dic.difference(base, dic.wago(base))             # 和語の熟語を削除
 
-    # 実際に使用する辞書をつくります。
-    dict = dic.union(base, dic.taigen_wago())               # 和語の名詞を追加
-    yougen = dic.yougen()
-    # yougen = dic.kyouiku(yougen)                            # 和語の用言の漢字を教育用漢字に限定します。
-    dict = dic.union(dict, yougen)                          # 和語の用言を追加
-    dict = dic.union(dict, reigai)                          # 例外を追加
-    dict = dic.union(dict, dic.load('fuhyou.dic'))          # 常用漢字表・付表の熟語を追加。
-    dict = dic.union(dict, dic.load('greece.dic'))          # ギリシア文字辞書を追加。
-    dict = dic.union(dict, dic.load('tc2.compat.dic'))      # tc2のmazegaki.dic辞書から選択した単語を追加。
+    # 実際に使用する辞書をつくります。順序に注意。
+    dict = dic.union(dic.load('zyosuusi.dic'), base)        # 助数詞を先頭に追加
     dict = dic.union(dict, dic.load('my.dic'))              # 独自に追加したい熟語を追加。
-    dict = dic.difference(dict, dic.load('drop.dic'))       # 独自に削除したい熟語を削除。
+    dict = dic.union(dict, dic.taigen_wago())               # 和語の名詞を追加
+    dict = dic.union(dict, dic.yougen())                    # 和語の用言を追加
+    dict = dic.union(dict, dic.load('fuhyou.dic'))          # 常用漢字表・付表の熟語を追加。
+    dict = dic.union(dict, reigai)                          # 例外を追加
+    dict = dic.union(dict, dic.load('tc2.compat.dic'))      # tc2のmazegaki.dic辞書から選択した単語を追加。
+    dict = dic.union(dict, dic.load('greece.dic'))          # ギリシア文字辞書を追加。
 
     # ヘッダーを出力します。
     print(';; 日本語漢字置換インプット メソッド')

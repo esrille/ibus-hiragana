@@ -62,7 +62,7 @@ def to_seion(s):
 
 def output(dict):
     for yomi, kanji in sorted(dict.items()):
-        print(yomi, ' /', '/'.join(sorted(kanji)), '/', sep='')
+        print(yomi, ' /', '/'.join(kanji), '/', sep='')
 
 # 常用漢字表から用言をリストアップします。
 def yougen():
@@ -79,9 +79,9 @@ def yougen():
                     continue
                 gokan = yomi[:pos] + '―'
                 if not gokan in dict:
-                    dict[gokan] = set(kanji)
-                else:
-                    dict[gokan].add(kanji)
+                    dict[gokan] = list(kanji)
+                elif not kanji in dict[gokan]:
+                    dict[gokan].append(kanji)
     return dict
 
 # 常用漢字表から用言を和語の体言をリストアップします。
@@ -100,9 +100,9 @@ def taigen_wago():
                 if re_onyomi.search(yomi):
                     continue
                 if not yomi in dict:
-                    dict[yomi] = set(kanji)
-                else:
-                    dict[yomi].add(kanji)
+                    dict[yomi] = list(kanji)
+                elif not kanji in dict[yomi]:
+                    dict[yomi].append(kanji)
     return dict
 
 def _get_encoding(path):
@@ -131,19 +131,20 @@ def load(path):
             if re_non_regular_yomi.search(yomi):
                 continue
             kanji = row[1].strip(" \n/").split("/")
-            s = set()
+            s = list()
             for i in kanji:
                 pos = i.find(';')
                 if 0 == pos:
                     continue
                 if 0 < pos:
                     i = i[:pos]
-                s.add(i)
+                if not i in s:
+                    s.append(i)
             if s:
                 if not yomi in dict:
                     dict[yomi] = s
                 else:
-                    dict[yomi] = dict[yomi].union(s)
+                    dict[yomi].extend([x for x in s if x not in dict[yomi]])
         file.close()
     return dict
 
@@ -171,7 +172,7 @@ def intersection(a, b):
     for yomi in keys:
         if not yomi in a or not yomi in b:
             continue
-        kanji = a[yomi].intersection(b[yomi])
+        kanji = [x for x in a[yomi] if x in b[yomi]]
         if not kanji:
             continue
         dict[yomi] = kanji
@@ -184,7 +185,7 @@ def union(a, b):
         if not yomi in c:
             c[yomi] = kanji
         else:
-            c[yomi] = c[yomi].union(kanji)
+            c[yomi].extend([x for x in kanji if x not in c[yomi]])
     return c
 
 # 2つの辞書の差集合をとりだした辞書をかえします。
@@ -192,7 +193,7 @@ def difference(a, b):
     c = a.copy()
     for yomi, kanji in b.items():
         if yomi in c:
-            c[yomi] = c[yomi].difference(kanji)
+            c[yomi] = [x for x in c[yomi] if x not in kanji]
             if not c[yomi]:
                 del c[yomi]
     return c
@@ -203,7 +204,8 @@ def intersection_yomi(a, b):
     keys = set(a.keys()).intersection(set(b.keys()))
     for yomi in keys:
         if yomi in a and yomi in b:
-            kanji = a[yomi].union(b[yomi])
+            kanji = a[yomi]
+            kanji.extend([x for x in b[yomi] if x not in kanji])
         elif yomi in a:
             kanji = a[yomi]
         else:
@@ -211,14 +213,14 @@ def intersection_yomi(a, b):
         dict[yomi] = kanji
     return dict
 
-# 記号をつかっている熟語をとりだします。
+# 記号をつかっている語をとりだします。
 def kigou(dict):
     d = {}
     for yomi, kanji in dict.items():
-        s = set()
+        s = list()
         for i in kanji:
-            if re_kigou.search(i):
-                s.add(i)
+            if i not in s and re_kigou.search(i):
+                s.append(i)
         if s:
             d[yomi] = s
     return d
@@ -227,10 +229,10 @@ def kigou(dict):
 def hyougai(dict):
     d = {}
     for yomi, kanji in dict.items():
-        s = set()
+        s = list()
         for i in kanji:
-            if re_hyogai.search(i):
-                s.add(i)
+            if i not in s and re_hyogai.search(i):
+                s.append(i)
         if s:
             d[yomi] = s
     return d
@@ -239,10 +241,10 @@ def hyougai(dict):
 def zinmei(dict):
     d = {}
     for yomi, kanji in dict.items():
-        s = set()
+        s = list()
         for i in kanji:
-            if re_zinmei.search(i):
-                s.add(i)
+            if i not in s and re_zinmei.search(i):
+                s.append(i)
         if s:
             d[yomi] = s
     return d
@@ -251,22 +253,22 @@ def zinmei(dict):
 def kyouiku(dict):
     d = {}
     for yomi, kanji in dict.items():
-        s = set()
+        s = list()
         for i in kanji:
-            if not re_not_kyouiku.search(i):
-                s.add(i)
+            if i not in s and not re_not_kyouiku.search(i):
+                s.append(i)
         if s:
             d[yomi] = s
     return d
 
-# おくりがなのある熟語(?)をとりだします。
+# おくりがなのある語をとりだします。
 def okuri(dict):
     d = {}
     for yomi, kanji in dict.items():
-        s = set()
+        s = list()
         for i in kanji:
-            if re_kana.search(i):
-                s.add(i)
+            if i not in s and re_kana.search(i):
+                s.append(i)
         if s:
             d[yomi] = s
     return d
@@ -320,10 +322,10 @@ def hyougai_yomi(dict):
                 zyouyou[kanji] = s
     d = {}
     for yomi, kanji in dict.items():
-        s = set()
+        s = list()
         for i in kanji:
             if not _is_hyounai_yomi(zyouyou, yomi, i):
-                s.add(i)
+                s.append(i)
         if s:
             d[yomi] = s
     return d
@@ -351,10 +353,10 @@ def wago(dict):
                 zyouyou[kanji] = s
     d = {}
     for yomi, kanji in dict.items():
-        s = set()
+        s = list()
         for i in kanji:
             if _is_hyounai_yomi(zyouyou, yomi, i):
-                s.add(i)
+                s.append(i)
         if s:
             d[yomi] = s
     return d
