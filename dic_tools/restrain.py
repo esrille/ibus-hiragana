@@ -59,7 +59,7 @@ if __name__ == '__main__':
     dict = dic.union(dict, dic.load('fuhyou.dic'))          # 常用漢字表・付表の熟語を追加。
     dict = dic.union(dict, reigai)                          # 例外を追加
     dict = dic.union(dict, dic.load('tc2.compat.dic'))      # tc2のmazegaki.dic辞書から選択した単語を追加。
-    dict = dic.union(dict, dic.load('greece.dic'))          # ギリシア文字辞書を追加。
+    dict = dic.union(dict, dic.load('greek.dic'))           # ギリシア文字辞書を追加。
 
     # ヘッダーを出力します。
     print(';; 日本語漢字置換インプット メソッド')

@@ -39,7 +39,7 @@ EXTRA_DIST = \
 	zyouyou-kanji.csv \
 	drop.dic \
 	fuhyou.dic \
-	greece.dic \
+	greek.dic \
 	my.dic \
 	tc2.compat.dic \
 	zyosuusi.dic \
