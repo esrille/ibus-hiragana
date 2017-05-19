@@ -245,10 +245,10 @@ class EngineReplaceWithKanji(IBus.Engine):
         tuple = self.get_surrounding_text()
         text = tuple[0].get_text()
         pos = tuple[1]
-        # Qt seems to append self.__preedit_string to the text, while GTK doesn't.
+        # Qt seems to insert self.__preedit_string to the text, while GTK doesn't.
         # We mimic GTK's behavior here.
         preedit_len = len(self.__preedit_string)
-        if 0 < preedit_len and preedit_len <= len(text) and text[-preedit_len:] == self.__preedit_string:
+        if 0 < preedit_len and preedit_len <= pos and text[pos - preedit_len:pos] == self.__preedit_string:
             text = text[:-preedit_len]
             pos -= preedit_len
         logger.debug("surrounding text: '%s', %d, [%s]", text, pos, self.__previous_text)
