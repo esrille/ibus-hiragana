@@ -26,7 +26,9 @@ _re_not_yomi = re.compile(r'[^ぁ-ゖァ-ー―]')
 
 class Dictionary:
 
-    def __init__(self):
+    def __init__(self, path):
+        logger.info("Dictionary(%s)", path)
+
         self.__dict_base = {}
         self.__dict = {}
 
@@ -35,22 +37,26 @@ class Dictionary:
         self.__cand = []
         self.__dirty = False
 
+        self.__orders_path = ''
+
         # Load Katakana dictionary first so that Katakana words come after Kanji words.
-        dict_path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'katakana.dic')
-        self.__load_dict(self.__dict_base, dict_path);
+        katakana_path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'katakana.dic')
+        self.__load_dict(self.__dict_base, katakana_path);
 
         # Load system dictionary
-        dict_path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'restrained.dic')
-        self.__load_dict(self.__dict_base, dict_path);
+        self.__load_dict(self.__dict_base, path);
 
         # Load private dictionary
         self.__dict = self.__dict_base.copy()
 
-        orders_path = os.path.expanduser('~/.local/share/ibus-replace-with-kanji/my.dic')
-        self.__load_dict(self.__dict, orders_path, 'a+');
+        my_path = os.path.expanduser('~/.local/share/ibus-replace-with-kanji/my.dic')
+        self.__load_dict(self.__dict, my_path, 'a+');
 
-        orders_path = os.path.expanduser('~/.local/share/ibus-replace-with-kanji/restrained.dic')
-        self.__load_dict(self.__dict, orders_path, 'a+');
+        base = os.path.basename(path)
+        if base:
+            self.__orders_path = os.path.expanduser('~/.local/share/ibus-replace-with-kanji')
+            self.__orders_path = os.path.join(self.__orders_path, base)
+            self.__load_dict(self.__dict, self.__orders_path, 'a+');
 
     def __load_dict(self, dict, path, mode='r'):
         with open(path, mode) as file:
@@ -73,22 +79,27 @@ class Dictionary:
                     dict[yomi] = update
             logger.info("Loaded %s", path)
 
+    def __str(self, s):
+        if s[-1] == '―':
+            return s[:-1]
+        return s
+
     def reset(self):
         self.__yomi = ''
 
     def next(self):
         if self.__no + 1 < len(self.__cand):
             self.__no += 1
-        return self.__cand[self.__no];
+        return self.__str(self.__cand[self.__no]);
 
     def previous(self):
         if 0 < self.__no:
             self.__no -= 1
-        return self.__cand[self.__no];
+        return self.__str(self.__cand[self.__no]);
 
     def current(self):
         if self.__yomi:
-            return self.__cand[self.__no];
+            return self.__str(self.__cand[self.__no]);
         return ''
 
     def set_current(self, index):
@@ -131,8 +142,7 @@ class Dictionary:
     def save_orders(self):
         if not self.__dirty:
             return
-        orders_path = os.path.expanduser('~/.local/share/ibus-replace-with-kanji/restrained.dic')
-        with open(orders_path, 'w') as file:
+        with open(self.__orders_path, 'w') as file:
             for yomi, cand in self.__dict.items():
                 if not yomi in self.__dict_base or cand != self.__dict_base[yomi]:
                     file.write(yomi + " /" + '/'.join(cand) + "/\n")

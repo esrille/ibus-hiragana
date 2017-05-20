@@ -94,11 +94,11 @@ class EngineReplaceWithKanji(IBus.Engine):
         config.connect('value-changed', self.__config_value_changed_cb)
 
         self.__logging_level = self.__load_logging_level(config)
+        self.__dict = self.__load_dictionary(config)
         self.__layout = self.__load_layout(config)
         self.__delay = self.__load_delay(config)
 
         self.__event = Event(self, self.__delay, self.__layout)
-        self.__dict = Dictionary()
 
         self.__expect_cursor_move = 0
         self.__cursor_moved_by_mouse = False    # True if cursor might be moved by mouse
@@ -139,6 +139,15 @@ class EngineReplaceWithKanji(IBus.Engine):
         logger.info("logging_level: %s", level)
         logging.getLogger().setLevel(_name_to_logging_level[level])
         return level
+
+    def __load_dictionary(self, config):
+        var = config.get_value('engine/replace-with-kanji-python', 'dictionary')
+        if var == None or var.get_type_string() != 's':
+            path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'restrained.dic')
+            var = GLib.Variant.new_string(path)
+            config.set_value('engine/replace-with-kanji-python', 'dictionary', var)
+        path = var.get_string()
+        return Dictionary(path)
 
     def __load_layout(self, config):
         var = config.get_value('engine/replace-with-kanji-python', 'layout')
@@ -186,6 +195,9 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.__reset()
             self.__layout = self.__load_layout(config)
             self.__event = Event(self, self.__delay, self.__layout)
+        elif name == "dictionary":
+            self.__reset()
+            self.__dict = self.__load_dictionary(config)
 
     def __handle_kana_layout(self, preedit, keyval, state = 0, modifiers = 0):
         yomi = ''
@@ -486,11 +498,10 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def __update_candidate(self):
         index = self.__lookup_table.get_cursor_pos()
-        candidate = self.__lookup_table.get_candidate(index)
         size = len(self.__dict.current())
         self.__dict.set_current(index)
         self.__delete_surrounding_text(size)
-        self.__commit_string(candidate.text);
+        self.__commit_string(self.__dict.current());
 
     def do_page_up(self):
         if self.__lookup_table.page_up():
