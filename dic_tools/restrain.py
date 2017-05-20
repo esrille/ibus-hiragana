@@ -29,6 +29,7 @@ if __name__ == '__main__':
     if 2 <= len(sys.argv):
         path = sys.argv[1]
     base = dic.load(path)
+    base = dic.difference(base, dic.yougen(base))           # 用言を削除
 
     # 人名、地名、駅名、記号については、人名漢字の使用を許容し、例外辞書に格納しておきます。
     zinmei = dic.load('/usr/share/skk/SKK-JISYO.jinmei')
@@ -45,7 +46,7 @@ if __name__ == '__main__':
     # 基本辞書をつくります。
     base = dic.difference(base, reigai)                     # 例外辞書の内容を削除
     base = dic.difference(base, dic.load('drop.dic'))       # 独自に削除したい熟語を削除。
-    base = dic.difference(base, dic.hyougai(base))         # 表外の漢字を使用している熟語を削除
+    base = dic.difference(base, dic.hyougai(base))          # 表外の漢字を使用している熟語を削除
     base = dic.difference(base, dic.zinmei(base))           # 人名漢字を使用している熟語を削除
     base = dic.difference(base, dic.okuri(base))            # おくりがなのついた熟語を削除
     base = dic.difference(base, dic.hyougai_yomi(base))     # 表外のよみかたをつかっている熟語を削除
@@ -55,7 +56,7 @@ if __name__ == '__main__':
     dict = dic.union(dic.load('zyosuusi.dic'), base)        # 助数詞を先頭に追加
     dict = dic.union(dict, dic.load('my.dic'))              # 独自に追加したい熟語を追加。
     dict = dic.union(dict, dic.taigen_wago())               # 和語の名詞を追加
-    dict = dic.union(dict, dic.yougen())                    # 和語の用言を追加
+    dict = dic.union(dict, dic.yougen_wago())               # 和語の用言を追加
     dict = dic.union(dict, dic.load('fuhyou.dic'))          # 常用漢字表・付表の熟語を追加。
     dict = dic.union(dict, reigai)                          # 例外を追加
     dict = dic.union(dict, dic.load('tc2.compat.dic'))      # tc2のmazegaki.dic辞書から選択した単語を追加。

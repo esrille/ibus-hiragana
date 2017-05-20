@@ -23,6 +23,10 @@ re_kana = re.compile(r"[ぁ-ゖか゚き゚く゚け゚こ゚ァ-ヶーカ゚キ
 
 re_non_regular_yomi = re.compile(r"[^ぁ-ゖー]")
 
+re_skk_yomi = re.compile(r"^[ぁ-ゖー]+[a-z―]?$")
+
+re_alpha = re.compile(r"[a-zA-Z]")
+
 re_onyomi = re.compile(r"[^ぁ-ゖー]")
 
 #
@@ -65,7 +69,7 @@ def output(dict):
         print(yomi, ' /', '/'.join(kanji), '/', sep='')
 
 # 常用漢字表から用言をリストアップします。
-def yougen():
+def yougen_wago():
     dict = {}
     with open("zyouyou-kanji.csv", 'r') as zyouyou:
         for row in zyouyou:
@@ -84,7 +88,7 @@ def yougen():
                     dict[gokan].append(kanji)
     return dict
 
-# 常用漢字表から用言を和語の体言をリストアップします。
+# 常用漢字表から和語の体言をリストアップします。
 def taigen_wago():
     dict = {}
     with open("zyouyou-kanji.csv", 'r') as zyouyou:
@@ -112,7 +116,7 @@ def _get_encoding(path):
         return 'euc_jp'
     return 'utf-8'
 
-# SKK辞書から体言だけをとりだします。
+# SKK辞書をよみこみます。用言は、よみの末尾に'―'をつけた形に変換します。
 # ※ annotationはとりのぞきます。
 def load(path):
     encoding = _get_encoding(path)
@@ -128,8 +132,11 @@ def load(path):
                 continue
             row = row.split(" ", 1)
             yomi = row[0]
-            if re_non_regular_yomi.search(yomi):
+            if not re_skk_yomi.match(yomi):
                 continue
+            if re_alpha.match(yomi[-1]):
+                # SKK辞書のあくりありのよみ
+                yomi = yomi[:-1] + '―'
             kanji = row[1].strip(" \n/").split("/")
             s = list()
             for i in kanji:
@@ -273,7 +280,47 @@ def okuri(dict):
             d[yomi] = s
     return d
 
+# 最後におくりがなのある語をとりだします。
+def okuri_end(dict):
+    d = {}
+    for yomi, kanji in dict.items():
+        s = list()
+        for i in kanji:
+            if re_kana.search(i[-1]):
+                s.append(i)
+        if s:
+            d[yomi] = s
+    return d
+
+# 用言をリストアップします。
+def yougen(dict):
+    d = {}
+    for yomi, kanji in dict.items():
+        if yomi[-1] == '―':
+            d[yomi] = kanji
+    return d
+
+# 用言と体言をまとめた辞書をつくります。
+def mix_yougen(dict):
+    d = dict.copy()
+    for yomi, kanji in dict.items():
+        if yomi[-1] != '―':
+            continue
+        yomi = yomi[:-1]
+        if not yomi in d:
+            s = list()
+            for i in kanji:
+                s.append(i + '―')
+            d[yomi] = s
+            continue
+        for i in kanji:
+            if not i in d[yomi]:
+                d[yomi].append(i + '―')
+    return d
+
 def _is_hyounai_yomi(zyouyou, yomi, kanji):
+    if yomi[-1] == '―':
+        yomi = yomi[:-1]
     if len(kanji) == 1:
         if not kanji in zyouyou:
             return False
@@ -289,9 +336,11 @@ def _is_hyounai_yomi(zyouyou, yomi, kanji):
                 # e.g. 個人々々
                 return False
             t = set(itertools.product(s, zyouyou[b]))
+        elif re_kana.match(c):
+            t = set(itertools.product(s, set(c)))
+        elif not c in zyouyou:
+            return False
         else:
-            if not c in zyouyou:
-                return False
             t = set(itertools.product(s, zyouyou[c]))
         s = set()
         for y in t:

@@ -24,6 +24,6 @@ import dic
 
 if __name__ == '__main__':
     signal(SIGPIPE, SIG_DFL)
-    dict = dic.yougen()
+    dict = dic.yougen_wago()
     # dict = dic.kyouiku(dict)
     dic.output(dict)
