@@ -180,7 +180,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.__logging_level = self.__load_logging_level(config)
         elif name == "delay":
             self.__reset()
-            self.__delay = self.__load_layout(config)
+            self.__delay = self.__load_delay(config)
             self.__event = Event(self, self.__delay, self.__layout)
         elif name == "layout":
             self.__reset()
