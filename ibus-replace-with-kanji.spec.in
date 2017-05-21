@@ -42,6 +42,7 @@ rm -rf $RPM_BUILD_ROOT
 %license LICENSE NOTICE
 %{_datadir}/%{name}
 %{_datadir}/ibus/component/replace-with-kanji-python.xml
+%{_datadir}/glib-2.0/schemas/org.freedesktop.ibus.engine.replace-with-kanji-python.gschema.xml
 %{_libexecdir}/ibus-engine-replace-with-kanji
 
 %changelog

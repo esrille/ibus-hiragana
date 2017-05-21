@@ -31,15 +31,30 @@ libexec_SCRIPTS= ibus-engine-replace-with-kanji
 component_DATA = replace-with-kanji-python.xml
 componentdir = @IBUS_DATADIR@/ibus/component
 
+gsettings_SCHEMAS = org.freedesktop.ibus.engine.replace-with-kanji-python.gschema.xml
+
+@GSETTINGS_RULES@
+
 CLEANFILES = \
 	$(NULL)
 
 EXTRA_DIST = \
 	ibus-engine-replace-with-kanji.in \
 	replace-with-kanji-python.xml.in.in \
+	org.freedesktop.ibus.engine.replace-with-kanji-python.gschema.xml.in \
+	$(gsettings_SCHEMAS) \
 	$(NULL)
 
 replace-with-kanji-python.xml: replace-with-kanji-python.xml.in
+	$(AM_V_GEN) \
+	( \
+		libexecdir=${libexecdir}; \
+		pkgdatadir=${pkgdatadir}; \
+		s=`cat $<`; \
+		eval "echo \"$${s}\""; \
+	) > $@
+
+org.freedesktop.ibus.engine.replace-with-kanji-python.gschema.xml: org.freedesktop.ibus.engine.replace-with-kanji-python.gschema.xml.in
 	$(AM_V_GEN) \
 	( \
 		libexecdir=${libexecdir}; \

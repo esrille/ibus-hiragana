@@ -133,9 +133,11 @@ class EngineReplaceWithKanji(IBus.Engine):
     def __load_logging_level(self, config):
         var = config.get_value('engine/replace-with-kanji-python', 'logging_level')
         if var == None or var.get_type_string() != 's' or not var.get_string() in _name_to_logging_level:
-            var = GLib.Variant.new_string('WARNING')
-            config.set_value('engine/replace-with-kanji-python', 'logging_level', var)
-        level = var.get_string()
+            level = 'WARNING'
+            if var:
+                config.unset('engine/replace-with-kanji-python', 'logging_level')
+        else:
+            level = var.get_string()
         logger.info("logging_level: %s", level)
         logging.getLogger().setLevel(_name_to_logging_level[level])
         return level
@@ -144,27 +146,30 @@ class EngineReplaceWithKanji(IBus.Engine):
         var = config.get_value('engine/replace-with-kanji-python', 'dictionary')
         if var == None or var.get_type_string() != 's':
             path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'restrained.dic')
-            var = GLib.Variant.new_string(path)
-            config.set_value('engine/replace-with-kanji-python', 'dictionary', var)
-        path = var.get_string()
+            if var:
+                config.unset('engine/replace-with-kanji-python', 'dictionary')
+        else:
+            path = var.get_string()
         return Dictionary(path)
 
     def __load_layout(self, config):
         var = config.get_value('engine/replace-with-kanji-python', 'layout')
         if var == None or var.get_type_string() != 's':
-            layout_path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'layouts')
-            layout_path = os.path.join(layout_path, 'roomazi.json')
-            var = GLib.Variant.new_string(layout_path)
-            config.set_value('engine/replace-with-kanji-python', 'layout', var)
-        logger.info("layout: %s", var.get_string())
-        layout = roomazi.layout     # Use 'roomazi'y as default
+            path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'layouts')
+            path = os.path.join(path, 'roomazi.json')
+            if var:
+                config.unset('engine/replace-with-kanji-python', 'layout')
+        else:
+            path = var.get_string()
+        logger.info("layout: %s", path)
+        layout = roomazi.layout     # Use 'roomazi' as default
         try:
-            with open(var.get_string()) as f:
+            with open(path) as f:
                 layout = json.loads(f.read(), "utf-8")
         except ValueError as error:
             logger.error("JSON error: %s", error)
         except:
-            logger.error("file %s not found", var.get_string())
+            logger.error("file %s not found", path)
         self.__to_kana = self.__handle_roomazi_layout
         if 'Type' in layout:
             if layout['Type'] == 'Kana':
@@ -174,9 +179,11 @@ class EngineReplaceWithKanji(IBus.Engine):
     def __load_delay(self, config):
         var = config.get_value('engine/replace-with-kanji-python', 'delay')
         if var == None or var.get_type_string() != 'i':
-            var = GLib.Variant.new_int32(0)
-            config.set_value('engine/replace-with-kanji-python', 'delay', var)
-        delay = var.get_int32()
+            delay = 0
+            if var:
+                config.unset('engine/replace-with-kanji-python', 'delay')
+        else:
+            delay = var.get_int32()
         logger.info("delay: %d", delay)
         return delay
 

@@ -1,0 +1,43 @@
+<?xml version=\"1.0\" encoding=\"utf-8\"?>
+<schemalist>
+  <schema id='org.freedesktop.ibus.engine.replace-with-kanji-python' path='/desktop/ibus/engine/replace-with-kanji-python/'>
+    <key name='delay' type='i'>
+      <range min='0' max='50'/>
+      <default>0</default>
+      <summary>Delay for Non-modifier Keys</summary>
+      <description>
+        The amount of time in milliseconds to delay before processing non-modifier keys;
+        this setting should be changed only with Nicola layouts and their variants.
+      </description>
+    </key>
+    <key name='dictionary' type='s'>
+      <default>\"${pkgdatadir}/restrained.dic\"</default>
+      <summary>Kanji Dictionary File</summary>
+      <description>
+        The pathname to the Kanji dictionary file.
+      </description>
+    </key>
+    <key name='layout' type='s'>
+      <default>\"${pkgdatadir}/layouts/roomazi.json\"</default>
+      <summary>Keyboard Layout File</summary>
+      <description>
+        The pathname to the keyboard layout design file.
+      </description>
+    </key>
+    <key name='logging-level' type='s'>
+      <choices>
+        <choice value='CRITICAL'/>
+        <choice value='ERROR'/>
+        <choice value='WARNING'/>
+        <choice value='INFO'/>
+        <choice value='DEBUG'/>
+        <choice value='NOTSET'/>
+      </choices>
+      <default>\"WARNING\"</default>
+      <summary>Logging Level</summary>
+      <description>
+        The logging level for the logfile '~/.local/share/ibus-replace-with-kanji/ibus-replace-with-kanji.log'.
+      </description>
+    </key>
+  </schema>
+</schemalist>

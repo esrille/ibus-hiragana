@@ -13,7 +13,7 @@
 # limitations under the License.
 
 AC_INIT([ibus-replace-with-kanji], [0.2.1], [https://github.com/esrille/ibus-replace-with-kanji/issues])
-AM_INIT_AUTOMAKE([foreign])
+AM_INIT_AUTOMAKE([foreign tar-ustar])
 
 # Check IBus
 #   Note replace-with-kanji-python.xml uses icon_prop_key and
@@ -23,6 +23,10 @@ AC_SUBST(IBUS_DATADIR, $($PKG_CONFIG --variable=datadir ibus-1.0) )
 
 # Check Python
 AM_PATH_PYTHON([3.3])
+
+# GSettings
+# see https://developer.gnome.org/gio/stable/GSettings.html
+GLIB_GSETTINGS
 
 # OUTPUT files
 AC_CONFIG_FILES(Makefile
