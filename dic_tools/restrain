@@ -1,2 +1,0 @@
-#!/bin/sh
-./restrain.py /usr/share/skk/SKK-JISYO.ML > restrained.dic

@@ -24,6 +24,9 @@ import dic
 
 if __name__ == '__main__':
     signal(SIGPIPE, SIG_DFL)
-    dict = dic.yougen_wago()
-    # dict = dic.kyouiku(dict)
+    path = 'restrained.dic'
+    if 2 <= len(sys.argv):
+        path = sys.argv[1]
+    dict = dic.load(path)
+    dict = dic.yougen(dict)
     dic.output(dict)

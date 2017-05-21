@@ -25,11 +25,16 @@ import dic
 
 if __name__ == '__main__':
     signal(SIGPIPE, SIG_DFL)
+
     path = '/usr/share/skk/SKK-JISYO.ML'
     if 2 <= len(sys.argv):
         path = sys.argv[1]
     base = dic.load(path)
     base = dic.difference(base, dic.yougen(base))           # 用言を削除
+
+    grade = 0
+    if 3 <= len(sys.argv):
+        grade = int(sys.argv[2])
 
     # 人名、地名、駅名、記号については、人名漢字の使用を許容し、例外辞書に格納しておきます。
     zinmei = dic.load('/usr/share/skk/SKK-JISYO.jinmei')
@@ -51,16 +56,21 @@ if __name__ == '__main__':
     base = dic.difference(base, dic.okuri(base))            # おくりがなのついた熟語を削除
     base = dic.difference(base, dic.hyougai_yomi(base))     # 表外のよみかたをつかっている熟語を削除
     base = dic.difference(base, dic.wago(base))             # 和語の熟語を削除
+    base = dic.union(base, dic.load('my.dic'))              # 独自に追加したい熟語を追加。
+    base = dic.union(base, dic.taigen_wago())               # 和語の名詞を追加
+    base = dic.union(base, dic.yougen_wago())               # 和語の用言を追加
+    base = dic.union(base, dic.load('fuhyou.dic'))          # 常用漢字表・付表の熟語を追加。
+    base = dic.union(dic.load('zyosuusi.dic'), base)        # 助数詞を先頭に追加
 
     # 実際に使用する辞書をつくります。順序に注意。
-    dict = dic.union(dic.load('zyosuusi.dic'), base)        # 助数詞を先頭に追加
-    dict = dic.union(dict, dic.load('my.dic'))              # 独自に追加したい熟語を追加。
-    dict = dic.union(dict, dic.taigen_wago())               # 和語の名詞を追加
-    dict = dic.union(dict, dic.yougen_wago())               # 和語の用言を追加
-    dict = dic.union(dict, dic.load('fuhyou.dic'))          # 常用漢字表・付表の熟語を追加。
-    dict = dic.union(dict, reigai)                          # 例外を追加
+    dict = dic.union(base, reigai)                          # 例外を追加
     dict = dic.union(dict, dic.load('tc2.compat.dic'))      # tc2のmazegaki.dic辞書から選択した単語を追加。
     dict = dic.union(dict, dic.load('greek.dic'))           # ギリシア文字辞書を追加。
+
+    if 0 < grade:
+        # 教育漢字に限定します。
+        dict = dic.difference(dict, dic.kyouiku(dict, grade))
+        dict = dic.difference(dict, dic.hyougai_yomi(dict)) # 表外のよみかたをつかっている熟語を削除
 
     # ヘッダーを出力します。
     print(';; 日本語漢字置換インプット メソッド')

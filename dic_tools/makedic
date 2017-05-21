@@ -1,0 +1,9 @@
+#!/bin/sh -xe
+./restrain.py /usr/share/skk/SKK-JISYO.ML > restrained.dic
+./restrain.py /usr/share/skk/SKK-JISYO.ML 1 > restrained.1.dic
+./restrain.py /usr/share/skk/SKK-JISYO.ML 2 > restrained.2.dic
+./restrain.py /usr/share/skk/SKK-JISYO.ML 3 > restrained.3.dic
+./restrain.py /usr/share/skk/SKK-JISYO.ML 4 > restrained.4.dic
+./restrain.py /usr/share/skk/SKK-JISYO.ML 5 > restrained.5.dic
+./restrain.py /usr/share/skk/SKK-JISYO.ML 6 > restrained.6.dic
+./katakana.py edict2 > katakana.dic

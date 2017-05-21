@@ -31,11 +31,11 @@ noinst_PYTHON = \
 	$(NULL)
 
 noinst_SCRIPTS = \
-	restrain \
+	makedic \
 	$(NULL)
 
 EXTRA_DIST = \
-	restrain \
+	makedic \
 	zyouyou-kanji.csv \
 	drop.dic \
 	fuhyou.dic \
@@ -44,4 +44,3 @@ EXTRA_DIST = \
 	tc2.compat.dic \
 	zyosuusi.dic \
 	$(NULL)
-
