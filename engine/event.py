@@ -104,6 +104,8 @@ class Event:
             return True
         if self.__Katakana == keysyms.Control_R and (self.__modifiers & bits.Dual_ControlR_Bit):
             return True
+        if not self.is_modifier() and self.__Katakana == self.__keyval:
+            return True
         return False
 
     def process_key_event(self, keyval, keycode, state):
@@ -169,7 +171,7 @@ class Event:
                 is_press = True
 
         if self.is_katakana():
-            self.__engine.set_katakana_mode(True)
+            is_press = True
 
         logger.debug("process_key_event(%s, %04x, %04x) %02x" % (IBus.keyval_name(keyval), keycode, state, self.__modifiers))
 
@@ -210,11 +212,6 @@ class Event:
         self.__keyval = keyval
         self.__keycode = keycode
         self.__state = state
-        if not self.is_modifier():
-            if self.__Katakana == keyval:
-                self.__engine.set_katakana_mode(True)
-                return True
-
         return self.__engine.handle_key_event(keyval, keycode, state, self.__modifiers)
 
     def chr(self, keyval):

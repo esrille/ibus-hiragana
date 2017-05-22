@@ -333,10 +333,12 @@ class EngineReplaceWithKanji(IBus.Engine):
     def handle_key_event(self, keyval, keycode, state, modifiers):
         logger.debug("handle_key_event(%s, %04x, %04x, %04x)" % (IBus.keyval_name(keyval), keycode, state, modifiers))
 
-        # Ignore modifier keys
-        if self.__event.is_modifier():
+        if self.__event.is_katakana():
+            pass
+        elif self.__event.is_modifier():
+            # Ignore modifier keys
             return False
-        if (state & (IBus.ModifierType.CONTROL_MASK | IBus.ModifierType.MOD1_MASK)) != 0:
+        elif (state & (IBus.ModifierType.CONTROL_MASK | IBus.ModifierType.MOD1_MASK)) != 0:
             self.__commit()
             return False
 
@@ -366,6 +368,9 @@ class EngineReplaceWithKanji(IBus.Engine):
             return True
 
         # Handle Japanese text
+        if self.__event.is_katakana():
+            self.set_katakana_mode(True)
+            return True
         if self.__event.is_henkan():
             self.set_katakana_mode(False)
             return self.handle_replace(keyval, state)
