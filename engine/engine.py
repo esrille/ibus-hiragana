@@ -100,9 +100,6 @@ class EngineReplaceWithKanji(IBus.Engine):
 
         self.__event = Event(self, self.__delay, self.__layout)
 
-        self.__expect_cursor_move = 0
-        self.__cursor_moved_by_mouse = False    # True if cursor might be moved by mouse
-
     def __init_props(self):
         self.__prop_list = IBus.PropList()
         symbol = 'A'
@@ -271,12 +268,6 @@ class EngineReplaceWithKanji(IBus.Engine):
             text = text[:-preedit_len]
             pos -= preedit_len
         logger.debug("surrounding text: '%s', %d, [%s]", text, pos, self.__previous_text)
-        if self.__previous_text and pos < len(self.__previous_text) or text[pos - len(self.__previous_text):pos] != self.__previous_text:
-            if not self.__cursor_moved_by_mouse:
-                logger.info("Ignore surrounding text from now on.")
-                self.__ignore_surrounding_text = True
-                return self.__previous_text
-        self.__cursor_moved_by_mouse = False
         return text[:pos]
 
     def __delete_surrounding_text(self, size):
@@ -289,8 +280,6 @@ class EngineReplaceWithKanji(IBus.Engine):
                 self.forward_key_event(IBus.BackSpace, 14, 0)
                 time.sleep(0.01)
             self.forward_key_event(IBus.BackSpace, 14, IBus.ModifierType.RELEASE_MASK)
-            self.__expect_cursor_move += 1
-            GLib.timeout_add(200, self.__handle_cursor_move_timeout)
 
     def is_enabled(self):
         return self.__enabled
@@ -341,9 +330,6 @@ class EngineReplaceWithKanji(IBus.Engine):
         elif (state & (IBus.ModifierType.CONTROL_MASK | IBus.ModifierType.MOD1_MASK)) != 0:
             self.__commit()
             return False
-
-        self.__expect_cursor_move += 1
-        GLib.timeout_add(200, self.__handle_cursor_move_timeout)
 
         # Handle Candidate window
         if 0 < self.__lookup_table.get_number_of_candidates():
@@ -505,8 +491,6 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.__previous_text = ''
             self.__preedit_string = ''
             self.__ignore_surrounding_text = False
-            self.__expect_cursor_move = 0
-            self.__cursor_moved_by_mouse = False
 
     def __update_candidate(self):
         index = self.__lookup_table.get_cursor_pos()
@@ -589,22 +573,3 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def do_property_activate(self, prop_name, state):
         logger.info("property_activate(%s, %d)" % (prop_name, state))
-
-    def do_set_cursor_location(self, x, y, w, h):
-        logger.info("set_cursor_location(%d, %d, %d, %d) : %d" % (x, y, w, h, self.__expect_cursor_move))
-        if 0 < self.__expect_cursor_move:
-            return
-        # Maybe cursor was moved by mouse, but it is hard to tell since
-        # an invocation to do_set_cursor_location() can be postponed till
-        # just before the next key event.
-        # We should prioritize the support for applications that support
-        # the surrounding text API, even if it causes unexpected behavior
-        # in the non-conforming applications.
-        self.__cursor_moved_by_mouse = True
-
-    def __handle_cursor_move_timeout(self):
-        if 0 < self.__expect_cursor_move:
-            self.__expect_cursor_move -= 1
-        logger.info("__handle_cursor_move_timeout: %d" % (self.__expect_cursor_move))
-        # Stop timer by returning False
-        return False
