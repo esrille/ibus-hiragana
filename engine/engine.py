@@ -40,8 +40,8 @@ keysyms = IBus
 
 logger = logging.getLogger(__name__)
 
-_hiragana = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんゔがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっぱぴぷぺぽゎゐゑ"
-_katakana = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンヴガギグゲゴザジズゼゾダヂヅデドバビブベボァィゥェォャュョッパピプペポヮヰヱ"
+_hiragana = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんゔがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっぱぴぷぺぽゎゐゑ・ー"
+_katakana = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンヴガギグゲゴザジズゼゾダヂヅデドバビブベボァィゥェォャュョッパピプペポヮヰヱ・ー"
 
 _non_daku = 'あいうえおかきくけこさしすせそたちつてとはひふへほやゆよアイウエオカキクケコサシスセソタチツテトハヒフヘホヤユヨぁぃぅぇぉがぎぐげござじずぜぞだぢづでどばびぶべぼゃゅょァィゥェォガギグゲゴザジズゼゾダヂヅデドバビブベボャュョゔヴ'
 _daku = 'ぁぃぅぇぉがぎぐげござじずぜぞだぢづでどばびぶべぼゃゅょァィゥェォガギグゲゴザジズゼゾダヂヅデドバビブベボャュョあいゔえおかきくけこさしすせそたちつてとはひふへほやゆよアイヴエオカキクケコサシスセソタチツテトハヒフヘホヤユヨうウ'
@@ -355,7 +355,10 @@ class EngineReplaceWithKanji(IBus.Engine):
 
         # Handle Japanese text
         if self.__event.is_katakana():
-            self.set_katakana_mode(True)
+            if state & IBus.ModifierType.MOD1_MASK:
+                self.set_katakana_mode(self.__katakana_mode ^ True)
+            else:
+                self.handle_katakana()
             return True
         if self.__event.is_henkan():
             self.set_katakana_mode(False)
@@ -405,6 +408,20 @@ class EngineReplaceWithKanji(IBus.Engine):
                 for c in self.__dict.cand():
                     self.__lookup_table.append_candidate(IBus.Text.new_from_string(c))
         return (cand, size)
+
+    def handle_katakana(self):
+        if self.__dict.current():
+            return True
+        text = self.__get_surrounding_text()
+        for i in reversed(range(len(text))):
+            if 0 <= _katakana.find(text[i]):
+                continue
+            pos = _hiragana.find(text[i])
+            if 0 <= pos:
+                self.__delete_surrounding_text(len(text) - i)
+                self.__commit_string(_katakana[pos] + text[i + 1:])
+            break
+        return True
 
     def handle_replace(self, keyval, state):
         if not self.__dict.current():
