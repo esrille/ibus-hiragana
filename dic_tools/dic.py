@@ -75,6 +75,27 @@ def output(dict):
     for yomi, kanji in sorted(dict.items()):
         print(yomi, ' /', '/'.join(kanji), '/', sep='')
 
+# 常用漢字表から辞書をつくります。
+def zyouyou():
+    dict = {}
+    with open("zyouyou-kanji.csv", 'r') as zyouyou:
+        for row in zyouyou:
+            row = row.strip(" \n/").split(",")
+            kanji = row[0]
+            row.remove(kanji)
+            for yomi in row[:]:
+                if 0 <= yomi.find("（"):
+                    continue
+                yomi = to_hirakana(yomi)
+                pos = yomi.find('-')
+                if 0 <= pos:
+                    yomi = yomi[:pos] + '―'
+                if not yomi in dict:
+                    dict[yomi] = list(kanji)
+                elif not kanji in dict[yomi]:
+                    dict[yomi].append(kanji)
+    return dict
+
 # 常用漢字表から用言をリストアップします。
 def yougen_wago():
     dict = {}

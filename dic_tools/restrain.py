@@ -57,9 +57,8 @@ if __name__ == '__main__':
     base = dic.difference(base, dic.hyougai_yomi(base))     # 表外のよみかたをつかっている熟語を削除
     base = dic.difference(base, dic.wago(base))             # 和語の熟語を削除
     base = dic.union(base, dic.load('my.dic'))              # 独自に追加したい熟語を追加。
-    base = dic.union(base, dic.taigen_wago())               # 和語の名詞を追加
-    base = dic.union(base, dic.yougen_wago())               # 和語の用言を追加
     base = dic.union(base, dic.load('fuhyou.dic'))          # 常用漢字表・付表の熟語を追加。
+    base = dic.union(dic.zyouyou(), base)                   # 常用漢字を追加
     base = dic.union(dic.load('zyosuusi.dic'), base)        # 助数詞を先頭に追加
 
     # 実際に使用する辞書をつくります。順序に注意。
