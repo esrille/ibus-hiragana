@@ -191,7 +191,7 @@ IBus configの設定は、dconf Editorをつかう場合は、
 
 ### 個人用辞書
 
-標準の辞書ファイルに不足している単語があった場合は、~/.local/share/ibus-replace-with-kanji/ディレクトリの中の'my.dic'という名前のファイルの中に単語を追加できます。追加した単語は、次回IBusデーモンを起動したときから、つかえるようになります。IBusデーモンは、コマンド ラインからは、
+標準の辞書ファイルにない単語をよくつかう場合は、~/.local/share/ibus-replace-with-kanji/ディレクトリの中の'my.dic'という名前のファイルに単語を追加してください。追加した単語は、次回IBusデーモンを起動したときから、つかえるようになります。IBusデーモンは、コマンド ラインからは、
 
     ibus restart
 
@@ -207,17 +207,30 @@ IBus configの設定は、dconf Editorをつかう場合は、
 
 ### システム辞書
 
-付属の漢字辞書ファイル(restrained.dic)およびカタカナ語辞書ファイル(katakana.dic)は、それぞれ[SKK辞書](http://openlab.ring.gr.jp/skk/dic-ja.html)および[EDICT辞書](http://www.edrdg.org/jmdict/edict.html)から、漢字置換インプット メソッド用にプログラムで自動生成しています。
 
-辞書生成用のプログラムはソース ディレクトリのdic_toolsサブ ディレクトリの中にあります。付属している辞書の生成手順は、下記のとおりです。
+下記の漢字辞書ファイルをあらかじめ用意しています。
 
-    # 漢字辞書
-    ./restrain.py /usr/share/skk/SKK-JISYO.ML > restrained.dic
-    
-    # カタカナ語辞書
-    ./katakana.py edict2 > katakana.dic
+設定ファイル名 | 説明
+------------ | -------------
+restrained.dic | デフォルト。常用漢字を基本に構成した辞書です。
+restrained.1.dic | 小学校1年生用。
+restrained.2.dic | 小学校2年生用。
+restrained.3.dic | 小学校3年生用。
+restrained.4.dic | 小学校4年生用。
+restrained.5.dic | 小学校5年生用。
+restrained.6.dic | 小学校6年生用。
 
-※ SKK辞書はSKK(ibus-skk等)をインストールするとあわせてインストールされます。edict2は配付元から入手してください。
+※ 小学生用辞書では、使用する漢字とそのよみを、平成29年の『[音訓の小・中・高等学校段階別割り振り表](http://www.mext.go.jp/a_menu/shotou/new-cs/1385768.htm)』にそって限定してあります。
+
+設定を変更するときは、IBus configの、
+
+    engine/replace-with-kanji-python:dictionary
+
+に上記の設定ファイル名をフルパス名で指定してください。
+
+例 (インストール先が /usr/local の場合) :
+
+    /usr/local/share/ibus-replace-with-kanji/restrained.dic
 
 ## 制限事項
 
