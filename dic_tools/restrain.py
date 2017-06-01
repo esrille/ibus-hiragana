@@ -29,47 +29,48 @@ if __name__ == '__main__':
     path = '/usr/share/skk/SKK-JISYO.ML'
     if 2 <= len(sys.argv):
         path = sys.argv[1]
-    base = dic.load(path)
-    base = dic.difference(base, dic.yougen(base))           # 用言を削除
+    dict = dic.load(path)
+    dict = dic.difference(dict, dic.yougen(dict))           # 用言を削除
+    dict = dic.union(dict, dic.load('my.dic'))              # 独自に追加したい熟語を追加。
+    dict = dic.difference(dict, dic.load('drop.dic'))       # 独自に削除したい熟語を削除。
 
-    grade = 0
+    grade = 10
     if 3 <= len(sys.argv):
         grade = int(sys.argv[2])
 
     # 人名、地名、駅名、記号については、人名漢字の使用を許容し、例外辞書に格納しておきます。
     zinmei = dic.load('/usr/share/skk/SKK-JISYO.jinmei')
-    reigai_zinmei = dic.intersection(base, zinmei)
+    reigai_zinmei = dic.intersection(dict, zinmei)
     geo = dic.load('/usr/share/skk/SKK-JISYO.geo')
-    reigai_geo = dic.intersection(base, geo)
+    reigai_geo = dic.intersection(dict, geo)
     station = dic.load('/usr/share/skk/SKK-JISYO.station')
-    reigai_station = dic.intersection(base, station)
-    reigai_kigou = dic.kigou(base)
+    reigai_station = dic.intersection(dict, station)
+    reigai_kigou = dic.kigou(dict)
     reigai = dic.union(reigai_zinmei, reigai_geo)
     reigai = dic.union(reigai, reigai_station)
     reigai = dic.union(reigai, reigai_kigou)
+    dict = dic.difference(dict, reigai)                         # 例外辞書の内容を削除
+    if grade <= 6:
+        reigai = dic.difference(reigai, dic.hyougai(reigai))
+        reigai = dic.difference(reigai, dic.hyougai_yomi(reigai, grade))
+
+    zyosuusi = dic.load('zyosuusi.dic')
+    zyosuusi = dic.difference(zyosuusi, dic.hyougai_yomi(zyosuusi, grade))
 
     # 基本辞書をつくります。
-    base = dic.difference(base, reigai)                     # 例外辞書の内容を削除
-    base = dic.difference(base, dic.load('drop.dic'))       # 独自に削除したい熟語を削除。
-    base = dic.difference(base, dic.hyougai(base))          # 表外の漢字を使用している熟語を削除
-    base = dic.difference(base, dic.zinmei(base))           # 人名漢字を使用している熟語を削除
-    base = dic.difference(base, dic.okuri(base))            # おくりがなのついた熟語を削除
-    base = dic.difference(base, dic.hyougai_yomi(base))     # 表外のよみかたをつかっている熟語を削除
-    base = dic.difference(base, dic.wago(base))             # 和語の熟語を削除
-    base = dic.union(base, dic.load('my.dic'))              # 独自に追加したい熟語を追加。
-    base = dic.union(base, dic.load('fuhyou.dic'))          # 常用漢字表・付表の熟語を追加。
-    base = dic.union(dic.zyouyou(), base)                   # 常用漢字を追加
-    base = dic.union(dic.load('zyosuusi.dic'), base)        # 助数詞を先頭に追加
-
-    # 実際に使用する辞書をつくります。順序に注意。
-    dict = dic.union(base, reigai)                          # 例外を追加
-    dict = dic.union(dict, dic.load('tc2.compat.dic'))      # tc2のmazegaki.dic辞書から選択した単語を追加。
-    dict = dic.union(dict, dic.load('greek.dic'))           # ギリシア文字辞書を追加。
-
-    if 0 < grade:
-        # 教育漢字に限定します。
-        dict = dic.difference(dict, dic.kyouiku(dict, grade))
-        dict = dic.difference(dict, dic.hyougai_yomi(dict)) # 表外のよみかたをつかっている熟語を削除
+    dict = dic.difference(dict, dic.okuri(dict))                # おくりがなのついた熟語を削除
+    dict = dic.difference(dict, dic.hyougai(dict))              # 表外の漢字を使用している熟語を削除
+    dict = dic.difference(dict, dic.hyougai_yomi(dict, grade))  # 表外のよみかたをつかっている熟語を削除
+    dict = dic.difference(dict, dic.wago(dict, grade))          # 和語の熟語を削除
+    if 6 < grade:
+        dict = dic.union(dict, dic.load('fuhyou.dic'))          # 常用漢字表・付表の熟語を追加。
+    dict = dic.union(dic.zyouyou(grade), dict)                  # 常用漢字を追加
+    dict = dic.union(zyosuusi, dict)                            # 助数詞を先頭に追加
+    dict = dic.union(dict, reigai)                              # 例外を追加
+    if 10 <= grade:
+        dict = dic.union(dict, dic.load('tc2.compat.dic'))      # tc2のmazegaki.dic辞書から選択した単語を追加。
+    if 6 < grade:
+        dict = dic.union(dict, dic.load('greek.dic'))           # ギリシア文字辞書を追加。
 
     # ヘッダーを出力します。
     print(';; 日本語漢字置換インプット メソッド')

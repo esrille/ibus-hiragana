@@ -20,10 +20,8 @@ noinst_PYTHON = \
 	intersection-yomi.py \
 	katakana.py \
 	kigou.py \
-	kyouiku.py \
 	okuri.py \
 	restrain.py \
-	taigen_wago.py \
 	union.py \
 	wago.py \
 	yougen.py \
