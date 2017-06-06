@@ -45,6 +45,8 @@ class Event:
         self.__Space = keysyms.F13              # Extra space key in Kana mode
         self.__Thumb = False                    # or True for using Muhenkan/Henkan
         self.__Yen = False
+        self.__Prefix = False                   # True if Shift is to be prefixed
+        self.__DualBits = bits.Dual_ShiftR_Bit
 
         if "Keyboard" in layout:
             keyboard = layout["Keyboard"]
@@ -56,9 +58,16 @@ class Event:
             if keyboard == "NISSE":
                 self.__CapsIME = False
                 self.__Katakana = keysyms.Control_R
+                self.__DualBits = bits.Dual_ControlR_Bit
 
         if "SandS" in layout:
             self.__SandS = True
+            self.__DualBits |= bits.Dual_Space_Bit
+        elif "Prefix" in layout:
+            self.__Prefix = True
+            self.__Henkan = keysyms.apostrophe
+            self.__Space = keysyms.Alt_R
+            self.__DualBits |= bits.Dual_Space_Bit | bits.Dual_AltR_Bit
 
         # Current event
         self.__keyval = keysyms.VoidSymbol
@@ -67,6 +76,8 @@ class Event:
         self.__modifiers = 0                 # See bits.py
 
     def is_space(self):
+        if self.__Space == keysyms.Alt_R and (self.__modifiers & bits.Dual_AltR_Bit):
+            return True
         return self.__keyval == keysyms.space
 
     def is_backspace(self):
@@ -79,23 +90,12 @@ class Event:
     def is_modifier(self):
         return keysyms.Shift_L <= self.__keyval and self.__keyval <= keysyms.Hyper_R
 
-    def is_henkan(self):
-        if self.__Henkan == keysyms.space:
-            return self.__keyval == keysyms.space and not (self.__state & IBus.ModifierType.SHIFT_MASK)
-        return self.__keyval == self.__Henkan
-
-    def is_muhenkan(self):
-        if self.__Henkan == keysyms.space:
-            return self.__keyval == keysyms.space and (self.__state & IBus.ModifierType.SHIFT_MASK)
-        return self.__keyval == self.__Muhenkan
-
-    def is_shrink(self):
-        return self.__keyval == keysyms.Right and (self.__state & IBus.ModifierType.SHIFT_MASK)
-
     def is_shift(self):
         if self.__state & IBus.ModifierType.SHIFT_MASK:
             return True
         if self.__SandS and (self.__modifiers & bits.Space_Bit):
+            return True
+        if self.__Prefix and (self.__modifiers & (bits.Space_Bit | bits.Prefix_Bit)):
             return True
         return False
 
@@ -108,7 +108,29 @@ class Event:
             return True
         return False
 
+    def is_henkan(self):
+        if self.__Muhenkan == keysyms.VoidSymbol:
+            return self.__keyval == self.__Henkan and not self.is_shift()
+        return self.__keyval == self.__Henkan
+
+    def is_muhenkan(self):
+        if self.__Muhenkan == keysyms.VoidSymbol:
+            return self.__keyval == self.__Henkan and self.is_shift()
+        return self.__keyval == self.__Muhenkan
+
+    def is_shrink(self):
+        print("is_shrink", self.__keyval == keysyms.Right, self.is_shift())
+        return self.__keyval == keysyms.Right and self.is_shift()
+
     def process_key_event(self, keyval, keycode, state):
+        # Ignore XFree86 anomaly.
+        if keyval == keysyms.ISO_Left_Tab:
+            keyval = keysyms.Tab
+        elif keyval == 0x1008ff81:
+            keyval = keysyms.F13
+        elif keyval == 0x1008ff45:
+            keyval = keysyms.F14
+
         self.__modifiers &= ~(bits.Dual_Space_Bit | bits.Dual_ShiftR_Bit | bits.Dual_ControlR_Bit)
         is_press = ((state & IBus.ModifierType.RELEASE_MASK) == 0)
         if is_press:
@@ -125,12 +147,18 @@ class Event:
             elif keyval == keysyms.Control_R:
                 self.__modifiers |= bits.ControlR_Bit
                 self.__modifiers &= ~bits.Not_Dual_ControlR_Bit
+            elif keyval == keysyms.Alt_R:
+                self.__modifiers |= bits.AltR_Bit
+                self.__modifiers &= ~bits.Not_Dual_AltR_Bit
+
             if (self.__modifiers & bits.Space_Bit) and keyval != keysyms.space:
                 self.__modifiers |= bits.Not_Dual_Space_Bit
             if (self.__modifiers & bits.ShiftR_Bit) and keyval != keysyms.Shift_R:
                 self.__modifiers |= bits.Not_Dual_ShiftR_Bit
             if (self.__modifiers & bits.ControlR_Bit) and keyval != keysyms.Control_R:
                 self.__modifiers |= bits.Not_Dual_ControlR_Bit
+            if (self.__modifiers & bits.AltR_Bit) and keyval != keysyms.Alt_R:
+                self.__modifiers |= bits.Not_Dual_AltR_Bit
 
             # Check CAPS LOCK for IME on/off
             if self.__CapsIME:
@@ -163,27 +191,33 @@ class Event:
                 if not (self.__modifiers & bits.Not_Dual_ControlR_Bit):
                     self.__modifiers |= bits.Dual_ControlR_Bit
                 self.__modifiers &= ~bits.ControlR_Bit
+            elif keyval == keysyms.Alt_R:
+                if not (self.__modifiers & bits.Not_Dual_AltR_Bit):
+                    self.__modifiers |= bits.Dual_AltR_Bit
+                self.__modifiers &= ~bits.AltR_Bit
 
-        if self.__SandS and self.__engine.is_enabled():
-            if (self.__modifiers & bits.Space_Bit) and keyval == keysyms.space:
-                return True
-            if self.__modifiers & bits.Dual_Space_Bit:
-                is_press = True
-
-        if self.is_katakana():
-            is_press = True
+        if self.__engine.is_enabled():
+            if self.__SandS:
+                if (self.__modifiers & bits.Space_Bit) and keyval == keysyms.space:
+                    return True
+            elif self.__Prefix:
+                if (self.__modifiers & bits.Space_Bit) and keyval == keysyms.space:
+                    return True
+                if self.__modifiers & bits.Dual_Space_Bit:
+                    self.__modifiers ^= bits.Prefix_Bit
+                    return True
 
         logger.debug("process_key_event(%s, %04x, %04x) %02x" % (IBus.keyval_name(keyval), keycode, state, self.__modifiers))
 
-        # Ignore key release events
-        if not is_press:
+        # Ignore normal key release events
+        if not is_press and not (self.__modifiers & self.__DualBits):
+            self.__modifiers &= ~bits.Prefix_Bit
             return False
 
-        # Take over XF86Tools (F13) and XF86Launch5 (F14) as well.
-        if keyval == self.__Kana or keyval == 0x1008ff81:
+        if keyval == self.__Kana:
             if self.__engine.enable_ime():
                 return True
-        elif keyval == self.__Eisuu or keyval == 0x1008ff45:
+        elif keyval == self.__Eisuu:
             if self.__engine.disable_ime():
                 return True
 
@@ -224,32 +258,3 @@ class Event:
             else:
                 c = chr(keyval).lower()
         return c
-
-#
-# test
-#
-if __name__ == '__main__':
-
-    class EngineMock:
-        def __init__(self):
-            self.__enabled = False
-            self.__katakana_mode = False    # True to input Katakana
-        def enable_ime(self):
-            self.__enabled = True
-        def disable_ime(self):
-            self.__enabled = False
-        def is_enabled(self):
-            return self.__enabled
-        def set_katakana_mode(self, enable):
-            self.__katakana_mode = enable
-        def handle_key_event(self, keyval, keycode, state, modifiers):
-            print("handle_key_event(%04x, %04x, %04x, %04x)" % (keyval, keycode, state, modifiers))
-
-    engine = EngineMock();
-    event = Event(engine, 0, True)
-    event.process_key_event(keysyms.Shift_R, 0x0036, 0)
-    event.process_key_event(keysyms.Shift_R, 0x0036, IBus.ModifierType.RELEASE_MASK | IBus.ModifierType.SHIFT_MASK)
-    print(event.is_katakana(), "%04x" % event._Event__modifiers);
-    event.process_key_event(keysyms.Control_R, 0x0061, 0)
-    event.process_key_event(keysyms.Control_R, 0x0061, IBus.ModifierType.RELEASE_MASK | IBus.ModifierType.CONTROL_MASK)
-    print(event.is_katakana(), "%04x" % event._Event__modifiers);

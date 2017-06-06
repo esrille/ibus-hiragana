@@ -322,12 +322,12 @@ class EngineReplaceWithKanji(IBus.Engine):
     def handle_key_event(self, keyval, keycode, state, modifiers):
         logger.debug("handle_key_event(%s, %04x, %04x, %04x)" % (IBus.keyval_name(keyval), keycode, state, modifiers))
 
-        if self.__event.is_katakana():
+        if self.__event.is_katakana() or self.__event.is_space():
             pass
         elif self.__event.is_modifier():
             # Ignore modifier keys
             return False
-        elif (state & (IBus.ModifierType.CONTROL_MASK | IBus.ModifierType.MOD1_MASK)) != 0:
+        elif state & (IBus.ModifierType.CONTROL_MASK | IBus.ModifierType.MOD1_MASK):
             self.__commit()
             return False
 

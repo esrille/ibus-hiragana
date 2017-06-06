@@ -20,6 +20,7 @@ layouts_DATA = \
 	roomazi.json \
 	roomazi.109.json \
 	new_stickney.json \
+	new_stickney_prefix.json \
 	tron.json \
 	nicola.json \
 	nicola_f.json \
@@ -32,6 +33,7 @@ EXTRA_DIST = \
 	roomazi.json \
 	roomazi.109.json \
 	new_stickney.json \
+	new_stickney_prefix.json \
 	tron.json \
 	nicola.json \
 	nicola_f.json \
