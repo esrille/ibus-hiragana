@@ -131,7 +131,7 @@ class Event:
         elif keyval == 0x1008ff45:
             keyval = keysyms.F14
 
-        self.__modifiers &= ~(bits.Dual_Space_Bit | bits.Dual_ShiftR_Bit | bits.Dual_ControlR_Bit)
+        self.__modifiers &= ~bits.Dual_Bits
         is_press = ((state & IBus.ModifierType.RELEASE_MASK) == 0)
         if is_press:
             if keyval == keysyms.space:
@@ -246,7 +246,10 @@ class Event:
         self.__keyval = keyval
         self.__keycode = keycode
         self.__state = state
-        return self.__engine.handle_key_event(keyval, keycode, state, self.__modifiers)
+        processed = self.__engine.handle_key_event(keyval, keycode, state, self.__modifiers)
+        if state & IBus.ModifierType.RELEASE_MASK:
+            self.__modifiers &= ~bits.Prefix_Bit
+        return processed
 
     def chr(self, keyval):
         c = ''
