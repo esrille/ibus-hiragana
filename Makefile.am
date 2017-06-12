@@ -27,6 +27,7 @@ EXTRA_DIST = \
 	autogen.sh \
 	@PACKAGE_NAME@.spec \
 	@PACKAGE_NAME@.spec.in \
+	CONTRIBUTING.md \
 	README.md \
 	LICENSE \
 	NOTICE\
