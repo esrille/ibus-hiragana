@@ -1,0 +1,15 @@
+Source: ibus-replace-with-kanji
+Section: utils
+Priority: optional
+Maintainer: Esrille Inc. <info@esrille.com>
+Build-Depends: debhelper (>=9),autotools-dev,python3-dev,pkg-config,libibus-1.0-dev (>= 1.5.11)
+Standards-Version: 3.9.6
+Homepage: https://github.com/esrille/ibus-replace-with-kanji
+Vcs-Git: https://github.com/esrille/ibus-replace-with-kanji.git
+Vcs-Browser: https://github.com/esrille/ibus-replace-with-kanji
+
+Package: ibus-replace-with-kanji
+Architecture: all
+Depends: ${python3:Depends}, ${misc:Depends}, ibus (>= 1.5.11)
+Description: Replace with Kanji Japanese input method for IBus
+ ibus-replace-with-kanji is an IM engine for Japanese based on IBus.

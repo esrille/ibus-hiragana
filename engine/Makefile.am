@@ -36,13 +36,15 @@ gsettings_SCHEMAS = org.freedesktop.ibus.engine.replace-with-kanji-python.gschem
 @GSETTINGS_RULES@
 
 CLEANFILES = \
+	ibus-engine-replace-with-kanji \
+	org.freedesktop.ibus.engine.replace-with-kanji-python.gschema.xml \
+	replace-with-kanji-python.xml \
 	$(NULL)
 
 EXTRA_DIST = \
 	ibus-engine-replace-with-kanji.in \
 	replace-with-kanji-python.xml.in.in \
 	org.freedesktop.ibus.engine.replace-with-kanji-python.gschema.xml.in \
-	$(gsettings_SCHEMAS) \
 	$(NULL)
 
 replace-with-kanji-python.xml: replace-with-kanji-python.xml.in

@@ -24,6 +24,12 @@ SUBDIRS = \
 	$(NULL)
 
 EXTRA_DIST = \
+	debian/changelog \
+	debian/compat \
+	debian/control \
+	debian/copyright \
+	debian/rules \
+	debian/source/format \
 	autogen.sh \
 	@PACKAGE_NAME@.spec \
 	@PACKAGE_NAME@.spec.in \
@@ -38,4 +44,3 @@ noinst_DIST = \
 
 DISTCLEANFILES = \
 	$(NULL)
-
