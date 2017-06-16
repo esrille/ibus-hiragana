@@ -69,6 +69,9 @@ class Event:
             self.__Space = keysyms.Alt_R
             self.__DualBits |= bits.Dual_Space_Bit | bits.Dual_AltR_Bit
 
+        if "Henkan" in layout:
+            self.__Henkan = IBus.keyval_from_name(layout["Henkan"])
+
         # Current event
         self.__keyval = keysyms.VoidSymbol
         self.__keycode = 0
