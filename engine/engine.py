@@ -165,8 +165,10 @@ class EngineReplaceWithKanji(IBus.Engine):
                 layout = json.loads(f.read(), "utf-8")
         except ValueError as error:
             logger.error("JSON error: %s", error)
+        except OSError as error:
+            logger.error("Error: %s", error)
         except:
-            logger.error("file %s not found", path)
+            logger.error("Unexpected error: %s", path)
         self.__to_kana = self.__handle_roomazi_layout
         if 'Type' in layout:
             if layout['Type'] == 'Kana':
