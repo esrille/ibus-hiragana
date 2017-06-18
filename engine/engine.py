@@ -23,6 +23,7 @@ import json
 import logging
 import os
 import re
+import sys
 import time
 
 from gi import require_version
@@ -168,7 +169,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         except OSError as error:
             logger.error("Error: %s", error)
         except:
-            logger.error("Unexpected error: %s", path)
+            logger.error("Unexpected error: %s %s", sys.exc_info()[0], sys.exc_info()[1])
         self.__to_kana = self.__handle_roomazi_layout
         if 'Type' in layout:
             if layout['Type'] == 'Kana':
