@@ -163,7 +163,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         layout = roomazi.layout     # Use 'roomazi' as default
         try:
             with open(path) as f:
-                layout = json.loads(f.read(), "utf-8")
+                layout = json.load(f)
         except ValueError as error:
             logger.error("JSON error: %s", error)
         except OSError as error:
