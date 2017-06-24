@@ -76,8 +76,7 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def __init__(self):
         super(EngineReplaceWithKanji, self).__init__()
-        self.__enabled = False          # True if IME is enabled
-        self.__katakana_mode = False    # True to input Katakana
+        self.__mode = 'A'               # 'A', 'あ', or 'ア'.
 
         self.__layout = roomazi.layout
         self.__to_kana = self.__handle_roomazi_layout
@@ -103,12 +102,11 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def __init_props(self):
         self.__prop_list = IBus.PropList()
-        symbol = 'A'
         self.__input_mode_prop = IBus.Property(
             key = 'InputMode',
             prop_type = IBus.PropType.NORMAL,
-            symbol = IBus.Text.new_from_string(symbol),
-            label = IBus.Text.new_from_string('Input mode (%s)' % symbol),
+            symbol = IBus.Text.new_from_string(self.__mode),
+            label = IBus.Text.new_from_string('Input mode (%s)' % self.__mode),
             icon = None,
             tooltip = None,
             sensitive = False,
@@ -118,14 +116,8 @@ class EngineReplaceWithKanji(IBus.Engine):
         self.__prop_list.append(self.__input_mode_prop)
 
     def __update_input_mode(self):
-        if not self.is_enabled():
-            symbol = 'A'
-        elif not self.__katakana_mode:
-            symbol = 'あ'
-        else:
-            symbol = 'ア'
-        self.__input_mode_prop.set_symbol(IBus.Text.new_from_string(symbol))
-        self.__input_mode_prop.set_label(IBus.Text.new_from_string('Input mode (%s)' % symbol))
+        self.__input_mode_prop.set_symbol(IBus.Text.new_from_string(self.__mode))
+        self.__input_mode_prop.set_label(IBus.Text.new_from_string('Input mode (%s)' % self.__mode))
         self.update_property(self.__input_mode_prop)
 
     def __load_logging_level(self, config):
@@ -285,39 +277,34 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.forward_key_event(IBus.BackSpace, 14, IBus.ModifierType.RELEASE_MASK)
 
     def is_enabled(self):
-        return self.__enabled
+        return self.get_mode() != 'A'
 
     def enable_ime(self):
         if not self.is_enabled():
-            logger.info("enable_ime");
-            self.__preedit_string = ''
-            self.__enabled = True
-            self.__dict.confirm()
-            self.__dict.reset()
-            self.__update()
-            self.set_katakana_mode(False)
-            self.__update_input_mode()
-            return True
-        return False
+            self.set_mode('あ')
 
     def disable_ime(self):
         if self.is_enabled():
-            logger.info("disable_ime");
-            self.__dict.confirm()
-            self.__reset()
-            self.__enabled = False
-            self.__update()
-            self.__update_input_mode()
-            return True
-        return False
+            self.set_mode('A')
+
+    def get_mode(self):
+        logger.info("get_mode(%s)" % (self.__mode))
+        return self.__mode
+
+    def set_mode(self, mode):
+        logger.info("set_mode(%s)" % (mode))
+        if self.__mode == mode:
+            return False
+        self.__preedit_string = ''
+        self.__dict.confirm()
+        self.__dict.reset()
+        self.__update()
+        self.__mode = mode
+        self.__update_input_mode()
+        return True
 
     def __is_roomazi_mode(self):
         return self.__to_kana == self.__handle_roomazi_layout
-
-    def set_katakana_mode(self, enable):
-        logger.info("set_katakana_mode(%s)" % (enable))
-        self.__katakana_mode = enable
-        self.__update_input_mode()
 
     def do_process_key_event(self, keyval, keycode, state):
         return self.__event.process_key_event(keyval, keycode, state)
@@ -359,15 +346,13 @@ class EngineReplaceWithKanji(IBus.Engine):
         # Handle Japanese text
         if self.__event.is_katakana():
             if state & IBus.ModifierType.MOD1_MASK:
-                self.set_katakana_mode(self.__katakana_mode ^ True)
+                self.set_mode('あ' if self.get_mode() == 'ア' else 'ア')
             else:
                 self.handle_katakana()
             return True
         if self.__event.is_henkan():
-            self.set_katakana_mode(False)
             return self.handle_replace(keyval, state)
         if self.__event.is_shrink():
-            self.set_katakana_mode(False)
             return self.handle_shrink(keyval, state)
         self.__commit()
         if self.__event.is_backspace():
@@ -380,7 +365,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         elif self.__event.is_ascii(keyval) or keyval == keysyms.Zenkaku_Hankaku:
             yomi, self.__preedit_string = self.__to_kana(self.__preedit_string, keyval, state, modifiers)
             if yomi:
-                if self.__katakana_mode:
+                if self.get_mode() == 'ア':
                     yomi = to_katakana(yomi)
                 self.__commit_string(yomi)
                 self.__update()
@@ -580,16 +565,14 @@ class EngineReplaceWithKanji(IBus.Engine):
     def do_disable(self):
         logger.info("disable")
         self.__reset()
-        self.__enabled = False
+        self.__mode = 'A'
         self.__dict.save_orders()
 
     def do_reset(self):
         logger.info("reset")
         self.__reset()
-        # 'reset' seems to be sent due to an internal error, and
-        # we don't switch back to the Alphabet mode here.
-        # NG: self.__enabled = False
-        self.__dict.save_orders()
+        # Do not switch back to the Alphabet mode here; 'reset' should be
+        # called when the text cursor is moved by a mouse click, etc.
 
     def do_property_activate(self, prop_name, state):
         logger.info("property_activate(%s, %d)" % (prop_name, state))

@@ -218,10 +218,10 @@ class Event:
             return False
 
         if keyval == self.__Kana:
-            if self.__engine.enable_ime():
+            if self.__engine.set_mode('あ'):
                 return True
         elif keyval == self.__Eisuu:
-            if self.__engine.disable_ime():
+            if self.__engine.set_mode('A'):
                 return True
 
         if self.__engine.is_enabled():
