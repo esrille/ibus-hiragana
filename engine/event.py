@@ -170,7 +170,7 @@ class Event:
                         self.__engine.disable_ime()
                     else:
                         self.__engine.enable_ime()
-                else:
+                elif not self.__engine.is_overridden():
                     if state & IBus.ModifierType.LOCK_MASK:
                         self.__engine.enable_ime()
                     else:
