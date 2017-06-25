@@ -317,10 +317,9 @@ class EngineReplaceWithKanji(IBus.Engine):
         if self.__mode == mode:
             return False
         self.__preedit_string = ''
-        self.__dict.confirm()
-        self.__dict.reset()
-        self.__update()
+        self.__commit()
         self.__mode = mode
+        self.__update()
         self.__update_input_mode()
         self.__config.set_value('engine/replace-with-kanji-python', 'mode', GLib.Variant.new_string(self.__mode))
         return True
