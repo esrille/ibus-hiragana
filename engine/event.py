@@ -43,7 +43,6 @@ class Event:
         self.__Eisuu = keysyms.F14              # or keysyms.VoidSymbol
         self.__Kana = keysyms.F13               # or keysyms.VoidSymbol
         self.__Space = keysyms.F13              # Extra space key in Kana mode
-        self.__Thumb = False                    # or True for using Muhenkan/Henkan
         self.__Yen = False
         self.__Prefix = False                   # True if Shift is to be prefixed
         self.__DualBits = bits.Dual_ShiftR_Bit
@@ -238,7 +237,7 @@ class Event:
 
     def handle_key_event_timeout(self, keyval, keycode, state):
         if not self.handle_key_event(keyval, keycode, state):
-            self.forward_key_event(keyval, keycode, state)
+            self.__engine.forward_key_event(keyval, keycode, state)
         # Stop timer by returning False
         return False
 
