@@ -213,8 +213,12 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.__reset()
             self.__dict = self.__load_dictionary(config)
         elif name == "mode":
-            self.set_mode(self.__load_input_mode(self.__config))
-            self.__override = True
+            if not self.__requesting_mode_change:
+                self.set_mode(self.__load_input_mode(self.__config))
+                self.__override = True
+            else:
+                self.__requesting_mode_change = False
+            logger.debug("override(%d)" % (self.__override))
 
     def __handle_kana_layout(self, preedit, keyval, state = 0, modifiers = 0):
         yomi = ''
@@ -301,21 +305,21 @@ class EngineReplaceWithKanji(IBus.Engine):
         return self.get_mode() != 'A'
 
     def enable_ime(self):
-        if not self.is_enabled():
-            self.set_mode('あ')
+        self.set_mode('あ')
 
     def disable_ime(self):
-        if self.is_enabled():
-            self.set_mode('A')
+        self.set_mode('A')
 
     def get_mode(self):
         return self.__mode
 
     def set_mode(self, mode):
-        logger.info("set_mode(%s)" % (mode))
+        self.__requesting_mode_change = True
         self.__override = False
         if self.__mode == mode:
+            self.__requesting_mode_change = False
             return False
+        logger.info("set_mode(%s)" % (mode))
         self.__preedit_string = ''
         self.__commit()
         self.__mode = mode
