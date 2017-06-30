@@ -64,9 +64,7 @@ class Event:
             self.__DualBits |= bits.Dual_Space_Bit
         elif "Prefix" in layout:
             self.__Prefix = True
-            self.__Henkan = keysyms.apostrophe
-            self.__Space = keysyms.Alt_R
-            self.__DualBits |= bits.Dual_Space_Bit | bits.Dual_AltR_Bit
+            self.__DualBits |= bits.Dual_Space_Bit
 
         if "Henkan" in layout:
             self.__Henkan = IBus.keyval_from_name(layout["Henkan"])
