@@ -119,10 +119,11 @@ class Event:
         return self.__keyval == self.__Muhenkan
 
     def is_shrink(self):
-        print("is_shrink", self.__keyval == keysyms.Right, self.is_shift())
         return self.__keyval == keysyms.Right and self.is_shift()
 
     def process_key_event(self, keyval, keycode, state):
+        logger.debug("process_key_event(%s, %04x, %04x) %02x" % (IBus.keyval_name(keyval), keycode, state, self.__modifiers))
+
         # Ignore XFree86 anomaly.
         if keyval == keysyms.ISO_Left_Tab:
             keyval = keysyms.Tab
@@ -168,6 +169,7 @@ class Event:
                         self.__engine.disable_ime()
                     else:
                         self.__engine.enable_ime()
+                    return True
                 elif not self.__engine.is_overridden():
                     if state & IBus.ModifierType.LOCK_MASK:
                         self.__engine.enable_ime()
@@ -206,8 +208,6 @@ class Event:
                 if self.__modifiers & bits.Dual_Space_Bit:
                     self.__modifiers ^= bits.Prefix_Bit
                     return True
-
-        logger.debug("process_key_event(%s, %04x, %04x) %02x" % (IBus.keyval_name(keyval), keycode, state, self.__modifiers))
 
         # Ignore normal key release events
         if not is_press and not (self.__modifiers & self.__DualBits):

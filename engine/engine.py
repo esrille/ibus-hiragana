@@ -198,7 +198,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         section = section.replace('_', '-')
         if section != 'engine/replace-with-kanji-python':
             return
-        logger.info("config_value_changed(%s, %s, %s)" % (section, name, value))
+        logger.debug("config_value_changed(%s, %s, %s): %s" % (section, name, value, self.__mode))
         if name == "logging_level":
             self.__logging_level = self.__load_logging_level(config)
         elif name == "delay":
@@ -213,12 +213,8 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.__reset()
             self.__dict = self.__load_dictionary(config)
         elif name == "mode":
-            if not self.__requesting_mode_change:
-                self.set_mode(self.__load_input_mode(self.__config))
-                self.__override = True
-            else:
-                self.__requesting_mode_change = False
-            logger.debug("override(%d)" % (self.__override))
+            self.set_mode(self.__load_input_mode(self.__config))
+            self.__override = True
 
     def __handle_kana_layout(self, preedit, keyval, state = 0, modifiers = 0):
         yomi = ''
@@ -305,7 +301,8 @@ class EngineReplaceWithKanji(IBus.Engine):
         return self.get_mode() != 'A'
 
     def enable_ime(self):
-        self.set_mode('あ')
+        if not self.is_enabled():
+            self.set_mode('あ')
 
     def disable_ime(self):
         self.set_mode('A')
@@ -314,18 +311,15 @@ class EngineReplaceWithKanji(IBus.Engine):
         return self.__mode
 
     def set_mode(self, mode):
-        self.__requesting_mode_change = True
         self.__override = False
         if self.__mode == mode:
-            self.__requesting_mode_change = False
             return False
-        logger.info("set_mode(%s)" % (mode))
+        logger.debug("set_mode(%s)" % (mode))
         self.__preedit_string = ''
         self.__commit()
         self.__mode = mode
         self.__update()
         self.__update_input_mode()
-        self.__config.set_value('engine/replace-with-kanji-python', 'mode', GLib.Variant.new_string(self.__mode))
         return True
 
     def __is_roomazi_mode(self):
