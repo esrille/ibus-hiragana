@@ -2,6 +2,7 @@
     "Type": "Kana",
     "Prefix": true,
     "Henkan": "apostrophe",
+    "Muhenkan": "quotedbl",
     "Normal": {
         " ": "　",
         "1": "１", "!": "１", "2": "２", "@": "２", "3": "３", "#": "３", "4": "４", "$": "４", "5": "５", "%": "５",

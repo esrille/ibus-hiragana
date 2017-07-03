@@ -68,6 +68,8 @@ class Event:
 
         if "Henkan" in layout:
             self.__Henkan = IBus.keyval_from_name(layout["Henkan"])
+        if "Muhenkan" in layout:
+            self.__Muhenkan = IBus.keyval_from_name(layout["Muhenkan"])
 
         # Current event
         self.__keyval = keysyms.VoidSymbol
