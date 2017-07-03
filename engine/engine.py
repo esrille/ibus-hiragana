@@ -447,7 +447,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         return True
 
     def handle_shrink(self, keyval, state):
-        logger.debug("handle_shrink: %s", self.__dict.current())
+        logger.debug("handle_shrink: '%s'", self.__dict.current())
         if not self.__dict.current():
             return False
         yomi = self.__dict.reading()

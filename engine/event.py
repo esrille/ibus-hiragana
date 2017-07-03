@@ -121,7 +121,7 @@ class Event:
         return self.__keyval == self.__Muhenkan
 
     def is_shrink(self):
-        return self.__keyval == keysyms.Right and self.is_shift()
+        return self.__keyval == keysyms.Tab or (self.__keyval == keysyms.Right and self.is_shift())
 
     def process_key_event(self, keyval, keycode, state):
         logger.debug("process_key_event(%s, %04x, %04x) %02x" % (IBus.keyval_name(keyval), keycode, state, self.__modifiers))
