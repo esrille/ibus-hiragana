@@ -270,7 +270,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.__ignore_surrounding_text = True
         if self.__ignore_surrounding_text:
             logger.debug("surrounding text: [%s]", self.__previous_text)
-            return self.__previous_text
+            return self.__previous_text, len(self.__previous_text)
         tuple = self.get_surrounding_text()
         text = tuple[0].get_text()
         pos = tuple[1]
@@ -281,7 +281,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             text = text[:-preedit_len]
             pos -= preedit_len
         logger.debug("surrounding text: '%s', %d, [%s]", text, pos, self.__previous_text)
-        return text[:pos]
+        return text, pos
 
     def __delete_surrounding_text(self, size):
         self.__previous_text = self.__previous_text[:-size]
@@ -419,21 +419,21 @@ class EngineReplaceWithKanji(IBus.Engine):
     def handle_katakana(self):
         if self.__dict.current():
             return True
-        text = self.__get_surrounding_text()
-        for i in reversed(range(len(text))):
+        text, pos = self.__get_surrounding_text()
+        for i in reversed(range(pos)):
             if 0 <= _katakana.find(text[i]):
                 continue
-            pos = _hiragana.find(text[i])
-            if 0 <= pos:
-                self.__delete_surrounding_text(len(text) - i)
-                self.__commit_string(_katakana[pos] + text[i + 1:])
+            found = _hiragana.find(text[i])
+            if 0 <= found:
+                self.__delete_surrounding_text(pos - i)
+                self.__commit_string(_katakana[found] + text[i + 1:pos])
             break
         return True
 
     def handle_replace(self, keyval, state):
         if not self.__dict.current():
-            text = self.__get_surrounding_text()
-            (cand, size) = self.lookup_dictionary(text)
+            text, pos = self.__get_surrounding_text()
+            (cand, size) = self.lookup_dictionary(text[:pos])
         else:
             size = len(self.__dict.current())
             if not (state & IBus.ModifierType.SHIFT_MASK):
@@ -491,19 +491,19 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def __commit_string(self, text):
         if text == '゛':
-            prev = self.__get_surrounding_text()
-            if 0 < len(prev):
-                pos = _non_daku.find(prev[-1])
-                if 0 <= pos:
+            prev, pos = self.__get_surrounding_text()
+            if 0 < pos:
+                found = _non_daku.find(prev[pos - 1])
+                if 0 <= found:
                     self.__delete_surrounding_text(1)
-                    text = _daku[pos]
+                    text = _daku[found]
         elif text == '゜':
-            prev = self.__get_surrounding_text()
-            if 0 < len(prev):
-                pos = _non_handaku.find(prev[-1])
-                if 0 <= pos:
+            prev, pos = self.__get_surrounding_text()
+            if 0 < pos:
+                found = _non_handaku.find(prev[pos - 1])
+                if 0 <= found:
                     self.__delete_surrounding_text(1)
-                    text = _handaku[pos]
+                    text = _handaku[found]
         self.commit_text(IBus.Text.new_from_string(text))
         self.__previous_text += text
 
