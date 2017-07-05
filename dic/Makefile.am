@@ -6,6 +6,8 @@ dic_DATA = \
 	restrained.4.dic \
 	restrained.5.dic \
 	restrained.6.dic \
+	restrained.7.dic \
+	restrained.9.dic \
 	katakana.dic \
 	$(NULL)
 
@@ -19,6 +21,8 @@ EXTRA_DIST = \
 	restrained.4.dic \
 	restrained.5.dic \
 	restrained.6.dic \
+	restrained.7.dic \
+	restrained.9.dic \
 	katakana.dic \
 	COPYING
 	$(NULL)

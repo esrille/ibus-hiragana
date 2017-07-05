@@ -240,14 +240,9 @@ class EngineReplaceWithKanji(IBus.Engine):
                 else:
                     yomi = self.__layout['Normal'][c]
                 if yomi == '\\':
-                    preedit += yomi
-                    yomi = ''
+                    yomi = '―'
         elif keyval == keysyms.Zenkaku_Hankaku:
-            if preedit == '\\':
-                yomi = '￥'
-                preedit = ''
-            else:
-                preedit += '\\'
+            yomi = '―'
         return yomi, preedit
 
     def __handle_roomazi_layout(self, preedit, keyval, state = 0, modifiers = 0):
@@ -263,6 +258,9 @@ class EngineReplaceWithKanji(IBus.Engine):
             elif 2 <= len(preedit) and preedit[0] == preedit[1] and _re_tu.search(preedit[1]):
                 yomi = 'っ'
                 preedit = preedit[1:]
+            elif preedit[-1] == '\\':
+                yomi = '―'
+                preedit = preedit[:-1]
         return yomi, preedit
 
     def __get_surrounding_text(self):
@@ -395,18 +393,16 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.__previous_text = ''
         return False
 
-    def lookup_dictionary(self, yomi):
+    def lookup_dictionary(self, yomi, pos):
         # Handle dangling 'n' for 'ん' here to minimize the access to the surrounding text API,
         # which could cause an unexpected behaviour occasionally at race conditions.
         adjust = 0
         if self.__preedit_string == 'n':
-            yomi += 'ん'
-            adjust = 1
-        elif self.__preedit_string == '\\':
-            yomi += '―'
+            yomi = yomi[:pos] + 'ん'
+            pos += 1
             adjust = 1
         self.__lookup_table.clear()
-        cand = self.__dict.lookup(yomi)
+        cand = self.__dict.lookup(yomi, pos)
         size = len(self.__dict.reading())
         if 0 < size:
             self.__preedit_string = ''
@@ -433,7 +429,7 @@ class EngineReplaceWithKanji(IBus.Engine):
     def handle_replace(self, keyval, state):
         if not self.__dict.current():
             text, pos = self.__get_surrounding_text()
-            (cand, size) = self.lookup_dictionary(text[:pos])
+            (cand, size) = self.lookup_dictionary(text, pos)
         else:
             size = len(self.__dict.current())
             if not (state & IBus.ModifierType.SHIFT_MASK):
@@ -455,12 +451,12 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.handle_escape(state)
             return True
         current_size = len(self.__dict.current())
-        (cand, size) = self.lookup_dictionary(yomi[1:])
+        text, pos = self.__get_surrounding_text()
+        (cand, size) = self.lookup_dictionary(yomi[1:] + text[pos:], len(yomi) - 1)
         if 0 < size:
             yomi = yomi[:-size]
         elif yomi[-1] == '―':
             yomi = yomi[:-1]
-            self.__preedit_string = '\\'
         self.__delete_surrounding_text(current_size)
         self.__commit_string(yomi + cand)
         # Update preedit *after* committing the string to append preedit.
@@ -472,9 +468,6 @@ class EngineReplaceWithKanji(IBus.Engine):
             return
         size = len(self.__dict.current())
         yomi = self.__dict.reading()
-        if yomi[-1] == '―':
-            yomi = yomi[:-1]
-            self.__preedit_string = '\\'
         self.__delete_surrounding_text(size)
         self.__commit_string(yomi)
         self.__reset(False)
@@ -521,7 +514,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         size = len(self.__dict.current())
         self.__dict.set_current(index)
         self.__delete_surrounding_text(size)
-        self.__commit_string(self.__dict.current());
+        self.__commit_string(self.__dict.current())
 
     def do_page_up(self):
         if self.__lookup_table.page_up():

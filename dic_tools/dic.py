@@ -77,20 +77,24 @@ def zyouyou(grade = 10):
                 g = int(yomi[-1])
                 if grade < g:
                     continue
-                k = kanji + yomi[-2:]
+                g = yomi[-2:]
+                k = kanji
                 yomi = yomi[:-2]
                 yomi = yomi.strip("（）")
                 yomi = to_hirakana(yomi)
-                pos = yomi.find('-')
+                pos = yomi.find('―')
                 if 0 <= pos:
-                    yomi = yomi[:pos] + '―'
+                    k += yomi[pos + 1:]
+                    yomi = yomi[:pos + 1]
+                k += g
                 if not yomi in dict:
-                    dict[yomi] = [k]
+                    dict[yomi] = list()
+                    dict[yomi].append(k)
                 elif not k in dict[yomi]:
                     dict[yomi].append(k)
     for yomi, kanji in dict.items():
         l = list()
-        for i in range(1, 9):
+        for i in range(1, 10):
             for k in kanji:
                 if int(k[-1]) == i:
                     if not k[:-2] in l:
@@ -344,7 +348,7 @@ def hyougai_yomi(dict, grade = 10):
                     continue
                 yomi = yomi[:-2]
                 yomi = yomi.strip("（）")
-                pos = yomi.find('-')
+                pos = yomi.find('―')
                 if 0 <= pos:
                     yomi = yomi[:pos]
                 if not yomi:
@@ -377,7 +381,7 @@ def wago(dict, grade = 10):
                     continue
                 yomi = yomi[:-2]
                 yomi = yomi.strip("（）")
-                pos = yomi.find('-')
+                pos = yomi.find('―')
                 if 0 <= pos:
                     yomi = yomi[:pos]
                 if not yomi:

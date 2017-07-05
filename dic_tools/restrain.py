@@ -34,7 +34,7 @@ if __name__ == '__main__':
     dict = dic.union(dict, dic.load('my.dic'))              # 独自に追加したい熟語を追加。
     dict = dic.difference(dict, dic.load('drop.dic'))       # 独自に削除したい熟語を削除。
 
-    grade = 10
+    grade = 8
     if 3 <= len(sys.argv):
         grade = int(sys.argv[2])
 
@@ -67,7 +67,7 @@ if __name__ == '__main__':
     dict = dic.union(dic.zyouyou(grade), dict)                  # 常用漢字を追加
     dict = dic.union(zyosuusi, dict)                            # 助数詞を先頭に追加
     dict = dic.union(dict, reigai)                              # 例外を追加
-    if 10 <= grade:
+    if 8 <= grade:
         dict = dic.union(dict, dic.load('tc2.compat.dic'))      # tc2のmazegaki.dic辞書から選択した単語を追加。
     if 6 < grade:
         dict = dic.union(dict, dic.load('greek.dic'))           # ギリシア文字辞書を追加。
