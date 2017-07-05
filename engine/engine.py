@@ -248,18 +248,19 @@ class EngineReplaceWithKanji(IBus.Engine):
     def __handle_roomazi_layout(self, preedit, keyval, state = 0, modifiers = 0):
         yomi = ''
         if self.__event.is_ascii(keyval):
-            preedit += self.__event.chr(keyval)
-            if preedit in self.__layout['Roomazi']:
-                yomi = self.__layout['Roomazi'][preedit]
-                preedit = ''
-            elif 2 <= len(preedit) and preedit[0] == 'n' and preedit[1] != 'y':
+            c = self.__event.chr(keyval)
+            if preedit == 'n' and "aiueon\'wy".find(c) < 0:
                 yomi = 'ん'
                 preedit = preedit[1:]
+            preedit += c
+            if preedit in self.__layout['Roomazi']:
+                yomi += self.__layout['Roomazi'][preedit]
+                preedit = ''
             elif 2 <= len(preedit) and preedit[0] == preedit[1] and _re_tu.search(preedit[1]):
-                yomi = 'っ'
+                yomi += 'っ'
                 preedit = preedit[1:]
             elif preedit[-1] == '\\':
-                yomi = '―'
+                yomi += '―'
                 preedit = preedit[:-1]
         return yomi, preedit
 
