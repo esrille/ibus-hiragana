@@ -45,7 +45,7 @@ class Event:
         self.__Space = keysyms.F13              # Extra space key in Kana mode
         self.__Yen = False
         self.__Prefix = False                   # True if Shift is to be prefixed
-        self.__DualBits = bits.Dual_ShiftR_Bit
+        self.__DualBits = bits.Dual_ShiftL_Bit | bits.Dual_ShiftR_Bit
 
         if "Keyboard" in layout:
             keyboard = layout["Keyboard"]
@@ -123,6 +123,9 @@ class Event:
     def is_shrink(self):
         return self.__keyval == keysyms.Tab or (self.__keyval == keysyms.Right and self.is_shift())
 
+    def is_suffix(self):
+        return self.__modifiers & bits.Dual_ShiftL_Bit
+
     def process_key_event(self, keyval, keycode, state):
         logger.debug("process_key_event(%s, %04x, %04x) %02x" % (IBus.keyval_name(keyval), keycode, state, self.__modifiers))
 
@@ -142,11 +145,12 @@ class Event:
                 self.__modifiers &= ~bits.Not_Dual_Space_Bit
             elif keyval == keysyms.Shift_L:
                 self.__modifiers |= bits.ShiftL_Bit
-            elif keyval == keysyms.Control_L:
-                self.__modifiers |= bits.ControlL_Bit
+                self.__modifiers &= ~bits.Not_Dual_ShiftL_Bit
             elif keyval == keysyms.Shift_R:
                 self.__modifiers |= bits.ShiftR_Bit
                 self.__modifiers &= ~bits.Not_Dual_ShiftR_Bit
+            elif keyval == keysyms.Control_L:
+                self.__modifiers |= bits.ControlL_Bit
             elif keyval == keysyms.Control_R:
                 self.__modifiers |= bits.ControlR_Bit
                 self.__modifiers &= ~bits.Not_Dual_ControlR_Bit
@@ -156,6 +160,8 @@ class Event:
 
             if (self.__modifiers & bits.Space_Bit) and keyval != keysyms.space:
                 self.__modifiers |= bits.Not_Dual_Space_Bit
+            if (self.__modifiers & bits.ShiftL_Bit) and keyval != keysyms.Shift_L:
+                self.__modifiers |= bits.Not_Dual_ShiftL_Bit
             if (self.__modifiers & bits.ShiftR_Bit) and keyval != keysyms.Shift_R:
                 self.__modifiers |= bits.Not_Dual_ShiftR_Bit
             if (self.__modifiers & bits.ControlR_Bit) and keyval != keysyms.Control_R:
@@ -184,13 +190,15 @@ class Event:
                     self.__modifiers |= bits.Dual_Space_Bit
                 self.__modifiers &= ~bits.Space_Bit
             elif keyval == keysyms.Shift_L:
+                if not (self.__modifiers & bits.Not_Dual_ShiftL_Bit):
+                    self.__modifiers |= bits.Dual_ShiftL_Bit
                 self.__modifiers &= ~bits.ShiftL_Bit
-            elif keyval == keysyms.Control_L:
-                self.__modifiers &= ~bits.ControlL_Bit
             elif keyval == keysyms.Shift_R:
                 if not (self.__modifiers & bits.Not_Dual_ShiftR_Bit):
                     self.__modifiers |= bits.Dual_ShiftR_Bit
                 self.__modifiers &= ~bits.ShiftR_Bit
+            elif keyval == keysyms.Control_L:
+                self.__modifiers &= ~bits.ControlL_Bit
             elif keyval == keysyms.Control_R:
                 if not (self.__modifiers & bits.Not_Dual_ControlR_Bit):
                     self.__modifiers |= bits.Dual_ControlR_Bit
@@ -245,6 +253,8 @@ class Event:
         if keyval == keysyms.backslash and keycode == 0x7c:
             # Treat Yen key separately for Japanese 109 keyboard.
             keyval = keysyms.yen
+        if self.is_suffix():
+            keyval = keysyms.hyphen
         self.__keyval = keyval
         self.__keycode = keycode
         self.__state = state

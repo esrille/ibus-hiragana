@@ -30,12 +30,14 @@ Space_Bit = 1 << 6
 Prefix_Bit = 1 << 7
 
 Dual_Space_Bit = 1 << 8
-Dual_ShiftR_Bit = 1 << 9
-Dual_ControlR_Bit = 1 << 10
-Dual_AltR_Bit = 1 << 10
-Dual_Bits = Dual_Space_Bit | Dual_ShiftR_Bit | Dual_ControlR_Bit | Dual_AltR_Bit
+Dual_ShiftL_Bit = 1 << 9
+Dual_ShiftR_Bit = 1 << 10
+Dual_ControlR_Bit = 1 << 11
+Dual_AltR_Bit = 1 << 12
+Dual_Bits = Dual_Space_Bit | Dual_ShiftL_Bit | Dual_ShiftR_Bit | Dual_ControlR_Bit | Dual_AltR_Bit
 
 Not_Dual_Space_Bit = 1 << 16
-Not_Dual_ShiftR_Bit = 1 << 17
-Not_Dual_ControlR_Bit = 1 << 18
-Not_Dual_AltR_Bit = 1 << 19
+Not_Dual_ShiftL_Bit = 1 << 17
+Not_Dual_ShiftR_Bit = 1 << 18
+Not_Dual_ControlR_Bit = 1 << 19
+Not_Dual_AltR_Bit = 1 << 20

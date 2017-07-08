@@ -241,7 +241,7 @@ class EngineReplaceWithKanji(IBus.Engine):
                     yomi = self.__layout['Normal'][c]
                 if yomi == '\\':
                     yomi = '―'
-        elif keyval == keysyms.Zenkaku_Hankaku:
+        elif keyval == keysyms.hyphen or keyval == keysyms.Zenkaku_Hankaku:
             yomi = '―'
         return yomi, preedit
 
@@ -262,6 +262,8 @@ class EngineReplaceWithKanji(IBus.Engine):
             elif preedit[-1] == '\\':
                 yomi += '―'
                 preedit = preedit[:-1]
+        elif keyval == keysyms.hyphen or keyval == keysyms.Zenkaku_Hankaku:
+            yomi = '―'
         return yomi, preedit
 
     def __get_surrounding_text(self):
@@ -330,7 +332,7 @@ class EngineReplaceWithKanji(IBus.Engine):
     def handle_key_event(self, keyval, keycode, state, modifiers):
         logger.debug("handle_key_event(%s, %04x, %04x, %04x)" % (IBus.keyval_name(keyval), keycode, state, modifiers))
 
-        if self.__event.is_katakana() or self.__event.is_space():
+        if self.__event.is_katakana() or self.__event.is_space() or self.__event.is_suffix():
             pass
         elif self.__event.is_modifier():
             # Ignore modifier keys
@@ -380,7 +382,7 @@ class EngineReplaceWithKanji(IBus.Engine):
                 return True
             elif 0 < len(self.__previous_text):
                 self.__previous_text = self.__previous_text[:-1]
-        elif self.__event.is_ascii(keyval) or keyval == keysyms.Zenkaku_Hankaku:
+        elif self.__event.is_ascii(keyval) or keyval == keysyms.Zenkaku_Hankaku or keyval == keysyms.hyphen:
             yomi, self.__preedit_string = self.__to_kana(self.__preedit_string, keyval, state, modifiers)
             if yomi:
                 if self.get_mode() == 'ア':
