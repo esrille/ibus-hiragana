@@ -61,6 +61,7 @@ class Dictionary:
 
     def __load_dict(self, dict, path, mode='r', version_checked = True):
         with open(path, mode) as file:
+            file.seek(0, 0)   # in case opened in the 'a+' mode
             for line in file:
                 line = line.strip(' \n/')
                 if line[0] == ';':
