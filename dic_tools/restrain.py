@@ -30,9 +30,8 @@ if __name__ == '__main__':
     if 2 <= len(sys.argv):
         path = sys.argv[1]
     dict = dic.load(path)
-    dict = dic.difference(dict, dic.yougen(dict))           # 用言を削除
-    dict = dic.union(dict, dic.load('my.dic'))              # 独自に追加したい熟語を追加。
-    dict = dic.difference(dict, dic.load('drop.dic'))       # 独自に削除したい熟語を削除。
+    dict = dic.difference(dict, dic.yougen(dict))               # 用言を削除
+    dict = dic.union(dict, dic.load('my.dic'))                  # 独自に追加したい熟語を追加。
 
     grade = 8
     if 3 <= len(sys.argv):
@@ -71,6 +70,8 @@ if __name__ == '__main__':
         dict = dic.union(dict, dic.load('tc2.compat.dic'))      # tc2のmazegaki.dic辞書から選択した単語を追加。
     if 6 < grade:
         dict = dic.union(dict, dic.load('greek.dic'))           # ギリシア文字辞書を追加。
+
+    dict = dic.difference(dict, dic.load('drop.dic'))           # 独自に削除したい熟語を削除。
 
     # ヘッダーを出力します。
     print(';; 日本語漢字置換インプット メソッド')
