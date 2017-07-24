@@ -27,25 +27,20 @@
 
 ## インストール方法
 
-漢字置換インプット メソッドは、ソースコードから下記の手順でインストールしてください。
+漢字置換インプット メソッドは、リリース版はrpmパッケージ(Fedora用)あるいはdebパッケージ(Ubuntu用)からインストールしたり、下記の手順でソースコードからもインストールできます。
 
     ./autogen.sh
     make
     sudo make install
     ibus restart
 
-上記の手順ができたら、IBus Preferencesの"Input Method"タブから、
+インストールができたら、IBus Preferencesの"Input Method"タブから、
 
 ![アイコン](icons/ibus-replace-with-kanji.png) Japanese - ReplaceWithKanji
 
 を選択してください。
 
-**参考**: Fedoraではtarballをつくってから、以下のようにしてrpmファイルをつくることもできます。
-
-    $ make dist
-    $ rpmbuild -ta ibus-replace-with-kanji-#.#.#.tar.gz
-
-※ ビルドするとき、Python3とIBusのほかに、Fedoraではibus-develが、Ubuntuではlibibus-1.0-devなどが必要になります。
+※ ソースコードからビルド時は、Python3とIBusのほかに、Fedoraではibus-develが、Ubuntuではlibibus-1.0-devなどが必要になります。
 
     $ sudo dnf install ibus-devel # Fedoraの場合
     $ sudo apt-get install libibus-1.0-dev # Ubuntuの場合
@@ -64,8 +59,9 @@
 〔Enter〕 | 同音異義語の確定(つづきを入力すれば〔Enter〕をおさなくても自動的に確定します)
 〔Esc〕 | 同音異義語の選択とりけし(ひらがなにもどす)<br>入力しかけのローマ字のとりけし
 〔Page Up〕，〔Page Down〕 | 同音異義語ウィンドウのページのきりかえ
-〔カタカナ〕(JISキーボードの場合)<br>右〔Shift〕(英語キーボードの場合)<br>右〔Ctrl〕(親指シフトおよびTRONかな配列の場合) | カタカナ置換(カーソルのてまえのひらがなを前方にむかって1文字ずつカタカナに置換していきます)
-〔Alt〕-〔カタカナ〕(JISキーボードの場合)<br>〔Alt〕-右〔Shift〕(英語キーボードの場合)<br>〔Alt〕-右〔Ctrl〕(親指シフトおよびTRONかな配列の場合) | カタカナ/ひらがなモードのきりかえ
+〔カタカナ〕(JISキーボードの場合)<br>右〔Shift〕(英語キーボードの場合) | カタカナ置換(カーソルのてまえのひらがなを前方にむかって1文字ずつカタカナに置換していきます)
+〔Alt〕-〔カタカナ〕(JISキーボードの場合)<br>〔Alt〕-右〔Shift〕(英語キーボードの場合) | カタカナ/ひらがなモードのきりかえ
+左〔Shift〕 | おくりがなの位置を指定
 
 * 同音異義語ウィンドウは置換候補が複数ある場合にだけ表示されます。
 * 同音異義語ウィンドウから候補を選択するときに、数字キーには対応していません(数字をうつと、そのまま数字が入力されます)。
@@ -161,10 +157,8 @@
 キーボード配列 | 設定ファイル名 | 補足
 ------------ | ------------- | -------------
 99式ローマ字 | roomazi.json<br>roomazi.109.json | デフォルト。99式ローマ字は梅棹忠夫さんが会長をつとめられた日本ローマ字会でさだめられた方式です。基本部分は訓令式とおなじです。
-JISかな配列 | jis.109.json |
 [ニュー スティックニー配列](http://esrille.github.io/ibus-replace-with-kanji/layouts.html) | new_stickney.json | まだローマ字の習得がむずかしい小学生にもおぼえやすいような、かな配列として研究中の配列です。
-TRONかな配列 | tron.json | エスリルNISSE用。
-NICOLA(親指シフト) | nicola.json<br>nicola_f.json | エスリルNISSE用。
+JISかな配列 | jis.109.json |
 
 設定を変更するときは、IBus configの、
 
@@ -181,11 +175,6 @@ IBus configの設定は、dconf Editorをつかう場合は、
     /desktop/ibus
 
 から変更できます。設定を変更すると、自動的に漢字置換インプット メソッドに反映されます。
-
-※ エスリルのNISSEをつかわれている場合は、キーボードをpcモードに設定して、~/.Xmodmapを以下のように設定しておくと、FNキーで〔英数〕と〔かな〕のモードきりかえができるようになります。またNISSE側のかな配列は、TRONかな配列などをつかう場合でもローマ字に設定しておいてください(漢字置換インプット メソッド側で各配列に対応しています)。
-
-    keycode 191 = F13 F13 F13
-    keycode 192 = F14 F14 F14
 
 ## 辞書ファイルについて
 
