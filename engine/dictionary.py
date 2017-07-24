@@ -67,7 +67,7 @@ class Dictionary:
             for line in file:
                 line = line.strip(' \n/')
                 if line[0] == ';':
-                    if line == "; " + _dic_ver + "\n":
+                    if line == "; " + _dic_ver:
                         version_checked = True
                     continue
                 if not line:
