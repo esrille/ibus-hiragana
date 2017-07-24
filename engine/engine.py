@@ -240,8 +240,15 @@ class EngineReplaceWithKanji(IBus.Engine):
                 else:
                     yomi = self.__layout['Normal'][c]
                 if yomi == '\\':
-                    yomi = '―'
-        elif keyval == keysyms.hyphen or keyval == keysyms.Zenkaku_Hankaku:
+                    preedit += yomi
+                    yomi = ''
+        elif keyval == keysyms.Zenkaku_Hankaku:
+            if preedit == '\\':
+                yomi = '￥'
+                preedit = ''
+            else:
+                preedit += '\\'
+        elif keyval == keysyms.hyphen:
             yomi = '―'
         return yomi, preedit
 
@@ -259,10 +266,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             elif 2 <= len(preedit) and preedit[0] == preedit[1] and _re_tu.search(preedit[1]):
                 yomi += 'っ'
                 preedit = preedit[1:]
-            elif preedit[-1] == '\\':
-                yomi += '―'
-                preedit = preedit[:-1]
-        elif keyval == keysyms.hyphen or keyval == keysyms.Zenkaku_Hankaku:
+        elif keyval == keysyms.hyphen:
             yomi = '―'
         return yomi, preedit
 
