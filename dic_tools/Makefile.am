@@ -38,6 +38,7 @@ EXTRA_DIST = \
 	drop.dic \
 	fuhyou.dic \
 	greek.dic \
+	kahen.dic \
 	my.dic \
 	tc2.compat.dic \
 	zyosuusi.dic \

@@ -64,6 +64,8 @@ if __name__ == '__main__':
     if 6 < grade:
         dict = dic.union(dict, dic.load('fuhyou.dic'))          # 常用漢字表・付表の熟語を追加。
     dict = dic.union(dic.zyouyou(grade), dict)                  # 常用漢字を追加
+    if 1 < grade:
+        dict = dic.union(dict, dic.load('kahen.dic'))           # カ変活用を追加
     dict = dic.union(zyosuusi, dict)                            # 助数詞を先頭に追加
     dict = dic.union(dict, reigai)                              # 例外を追加
     if 8 <= grade:
