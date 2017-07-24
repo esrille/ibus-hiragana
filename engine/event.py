@@ -121,7 +121,7 @@ class Event:
         return self.__keyval == self.__Muhenkan
 
     def is_shrink(self):
-        return self.__keyval == keysyms.Tab or (self.__keyval == keysyms.Right and self.is_shift())
+        return self.__keyval == keysyms.Tab
 
     def is_suffix(self):
         return self.__modifiers & bits.Dual_ShiftL_Bit
