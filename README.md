@@ -162,7 +162,7 @@
 ------------ | ------------- | -------------
 99式ローマ字 | roomazi.json<br>roomazi.109.json | デフォルト。99式ローマ字は梅棹忠夫さんが会長をつとめられた日本ローマ字会でさだめられた方式です。基本部分は訓令式とおなじです。
 JISかな配列 | jis.109.json |
-[ニュー スティックニー配列](https://github.com/esrille/new-stickney) | new_stickney.json | まだローマ字の習得がむずかしい小学生にもおぼえやすいような、かな配列として研究中の配列です。
+[ニュー スティックニー配列](http://esrille.github.io/ibus-replace-with-kanji/layouts.html) | new_stickney.json | まだローマ字の習得がむずかしい小学生にもおぼえやすいような、かな配列として研究中の配列です。
 TRONかな配列 | tron.json | エスリルNISSE用。
 NICOLA(親指シフト) | nicola.json<br>nicola_f.json | エスリルNISSE用。
 
