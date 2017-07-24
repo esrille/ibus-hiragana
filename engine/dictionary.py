@@ -23,6 +23,8 @@ import re
 logger = logging.getLogger(__name__)
 
 _re_not_yomi = re.compile(r'[^ぁ-ゖァ-ー―]')
+_re_yomi = re.compile(r'^[ぁ-ゖァ-ー―]+[、。，．]?$')
+
 _dic_ver = "v0.4.0"
 
 class Dictionary:
@@ -180,7 +182,10 @@ class Dictionary:
 
     def lookup(self, yomi, pos):
         self.reset()
-        suffix = yomi[:pos].find('―')
+        # Look for the nearest hyphen.
+        suffix = yomi[:pos].rfind('―')
+        if 0 <= suffix and not _re_yomi.match(yomi[suffix:pos]):
+            suffix = -1
         if suffix <= 0:
             size = pos
             for i in range(size - 1, -1, -1):
