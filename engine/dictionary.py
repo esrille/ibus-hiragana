@@ -27,6 +27,7 @@ _re_yomi = re.compile(r'^[ぁ-ゖァ-ー―]+[、。，．]?$')
 
 _dic_ver = "v0.4.0"
 
+
 class Dictionary:
 
     def __init__(self, path):
@@ -61,7 +62,7 @@ class Dictionary:
             self.__orders_path = os.path.join(self.__orders_path, base)
             self.__load_dict(self.__dict, self.__orders_path, 'a+', version_checked=False)
 
-    def __load_dict(self, dict, path, mode='r', version_checked = True):
+    def __load_dict(self, dict, path, mode='r', version_checked=True):
         with open(path, mode) as file:
             file.seek(0, 0)   # in case opened in the 'a+' mode
             for line in file:
@@ -77,7 +78,7 @@ class Dictionary:
                 p = line.split(' ', 1)
                 yomi = p[0]
                 cand = p[1].strip(' \n/').split('/')
-                if not yomi in dict:
+                if yomi not in dict:
                     dict[yomi] = cand
                 else:
                     update = list(dict[yomi])
@@ -217,7 +218,7 @@ class Dictionary:
                     p = self.__match(c[1:], y[size:])
                     logger.debug("lookup: %s %s => %d", c, y[size:], p)
                     c = c[0] + yomi[size:pos]
-                    if p and not c in cand:
+                    if p and c not in cand:
                         cand.append(c)
                         order.append(n)
                     n += 1
@@ -255,7 +256,7 @@ class Dictionary:
         with open(self.__orders_path, 'w') as file:
             file.write("; " + _dic_ver + "\n")
             for yomi, cand in self.__dict.items():
-                if not yomi in self.__dict_base or cand != self.__dict_base[yomi]:
+                if yomi not in self.__dict_base or cand != self.__dict_base[yomi]:
                     file.write(yomi + " /" + '/'.join(cand) + "/\n")
         self.__dirty = False
 

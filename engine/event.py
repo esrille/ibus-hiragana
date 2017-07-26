@@ -29,6 +29,7 @@ keysyms = IBus
 
 logger = logging.getLogger(__name__)
 
+
 class Event:
     def __init__(self, engine, delay, layout):
         self.__engine = engine

@@ -29,7 +29,6 @@ import time
 from gi import require_version
 require_version('IBus', '1.0')
 from gi.repository import IBus
-from gi.repository import GLib
 
 from dictionary import Dictionary
 from event import Event
@@ -63,6 +62,7 @@ _name_to_logging_level = {
 
 _input_mode_names = set(['A', 'あ', 'ア'])
 
+
 def to_katakana(kana):
     result = ''
     for c in kana:
@@ -72,6 +72,7 @@ def to_katakana(kana):
         else:
             result += _katakana[pos]
     return result
+
 
 class EngineReplaceWithKanji(IBus.Engine):
     __gtype_name__ = 'EngineReplaceWithKanji'
@@ -107,16 +108,16 @@ class EngineReplaceWithKanji(IBus.Engine):
     def __init_props(self):
         self.__prop_list = IBus.PropList()
         self.__input_mode_prop = IBus.Property(
-            key = 'InputMode',
-            prop_type = IBus.PropType.NORMAL,
-            symbol = IBus.Text.new_from_string(self.__mode),
-            label = IBus.Text.new_from_string('Input mode (%s)' % self.__mode),
-            icon = None,
-            tooltip = None,
-            sensitive = False,
-            visible = True,
-            state = IBus.PropState.UNCHECKED,
-            sub_props = None)
+            key='InputMode',
+            prop_type=IBus.PropType.NORMAL,
+            symbol=IBus.Text.new_from_string(self.__mode),
+            label=IBus.Text.new_from_string('Input mode (%s)' % self.__mode),
+            icon=None,
+            tooltip=None,
+            sensitive=False,
+            visible=True,
+            state=IBus.PropState.UNCHECKED,
+            sub_props=None)
         self.__prop_list.append(self.__input_mode_prop)
 
     def __update_input_mode(self):
@@ -126,7 +127,7 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def __load_input_mode(self, config):
         var = config.get_value('engine/replace-with-kanji-python', 'mode')
-        if var == None or var.get_type_string() != 's' or not var.get_string() in _input_mode_names:
+        if var is None or var.get_type_string() != 's' or not var.get_string() in _input_mode_names:
             mode = 'A'
             if var:
                 config.unset('engine/replace-with-kanji-python', 'mode')
@@ -137,7 +138,7 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def __load_logging_level(self, config):
         var = config.get_value('engine/replace-with-kanji-python', 'logging_level')
-        if var == None or var.get_type_string() != 's' or not var.get_string() in _name_to_logging_level:
+        if var is None or var.get_type_string() != 's' or not var.get_string() in _name_to_logging_level:
             level = 'WARNING'
             if var:
                 config.unset('engine/replace-with-kanji-python', 'logging_level')
@@ -149,7 +150,7 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def __load_dictionary(self, config):
         var = config.get_value('engine/replace-with-kanji-python', 'dictionary')
-        if var == None or var.get_type_string() != 's':
+        if var is None or var.get_type_string() != 's':
             path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'restrained.dic')
             if var:
                 config.unset('engine/replace-with-kanji-python', 'dictionary')
@@ -159,7 +160,7 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def __load_layout(self, config):
         var = config.get_value('engine/replace-with-kanji-python', 'layout')
-        if var == None or var.get_type_string() != 's':
+        if var is None or var.get_type_string() != 's':
             path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'layouts')
             path = os.path.join(path, 'roomazi.json')
             if var:
@@ -185,7 +186,7 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def __load_delay(self, config):
         var = config.get_value('engine/replace-with-kanji-python', 'delay')
-        if var == None or var.get_type_string() != 'i':
+        if var is None or var.get_type_string() != 'i':
             delay = 0
             if var:
                 config.unset('engine/replace-with-kanji-python', 'delay')
@@ -216,7 +217,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.set_mode(self.__load_input_mode(self.__config))
             self.__override = True
 
-    def __handle_kana_layout(self, preedit, keyval, state = 0, modifiers = 0):
+    def __handle_kana_layout(self, preedit, keyval, state=0, modifiers=0):
         yomi = ''
         if self.__event.is_ascii(keyval):
             c = self.__event.chr(keyval)
@@ -252,7 +253,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             yomi = '―'
         return yomi, preedit
 
-    def __handle_roomazi_layout(self, preedit, keyval, state = 0, modifiers = 0):
+    def __handle_roomazi_layout(self, preedit, keyval, state=0, modifiers=0):
         yomi = ''
         if self.__event.is_ascii(keyval):
             c = self.__event.chr(keyval)

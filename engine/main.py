@@ -32,6 +32,7 @@ from gi.repository import GObject
 
 from engine import EngineReplaceWithKanji
 
+
 class IMApp:
     def __init__(self, exec_by_ibus):
         engine_name = "replace-with-kanji-python" if exec_by_ibus else "replace-with-kanji-python (debug)"
@@ -71,11 +72,13 @@ class IMApp:
     def __bus_disconnected_cb(self, bus):
         self.__mainloop.quit()
 
-def print_help(v = 0):
+
+def print_help(v=0):
     print("-i, --ibus             executed by IBus.")
     print("-h, --help             show this message.")
     print("-d, --daemonize        daemonize ibus")
     sys.exit(v)
+
 
 def main():
 
