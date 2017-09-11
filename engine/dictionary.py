@@ -39,6 +39,7 @@ class Dictionary:
         self.__yomi = ''
         self.__no = 0
         self.__cand = []
+        self.__numeric = ''
         self.__dirty = False
 
         self.__orders_path = ''
@@ -188,16 +189,36 @@ class Dictionary:
         if 0 <= suffix and not _re_yomi.match(yomi[suffix:pos]):
             suffix = -1
         if suffix <= 0:
+            numeric = ''
+            has_numeric = False
             size = pos
             for i in range(size - 1, -1, -1):
-                if _re_not_yomi.match(yomi[i]):
+                if not has_numeric and yomi[i].isnumeric():
+                    numeric = numeric + yomi[i]
+                    if 0 < i and yomi[i - 1].isnumeric():
+                        continue
+                    has_numeric = True
+                elif _re_not_yomi.match(yomi[i]):
                     break
                 y = yomi[i:size]
-                if y in self.__dict:
-                    self.__yomi = y
-                    self.__cand = self.__dict[y]
-                    self.__no = 0
-                    self.__order = list()
+                if not has_numeric:
+                    if y in self.__dict:
+                        self.__yomi = y
+                        self.__cand = self.__dict[y]
+                        self.__no = 0
+                        self.__order = list()
+                        self.__numeric = ''
+                else:
+                    yy = y.replace(numeric, '#')
+                    if yy in self.__dict:
+                        self.__yomi = y
+                        cand = list()
+                        for c in self.__dict[yy]:
+                            cand.append(c.replace('#', numeric))
+                        self.__cand = cand
+                        self.__no = 0
+                        self.__order = list()
+                        self.__numeric = numeric
             return self.current()
 
         # Process suffix
@@ -227,6 +248,7 @@ class Dictionary:
                     self.__cand = cand
                     self.__no = 0
                     self.__order = order
+                    self.__numeric = ''
         return self.current()
 
     def confirm(self):
@@ -240,6 +262,11 @@ class Dictionary:
             yomi = yomi[:yomi.find('―') + 1]
             no = self.__order[no]
             cand = self.__dict[yomi][:]
+        elif self.__numeric:
+            yomi = yomi.replace(self.__numeric, '#')
+            cand = list()
+            for c in self.__cand:
+                cand.append(c.replace(self.__numeric, '#'))
         else:
             cand = self.__cand[:]
 

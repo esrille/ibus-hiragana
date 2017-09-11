@@ -21,9 +21,9 @@ import sys
 
 re_kana = re.compile(r"[ぁ-ゖか゚き゚く゚け゚こ゚ァ-ヶーカ゚キ゚ク゚ケ゚コ゚セ゚ツ゚ト゚ㇰ-ㇹㇷ゚ㇺ-ㇿヷヸヹヺ]")
 
-re_non_regular_yomi = re.compile(r"[^ぁ-ゖー]")
+re_non_regular_yomi = re.compile(r"[^ぁ-ゖー#]")
 
-re_skk_yomi = re.compile(r"^[ぁ-ゖー]+[a-z―]?$")
+re_skk_yomi = re.compile(r"^[ぁ-ゖー#]+[a-z―]?$")
 
 re_alpha = re.compile(r"[a-zA-Z]")
 
@@ -300,8 +300,10 @@ def mix_yougen(dict):
     return d
 
 def _is_hyounai_yomi(zyouyou, yomi, kanji):
-    if yomi[-1] == '―':
-        yomi = yomi[:-1]
+    # ― と # をとりのぞく。
+    yomi = yomi.replace('―', '')
+    yomi = yomi.replace('#', '')
+    kanji = kanji.replace('#', '')
     if len(kanji) == 1:
         if not kanji in zyouyou:
             return False
