@@ -105,6 +105,8 @@ class EngineReplaceWithKanji(IBus.Engine):
 
         self.set_mode(self.__load_input_mode(self.__config))
 
+        self.__shrunk = ''
+
     def __init_props(self):
         self.__prop_list = IBus.PropList()
         self.__input_mode_prop = IBus.Property(
@@ -438,6 +440,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         if not self.__dict.current():
             text, pos = self.__get_surrounding_text()
             (cand, size) = self.lookup_dictionary(text, pos)
+            self.__shrunk = ''
         else:
             size = len(self.__dict.current())
             if not (state & IBus.ModifierType.SHIFT_MASK):
@@ -461,12 +464,14 @@ class EngineReplaceWithKanji(IBus.Engine):
         current_size = len(self.__dict.current())
         text, pos = self.__get_surrounding_text()
         (cand, size) = self.lookup_dictionary(yomi[1:] + text[pos:], len(yomi) - 1)
+        kana = yomi
         if 0 < size:
-            yomi = yomi[:-size]
-        elif yomi[-1] == '―':
-            yomi = yomi[:-1]
+            kana = kana[:-size]
+            self.__shrunk += kana
+        elif kana[-1] == '―':
+            kana = kana[:-1]
         self.__delete_surrounding_text(current_size)
-        self.__commit_string(yomi + cand)
+        self.__commit_string(kana + cand)
         # Update preedit *after* committing the string to append preedit.
         self.__update()
         return True
@@ -483,7 +488,7 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def __commit(self):
         if self.__dict.current():
-            self.__dict.confirm()
+            self.__dict.confirm(self.__shrunk)
             self.__dict.reset()
             self.__lookup_table.clear()
             visible = 0 < self.__lookup_table.get_number_of_candidates()

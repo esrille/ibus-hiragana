@@ -251,13 +251,14 @@ class Dictionary:
                     self.__numeric = ''
         return self.current()
 
-    def confirm(self):
-        if not self.__yomi or self.__no == 0:
+    def confirm(self, shrunk):
+        if not self.__yomi:
             return
 
         # Get a copy of the original candidate list
         yomi = self.__yomi
         no = self.__no
+
         if self.__order:
             yomi = yomi[:yomi.find('―') + 1]
             no = self.__order[no]
@@ -272,10 +273,25 @@ class Dictionary:
 
         # Update the order of the candidates.
         first = cand[no]
-        cand.remove(first)
-        cand.insert(0, first)
-        self.__dict[yomi] = cand
-        self.__dirty = True
+        if 0 < no:
+            cand.remove(first)
+            cand.insert(0, first)
+            self.__dict[yomi] = cand
+            self.__dirty = True
+
+        # Personalize the dictionary if the candidate has been selected by shrinking the reading.
+        if shrunk and not self.__order and not self.__numeric:
+            yomi = shrunk + yomi
+            if self.lookup(yomi, len(yomi)):
+                first = shrunk + first
+                cand = self.__cand[:]
+                try:
+                    cand.remove(first)
+                except ValueError:
+                    pass
+                cand.insert(0, first)
+                self.__dict[yomi] = cand
+                self.__dirty = True
 
     def save_orders(self):
         if not self.__dirty:
