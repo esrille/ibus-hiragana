@@ -282,6 +282,12 @@ class EngineReplaceWithKanji(IBus.Engine):
         tuple = self.get_surrounding_text()
         text = tuple[0].get_text()
         pos = tuple[1]
+        # Deal with surrogate pair manually. (iBus bug?)
+        for i in range(len(text)):
+            if pos <= i:
+                break
+            if 0x10000 <= ord(text[i]):
+                pos -= 1
         # Qt seems to insert self.__preedit_string to the text, while GTK doesn't.
         # We mimic GTK's behavior here.
         preedit_len = len(self.__preedit_string)
