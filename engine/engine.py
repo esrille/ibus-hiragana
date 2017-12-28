@@ -282,12 +282,18 @@ class EngineReplaceWithKanji(IBus.Engine):
         tuple = self.get_surrounding_text()
         text = tuple[0].get_text()
         pos = tuple[1]
-        # Deal with surrogate pair manually. (iBus bug?)
-        for i in range(len(text)):
-            if pos <= i:
-                break
-            if 0x10000 <= ord(text[i]):
-                pos -= 1
+
+        # Qt reports pos as if text is in UTF-16 while GTK reports pos in sane manner.
+        # If you're using primarily Qt, use the following code to amend the issue
+        # when a character in Unicode supplementary planes is included in text.
+        #
+        # Deal with surrogate pair manually. (Qt bug?)
+        # for i in range(len(text)):
+        #     if pos <= i:
+        #         break
+        #     if 0x10000 <= ord(text[i]):
+        #         pos -= 1
+
         # Qt seems to insert self.__preedit_string to the text, while GTK doesn't.
         # We mimic GTK's behavior here.
         preedit_len = len(self.__preedit_string)
