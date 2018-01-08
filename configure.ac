@@ -1,4 +1,4 @@
-# Copyright (c) 2017 Esrille Inc.
+# Copyright (c) 2017, 2018 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-AC_INIT([ibus-replace-with-kanji], [0.4.0], [https://github.com/esrille/ibus-replace-with-kanji/issues])
+AC_INIT([ibus-replace-with-kanji], [0.5.0], [https://github.com/esrille/ibus-replace-with-kanji/issues])
 AM_INIT_AUTOMAKE([foreign tar-ustar])
 
 # Check IBus
