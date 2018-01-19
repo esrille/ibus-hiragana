@@ -311,7 +311,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             # Note a short delay after each BackSpace is necessary for the target application to catch up.
             for i in range(size):
                 self.forward_key_event(IBus.BackSpace, 14, 0)
-                time.sleep(0.01)
+                time.sleep(0.02)
             self.forward_key_event(IBus.BackSpace, 14, IBus.ModifierType.RELEASE_MASK)
 
     def is_overridden(self):
