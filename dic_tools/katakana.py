@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 #
-# Copyright (c) 2017 Esrille Inc.
+# Copyright (c) 2017-2019 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -56,8 +56,11 @@ def load(path):
         file.close()
 
     # Remove typos in the original file.
-    s.remove('アアダプタ')
-    s.remove('アアダプター')
+    try:
+        s.remove('アアダプタ')
+        s.remove('アアダプター')
+    except:
+        pass
 
     return s
 
