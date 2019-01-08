@@ -15,7 +15,7 @@
 
 
 %:
-	dh $@  --with python3,autotools_dev
+	dh $@  --with python3
 
 
 # dh_make generated override targets
