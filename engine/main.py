@@ -5,7 +5,7 @@
 # Using source code derived from
 #   ibus-tmpl - The Input Bus template project
 #
-# Copyright (c) 2017, 2018 Esrille Inc.
+# Copyright (c) 2017-2019 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ class IMApp:
         self.__component = IBus.Component.new(
             "org.freedesktop.IBus.ReplaceWithKanji",
             "Replace With Kanji Input Method",
-            "0.5.0",
+            "0.5.1",
             "Apache",
             "Esrille Inc. <info@esrille.com>",
             "https://github.com/esrille/ibus-replace-with-kanji",
