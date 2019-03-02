@@ -1,3 +1,9 @@
+ibus-replace-with-kanji (0.5.2) unstable; urgency=low
+
+  * See https://github.com/esrille/ibus-replace-with-kanji/releases/tag/v0.5.2
+
+ -- Esrille Inc. <info@esrille.com>  Sun, 3 Mar 2019 06:48:36 +0900
+
 ibus-replace-with-kanji (0.5.1) unstable; urgency=low
 
   * See https://github.com/esrille/ibus-replace-with-kanji/releases/tag/v0.5.1
