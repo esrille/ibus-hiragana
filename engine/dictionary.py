@@ -194,7 +194,7 @@ class Dictionary:
             size = pos
             for i in range(size - 1, -1, -1):
                 if not has_numeric and yomi[i].isnumeric():
-                    numeric = numeric + yomi[i]
+                    numeric = yomi[i] + numeric
                     if 0 < i and yomi[i - 1].isnumeric():
                         continue
                     has_numeric = True
