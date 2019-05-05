@@ -2,7 +2,7 @@
 #
 # ibus-replace-with-kanji - Replace with Kanji Japanese input method for IBus
 #
-# Copyright (c) 2017 Esrille Inc.
+# Copyright (c) 2017-2019 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -211,10 +211,10 @@ class Dictionary:
                 else:
                     yy = y.replace(numeric, '#')
                     if yy in self.__dict:
-                        self.__yomi = y
+                        self.__yomi = yy[1:]
                         cand = list()
                         for c in self.__dict[yy]:
-                            cand.append(c.replace('#', numeric))
+                            cand.append(c[1:])
                         self.__cand = cand
                         self.__no = 0
                         self.__order = list()
@@ -264,10 +264,10 @@ class Dictionary:
             no = self.__order[no]
             cand = self.__dict[yomi][:]
         elif self.__numeric:
-            yomi = yomi.replace(self.__numeric, '#')
+            yomi = '#' + yomi
             cand = list()
             for c in self.__cand:
-                cand.append(c.replace(self.__numeric, '#'))
+                cand.append('#' + c)
         else:
             cand = self.__cand[:]
 
