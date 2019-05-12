@@ -418,17 +418,16 @@ class EngineReplaceWithKanji(IBus.Engine):
     def lookup_dictionary(self, yomi, pos):
         # Handle dangling 'n' for 'ん' here to minimize the access to the surrounding text API,
         # which could cause an unexpected behaviour occasionally at race conditions.
-        adjust = 0
         if self.__preedit_string == 'n':
             yomi = yomi[:pos] + 'ん'
             pos += 1
-            adjust = 1
         self.__lookup_table.clear()
         cand = self.__dict.lookup(yomi, pos)
         size = len(self.__dict.reading())
         if 0 < size:
+            if self.__preedit_string == 'n':
+                self.__commit_string('ん')
             self.__preedit_string = ''
-            size -= adjust
             if 1 < len(self.__dict.cand()):
                 for c in self.__dict.cand():
                     self.__lookup_table.append_candidate(IBus.Text.new_from_string(c))
