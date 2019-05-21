@@ -2,20 +2,15 @@ Name:       @PACKAGE_NAME@
 Version:    @PACKAGE_VERSION@
 Release:    1%{?dist}
 Summary:    Replace with Kanji Japanese input method for IBus
-License:    Apache License, Version 2.0
-Group:      System Environment/Libraries
-URL:        https://github.com/esrille/ibus-replace-with-kanji
-Source0:    https://github.com/esrille/ibus-replace-with-kanji/releases/download/v%{version}/%{name}-%{version}.tar.gz
+License:    ASL 2.0
+URL:        https://github.com/esrille/%{name}
+Source0:    https://github.com/esrille/%{name}/releases/download/v%{version}/%{name}-%{version}.tar.gz
 Requires:   ibus >= 1.5.11
-Requires:   python3 >= 3.3
+Requires:   python3
 Requires:   python3-dbus
 Requires:   python3-pyxdg
-BuildRequires:  ibus-devel
-%if 0%{?fedora} >= 24
-BuildRequires:  python3-devel
-%else
-BuildRequires:  python34-devel
-%endif
+BuildRequires: ibus-devel
+BuildRequires: python3-devel
 BuildArch:  noarch
 
 %description
