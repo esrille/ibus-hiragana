@@ -323,9 +323,14 @@ class EngineReplaceWithKanji(IBus.Engine):
     def enable_ime(self):
         if not self.is_enabled():
             self.set_mode('あ')
+            return True
+        return False
 
     def disable_ime(self):
-        self.set_mode('A')
+        if self.is_enabled():
+            self.set_mode('A')
+            return True
+        return False
 
     def get_mode(self):
         return self.__mode
