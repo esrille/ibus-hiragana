@@ -1,76 +1,81 @@
-# 日本語 漢字置換インプット メソッド for IBus
+# ひらがなIME for IBus<br>&mdash; <ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby> <ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby><ruby>置換<rp>(</rp><rt>ちかん</rt><rp>)</rp></ruby>インプット メソッド &mdash;
 
-漢字置換インプット メソッドは、FedoraやUbuntuなどIBusに対応したオペレーティング システムで日本語を入力するためのインプット メソッドです。漢字置換インプット メソッドは、約1,500行(v0.5.0)のプログラムで、すべてプログラミング言語Pythonで記述されています。
+　「ひらがなIME」は、かながきする<ruby>部分<rp>(</rp><rt>ぶぶん</rt><rp>)</rp></ruby>のおおくなった<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>しやすくした<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>インプット メソッドです。
+Fedora、Ubuntu、Raspberry Pi<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>のRaspbianなど、[IBus](https://github.com/ibus/ibus/wiki)に<ruby>対応<rp>(</rp><rt>たいおう</rt><rp>)</rp></ruby>したオペレーティング システム（OS）で<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>できます。
 
-## 漢字置換インプット メソッドについて
+　これまでの<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>IMEとちがって、「ひらがなIME」には「よみの<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>モード」がありません。
+ですから、ひらがなを<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>するのに、いちいち〔<ruby>確定<rp>(</rp><rt>かくてい</rt><rp>)</rp></ruby>〕キーや〔<ruby>無変換<rp>(</rp><rt>むへんかん</rt><rp>)</rp></ruby>〕キーなどをおす<ruby>必要<rp>(</rp><rt>ひつよう</rt><rp>)</rp></ruby>がありません。
+<ruby>文中<rp>(</rp><rt>ぶんちゅう</rt><rp>)</rp></ruby>のひらがなの<ruby>部分<rp>(</rp><rt>ぶぶん</rt><rp>)</rp></ruby>は、あとから、いつでも<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>におきかえることができます。
 
-漢字置換インプット メソッドでは、タイプしたひらがなはタイプライターのように本文中にそのまま直接入力されていきます。ひらがなを入力するために、〔確定〕キーや〔無変換〕キーなどをおす必要はありません。
+#### 「ひらがなIME」に<ruby>対応<rp>(</rp><rt>たいおう</rt><rp>)</rp></ruby>しているアプリケーション ソフトウェア
 
-漢字やカタカナのまじった「しろうとむけワープロの登場を期待したいですね。」(梅棹さん，2015)という文を入力したいときは、つぎのようにタイプします。
+　「ひらがなIME」は、IBusの[<ruby>周辺<rp>(</rp><rt>しゅうへん</rt><rp>)</rp></ruby>テキストAPI](http://ibus.github.io/docs/ibus-1.5/IBusEngine.html#ibus-engine-get-surrounding-text)を<ruby>応用<rp>(</rp><rt>おうよう</rt><rp>)</rp></ruby>した、あたらしい<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby><ruby>方式<rp>(</rp><rt>ほうしき</rt><rp>)</rp></ruby>です。
+GNOMEの<ruby>標準<rp>(</rp><rt>ひょうじゅん</rt><rp>)</rp></ruby>のテキスト エディターgeditや「[ふりがなパッド](https://github.com/esrille/furiganapad)」は<ruby>周辺<rp>(</rp><rt>しゅうへん</rt><rp>)</rp></ruby>テキストAPIに<ruby>対応<rp>(</rp><rt>たいおう</rt><rp>)</rp></ruby>しています。
+また、LibreOffice Writerも<ruby>最新版<rp>(</rp><rt>さいしんばん</rt><rp>)</rp></ruby>などは<ruby>周辺<rp>(</rp><rt>しゅうへん</rt><rp>)</rp></ruby>テキストAPIに<ruby>対応<rp>(</rp><rt>たいおう</rt><rp>)</rp></ruby>しています。
 
-    しろうとむけわーぷろ〔変換〕のとうじょう〔変換〕をきたい〔変換〕したいですね。
+　けれども、<ruby>周辺<rp>(</rp><rt>しゅうへん</rt><rp>)</rp></ruby>テキストAPIにまだ<ruby>対応<rp>(</rp><rt>たいおう</rt><rp>)</rp></ruby>できていないアプリケーション ソフトウェアもあります。
+そのようなソフトでは、<ruby>直前<rp>(</rp><rt>ちょくぜん</rt><rp>)</rp></ruby>に<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>した<ruby>文字列<rp>(</rp><rt>もじれつ</rt><rp>)</rp></ruby>だけを<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>に<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>できます（カーソルを<ruby>移動<rp>(</rp><rt>いどう</rt><rp>)</rp></ruby>してあとから<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>に<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>したりすることはできません）。
 
-このようにカタカナや漢字にしたい部分の直後で〔変換〕キーをおすと、ひらがなからカタカナや漢字に置換できます。ひらがなで文を最後まで入力したあとで、カーソルをまえにもどして〔変換〕キーをおしてもかまいません。
+## 「ひらがなIME」のインストール<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby>
+　つかっているOSが、Fedora, Ubuntu, Raspbianのどれかであれば、インストール<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>のソフトウェア パッケージを「[Releases](https://github.com/esrille/ibus-replace-with-kanji/releases)」ページからダウンロードできます。
 
-※ 文節を意識して変換する必要がないので、文節という概念をまだならわない小学生にも、つかいやすい方式になっています。
+　インストールができたら、「IBusの<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>(IBus Preferences)」の「<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>メソッド(Input Method)」タブで、
 
-### 梅棹式表記
+![アイコン](icons/ibus-replace-with-kanji.png) <ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>(Japanese) - ReplaceWithKanji
 
-梅棹忠夫さん(1920-2010)は、同音異義語のような目のことばをさけて、耳できいただけで意味がわかるような、わかりやすい日本語を著述のなかでつかわれていました。その表記法は「梅棹式」とよばれることがあります。梅棹式表記法の原則(梅棹さん，2004)は、つぎの2つです。
+を<ruby>選択<rp>(</rp><rt>せんたく</rt><rp>)</rp></ruby>してください。
 
-* 和語はかなでかく。1音の動詞で意味が判別しにくいときは、漢字の使用も許容する(例:切る、着る)。
-* 漢語は漢字でかく。固有名詞のほかは、常用漢字を意識してむずかしい漢字はさける。
+※ 「ひらがなIME」をじぶんでビルドしてインストールしたいときは、つぎの<ruby>手順<rp>(</rp><rt>てじゅん</rt><rp>)</rp></ruby>でインストールできます。
+```
+$ ./autogen.sh
+$ make
+$ sudo make install
+$ ibus restart
+```
 
-漢字置換インプット メソッドは、 この「梅棹式」で日本語を入力しやすいように開発をすすめてきた日本語インプット メソッドです。付属している辞書も梅棹式表記にあわせて、使用する漢字は固有名詞をのぞくと常用漢字とその音訓の範囲に限定してあります。
+## <ruby>基本的<rp>(</rp><rt>きほんてき</rt><rp>)</rp></ruby>なつかいかた
 
-※ このREADMEファイルも、漢字置換インプット メソッドをつかって梅棹式表記でかかれています。
+![<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>しているときのようす](screenshot.png)
 
-## インストール方法
+### <ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>モード
 
-漢字置換インプット メソッドは、リリース版はrpmパッケージ(Fedora用)あるいはdebパッケージ(Ubuntu用)からインストールしたり、下記の手順でソースコードからもインストールできます。
+　「ひらがなIME」には、３つの<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>モードがあります。
+<ruby>現在<rp>(</rp><rt>げんざい</rt><rp>)</rp></ruby>の<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>モードは、<ruby>画面<rp>(</rp><rt>がめん</rt><rp>)</rp></ruby>うえがわのトップバーのなかに<ruby>表示<rp>(</rp><rt>ひょうじ</rt><rp>)</rp></ruby>されます。
+ふだんよくつかうのは、「ひらがなモード」と「<ruby>英<rp>(</rp><rt>えい</rt><rp>)</rp></ruby><ruby>数<rp>(</rp><rt>すう</rt><rp>)</rp></ruby>モード」です。
 
-    ./autogen.sh
-    make
-    sudo make install
-    ibus restart
+<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>モードの<ruby>表示<rp>(</rp><rt>ひょうじ</rt><rp>)</rp></ruby> | モードのなまえ | <ruby>解説<rp>(</rp><rt>かいせつ</rt><rp>)</rp></ruby>
+---|---|---
+あ | ひらがなモード | ひらがなを<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>するモードです。<br>※ かな<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>まじり<ruby>文<rp>(</rp><rt>ぶん</rt><rp>)</rp></ruby>を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>するときは、このモードにします。
+A | <ruby>英<rp>(</rp><rt>えい</rt><rp>)</rp></ruby><ruby>数<rp>(</rp><rt>すう</rt><rp>)</rp></ruby>モード | アルファベットや<ruby>数字<rp>(</rp><rt>すうじ</rt><rp>)</rp></ruby>を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>するモードです。
+ア | カタカナ モード | ちょくせつカタカナを<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>するモードです。
 
-インストールができたら、IBus Preferencesの"Input Method"タブから、
+### <ruby>漢語<rp>(</rp><rt>かんご</rt><rp>)</rp></ruby>やカタカナのことばの<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>
 
-![アイコン](icons/ibus-replace-with-kanji.png) Japanese - ReplaceWithKanji
+　たとえば、「しろうとむけのワープロの<ruby>登場<rp>(</rp><rt>とうじょう</rt><rp>)</rp></ruby>を<ruby>期待<rp>(</rp><rt>きたい</rt><rp>)</rp></ruby>したいですね。」という<ruby>文<rp>(</rp><rt>ぶん</rt><rp>)</rp></ruby>を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>するには、つぎのようにキーボードをうちます。
+```
+しろうとむけのわーぷろ〔変換〕のとうじょう〔変換〕をきたい〔変換〕したいですね。
+```
+　<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>やカタカナの<ruby>部分<rp>(</rp><rt>ぶぶん</rt><rp>)</rp></ruby>は、まずはひらがなで<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>します。
+そのあとで、〔<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>〕キーをおせば、<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>やカタカナにおきかえることができます。
 
-を選択してください。
+※ <ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>やカタカナにするときは、カーソルがその<ruby>部分<rp>(</rp><rt>ぶぶん</rt><rp>)</rp></ruby>のまうしろにないといけません。
 
-※ ソースコードからビルド時は、Python3とIBusのほかに、Fedoraではibus-develが、Ubuntuではlibibus-1.0-devなどが必要になります。
+### おくりがなつきの<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>
 
-    $ sudo dnf install ibus-devel # Fedoraの場合
-    $ sudo apt-get install libibus-1.0-dev # Ubuntuの場合
+　<ruby>動詞<rp>(</rp><rt>どうし</rt><rp>)</rp></ruby>や<ruby>形容詞<rp>(</rp><rt>けいようし</rt><rp>)</rp></ruby>など、<ruby>活用<rp>(</rp><rt>かつよう</rt><rp>)</rp></ruby>する<ruby>和語<rp>(</rp><rt>わご</rt><rp>)</rp></ruby>を<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>で<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>したいときは、おくりがなをおくる<ruby>位置<rp>(</rp><rt>いち</rt><rp>)</rp></ruby>を<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>して<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>します。
+おくりがなをおくる<ruby>位置<rp>(</rp><rt>いち</rt><rp>)</rp></ruby>は、<ruby>水平<rp>(</rp><rt>すいへい</rt><rp>)</rp></ruby>バー「―」を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>して<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>します。
+<ruby>水平<rp>(</rp><rt>すいへい</rt><rp>)</rp></ruby>バー「―」は、<ruby>左<rp>(</rp><rt>ひだり</rt><rp>)</rp></ruby>〔Shift〕キーを<ruby>単独<rp>(</rp><rt>たんどく</rt><rp>)</rp></ruby>でおすと<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できます。
 
-## キー操作
+<ruby>例<rp>(</rp><rt>れい</rt><rp>)</rp></ruby>)
+* おく―〔変換〕 → 送，贈，後，遅
+* おく―る〔変換〕 → 送る，贈る
 
-キーの操作は下記のようになっています。なお、漢字置換インプット メソッドでは、 誤変換はテキスト エディターやワープロのUndo機能をつかって、もとのひらがなまでもどすことができます(**モードレス方式**)。
+　この<ruby>例<rp>(</rp><rt>れい</rt><rp>)</rp></ruby>のように、<ruby>活用<rp>(</rp><rt>かつよう</rt><rp>)</rp></ruby>することばは、おくりがなをふくめて<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>すると、<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>の<ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>をしぼることができます。
 
-キー | 内容
------------- | -------------
-〔Caps Lock〕 | 英数/かなモードのきりかえ
-〔変換〕(JISキーボードの場合) <br>〔スペース〕(USキーボードの場合) | 置換変換開始，次候補
-〔↓〕 | 次候補
-〔無変換〕(JISキーボードの場合) <br>〔Shift〕-〔スペース〕(USキーボードの場合) <br>〔↑〕 | 前候補
-〔Tab〕 | よみを短縮する(下記参照)
-〔Enter〕 | 同音異義語の確定(つづきを入力すれば〔Enter〕をおさなくても自動的に確定します)
-〔Esc〕 | 同音異義語の選択とりけし(ひらがなにもどす)<br>入力しかけのローマ字のとりけし
-〔Page Up〕，〔Page Down〕 | 同音異義語ウィンドウのページのきりかえ
-〔カタカナ〕(JISキーボードの場合)<br>右〔Shift〕(英語キーボードの場合) | カタカナ置換(カーソルのてまえのひらがなを前方にむかって1文字ずつカタカナに置換していきます)
-〔Alt〕-〔カタカナ〕(JISキーボードの場合)<br>〔Alt〕-右〔Shift〕(英語キーボードの場合) | カタカナ/ひらがなモードのきりかえ
-左〔Shift〕 | おくりがなの位置を指定
+### よみの<ruby>短縮<rp>(</rp><rt>たんしゅく</rt><rp>)</rp></ruby>
 
-* 同音異義語ウィンドウは置換候補が複数ある場合にだけ表示されます。
-* 同音異義語ウィンドウから候補を選択するときに、数字キーには対応していません(数字をうつと、そのまま数字が入力されます)。
-* 辞書に登録のないカタカナ語は、カタカナ置換をつかうか、カタカナ入力モードにきりかえて入力します。
-* 辞書の学習結果は、~/.local/share/ibus-replace-with-kanji/ディレクトリの中に保存されます。
-
-### よみの短縮
-
-漢字置換インプット メソッドでは、〔変換〕キーをおすと、そのときのカーソル位置の直前のひらがなの文字列が、漢字やカタカナに置換されます。そのとき、辞書ファイルの中からは、よみが一致する一番よみのながい単語がえらばれます。そのため「生きがい論」と入力したい場合、
+　「ひらがなIME」は、ひらがなを<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>やカタカナに<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>するとき、はじめは、よみのながい<ruby>単語<rp>(</rp><rt>たんご</rt><rp>)</rp></ruby>を<ruby>優先<rp>(</rp><rt>ゆうせん</rt><rp>)</rp></ruby>するようになっています。
+そのため、「<ruby>生<rp>(</rp><rt>い</rt><rp>)</rp></ruby>きがい<ruby>論<rp>(</rp><rt>ろん</rt><rp>)</rp></ruby>」と<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>したいときに、
 
     生きがいろん〔変換〕
 
@@ -78,27 +83,159 @@
 
     生き概論
 
-のようになります。そこで〔Tab〕をおすと、よみが「いろん」に短縮されて、
+のようになります。
+このようなばあいは、よみをみじかくするようにします。
+よみは、〔Tab〕キーをおすとみじかくできます。
+
+　じっさいに〔Tab〕キーをおすと、よみが「いろん」に<ruby>短縮<rp>(</rp><rt>たんしゅく</rt><rp>)</rp></ruby>されて、
 
     生きが異論
 
-とかわります。さらに、もう1度、〔Tab〕をおすと、よみが「ろん」に短縮されて、
+にかわります。さらに、もういちど、〔Tab〕キーをおすと、よみが「ろん」に<ruby>短縮<rp>(</rp><rt>たんしゅく</rt><rp>)</rp></ruby>されて、
 
     生きがい論
 
-と目的の「生きがい論」に置換できます。
+と<ruby>目的<rp>(</rp><rt>もくてき</rt><rp>)</rp></ruby>の「<ruby>生<rp>(</rp><rt>い</rt><rp>)</rp></ruby>きがい<ruby>論<rp>(</rp><rt>ろん</rt><rp>)</rp></ruby>」を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できます。
 
-※ よみの短縮結果も辞書の学習結果と同様に保存されます。
+※ よみの<ruby>短縮<rp>(</rp><rt>たんしゅく</rt><rp>)</rp></ruby>も<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>の<ruby>学習<rp>(</rp><rt>がくしゅう</rt><rp>)</rp></ruby><ruby>結果<rp>(</rp><rt>けっか</rt><rp>)</rp></ruby>とおなじように<ruby>保存<rp>(</rp><rt>ほぞん</rt><rp>)</rp></ruby>されます。
 
-### 和語の動詞や用言の漢字での入力方法
+## キーのわりあて
 
-#### 和語の1音の動詞の漢字
+キーのわりあては、つぎようになっています。
 
-漢字置換インプット メソッドでは、「切る」と「着る」のように、1音で意味が判別しにくい動詞は、キーボードから直接漢字を入力することができるようにしてあります(**漢直方式**) 。
+<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>キーボード | <ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>キーボード | <ruby>操作<rp>(</rp><rt>そうさ</rt><rp>)</rp></ruby>の<ruby>内容<rp>(</rp><rt>ないよう</rt><rp>)</rp></ruby>
+---|---|---
+〔<ruby>英<rp>(</rp><rt>えい</rt><rp>)</rp></ruby><ruby>数<rp>(</rp><rt>すう</rt><rp>)</rp></ruby>〕 | 〔Caps Lock〕 | <ruby>英<rp>(</rp><rt>えい</rt><rp>)</rp></ruby><ruby>数<rp>(</rp><rt>すう</rt><rp>)</rp></ruby>/かなモードのきりかえ
+〔<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>〕|〔スペース〕| <ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby><ruby>開始<rp>(</rp><rt>かいし</rt><rp>)</rp></ruby>，<ruby>次<rp>(</rp><rt>つぎ</rt><rp>)</rp></ruby>の<ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>
+〔↓〕 | 〔↓〕 | <ruby>次<rp>(</rp><rt>つぎ</rt><rp>)</rp></ruby>の<ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>
+〔↑〕または〔<ruby>無変換<rp>(</rp><rt>むへんかん</rt><rp>)</rp></ruby>〕|〔↑〕または〔Shift〕-〔スペース〕| <ruby>前<rp>(</rp><rt>まえ</rt><rp>)</rp></ruby>の<ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>
+〔Tab〕 | 〔Tab〕 | よみの<ruby>短縮<rp>(</rp><rt>たんしゅく</rt><rp>)</rp></ruby>
+〔Enter〕 | 〔Enter〕 |  <ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby><ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>の<ruby>確定<rp>(</rp><rt>かくてい</rt><rp>)</rp></ruby>（つづきの<ruby>文<rp>(</rp><rt>ぶん</rt><rp>)</rp></ruby>を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>していけば、〔Enter〕をおさなくても<ruby>自動的<rp>(</rp><rt>じどうてき</rt><rp>)</rp></ruby>に<ruby>確定<rp>(</rp><rt>かくてい</rt><rp>)</rp></ruby>します）
+〔Esc〕 | 〔Esc〕 | <ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby><ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>の<ruby>選択<rp>(</rp><rt>せんたく</rt><rp>)</rp></ruby>をとりけして、ひらがなにもどす<br><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>しかけのローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>のとりけし
+〔Page Up〕, 〔Page Down〕 | 〔Page Up〕, 〔Page Down〕 | <ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby><ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>ウィンドウのページのきりかえ
+〔カタカナ〕| <ruby>右<rp>(</rp><rt>みぎ</rt><rp>)</rp></ruby>〔Shift〕| カタカナ<ruby>置換<rp>(</rp><rt>ちかん</rt><rp>)</rp></ruby>（カーソルのてまえのかな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>をまえにむかって一<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>ずつカタカナに<ruby>置換<rp>(</rp><rt>ちかん</rt><rp>)</rp></ruby>していきます）
+〔Alt〕-〔カタカナ〕|〔Alt〕-<ruby>右<rp>(</rp><rt>みぎ</rt><rp>)</rp></ruby>〔Shift〕| カタカナ/ひらがなモードのきりかえ
+<ruby>左<rp>(</rp><rt>ひだり</rt><rp>)</rp></ruby>〔Shift〕| <ruby>左<rp>(</rp><rt>ひだり</rt><rp>)</rp></ruby>〔Shift〕| おくりがなをおくる<ruby>位置<rp>(</rp><rt>いち</rt><rp>)</rp></ruby>の<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>
 
-直接入力できる漢字は、下記の表のA，B，C列の漢字です。
+* <ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby><ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>ウィンドウは<ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>がふたつ<ruby>以上<rp>(</rp><rt>いじょう</rt><rp>)</rp></ruby>あるばあいにだけ<ruby>表示<rp>(</rp><rt>ひょうじ</rt><rp>)</rp></ruby>されます。
+* <ruby>数字<rp>(</rp><rt>すうじ</rt><rp>)</rp></ruby>キーをつかって、<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby><ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>ウィンドウから<ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>を<ruby>選択<rp>(</rp><rt>せんたく</rt><rp>)</rp></ruby>することはできません（<ruby>数字<rp>(</rp><rt>すうじ</rt><rp>)</rp></ruby>をうつと、そのまま<ruby>数字<rp>(</rp><rt>すうじ</rt><rp>)</rp></ruby>が<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>されます）。
+* <ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>の<ruby>誤変換<rp>(</rp><rt>ごへんかん</rt><rp>)</rp></ruby>は、テキスト エディターやワープロのアンドゥ（とりけし）をつかって、ひらがなにもどすことができます。
 
-音 | A | B | C | かな優先
+## キーボード<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>の<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>
+　「ひらがなIME」には、キーボードの<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>をこのみにあわせて<ruby>変更<rp>(</rp><rt>へんこう</rt><rp>)</rp></ruby>する<ruby>機能<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>があります。はじめから<ruby>対応<rp>(</rp><rt>たいおう</rt><rp>)</rp></ruby>しているキーボード<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>には、つぎのものがあります。
+
+キーボード<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby> | <ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>ファイル<ruby>名<rp>(</rp><rt>めい</rt><rp>)</rp></ruby> | <ruby>解説<rp>(</rp><rt>かいせつ</rt><rp>)</rp></ruby>
+------------ | ------------- | -------------
+99<ruby>式<rp>(</rp><rt>しき</rt><rp>)</rp></ruby>ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby> | roomazi.json<br>roomazi.109.json | 　<ruby>最初<rp>(</rp><rt>さいしょ</rt><rp>)</rp></ruby>に<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>されている<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>です。<ruby>基本<rp>(</rp><rt>きほん</rt><rp>)</rp></ruby><ruby>部分<rp>(</rp><rt>ぶぶん</rt><rp>)</rp></ruby>は<ruby>訓令<rp>(</rp><rt>くんれい</rt><rp>)</rp></ruby><ruby>式<rp>(</rp><rt>しき</rt><rp>)</rp></ruby>とおなじです。<br>　99<ruby>式<rp>(</rp><rt>しき</rt><rp>)</rp></ruby>は、<ruby>梅棹<rp>(</rp><rt>うめさお</rt><rp>)</rp></ruby><ruby>忠夫<rp>(</rp><rt>ただお</rt><rp>)</rp></ruby>さんが<ruby>会長<rp>(</rp><rt>かいちょう</rt><rp>)</rp></ruby>をつとめた<ruby>日本<rp>(</rp><rt>にっぽん</rt><rp>)</rp></ruby>ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby><ruby>会<rp>(</rp><rt>かい</rt><rp>)</rp></ruby>がさだめたローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>による<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>の<ruby>表記法<rp>(</rp><rt>ひょうきほう</rt><rp>)</rp></ruby>です。
+JISかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby> | jis.109.json | 　<ruby>現在<rp>(</rp><rt>げんざい</rt><rp>)</rp></ruby>の<ruby>標準的<rp>(</rp><rt>ひょうじゅんてき</rt><rp>)</rp></ruby>な<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>キーボードのかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>です。<br>　この<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>は、かなタイプライター<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>にバーナム・クース・スティックニーさんがデサインした<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>がもとになっています。もともとは、4<ruby>段<rp>(</rp><rt>だん</rt><rp>)</rp></ruby>10<ruby>列<rp>(</rp><rt>れつ</rt><rp>)</rp></ruby>のキーなかにすべてのかな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>がおさまっていました。<ruby>現在<rp>(</rp><rt>げんざい</rt><rp>)</rp></ruby>は、よこながの4<ruby>段<rp>(</rp><rt>だん</rt><rp>)</rp></ruby>12<ruby>列<rp>(</rp><rt>れつ</rt><rp>)</rp></ruby>という、すこしつかいにくい<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>になっています。これは、一<ruby>台<rp>(</rp><rt>だい</rt><rp>)</rp></ruby>のタイプライターで<ruby>英<rp>(</rp><rt>えい</rt><rp>)</rp></ruby><ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>もかな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>もうてるようにしたりした<ruby>歴史<rp>(</rp><rt>れきし</rt><rp>)</rp></ruby><ruby>的<rp>(</rp><rt>てき</rt><rp>)</rp></ruby>な<ruby>事情<rp>(</rp><rt>じじょう</rt><rp>)</rp></ruby>によるものです。
+[ニュー スティックニー<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>](http://esrille.github.io/ibus-replace-with-kanji/layouts.html) | new_stickney.json | 　ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>になれていない<ruby>小学生<rp>(</rp><rt>しょうがくせい</rt><rp>)</rp></ruby>にもおぼえやすいかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>として<ruby>研究<rp>(</rp><rt>けんきゅう</rt><rp>)</rp></ruby><ruby>中<rp>(</rp><rt>ちゅう</rt><rp>)</rp></ruby>のかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>です。3<ruby>段<rp>(</rp><rt>だん</rt><rp>)</rp></ruby>10<ruby>列<rp>(</rp><rt>れつ</rt><rp>)</rp></ruby>のキーなかにすべてのかな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>をおさめています。スティックニーさんが<ruby>考案<rp>(</rp><rt>こうあん</rt><rp>)</rp></ruby>した<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>のデサイン<ruby>手法<rp>(</rp><rt>しゅほう</rt><rp>)</rp></ruby>をつかって、コンピューターで<ruby>設計<rp>(</rp><rt>せっけい</rt><rp>)</rp></ruby>しています。
+
+　ファイル<ruby>名<rp>(</rp><rt>めい</rt><rp>)</rp></ruby>に.109がふくまれているものは、<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>キーボード<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>です。<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>の<ruby>内容<rp>(</rp><rt>ないよう</rt><rp>)</rp></ruby>はJSONでかかれています。<ruby>通常<rp>(</rp><rt>つうじょう</rt><rp>)</rp></ruby>のテキスト エディターをつかって、まったくあたらしい<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>を定義してつかうこともできます。
+
+　キーボード<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>を<ruby>変更<rp>(</rp><rt>へんこう</rt><rp>)</rp></ruby>したいときは、IBus configの、
+
+    engine/replace-with-kanji-python:layout
+
+に<ruby>上記<rp>(</rp><rt>じょうき</rt><rp>)</rp></ruby>の<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>ファイル<ruby>名<rp>(</rp><rt>めい</rt><rp>)</rp></ruby>をフルパス<ruby>名<rp>(</rp><rt>めい</rt><rp>)</rp></ruby>で<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>します。
+
+<ruby>例<rp>(</rp><rt>れい</rt><rp>)</rp></ruby> (インストール<ruby>先<rp>(</rp><rt>さき</rt><rp>)</rp></ruby>が /usr のばあい) :
+
+    /usr/share/ibus-replace-with-kanji/layouts/roomazi.json
+
+IBus configの<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>は、dconf-editorをつかうばあいは、
+
+    /desktop/ibus
+
+から<ruby>変更<rp>(</rp><rt>へんこう</rt><rp>)</rp></ruby>できます。
+
+![dconf-editor](dconf-editor.png)
+
+　<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>を<ruby>変更<rp>(</rp><rt>へんこう</rt><rp>)</rp></ruby>すると、<ruby>自動的<rp>(</rp><rt>じどうてき</rt><rp>)</rp></ruby>に「ひらがなIME」のキーボード<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>に<ruby>反映<rp>(</rp><rt>はんえい</rt><rp>)</rp></ruby>されます。
+
+#### <ruby>漢数字<rp>(</rp><rt>かんすうじ</rt><rp>)</rp></ruby>の<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>
+
+　キーボード<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>として「99式ローマ字」もしくは「ニュー スティックニー<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>」を<ruby>選択<rp>(</rp><rt>せんたく</rt><rp>)</rp></ruby>しているときは、〔\〕キーのあとに<ruby>数字<rp>(</rp><rt>すうじ</rt><rp>)</rp></ruby>キーをおすと<ruby>漢数字<rp>(</rp><rt>かんすうじ</rt><rp>)</rp></ruby>を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できます。
+
+<ruby>例<rp>(</rp><rt>れい</rt><rp>)</rp></ruby>)
+- \1 → 一
+- \2 → 二
+
+## <ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>ファイルについて
+
+※ <ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>の<ruby>学習<rp>(</rp><rt>がくしゅう</rt><rp>)</rp></ruby><ruby>結果<rp>(</rp><rt>けっか</rt><rp>)</rp></ruby>は、ディレクトリ ~/.local/share/ibus-replace-with-kanji/ のなかに<ruby>保存<rp>(</rp><rt>ほぞん</rt><rp>)</rp></ruby>されます。
+
+### システム<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>
+
+　つぎの<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby><ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>ファイルをあらかじめ<ruby>用意<rp>(</rp><rt>ようい</rt><rp>)</rp></ruby>しています。
+
+<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>ファイル名 | <ruby>解説<rp>(</rp><rt>かいせつ</rt><rp>)</rp></ruby>
+------------ | -------------
+restrained.dic | <ruby>最初<rp>(</rp><rt>さいしょ</rt><rp>)</rp></ruby>に<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>されている<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>。<ruby>常用<rp>(</rp><rt>じょうよう</rt><rp>)</rp></ruby><ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>を<ruby>基本<rp>(</rp><rt>きほん</rt><rp>)</rp></ruby>に<ruby>構成<rp>(</rp><rt>こうせい</rt><rp>)</rp></ruby>した<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>です。
+restrained.1.dic | <ruby>小学校<rp>(</rp><rt>しょうがっこう</rt><rp>)</rp></ruby>1<ruby>年<rp>(</rp><rt>ねん</rt><rp>)</rp></ruby><ruby>生<rp>(</rp><rt>せい</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>。
+restrained.2.dic | <ruby>小学校<rp>(</rp><rt>しょうがっこう</rt><rp>)</rp></ruby>2<ruby>年<rp>(</rp><rt>ねん</rt><rp>)</rp></ruby><ruby>生<rp>(</rp><rt>せい</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>。
+restrained.3.dic | <ruby>小学校<rp>(</rp><rt>しょうがっこう</rt><rp>)</rp></ruby>3<ruby>年<rp>(</rp><rt>ねん</rt><rp>)</rp></ruby><ruby>生<rp>(</rp><rt>せい</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>。
+restrained.4.dic | <ruby>小学校<rp>(</rp><rt>しょうがっこう</rt><rp>)</rp></ruby>4<ruby>年<rp>(</rp><rt>ねん</rt><rp>)</rp></ruby><ruby>生<rp>(</rp><rt>せい</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>。
+restrained.5.dic | <ruby>小学校<rp>(</rp><rt>しょうがっこう</rt><rp>)</rp></ruby>5<ruby>年<rp>(</rp><rt>ねん</rt><rp>)</rp></ruby><ruby>生<rp>(</rp><rt>せい</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>。
+restrained.6.dic | <ruby>小学校<rp>(</rp><rt>しょうがっこう</rt><rp>)</rp></ruby>6<ruby>年<rp>(</rp><rt>ねん</rt><rp>)</rp></ruby><ruby>生<rp>(</rp><rt>せい</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>。
+restrained.7.dic | <ruby>中学生<rp>(</rp><rt>ちゅうがくせい</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>。
+restrained.9.dic | <ruby>許容<rp>(</rp><rt>きょよう</rt><rp>)</rp></ruby>されているおくりがなをつかうための<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>。
+
+　<ruby>小中学生<rp>(</rp><rt>しょうちゅうがくせい</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>の<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>では、<ruby>使用<rp>(</rp><rt>しよう</rt><rp>)</rp></ruby>する<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>とそのよみを、<ruby>平成<rp>(</rp><rt>へいせい</rt><rp>)</rp></ruby>29<ruby>年<rp>(</rp><rt>ねん</rt><rp>)</rp></ruby>の『[<ruby>音訓<rp>(</rp><rt>おんくん</rt><rp>)</rp></ruby>の<ruby>小<rp>(</rp><rt>しょう</rt><rp>)</rp></ruby>・<ruby>中<rp>(</rp><rt>ちゅう</rt><rp>)</rp></ruby>・<ruby>高等学校<rp>(</rp><rt>こうとうがっこう</rt><rp>)</rp></ruby><ruby>段階<rp>(</rp><rt>だんかい</rt><rp>)</rp></ruby><ruby>別<rp>(</rp><rt>べつ</rt><rp>)</rp></ruby><ruby>割<rp>(</rp><rt>わ</rt><rp>)</rp></ruby>り<ruby>振<rp>(</rp><rt>ふ</rt><rp>)</rp></ruby>り<ruby>表<rp>(</rp><rt>ひょう</rt><rp>)</rp></ruby>](http://www.mext.go.jp/a_menu/shotou/new-cs/1385768.htm)』にそって<ruby>限定<rp>(</rp><rt>げんてい</rt><rp>)</rp></ruby>してあります。
+
+　<ruby>標準<rp>(</rp><rt>ひょうじゅん</rt><rp>)</rp></ruby>の<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>(restrained.dic)では、おくる<ruby>位置<rp>(</rp><rt>いち</rt><rp>)</rp></ruby>が『[<ruby>送<rp>(</rp><rt>おく</rt><rp>)</rp></ruby>り<ruby>仮名<rp>(</rp><rt>かな</rt><rp>)</rp></ruby>の<ruby>付<rp>(</rp><rt>つ</rt><rp>)</rp></ruby>け<ruby>方<rp>(</rp><rt>かた</rt><rp>)</rp></ruby>](http://www.bunka.go.jp/kokugo_nihongo/sisaku/joho/joho/kijun/naikaku/okurikana/index.html)』の<ruby>原則<rp>(</rp><rt>げんそく</rt><rp>)</rp></ruby>にそっていないと<ruby>活用<rp>(</rp><rt>かつよう</rt><rp>)</rp></ruby>を<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>できません。
+<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>にrestrained.9.dicを<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>すると、<ruby>許容<rp>(</rp><rt>きょよう</rt><rp>)</rp></ruby>されているおくりがなのおくりかたでも<ruby>活用<rp>(</rp><rt>かつよう</rt><rp>)</rp></ruby>を<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>できるようになります。
+
+<ruby>例<rp>(</rp><rt>れい</rt><rp>)</rp></ruby>)  restrained.9.dicをつかうと、「<ruby>落<rp>(</rp><rt>おと</rt><rp>)</rp></ruby>す」のような<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>もできます。
+
+    お―とす〔変換〕 → 落とす
+    おと―す〔変換〕 → 落す
+
+　<ruby>使用<rp>(</rp><rt>しよう</rt><rp>)</rp></ruby>する<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>を<ruby>変更<rp>(</rp><rt>へんこう</rt><rp>)</rp></ruby>するときは、IBus configの、
+
+    engine/replace-with-kanji-python:dictionary
+
+に<ruby>上記<rp>(</rp><rt>じょうき</rt><rp>)</rp></ruby>の<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>ファイル<ruby>名<rp>(</rp><rt>めい</rt><rp>)</rp></ruby>をフルパス<ruby>名<rp>(</rp><rt>めい</rt><rp>)</rp></ruby>で<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>してください。
+
+<ruby>例<rp>(</rp><rt>れい</rt><rp>)</rp></ruby> (インストール<ruby>先<rp>(</rp><rt>さき</rt><rp>)</rp></ruby>が /usr のばあい) :
+
+    /usr/share/ibus-replace-with-kanji/restrained.dic
+
+### <ruby>個人<rp>(</rp><rt>こじん</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby><ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>
+
+　システムの<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>ファイルにない<ruby>単語<rp>(</rp><rt>たんご</rt><rp>)</rp></ruby>は、<ruby>個人<rp>(</rp><rt>こじん</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>の<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>ファイルにいれておくことができます。<ruby>個人<rp>(</rp><rt>こじん</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>の<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>は、ディレクトリ ~/.local/share/ibus-replace-with-kanji/ のなかの my.dic というなまえのファイルです。<ruby>追加<rp>(</rp><rt>ついか</rt><rp>)</rp></ruby>した<ruby>単語<rp>(</rp><rt>たんご</rt><rp>)</rp></ruby>は、<ruby>次回<rp>(</rp><rt>じかい</rt><rp>)</rp></ruby>IBusデーモンを<ruby>起動<rp>(</rp><rt>きどう</rt><rp>)</rp></ruby>したときから、つかえるようになります。IBusデーモンは、コマンド ラインからは、
+```
+$ ibus restart
+```
+で<ruby>再<rp>(</rp><rt>さい</rt><rp>)</rp></ruby><ruby>起動<rp>(</rp><rt>きどう</rt><rp>)</rp></ruby>できます。
+
+　<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>ファイルには、つぎのテキスト<ruby>形式<rp>(</rp><rt>けいしき</rt><rp>)</rp></ruby>で<ruby>単語<rp>(</rp><rt>たんご</rt><rp>)</rp></ruby>を<ruby>保存<rp>(</rp><rt>ほぞん</rt><rp>)</rp></ruby>します。
+
+```
+; コメント
+; よみ /単語/
+きれい /綺麗/
+; よみ /単語1/単語2/
+こーひー /珈琲/咖啡/
+; 用言のよみは、おくりがなの手前まで指定して水平バーでとめます。
+; 漢字は、5段活用動詞は、最後にkgstnbmrwをつけます(kは、カ行をしめします)。
+ささや― /囁k/
+; 形容詞は、最後にiをつけます。
+あお― /碧i/
+```
+
+## <ruby>実験的<rp>(</rp><rt>じっけんてき</rt><rp>)</rp></ruby>な<ruby>機能<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>
+
+　「ひらがなIME」は、たしょう<ruby>実験的<rp>(</rp><rt>じっけんてき</rt><rp>)</rp></ruby>な<ruby>機能<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>も<ruby>実装<rp>(</rp><rt>じっそう</rt><rp>)</rp></ruby>しています。<ruby>将来<rp>(</rp><rt>しょうらい</rt><rp>)</rp></ruby>のバージョンでは、これらの<ruby>機能<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>は<ruby>変更<rp>(</rp><rt>へんこう</rt><rp>)</rp></ruby>したり、<ruby>削除<rp>(</rp><rt>さくじょ</rt><rp>)</rp></ruby>したりするかもしれません。
+
+### <ruby>和語<rp>(</rp><rt>わご</rt><rp>)</rp></ruby>の一<ruby>音<rp>(</rp><rt>おん</rt><rp>)</rp></ruby>の<ruby>動詞<rp>(</rp><rt>どうし</rt><rp>)</rp></ruby>と<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>
+
+　「<ruby>煮<rp>(</rp><rt>に</rt><rp>)</rp></ruby>る」と「<ruby>似<rp>(</rp><rt>に</rt><rp>)</rp></ruby>る」のように、一<ruby>音<rp>(</rp><rt>おん</rt><rp>)</rp></ruby>で、<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>をもちいないと<ruby>意味<rp>(</rp><rt>いみ</rt><rp>)</rp></ruby>が<ruby>判別<rp>(</rp><rt>はんべつ</rt><rp>)</rp></ruby>しにくい<ruby>動詞<rp>(</rp><rt>どうし</rt><rp>)</rp></ruby>があります。
+こうした<ruby>動詞<rp>(</rp><rt>どうし</rt><rp>)</rp></ruby>は、よみから<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>に<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>する<ruby>方式<rp>(</rp><rt>ほうしき</rt><rp>)</rp></ruby>では<ruby>誤変換<rp>(</rp><rt>ごへんかん</rt><rp>)</rp></ruby>をおこしがちです。
+
+　「ひらがなIME」には、こうした<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>をキーボードからちょくせつ<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>する<ruby>機能<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>があります。
+<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できる<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>は、<ruby>下記<rp>(</rp><rt>かき</rt><rp>)</rp></ruby>の<ruby>表<rp>(</rp><rt>ひょう</rt><rp>)</rp></ruby>のA，B，C<ruby>列<rp>(</rp><rt>れつ</rt><rp>)</rp></ruby>の<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>です。
+
+<ruby>音<rp>(</rp><rt>おん</rt><rp>)</rp></ruby> | A | B | C | かな<ruby>優先<rp>(</rp><rt>ゆうせん</rt><rp>)</rp></ruby>
 -- | -- | -- | -- | --
 い | 射 \i | 生 \xi | | (入)
 う | 売 \u | | | (得)
@@ -111,135 +248,43 @@
 に | 似 \ni | 煮 \xni
 \ | ￥ \ \ |
 
-ローマ字入力の場合は表のように、〔\〕キー を前置キーとして、
+　ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>のばあいは、〔\〕キー を<ruby>前置<rp>(</rp><rt>ぜんち</rt><rp>)</rp></ruby>キーとして、
 
 * \ki → 着
 * \gi → 切
 
-のようにタイプすると、対応する漢字を直接入力できます。
+のようにタイプすると、<ruby>対応<rp>(</rp><rt>たいおう</rt><rp>)</rp></ruby>する<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>をちょくせつ<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できます。
 
-かな入力の場合、 A，B，C列の漢字は、〔\〕キー もしくは〔半角/全角〕キーにつづけて、それぞれつぎのようにタイプして入力します。
+　かな<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>のばあい、 A，B，C<ruby>列<rp>(</rp><rt>れつ</rt><rp>)</rp></ruby>の<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>は、〔\〕キー もしくは〔<ruby>半角<rp>(</rp><rt>はんかく</rt><rp>)</rp></ruby>/<ruby>全角<rp>(</rp><rt>ぜんかく</rt><rp>)</rp></ruby>〕キーにつづけて、それぞれつぎのようにタイプして<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>します。
 
-* A列 音のまま、かなをタイプ
-* B列 音とおなじキーのシフト側(Aがシフト側ならノーマル側)をタイプ
-* C列 表のかなをタイプ
+* A<ruby>列<rp>(</rp><rt>れつ</rt><rp>)</rp></ruby>: <ruby>音<rp>(</rp><rt>おん</rt><rp>)</rp></ruby>のまま、かなをタイプ
+* B<ruby>列<rp>(</rp><rt>れつ</rt><rp>)</rp></ruby>: <ruby>音<rp>(</rp><rt>おん</rt><rp>)</rp></ruby>とおなじキーのシフト<ruby>側<rp>(</rp><rt>がわ</rt><rp>)</rp></ruby>(Aがシフト<ruby>側<rp>(</rp><rt>がわ</rt><rp>)</rp></ruby>ならノーマル<ruby>側<rp>(</rp><rt>がわ</rt><rp>)</rp></ruby>)をタイプ
+* C<ruby>列<rp>(</rp><rt>れつ</rt><rp>)</rp></ruby>: <ruby>表<rp>(</rp><rt>ひょう</rt><rp>)</rp></ruby>のかなをタイプ
 
-たとえば、動詞の音が「き」であれば、
+たとえば、<ruby>動詞<rp>(</rp><rt>どうし</rt><rp>)</rp></ruby>の<ruby>音<rp>(</rp><rt>おん</rt><rp>)</rp></ruby>が「き」であれば、
 
 * \ き → 着
 * \ 〔Shift〕-き → 切
 
-のように漢字を直接入力できます。
+のようにして、<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>をちょくせつ<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できます。
 
-**補足**:  これらの動詞は、よみから漢字に変換する方法では、誤変換になりやすいようです。梅棹式表記では、「生む」と「産む」ようにもともとの和語がおなじものは、漢字でかきわけずに、そのままひらがなで「うむ」とかきます。そのため、こうした意味の判別しにくい1音の動詞はそれほどおおくなく、上記の表のような漢字に限定されるようです。
+**<ruby>補足<rp>(</rp><rt>ほそく</rt><rp>)</rp></ruby>**:  「<ruby>生<rp>(</rp><rt>う</rt><rp>)</rp></ruby>む」と「<ruby>産<rp>(</rp><rt>う</rt><rp>)</rp></ruby>む」などは、もともとの<ruby>和語<rp>(</rp><rt>わご</rt><rp>)</rp></ruby>はおなじものです。
+ひらがなで「うむ」とかいてあれば<ruby>意味<rp>(</rp><rt>いみ</rt><rp>)</rp></ruby>はわかります。
+ほんとうに<ruby>意味<rp>(</rp><rt>いみ</rt><rp>)</rp></ruby>の<ruby>判別<rp>(</rp><rt>はんべつ</rt><rp>)</rp></ruby>しにくい<ruby>和語<rp>(</rp><rt>わご</rt><rp>)</rp></ruby>の一<ruby>音<rp>(</rp><rt>おん</rt><rp>)</rp></ruby>の<ruby>動詞<rp>(</rp><rt>どうし</rt><rp>)</rp></ruby>というのは、それほどおおくはないようです。
 
-#### そのほかの和語の用言の漢字
+## 「ひらがなIME」のプログラム
 
-そのほかの和語の用言も漢字でかきたい場面がまったくないわけではありません。そういった場合は、おくりがなをおくりたい位置で左〔Shift〕キーをおすと、文中にハイフン(―)が入力されます。そのあとで、必要なおくりがなをタイプしてから〔変換〕キーをおすと、漢字に置換することができます。
+　「ひらがなIME」のプログラムは、すべて<ruby>Python<rp>(</rp><rt>バイソン</rt><rp>)</rp></ruby>でかいてあります。プログラムの<ruby>行数<rp>(</rp><rt>ぎょうすう</rt><rp>)</rp></ruby>は、<ruby>約<rp>(</rp><rt>やく</rt><rp>)</rp></ruby>1,500<ruby>行<rp>(</rp><rt>ぎょう</rt><rp>)</rp></ruby>(v0.6.0)です。
 
-例)
+## <ruby>参考<rp>(</rp><rt>さんこう</rt><rp>)</rp></ruby><ruby>文献<rp>(</rp><rt>ぶんけん</rt><rp>)</rp></ruby>
 
-    おく―〔変換〕 → 送，贈，後，遅
-    おく―る〔変換〕 → 送る，贈る
+　「ひらがなIME」は、<ruby>梅棹<rp>(</rp><rt>うめさお</rt><rp>)</rp></ruby><ruby>忠夫<rp>(</rp><rt>ただお</rt><rp>)</rp></ruby>さんの<ruby>著書<rp>(</rp><rt>ちょしょ</rt><rp>)</rp></ruby>のような、<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>のすくない<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>の<ruby>文章<rp>(</rp><rt>ぶんしょう</rt><rp>)</rp></ruby>もかきやすいように<ruby>設計<rp>(</rp><rt>せっけい</rt><rp>)</rp></ruby>しています。
 
-この例のように、おくりがなをふくめて変換すると、表示される候補の数をしぼることができます。
+- 『[<ruby>知的生産<rp>(</rp><rt>ちてきせいさん</rt><rp>)</rp></ruby>の<ruby>技術<rp>(</rp><rt>ぎじゅつ</rt><rp>)</rp></ruby>](https://www.iwanami.co.jp/book/b267410.html)』, <ruby>梅棹<rp>(</rp><rt>うめさお</rt><rp>)</rp></ruby><ruby>忠夫<rp>(</rp><rt>ただお</rt><rp>)</rp></ruby>，<ruby>岩波<rp>(</rp><rt>いわなみ</rt><rp>)</rp></ruby><ruby>新書<rp>(</rp><rt>しんしょ</rt><rp>)</rp></ruby>，1969, 2015(<ruby>改版<rp>(</rp><rt>かいはん</rt><rp>)</rp></ruby>).
+- 『[<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>と<ruby>事務<rp>(</rp><rt>じむ</rt><rp>)</rp></ruby><ruby>革命<rp>(</rp><rt>かくめい</rt><rp>)</rp></ruby>](http://bookclub.kodansha.co.jp/product?item=0000211818)』, <ruby>梅棹<rp>(</rp><rt>うめさお</rt><rp>)</rp></ruby><ruby>忠夫<rp>(</rp><rt>ただお</rt><rp>)</rp></ruby>, くもん選書, 1988, <ruby>講談<rp>(</rp><rt>こうだん</rt><rp>)</rp></ruby><ruby>社<rp>(</rp><rt>しゃ</rt><rp>)</rp></ruby><ruby>学術<rp>(</rp><rt>がくじゅつ</rt><rp>)</rp></ruby><ruby>文庫<rp>(</rp><rt>ぶんこ</rt><rp>)</rp></ruby>, 2015.
 
-※ 左〔Shift〕キーはおくりがなをおくる位置でおします。標準の辞書(restrained.dic)では、変換できるのは、『[送り仮名の付け方](http://www.bunka.go.jp/kokugo_nihongo/sisaku/joho/joho/kijun/naikaku/okurikana/index.html)』の原則にそっている場合だけになります。辞書にrestrained.9.dicを指定している場合は、許容されているおくりがなのおくりかたでも変換できるようになります。
+※ 『<ruby>知的生産<rp>(</rp><rt>ちてきせいさん</rt><rp>)</rp></ruby>の<ruby>技術<rp>(</rp><rt>ぎじゅつ</rt><rp>)</rp></ruby>』の2015(<ruby>改版<rp>(</rp><rt>かいはん</rt><rp>)</rp></ruby>)では、<ruby>本文<rp>(</rp><rt>ほんぶん</rt><rp>)</rp></ruby>の<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>の<ruby>表記法<rp>(</rp><rt>ひょうきほう</rt><rp>)</rp></ruby>が、さらにゆれのすくない<ruby>梅棹<rp>(</rp><rt>うめさお</rt><rp>)</rp></ruby><ruby>忠夫<rp>(</rp><rt>ただお</rt><rp>)</rp></ruby><ruby>著作集<rp>(</rp><rt>ちょさくしゅう</rt><rp>)</rp></ruby>とおなじ<ruby>表記法<rp>(</rp><rt>ひょうきほう</rt><rp>)</rp></ruby>にあらためられています。
 
-例)
+　<ruby>梅棹<rp>(</rp><rt>うめさお</rt><rp>)</rp></ruby><ruby>忠夫<rp>(</rp><rt>ただお</rt><rp>)</rp></ruby>さんの<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby><ruby>表記法<rp>(</rp><rt>ひょうきほう</rt><rp>)</rp></ruby>については、そのルールを<ruby>再<rp>(</rp><rt>さい</rt><rp>)</rp></ruby><ruby>構築<rp>(</rp><rt>こうちく</rt><rp>)</rp></ruby>してみた<ruby>資料<rp>(</rp><rt>しりょう</rt><rp>)</rp></ruby>を<ruby>用意<rp>(</rp><rt>ようい</rt><rp>)</rp></ruby>しています。あわせて<ruby>参考<rp>(</rp><rt>さんこう</rt><rp>)</rp></ruby>にしてください。
+- 「[わたしの日本語表記のルール 2018 v2](https://shiki.esrille.com/2018/05/notation.html)」
 
-    お―とす〔変換〕 → 落とす
-    おと―す〔変換〕 → 落す (restrained.9.dicなら変換可)
-
-### キーボード配列の選択
-
-下記のキーボード配列に対応しています。ファイル名に.109がふくまれているものは、JISキーボード用です。設定はJSONで記述しています。通常のテキスト エディターをつかってあたらしい配列を定義してつかうこともできます。
-
-キーボード配列 | 設定ファイル名 | 補足
------------- | ------------- | -------------
-99式ローマ字 | roomazi.json<br>roomazi.109.json | デフォルト。99式ローマ字は梅棹忠夫さんが会長をつとめられた日本ローマ字会でさだめられた方式です。基本部分は訓令式とおなじです。
-[ニュー スティックニー配列](http://esrille.github.io/ibus-replace-with-kanji/layouts.html) | new_stickney.json | まだローマ字の習得がむずかしい小学生にもおぼえやすいような、かな配列として研究中の配列です。
-JISかな配列 | jis.109.json |
-
-設定を変更するときは、IBus configの、
-
-    engine/replace-with-kanji-python:layout
-
-に上記の設定ファイル名をフルパス名で指定してください。
-
-例 (インストール先が /usr/local の場合) :
-
-    /usr/local/share/ibus-replace-with-kanji/layouts/roomazi.json
-
-IBus configの設定は、dconf Editorをつかう場合は、
-
-    /desktop/ibus
-
-から変更できます。設定を変更すると、自動的に漢字置換インプット メソッドに反映されます。
-
-#### 漢数字の入力
-
-キーボード配列として「99式ローマ字」もしくは「ニュー スティックニー配列」を選択しているばあいは、〔\〕キーのあとに数字キーをおすと漢数字を入力できます。例:
-
-* \1 → 一
-* \2 → 二
-
-## 辞書ファイルについて
-
-### 個人用辞書
-
-標準の辞書ファイルにない単語をよくつかう場合は、~/.local/share/ibus-replace-with-kanji/ディレクトリの中の'my.dic'という名前のファイルに単語を追加してください。追加した単語は、次回IBusデーモンを起動したときから、つかえるようになります。IBusデーモンは、コマンド ラインからは、
-
-    ibus restart
-
-で再起動できます。辞書ファイルには、以下のようなテキスト形式で単語を保存します。
-
-    ; コメント
-    ; よみ /単語/
-    きれい /綺麗/
-    ; よみ /単語1/単語2/
-    こーひー /珈琲/咖啡/
-    ; 用言のよみは、おくりがなの手前まで指定してハイフンでとめます。
-    ; 漢字は、5段活用動詞は、最後にkgstnbmrwをつけます(kは、カ行をしめします)。
-    ; 形容詞は、最後にiをつけます。
-    ささや― /囁k/
-    あお― /碧i/
-
-### システム辞書
-
-下記の漢字辞書ファイルをあらかじめ用意しています。
-
-設定ファイル名 | 説明
------------- | -------------
-restrained.dic | デフォルト。常用漢字を基本に構成した辞書です。
-restrained.1.dic | 小学校1年生用。
-restrained.2.dic | 小学校2年生用。
-restrained.3.dic | 小学校3年生用。
-restrained.4.dic | 小学校4年生用。
-restrained.5.dic | 小学校5年生用。
-restrained.6.dic | 小学校6年生用。
-restrained.7.dic | 中学生用。
-restrained.9.dic | 許容されているおくりがなをつかうための辞書です。
-
-※ 小中学生用辞書では、使用する漢字とそのよみを、平成29年の『[音訓の小・中・高等学校段階別割り振り表](http://www.mext.go.jp/a_menu/shotou/new-cs/1385768.htm)』にそって限定してあります。
-
-設定を変更するときは、IBus configの、
-
-    engine/replace-with-kanji-python:dictionary
-
-に上記の設定ファイル名をフルパス名で指定してください。
-
-例 (インストール先が /usr/local の場合) :
-
-    /usr/local/share/ibus-replace-with-kanji/restrained.dic
-
-## 制限事項
-
-* 置換変換はIBusの周辺テキストAPIをつかって実現しています。周辺テキストAPIに未対応あるいは完全には対応できていないアプリケーションでは、直前に入力した文字列にたいしてのみ置換変換をすることができます(カーソルを移動してあとから置換変換することはできなくなります)。GNOMEの標準のテキスト エディターgeditなどは周辺テキストAPIにきちんと対応しているようです。
-
-## 参考文献
-
-* 『[日本語と事務革命](https://www.amazon.co.jp/dp/4062923386)』，梅棹忠夫，講談社学術文庫，2015.
-* 「漢字はやめたい」，『[日本語の将来](https://www.amazon.co.jp/dp/4140910011)』， 梅棹忠夫，NHKブックス，2004.
-* [『日本語と事務革命』— 梅棹式表記法のための日本語入力システムをかんがえる](http://shiki.esrille.com/2017/04/blog-post.html)，2017.
-* [梅棹式表記法のための日本語入力システムをかんがえる(その2)](http://shiki.esrille.com/2017/04/2.html)，2017.
