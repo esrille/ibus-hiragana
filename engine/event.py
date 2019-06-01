@@ -75,6 +75,9 @@ class Event:
         # Current event
         self.__keyval = keysyms.VoidSymbol
         self.__keycode = 0
+        self.reset()
+
+    def reset(self):
         self.__state = 0
         self.__modifiers = 0                 # See bits.py
 
@@ -99,6 +102,8 @@ class Event:
         if self.__SandS and (self.__modifiers & bits.Space_Bit):
             return True
         if self.__Prefix and (self.__modifiers & (bits.Space_Bit | bits.Prefix_Bit)):
+            return True
+        if self.__modifiers & (bits.ShiftL_Bit | bits.ShiftR_Bit):
             return True
         return False
 

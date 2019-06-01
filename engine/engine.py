@@ -225,21 +225,23 @@ class EngineReplaceWithKanji(IBus.Engine):
             c = self.__event.chr(keyval)
             if preedit == '\\':
                 preedit = ''
-                if 'Shift' in self.__layout and self.__event.is_shift():
-                    yomi = self.__layout['\\Shift'][c]
-                elif modifiers & bits.ShiftL_Bit:
-                    yomi = self.__layout['\\ShiftL'][c]
-                elif modifiers & bits.ShiftR_Bit:
-                    yomi = self.__layout['\\ShiftR'][c]
+                if self.__event.is_shift():
+                    if 'Shift' in self.__layout:
+                        yomi = self.__layout['\\Shift'][c]
+                    elif modifiers & bits.ShiftL_Bit:
+                        yomi = self.__layout['\\ShiftL'][c]
+                    elif modifiers & bits.ShiftR_Bit:
+                        yomi = self.__layout['\\ShiftR'][c]
                 else:
                     yomi = self.__layout['\\Normal'][c]
             else:
-                if 'Shift' in self.__layout and self.__event.is_shift():
-                    yomi = self.__layout['Shift'][c]
-                elif modifiers & bits.ShiftL_Bit:
-                    yomi = self.__layout['ShiftL'][c]
-                elif modifiers & bits.ShiftR_Bit:
-                    yomi = self.__layout['ShiftR'][c]
+                if self.__event.is_shift():
+                    if 'Shift' in self.__layout:
+                        yomi = self.__layout['Shift'][c]
+                    elif modifiers & bits.ShiftL_Bit:
+                        yomi = self.__layout['ShiftL'][c]
+                    elif modifiers & bits.ShiftR_Bit:
+                        yomi = self.__layout['ShiftR'][c]
                 else:
                     yomi = self.__layout['Normal'][c]
                 if yomi == '\\':
@@ -589,6 +591,7 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def do_focus_in(self):
         logger.info("focus_in")
+        self.__event.reset()
         self.register_properties(self.__prop_list)
         # Request the initial surrounding-text in addition to the "enable" handler.
         self.get_surrounding_text()
