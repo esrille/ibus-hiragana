@@ -113,8 +113,8 @@ A | <ruby>英<rp>(</rp><rt>えい</rt><rp>)</rp></ruby><ruby>数<rp>(</rp><rt>�
 〔Enter〕 | 〔Enter〕 |  <ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby><ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>の<ruby>確定<rp>(</rp><rt>かくてい</rt><rp>)</rp></ruby>（つづきの<ruby>文<rp>(</rp><rt>ぶん</rt><rp>)</rp></ruby>を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>していけば、〔Enter〕をおさなくても<ruby>自動的<rp>(</rp><rt>じどうてき</rt><rp>)</rp></ruby>に<ruby>確定<rp>(</rp><rt>かくてい</rt><rp>)</rp></ruby>します）
 〔Esc〕 | 〔Esc〕 | <ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby><ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>の<ruby>選択<rp>(</rp><rt>せんたく</rt><rp>)</rp></ruby>をとりけして、ひらがなにもどす<br><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>しかけのローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>のとりけし
 〔Page Up〕, 〔Page Down〕 | 〔Page Up〕, 〔Page Down〕 | <ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby><ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>ウィンドウのページのきりかえ
-〔カタカナ〕| <ruby>右<rp>(</rp><rt>みぎ</rt><rp>)</rp></ruby>〔Shift〕| カタカナ<ruby>置換<rp>(</rp><rt>ちかん</rt><rp>)</rp></ruby>（カーソルのてまえのかな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>をまえにむかって一<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>ずつカタカナに<ruby>置換<rp>(</rp><rt>ちかん</rt><rp>)</rp></ruby>していきます）
-〔Alt〕-〔カタカナ〕|〔Alt〕-<ruby>右<rp>(</rp><rt>みぎ</rt><rp>)</rp></ruby>〔Shift〕| カタカナ/ひらがなモードのきりかえ
+〔カタカナ〕| <ruby>右<rp>(</rp><rt>みぎ</rt><rp>)</rp></ruby>〔Ctrl〕| カタカナ<ruby>置換<rp>(</rp><rt>ちかん</rt><rp>)</rp></ruby>（カーソルのてまえのかな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>をまえにむかって一<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>ずつカタカナに<ruby>置換<rp>(</rp><rt>ちかん</rt><rp>)</rp></ruby>していきます）
+〔Shift〕-〔カタカナ〕|〔Shift〕-<ruby>右<rp>(</rp><rt>みぎ</rt><rp>)</rp></ruby>〔Ctrl〕| カタカナ/ひらがなモードのきりかえ
 <ruby>左<rp>(</rp><rt>ひだり</rt><rp>)</rp></ruby>〔Shift〕| <ruby>左<rp>(</rp><rt>ひだり</rt><rp>)</rp></ruby>〔Shift〕| おくりがなをおくる<ruby>位置<rp>(</rp><rt>いち</rt><rp>)</rp></ruby>の<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>
 
 * <ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby><ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>ウィンドウは<ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>がふたつ<ruby>以上<rp>(</rp><rt>いじょう</rt><rp>)</rp></ruby>あるばあいにだけ<ruby>表示<rp>(</rp><rt>ひょうじ</rt><rp>)</rp></ruby>されます。
