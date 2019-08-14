@@ -5,7 +5,7 @@
 # Using source code derived from
 #   ibus-tmpl - The Input Bus template project
 #
-# Copyright (c) 2017 Esrille Inc.
+# Copyright (c) 2017-2019 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -32,12 +32,12 @@ Prefix_Bit = 1 << 7
 Dual_Space_Bit = 1 << 8
 Dual_ShiftL_Bit = 1 << 9
 Dual_ShiftR_Bit = 1 << 10
-Dual_ControlR_Bit = 1 << 11
-Dual_AltR_Bit = 1 << 12
+Dual_ControlR_Bit = 1 << 12
+Dual_AltR_Bit = 1 << 14
 Dual_Bits = Dual_Space_Bit | Dual_ShiftL_Bit | Dual_ShiftR_Bit | Dual_ControlR_Bit | Dual_AltR_Bit
 
 Not_Dual_Space_Bit = 1 << 16
 Not_Dual_ShiftL_Bit = 1 << 17
 Not_Dual_ShiftR_Bit = 1 << 18
-Not_Dual_ControlR_Bit = 1 << 19
-Not_Dual_AltR_Bit = 1 << 20
+Not_Dual_ControlR_Bit = 1 << 20
+Not_Dual_AltR_Bit = 1 << 22

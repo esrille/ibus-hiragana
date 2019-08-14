@@ -35,6 +35,8 @@ class Event:
         self.__engine = engine
         self.__delay = delay    # Delay for non-shift keys in milliseconds (mainly for Nicola layout)
 
+        self.MODIFIERS = (keysyms.Shift_L, keysyms.Shift_R, keysyms.Control_L, keysyms.Control_R, keysyms.Alt_L, keysyms.Alt_R)
+
         # Set to the default values
         self.__OnOffByCaps = True               # or False
         self.__SandS = False                    # True if SandS is used
@@ -44,7 +46,7 @@ class Event:
         self.__Kana = keysyms.Control_R         # or keysyms.Hiragana_Katakana, keysyms.Control_R
         self.__Space = keysyms.Shift_R          # Extra space key in Kana mode
         self.__Prefix = False                   # True if Shift is to be prefixed
-        self.__DualBits = bits.Dual_ShiftL_Bit | bits.Dual_ShiftR_Bit | bits.Dual_ControlR_Bit
+        self.__DualBits = bits.Dual_ShiftL_Bit
 
         if "Keyboard" in layout:
             keyboard = layout["Keyboard"]
@@ -54,7 +56,6 @@ class Event:
                 self.__Kana = keysyms.Hiragana_Katakana
                 self.__Eisuu = keysyms.Eisu_toggle
                 self.__Space = keysyms.VoidSymbol
-                self.__DualBits = bits.Dual_ShiftL_Bit
 
         if "OnOffByCaps" in layout:
             self.__OnOffByCaps = layout["OnOffByCaps"]
@@ -68,10 +69,17 @@ class Event:
             if self.__Prefix:
                 self.__DualBits |= bits.Dual_Space_Bit
 
+        if "Space" in layout:
+            self.__Space = IBus.keyval_from_name(layout["Space"])
         if "Henkan" in layout:
             self.__Henkan = IBus.keyval_from_name(layout["Henkan"])
         if "Muhenkan" in layout:
             self.__Muhenkan = IBus.keyval_from_name(layout["Muhenkan"])
+
+        # Check dual role modifiers
+        for k in (self.__Henkan, self.__Muhenkan, self.__Kana, self.__Space):
+            if k in self.MODIFIERS:
+                self.__DualBits |= bits.Dual_ShiftL_Bit << self.MODIFIERS.index(k)
 
         # Current event
         self.__keyval = keysyms.VoidSymbol
@@ -82,14 +90,21 @@ class Event:
         self.__state = 0
         self.__modifiers = 0                 # See bits.py
 
+    def is_key(self, keyval):
+        if not self.is_modifier() and keyval == self.__keyval:
+            return True
+        if keyval == keysyms.Shift_L and (self.__modifiers & bits.Dual_ShiftL_Bit):
+            return True
+        if keyval == keysyms.Shift_R and (self.__modifiers & bits.Dual_ShiftR_Bit):
+            return True
+        if keyval == keysyms.Control_R and (self.__modifiers & bits.Dual_ControlR_Bit):
+            return True
+        if keyval == keysyms.Alt_R and (self.__modifiers & bits.Dual_AltR_Bit):
+            return True
+        return False
+
     def is_space(self):
-        if self.__Space == keysyms.Shift_R and (self.__modifiers & bits.Dual_ShiftR_Bit):
-            return True
-        if self.__Space == keysyms.Alt_R and (self.__modifiers & bits.Dual_AltR_Bit):
-            return True
-        if self.__Space == keysyms.Control_R and (self.__modifiers & bits.Dual_ControlR_Bit):
-            return True
-        if not self.is_modifier() and self.__Space == self.__keyval:
+        if self.is_key(self.__Space):
             return True
         return self.__keyval == keysyms.space
 
@@ -101,7 +116,7 @@ class Event:
         return keysyms.exclam <= keyval and keyval <= keysyms.asciitilde or keyval == keysyms.yen or keyval == keysyms.space
 
     def is_modifier(self):
-        return keysyms.Shift_L <= self.__keyval and self.__keyval <= keysyms.Hyper_R
+        return self.__keyval in self.MODIFIERS
 
     def is_shift(self):
         mask = bits.ShiftL_Bit | bits.ShiftR_Bit
@@ -118,23 +133,17 @@ class Event:
         return False
 
     def is_katakana(self):
-        if self.__Kana == keysyms.Shift_R and (self.__modifiers & bits.Dual_ShiftR_Bit):
-            return True
-        if self.__Kana == keysyms.Control_R and (self.__modifiers & bits.Dual_ControlR_Bit):
-            return True
-        if not self.is_modifier() and self.__Kana == self.__keyval:
-            return True
-        return False
+        return self.is_key(self.__Kana)
 
     def is_henkan(self):
-        if self.__keyval == self.__Henkan:
+        if self.is_key(self.__Henkan):
             return not self.is_shift()
         return False
 
     def is_muhenkan(self):
-        if self.__keyval == self.__Henkan:
+        if self.is_key(self.__Henkan):
             return self.is_shift()
-        return self.__keyval == self.__Muhenkan
+        return self.is_key(self.__Muhenkan)
 
     def is_shrink(self):
         return self.__keyval == keysyms.Tab
