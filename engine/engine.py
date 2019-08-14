@@ -5,7 +5,7 @@
 # Using source code derived from
 #   ibus-tmpl - The Input Bus template project
 #
-# Copyright (c) 2017 Esrille Inc.
+# Copyright (c) 2017-2019 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -391,7 +391,7 @@ class EngineReplaceWithKanji(IBus.Engine):
 
         # Handle Japanese text
         if self.__event.is_katakana():
-            if state & IBus.ModifierType.MOD1_MASK:
+            if self.__event.is_shift():
                 self.set_mode('あ' if self.get_mode() == 'ア' else 'ア')
             else:
                 self.handle_katakana()
@@ -461,7 +461,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.__shrunk = ''
         else:
             size = len(self.__dict.current())
-            if not (state & IBus.ModifierType.SHIFT_MASK):
+            if not self.__event.is_shift():
                 cand = self.__dict.next()
             else:
                 cand = self.__dict.previous()
