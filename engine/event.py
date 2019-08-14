@@ -2,7 +2,7 @@
 #
 # ibus-replace-with-kanji - Replace with Kanji Japanese input method for IBus
 #
-# Copyright (c) 2017 Esrille Inc.
+# Copyright (c) 2017-2019 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -36,36 +36,37 @@ class Event:
         self.__delay = delay    # Delay for non-shift keys in milliseconds (mainly for Nicola layout)
 
         # Set to the default values
+        self.__OnOffByCaps = True               # or False
         self.__SandS = False                    # True if SandS is used
         self.__Henkan = keysyms.space           # or keysyms.Henkan
         self.__Muhenkan = keysyms.VoidSymbol    # or keysyms.Muhenkan
-        self.__Katakana = keysyms.Shift_R       # or keysyms.Hiragana_Katakana, keysyms.Control_R
-        self.__CapsIME = True                   # or False
-        self.__Eisuu = keysyms.F14              # or keysyms.VoidSymbol
-        self.__Kana = keysyms.F13               # or keysyms.VoidSymbol
-        self.__Space = keysyms.F13              # Extra space key in Kana mode
-        self.__Yen = False
+        self.__Eisuu = keysyms.VoidSymbol       # or keysyms.Eisu_toggle
+        self.__Kana = keysyms.Control_R         # or keysyms.Hiragana_Katakana, keysyms.Control_R
+        self.__Space = keysyms.Shift_R          # Extra space key in Kana mode
         self.__Prefix = False                   # True if Shift is to be prefixed
-        self.__DualBits = bits.Dual_ShiftL_Bit | bits.Dual_ShiftR_Bit
+        self.__DualBits = bits.Dual_ShiftL_Bit | bits.Dual_ShiftR_Bit | bits.Dual_ControlR_Bit
 
         if "Keyboard" in layout:
             keyboard = layout["Keyboard"]
             if keyboard == "109":
                 self.__Henkan = keysyms.Henkan
                 self.__Muhenkan = keysyms.Muhenkan
-                self.__Katakana = keysyms.Hiragana_Katakana
-                self.__Yen = True
-            if keyboard == "NISSE":
-                self.__CapsIME = False
-                self.__Katakana = keysyms.Control_R
-                self.__DualBits = bits.Dual_ControlR_Bit
+                self.__Kana = keysyms.Hiragana_Katakana
+                self.__Eisuu = keysyms.Eisu_toggle
+                self.__Space = keysyms.VoidSymbol
+                self.__DualBits = bits.Dual_ShiftL_Bit
+
+        if "OnOffByCaps" in layout:
+            self.__OnOffByCaps = layout["OnOffByCaps"]
 
         if "SandS" in layout:
-            self.__SandS = True
-            self.__DualBits |= bits.Dual_Space_Bit
+            self.__SandS = layout["SandS"]
+            if self.__SandS:
+                self.__DualBits |= bits.Dual_Space_Bit
         elif "Prefix" in layout:
-            self.__Prefix = True
-            self.__DualBits |= bits.Dual_Space_Bit
+            self.__Prefix = layout["Prefix"]
+            if self.__Prefix:
+                self.__DualBits |= bits.Dual_Space_Bit
 
         if "Henkan" in layout:
             self.__Henkan = IBus.keyval_from_name(layout["Henkan"])
@@ -82,7 +83,13 @@ class Event:
         self.__modifiers = 0                 # See bits.py
 
     def is_space(self):
+        if self.__Space == keysyms.Shift_R and (self.__modifiers & bits.Dual_ShiftR_Bit):
+            return True
         if self.__Space == keysyms.Alt_R and (self.__modifiers & bits.Dual_AltR_Bit):
+            return True
+        if self.__Space == keysyms.Control_R and (self.__modifiers & bits.Dual_ControlR_Bit):
+            return True
+        if not self.is_modifier() and self.__Space == self.__keyval:
             return True
         return self.__keyval == keysyms.space
 
@@ -91,39 +98,42 @@ class Event:
 
     def is_ascii(self, keyval):
         # keysyms.yen is treated as '¥' for Japanese 109 keyboard.
-        return keysyms.exclam <= keyval and keyval <= keysyms.asciitilde or keyval == keysyms.yen or keyval == self.__Space
+        return keysyms.exclam <= keyval and keyval <= keysyms.asciitilde or keyval == keysyms.yen or keyval == keysyms.space
 
     def is_modifier(self):
         return keysyms.Shift_L <= self.__keyval and self.__keyval <= keysyms.Hyper_R
 
     def is_shift(self):
-        if self.__state & IBus.ModifierType.SHIFT_MASK:
-            return True
+        mask = bits.ShiftL_Bit | bits.ShiftR_Bit
         if self.__SandS and (self.__modifiers & bits.Space_Bit):
             return True
         if self.__Prefix and (self.__modifiers & (bits.Space_Bit | bits.Prefix_Bit)):
             return True
-        if self.__modifiers & (bits.ShiftL_Bit | bits.ShiftR_Bit):
+        if self.__keyval == keysyms.Shift_R and (self.__modifiers & bits.Dual_ShiftR_Bit):
+            mask &= ~bits.ShiftR_Bit
+        if self.__keyval == keysyms.Shift_L and (self.__modifiers & bits.Dual_ShiftL_Bit):
+            mask &= ~bits.ShiftL_Bit
+        if self.__modifiers & mask:
             return True
         return False
 
     def is_katakana(self):
-        if self.__Katakana == keysyms.Shift_R and (self.__modifiers & bits.Dual_ShiftR_Bit):
+        if self.__Kana == keysyms.Shift_R and (self.__modifiers & bits.Dual_ShiftR_Bit):
             return True
-        if self.__Katakana == keysyms.Control_R and (self.__modifiers & bits.Dual_ControlR_Bit):
+        if self.__Kana == keysyms.Control_R and (self.__modifiers & bits.Dual_ControlR_Bit):
             return True
-        if not self.is_modifier() and self.__Katakana == self.__keyval:
+        if not self.is_modifier() and self.__Kana == self.__keyval:
             return True
         return False
 
     def is_henkan(self):
-        if self.__Muhenkan == keysyms.VoidSymbol:
-            return self.__keyval == self.__Henkan and not self.is_shift()
-        return self.__keyval == self.__Henkan
+        if self.__keyval == self.__Henkan:
+            return not self.is_shift()
+        return False
 
     def is_muhenkan(self):
-        if self.__Muhenkan == keysyms.VoidSymbol:
-            return self.__keyval == self.__Henkan and self.is_shift()
+        if self.__keyval == self.__Henkan:
+            return self.is_shift()
         return self.__keyval == self.__Muhenkan
 
     def is_shrink(self):
@@ -176,7 +186,7 @@ class Event:
                 self.__modifiers |= bits.Not_Dual_AltR_Bit
 
             # Check CAPS LOCK for IME on/off
-            if self.__CapsIME:
+            if self.__OnOffByCaps:
                 if keyval == keysyms.Caps_Lock:
                     # Note CAPS LOCK LED is turned off after the key release event.
                     if state & IBus.ModifierType.LOCK_MASK:
@@ -189,6 +199,12 @@ class Event:
                         self.__engine.enable_ime()
                     else:
                         self.__engine.disable_ime()
+            elif keyval == self.__Eisuu:
+                if self.__engine.is_enabled():
+                    self.__engine.disable_ime()
+                else:
+                    self.__engine.enable_ime()
+                return True
 
         else:
             if keyval == keysyms.space:
@@ -230,13 +246,6 @@ class Event:
             self.__modifiers &= ~bits.Prefix_Bit
             return False
 
-        if keyval == self.__Kana:
-            if self.__engine.enable_ime():
-                return True
-        elif keyval == self.__Eisuu:
-            if self.__engine.disable_ime():
-                return True
-
         if self.__engine.is_enabled():
             if 0 < self.__delay:
                 GLib.timeout_add(self.__delay, self.handle_key_event_timeout, keyval, keycode, state)
@@ -264,6 +273,8 @@ class Event:
         self.__keyval = keyval
         self.__keycode = keycode
         self.__state = state
+        if self.is_space():
+            keyval = keysyms.space
         processed = self.__engine.handle_key_event(keyval, keycode, state, self.__modifiers)
         if state & IBus.ModifierType.RELEASE_MASK:
             self.__modifiers &= ~bits.Prefix_Bit
@@ -274,8 +285,6 @@ class Event:
         if self.is_ascii(keyval):
             if keyval == keysyms.yen:
                 c = '¥'
-            elif keyval == self.__Space:
-                c = ' '
             else:
                 c = chr(keyval).lower()
         return c
