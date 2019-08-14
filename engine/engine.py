@@ -390,18 +390,18 @@ class EngineReplaceWithKanji(IBus.Engine):
             return True
 
         # Handle Japanese text
+        if self.__event.is_henkan():
+            return self.handle_replace(keyval, state)
+        if self.__event.is_shrink():
+            return self.handle_shrink(keyval, state)
+        self.__commit()
         if self.__event.is_katakana():
             if self.__event.is_shift():
                 self.set_mode('あ' if self.get_mode() == 'ア' else 'ア')
             else:
                 self.handle_katakana()
             return True
-        if self.__event.is_henkan():
-            return self.handle_replace(keyval, state)
-        if self.__event.is_shrink():
-            return self.handle_shrink(keyval, state)
-        self.__commit()
-        if self.__event.is_backspace():
+        elif self.__event.is_backspace():
             if 1 <= len(self.__preedit_string):
                 self.__preedit_string = self.__preedit_string[:-1]
                 self.__update()
@@ -441,8 +441,6 @@ class EngineReplaceWithKanji(IBus.Engine):
         return (cand, size)
 
     def handle_katakana(self):
-        if self.__dict.current():
-            return True
         text, pos = self.__get_surrounding_text()
         for i in reversed(range(pos)):
             if 0 <= _katakana.find(text[i]):
