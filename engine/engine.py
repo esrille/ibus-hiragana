@@ -221,8 +221,8 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def __handle_kana_layout(self, preedit, keyval, state=0, modifiers=0):
         yomi = ''
-        if self.__event.is_ascii(keyval):
-            c = self.__event.chr(keyval)
+        if self.__event.is_ascii():
+            c = self.__event.chr()
             if preedit == '\\':
                 preedit = ''
                 if self.__event.is_shift():
@@ -259,8 +259,8 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def __handle_roomazi_layout(self, preedit, keyval, state=0, modifiers=0):
         yomi = ''
-        if self.__event.is_ascii(keyval):
-            c = self.__event.chr(keyval)
+        if self.__event.is_ascii():
+            c = self.__event.chr()
             if preedit == 'n' and "aiueon\'wy".find(c) < 0:
                 yomi = 'ん'
                 preedit = preedit[1:]
@@ -408,7 +408,7 @@ class EngineReplaceWithKanji(IBus.Engine):
                 return True
             elif 0 < len(self.__previous_text):
                 self.__previous_text = self.__previous_text[:-1]
-        elif self.__event.is_ascii(keyval) or keyval == keysyms.Zenkaku_Hankaku or keyval == keysyms.hyphen:
+        elif self.__event.is_ascii() or keyval == keysyms.Zenkaku_Hankaku or keyval == keysyms.hyphen:
             yomi, self.__preedit_string = self.__to_kana(self.__preedit_string, keyval, state, modifiers)
             if yomi:
                 if self.get_mode() == 'ア':

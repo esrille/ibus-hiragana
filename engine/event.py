@@ -113,9 +113,9 @@ class Event:
     def is_backspace(self):
         return self.__keyval == keysyms.BackSpace
 
-    def is_ascii(self, keyval):
+    def is_ascii(self):
         # keysyms.yen is treated as '¥' for Japanese 109 keyboard.
-        return keysyms.exclam <= keyval and keyval <= keysyms.asciitilde or keyval == keysyms.yen or keyval == keysyms.space
+        return keysyms.exclam <= self.__keyval and self.__keyval <= keysyms.asciitilde or self.__keyval == keysyms.yen or self.__keyval == keysyms.space
 
     def is_modifier(self):
         return self.__keyval in self.MODIFIERS
@@ -279,23 +279,23 @@ class Event:
         if keyval == keysyms.backslash and keycode == 0x7c:
             # Treat Yen key separately for Japanese 109 keyboard.
             keyval = keysyms.yen
-        if self.is_suffix():
+        elif self.is_suffix():
             keyval = keysyms.hyphen
         self.__keyval = keyval
         self.__keycode = keycode
         self.__state = state
         if self.is_space():
-            keyval = keysyms.space
+            self.__keyval = keysyms.space
         processed = self.__engine.handle_key_event(keyval, keycode, state, self.__modifiers)
         if state & IBus.ModifierType.RELEASE_MASK:
             self.__modifiers &= ~bits.Prefix_Bit
         return processed
 
-    def chr(self, keyval):
+    def chr(self):
         c = ''
-        if self.is_ascii(keyval):
-            if keyval == keysyms.yen:
+        if self.is_ascii():
+            if self.__keyval == keysyms.yen:
                 c = '¥'
             else:
-                c = chr(keyval).lower()
+                c = chr(self.__keyval).lower()
         return c
