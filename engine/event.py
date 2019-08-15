@@ -51,8 +51,8 @@ class Event:
         if "Keyboard" in layout:
             keyboard = layout["Keyboard"]
             if keyboard == "109":
-                self.__Henkan = keysyms.Henkan
-                self.__Muhenkan = keysyms.Muhenkan
+                self.__Henkan = keysyms.VoidSymbol
+                self.__Muhenkan = keysyms.VoidSymbol
                 self.__Kana = keysyms.Hiragana_Katakana
                 self.__Eisuu = keysyms.Eisu_toggle
                 self.__Space = keysyms.VoidSymbol
@@ -91,6 +91,8 @@ class Event:
         self.__modifiers = 0                 # See bits.py
 
     def is_key(self, keyval):
+        if keyval == keysyms.VoidSymbol:
+            return False
         if not self.is_modifier() and keyval == self.__keyval:
             return True
         if keyval == keysyms.Shift_L and (self.__modifiers & bits.Dual_ShiftL_Bit):
@@ -136,14 +138,14 @@ class Event:
         return self.is_key(self.__Kana)
 
     def is_henkan(self):
-        if self.is_key(self.__Henkan):
+        if self.is_key(self.__Henkan) or self.is_key(keysyms.Henkan):
             return not self.is_shift()
         return False
 
     def is_muhenkan(self):
-        if self.is_key(self.__Henkan):
+        if self.is_key(self.__Henkan) or self.is_key(keysyms.Henkan):
             return self.is_shift()
-        return self.is_key(self.__Muhenkan)
+        return self.is_key(self.__Muhenkan) or self.is_key(keysyms.Muhenkan)
 
     def is_shrink(self):
         return self.__keyval == keysyms.Tab
