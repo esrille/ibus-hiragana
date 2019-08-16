@@ -118,7 +118,7 @@ class Event:
 
     def is_ascii(self):
         # keysyms.yen is treated as '¥' for Japanese 109 keyboard.
-        return keysyms.exclam <= self.__keyval and self.__keyval <= keysyms.asciitilde or self.__keyval == keysyms.yen or self.__keyval == keysyms.space
+        return keysyms.exclam <= self.__keyval and self.__keyval <= keysyms.asciitilde or self.__keyval == keysyms.yen or self.is_space()
 
     def is_modifier(self):
         return self.__keyval in self.MODIFIERS
@@ -295,8 +295,6 @@ class Event:
         self.__keyval = keyval
         self.__keycode = keycode
         self.__state = state
-        if self.is_space():
-            self.__keyval = keysyms.space
         return self.__keyval
 
     def handle_key_event(self, keyval, keycode, state):
@@ -309,10 +307,14 @@ class Event:
     def chr(self):
         c = ''
         if self.is_ascii():
-            if self.__keyval == keysyms.yen:
+            if self.is_space():
+                keyval = keysyms.space
+            else:
+                keyval = self.__keyval
+            if keyval == keysyms.yen:
                 c = '¥'
-            elif self.__keyval == keysyms.asciitilde and self.__keycode == 0x0b:
+            elif keyval == keysyms.asciitilde and self.__keycode == 0x0b:
                 c = '_'
             else:
-                c = chr(self.__keyval)
+                c = chr(keyval)
         return c
