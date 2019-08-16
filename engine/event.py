@@ -263,10 +263,16 @@ class Event:
                 return True
             return self.handle_key_event(keyval, keycode, state)
 
-        # Prevent an extra action for F13 and F14 taken by other software.
-        if keysyms.F13 <= keyval and keyval <= keysyms.F14:
+        if not is_press:
+            return False
+        if state & (IBus.ModifierType.CONTROL_MASK | IBus.ModifierType.MOD1_MASK):
+            return False
+        self.update_key_event(keyval, keycode, state)
+        c = self.chr()
+        if c:
+            # Commit a remapped character
+            self.__engine.commit_text(IBus.Text.new_from_string(c))
             return True
-
         return False
 
     def handle_key_event_timeout(self, keyval, keycode, state):
@@ -275,7 +281,7 @@ class Event:
         # Stop timer by returning False
         return False
 
-    def handle_key_event(self, keyval, keycode, state):
+    def update_key_event(self, keyval, keycode, state):
         if keyval == keysyms.backslash and keycode == 0x7c:
             # Treat Yen key separately for Japanese 109 keyboard.
             keyval = keysyms.yen
@@ -286,6 +292,10 @@ class Event:
         self.__state = state
         if self.is_space():
             self.__keyval = keysyms.space
+        return self.__keyval
+
+    def handle_key_event(self, keyval, keycode, state):
+        keyval = self.update_key_event(keyval, keycode, state)
         processed = self.__engine.handle_key_event(keyval, keycode, state, self.__modifiers)
         if state & IBus.ModifierType.RELEASE_MASK:
             self.__modifiers &= ~bits.Prefix_Bit
@@ -296,6 +306,8 @@ class Event:
         if self.is_ascii():
             if self.__keyval == keysyms.yen:
                 c = '¥'
+            elif self.__keyval == keysyms.asciitilde and self.__keycode == 0x0b:
+                c = '_'
             else:
-                c = chr(self.__keyval).lower()
+                c = chr(self.__keyval)
         return c

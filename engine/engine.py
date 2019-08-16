@@ -222,7 +222,7 @@ class EngineReplaceWithKanji(IBus.Engine):
     def __handle_kana_layout(self, preedit, keyval, state=0, modifiers=0):
         yomi = ''
         if self.__event.is_ascii():
-            c = self.__event.chr()
+            c = self.__event.chr().lower()
             if preedit == '\\':
                 preedit = ''
                 if self.__event.is_shift():
@@ -260,7 +260,7 @@ class EngineReplaceWithKanji(IBus.Engine):
     def __handle_roomazi_layout(self, preedit, keyval, state=0, modifiers=0):
         yomi = ''
         if self.__event.is_ascii():
-            c = self.__event.chr()
+            c = self.__event.chr().lower()
             if preedit == 'n' and "aiueon\'wy".find(c) < 0:
                 yomi = 'ん'
                 preedit = preedit[1:]
