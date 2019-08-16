@@ -1,6 +1,7 @@
 {
     "Keyboard": "109",
     "OnOffByCaps": false,
+    "HasYen": true,
     "Roomazi": {
         " ": "　",
         "!": "！", "\"": "＂", "#": "＃", "$": "＄", "%": "％",

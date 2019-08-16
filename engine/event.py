@@ -46,6 +46,7 @@ class Event:
         self.__Kana = keysyms.Control_R         # or keysyms.Hiragana_Katakana, keysyms.Control_R
         self.__Space = keysyms.Shift_R          # Extra space key in Kana mode
         self.__Prefix = False                   # True if Shift is to be prefixed
+        self.__HasYen = False
         self.__DualBits = bits.Dual_ShiftL_Bit
 
         if "Keyboard" in layout:
@@ -59,6 +60,8 @@ class Event:
 
         if "OnOffByCaps" in layout:
             self.__OnOffByCaps = layout["OnOffByCaps"]
+        if "HasYen" in layout:
+            self.__HasYen = layout["HasYen"]
 
         if "SandS" in layout:
             self.__SandS = layout["SandS"]
@@ -271,6 +274,8 @@ class Event:
         c = self.chr()
         if c:
             # Commit a remapped character
+            if c == '¥' and not self.__HasYen:
+                c = '\\'
             self.__engine.commit_text(IBus.Text.new_from_string(c))
             return True
         return False
