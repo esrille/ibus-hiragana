@@ -221,58 +221,49 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def __handle_kana_layout(self, preedit, keyval, state=0, modifiers=0):
         yomi = ''
-        if self.__event.is_ascii():
-            c = self.__event.chr().lower()
-            if preedit == '\\':
-                preedit = ''
-                if self.__event.is_shift():
-                    if 'Shift' in self.__layout:
-                        yomi = self.__layout['\\Shift'][c]
-                    elif modifiers & bits.ShiftL_Bit:
-                        yomi = self.__layout['\\ShiftL'][c]
-                    elif modifiers & bits.ShiftR_Bit:
-                        yomi = self.__layout['\\ShiftR'][c]
-                else:
-                    yomi = self.__layout['\\Normal'][c]
+        c = self.__event.chr().lower()
+        if preedit == '\\':
+            preedit = ''
+            if self.__event.is_shift():
+                if 'Shift' in self.__layout:
+                    yomi = self.__layout['\\Shift'][c]
+                elif modifiers & bits.ShiftL_Bit:
+                    yomi = self.__layout['\\ShiftL'][c]
+                elif modifiers & bits.ShiftR_Bit:
+                    yomi = self.__layout['\\ShiftR'][c]
             else:
-                if self.__event.is_shift():
-                    if 'Shift' in self.__layout:
-                        yomi = self.__layout['Shift'][c]
-                    elif modifiers & bits.ShiftL_Bit:
-                        yomi = self.__layout['ShiftL'][c]
-                    elif modifiers & bits.ShiftR_Bit:
-                        yomi = self.__layout['ShiftR'][c]
-                else:
-                    yomi = self.__layout['Normal'][c]
-                if yomi == '\\':
-                    preedit += yomi
-                    yomi = ''
-        elif keyval == keysyms.Zenkaku_Hankaku:
-            if preedit == '\\':
-                yomi = '￥'
-                preedit = ''
+                yomi = self.__layout['\\Normal'][c]
+        else:
+            if self.__event.is_shift():
+                if 'Shift' in self.__layout:
+                    yomi = self.__layout['Shift'][c]
+                elif modifiers & bits.ShiftL_Bit:
+                    yomi = self.__layout['ShiftL'][c]
+                elif modifiers & bits.ShiftR_Bit:
+                    yomi = self.__layout['ShiftR'][c]
             else:
-                preedit += '\\'
-        elif keyval == keysyms.hyphen:
-            yomi = '―'
+                yomi = self.__layout['Normal'][c]
+            if yomi == '\\':
+                preedit += yomi
+                yomi = ''
         return yomi, preedit
 
     def __handle_roomazi_layout(self, preedit, keyval, state=0, modifiers=0):
         yomi = ''
-        if self.__event.is_ascii():
-            c = self.__event.chr().lower()
-            if preedit == 'n' and "aiueon\'wy".find(c) < 0:
-                yomi = 'ん'
-                preedit = preedit[1:]
-            preedit += c
-            if preedit in self.__layout['Roomazi']:
-                yomi += self.__layout['Roomazi'][preedit]
-                preedit = ''
-            elif 2 <= len(preedit) and preedit[0] == preedit[1] and _re_tu.search(preedit[1]):
-                yomi += 'っ'
-                preedit = preedit[1:]
-        elif keyval == keysyms.hyphen:
-            yomi = '―'
+        c = self.__event.chr().lower()
+        if preedit == 'n' and "aiueon\'wy".find(c) < 0:
+            yomi = 'ん'
+            preedit = preedit[1:]
+        preedit += c
+        if preedit in self.__layout['Roomazi']:
+            yomi += self.__layout['Roomazi'][preedit]
+            preedit = ''
+            if yomi == '\\':
+                preedit = yomi
+                yomi = ''
+        elif 2 <= len(preedit) and preedit[0] == preedit[1] and _re_tu.search(preedit[1]):
+            yomi += 'っ'
+            preedit = preedit[1:]
         return yomi, preedit
 
     def __get_surrounding_text(self):
@@ -395,32 +386,40 @@ class EngineReplaceWithKanji(IBus.Engine):
         if self.__event.is_shrink():
             return self.handle_shrink(keyval, state)
         self.__commit()
+        yomi = ''
         if self.__event.is_katakana():
             if self.__event.is_shift():
                 self.set_mode('あ' if self.get_mode() == 'ア' else 'ア')
             else:
                 self.handle_katakana()
             return True
-        elif self.__event.is_backspace():
+        if self.__event.is_backspace():
             if 1 <= len(self.__preedit_string):
                 self.__preedit_string = self.__preedit_string[:-1]
                 self.__update()
                 return True
             elif 0 < len(self.__previous_text):
                 self.__previous_text = self.__previous_text[:-1]
-        elif self.__event.is_ascii() or keyval == keysyms.Zenkaku_Hankaku or keyval == keysyms.hyphen:
+            return False
+        if self.__event.is_ascii():
             yomi, self.__preedit_string = self.__to_kana(self.__preedit_string, keyval, state, modifiers)
-            if yomi:
-                if self.get_mode() == 'ア':
-                    yomi = to_katakana(yomi)
-                self.__commit_string(yomi)
-                self.__update()
-                return True
-            self.__update()
-            return True
+        elif keyval == keysyms.Zenkaku_Hankaku:
+            if self.__preedit_string == '\\':
+                yomi = '￥'
+                self.__preedit_string = ''
+            else:
+                self.__preedit_string += '\\'
+        elif keyval == keysyms.hyphen:
+            yomi = '―'
         else:
             self.__previous_text = ''
-        return False
+            return False
+        if yomi:
+            if self.get_mode() == 'ア':
+                yomi = to_katakana(yomi)
+            self.__commit_string(yomi)
+        self.__update()
+        return True
 
     def lookup_dictionary(self, yomi, pos):
         # Handle dangling 'n' for 'ん' here to minimize the access to the surrounding text API,
