@@ -277,6 +277,7 @@ class Event:
             if c == '¥' and not self.__HasYen:
                 c = '\\'
             if c != chr(self.__keyval):
+                # Note self.__engine.forward_key_event does not seem to work with Qt applications.
                 self.__engine.commit_text(IBus.Text.new_from_string(c))
                 return True
         return False
