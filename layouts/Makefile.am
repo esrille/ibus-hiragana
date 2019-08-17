@@ -33,6 +33,7 @@ EXTRA_DIST = \
 	roomazi.json \
 	roomazi.109.json \
 	new_stickney.json \
+	new_stickney.109.json \
 	tron.json \
 	nicola.json \
 	nicola_f.json \
