@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang='ja'>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, maximum-scale=1.0, user-scalable=yes'>
+<title>キーのわりあて ― ひらがなIME</title>
+<link href='icon.png' rel='icon'>
+<link rel='stylesheet' type='text/css' href='default.css'>
+<meta content='キーのわりあて' name='description'>
+<meta content='https://esrille.github.io/ibus-replace-with-kanji/key_assign.html' property='og:url'>
+<meta content='キーのわりあて ― ひらがなIME' property='og:title'>
+<meta content='キーのわりあて' property='og:description'>
+<meta content='https://esrille.github.io/ibus-replace-with-kanji/screenshot.png' property='og:image'>
+<meta content='product' property='og:type'>
+<meta content='summary_large_image' name='twitter:card'>
+<meta content='@esrille' name='twitter:creator'>
+<style>
+aside a:hover {
+  text-decoration: none;
+}
+.title {
+  font-size: 20pt;
+}
+</style>
+</head>
+<body>
+<div id='sidebar'>
+<aside>
+<a class='title' href='https://github.com/esrille/ibus-replace-with-kanji'><img alt="アイコン" src="icon.png"> ひらがなIME</a>
+<hr>
+<ul>
+<li><a href='index.html'>はじめに</a>
+<li><a href='install.html'>インストール方法</a>
+<li><a href='usage.html'>つかいかた</a>
+<li><a href='key_assign.html'>キーのわりあて</a>
+<li><a href='layouts.html'>キーボードの配列</a>
+<li><a href='dictionary.html'>辞書ファイルについて</a>
+<li><a href='experimental.html'>実験的な機能</a>
+<li><a href='reference.html'>参考文献</a>
+</ul>
+<footer>
+</footer>
+</aside>
+</div>
+<main>
+<h1>キーのわりあて</h1>
+<p>キーのわりあては、つぎようになっています。</p>
+<table>
+<thead>
+<tr>
+<th align="left"><ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>キーボード</th>
+<th align="left"><ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>キーボード</th>
+<th><ruby>操作<rp>(</rp><rt>そうさ</rt><rp>)</rp></ruby>の<ruby>内容<rp>(</rp><rt>ないよう</rt><rp>)</rp></ruby></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">〔<ruby>英<rp>(</rp><rt>えい</rt><rp>)</rp></ruby><ruby>数<rp>(</rp><rt>すう</rt><rp>)</rp></ruby>〕</td>
+<td align="left">〔Caps Lock〕</td>
+<td><ruby>英<rp>(</rp><rt>えい</rt><rp>)</rp></ruby><ruby>数<rp>(</rp><rt>すう</rt><rp>)</rp></ruby>/かなモードのきりかえ</td>
+</tr>
+<tr>
+<td align="left">〔<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>〕</td>
+<td align="left">〔スペース〕</td>
+<td><ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby><ruby>開始<rp>(</rp><rt>かいし</rt><rp>)</rp></ruby>，<ruby>次<rp>(</rp><rt>つぎ</rt><rp>)</rp></ruby>の<ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby></td>
+</tr>
+<tr>
+<td align="left">〔↓〕</td>
+<td align="left">〔↓〕</td>
+<td><ruby>次<rp>(</rp><rt>つぎ</rt><rp>)</rp></ruby>の<ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby></td>
+</tr>
+<tr>
+<td align="left">〔↑〕または〔<ruby>無変換<rp>(</rp><rt>むへんかん</rt><rp>)</rp></ruby>〕</td>
+<td align="left">〔↑〕または〔Shift〕-〔スペース〕</td>
+<td><ruby>前<rp>(</rp><rt>まえ</rt><rp>)</rp></ruby>の<ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby></td>
+</tr>
+<tr>
+<td align="left">〔Tab〕</td>
+<td align="left">〔Tab〕</td>
+<td>よみの<ruby>短縮<rp>(</rp><rt>たんしゅく</rt><rp>)</rp></ruby></td>
+</tr>
+<tr>
+<td align="left">〔Enter〕</td>
+<td align="left">〔Enter〕</td>
+<td><ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby><ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>の<ruby>確定<rp>(</rp><rt>かくてい</rt><rp>)</rp></ruby>（つづきの<ruby>文<rp>(</rp><rt>ぶん</rt><rp>)</rp></ruby>を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>していけば、〔Enter〕をおさなくても<ruby>自動的<rp>(</rp><rt>じどうてき</rt><rp>)</rp></ruby>に<ruby>確定<rp>(</rp><rt>かくてい</rt><rp>)</rp></ruby>します）</td>
+</tr>
+<tr>
+<td align="left">〔Esc〕</td>
+<td align="left">〔Esc〕</td>
+<td><ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby><ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>の<ruby>選択<rp>(</rp><rt>せんたく</rt><rp>)</rp></ruby>をとりけして、ひらがなにもどす<br><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>しかけのローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>のとりけし</td>
+</tr>
+<tr>
+<td align="left">〔Page Up〕, 〔Page Down〕</td>
+<td align="left">〔Page Up〕, 〔Page Down〕</td>
+<td><ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby><ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>ウィンドウのページのきりかえ</td>
+</tr>
+<tr>
+<td align="left">〔カタカナ〕</td>
+<td align="left"><ruby>右<rp>(</rp><rt>みぎ</rt><rp>)</rp></ruby>〔Ctrl〕</td>
+<td>カタカナ<ruby>置換<rp>(</rp><rt>ちかん</rt><rp>)</rp></ruby>（カーソルのてまえのかな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>をまえにむかって一<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>ずつカタカナに<ruby>置換<rp>(</rp><rt>ちかん</rt><rp>)</rp></ruby>していきます）</td>
+</tr>
+<tr>
+<td align="left">〔Shift〕-〔カタカナ〕</td>
+<td align="left">〔Shift〕-<ruby>右<rp>(</rp><rt>みぎ</rt><rp>)</rp></ruby>〔Ctrl〕</td>
+<td>カタカナ/ひらがなモードのきりかえ</td>
+</tr>
+<tr>
+<td align="left"><ruby>左<rp>(</rp><rt>ひだり</rt><rp>)</rp></ruby>〔Shift〕</td>
+<td align="left"><ruby>左<rp>(</rp><rt>ひだり</rt><rp>)</rp></ruby>〔Shift〕</td>
+<td>おくりがなをおくる<ruby>位置<rp>(</rp><rt>いち</rt><rp>)</rp></ruby>の<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby><ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>ウィンドウは<ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>がふたつ<ruby>以上<rp>(</rp><rt>いじょう</rt><rp>)</rp></ruby>あるばあいにだけ<ruby>表示<rp>(</rp><rt>ひょうじ</rt><rp>)</rp></ruby>されます。</li>
+<li><ruby>数字<rp>(</rp><rt>すうじ</rt><rp>)</rp></ruby>キーをつかって、<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby><ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>ウィンドウから<ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>を<ruby>選択<rp>(</rp><rt>せんたく</rt><rp>)</rp></ruby>することはできません（<ruby>数字<rp>(</rp><rt>すうじ</rt><rp>)</rp></ruby>をうつと、そのまま<ruby>数字<rp>(</rp><rt>すうじ</rt><rp>)</rp></ruby>が<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>されます）。</li>
+<li><ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>の<ruby>誤変換<rp>(</rp><rt>ごへんかん</rt><rp>)</rp></ruby>は、テキスト エディターやワープロのアンドゥ（とりけし）をつかって、ひらがなにもどすことができます。</li>
+</ul>
+<h4><ruby>漢数字<rp>(</rp><rt>かんすうじ</rt><rp>)</rp></ruby>の<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></h4>
+<p>&#x3000;キーボード<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>として「99式ローマ字」もしくは「ニュー スティックニー<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>」を<ruby>選択<rp>(</rp><rt>せんたく</rt><rp>)</rp></ruby>しているときは、〔\〕キーのあとに<ruby>数字<rp>(</rp><rt>すうじ</rt><rp>)</rp></ruby>キーをおすと<ruby>漢数字<rp>(</rp><rt>かんすうじ</rt><rp>)</rp></ruby>を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できます。</p>
+<p><ruby>例<rp>(</rp><rt>れい</rt><rp>)</rp></ruby>)</p>
+<ul>
+<li>\1 → 一</li>
+<li>\2 → 二</li>
+</ul>
+</main>
+<nav>
+<a href=usage.html id='nav-prev'><div>&lt;</div></a>
+<a href=layouts.html id='nav-next'><div>&gt;</div></a>
+</nav>
+</body>
+</html>

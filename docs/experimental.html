@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang='ja'>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, maximum-scale=1.0, user-scalable=yes'>
+<title>実験的な機能 ― ひらがなIME</title>
+<link href='icon.png' rel='icon'>
+<link rel='stylesheet' type='text/css' href='default.css'>
+<meta content='実験的な機能' name='description'>
+<meta content='https://esrille.github.io/ibus-replace-with-kanji/experimental.html' property='og:url'>
+<meta content='実験的な機能 ― ひらがなIME' property='og:title'>
+<meta content='実験的な機能' property='og:description'>
+<meta content='https://esrille.github.io/ibus-replace-with-kanji/screenshot.png' property='og:image'>
+<meta content='product' property='og:type'>
+<meta content='summary_large_image' name='twitter:card'>
+<meta content='@esrille' name='twitter:creator'>
+<style>
+aside a:hover {
+  text-decoration: none;
+}
+.title {
+  font-size: 20pt;
+}
+</style>
+</head>
+<body>
+<div id='sidebar'>
+<aside>
+<a class='title' href='https://github.com/esrille/ibus-replace-with-kanji'><img alt="アイコン" src="icon.png"> ひらがなIME</a>
+<hr>
+<ul>
+<li><a href='index.html'>はじめに</a>
+<li><a href='install.html'>インストール方法</a>
+<li><a href='usage.html'>つかいかた</a>
+<li><a href='key_assign.html'>キーのわりあて</a>
+<li><a href='layouts.html'>キーボードの配列</a>
+<li><a href='dictionary.html'>辞書ファイルについて</a>
+<li><a href='experimental.html'>実験的な機能</a>
+<li><a href='reference.html'>参考文献</a>
+</ul>
+<footer>
+</footer>
+</aside>
+</div>
+<main>
+<h1><ruby>実験的<rp>(</rp><rt>じっけんてき</rt><rp>)</rp></ruby>な<ruby>機能<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby></h1>
+<p>&#x3000;「ひらがなIME」は、たしょう<ruby>実験的<rp>(</rp><rt>じっけんてき</rt><rp>)</rp></ruby>な<ruby>機能<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>も<ruby>実装<rp>(</rp><rt>じっそう</rt><rp>)</rp></ruby>しています。<ruby>将来<rp>(</rp><rt>しょうらい</rt><rp>)</rp></ruby>のバージョンでは、これらの<ruby>機能<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>は<ruby>変更<rp>(</rp><rt>へんこう</rt><rp>)</rp></ruby>したり、<ruby>削除<rp>(</rp><rt>さくじょ</rt><rp>)</rp></ruby>したりするかもしれません。</p>
+<h2><ruby>和語<rp>(</rp><rt>わご</rt><rp>)</rp></ruby>の一<ruby>音<rp>(</rp><rt>おん</rt><rp>)</rp></ruby>の<ruby>動詞<rp>(</rp><rt>どうし</rt><rp>)</rp></ruby>と<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby></h2>
+<p>&#x3000;「<ruby>煮<rp>(</rp><rt>に</rt><rp>)</rp></ruby>る」と「<ruby>似<rp>(</rp><rt>に</rt><rp>)</rp></ruby>る」のように、一<ruby>音<rp>(</rp><rt>おん</rt><rp>)</rp></ruby>で、<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>をもちいないと<ruby>意味<rp>(</rp><rt>いみ</rt><rp>)</rp></ruby>が<ruby>判別<rp>(</rp><rt>はんべつ</rt><rp>)</rp></ruby>しにくい<ruby>動詞<rp>(</rp><rt>どうし</rt><rp>)</rp></ruby>があります。
+こうした<ruby>動詞<rp>(</rp><rt>どうし</rt><rp>)</rp></ruby>は、よみから<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>に<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>する<ruby>方式<rp>(</rp><rt>ほうしき</rt><rp>)</rp></ruby>では<ruby>誤変換<rp>(</rp><rt>ごへんかん</rt><rp>)</rp></ruby>をおこしがちです。</p>
+<p>&#x3000;「ひらがなIME」には、こうした<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>をキーボードからちょくせつ<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>する<ruby>機能<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>があります。
+<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できる<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>は、<ruby>下記<rp>(</rp><rt>かき</rt><rp>)</rp></ruby>の<ruby>表<rp>(</rp><rt>ひょう</rt><rp>)</rp></ruby>のA，B，C<ruby>列<rp>(</rp><rt>れつ</rt><rp>)</rp></ruby>の<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>です。</p>
+<table>
+<thead>
+<tr>
+<th><ruby>音<rp>(</rp><rt>おん</rt><rp>)</rp></ruby></th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>かな<ruby>優先<rp>(</rp><rt>ゆうせん</rt><rp>)</rp></ruby></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>い</td>
+<td>射 \i</td>
+<td>生 \xi</td>
+<td></td>
+<td>(入)</td>
+</tr>
+<tr>
+<td>う</td>
+<td>売 \u</td>
+<td></td>
+<td></td>
+<td>(得)</td>
+</tr>
+<tr>
+<td>え</td>
+<td>得 \e</td>
+<td></td>
+<td></td>
+<td>(獲)</td>
+</tr>
+<tr>
+<td>お</td>
+<td>負 \o</td>
+<td>織 \xo</td>
+<td></td>
+<td>(追)，(折)</td>
+</tr>
+<tr>
+<td>か</td>
+<td>買 \ka</td>
+<td>飼 \ga</td>
+<td>欠 \xka ，く</td>
+<td>(書)</td>
+</tr>
+<tr>
+<td>き</td>
+<td>着 \ki</td>
+<td>切 \gi</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>た</td>
+<td>裁 \ta</td>
+<td></td>
+<td></td>
+<td>(断)</td>
+</tr>
+<tr>
+<td>と</td>
+<td>解 \to</td>
+<td>説 \do</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>に</td>
+<td>似 \ni</td>
+<td>煮 \xni</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>\</td>
+<td>￥ \ \</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>&#x3000;ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>のばあいは、〔\〕キー を<ruby>前置<rp>(</rp><rt>ぜんち</rt><rp>)</rp></ruby>キーとして、</p>
+<ul>
+<li>\ki → 着</li>
+<li>\gi → 切</li>
+</ul>
+<p>のようにタイプすると、<ruby>対応<rp>(</rp><rt>たいおう</rt><rp>)</rp></ruby>する<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>をちょくせつ<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できます。</p>
+<p>&#x3000;かな<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>のばあい、 A，B，C<ruby>列<rp>(</rp><rt>れつ</rt><rp>)</rp></ruby>の<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>は、〔\〕キー もしくは〔<ruby>半角<rp>(</rp><rt>はんかく</rt><rp>)</rp></ruby>/<ruby>全角<rp>(</rp><rt>ぜんかく</rt><rp>)</rp></ruby>〕キーにつづけて、それぞれつぎのようにタイプして<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>します。</p>
+<ul>
+<li>A<ruby>列<rp>(</rp><rt>れつ</rt><rp>)</rp></ruby>: <ruby>音<rp>(</rp><rt>おん</rt><rp>)</rp></ruby>のまま、かなをタイプ</li>
+<li>B<ruby>列<rp>(</rp><rt>れつ</rt><rp>)</rp></ruby>: <ruby>音<rp>(</rp><rt>おん</rt><rp>)</rp></ruby>とおなじキーのシフト<ruby>側<rp>(</rp><rt>がわ</rt><rp>)</rp></ruby>(Aがシフト<ruby>側<rp>(</rp><rt>がわ</rt><rp>)</rp></ruby>ならノーマル<ruby>側<rp>(</rp><rt>がわ</rt><rp>)</rp></ruby>)をタイプ</li>
+<li>C<ruby>列<rp>(</rp><rt>れつ</rt><rp>)</rp></ruby>: <ruby>表<rp>(</rp><rt>ひょう</rt><rp>)</rp></ruby>のかなをタイプ</li>
+</ul>
+<p>たとえば、<ruby>動詞<rp>(</rp><rt>どうし</rt><rp>)</rp></ruby>の<ruby>音<rp>(</rp><rt>おん</rt><rp>)</rp></ruby>が「き」であれば、</p>
+<ul>
+<li>\ き → 着</li>
+<li>\ 〔Shift〕-き → 切</li>
+</ul>
+<p>のようにして、<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>をちょくせつ<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できます。</p>
+<p><strong><ruby>補足<rp>(</rp><rt>ほそく</rt><rp>)</rp></ruby></strong>:  「<ruby>生<rp>(</rp><rt>う</rt><rp>)</rp></ruby>む」と「<ruby>産<rp>(</rp><rt>う</rt><rp>)</rp></ruby>む」などは、もともとの<ruby>和語<rp>(</rp><rt>わご</rt><rp>)</rp></ruby>はおなじものです。
+ひらがなで「うむ」とかいてあれば<ruby>意味<rp>(</rp><rt>いみ</rt><rp>)</rp></ruby>はわかります。
+ほんとうに<ruby>意味<rp>(</rp><rt>いみ</rt><rp>)</rp></ruby>の<ruby>判別<rp>(</rp><rt>はんべつ</rt><rp>)</rp></ruby>しにくい<ruby>和語<rp>(</rp><rt>わご</rt><rp>)</rp></ruby>の一<ruby>音<rp>(</rp><rt>おん</rt><rp>)</rp></ruby>の<ruby>動詞<rp>(</rp><rt>どうし</rt><rp>)</rp></ruby>というのは、それほどおおくはないようです。</p>
+</main>
+<nav>
+<a href=dictionary.html id='nav-prev'><div>&lt;</div></a>
+<a href=reference.html id='nav-next'><div>&gt;</div></a>
+</nav>
+</body>
+</html>

@@ -1,63 +1,24 @@
-<!doctype html>
-<html lang='ja'>
-<head>
-<meta charset='UTF-8'>
-<meta name='viewport' content='width=device-width, maximum-scale=1.0, user-scalable=yes'>
-<title>キーボードの配列 ― ひらがなIME</title>
-<link href='icon.png' rel='icon'>
-<link rel='stylesheet' type='text/css' href='default.css'>
-<meta content='キーボードの配列' name='description'>
-<meta content='https://esrille.github.io/ibus-replace-with-kanji/layouts.html' property='og:url'>
-<meta content='キーボードの配列 ― ひらがなIME' property='og:title'>
-<meta content='キーボードの配列' property='og:description'>
-<meta content='https://esrille.github.io/ibus-replace-with-kanji/screenshot.png' property='og:image'>
-<meta content='product' property='og:type'>
-<meta content='summary_large_image' name='twitter:card'>
-<meta content='@esrille' name='twitter:creator'>
-<style>
-aside a:hover {
-  text-decoration: none;
-}
-.title {
-  font-size: 20pt;
-}
-</style>
-</head>
-<body>
-<div id='sidebar'>
-<aside>
-<a class='title' href='https://github.com/esrille/ibus-replace-with-kanji'><img alt="アイコン" src="icon.png"> ひらがなIME</a>
-<hr>
-<ul>
-<li><a href='index.html'>はじめに</a>
-<li><a href='install.html'>インストール方法</a>
-<li><a href='usage.html'>つかいかた</a>
-<li><a href='key_assign.html'>キーのわりあて</a>
-<li><a href='layouts.html'>キーボードの配列</a>
-<li><a href='dictionary.html'>辞書ファイルについて</a>
-<li><a href='experimental.html'>実験的な機能</a>
-<li><a href='reference.html'>参考文献</a>
-</ul>
-<footer>
-</footer>
-</aside>
-</div>
-<main>
-<h1>キーボードの<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby></h1>
-<p>&#x3000;「ひらがなIME」には、キーボードの<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>をこのみにあわせて<ruby>変更<rp>(</rp><rt>へんこう</rt><rp>)</rp></ruby>する<ruby>機能<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>があります。</p>
-<ul>
-<li><a href="#jis">JISかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby></a></li>
-<li><a href="#roomazi">99<ruby>式<rp>(</rp><rt>しき</rt><rp>)</rp></ruby>ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby><ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby></a></li>
-<li><a href="#new_stickney">New Stickney <ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby></a></li>
-</ul>
-<p>といった<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>のなかから、すきな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>をえらんでつかうことができます。</p>
-<p><br>※ <ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>キーボードの<span class='key'>Shift</span>-<span class='key'>0</span>で、_（アンダースコア）を入力できるのは、「ひらがなIME」の<ruby>拡張<rp>(</rp><rt>かくちょう</rt><rp>)</rp></ruby><ruby>機能<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>です。</p>
-<h2 id="jis">JISかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby></h2>
-<p>&#x3000;<ruby>現在<rp>(</rp><rt>げんざい</rt><rp>)</rp></ruby>のJISかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>は、1923年にバーナム・クース・スティックニーさんが<ruby>設計<rp>(</rp><rt>せっけい</rt><rp>)</rp></ruby>した<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>がもとになっています。</p>
-<p>&#x3000;そのころは、<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>と<ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>でべつべつのタイプライターをつかっていました。キーは、<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>をおぼえやすいように、五十<ruby>音<rp>(</rp><rt>おん</rt><rp>)</rp></ruby>の<ruby>行<rp>(</rp><rt>ぎょう</rt><rp>)</rp></ruby>ごとにまとまっていました。かな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>は、４<ruby>段<rp>(</rp><rt>だん</rt><rp>)</rp></ruby>１０<ruby>列<rp>(</rp><rt>れつ</rt><rp>)</rp></ruby>のキーなかにおさまっています。<ruby>文中<rp>(</rp><rt>ぶんちゅう</rt><rp>)</rp></ruby>にあまりでてこない、「ぬ」や「む」といったかな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>はシフトがわにおかれていました。</p>
-<p>&#x3000;そののち、一<ruby>台<rp>(</rp><rt>だい</rt><rp>)</rp></ruby>で<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>と<ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>どちらもうてる「コンビネーション タイプライター」がつくられました。コンビネーション タイプライターでは、ひとつのキーにかな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>とアルファベットを一<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>ずつしかおけませんでした。それで、シフトがわにあったかな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>は、キーボードのはじにうつされました。</p>
-<p>&#x3000;JISかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>が、つかうキーのおおい、おぼえにくい<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>になってしまっているのは、そのなごりです。<ruby>現在<rp>(</rp><rt>げんざい</rt><rp>)</rp></ruby>では、JISかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>はあまりつかわれていません。</p>
-<h3><ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>キーボード<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby></h3>
+# キーボードの￹配列￺はいれつ￻
+
+　「ひらがなIME」には、キーボードの￹配列￺はいれつ￻をこのみにあわせて￹変更￺へんこう￻する￹機能￺きのう￻があります。
+
+- [JISかな￹配列￺はいれつ￻](#jis)
+- [99￹式￺しき￻ローマ￹字￺じ￻￹配列￺はいれつ￻](#roomazi)
+- [New Stickney ￹配列￺はいれつ￻](#new_stickney)
+
+といった￹配列￺はいれつ￻のなかから、すきな￹配列￺はいれつ￻をえらんでつかうことができます。
+
+<br>※ ￹日本語￺にほんご￻キーボードの<span class='key'>Shift</span>-<span class='key'>0</span>で、_（アンダースコア）を入力できるのは、「ひらがなIME」の￹拡張￺かくちょう￻￹機能￺きのう￻です。
+
+## JISかな￹配列￺はいれつ￻ {#jis}
+
+　￹現在￺げんざい￻のJISかな￹配列￺はいれつ￻は、1923年にバーナム・クース・スティックニーさんが￹設計￺せっけい￻した￹配列￺はいれつ￻がもとになっています。
+　そのころは、￹日本語￺にほんご￻￹用￺よう￻と￹英語￺えいご￻￹用￺よう￻でべつべつのタイプライターをつかっていました。キーは、￹配列￺はいれつ￻をおぼえやすいように、五十￹音￺おん￻の￹行￺ぎょう￻ごとにまとまっていました。かな￹文字￺もじ￻は、４￹段￺だん￻１０￹列￺れつ￻のキーなかにおさまっています。￹文中￺ぶんちゅう￻にあまりでてこない、「ぬ」や「む」といったかな￹文字￺もじ￻はシフトがわにおかれていました。
+　そののち、一￹台￺だい￻で￹日本語￺にほんご￻と￹英語￺えいご￻どちらもうてる「コンビネーション タイプライター」がつくられました。コンビネーション タイプライターでは、ひとつのキーにかな￹文字￺もじ￻とアルファベットを一￹字￺じ￻ずつしかおけませんでした。それで、シフトがわにあったかな￹文字￺もじ￻は、キーボードのはじにうつされました。
+　JISかな￹配列￺はいれつ￻が、つかうキーのおおい、おぼえにくい￹配列￺はいれつ￻になってしまっているのは、そのなごりです。￹現在￺げんざい￻では、JISかな￹配列￺はいれつ￻はあまりつかわれていません。
+
+### ￹日本語￺にほんご￻キーボード￹用￺よう￻
+
 <div class='kbd'>
 <div class='layer109 L0'>
 <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>⌫</div>
@@ -120,7 +81,8 @@ aside a:hover {
 </div>
 </div>
 
-<h3>スティックニーのかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>（<ruby>参考<rp>(</rp><rt>さんこう</rt><rp>)</rp></ruby>）</h3>
+### スティックニーのかな￹配列￺はいれつ￻（￹参考￺さんこう￻）
+
 <div class='kbd'>
 <div class='layer L0'>
 <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'>Backspace</div>
@@ -183,38 +145,23 @@ aside a:hover {
 </div>
 </div>
 
-<h2 id="roomazi">99<ruby>式<rp>(</rp><rt>しき</rt><rp>)</rp></ruby>ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby><ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby></h2>
-<p>&#x3000;<ruby>最初<rp>(</rp><rt>さいしょ</rt><rp>)</rp></ruby>に<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>されている<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>です。よくつかう<ruby>部分<rp>(</rp><rt>ぶぶん</rt><rp>)</rp></ruby>は<ruby>訓令<rp>(</rp><rt>くんれい</rt><rp>)</rp></ruby><ruby>式<rp>(</rp><rt>しき</rt><rp>)</rp></ruby>とおなじです。</p>
-<p>&#x3000;「<a href="http://www.hokkajda-esp-ligo.jp/jp/ATruby/99siki-Roomazi.htm">99<ruby>式<rp>(</rp><rt>しき</rt><rp>)</rp></ruby></a>」は、<ruby>梅棹<rp>(</rp><rt>うめさお</rt><rp>)</rp></ruby><ruby>忠夫<rp>(</rp><rt>ただお</rt><rp>)</rp></ruby>さんが<ruby>会長<rp>(</rp><rt>かいちょう</rt><rp>)</rp></ruby>をつとめた<ruby>日本<rp>(</rp><rt>にっぽん</rt><rp>)</rp></ruby>ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby><ruby>会<rp>(</rp><rt>かい</rt><rp>)</rp></ruby>がさだめたローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>による<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>の<ruby>表記法<rp>(</rp><rt>ひょうきほう</rt><rp>)</rp></ruby>です。のばす<ruby>音<rp>(</rp><rt>おん</rt><rp>)</rp></ruby>をあらわすのに、ôのような<ruby>長音<rp>(</rp><rt>ちょうおん</rt><rp>)</rp></ruby><ruby>記号<rp>(</rp><rt>きごう</rt><rp>)</rp></ruby>はつかいません。これまでワープロでつかってきたような「ふりがな<ruby>方式<rp>(</rp><rt>ほうしき</rt><rp>)</rp></ruby>」をつかうようになっています。</p>
-<p><br><ruby>例<rp>(</rp><rt>れい</rt><rp>)</rp></ruby>) <ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>はふりがなのとおりに99<ruby>式<rp>(</rp><rt>しき</rt><rp>)</rp></ruby>ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>で<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>します。</p>
-<table>
-<thead>
-<tr>
-<th><ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>かなまじりでの<ruby>表記<rp>(</rp><rt>ひょうき</rt><rp>)</rp></ruby></th>
-<th>99<ruby>式<rp>(</rp><rt>しき</rt><rp>)</rp></ruby>ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>での<ruby>表記<rp>(</rp><rt>ひょうき</rt><rp>)</rp></ruby></th>
-<th><ruby>学校<rp>(</rp><rt>がっこう</rt><rp>)</rp></ruby>でならうローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>の<ruby>表記<rp>(</rp><rt>ひょうき</rt><rp>)</rp></ruby></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><ruby>東京<rp>(</rp><rt>とうきょう</rt><rp>)</rp></ruby></td>
-<td>toukyou</td>
-<td>tôkyô</td>
-</tr>
-<tr>
-<td><ruby>京都<rp>(</rp><rt>きょうと</rt><rp>)</rp></ruby></td>
-<td>kyouto</td>
-<td>kyôto</td>
-</tr>
-<tr>
-<td>コンピューター</td>
-<td>konpyu-ta- (※)</td>
-<td>konpyûtâ</td>
-</tr>
-</tbody>
-</table>
-<p>※ 「ひらがなIME」では、<ruby>本来<rp>(</rp><rt>ほんらい</rt><rp>)</rp></ruby>の99<ruby>式<rp>(</rp><rt>しき</rt><rp>)</rp></ruby>とはことなり、カタカナの<ruby>長音<rp>(</rp><rt>ちょうおん</rt><rp>)</rp></ruby><ruby>記号<rp>(</rp><rt>きごう</rt><rp>)</rp></ruby>(ー)は-(マイナス)で<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>します。</p>
-<h3><ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>キーボード<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby></h3>
+## 99￹式￺しき￻ローマ￹字￺じ￻￹配列￺はいれつ￻ {#roomazi}
+
+　￹最初￺さいしょ￻に￹設定￺せってい￻されている￹配列￺はいれつ￻です。よくつかう￹部分￺ぶぶん￻は￹訓令￺くんれい￻￹式￺しき￻とおなじです。
+　「[99￹式￺しき￻](http://www.hokkajda-esp-ligo.jp/jp/ATruby/99siki-Roomazi.htm)」は、￹梅棹￺うめさお￻￹忠夫￺ただお￻さんが￹会長￺かいちょう￻をつとめた￹日本￺にっぽん￻ローマ￹字￺じ￻￹会￺かい￻がさだめたローマ￹字￺じ￻による￹日本語￺にほんご￻の￹表記法￺ひょうきほう￻です。のばす￹音￺おん￻をあらわすのに、ôのような￹長音￺ちょうおん￻￹記号￺きごう￻はつかいません。これまでワープロでつかってきたような「ふりがな￹方式￺ほうしき￻」をつかうようになっています。
+
+<br>￹例￺れい￻) ￹漢字￺かんじ￻はふりがなのとおりに99￹式￺しき￻ローマ￹字￺じ￻で￹入力￺にゅうりょく￻します。
+
+￹漢字￺かんじ￻かなまじりでの￹表記￺ひょうき￻ | 99￹式￺しき￻ローマ￹字￺じ￻での￹表記￺ひょうき￻ | ￹学校￺がっこう￻でならうローマ￹字￺じ￻の￹表記￺ひょうき￻
+---|---|---
+￹東京￺とうきょう￻ | toukyou | tôkyô
+￹京都￺きょうと￻ | kyouto | kyôto
+コンピューター | konpyu-ta- (※) | konpyûtâ
+
+※ 「ひらがなIME」では、￹本来￺ほんらい￻の99￹式￺しき￻とはことなり、カタカナの￹長音￺ちょうおん￻￹記号￺きごう￻(ー)は-(マイナス)で￹入力￺にゅうりょく￻します。
+
+### ￹英語￺えいご￻キーボード￹用￺よう￻
+
 <div class='kbd'>
 <div class='layer L0'>
 <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'>Backspace</div>
@@ -277,7 +224,8 @@ aside a:hover {
 </div>
 </div>
 
-<h3><ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>キーボード<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby></h3>
+### ￹日本語￺にほんご￻キーボード￹用￺よう￻
+
 <div class='kbd'>
 <div class='layer109 L0'>
 <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>⌫</div>
@@ -340,11 +288,14 @@ aside a:hover {
 </div>
 </div>
 
-<h2 id="new_stickney">New Stickney <ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby> ‐ <ruby>第<rp>(</rp><rt>だい</rt><rp>)</rp></ruby>12<ruby>案<rp>(</rp><rt>あん</rt><rp>)</rp></ruby></h2>
-<p>&#x3000;ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>になれていない<ruby>小学生<rp>(</rp><rt>しょうがくせい</rt><rp>)</rp></ruby>にもおぼえやすいかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>として<ruby>研究<rp>(</rp><rt>けんきゅう</rt><rp>)</rp></ruby><ruby>中<rp>(</rp><rt>ちゅう</rt><rp>)</rp></ruby>のかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>です。
-３<ruby>段<rp>(</rp><rt>だん</rt><rp>)</rp></ruby>１０<ruby>列<rp>(</rp><rt>れつ</rt><rp>)</rp></ruby>のキーなかにすべてのかな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>をおさめています。
-<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>のならびは、スティックニーさんが<ruby>考案<rp>(</rp><rt>こうあん</rt><rp>)</rp></ruby>した<ruby>手法<rp>(</rp><rt>しゅほう</rt><rp>)</rp></ruby>を<ruby>応用<rp>(</rp><rt>おうよう</rt><rp>)</rp></ruby>して、コンピューターで<ruby>設計<rp>(</rp><rt>せっけい</rt><rp>)</rp></ruby>しています。</p>
-<h3><ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>キーボード<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby></h3>
+## New Stickney ￹配列￺はいれつ￻ ‐ ￹第￺だい￻12￹案￺あん￻ {#new_stickney}
+
+　ローマ￹字￺じ￻になれていない￹小学生￺しょうがくせい￻にもおぼえやすいかな￹配列￺はいれつ￻として￹研究￺けんきゅう￻￹中￺ちゅう￻のかな￹配列￺はいれつ￻です。
+３￹段￺だん￻１０￹列￺れつ￻のキーなかにすべてのかな￹文字￺もじ￻をおさめています。
+￹文字￺もじ￻のならびは、スティックニーさんが￹考案￺こうあん￻した￹手法￺しゅほう￻を￹応用￺おうよう￻して、コンピューターで￹設計￺せっけい￻しています。
+
+### ￹英語￺えいご￻キーボード￹用￺よう￻
+
 <div class='kbd'>
 <div class='layer L0'>
 <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'>Backspace</div>
@@ -408,7 +359,8 @@ aside a:hover {
 </div>
 </div>
 
-<h3><ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>キーボード<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby></h3>
+### ￹日本語￺にほんご￻キーボード￹用￺よう￻
+
 <div class='kbd'>
 <div class='layer109 L0'>
 <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>⌫</div>
@@ -471,64 +423,49 @@ aside a:hover {
 </div>
 </div>
 
-<ul>
-<li>かな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>は、50<ruby>音<rp>(</rp><rt>おん</rt><rp>)</rp></ruby>の<ruby>行<rp>(</rp><rt>ぎょう</rt><rp>)</rp></ruby>ごとにまとまっています。テンテン(゛)をつけられる<span class='k'>か</span>・<span class='s'>さ</span>・<span class='t'>た</span>・<span class='h'>は</span><ruby>行<rp>(</rp><rt>ぎょう</rt><rp>)</rp></ruby>、それから、<span class='y'>や</span><ruby>行<rp>(</rp><rt>ぎょう</rt><rp>)</rp></ruby>のかな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>はひだり<ruby>手<rp>(</rp><rt>て</rt><rp>)</rp></ruby>がわにあります。</li>
-<li>テンテン(゛)のついた<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>は、あとからテンテン(゛)のキー<span class='key'><span class='small'>゛</span></span>をおして<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>します。
-<br>&#x3000;たとえば: <span class='key k'>か</span> → か、 か<span class='key'><span class='small'>゛</span></span> → が</li>
-<li>それぞれのキーのみぎがわにかかれている<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>するときは、<span class='key kana'>前置・連続シフト</span>キーをさきにおしてから、<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>したい<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>のキーをおします。
-<br>&#x3000;たとえば: <span class='key kana'>前置・連続シフト</span> <span class='key a'>あ</span> → あ</li>
-<li>「ぱぴぷぺぽ」のマル(゜)は、あとからマル(゜)のキー<span class='key'><span class='small h'>゜</span></span>をおして<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>します。
-<br>&#x3000;たとえば: <span class='key h'>は</span> → は、 は<span class='key kana'>前置・連続シフト</span> <span class='key'><span class='small h'>゜</span></span> → ぱ</li>
-<li><span class='key kana'>前置・連続シフト</span>キーをおしたままにしておけば、それぞれのキーのみぎがわにかかれている<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できます。
-<br>&#x3000;たとえば: <span class='key kana'>前置・連続シフト</span>をおしたまま、<span class='key h'>ひ</span> <span class='key h'>゜</span> → ぴ</li>
-<li>ちいさな「っ」は<span class='key'><span class='small x'>っ</span></span>とかかれているキーをおして<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>します。</li>
-<li>ちいさな「ゃゅょぁぃぅぇぉ」は、あとからテンテン(゛)のキー<span class='key'><span class='small'>゛</span></span>をおして<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>します。
-<br>&#x3000;たとえば: <span class='key y'>よ</span> → よ、 よ<span class='key'><span class='small'>゛</span></span> → ょ</li>
-</ul>
-<h2>キーボードの<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>をえらぶ</h2>
-<p>&#x3000;「ひらがなIME」が<ruby>対応<rp>(</rp><rt>たいおう</rt><rp>)</rp></ruby>しているキーボード<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>の<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>ファイルには、つぎのものがあります。</p>
-<table>
-<thead>
-<tr>
-<th>キーボード<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby></th>
-<th><ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>ファイル<ruby>名<rp>(</rp><rt>めい</rt><rp>)</rp></ruby></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="#jis">JISかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby></a></td>
-<td>jis.109.json</td>
-</tr>
-<tr>
-<td><a href="#roomazi">99<ruby>式<rp>(</rp><rt>しき</rt><rp>)</rp></ruby>ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby></a></td>
-<td>roomazi.json<br>roomazi.109.json</td>
-</tr>
-<tr>
-<td><a href="#new_stickney">ニュー スティックニー<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby></a></td>
-<td>new_stickney.json<br>new_stickney.109.json</td>
-</tr>
-</tbody>
-</table>
-<p>&#x3000;ファイル<ruby>名<rp>(</rp><rt>めい</rt><rp>)</rp></ruby>に「.109」がふくまれているものは、<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>キーボード<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>です。
-<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>の<ruby>内容<rp>(</rp><rt>ないよう</rt><rp>)</rp></ruby>はJSONでかかれています。
-<ruby>通常<rp>(</rp><rt>つうじょう</rt><rp>)</rp></ruby>のテキスト エディターをつかって、まったくあたらしい<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>を<ruby>定義<rp>(</rp><rt>ていぎ</rt><rp>)</rp></ruby>してつかうこともできます。</p>
-<p>&#x3000;キーボードの<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>を<ruby>変更<rp>(</rp><rt>へんこう</rt><rp>)</rp></ruby>するには、IBus configの、</p>
-<pre><code>engine/replace-with-kanji-python:layout
-</code></pre>
-<p>に<ruby>上記<rp>(</rp><rt>じょうき</rt><rp>)</rp></ruby>の<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>ファイル<ruby>名<rp>(</rp><rt>めい</rt><rp>)</rp></ruby>をフルパス<ruby>名<rp>(</rp><rt>めい</rt><rp>)</rp></ruby>で<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>します。</p>
-<p><br><ruby>例<rp>(</rp><rt>れい</rt><rp>)</rp></ruby> (インストール<ruby>先<rp>(</rp><rt>さき</rt><rp>)</rp></ruby>が /usr のばあい) :</p>
-<pre><code>/usr/share/ibus-replace-with-kanji/layouts/roomazi.json
-</code></pre>
-<p><br>&#x3000;IBus configの<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>は、dconf-editorをつかうばあいは、</p>
-<pre><code>/desktop/ibus
-</code></pre>
-<p>から<ruby>変更<rp>(</rp><rt>へんこう</rt><rp>)</rp></ruby>できます。</p>
-<p>&#x3000;<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>を<ruby>変更<rp>(</rp><rt>へんこう</rt><rp>)</rp></ruby>すると、<ruby>自動的<rp>(</rp><rt>じどうてき</rt><rp>)</rp></ruby>に「ひらがなIME」のキーボード<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>に<ruby>反映<rp>(</rp><rt>はんえい</rt><rp>)</rp></ruby>されます。</p>
-<p><img alt="dconf-editor" src="dconf-editor.png"></p>
-</main>
-<nav>
-<a href=key_assign.html id='nav-prev'><div>&lt;</div></a>
-<a href=dictionary.html id='nav-next'><div>&gt;</div></a>
-</nav>
-</body>
-</html>
+- かな￹文字￺もじ￻は、50￹音￺おん￻の￹行￺ぎょう￻ごとにまとまっています。テンテン(゛)をつけられる<span class='k'>か</span>・<span class='s'>さ</span>・<span class='t'>た</span>・<span class='h'>は</span>￹行￺ぎょう￻、それから、<span class='y'>や</span>￹行￺ぎょう￻のかな￹文字￺もじ￻はひだり￹手￺て￻がわにあります。
+- テンテン(゛)のついた￹字￺じ￻は、あとからテンテン(゛)のキー<span class='key'><span class='small'>゛</span></span>をおして￹入力￺にゅうりょく￻します。
+<br>　たとえば: <span class='key k'>か</span> → か、 か<span class='key'><span class='small'>゛</span></span> → が
+- それぞれのキーのみぎがわにかかれている￹文字￺もじ￻を￹入力￺にゅうりょく￻するときは、<span class='key kana'>前置・連続シフト</span>キーをさきにおしてから、￹入力￺にゅうりょく￻したい￹文字￺もじ￻のキーをおします。
+<br>　たとえば: <span class='key kana'>前置・連続シフト</span> <span class='key a'>あ</span> → あ
+- 「ぱぴぷぺぽ」のマル(゜)は、あとからマル(゜)のキー<span class='key'><span class='small h'>゜</span></span>をおして￹入力￺にゅうりょく￻します。
+<br>　たとえば: <span class='key h'>は</span> → は、 は<span class='key kana'>前置・連続シフト</span> <span class='key'><span class='small h'>゜</span></span> → ぱ
+- <span class='key kana'>前置・連続シフト</span>キーをおしたままにしておけば、それぞれのキーのみぎがわにかかれている￹文字￺もじ￻を￹入力￺にゅうりょく￻できます。
+<br>　たとえば: <span class='key kana'>前置・連続シフト</span>をおしたまま、<span class='key h'>ひ</span> <span class='key h'>゜</span> → ぴ
+- ちいさな「っ」は<span class='key'><span class='small x'>っ</span></span>とかかれているキーをおして￹入力￺にゅうりょく￻します。
+- ちいさな「ゃゅょぁぃぅぇぉ」は、あとからテンテン(゛)のキー<span class='key'><span class='small'>゛</span></span>をおして￹入力￺にゅうりょく￻します。
+<br>　たとえば: <span class='key y'>よ</span> → よ、 よ<span class='key'><span class='small'>゛</span></span> → ょ
+
+## キーボードの￹配列￺はいれつ￻をえらぶ
+
+　「ひらがなIME」が￹対応￺たいおう￻しているキーボード￹配列￺はいれつ￻の￹設定￺せってい￻ファイルには、つぎのものがあります。
+
+キーボード￹配列￺はいれつ￻ | ￹設定￺せってい￻ファイル￹名￺めい￻
+---|---
+[JISかな￹配列￺はいれつ￻](#jis) | jis.109.json
+[99￹式￺しき￻ローマ￹字￺じ￻](#roomazi) | roomazi.json<br>roomazi.109.json
+[ニュー スティックニー￹配列￺はいれつ￻](#new_stickney) | new_stickney.json<br>new_stickney.109.json
+
+　ファイル￹名￺めい￻に「.109」がふくまれているものは、￹日本語￺にほんご￻キーボード￹用￺よう￻です。
+￹配列￺はいれつ￻の￹内容￺ないよう￻はJSONでかかれています。
+￹通常￺つうじょう￻のテキスト エディターをつかって、まったくあたらしい￹配列￺はいれつ￻を￹定義￺ていぎ￻してつかうこともできます。
+
+　キーボードの￹配列￺はいれつ￻を￹変更￺へんこう￻するには、IBus configの、
+
+    engine/replace-with-kanji-python:layout
+
+に￹上記￺じょうき￻の￹設定￺せってい￻ファイル￹名￺めい￻をフルパス￹名￺めい￻で￹指定￺してい￻します。
+
+<br>￹例￺れい￻ (インストール￹先￺さき￻が /usr のばあい) :
+
+    /usr/share/ibus-replace-with-kanji/layouts/roomazi.json
+
+<br>　IBus configの￹設定￺せってい￻は、dconf-editorをつかうばあいは、
+
+    /desktop/ibus
+
+から￹変更￺へんこう￻できます。
+　￹設定￺せってい￻を￹変更￺へんこう￻すると、￹自動的￺じどうてき￻に「ひらがなIME」のキーボード￹配列￺はいれつ￻に￹反映￺はんえい￻されます。
+
+![dconf-editor](dconf-editor.png)
+

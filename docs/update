@@ -1,0 +1,9 @@
+#!/bin/sh
+./md2html.py index.md reference.md install.md
+./md2html.py install.md index.md usage.md
+./md2html.py usage.md install.md key_assign.md
+./md2html.py key_assign.md usage.md layouts.md
+./md2html.py layouts.md key_assign.md dictionary.md
+./md2html.py dictionary.md layouts.md experimental.md
+./md2html.py experimental.md dictionary.md reference.md
+./md2html.py reference.md experimental.md index.md

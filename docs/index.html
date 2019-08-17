@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang='ja'>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, maximum-scale=1.0, user-scalable=yes'>
+<title>はじめに ― ひらがなIME</title>
+<link href='icon.png' rel='icon'>
+<link rel='stylesheet' type='text/css' href='default.css'>
+<meta content='はじめに' name='description'>
+<meta content='https://esrille.github.io/ibus-replace-with-kanji/index.html' property='og:url'>
+<meta content='はじめに ― ひらがなIME' property='og:title'>
+<meta content='はじめに' property='og:description'>
+<meta content='https://esrille.github.io/ibus-replace-with-kanji/screenshot.png' property='og:image'>
+<meta content='product' property='og:type'>
+<meta content='summary_large_image' name='twitter:card'>
+<meta content='@esrille' name='twitter:creator'>
+<style>
+aside a:hover {
+  text-decoration: none;
+}
+.title {
+  font-size: 20pt;
+}
+</style>
+</head>
+<body>
+<div id='sidebar'>
+<aside>
+<a class='title' href='https://github.com/esrille/ibus-replace-with-kanji'><img alt="アイコン" src="icon.png"> ひらがなIME</a>
+<hr>
+<ul>
+<li><a href='index.html'>はじめに</a>
+<li><a href='install.html'>インストール方法</a>
+<li><a href='usage.html'>つかいかた</a>
+<li><a href='key_assign.html'>キーのわりあて</a>
+<li><a href='layouts.html'>キーボードの配列</a>
+<li><a href='dictionary.html'>辞書ファイルについて</a>
+<li><a href='experimental.html'>実験的な機能</a>
+<li><a href='reference.html'>参考文献</a>
+</ul>
+<footer>
+</footer>
+</aside>
+</div>
+<main>
+<h1>はじめに</h1>
+<p>&#x3000;「ひらがなIME」は、かながきする<ruby>部分<rp>(</rp><rt>ぶぶん</rt><rp>)</rp></ruby>のおおくなった<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>しやすくした<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>インプット メソッドです。
+Fedora、Ubuntu、Raspberry Pi<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>のRaspbianなど、<a href="https://github.com/ibus/ibus/wiki">IBus</a>に<ruby>対応<rp>(</rp><rt>たいおう</rt><rp>)</rp></ruby>したオペレーティング システム（OS）で<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>できます。</p>
+<p>&#x3000;これまでの<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>IMEとちがって、「ひらがなIME」には「よみの<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>モード」がありません。
+ですから、ひらがなを<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>するのに、いちいち〔<ruby>確定<rp>(</rp><rt>かくてい</rt><rp>)</rp></ruby>〕キーや〔<ruby>無変換<rp>(</rp><rt>むへんかん</rt><rp>)</rp></ruby>〕キーなどをおす<ruby>必要<rp>(</rp><rt>ひつよう</rt><rp>)</rp></ruby>がありません。
+<ruby>文中<rp>(</rp><rt>ぶんちゅう</rt><rp>)</rp></ruby>のひらがなの<ruby>部分<rp>(</rp><rt>ぶぶん</rt><rp>)</rp></ruby>は、あとから、いつでも<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>におきかえることができます。</p>
+<p><br>
+<img alt="&lt;ruby&gt;漢字&lt;rp&gt;(&lt;/rp&gt;&lt;rt&gt;かんじ&lt;/rt&gt;&lt;rp&gt;)&lt;/rp&gt;&lt;/ruby&gt;を&lt;ruby&gt;入力&lt;rp&gt;(&lt;/rp&gt;&lt;rt&gt;にゅうりょく&lt;/rt&gt;&lt;rp&gt;)&lt;/rp&gt;&lt;/ruby&gt;しているときのようす" src="screenshot.png"></p>
+<h2>「ひらがなIME」に<ruby>対応<rp>(</rp><rt>たいおう</rt><rp>)</rp></ruby>しているアプリケーション ソフトウェア</h2>
+<p>&#x3000;「ひらがなIME」は、IBusの<a href="http://ibus.github.io/docs/ibus-1.5/IBusEngine.html#ibus-engine-get-surrounding-text"><ruby>周辺<rp>(</rp><rt>しゅうへん</rt><rp>)</rp></ruby>テキストAPI</a>を<ruby>応用<rp>(</rp><rt>おうよう</rt><rp>)</rp></ruby>した、あたらしい<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby><ruby>方式<rp>(</rp><rt>ほうしき</rt><rp>)</rp></ruby>です。
+GNOMEの<ruby>標準<rp>(</rp><rt>ひょうじゅん</rt><rp>)</rp></ruby>のテキスト エディターgeditや「<a href="https://github.com/esrille/furiganapad">ふりがなパッド</a>」は<ruby>周辺<rp>(</rp><rt>しゅうへん</rt><rp>)</rp></ruby>テキストAPIに<ruby>対応<rp>(</rp><rt>たいおう</rt><rp>)</rp></ruby>しています。
+また、LibreOffice Writerも<ruby>最新版<rp>(</rp><rt>さいしんばん</rt><rp>)</rp></ruby>などは<ruby>周辺<rp>(</rp><rt>しゅうへん</rt><rp>)</rp></ruby>テキストAPIに<ruby>対応<rp>(</rp><rt>たいおう</rt><rp>)</rp></ruby>しています。</p>
+<p>&#x3000;けれども、<ruby>周辺<rp>(</rp><rt>しゅうへん</rt><rp>)</rp></ruby>テキストAPIにまだ<ruby>対応<rp>(</rp><rt>たいおう</rt><rp>)</rp></ruby>できていないアプリケーション ソフトウェアもあります。
+そのようなソフトでは、<ruby>直前<rp>(</rp><rt>ちょくぜん</rt><rp>)</rp></ruby>に<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>した<ruby>文字列<rp>(</rp><rt>もじれつ</rt><rp>)</rp></ruby>だけを<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>に<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>できます（カーソルを<ruby>移動<rp>(</rp><rt>いどう</rt><rp>)</rp></ruby>してあとから<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>に<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>したりすることはできません）。</p>
+<p><hr>
+<br><small>Copyright 2017-2019 Esrille Inc. </small></p>
+</main>
+<nav>
+<a href=reference.html id='nav-prev'><div>&lt;</div></a>
+<a href=install.html id='nav-next'><div>&gt;</div></a>
+</nav>
+</body>
+</html>
