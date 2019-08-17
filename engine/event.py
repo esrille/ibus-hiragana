@@ -276,8 +276,9 @@ class Event:
             # Commit a remapped character
             if c == '¥' and not self.__HasYen:
                 c = '\\'
-            self.__engine.commit_text(IBus.Text.new_from_string(c))
-            return True
+            if c != chr(self.__keyval):
+                self.__engine.commit_text(IBus.Text.new_from_string(c))
+                return True
         return False
 
     def handle_key_event_timeout(self, keyval, keycode, state):
