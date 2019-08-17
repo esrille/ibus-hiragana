@@ -39,7 +39,7 @@ class IMApp:
         self.__component = IBus.Component.new(
             "org.freedesktop.IBus.ReplaceWithKanji",
             "Replace With Kanji Input Method",
-            "0.6.0",
+            "0.7.0",
             "Apache",
             "Esrille Inc. <info@esrille.com>",
             "https://github.com/esrille/ibus-replace-with-kanji",
