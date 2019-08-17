@@ -20,9 +20,3 @@ $ make
 $ sudo make install
 $ ibus restart
 ```
-
-## 「ひらがなIME」のプログラム
-
-　「ひらがなIME」のプログラムは、すべて￹Python￺バイソン￻でかいてあります。プログラムの￹行数￺ぎょうすう￻は、￹約￺やく￻1,500￹行￺ぎょう￻(v0.6.0)です。
-「ひらがなIME」の￹開発￺かいはつ￻は[GitHub](https://github.com/esrille/ibus-replace-with-kanji)￹上￺じょう￻ですすめています。
-

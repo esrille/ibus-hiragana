@@ -139,7 +139,7 @@ def main():
 
     # Note GithubFlavoredMarkdownExtension treats newlines as hard breaks.
     # We do not like this.
-    content = re.sub(r'(.+)<br>\n', r'\1\n', content)
+    content = re.sub(r'(.+)<br>\n', r'\1', content)
 
     with open(path, 'w') as file:
         file.write(content)
