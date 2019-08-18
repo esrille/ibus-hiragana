@@ -1,7 +1,4 @@
-# Copyright (c) 2017-2019 Esrille Inc.
-#
-# Using source code derived from
-#   ibus-tmpl - The Input Bus template project
+# Copyright (c) 2019 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,34 +12,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-SUBDIRS = \
-	engine \
-	icons \
-	layouts \
-	dic \
-	dic_tools \
-	docs \
-	$(NULL)
-
 EXTRA_DIST = \
-	debian/changelog \
-	debian/compat \
-	debian/control \
-	debian/copyright \
-	debian/rules \
-	debian/source/format \
-	autogen.sh \
-	@PACKAGE_NAME@.spec \
-	@PACKAGE_NAME@.spec.in \
-	CONTRIBUTING.md \
-	LICENSE \
-	NOTICE\
-	README.md \
-	README.txt \
-	$(NULL)
-
-noinst_DIST = \
-	$(NULL)
-
-DISTCLEANFILES = \
+	dconf-editor.png \
+	default.css \
+	dictionary.html \
+	dictionary.md \
+	experimental.html \
+	experimental.md \
+	icon.png \
+	index.html \
+	index.md \
+	install.html \
+	install.md \
+	key_assign.html \
+	key_assign.md \
+	layouts.html \
+	layouts.md \
+	Makefile.am \
+	md2html.py \
+	reference.html \
+	reference.md \
+	screenshot.png \
+	template.html \
+	update \
+	usage.html \
+	usage.md \
 	$(NULL)

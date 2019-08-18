@@ -38,6 +38,7 @@ icons/Makefile
 layouts/Makefile
 dic/Makefile
 dic_tools/Makefile
+docs/Makefile
 )
 
 AC_OUTPUT

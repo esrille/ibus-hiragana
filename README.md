@@ -4,7 +4,7 @@
 
 　これまでの<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>IMEとちがって、「ひらがなIME」には「よみの<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>モード」がありません。ひらがなを<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>するのに、いちいち〔<ruby>確定<rp>(</rp><rt>かくてい</rt><rp>)</rp></ruby>〕キーや〔<ruby>無変換<rp>(</rp><rt>むへんかん</rt><rp>)</rp></ruby>〕キーなどをおす<ruby>必要<rp>(</rp><rt>ひつよう</rt><rp>)</rp></ruby>はありません。<ruby>文中<rp>(</rp><rt>ぶんちゅう</rt><rp>)</rp></ruby>のひらがなの<ruby>部分<rp>(</rp><rt>ぶぶん</rt><rp>)</rp></ruby>は、あとから、いつでも<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>におきかえることができます。
 
-![スクリーンショット](screenshot.png)
+![スクリーンショット](docs/screenshot.png)
 
 　「[ふりがなパッド](https://github.com/esrille/furiganapad)」といっしょにつかうと、<ruby>総<rp>(</rp><rt>そう</rt><rp>)</rp></ruby>ふりがなをうった<ruby>文章<rp>(</rp><rt>ぶんしょう</rt><rp>)</rp></ruby>をかんたんにかくことができます。
 
