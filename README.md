@@ -20,10 +20,10 @@
 
 ※ 「ひらがなIME」をじぶんでビルドしてインストールしたいときは、つぎの<ruby>手順<rp>(</rp><rt>てじゅん</rt><rp>)</rp></ruby>でインストールできます。
 ```
-$ ./autogen.sh
-$ make
-$ sudo make install
-$ ibus restart
+git clone https://github.com/esrille/ibus-replace-with-kanji.git
+./autogen.sh
+make
+sudo make install
 ```
 
 ## <ruby>資料<rp>(</rp><rt>しりょう</rt><rp>)</rp></ruby>

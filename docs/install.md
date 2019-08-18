@@ -15,8 +15,8 @@
 　「ひらがなIME」をじぶんでビルドしてインストールしたいときは、つぎの￹手順￺てじゅん￻でインストールできます。
 
 ```
-$ ./autogen.sh
-$ make
-$ sudo make install
-$ ibus restart
+git clone https://github.com/esrille/ibus-replace-with-kanji.git
+./autogen.sh
+make
+sudo make install
 ```
