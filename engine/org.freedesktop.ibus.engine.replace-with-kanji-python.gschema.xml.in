@@ -36,6 +36,14 @@
         The pathname to the keyboard layout design file.
       </description>
     </key>
+    <key name='nn-as-jis-x-4063' type='b'>
+      <default>true</default>
+      <summary>Convert 'nn' to 'ん'</summary>
+      <description>
+        If enabled, 'nn' is converted to 'ん' following deprecated JIS X 4063.
+        If disabled, 'nn' will be processed following ISO 3602.
+      </description>
+    </key>
     <key name='logging-level' type='s'>
       <choices>
         <choice value='CRITICAL'/>

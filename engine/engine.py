@@ -104,6 +104,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         self.__event = Event(self, self.__delay, self.__layout)
 
         self.set_mode(self.__load_input_mode(self.__config))
+        self.__set_x4063_mode(self.__load_x4063_mode(self.__config))
 
         self.__shrunk = ''
 
@@ -197,11 +198,22 @@ class EngineReplaceWithKanji(IBus.Engine):
         logger.info("delay: %d", delay)
         return delay
 
+    def __load_x4063_mode(self, config):
+        var = config.get_value('engine/replace-with-kanji-python', 'nn_as_jis_x_4063')
+        if var is None or var.get_type_string() != 'b':
+            mode = True
+            if var:
+                config.unset('engine/replace-with-kanji-python', 'nn_as_jis_x_4063')
+        else:
+            mode = var.get_boolean()
+        logger.info("nn_as_jis_x_4063 mode: {}".format(mode))
+        return mode
+
     def __config_value_changed_cb(self, config, section, name, value):
         section = section.replace('_', '-')
         if section != 'engine/replace-with-kanji-python':
             return
-        logger.debug("config_value_changed(%s, %s, %s): %s" % (section, name, value, self.__mode))
+        logger.debug("config_value_changed({}, {}, {})".format(section, name, value))
         if name == "logging_level":
             self.__logging_level = self.__load_logging_level(config)
         elif name == "delay":
@@ -218,6 +230,8 @@ class EngineReplaceWithKanji(IBus.Engine):
         elif name == "mode":
             self.set_mode(self.__load_input_mode(self.__config))
             self.__override = True
+        elif name == "nn_as_jis_x_4063":
+            self.__set_x4063_mode(self.__load_x4063_mode(self.__config))
 
     def __handle_kana_layout(self, preedit, keyval, state=0, modifiers=0):
         yomi = ''
@@ -248,10 +262,17 @@ class EngineReplaceWithKanji(IBus.Engine):
                 yomi = ''
         return yomi, preedit
 
+    def __set_x4063_mode(self, on):
+        if on:
+            self.character_after_n = "aiueo\'wyn"
+        else:
+            self.character_after_n = "aiueo\'wy"
+        logger.debug("set_x4063_mode({})".format(on))
+
     def __handle_roomazi_layout(self, preedit, keyval, state=0, modifiers=0):
         yomi = ''
         c = self.__event.chr().lower()
-        if preedit == 'n' and "aiueon\'wy".find(c) < 0:
+        if preedit == 'n' and self.character_after_n.find(c) < 0:
             yomi = 'ん'
             preedit = preedit[1:]
         preedit += c
