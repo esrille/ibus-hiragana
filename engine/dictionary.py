@@ -68,27 +68,50 @@ class Dictionary:
             file.seek(0, 0)   # in case opened in the 'a+' mode
             for line in file:
                 line = line.strip(' \n/')
+                if not line:
+                    continue
                 if line[0] == ';':
                     if line == "; " + _dic_ver:
                         version_checked = True
-                    continue
-                if not line:
                     continue
                 if not version_checked:
                     continue
                 p = line.split(' ', 1)
                 yomi = p[0]
                 cand = p[1].strip(' \n/').split('/')
-                if yomi not in dict:
-                    dict[yomi] = cand
-                else:
-                    update = list(dict[yomi])
-                    for i in reversed(cand):
-                        if i in update:
-                            update.remove(i)
-                        update.insert(0, i)
-                    dict[yomi] = update
+                self.__merge__entry(dict, yomi, cand)
+                yomi99 = self.__to_99(yomi)
+                if yomi99 != yomi:
+                   self.__merge__entry(dict, yomi99, cand)
             logger.info("Loaded %s", path)
+
+    def __merge__entry(self, dict, yomi, cand):
+        if yomi not in dict:
+            dict[yomi] = cand
+        else:
+            update = list(dict[yomi])
+            for i in reversed(cand):
+                if i in update:
+                    update.remove(i)
+                update.insert(0, i)
+            dict[yomi] = update
+
+    def __to_99(self, s):
+        hiragana = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっぱぴぷぺぽゔ"
+        tyouon = "あいうえおあいうえおあいうえおあいうえおあいうえおあいうえおあいうえおあうおあいうえおあおんあいうえおあいうえおあいうえおあいうえおあいうえおあうおうあいうえおう"
+        t = ''
+        b = ''
+        for c in s:
+            if c == 'ー' and b:
+                i = hiragana.find(b)
+                if i == -1:
+                    t += c
+                else:
+                    t += tyouon[i]
+            else:
+                t += c
+            b = c
+        return t
 
     def __str(self, s):
         if s[-1] == '―':
