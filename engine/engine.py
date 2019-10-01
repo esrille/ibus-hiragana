@@ -647,7 +647,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         logger.info("property_activate(%s, %d)" % (prop_name, state))
 
     def set_surrounding_text_cb(self, engine, text, cursor_pos, anchor_pos):
-        text = text.get_text()
+        text = text.get_text()[:cursor_pos]
         if self.__committed:
             pos = text.rfind(self.__committed)
             if 0 <= pos and pos + len(self.__committed) == len(text):
