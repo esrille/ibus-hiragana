@@ -108,6 +108,10 @@ class EngineReplaceWithKanji(IBus.Engine):
 
         self.__shrunk = ''
 
+        self.__committed = ''
+        self.__acked = True
+        self.connect('set-surrounding-text', self.set_surrounding_text_cb)
+
     def __init_props(self):
         self.__prop_list = IBus.PropList()
         self.__input_mode_prop = IBus.Property(
@@ -290,9 +294,10 @@ class EngineReplaceWithKanji(IBus.Engine):
     def __get_surrounding_text(self):
         if not (self.client_capabilities & IBus.Capabilite.SURROUNDING_TEXT):
             self.__ignore_surrounding_text = True
-        if self.__ignore_surrounding_text:
-            logger.debug("surrounding text: [%s]", self.__previous_text)
+        if self.__ignore_surrounding_text or not self.__acked:
+            logger.debug("surrounding text: [%s]" % (self.__previous_text))
             return self.__previous_text, len(self.__previous_text)
+
         tuple = self.get_surrounding_text()
         text = tuple[0].get_text()
         pos = tuple[1]
@@ -319,7 +324,7 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def __delete_surrounding_text(self, size):
         self.__previous_text = self.__previous_text[:-size]
-        if not self.__ignore_surrounding_text:
+        if not self.__ignore_surrounding_text and self.__acked:
             self.delete_surrounding_text(-size, size)
         else:
             # Note a short delay after each BackSpace is necessary for the target application to catch up.
@@ -546,8 +551,10 @@ class EngineReplaceWithKanji(IBus.Engine):
                 if 0 <= found:
                     self.__delete_surrounding_text(1)
                     text = _handaku[found]
-        self.commit_text(IBus.Text.new_from_string(text))
+        self.__committed = text
+        self.__acked = False
         self.__previous_text += text
+        self.commit_text(IBus.Text.new_from_string(text))
 
     def __reset(self, full=True):
         self.__dict.reset()
@@ -638,3 +645,12 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def do_property_activate(self, prop_name, state):
         logger.info("property_activate(%s, %d)" % (prop_name, state))
+
+    def set_surrounding_text_cb(self, engine, text, cursor_pos, anchor_pos):
+        text = text.get_text()
+        if self.__committed:
+            pos = text.rfind(self.__committed)
+            if 0 <= pos and pos + len(self.__committed) == len(text):
+                self.__acked = True
+                self.__committed = ''
+        logger.debug("set_surrounding_text_cb(%s, %d, %d) => %d" % (text, cursor_pos, anchor_pos, self.__acked))
