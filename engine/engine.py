@@ -62,6 +62,10 @@ _name_to_logging_level = {
 
 _input_mode_names = set(['A', 'あ', 'ア'])
 
+IAA = '\uFFF9'  # IAA (INTERLINEAR ANNOTATION ANCHOR)
+IAS = '\uFFFA'  # IAS (INTERLINEAR ANNOTATION SEPARATOR)
+IAT = '\uFFFB'  # IAT (INTERLINEAR ANNOTATION TERMINATOR)
+
 
 def to_katakana(kana):
     result = ''
@@ -647,10 +651,24 @@ class EngineReplaceWithKanji(IBus.Engine):
         logger.info("property_activate(%s, %d)" % (prop_name, state))
 
     def set_surrounding_text_cb(self, engine, text, cursor_pos, anchor_pos):
-        text = text.get_text()[:cursor_pos]
+        text = self.get_plain_text(text.get_text()[:cursor_pos])
         if self.__committed:
             pos = text.rfind(self.__committed)
             if 0 <= pos and pos + len(self.__committed) == len(text):
                 self.__acked = True
                 self.__committed = ''
         logger.debug("set_surrounding_text_cb(%s, %d, %d) => %d" % (text, cursor_pos, anchor_pos, self.__acked))
+
+    def get_plain_text(self, text):
+        plain = ''
+        in_ruby = False
+        for c in text:
+            if c == IAA:
+                in_ruby = False
+            elif c == IAS:
+                in_ruby = True
+            elif c == IAT:
+                in_ruby = False
+            elif not in_ruby:
+                plain += c
+        return plain
