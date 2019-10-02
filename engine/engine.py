@@ -116,6 +116,8 @@ class EngineReplaceWithKanji(IBus.Engine):
         self.__acked = True
         self.connect('set-surrounding-text', self.set_surrounding_text_cb)
 
+        self.connect('set-cursor-location', self.set_cursor_location_cb)
+
     def __init_props(self):
         self.__prop_list = IBus.PropList()
         self.__input_mode_prop = IBus.Property(
@@ -672,3 +674,10 @@ class EngineReplaceWithKanji(IBus.Engine):
             elif not in_ruby:
                 plain += c
         return plain
+
+    def set_cursor_location_cb(self, engine, x, y, w, h):
+        # On Raspbian, at least till Buster, the candidate window does not
+        # always follow the cursor position. The following code is not
+        # necessary on Ubuntu 18.04 or Fedora 30.
+        logger.debug("set_cursor_location_cb(%d, %d, %d, %d)" % (x, y, w, h))
+        self.__update_lookup_table()
