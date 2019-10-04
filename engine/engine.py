@@ -435,12 +435,6 @@ class EngineReplaceWithKanji(IBus.Engine):
             return False
         if self.__event.is_ascii():
             yomi, self.__preedit_string = self.__to_kana(self.__preedit_string, keyval, state, modifiers)
-        elif keyval == keysyms.Zenkaku_Hankaku:
-            if self.__preedit_string == '\\':
-                yomi = '￥'
-                self.__preedit_string = ''
-            else:
-                self.__preedit_string += '\\'
         elif keyval == keysyms.hyphen:
             yomi = '―'
         else:
