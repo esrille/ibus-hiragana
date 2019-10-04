@@ -148,7 +148,7 @@ class Event:
     def is_muhenkan(self):
         if self.is_key(self.__Henkan) or self.is_key(keysyms.Henkan):
             return self.is_shift()
-        return self.is_key(self.__Muhenkan) or self.is_key(keysyms.Muhenkan)
+        return False
 
     def is_shrink(self):
         return self.__keyval == keysyms.Tab
@@ -220,7 +220,16 @@ class Event:
                     self.__engine.enable_ime()
                 return True
 
+            if self.__engine.is_enabled():
+                if keyval == keysyms.Muhenkan:
+                    self.__engine.disable_ime()
+                    return True
+            elif keyval == keysyms.Henkan:
+                self.__engine.enable_ime()
+                return True
+
         else:
+
             if keyval == keysyms.space:
                 if not (self.__modifiers & bits.Not_Dual_Space_Bit):
                     self.__modifiers |= bits.Dual_Space_Bit
