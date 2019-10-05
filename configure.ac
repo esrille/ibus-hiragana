@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-AC_INIT([ibus-replace-with-kanji], [0.7.0], [https://github.com/esrille/ibus-replace-with-kanji/issues])
+AC_INIT([ibus-replace-with-kanji], [0.8.0], [https://github.com/esrille/ibus-replace-with-kanji/issues])
 AM_INIT_AUTOMAKE([foreign tar-ustar])
 
 # Check IBus
