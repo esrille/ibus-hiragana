@@ -3,7 +3,7 @@
 　「ひらがなIME」には、キーボードの￹配列￺はいれつ￻をこのみにあわせて￹変更￺へんこう￻する￹機能￺きのう￻があります。
 
 - [JISかな￹配列￺はいれつ￻](#jis)
-- [99￹式￺しき￻ローマ￹字￺じ￻￹配列￺はいれつ￻](#roomazi)
+- [99￹式￺しき￻ローマ￹字￺じ￻￹用￺よう￻￹配列￺はいれつ￻](#roomazi)
 - [New Stickney ￹配列￺はいれつ￻](#new_stickney)
 
 といった￹配列￺はいれつ￻のなかから、すきな￹配列￺はいれつ￻をえらんでつかうことができます。
@@ -13,15 +13,15 @@
 ## JISかな￹配列￺はいれつ￻ {#jis}
 
 　￹現在￺げんざい￻のJISかな￹配列￺はいれつ￻は、1923年にバーナム・クース・スティックニーさんが￹設計￺せっけい￻した￹配列￺はいれつ￻がもとになっています。
-　そのころは、￹日本語￺にほんご￻￹用￺よう￻と￹英語￺えいご￻￹用￺よう￻でべつべつのタイプライターをつかっていました。キーは、￹配列￺はいれつ￻をおぼえやすいように、五十￹音￺おん￻の￹行￺ぎょう￻ごとにまとまっていました。かな￹文字￺もじ￻は、４￹段￺だん￻１０￹列￺れつ￻のキーなかにおさまっています。￹文中￺ぶんちゅう￻にあまりでてこない、「ぬ」や「む」といったかな￹文字￺もじ￻はシフトがわにおかれていました。
-　そののち、一￹台￺だい￻で￹日本語￺にほんご￻と￹英語￺えいご￻どちらもうてる「コンビネーション タイプライター」がつくられました。コンビネーション タイプライターでは、ひとつのキーにかな￹文字￺もじ￻とアルファベットを一￹字￺じ￻ずつしかおけませんでした。それで、シフトがわにあったかな￹文字￺もじ￻は、キーボードのはじにうつされました。
-　JISかな￹配列￺はいれつ￻が、つかうキーのおおい、おぼえにくい￹配列￺はいれつ￻になってしまっているのは、そのなごりです。￹現在￺げんざい￻では、JISかな￹配列￺はいれつ￻はあまりつかわれていません。
+　もともとは、￹日本語￺にほんご￻￹用￺よう￻のタイプライターは、￹英文￺えいぶん￻￹用￺よう￻のタイプライターとはべつになっていました。かな￹文字￺もじ￻のキーは、￹配列￺はいれつ￻をおぼえやすいように、五十￹音￺おん￻の￹行￺ぎょう￻ごとにまとまっていました。￹文中￺ぶんちゅう￻にあまりでてこない、「ぬ」や「む」といったかな￹文字￺もじ￻は、シフトキーをつかってうつようになっていました。
+　そののち、一￹台￺だい￻で￹日本語￺にほんご￻と￹英語￺えいご￻どちらもうてる「コンビネーション タイプライター」がつくられました。シフトがわにアルファベットをおいたので、そこにあったかな￹文字￺もじ￻は、はじのほうにうつされました。
+　JISかな￹配列￺はいれつ￻は、つかうキーの￹数￺かず￻のおおい、おぼえにくい￹配列￺はいれつ￻になってしまっています。これは、むかしのコンビネーション タイプライターのなごりです。￹現在￺げんざい￻では、JISかな￹配列￺はいれつ￻はあまりつかわれていません。
 
 ### ￹日本語￺にほんご￻キーボード￹用￺よう￻
 
 <div class='kbd'>
 <div class='layer109 L0'>
-<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>⌫</div>
+<div class='kana'>あ/Ａ</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>⌫</div>
 <br>
 <div class='k150'>Tab</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k150 enter-top'>Enter</div>
 <br>
@@ -65,7 +65,7 @@
 <br>
 <div class='k225'><span class='kana'>おくる</span></div><div class='t'>つ</div><div class='s'>さ</div><div class='s'>そ</div><div class='h'>ひ</div><div class='k'>こ</div><div class='m'>み</div><div class='m'>も</div><div class='n'>ね</div><div class='r'>る</div><div class='m'>め</div><div class='r'>ろ</div><div class='k175'></div>
 <br>
-<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k275'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div></div><div class='k125'></div><div class='k125'></div>
+<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125 kana'>A</div><div class='k275'></div><div class='k125 kana'>あ</div><div class='k125'></div><div class='k125'></div><div></div><div class='k125'></div><div class='k125'></div>
 </div>
 
 <div class='layer109 L4'>
@@ -145,20 +145,21 @@
 </div>
 </div>
 
-## 99￹式￺しき￻ローマ￹字￺じ￻￹配列￺はいれつ￻ {#roomazi}
+　スティックニーのかな￹配列￺はいれつ￻のままなら、キーボードから￹文字￺もじ￻をさがすのもかんたんでした。
 
-　￹最初￺さいしょ￻に￹設定￺せってい￻されている￹配列￺はいれつ￻です。よくつかう￹部分￺ぶぶん￻は￹訓令￺くんれい￻￹式￺しき￻とおなじです。
-　「[99￹式￺しき￻](http://www.hokkajda-esp-ligo.jp/jp/ATruby/99siki-Roomazi.htm)」は、￹梅棹￺うめさお￻￹忠夫￺ただお￻さんが￹会長￺かいちょう￻をつとめた￹日本￺にっぽん￻ローマ￹字￺じ￻￹会￺かい￻がさだめたローマ￹字￺じ￻による￹日本語￺にほんご￻の￹表記法￺ひょうきほう￻です。のばす￹音￺おん￻をあらわすのに、ôのような￹長音￺ちょうおん￻￹記号￺きごう￻はつかいません。これまでワープロでつかってきたような「ふりがな￹方式￺ほうしき￻」をつかうようになっています。
+## 99￹式￺しき￻ローマ￹字￺じ￻￹用￺よう￻￹配列￺はいれつ￻ {#roomazi}
+　ローマ￹字￺じ￻￹入力￺にゅうりょく￻のときにつかうローマ￹字￺じ￻のつづりかたは、￹国語￺こくご￻や￹英語￺えいご￻でならうかきかたと、すこしちがいます。
+　「[99￹式￺しき￻ローマ￹字￺じ￻](http://www.hokkajda-esp-ligo.jp/jp/ATruby/99siki-Roomazi.htm)」は、￹日本￺にっぽん￻ローマ￹字￺じ￻￹会￺かい￻がさだめたローマ￹字￺じ￻による￹日本語￺にほんご￻の￹表記法￺ひょうきほう￻です。￹漢字￺かんじ￻は、その「ふりがな」をローマ￹字￺じ￻で￹入力￺にゅうりょく￻していきます。のばす￹音￺おん￻をあらわすのに、ôのような￹長音￺ちょうおん￻￹記号￺きごう￻はつかいません。カタカナの長音(ー)は、￹母音￺ぼいん￻をふたつかさねてかきます。
 
-<br>￹例￺れい￻) ￹漢字￺かんじ￻はふりがなのとおりに99￹式￺しき￻ローマ￹字￺じ￻で￹入力￺にゅうりょく￻します。
+<br>￹例￺れい￻) ￹漢字￺かんじ￻はふりがなのとおりにローマ￹字￺じ￻で￹入力￺にゅうりょく￻します。かなにもどしたあとのローマ￹字￺じ￻のつづりかたは、￹学校￺がっこう￻でならうローマ￹字￺じ￻とおなじです。
 
-￹漢字￺かんじ￻かなまじりでの￹表記￺ひょうき￻ | 99￹式￺しき￻ローマ￹字￺じ￻での￹表記￺ひょうき￻ | ￹学校￺がっこう￻でならうローマ￹字￺じ￻の￹表記￺ひょうき￻
----|---|---
-￹東京￺とうきょう￻ | toukyou | tôkyô
-￹京都￺きょうと￻ | kyouto | kyôto
-コンピューター | konpyu-ta- (※) | konpyûtâ
+￹漢字￺かんじ￻かなまじり文 | 99￹式￺しき￻ローマ￹字￺じ￻ | ￹国語￺こくご￻（￹訓令￺くんれい￻￹式￺しき￻） | ￹英語￺えいご￻（ヘボン￹式￺しき￻）
+---|---|---|---
+￹東京￺とうきょう￻ | toukyou | tôkyô | Tokyo
+￹京都￺きょうと￻ | kyouto | kyôto | Kyoto
+￹コンピューター￺こんぴゅうたあ￻ | konpyuutaa (※) | konpyûtâ | computer
 
-※ 「ひらがなIME」では、￹本来￺ほんらい￻の99￹式￺しき￻とはことなり、カタカナの￹長音￺ちょうおん￻￹記号￺きごう￻(ー)は-(マイナス)で￹入力￺にゅうりょく￻します。
+※ カタカナの￹長音￺ちょうおん￻(ー)は、「konpyu-ta-」のように-(マイナス)で￹入力￺にゅうりょく￻することもできます。
 
 ### ￹英語￺えいご￻キーボード￹用￺よう￻
 
@@ -228,7 +229,7 @@
 
 <div class='kbd'>
 <div class='layer109 L0'>
-<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>⌫</div>
+<div class='kana'>あ/Ａ</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>⌫</div>
 <br>
 <div class='k150'>Tab</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k150 enter-top'>Enter</div>
 <br>
@@ -272,7 +273,7 @@
 <br>
 <div class='k225'><span class='kana'>おくる</span></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>、</div><div>。</div><div>・</div><div><span class='kana'>空白</span></div><div class='k175'></div>
 <br>
-<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k275'><span class='kana'>変換</span></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div></div><div class='k125'></div><div class='k125'></div>
+<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125 kana'>A</div><div class='k275 kana'>変換</div><div class='k125 kana'>あ</div><div class='k125'></div><div class='k125'></div><div></div><div class='k125'></div><div class='k125'></div>
 </div>
 
 <div class='layer109 L4'>
@@ -363,7 +364,7 @@
 
 <div class='kbd'>
 <div class='layer109 L0'>
-<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>⌫</div>
+<div class='kana'>あ/Ａ</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>⌫</div>
 <br>
 <div class='k150'>Tab</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k150 enter-top'>Enter</div>
 <br>
@@ -407,7 +408,7 @@
 <br>
 <div class='k225'><span class='kana'>おくる</span></div><div class='t'>ち</div><div class='k'>き</div><div class='k'>こ</div><div class='t'>と</div><div class='y'>よ</div><div><span class='small x'>っ</span></div><div class='x'>ん</div><div>、</div><div>。</div><div class='n'>ね</div><div><span class='kana'>空白</span></div><div class='k175'></div>
 <br>
-<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k275'><span class='kana'>前置・連続シフト</span></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div></div><div class='k125'></div><div class='k125'></div>
+<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125 kana'>A</div><div class='k275 kana'>前置・連続シフト</div><div class='k125 kana'>あ</div><div class='k125'></div><div class='k125'></div><div></div><div class='k125'></div><div class='k125'></div>
 </div>
 
 <div class='layer109 L4'>
@@ -443,7 +444,7 @@
 キーボード￹配列￺はいれつ￻ | ￹設定￺せってい￻ファイル￹名￺めい￻
 ---|---
 [JISかな￹配列￺はいれつ￻](#jis) | jis.109.json
-[99￹式￺しき￻ローマ￹字￺じ￻](#roomazi) | roomazi.json<br>roomazi.109.json
+[99￹式￺しき￻ローマ￹字￺じ￻￹用￺よう￻](#roomazi) | roomazi.json<br>roomazi.109.json
 [ニュー スティックニー￹配列￺はいれつ￻](#new_stickney) | new_stickney.json<br>new_stickney.109.json
 
 　ファイル￹名￺めい￻に「.109」がふくまれているものは、￹日本語￺にほんご￻キーボード￹用￺よう￻です。
@@ -458,7 +459,7 @@
 
 <br>￹例￺れい￻ (インストール￹先￺さき￻が /usr のばあい) :
 
-    /usr/share/ibus-replace-with-kanji/layouts/roomazi.json
+    /usr/share/ibus-replace-with-kanji/layouts/roomazi.109.json
 
 <br>　IBus configの￹設定￺せってい￻は、dconf-editorをつかうばあいは、
 

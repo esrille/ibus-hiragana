@@ -30,9 +30,12 @@ EXTRA_DIST = \
 	layouts.md \
 	Makefile.am \
 	md2html.py \
-	reference.html \
-	reference.md \
 	screenshot.png \
+	settings-dictionary.png \
+	settings-layout.png \
+	settings-nn.png \
+	settings.html \
+	settings.md \
 	template.html \
 	update \
 	usage.html \
