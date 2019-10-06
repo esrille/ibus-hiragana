@@ -3,15 +3,15 @@ Upstream-Name: ibus-replace-with-kanji
 Source: https://github.com/esrille/ibus-replace-with-kanji
 
 Files: *
-Copyright: 2017 Esrille Inc. <info@esrille.com>
+Copyright: 2017-2019 Esrille Inc. <info@esrille.com>
 License: Apache-2.0
 
 Files: dic/restrained*.dic
-Copyright: 2017 Esrille Inc. <info@esrille.com>
+Copyright: 2017-2019 Esrille Inc. <info@esrille.com>
 License: GPL-2+
 
 Files: dic/katakana.dic
-Copyright: 2017 Esrille Inc. <info@esrille.com>
+Copyright: 2017-2019 Esrille Inc. <info@esrille.com>
 License: CC-BY-SA-3.0
 
 License: Apache-2.0
