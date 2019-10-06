@@ -448,8 +448,6 @@ class EngineReplaceWithKanji(IBus.Engine):
         return True
 
     def lookup_dictionary(self, yomi, pos):
-        # Handle dangling 'n' for 'ん' here to minimize the access to the surrounding text API,
-        # which could cause an unexpected behaviour occasionally at race conditions.
         if self.__preedit_string == 'n':
             yomi = yomi[:pos] + 'ん'
             pos += 1
@@ -458,7 +456,16 @@ class EngineReplaceWithKanji(IBus.Engine):
         size = len(self.__dict.reading())
         if 0 < size:
             if self.__preedit_string == 'n':
-                self.__commit_string('ん')
+                if self.__acked:
+                    # For furiganapad, yomi has to be committed anyway.
+                    # However, 'ん' will be acked by set_cursor_location_cb()
+                    # only after the converted text is committed later.
+                    # So we pretend that 'ん' is acked here.
+                    self.__commit_string('ん')
+                    self.__acked = True
+                    self.__committed = ''
+                else:
+                    size = size - 1
             self.__preedit_string = ''
             if 1 < len(self.__dict.cand()):
                 for c in self.__dict.cand():
@@ -561,6 +568,8 @@ class EngineReplaceWithKanji(IBus.Engine):
         self.__lookup_table.clear()
         self.__update_lookup_table()
         if full:
+            self.__committed = ''
+            self.__acked = True
             self.__previous_text = ''
             self.__preedit_string = ''
             self.__ignore_surrounding_text = False
