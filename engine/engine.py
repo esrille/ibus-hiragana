@@ -5,7 +5,7 @@
 # Using source code derived from
 #   ibus-tmpl - The Input Bus template project
 #
-# Copyright (c) 2017-2019 Esrille Inc.
+# Copyright (c) 2017-2020 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -490,7 +490,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             (cand, size) = self.lookup_dictionary(text, pos)
             self.__shrunk = ''
         else:
-            size = len(self.__dict.current())
+            size = len(self.__shrunk) + len(self.__dict.current())
             if not self.__event.is_shift():
                 cand = self.__dict.next()
             else:
@@ -498,7 +498,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         if self.__dict.current():
             self.__update()
             self.__delete_surrounding_text(size)
-            self.__commit_string(cand)
+            self.__commit_string(self.__shrunk + cand)
         return True
 
     def handle_shrink(self, keyval, state):
@@ -506,20 +506,18 @@ class EngineReplaceWithKanji(IBus.Engine):
         if not self.__dict.current():
             return False
         yomi = self.__dict.reading()
-        if yomi == 1:
+        if len(yomi) <= 1:
             self.handle_escape(state)
             return True
-        current_size = len(self.__dict.current())
+        current_size = len(self.__shrunk) + len(self.__dict.current())
         text, pos = self.__get_surrounding_text()
         (cand, size) = self.lookup_dictionary(yomi[1:] + text[pos:], len(yomi) - 1)
         kana = yomi
         if 0 < size:
             kana = kana[:-size]
-            self.__shrunk += kana
-        elif kana[-1] == '―':
-            kana = kana[:-1]
+        self.__shrunk += kana
         self.__delete_surrounding_text(current_size)
-        self.__commit_string(kana + cand)
+        self.__commit_string(self.__shrunk + cand)
         # Update preedit *after* committing the string to append preedit.
         self.__update()
         return True
@@ -576,10 +574,10 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def __update_candidate(self):
         index = self.__lookup_table.get_cursor_pos()
-        size = len(self.__dict.current())
+        size = len(self.__shrunk) + len(self.__dict.current())
         self.__dict.set_current(index)
         self.__delete_surrounding_text(size)
-        self.__commit_string(self.__dict.current())
+        self.__commit_string(self.__shrunk + self.__dict.current())
 
     def do_page_up(self):
         if self.__lookup_table.page_up():
