@@ -2,7 +2,7 @@
 #
 # ibus-replace-with-kanji - Replace with Kanji Japanese input method for IBus
 #
-# Copyright (c) 2017-2019 Esrille Inc.
+# Copyright (c) 2017-2020 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -44,10 +44,10 @@ class Event:
         self.__Muhenkan = keysyms.VoidSymbol    # or keysyms.Muhenkan
         self.__Eisuu = keysyms.VoidSymbol       # or keysyms.Eisu_toggle
         self.__Kana = keysyms.Control_R         # or keysyms.Hiragana_Katakana, keysyms.Control_R
-        self.__Space = keysyms.Shift_R          # Extra space key in Kana mode
+        self.__Space = keysyms.Alt_R            # Extra space key in Kana mode
         self.__Prefix = False                   # True if Shift is to be prefixed
         self.__HasYen = False
-        self.__DualBits = bits.Dual_ShiftL_Bit
+        self.__DualBits = bits.Dual_ShiftL_Bit | bits.Dual_ShiftR_Bit
 
         if "Keyboard" in layout:
             keyboard = layout["Keyboard"]
@@ -151,10 +151,13 @@ class Event:
         return False
 
     def is_shrink(self):
-        return self.__keyval == keysyms.Tab
+        return self.__modifiers & bits.Dual_ShiftR_Bit
 
     def is_suffix(self):
         return self.__modifiers & bits.Dual_ShiftL_Bit
+
+    def is_dual_role(self):
+        return self.__modifiers & bits.Dual_Bits
 
     def process_key_event(self, keyval, keycode, state):
         logger.debug("process_key_event(%s, %04x, %04x) %02x" % (IBus.keyval_name(keyval), keycode, state, self.__modifiers))
@@ -313,6 +316,9 @@ class Event:
         processed = self.__engine.handle_key_event(keyval, keycode, state, self.__modifiers)
         if state & IBus.ModifierType.RELEASE_MASK:
             self.__modifiers &= ~bits.Prefix_Bit
+        if self.is_dual_role():
+            # Modifiers have to be further processed.
+            return False
         return processed
 
     def chr(self):
