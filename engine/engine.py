@@ -407,10 +407,16 @@ class EngineReplaceWithKanji(IBus.Engine):
                 self.__commit()
                 return True
 
-        if self.__preedit_string and keyval == keysyms.Escape:
-            self.__preedit_string = ''
-            self.__update()
-            return True
+        if self.__preedit_string:
+            if keyval == keysyms.Return:
+                self.__commit_string(self.__preedit_string)
+                self.__preedit_string = ''
+                self.__update()
+                return True
+            if keyval == keysyms.Escape:
+                self.__preedit_string = ''
+                self.__update()
+                return True
 
         # Handle Japanese text
         if self.__event.is_henkan():
