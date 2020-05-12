@@ -108,7 +108,7 @@ def main():
 
     for o, a in opts:
         if o in ("-h", "--help"):
-            print_help(sys.stdout)
+            print_help(0)
         elif o in ("-d", "--daemonize"):
             daemonize = True
         elif o in ("-i", "--ibus"):
@@ -122,6 +122,7 @@ def main():
             sys.exit()
 
     IMApp(exec_by_ibus).run()
+
 
 if __name__ == "__main__":
     main()

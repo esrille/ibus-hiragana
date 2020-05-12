@@ -82,7 +82,7 @@ class Dictionary:
                 self.__merge__entry(dict, yomi, cand)
                 yomi99 = self.__to_99(yomi)
                 if yomi99 != yomi:
-                   self.__merge__entry(dict, yomi99, cand)
+                    self.__merge__entry(dict, yomi99, cand)
             logger.info("Loaded %s", path)
 
     def __merge__entry(self, dict, yomi, cand):
