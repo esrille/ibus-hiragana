@@ -408,6 +408,8 @@ class EngineReplaceWithKanji(IBus.Engine):
 
         if self.__preedit_string:
             if keyval == keysyms.Return:
+                if self.__preedit_string == 'n':
+                    self.__preedit_string = 'ん'
                 self.__commit_string(self.__preedit_string)
                 self.__preedit_string = ''
                 self.__update()
