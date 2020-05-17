@@ -35,16 +35,18 @@ class Event:
         self.__engine = engine
         self.__delay = delay    # Delay for non-shift keys in milliseconds (mainly for Nicola layout)
 
-        self.MODIFIERS = (keysyms.Shift_L, keysyms.Shift_R, keysyms.Control_L, keysyms.Control_R, keysyms.Alt_L, keysyms.Alt_R)
+        self.MODIFIERS = (keysyms.Shift_L, keysyms.Shift_R,
+                          keysyms.Control_L, keysyms.Control_R,
+                          keysyms.Alt_L, keysyms.Alt_R)
 
         # Set to the default values
         self.__OnOffByCaps = True               # or False
         self.__SandS = False                    # True if SandS is used
-        self.__Henkan = keysyms.space           # or keysyms.Henkan
+        self.__Henkan = keysyms.VoidSymbol      # or keysyms.Henkan, keysyms.space
         self.__Muhenkan = keysyms.VoidSymbol    # or keysyms.Muhenkan
         self.__Eisuu = keysyms.VoidSymbol       # or keysyms.Eisu_toggle
-        self.__Kana = keysyms.Control_R         # or keysyms.Hiragana_Katakana, keysyms.Control_R
-        self.__Space = keysyms.Alt_R            # Extra space key in Kana mode
+        self.__Kana = keysyms.VoidSymbol        # or keysyms.Hiragana_Katakana, keysyms.Control_R
+        self.__Space = keysyms.VoidSymbol       # Extra space key
         self.__Prefix = False                   # True if Shift is to be prefixed
         self.__HasYen = False
         self.__DualBits = bits.Dual_ShiftL_Bit | bits.Dual_ShiftR_Bit
@@ -52,16 +54,11 @@ class Event:
         if "Keyboard" in layout:
             keyboard = layout["Keyboard"]
             if keyboard == "109":
-                self.__Henkan = keysyms.VoidSymbol
-                self.__Muhenkan = keysyms.VoidSymbol
                 self.__Kana = keysyms.Hiragana_Katakana
                 self.__Eisuu = keysyms.Eisu_toggle
-                self.__Space = keysyms.VoidSymbol
 
-        if "OnOffByCaps" in layout:
-            self.__OnOffByCaps = layout["OnOffByCaps"]
-        if "HasYen" in layout:
-            self.__HasYen = layout["HasYen"]
+        self.__OnOffByCaps = layout.get("OnOffByCaps", self.__OnOffByCaps)
+        self.__HasYen = layout.get("HasYen", self.__HasYen)
 
         if "SandS" in layout:
             self.__SandS = layout["SandS"]
@@ -78,11 +75,16 @@ class Event:
             self.__Henkan = IBus.keyval_from_name(layout["Henkan"])
         if "Muhenkan" in layout:
             self.__Muhenkan = IBus.keyval_from_name(layout["Muhenkan"])
+        if "Katakana" in layout:
+            self.__Kana = IBus.keyval_from_name(layout["Katakana"])
 
         # Check dual role modifiers
+        self.__capture_alt_r = False
         for k in (self.__Henkan, self.__Muhenkan, self.__Kana, self.__Space):
             if k in self.MODIFIERS:
                 self.__DualBits |= bits.Dual_ShiftL_Bit << self.MODIFIERS.index(k)
+            if k == keysyms.Alt_R:
+                self.__capture_alt_r = True
 
         # Current event
         self.__keyval = keysyms.VoidSymbol
@@ -316,6 +318,8 @@ class Event:
         processed = self.__engine.handle_key_event(keyval, keycode, state, self.__modifiers)
         if state & IBus.ModifierType.RELEASE_MASK:
             self.__modifiers &= ~bits.Prefix_Bit
+        if keyval == keysyms.Alt_R and self.__capture_alt_r:
+            return True
         if self.is_dual_role():
             # Modifiers have to be further processed.
             return False

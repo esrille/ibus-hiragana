@@ -2,7 +2,7 @@
 #
 # ibus-replace-with-kanji - Replace with Kanji Japanese input method for IBus
 #
-# Copyright (c) 2017 Esrille Inc.
+# Copyright (c) 2017-2020 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,8 +16,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# ローマ字かな変換表(Default)
+# Default Roomazi-Kana conversion table
 layout = {
+    "Space": "Alt_R",
+    "Henkan": "space",
+    "Katakana": "Control_R",
     "Roomazi": {
         ' ': '　',
         '!': '！', '"': '＂', '#': '＃', '$': '＄', '%': '％',
