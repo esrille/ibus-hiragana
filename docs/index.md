@@ -8,7 +8,7 @@ Fedora、Ubuntu、Raspberry Pi￹用￺よう￻のRaspbianなど、[IBus](https
 そのかわりに、￹文中￺ぶんちゅう￻のひらがなの￹部分￺ぶぶん￻を、いつでも￹漢字￺かんじ￻におきかえることができます。
 
 <br>
-![￹漢字￺かんじ￻を￹入力￺にゅうりょく￻しているときのようす](screenshot.png)
+![漢字を入力しているときのようす](screenshot.png)
 
 ## 「ひらがなIME」に￹対応￺たいおう￻しているアプリケーション ソフトウェア
 
@@ -26,4 +26,4 @@ GNOMEの￹標準￺ひょうじゅん￻のテキスト エディターgeditや
 メインのリポジトリは、[GitHub](https://github.com/esrille/ibus-replace-with-kanji)にあります。
 
 <hr>
-<br><small>Copyright 2017-2019 Esrille Inc. </small>
+<br><small>Copyright 2017-2020 Esrille Inc. </small>

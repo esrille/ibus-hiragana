@@ -50,9 +50,8 @@ aside a:hover {
 <li><a href="#nn">ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>の「ん」のつづりかた</a> ― 「nn」を「ん」にするかどうかをえらべます。</li>
 </ul>
 <p>&#x3000;<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>の<ruby>変更<rp>(</rp><rt>へんこう</rt><rp>)</rp></ruby>は、「dconf Editor」をつかうのが、いまのところ、かんたんです。「dconf Editor」で、</p>
-<div class="highlight"><pre><span></span>    /desktop/ibus/engine/replace-with-kanji-python
-</pre></div>
-
+<pre><code>/desktop/ibus/engine/replace-with-kanji-python
+</code></pre>
 
 <p>をひらくと、「ひらがなIME」の<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby><ruby>画面<rp>(</rp><rt>がめん</rt><rp>)</rp></ruby>になります。</p>
 <p><img alt="dconf-editor" src="dconf-editor.png"></p>
@@ -109,17 +108,16 @@ aside a:hover {
 <p>&#x3000;<ruby>標準<rp>(</rp><rt>ひょうじゅん</rt><rp>)</rp></ruby>の<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>(restrained.dic)では、おくる<ruby>位置<rp>(</rp><rt>いち</rt><rp>)</rp></ruby>が『<a href="http://www.bunka.go.jp/kokugo_nihongo/sisaku/joho/joho/kijun/naikaku/okurikana/index.html"><ruby>送<rp>(</rp><rt>おく</rt><rp>)</rp></ruby>り<ruby>仮名<rp>(</rp><rt>かな</rt><rp>)</rp></ruby>の<ruby>付<rp>(</rp><rt>つ</rt><rp>)</rp></ruby>け<ruby>方<rp>(</rp><rt>かた</rt><rp>)</rp></ruby></a>』の<ruby>原則<rp>(</rp><rt>げんそく</rt><rp>)</rp></ruby>にそっていないと<ruby>活用<rp>(</rp><rt>かつよう</rt><rp>)</rp></ruby>を<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>できません。<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>にrestrained.9.dicを<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>すると、<ruby>許容<rp>(</rp><rt>きょよう</rt><rp>)</rp></ruby>されているおくりがなのおくりかたでも<ruby>活用<rp>(</rp><rt>かつよう</rt><rp>)</rp></ruby>を<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>できるようになります。</p>
 <p><ruby>例<rp>(</rp><rt>れい</rt><rp>)</rp></ruby>)  restrained.9.dicをつかうと、「<ruby>落<rp>(</rp><rt>おと</rt><rp>)</rp></ruby>す」のような<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>もできます。</p>
 <pre><code>お―とす〔変換〕 → 落とす
-おと―す〔変換〕 → 落す
-</code></pre>
+おと―す〔変換〕 → 落す</code></pre>
 <p><br>&#x3000;<ruby>使用<rp>(</rp><rt>しよう</rt><rp>)</rp></ruby>する<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>を<ruby>変更<rp>(</rp><rt>へんこう</rt><rp>)</rp></ruby>するときは、「dictionary」を<ruby>選択<rp>(</rp><rt>せんたく</rt><rp>)</rp></ruby>して、<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>のファイル<ruby>名<rp>(</rp><rt>めい</rt><rp>)</rp></ruby>をフルパス<ruby>名<rp>(</rp><rt>めい</rt><rp>)</rp></ruby>で<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>してください。</p>
 <p><ruby>例<rp>(</rp><rt>れい</rt><rp>)</rp></ruby> (インストール<ruby>先<rp>(</rp><rt>さき</rt><rp>)</rp></ruby>が /usr のばあい) :</p>
-<pre><code>/usr/share/ibus-replace-with-kanji/restrained.dic
-</code></pre>
-<p><br><img alt="settings-dictionary" src="settings-dictionary.png"></p>
+<pre><code>/usr/share/ibus-replace-with-kanji/restrained.dic</code></pre>
+<p><br>
+<img alt="settings-dictionary" src="settings-dictionary.png"></p>
 <h3><ruby>個人<rp>(</rp><rt>こじん</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby><ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby></h3>
 <p>&#x3000;システムの<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>ファイルにない<ruby>単語<rp>(</rp><rt>たんご</rt><rp>)</rp></ruby>は、<ruby>個人<rp>(</rp><rt>こじん</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>の<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>ファイルにいれておくことができます。<ruby>個人<rp>(</rp><rt>こじん</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>の<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>は、ディレクトリ ~/.local/share/ibus-replace-with-kanji/ のなかの my.dic というなまえのファイルです。<ruby>追加<rp>(</rp><rt>ついか</rt><rp>)</rp></ruby>した<ruby>単語<rp>(</rp><rt>たんご</rt><rp>)</rp></ruby>は、<ruby>次回<rp>(</rp><rt>じかい</rt><rp>)</rp></ruby>IBusデーモンを<ruby>起動<rp>(</rp><rt>きどう</rt><rp>)</rp></ruby>したときから、つかえるようになります。</p>
 <p>&#x3000;<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>ファイルには、つぎのテキスト<ruby>形式<rp>(</rp><rt>けいしき</rt><rp>)</rp></ruby>で<ruby>単語<rp>(</rp><rt>たんご</rt><rp>)</rp></ruby>を<ruby>保存<rp>(</rp><rt>ほぞん</rt><rp>)</rp></ruby>します。</p>
-<div class="highlight"><pre><span></span>; コメント
+<pre><code>; コメント
 ; よみ /単語/
 きれい /綺麗/
 ; よみ /単語1/単語2/
@@ -129,8 +127,7 @@ aside a:hover {
 ささや― /囁k/
 ; 形容詞は、最後にiをつけます。
 あお― /碧i/
-</pre></div>
-
+</code></pre>
 
 <h2 id="layout"><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby><ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby>をえらぶ</h2>
 <p>&#x3000;<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby><ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby>はキーボード<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>の<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>ファイルを<ruby>変更<rp>(</rp><rt>へんこう</rt><rp>)</rp></ruby>して<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>します。</p>
@@ -167,9 +164,9 @@ aside a:hover {
 <p>&#x3000;ファイル<ruby>名<rp>(</rp><rt>めい</rt><rp>)</rp></ruby>に「.109」がふくまれているものは、<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>キーボード<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>です。<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>の<ruby>内容<rp>(</rp><rt>ないよう</rt><rp>)</rp></ruby>はJSONでかかれています。<ruby>通常<rp>(</rp><rt>つうじょう</rt><rp>)</rp></ruby>のテキスト エディターをつかって、まったくあたらしい<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>を<ruby>定義<rp>(</rp><rt>ていぎ</rt><rp>)</rp></ruby>してつかうこともできます。</p>
 <p>&#x3000;キーボードの<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>を<ruby>変更<rp>(</rp><rt>へんこう</rt><rp>)</rp></ruby>するには、「layout」を<ruby>選択<rp>(</rp><rt>せんたく</rt><rp>)</rp></ruby>して、<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>ファイル<ruby>名<rp>(</rp><rt>めい</rt><rp>)</rp></ruby>をフルパス<ruby>名<rp>(</rp><rt>めい</rt><rp>)</rp></ruby>で<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>します。</p>
 <p><br><ruby>例<rp>(</rp><rt>れい</rt><rp>)</rp></ruby> (インストール<ruby>先<rp>(</rp><rt>さき</rt><rp>)</rp></ruby>が /usr のばあい) :</p>
-<pre><code>/usr/share/ibus-replace-with-kanji/layouts/roomazi.109.json
-</code></pre>
-<p><br><img alt="settings-layout" src="settings-layout.png"></p>
+<pre><code>/usr/share/ibus-replace-with-kanji/layouts/roomazi.109.json</code></pre>
+<p><br>
+<img alt="settings-layout" src="settings-layout.png"></p>
 <h2 id="nn">ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>の「ん」のつづりをえらぶ</h2>
 <p>&#x3000;ワープロでは、「nn」と<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>すると「ん」になる<ruby>便法<rp>(</rp><rt>べんぽう</rt><rp>)</rp></ruby>がつかわれてきました。ふたつめの「n」は、おしにくい〔'〕のかわりです。「’」は、「はねる音を表わすnと次にくる母音字またはyとを切り離す必要がある場合には、nの次に’を入れる」というのが、もともとの<a href="http://www.mext.go.jp/b_menu/hakusho/nc/k19541209001/k19541209001.html"><ruby>約束<rp>(</rp><rt>やくそく</rt><rp>)</rp></ruby></a>です。この<ruby>約束<rp>(</rp><rt>やくそく</rt><rp>)</rp></ruby>にしたがうと、「tennen」は「てんねん」になります。けれども、ワープロではこれを「てんえん」とする<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby>がひろくつかわれています（<ruby>参考<rp>(</rp><rt>さんこう</rt><rp>)</rp></ruby>: 『<a href="https://srad.jp/~yasuoka/journal/518878/">JIS X 4063の<ruby>廃止<rp>(</rp><rt>はいし</rt><rp>)</rp></ruby></a>』)。</p>
 <p>&#x3000;「ひらがなIME」では、ワープロ<ruby>方式<rp>(</rp><rt>ほうしき</rt><rp>)</rp></ruby>も<ruby>公式<rp>(</rp><rt>こうしき</rt><rp>)</rp></ruby>な<ruby>方式<rp>(</rp><rt>ほうしき</rt><rp>)</rp></ruby>も、どちらでもつかうことができます。<ruby>初期<rp>(</rp><rt>しょき</rt><rp>)</rp></ruby><ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>はワープロ<ruby>方式<rp>(</rp><rt>ほうしき</rt><rp>)</rp></ruby>です。つづりかたを<ruby>変更<rp>(</rp><rt>へんこう</rt><rp>)</rp></ruby>するには、「nn-as-jis-x-4063」を<ruby>選択<rp>(</rp><rt>せんたく</rt><rp>)</rp></ruby>して、TrueかFalseをえらびます。</p>

@@ -98,7 +98,7 @@ ul :last-child, ol :last-child {
   margin-bottom: 0;
 }
 pre {
-  margin: 0;
+  margin: 8px;
   padding: 8px;
   background-color: #f6f8fa;
   border: 1px solid #ccc;

@@ -22,7 +22,7 @@
 
 <div class='kbd'>
 <div class='layer109 L0'>
-<div class='kana'>あ/Ａ</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>⌫</div>
+<div style='line-height: 1em;'>半角/<br>全角&nbsp</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>⌫</div>
 <br>
 <div class='k150'>Tab</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k150 enter-top'>Enter</div>
 <br>
@@ -232,7 +232,7 @@
 
 <div class='kbd'>
 <div class='layer109 L0'>
-<div class='kana'>あ/Ａ</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>⌫</div>
+<div style='line-height: 1em;'>半角/<br>全角&nbsp</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>⌫</div>
 <br>
 <div class='k150'>Tab</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k150 enter-top'>Enter</div>
 <br>
@@ -370,7 +370,7 @@
 
 <div class='kbd'>
 <div class='layer109 L0'>
-<div class='kana'>あ/Ａ</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>⌫</div>
+<div style='line-height: 1em;'>半角/<br>全角&nbsp</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>⌫</div>
 <br>
 <div class='k150'>Tab</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k150 enter-top'>Enter</div>
 <br>

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Copyright (c) 2017-2019 Esrille Inc.
+# Copyright (c) 2017-2020 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,16 +15,14 @@
 # limitations under the License.
 
 import html
-
+import markdown
 import re
 import sys
 import textwrap
 
-import markdown
-from mdx_gfm import GithubFlavoredMarkdownExtension
-
 from markdown.preprocessors import Preprocessor
 from markdown.extensions import Extension
+
 
 IAA = '\uFFF9'  # IAA (INTERLINEAR ANNOTATION ANCHOR)
 IAS = '\uFFFA'  # IAS (INTERLINEAR ANNOTATION SEPARATOR)
@@ -65,10 +63,15 @@ class MyPreprocessor(Preprocessor):
                 line = line.translate(tr)
                 if line.startswith("```"):
                     pre = pre ^ True
-                if not pre:
+                elif not pre:
                     if line.startswith('　'):
                         line = '\n' + line
                     line = line.replace('　', '&#x3000;')
+                else:
+                    line += '↲'
+                    if not new_lines[-1].startswith("```"):
+                        new_lines[-1] = new_lines[-1] + line
+                        continue
             new_lines.append(line)
         return new_lines
 
@@ -106,7 +109,6 @@ def main():
             source += line
 
     md = markdown.Markdown(extensions=[MyExtension(),
-                                       GithubFlavoredMarkdownExtension(),
                                        'markdown.extensions.meta',
                                        'markdown.extensions.sane_lists',
                                        'markdown.extensions.tables',
@@ -137,9 +139,9 @@ def main():
                         og_image=html.escape(og_image),
                         path=path))
 
-    # Note GithubFlavoredMarkdownExtension treats newlines as hard breaks.
-    # We do not like this.
-    content = re.sub(r'(.+)<br>\n', r'\1', content)
+    content = content.replace("。\n", "。")
+    content = content.replace("↲", "\n")
+    content = content.replace("\n</code></pre>", "</code></pre>")
 
     with open(path, 'w') as file:
         file.write(content)
