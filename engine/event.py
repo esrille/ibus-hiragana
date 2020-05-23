@@ -218,11 +218,14 @@ class Event:
                         self.__engine.enable_ime()
                     else:
                         self.__engine.disable_ime()
-            elif keyval == self.__Eisuu or keyval == keysyms.Zenkaku_Hankaku:
+            elif keyval == self.__Eisuu:
                 if self.__engine.is_enabled():
                     self.__engine.disable_ime()
                 else:
                     self.__engine.enable_ime()
+                return True
+            elif keyval == keysyms.Zenkaku_Hankaku:
+                self.__engine.switch_zenkaku_hankaku()
                 return True
 
             if self.__engine.is_enabled():

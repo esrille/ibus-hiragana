@@ -6,6 +6,8 @@
         <choice value='A'/>
         <choice value='あ'/>
         <choice value='ア'/>
+        <choice value='Ａ'/>
+        <choice value='ｱ'/>
       </choices>
       <default>\"A\"</default>
       <summary>Input Mode</summary>

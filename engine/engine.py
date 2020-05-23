@@ -49,6 +49,12 @@ _daku = 'ぁぃぅぇぉがぎぐげござじずぜぞだぢづでどばびぶ�
 _non_handaku = 'はひふへほハヒフヘホぱぴぷぺぽパピプペポ'
 _handaku = 'ぱぴぷぺぽパピプペポはひふへほハヒフヘホ'
 
+_zenkaku = ''.join(chr(i) for i in range(0xff01, 0xff5f)) + '　￥'
+_hankaku = ''.join(chr(i) for i in range(0x21, 0x7f)) + ' ¥'
+
+_to_hankaku = str.maketrans(_zenkaku, _hankaku)
+_to_zenkaku = str.maketrans(_hankaku, _zenkaku)
+
 _re_tu = re.compile(r'[kstnhmyrwgzdbpfjv]')
 
 _name_to_logging_level = {
@@ -59,7 +65,7 @@ _name_to_logging_level = {
     'CRITICAL': logging.CRITICAL,
 }
 
-_input_mode_names = set(['A', 'あ', 'ア'])
+_input_mode_names = set(['A', 'あ', 'ア', 'Ａ', 'ｱ'])
 
 IAA = '\uFFF9'  # IAA (INTERLINEAR ANNOTATION ANCHOR)
 IAS = '\uFFFA'  # IAS (INTERLINEAR ANNOTATION SEPARATOR)
@@ -75,6 +81,40 @@ def to_katakana(kana):
         else:
             result += _katakana[pos]
     return result
+
+
+def to_hankaku(kana):
+    str = ''
+    for c in kana:
+        c = c.translate(_to_hankaku)
+        str += {
+            '。': '｡', '「': '｢', '」': '｣', '、': '､', '・': '･',
+            'ヲ': 'ｦ',
+            'ァ': 'ｧ', 'ィ': 'ｨ', 'ゥ': 'ｩ', 'ェ': 'ｪ', 'ォ': 'ｫ',
+            'ャ': 'ｬ', 'ュ': 'ｭ', 'ョ': 'ｮ',
+            'ッ': 'ｯ', 'ー': 'ｰ',
+            'ア': 'ｱ', 'イ': 'ｲ', 'ウ': 'ｳ', 'エ': 'ｴ', 'オ': 'ｵ',
+            'カ': 'ｶ', 'キ': 'ｷ', 'ク': 'ｸ', 'ケ': 'ｹ', 'コ': 'ｺ',
+            'サ': 'ｻ', 'シ': 'ｼ', 'ス': 'ｽ', 'セ': 'ｾ', 'ソ': 'ｿ',
+            'タ': 'ﾀ', 'チ': 'ﾁ', 'ツ': 'ﾂ', 'テ': 'ﾃ', 'ト': 'ﾄ',
+            'ナ': 'ﾅ', 'ニ': 'ﾆ', 'ヌ': 'ﾇ', 'ネ': 'ﾈ', 'ノ': 'ﾉ',
+            'ハ': 'ﾊ', 'ヒ': 'ﾋ', 'フ': 'ﾌ', 'ヘ': 'ﾍ', 'ホ': 'ﾎ',
+            'マ': 'ﾏ', 'ミ': 'ﾐ', 'ム': 'ﾑ', 'メ': 'ﾒ', 'モ': 'ﾓ',
+            'ヤ': 'ﾔ', 'ユ': 'ﾕ', 'ヨ': 'ﾖ',
+            'ラ': 'ﾗ', 'リ': 'ﾘ', 'ル': 'ﾙ', 'レ': 'ﾚ', 'ロ': 'ﾛ',
+            'ワ': 'ﾜ', 'ン': 'ﾝ', '゙': 'ﾞ', '゚': 'ﾟ',
+            'ガ': 'ｶﾞ', 'ギ': 'ｷﾞ', 'グ': 'ｸﾞ', 'ゲ': 'ｹﾞ', 'ゴ': 'ｺﾞ',
+            'ザ': 'ｻﾞ', 'ジ': 'ｼﾞ', 'ズ': 'ｽﾞ', 'ゼ': 'ｾﾞ', 'ゾ': 'ｿﾞ',
+            'ダ': 'ﾀﾞ', 'ヂ': 'ﾁﾞ', 'ヅ': 'ﾂﾞ', 'デ': 'ﾃﾞ', 'ド': 'ﾄﾞ',
+            'バ': 'ﾊﾞ', 'ビ': 'ﾋﾞ', 'ブ': 'ﾌﾞ', 'ベ': 'ﾍﾞ', 'ボ': 'ﾎﾞ',
+            'パ': 'ﾊﾟ', 'ピ': 'ﾋﾟ', 'プ': 'ﾌﾟ', 'ペ': 'ﾍﾟ', 'ポ': 'ﾎﾟ',
+            'ヴ': 'ｳﾞ'
+        }.get(c, c)
+    return str
+
+
+def to_zenkaku(asc):
+    return asc.translate(_to_zenkaku)
 
 
 class EngineReplaceWithKanji(IBus.Engine):
@@ -356,6 +396,28 @@ class EngineReplaceWithKanji(IBus.Engine):
             return True
         return False
 
+    def switch_zenkaku_hankaku(self):
+        mode = self.get_mode()
+        mode = {
+            'A': 'Ａ',
+            'Ａ': 'A',
+            'ア': 'ｱ',
+            'ｱ': 'ア',
+            'あ': 'あ'
+        }.get(mode, 'A')
+        return self.set_mode(mode)
+
+    def switch_katakana(self):
+        mode = self.get_mode()
+        mode = {
+            'A': 'ｱ',
+            'Ａ': 'ア',
+            'ア': 'あ',
+            'ｱ': 'あ',
+            'あ': 'ア'
+        }.get(mode, 'ア')
+        return self.set_mode(mode)
+
     def get_mode(self):
         return self.__mode
 
@@ -428,7 +490,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         yomi = ''
         if self.__event.is_katakana():
             if self.__event.is_shift():
-                self.set_mode('あ' if self.get_mode() == 'ア' else 'ア')
+                self.switch_katakana()
             else:
                 self.handle_katakana()
             return True
@@ -441,7 +503,10 @@ class EngineReplaceWithKanji(IBus.Engine):
                 self.__previous_text = self.__previous_text[:-1]
             return False
         if self.__event.is_ascii():
-            yomi, self.__preedit_string = self.__to_kana(self.__preedit_string, keyval, state, modifiers)
+            if self.get_mode() == 'Ａ':
+                yomi = to_zenkaku(self.__event.chr())
+            else:
+                yomi, self.__preedit_string = self.__to_kana(self.__preedit_string, keyval, state, modifiers)
         elif keyval == keysyms.hyphen:
             yomi = '―'
         else:
@@ -450,6 +515,8 @@ class EngineReplaceWithKanji(IBus.Engine):
         if yomi:
             if self.get_mode() == 'ア':
                 yomi = to_katakana(yomi)
+            elif self.get_mode() == 'ｱ':
+                yomi = to_hankaku(to_katakana(yomi))
             self.__commit_string(yomi)
         self.__update()
         return True
