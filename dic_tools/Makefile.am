@@ -1,4 +1,4 @@
-# Copyright (c) 2017 Esrille Inc.
+# Copyright (c) 2017-2020 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -35,6 +35,7 @@ noinst_SCRIPTS = \
 EXTRA_DIST = \
 	makedic \
 	zyouyou-kanji.csv \
+	basic.dic \
 	drop.dic \
 	fuhyou.dic \
 	greek.dic \

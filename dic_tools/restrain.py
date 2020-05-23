@@ -74,10 +74,11 @@ if __name__ == '__main__':
         dict = dic.union(dict, dic.load('greek.dic'))           # ギリシア文字辞書を追加。
 
     dict = dic.difference(dict, dic.load('drop.dic'))           # 独自に削除したい熟語を削除。
+    dict = dic.union(dict, dic.load('basic.dic'))               # 「にほん」を追加。
 
     # ヘッダーを出力します。
     print(';; 日本語漢字置換インプット メソッド')
-    print(';; Copyright (c) 2017 Esrille Inc.')
+    print(';; Copyright (c) 2017-2020 Esrille Inc.')
     print(';;')
     print(';;   https://github.com/esrille/ibus-replace-with-kanji')
     print(';;')
