@@ -43,6 +43,8 @@ logger = logging.getLogger(__name__)
 _hiragana = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんゔがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっぱぴぷぺぽゎゐゑ・ーゝゞ"
 _katakana = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンヴガギグゲゴザジズゼゾダヂヅデドバビブベボァィゥェォャュョッパピプペポヮヰヱ・ーヽヾ"
 
+_to_katakana = str.maketrans(_hiragana, _katakana)
+
 _non_daku = 'あいうえおかきくけこさしすせそたちつてとはひふへほやゆよアイウエオカキクケコサシスセソタチツテトハヒフヘホヤユヨぁぃぅぇぉがぎぐげござじずぜぞだぢづでどばびぶべぼゃゅょァィゥェォガギグゲゴザジズゼゾダヂヅデドバビブベボャュョゔヴゝヽゞヾ'
 _daku = 'ぁぃぅぇぉがぎぐげござじずぜぞだぢづでどばびぶべぼゃゅょァィゥェォガギグゲゴザジズゼゾダヂヅデドバビブベボャュョあいゔえおかきくけこさしすせそたちつてとはひふへほやゆよアイヴエオカキクケコサシスセソタチツテトハヒフヘホヤユヨうウゞヾゝヽ'
 
@@ -73,14 +75,7 @@ IAT = '\uFFFB'  # IAT (INTERLINEAR ANNOTATION TERMINATOR)
 
 
 def to_katakana(kana):
-    result = ''
-    for c in kana:
-        pos = _hiragana.find(c)
-        if pos < 0:
-            result += c
-        else:
-            result += _katakana[pos]
-    return result
+    return kana.translate(_to_katakana)
 
 
 def to_hankaku(kana):
