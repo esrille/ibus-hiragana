@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 #
-# Copyright (c) 2017-2019 Esrille Inc.
+# Copyright (c) 2017-2020 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -55,8 +55,9 @@ def load(path):
                     s.add(found.group())
         file.close()
 
-    # Remove typos in the original file.
+    # Remove typos and so on in the original file.
     try:
+        s.remove('アイウエオ')
         s.remove('アアダプタ')
         s.remove('アアダプター')
     except:
@@ -74,7 +75,7 @@ def main():
     gairaigo = load(path)
 
     print(';; Replace with Kanji Japanese input method for IBus')
-    print(';; Copyright (c) 2017 Esrille Inc.')
+    print(';; Copyright (c) 2017-2020 Esrille Inc.')
     print(';;')
     print(';;   https://github.com/esrille/ibus-replace-with-kanji')
     print(';;')
