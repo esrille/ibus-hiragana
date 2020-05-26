@@ -457,8 +457,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             elif keyval == keysyms.Down or self.__event.is_henkan():
                 return self.do_cursor_down()
             elif keyval == keysyms.Escape:
-                self.handle_escape(state)
-                return True
+                return self.handle_escape(state)
             elif keyval == keysyms.Return:
                 self.__commit()
                 return True
@@ -593,13 +592,14 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def handle_escape(self, state):
         if not self.__dict.current():
-            return
+            return False
         size = len(self.__dict.current())
         yomi = self.__dict.reading()
         self.__delete_surrounding_text(size)
         self.__commit_string(yomi)
         self.__reset(False)
         self.__update()
+        return True
 
     def __commit(self):
         if self.__dict.current():
