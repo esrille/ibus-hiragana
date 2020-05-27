@@ -1,10 +1,11 @@
 {
-    "Space": "Alt_R",
+    "Space": "Shift_R",
     "Type": "Kana",
     "Prefix": true,
     "Henkan": "apostrophe",
     "Muhenkan": "quotedbl",
-    "Katakana": "Control_R",
+    "Katakana": "Alt_R",
+    "Shrink": "Control_R",
     "Normal": {
         " ": "　",
         "1": "１", "!": "１", "2": "２", "@": "２", "3": "３", "#": "３", "4": "４", "$": "４", "5": "５", "%": "５",

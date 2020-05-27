@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-#
 # ibus-replace-with-kanji - Replace with Kanji Japanese input method for IBus
 #
 # Copyright (c) 2017-2020 Esrille Inc.
@@ -18,9 +16,10 @@
 
 # Default Roomazi-Kana conversion table
 layout = {
-    "Space": "Alt_R",
+    "Space": "Shift_R",
     "Henkan": "space",
-    "Katakana": "Control_R",
+    "Katakana": "Alt_R",
+    "Shrink": "Control_R",
     "Roomazi": {
         ' ': '　',
         '!': '！', '"': '＂', '#': '＃', '$': '＄', '%': '％',

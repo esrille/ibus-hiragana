@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-#
 # ibus-replace-with-kanji - Replace with Kanji Japanese input method for IBus
 #
 # Copyright (c) 2017-2020 Esrille Inc.
@@ -47,9 +45,10 @@ class Event:
         self.__Eisuu = keysyms.VoidSymbol       # or keysyms.Eisu_toggle
         self.__Kana = keysyms.VoidSymbol        # or keysyms.Hiragana_Katakana, keysyms.Control_R
         self.__Space = keysyms.VoidSymbol       # Extra space key
+        self.__Shrink = keysyms.VoidSymbol
         self.__Prefix = False                   # True if Shift is to be prefixed
         self.__HasYen = False
-        self.__DualBits = bits.Dual_ShiftL_Bit | bits.Dual_ShiftR_Bit
+        self.__DualBits = bits.Dual_ShiftL_Bit
 
         if "Keyboard" in layout:
             keyboard = layout["Keyboard"]
@@ -77,10 +76,12 @@ class Event:
             self.__Muhenkan = IBus.keyval_from_name(layout["Muhenkan"])
         if "Katakana" in layout:
             self.__Kana = IBus.keyval_from_name(layout["Katakana"])
+        if "Shrink" in layout:
+            self.__Shrink = IBus.keyval_from_name(layout["Shrink"])
 
         # Check dual role modifiers
         self.__capture_alt_r = False
-        for k in (self.__Henkan, self.__Muhenkan, self.__Kana, self.__Space):
+        for k in (self.__Henkan, self.__Muhenkan, self.__Kana, self.__Space, self.__Shrink):
             if k in self.MODIFIERS:
                 self.__DualBits |= bits.Dual_ShiftL_Bit << self.MODIFIERS.index(k)
             if k == keysyms.Alt_R:
@@ -153,7 +154,7 @@ class Event:
         return False
 
     def is_shrink(self):
-        return self.__modifiers & bits.Dual_ShiftR_Bit
+        return self.is_key(self.__Shrink)
 
     def is_suffix(self):
         return self.__modifiers & bits.Dual_ShiftL_Bit

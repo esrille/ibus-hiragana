@@ -1,6 +1,7 @@
 {
     "Keyboard": "109",
     "OnOffByCaps": false,
+    "Shrink": "Control_R",
     "Roomazi": {
         " ": "　",
         "!": "！", "\"": "＂", "#": "＃", "$": "＄", "%": "％",
