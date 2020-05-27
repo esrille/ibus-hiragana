@@ -1,4 +1,4 @@
-# Copyright (c) 2017-2019 Esrille Inc.
+# Copyright (c) 2017-2020 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -36,6 +36,7 @@ engine/ibus-engine-replace-with-kanji
 engine/replace-with-kanji-python.xml.in
 icons/Makefile
 layouts/Makefile
+locale/Makefile
 dic/Makefile
 dic_tools/Makefile
 docs/Makefile

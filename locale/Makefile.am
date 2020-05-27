@@ -1,7 +1,4 @@
-# Copyright (c) 2017-2020 Esrille Inc.
-#
-# Using source code derived from
-#   ibus-tmpl - The Input Bus template project
+# Copyright (c) 2020 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,35 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-SUBDIRS = \
-	engine \
-	icons \
-	layouts \
-	locale \
-	dic \
-	dic_tools \
-	docs \
+i18n_DATA = \
+	ibus-replace-with-kanji.ja_JP.json \
 	$(NULL)
+
+i18ndir = $(pkgdatadir)/locale
 
 EXTRA_DIST = \
-	debian/changelog \
-	debian/compat \
-	debian/control \
-	debian/copyright \
-	debian/rules \
-	debian/source/format \
-	autogen.sh \
-	@PACKAGE_NAME@.spec \
-	@PACKAGE_NAME@.spec.in \
-	CONTRIBUTING.md \
-	LICENSE \
-	NOTICE\
-	README.md \
-	README.txt \
+	ibus-replace-with-kanji.ja_JP.json \
 	$(NULL)
 
-noinst_DIST = \
-	$(NULL)
-
-DISTCLEANFILES = \
-	$(NULL)
+uninstall-hook:
+	-rmdir $(i18ndir)

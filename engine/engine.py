@@ -31,6 +31,7 @@ gi.require_version('IBus', '1.0')
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gdk, Gtk, IBus
 
+from i18n import _
 from dictionary import Dictionary
 from event import Event
 
@@ -159,7 +160,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             key='InputMode',
             prop_type=IBus.PropType.NORMAL,
             symbol=IBus.Text.new_from_string(self.__mode),
-            label=IBus.Text.new_from_string('Input mode (%s)' % self.__mode),
+            label=IBus.Text.new_from_string(_("Input mode (%s)") % self.__mode),
             icon=None,
             tooltip=None,
             sensitive=False,
@@ -170,7 +171,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         self.__about_prop = IBus.Property(
             key='About',
             prop_type=IBus.PropType.NORMAL,
-            label=IBus.Text.new_from_string('About Hiragana IME...'),
+            label=IBus.Text.new_from_string(_("About Hiragana IME...")),
             icon=None,
             tooltip=None,
             sensitive=True,
@@ -181,7 +182,7 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def __update_input_mode(self):
         self.__input_mode_prop.set_symbol(IBus.Text.new_from_string(self.__mode))
-        self.__input_mode_prop.set_label(IBus.Text.new_from_string('Input mode (%s)' % self.__mode))
+        self.__input_mode_prop.set_label(IBus.Text.new_from_string(_("Input mode (%s)") % self.__mode))
         self.update_property(self.__input_mode_prop)
 
     def __load_input_mode(self, config):
@@ -735,12 +736,12 @@ class EngineReplaceWithKanji(IBus.Engine):
         logger.info("property_activate(%s, %d)" % (prop_name, state))
         if prop_name == "About":
             dialog = Gtk.AboutDialog()
-            dialog.set_program_name("Hiragana IME")
+            dialog.set_program_name(_("Hiragana IME"))
             dialog.set_copyright("Copyright 2017-2020 Esrille Inc.")
             dialog.set_authors(["Esrille Inc."])
             dialog.set_documenters(["Esrille Inc."])
             dialog.set_website("https://esrille.github.io/ibus-replace-with-kanji/")
-            dialog.set_website_label("Introduction to Hiragana IME")
+            dialog.set_website_label(_("Introduction to Hiragana IME"))
             dialog.set_logo_icon_name("ibus-replace-with-kanji")
             # To close the dialog when "close" is clicked, e.g. on RPi,
             # we connect the "response" signal to about_response_callback

@@ -1,4 +1,4 @@
-# Copyright (c) 2017 Esrille Inc.
+# Copyright (c) 2017-2020 Esrille Inc.
 #
 # Using source code derived from
 #   ibus-tmpl - The Input Bus template project
@@ -20,6 +20,7 @@ engine_replace_with_kanji_PYTHON = \
 	dictionary.py \
 	engine.py \
 	event.py \
+	i18n.py \
 	main.py \
 	roomazi.py \
 	$(NULL)
