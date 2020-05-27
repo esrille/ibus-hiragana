@@ -740,7 +740,8 @@ class EngineReplaceWithKanji(IBus.Engine):
             dialog.set_copyright("Copyright 2017-2020 Esrille Inc.")
             dialog.set_authors(["Esrille Inc."])
             dialog.set_documenters(["Esrille Inc."])
-            dialog.set_website("https://esrille.github.io/ibus-replace-with-kanji/")
+            dialog.set_website("file://" + os.path.join(os.getenv("IBUS_REPLACE_WITH_KANJI_LOCATION"),
+                               "help/index.html"))
             dialog.set_website_label(_("Introduction to Hiragana IME"))
             dialog.set_logo_icon_name("ibus-replace-with-kanji")
             # To close the dialog when "close" is clicked, e.g. on RPi,

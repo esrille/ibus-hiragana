@@ -1,4 +1,4 @@
-# Copyright (c) 2019 Esrille Inc.
+# Copyright (c) 2019-2020 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,32 +12,56 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-EXTRA_DIST = \
-	dconf-editor.png \
+help_DATA = \
 	default.css \
 	dictionary.html \
-	dictionary.md \
 	experimental.html \
-	experimental.md \
-	icon.png \
 	index.html \
-	index.md \
 	install.html \
-	install.md \
 	key_assign.html \
-	key_assign.md \
 	layouts.html \
-	layouts.md \
-	Makefile.am \
-	md2html.py \
+	settings.html \
+	template.html \
+	usage.html \
+	dconf-editor.png \
+	icon.png \
 	screenshot.png \
 	settings-dictionary.png \
 	settings-layout.png \
 	settings-nn.png \
-	settings.html \
-	settings.md \
-	template.html \
-	update \
-	usage.html \
-	usage.md \
 	$(NULL)
+
+helpdir = $(pkgdatadir)/help
+
+EXTRA_DIST = \
+	update \
+	Makefile.am \
+	md2html.py \
+	dictionary.md \
+	experimental.md \
+	index.md \
+	install.md \
+	key_assign.md \
+	layouts.md \
+	settings.md \
+	usage.md \
+	default.css \
+	dictionary.html \
+	experimental.html \
+	index.html \
+	install.html \
+	key_assign.html \
+	layouts.html \
+	settings.html \
+	template.html \
+	usage.html \
+	dconf-editor.png \
+	icon.png \
+	screenshot.png \
+	settings-dictionary.png \
+	settings-layout.png \
+	settings-nn.png \
+	$(NULL)
+
+uninstall-hook:
+	-rmdir $(helpdir)
