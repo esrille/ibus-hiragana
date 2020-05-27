@@ -1,7 +1,4 @@
-# Copyright (c) 2017 Esrille Inc.
-#
-# Using source code derived from
-#   ibus-tmpl - The Input Bus template project
+# Copyright (c) 2017-2020 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,12 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-icons_DATA = \
-	ibus-replace-with-kanji.png \
-	$(NULL)
+hicolor_icon_32_DATA = ibus-replace-with-kanji.png
+hicolor_icon_32dir = $(datadir)/icons/hicolor/32x32/apps
 
-iconsdir = $(pkgdatadir)/icons
+hicolor_icon_scalable_DATA = ibus-replace-with-kanji.svg
+hicolor_icon_scalabledir = $(datadir)/icons/hicolor/scalable/apps
 
 EXTRA_DIST = \
 	ibus-replace-with-kanji.png \
+	ibus-replace-with-kanji.svg \
 	$(NULL)

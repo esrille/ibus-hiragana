@@ -26,9 +26,10 @@ import re
 import sys
 import time
 
-from gi import require_version
-require_version('IBus', '1.0')
-from gi.repository import IBus
+import gi
+gi.require_version('IBus', '1.0')
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gdk, Gtk, IBus
 
 from dictionary import Dictionary
 from event import Event
@@ -166,6 +167,17 @@ class EngineReplaceWithKanji(IBus.Engine):
             state=IBus.PropState.UNCHECKED,
             sub_props=None)
         self.__prop_list.append(self.__input_mode_prop)
+        self.__about_prop = IBus.Property(
+            key='About',
+            prop_type=IBus.PropType.NORMAL,
+            label=IBus.Text.new_from_string('About Hiragana IME...'),
+            icon=None,
+            tooltip=None,
+            sensitive=True,
+            visible=True,
+            state=IBus.PropState.UNCHECKED,
+            sub_props=None)
+        self.__prop_list.append(self.__about_prop)
 
     def __update_input_mode(self):
         self.__input_mode_prop.set_symbol(IBus.Text.new_from_string(self.__mode))
@@ -721,6 +733,22 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def do_property_activate(self, prop_name, state):
         logger.info("property_activate(%s, %d)" % (prop_name, state))
+        if prop_name == "About":
+            dialog = Gtk.AboutDialog()
+            dialog.set_program_name("Hiragana IME")
+            dialog.set_copyright("Copyright 2017-2020 Esrille Inc.")
+            dialog.set_authors(["Esrille Inc."])
+            dialog.set_documenters(["Esrille Inc."])
+            dialog.set_website("https://esrille.github.io/ibus-replace-with-kanji/")
+            dialog.set_website_label("Introduction to Hiragana IME")
+            dialog.set_logo_icon_name("ibus-replace-with-kanji")
+            # To close the dialog when "close" is clicked, e.g. on RPi,
+            # we connect the "response" signal to about_response_callback
+            dialog.connect("response", self.about_response_callback)
+            dialog.show()
+
+    def about_response_callback(self, dialog, response):
+        dialog.destroy()
 
     def set_surrounding_text_cb(self, engine, text, cursor_pos, anchor_pos):
         text = self.get_plain_text(text.get_text()[:cursor_pos])

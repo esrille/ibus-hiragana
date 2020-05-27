@@ -16,7 +16,7 @@
 			<language>ja</language>
 			<license>Apache</license>
 			<author>Esrille Inc. &lt;info@esrille.com&gt;</author>
-			<icon>${pkgdatadir}/icons/ibus-replace-with-kanji.png</icon>
+			<icon>ibus-replace-with-kanji</icon>
 			<icon_prop_key>InputMode</icon_prop_key>
 			<layout>default</layout>
 			<longname>ReplaceWithKanji</longname>

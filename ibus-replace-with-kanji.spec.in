@@ -38,6 +38,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}
 %{_datadir}/ibus/component/replace-with-kanji-python.xml
 %{_datadir}/glib-2.0/schemas/org.freedesktop.ibus.engine.replace-with-kanji-python.gschema.xml
+%{_datadir}/icons/hicolor/32x32/apps/%{name}.png
+%{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
 %{_libexecdir}/ibus-engine-replace-with-kanji
 
 %changelog

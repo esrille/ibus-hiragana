@@ -1,7 +1,4 @@
-# Copyright (c) 2017 Esrille Inc.
-#
-# Using source code derived from
-#   ibus-tmpl - The Input Bus template project
+# Copyright (c) 2017-2020 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -38,3 +35,6 @@ EXTRA_DIST = \
 	nicola.json \
 	nicola_f.json \
 	$(NULL)
+
+uninstall-hook:
+	-rmdir $(layoutsdir)
