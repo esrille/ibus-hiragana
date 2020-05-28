@@ -18,9 +18,6 @@ layouts_DATA = \
 	roomazi.109.json \
 	new_stickney.json \
 	new_stickney.109.json \
-	tron.json \
-	nicola.json \
-	nicola_f.json \
 	$(NULL)
 
 layoutsdir = $(pkgdatadir)/layouts
@@ -31,9 +28,6 @@ EXTRA_DIST = \
 	roomazi.109.json \
 	new_stickney.json \
 	new_stickney.109.json \
-	tron.json \
-	nicola.json \
-	nicola_f.json \
 	$(NULL)
 
 uninstall-hook:
