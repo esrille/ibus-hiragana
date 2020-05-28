@@ -1,11 +1,9 @@
-# -*- coding: utf-8 -*-
-#
 # ibus-replace-with-kanji - Replace with Kanji Japanese input method for IBus
 #
 # Using source code derived from
 #   ibus-tmpl - The Input Bus template project
 #
-# Copyright (c) 2017-2019 Esrille Inc.
+# Copyright (c) 2017-2020 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,10 +19,10 @@
 
 import i18n
 
+import getopt
 import os
 import logging
 import sys
-import getopt
 
 from gi import require_version
 require_version('IBus', '1.0')

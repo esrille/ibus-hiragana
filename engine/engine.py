@@ -17,6 +17,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import bits
+from dictionary import Dictionary
+from event import Event
+from i18n import _
+
 import json
 import logging
 import os
@@ -26,40 +31,33 @@ import time
 
 import gi
 gi.require_version('IBus', '1.0')
-gi.require_version('Gdk', '3.0')
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gdk, Gtk, IBus
-
-from i18n import _
-from dictionary import Dictionary
-from event import Event
-
-import bits
+from gi.repository import Gtk, IBus
 
 keysyms = IBus
 
 logger = logging.getLogger(__name__)
 
-_hiragana = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんゔがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっぱぴぷぺぽゎゐゑ・ーゝゞ"
-_katakana = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンヴガギグゲゴザジズゼゾダヂヅデドバビブベボァィゥェォャュョッパピプペポヮヰヱ・ーヽヾ"
+HIRAGANA = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんゔがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっぱぴぷぺぽゎゐゑ・ーゝゞ"
+KATAKANA = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンヴガギグゲゴザジズゼゾダヂヅデドバビブベボァィゥェォャュョッパピプペポヮヰヱ・ーヽヾ"
 
-_to_katakana = str.maketrans(_hiragana, _katakana)
+TO_KATAKANA = str.maketrans(HIRAGANA, KATAKANA)
 
-_non_daku = 'あいうえおかきくけこさしすせそたちつてとはひふへほやゆよアイウエオカキクケコサシスセソタチツテトハヒフヘホヤユヨぁぃぅぇぉがぎぐげござじずぜぞだぢづでどばびぶべぼゃゅょァィゥェォガギグゲゴザジズゼゾダヂヅデドバビブベボャュョゔヴゝヽゞヾ'
-_daku = 'ぁぃぅぇぉがぎぐげござじずぜぞだぢづでどばびぶべぼゃゅょァィゥェォガギグゲゴザジズゼゾダヂヅデドバビブベボャュョあいゔえおかきくけこさしすせそたちつてとはひふへほやゆよアイヴエオカキクケコサシスセソタチツテトハヒフヘホヤユヨうウゞヾゝヽ'
+NON_DAKU = 'あいうえおかきくけこさしすせそたちつてとはひふへほやゆよアイウエオカキクケコサシスセソタチツテトハヒフヘホヤユヨぁぃぅぇぉがぎぐげござじずぜぞだぢづでどばびぶべぼゃゅょァィゥェォガギグゲゴザジズゼゾダヂヅデドバビブベボャュョゔヴゝヽゞヾ'
+DAKU = 'ぁぃぅぇぉがぎぐげござじずぜぞだぢづでどばびぶべぼゃゅょァィゥェォガギグゲゴザジズゼゾダヂヅデドバビブベボャュョあいゔえおかきくけこさしすせそたちつてとはひふへほやゆよアイヴエオカキクケコサシスセソタチツテトハヒフヘホヤユヨうウゞヾゝヽ'
 
-_non_handaku = 'はひふへほハヒフヘホぱぴぷぺぽパピプペポ'
-_handaku = 'ぱぴぷぺぽパピプペポはひふへほハヒフヘホ'
+NON_HANDAKU = 'はひふへほハヒフヘホぱぴぷぺぽパピプペポ'
+HANDAKU = 'ぱぴぷぺぽパピプペポはひふへほハヒフヘホ'
 
-_zenkaku = ''.join(chr(i) for i in range(0xff01, 0xff5f)) + '　￥'
-_hankaku = ''.join(chr(i) for i in range(0x21, 0x7f)) + ' ¥'
+ZENKAKU = ''.join(chr(i) for i in range(0xff01, 0xff5f)) + '　￥'
+HANKAKU = ''.join(chr(i) for i in range(0x21, 0x7f)) + ' ¥'
 
-_to_hankaku = str.maketrans(_zenkaku, _hankaku)
-_to_zenkaku = str.maketrans(_hankaku, _zenkaku)
+TO_HANDAKU = str.maketrans(ZENKAKU, HANKAKU)
+TO_ZENKAKU = str.maketrans(HANKAKU, ZENKAKU)
 
-_re_tu = re.compile(r'[kstnhmyrwgzdbpfjv]')
+RE_SOKUON = re.compile(r'[kstnhmyrwgzdbpfjv]')
 
-_name_to_logging_level = {
+NAME_TO_LOGGING_LEVEL = {
     'DEBUG': logging.DEBUG,
     'INFO': logging.INFO,
     'WARNING': logging.WARNING,
@@ -67,7 +65,7 @@ _name_to_logging_level = {
     'CRITICAL': logging.CRITICAL,
 }
 
-_input_mode_names = set(['A', 'あ', 'ア', 'Ａ', 'ｱ'])
+INPUT_MODE_NAMES = ('A', 'あ', 'ア', 'Ａ', 'ｱ')
 
 IAA = '\uFFF9'  # IAA (INTERLINEAR ANNOTATION ANCHOR)
 IAS = '\uFFFA'  # IAS (INTERLINEAR ANNOTATION SEPARATOR)
@@ -75,13 +73,13 @@ IAT = '\uFFFB'  # IAT (INTERLINEAR ANNOTATION TERMINATOR)
 
 
 def to_katakana(kana):
-    return kana.translate(_to_katakana)
+    return kana.translate(TO_KATAKANA)
 
 
 def to_hankaku(kana):
     str = ''
     for c in kana:
-        c = c.translate(_to_hankaku)
+        c = c.translate(TO_HANDAKU)
         str += {
             '。': '｡', '「': '｢', '」': '｣', '、': '､', '・': '･',
             'ヲ': 'ｦ',
@@ -109,7 +107,7 @@ def to_hankaku(kana):
 
 
 def to_zenkaku(asc):
-    return asc.translate(_to_zenkaku)
+    return asc.translate(TO_ZENKAKU)
 
 
 class EngineReplaceWithKanji(IBus.Engine):
@@ -117,56 +115,56 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def __init__(self):
         super().__init__()
-        self.__mode = 'A'     # __mode must be one of _input_mode_names
-        self.__override = False
+        self._mode = 'A'    # _mode must be one of _input_mode_names
+        self._override = False
 
-        self.__layout = dict()
-        self.__to_kana = self.__handle_roomazi_layout
+        self._layout = dict()
+        self._to_kana = self._handle_roomazi_layout
 
-        self.__preedit_string = ''
-        self.__previous_text = ''
-        self.__ignore_surrounding_text = False
+        self._preedit_string = ''
+        self._previous_text = ''
+        self._ignore_surrounding_text = False
 
-        self.__lookup_table = IBus.LookupTable.new(10, 0, True, False)
-        self.__lookup_table.set_orientation(IBus.Orientation.VERTICAL)
+        self._lookup_table = IBus.LookupTable.new(10, 0, True, False)
+        self._lookup_table.set_orientation(IBus.Orientation.VERTICAL)
 
-        self.__init_props()
+        self._init_props()
 
-        self.__config = IBus.Bus().get_config()
-        self.__config.connect('value-changed', self.__config_value_changed_cb)
+        self._config = IBus.Bus().get_config()
+        self._config.connect('value-changed', self._config_value_changed_cb)
 
-        self.__logging_level = self.__load_logging_level(self.__config)
-        self.__dict = self.__load_dictionary(self.__config)
-        self.__layout = self.__load_layout(self.__config)
-        self.__delay = self.__load_delay(self.__config)
-        self.__event = Event(self, self.__delay, self.__layout)
+        self._logging_level = self._load_logging_level(self._config)
+        self._dict = self._load_dictionary(self._config)
+        self._layout = self._load_layout(self._config)
+        self._delay = self._load_delay(self._config)
+        self._event = Event(self, self._delay, self._layout)
 
-        self.set_mode(self.__load_input_mode(self.__config))
-        self.__set_x4063_mode(self.__load_x4063_mode(self.__config))
+        self.set_mode(self._load_input_mode(self._config))
+        self._set_x4063_mode(self._load_x4063_mode(self._config))
 
-        self.__shrunk = ''
+        self._shrunk = ''
 
-        self.__committed = ''
-        self.__acked = True
+        self._committed = ''
+        self._acked = True
         self.connect('set-surrounding-text', self.set_surrounding_text_cb)
 
         self.connect('set-cursor-location', self.set_cursor_location_cb)
 
-    def __init_props(self):
-        self.__prop_list = IBus.PropList()
-        self.__input_mode_prop = IBus.Property(
+    def _init_props(self):
+        self._prop_list = IBus.PropList()
+        self._input_mode_prop = IBus.Property(
             key='InputMode',
             prop_type=IBus.PropType.NORMAL,
-            symbol=IBus.Text.new_from_string(self.__mode),
-            label=IBus.Text.new_from_string(_("Input mode (%s)") % self.__mode),
+            symbol=IBus.Text.new_from_string(self._mode),
+            label=IBus.Text.new_from_string(_("Input mode (%s)") % self._mode),
             icon=None,
             tooltip=None,
             sensitive=False,
             visible=True,
             state=IBus.PropState.UNCHECKED,
             sub_props=None)
-        self.__prop_list.append(self.__input_mode_prop)
-        self.__about_prop = IBus.Property(
+        self._prop_list.append(self._input_mode_prop)
+        self._about_prop = IBus.Property(
             key='About',
             prop_type=IBus.PropType.NORMAL,
             label=IBus.Text.new_from_string(_("About Hiragana IME...")),
@@ -176,16 +174,16 @@ class EngineReplaceWithKanji(IBus.Engine):
             visible=True,
             state=IBus.PropState.UNCHECKED,
             sub_props=None)
-        self.__prop_list.append(self.__about_prop)
+        self._prop_list.append(self._about_prop)
 
-    def __update_input_mode(self):
-        self.__input_mode_prop.set_symbol(IBus.Text.new_from_string(self.__mode))
-        self.__input_mode_prop.set_label(IBus.Text.new_from_string(_("Input mode (%s)") % self.__mode))
-        self.update_property(self.__input_mode_prop)
+    def _update_input_mode(self):
+        self._input_mode_prop.set_symbol(IBus.Text.new_from_string(self._mode))
+        self._input_mode_prop.set_label(IBus.Text.new_from_string(_("Input mode (%s)") % self._mode))
+        self.update_property(self._input_mode_prop)
 
-    def __load_input_mode(self, config):
+    def _load_input_mode(self, config):
         var = config.get_value('engine/replace-with-kanji-python', 'mode')
-        if var is None or var.get_type_string() != 's' or not var.get_string() in _input_mode_names:
+        if var is None or var.get_type_string() != 's' or not var.get_string() in INPUT_MODE_NAMES:
             mode = 'A'
             if var:
                 config.unset('engine/replace-with-kanji-python', 'mode')
@@ -194,19 +192,19 @@ class EngineReplaceWithKanji(IBus.Engine):
         logger.info("input mode: %s", mode)
         return mode
 
-    def __load_logging_level(self, config):
+    def _load_logging_level(self, config):
         var = config.get_value('engine/replace-with-kanji-python', 'logging_level')
-        if var is None or var.get_type_string() != 's' or not var.get_string() in _name_to_logging_level:
+        if var is None or var.get_type_string() != 's' or not var.get_string() in NAME_TO_LOGGING_LEVEL:
             level = 'WARNING'
             if var:
                 config.unset('engine/replace-with-kanji-python', 'logging_level')
         else:
             level = var.get_string()
         logger.info("logging_level: %s", level)
-        logging.getLogger().setLevel(_name_to_logging_level[level])
+        logging.getLogger().setLevel(NAME_TO_LOGGING_LEVEL[level])
         return level
 
-    def __load_dictionary(self, config):
+    def _load_dictionary(self, config):
         var = config.get_value('engine/replace-with-kanji-python', 'dictionary')
         if var is None or var.get_type_string() != 's':
             path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'restrained.dic')
@@ -216,7 +214,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             path = var.get_string()
         return Dictionary(path)
 
-    def __load_layout(self, config):
+    def _load_layout(self, config):
         default_layout = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'layouts')
         default_layout = os.path.join(default_layout, 'roomazi.json')
         var = config.get_value('engine/replace-with-kanji-python', 'layout')
@@ -241,12 +239,12 @@ class EngineReplaceWithKanji(IBus.Engine):
             except Exception as error:
                 logger.error(error)
         if layout.get('Type') == 'Kana':
-            self.__to_kana = self.__handle_kana_layout
+            self._to_kana = self._handle_kana_layout
         else:
-            self.__to_kana = self.__handle_roomazi_layout
+            self._to_kana = self._handle_roomazi_layout
         return layout
 
-    def __load_delay(self, config):
+    def _load_delay(self, config):
         var = config.get_value('engine/replace-with-kanji-python', 'delay')
         if var is None or var.get_type_string() != 'i':
             delay = 0
@@ -257,7 +255,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         logger.info("delay: %d", delay)
         return delay
 
-    def __load_x4063_mode(self, config):
+    def _load_x4063_mode(self, config):
         var = config.get_value('engine/replace-with-kanji-python', 'nn_as_jis_x_4063')
         if var is None or var.get_type_string() != 'b':
             mode = True
@@ -268,90 +266,90 @@ class EngineReplaceWithKanji(IBus.Engine):
         logger.info("nn_as_jis_x_4063 mode: {}".format(mode))
         return mode
 
-    def __config_value_changed_cb(self, config, section, name, value):
+    def _config_value_changed_cb(self, config, section, name, value):
         section = section.replace('_', '-')
         if section != 'engine/replace-with-kanji-python':
             return
         logger.debug("config_value_changed({}, {}, {})".format(section, name, value))
         if name == "logging_level":
-            self.__logging_level = self.__load_logging_level(config)
+            self._logging_level = self._load_logging_level(config)
         elif name == "delay":
-            self.__reset()
-            self.__delay = self.__load_delay(config)
-            self.__event = Event(self, self.__delay, self.__layout)
+            self._reset()
+            self._delay = self._load_delay(config)
+            self._event = Event(self, self._delay, self._layout)
         elif name == "layout":
-            self.__reset()
-            self.__layout = self.__load_layout(config)
-            self.__event = Event(self, self.__delay, self.__layout)
+            self._reset()
+            self._layout = self._load_layout(config)
+            self._event = Event(self, self._delay, self._layout)
         elif name == "dictionary":
-            self.__reset()
-            self.__dict = self.__load_dictionary(config)
+            self._reset()
+            self._dict = self._load_dictionary(config)
         elif name == "mode":
-            self.set_mode(self.__load_input_mode(self.__config))
-            self.__override = True
+            self.set_mode(self._load_input_mode(self._config))
+            self._override = True
         elif name == "nn_as_jis_x_4063":
-            self.__set_x4063_mode(self.__load_x4063_mode(self.__config))
+            self._set_x4063_mode(self._load_x4063_mode(self._config))
 
-    def __handle_kana_layout(self, preedit, keyval, state=0, modifiers=0):
+    def _handle_kana_layout(self, preedit, keyval, state=0, modifiers=0):
         yomi = ''
-        c = self.__event.chr().lower()
+        c = self._event.chr().lower()
         if preedit == '\\':
             preedit = ''
-            if self.__event.is_shift():
-                if 'Shift' in self.__layout:
-                    yomi = self.__layout['\\Shift'][c]
+            if self._event.is_shift():
+                if 'Shift' in self._layout:
+                    yomi = self._layout['\\Shift'][c]
                 elif modifiers & bits.ShiftL_Bit:
-                    yomi = self.__layout['\\ShiftL'][c]
+                    yomi = self._layout['\\ShiftL'][c]
                 elif modifiers & bits.ShiftR_Bit:
-                    yomi = self.__layout['\\ShiftR'][c]
+                    yomi = self._layout['\\ShiftR'][c]
             else:
-                yomi = self.__layout['\\Normal'][c]
+                yomi = self._layout['\\Normal'][c]
         else:
-            if self.__event.is_shift():
-                if 'Shift' in self.__layout:
-                    yomi = self.__layout['Shift'][c]
+            if self._event.is_shift():
+                if 'Shift' in self._layout:
+                    yomi = self._layout['Shift'][c]
                 elif modifiers & bits.ShiftL_Bit:
-                    yomi = self.__layout['ShiftL'][c]
+                    yomi = self._layout['ShiftL'][c]
                 elif modifiers & bits.ShiftR_Bit:
-                    yomi = self.__layout['ShiftR'][c]
+                    yomi = self._layout['ShiftR'][c]
             else:
-                yomi = self.__layout['Normal'][c]
+                yomi = self._layout['Normal'][c]
             if yomi == '\\':
                 preedit += yomi
                 yomi = ''
         return yomi, preedit
 
-    def __set_x4063_mode(self, on):
+    def _set_x4063_mode(self, on):
         if on:
             self.character_after_n = "aiueo\'wyn"
         else:
             self.character_after_n = "aiueo\'wy"
         logger.debug("set_x4063_mode({})".format(on))
 
-    def __handle_roomazi_layout(self, preedit, keyval, state=0, modifiers=0):
+    def _handle_roomazi_layout(self, preedit, keyval, state=0, modifiers=0):
         yomi = ''
-        c = self.__event.chr().lower()
+        c = self._event.chr().lower()
         if preedit == 'n' and self.character_after_n.find(c) < 0:
             yomi = 'ん'
             preedit = preedit[1:]
         preedit += c
-        if preedit in self.__layout['Roomazi']:
-            yomi += self.__layout['Roomazi'][preedit]
+        if preedit in self._layout['Roomazi']:
+            yomi += self._layout['Roomazi'][preedit]
             preedit = ''
             if yomi == '\\':
                 preedit = yomi
                 yomi = ''
-        elif 2 <= len(preedit) and preedit[0] == preedit[1] and _re_tu.search(preedit[1]):
+        elif 2 <= len(preedit) and preedit[0] == preedit[1] and RE_SOKUON.search(preedit[1]):
             yomi += 'っ'
             preedit = preedit[1:]
         return yomi, preedit
 
-    def __get_surrounding_text(self):
+    def _get_surrounding_text(self):
         if not (self.client_capabilities & IBus.Capabilite.SURROUNDING_TEXT):
-            self.__ignore_surrounding_text = True
-        if self.__ignore_surrounding_text or not self.__acked:
-            logger.debug("surrounding text: [%s]" % (self.__previous_text))
-            return self.__previous_text, len(self.__previous_text)
+            self._ignore_surrounding_text = True
+        if self._ignore_surrounding_text or not self._acked:
+            logger.debug("surrounding text: [%s]" % (self._previous_text))
+            return self._previous_text, len(self._previous_text)
 
         tuple = self.get_surrounding_text()
         text = tuple[0].get_text()
@@ -368,18 +366,18 @@ class EngineReplaceWithKanji(IBus.Engine):
         #     if 0x10000 <= ord(text[i]):
         #         pos -= 1
 
-        # Qt seems to insert self.__preedit_string to the text, while GTK doesn't.
+        # Qt seems to insert self._preedit_string to the text, while GTK doesn't.
         # We mimic GTK's behavior here.
-        preedit_len = len(self.__preedit_string)
-        if 0 < preedit_len and preedit_len <= pos and text[pos - preedit_len:pos] == self.__preedit_string:
+        preedit_len = len(self._preedit_string)
+        if 0 < preedit_len and preedit_len <= pos and text[pos - preedit_len:pos] == self._preedit_string:
             text = text[:-preedit_len]
             pos -= preedit_len
-        logger.debug("surrounding text: '%s', %d, [%s]", text, pos, self.__previous_text)
+        logger.debug("surrounding text: '%s', %d, [%s]", text, pos, self._previous_text)
         return text, pos
 
-    def __delete_surrounding_text(self, size):
-        self.__previous_text = self.__previous_text[:-size]
-        if not self.__ignore_surrounding_text and self.__acked:
+    def _delete_surrounding_text(self, size):
+        self._previous_text = self._previous_text[:-size]
+        if not self._ignore_surrounding_text and self._acked:
             self.delete_surrounding_text(-size, size)
         else:
             # Note a short delay after each BackSpace is necessary for the target application to catch up.
@@ -389,7 +387,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             self.forward_key_event(IBus.BackSpace, 14, IBus.ModifierType.RELEASE_MASK)
 
     def is_overridden(self):
-        return self.__override
+        return self._override
 
     def is_enabled(self):
         return self.get_mode() != 'A'
@@ -429,267 +427,267 @@ class EngineReplaceWithKanji(IBus.Engine):
         return self.set_mode(mode)
 
     def get_mode(self):
-        return self.__mode
+        return self._mode
 
     def set_mode(self, mode):
-        self.__override = False
-        if self.__mode == mode:
+        self._override = False
+        if self._mode == mode:
             return False
         logger.debug("set_mode(%s)" % (mode))
-        self.__preedit_string = ''
-        self.__commit()
-        self.__mode = mode
-        self.__update()
-        self.__update_input_mode()
+        self._preedit_string = ''
+        self._commit()
+        self._mode = mode
+        self._update()
+        self._update_input_mode()
         return True
 
-    def __is_roomazi_mode(self):
-        return self.__to_kana == self.__handle_roomazi_layout
+    def _is_roomazi_mode(self):
+        return self._to_kana == self._handle_roomazi_layout
 
     def do_process_key_event(self, keyval, keycode, state):
-        return self.__event.process_key_event(keyval, keycode, state)
+        return self._event.process_key_event(keyval, keycode, state)
 
     def handle_key_event(self, keyval, keycode, state, modifiers):
         logger.debug("handle_key_event(%s, %04x, %04x, %04x)" % (IBus.keyval_name(keyval), keycode, state, modifiers))
 
-        if self.__event.is_dual_role():
+        if self._event.is_dual_role():
             pass
-        elif self.__event.is_modifier():
+        elif self._event.is_modifier():
             # Ignore modifier keys
             return False
         elif state & (IBus.ModifierType.CONTROL_MASK | IBus.ModifierType.MOD1_MASK):
-            self.__commit()
+            self._commit()
             return False
 
         # Handle Candidate window
-        if 0 < self.__lookup_table.get_number_of_candidates():
+        if 0 < self._lookup_table.get_number_of_candidates():
             if keyval == keysyms.Page_Up or keyval == keysyms.KP_Page_Up:
                 return self.do_page_up()
             elif keyval == keysyms.Page_Down or keyval == keysyms.KP_Page_Down:
                 return self.do_page_down()
-            elif keyval == keysyms.Up or self.__event.is_muhenkan():
+            elif keyval == keysyms.Up or self._event.is_muhenkan():
                 return self.do_cursor_up()
-            elif keyval == keysyms.Down or self.__event.is_henkan():
+            elif keyval == keysyms.Down or self._event.is_henkan():
                 return self.do_cursor_down()
             elif keyval == keysyms.Escape:
                 return self.handle_escape(state)
             elif keyval == keysyms.Return:
-                self.__commit()
+                self._commit()
                 return True
 
-        if self.__preedit_string:
+        if self._preedit_string:
             if keyval == keysyms.Return:
-                if self.__preedit_string == 'n':
-                    self.__preedit_string = 'ん'
-                self.__commit_string(self.__preedit_string)
-                self.__preedit_string = ''
-                self.__update()
+                if self._preedit_string == 'n':
+                    self._preedit_string = 'ん'
+                self._commit_string(self._preedit_string)
+                self._preedit_string = ''
+                self._update()
                 return True
             if keyval == keysyms.Escape:
-                self.__preedit_string = ''
-                self.__update()
+                self._preedit_string = ''
+                self._update()
                 return True
 
         # Handle Japanese text
-        if self.__event.is_henkan():
+        if self._event.is_henkan():
             return self.handle_replace(keyval, state)
-        if self.__event.is_shrink():
+        if self._event.is_shrink():
             return self.handle_shrink(keyval, state)
-        self.__commit()
+        self._commit()
         yomi = ''
-        if self.__event.is_katakana():
-            if self.__event.is_shift():
+        if self._event.is_katakana():
+            if self._event.is_shift():
                 self.switch_katakana()
             else:
                 self.handle_katakana()
             return True
-        if self.__event.is_backspace():
-            if 1 <= len(self.__preedit_string):
-                self.__preedit_string = self.__preedit_string[:-1]
-                self.__update()
+        if self._event.is_backspace():
+            if 1 <= len(self._preedit_string):
+                self._preedit_string = self._preedit_string[:-1]
+                self._update()
                 return True
-            elif 0 < len(self.__previous_text):
-                self.__previous_text = self.__previous_text[:-1]
+            elif 0 < len(self._previous_text):
+                self._previous_text = self._previous_text[:-1]
             return False
-        if self.__event.is_ascii():
+        if self._event.is_ascii():
             if self.get_mode() == 'Ａ':
-                yomi = to_zenkaku(self.__event.chr())
+                yomi = to_zenkaku(self._event.chr())
             else:
-                yomi, self.__preedit_string = self.__to_kana(self.__preedit_string, keyval, state, modifiers)
+                yomi, self._preedit_string = self._to_kana(self._preedit_string, keyval, state, modifiers)
         elif keyval == keysyms.hyphen:
             yomi = '―'
         else:
-            self.__previous_text = ''
+            self._previous_text = ''
             return False
         if yomi:
             if self.get_mode() == 'ア':
                 yomi = to_katakana(yomi)
             elif self.get_mode() == 'ｱ':
                 yomi = to_hankaku(to_katakana(yomi))
-            self.__commit_string(yomi)
-        self.__update()
+            self._commit_string(yomi)
+        self._update()
         return True
 
     def lookup_dictionary(self, yomi, pos):
-        if self.__preedit_string == 'n':
+        if self._preedit_string == 'n':
             yomi = yomi[:pos] + 'ん'
             pos += 1
-        self.__lookup_table.clear()
-        cand = self.__dict.lookup(yomi, pos)
-        size = len(self.__dict.reading())
+        self._lookup_table.clear()
+        cand = self._dict.lookup(yomi, pos)
+        size = len(self._dict.reading())
         if 0 < size:
-            if self.__preedit_string == 'n':
-                if self.__acked:
+            if self._preedit_string == 'n':
+                if self._acked:
                     # For furiganapad, yomi has to be committed anyway.
                     # However, 'ん' will be acked by set_cursor_location_cb()
                     # only after the converted text is committed later.
                     # So we pretend that 'ん' is acked here.
-                    self.__commit_string('ん')
-                    self.__acked = True
-                    self.__committed = ''
+                    self._commit_string('ん')
+                    self._acked = True
+                    self._committed = ''
                 else:
                     size = size - 1
-            self.__preedit_string = ''
-            if 1 < len(self.__dict.cand()):
-                for c in self.__dict.cand():
-                    self.__lookup_table.append_candidate(IBus.Text.new_from_string(c))
+            self._preedit_string = ''
+            if 1 < len(self._dict.cand()):
+                for c in self._dict.cand():
+                    self._lookup_table.append_candidate(IBus.Text.new_from_string(c))
         return (cand, size)
 
     def handle_katakana(self):
-        text, pos = self.__get_surrounding_text()
+        text, pos = self._get_surrounding_text()
         for i in reversed(range(pos)):
-            if 0 <= _katakana.find(text[i]):
+            if 0 <= KATAKANA.find(text[i]):
                 continue
-            found = _hiragana.find(text[i])
+            found = HIRAGANA.find(text[i])
             if 0 <= found:
-                self.__delete_surrounding_text(pos - i)
-                self.__commit_string(_katakana[found] + text[i + 1:pos])
+                self._delete_surrounding_text(pos - i)
+                self._commit_string(KATAKANA[found] + text[i + 1:pos])
             break
         return True
 
     def handle_replace(self, keyval, state):
-        if not self.__dict.current():
-            text, pos = self.__get_surrounding_text()
+        if not self._dict.current():
+            text, pos = self._get_surrounding_text()
             (cand, size) = self.lookup_dictionary(text, pos)
-            self.__shrunk = ''
+            self._shrunk = ''
         else:
-            size = len(self.__shrunk) + len(self.__dict.current())
-            if not self.__event.is_shift():
-                cand = self.__dict.next()
+            size = len(self._shrunk) + len(self._dict.current())
+            if not self._event.is_shift():
+                cand = self._dict.next()
             else:
-                cand = self.__dict.previous()
-        if self.__dict.current():
-            self.__update()
-            self.__delete_surrounding_text(size)
-            self.__commit_string(self.__shrunk + cand)
+                cand = self._dict.previous()
+        if self._dict.current():
+            self._update()
+            self._delete_surrounding_text(size)
+            self._commit_string(self._shrunk + cand)
         return True
 
     def handle_shrink(self, keyval, state):
-        logger.debug("handle_shrink: '%s'", self.__dict.current())
-        if not self.__dict.current():
+        logger.debug("handle_shrink: '%s'", self._dict.current())
+        if not self._dict.current():
             return False
-        yomi = self.__dict.reading()
+        yomi = self._dict.reading()
         if len(yomi) <= 1:
             self.handle_escape(state)
             return True
-        current_size = len(self.__shrunk) + len(self.__dict.current())
-        text, pos = self.__get_surrounding_text()
+        current_size = len(self._shrunk) + len(self._dict.current())
+        text, pos = self._get_surrounding_text()
         (cand, size) = self.lookup_dictionary(yomi[1:] + text[pos:], len(yomi) - 1)
         kana = yomi
         if 0 < size:
             kana = kana[:-size]
-        self.__shrunk += kana
-        self.__delete_surrounding_text(current_size)
-        self.__commit_string(self.__shrunk + cand)
+        self._shrunk += kana
+        self._delete_surrounding_text(current_size)
+        self._commit_string(self._shrunk + cand)
         # Update preedit *after* committing the string to append preedit.
-        self.__update()
+        self._update()
         return True
 
     def handle_escape(self, state):
-        if not self.__dict.current():
+        if not self._dict.current():
             return False
-        size = len(self.__dict.current())
-        yomi = self.__dict.reading()
-        self.__delete_surrounding_text(size)
-        self.__commit_string(yomi)
-        self.__reset(False)
-        self.__update()
+        size = len(self._dict.current())
+        yomi = self._dict.reading()
+        self._delete_surrounding_text(size)
+        self._commit_string(yomi)
+        self._reset(False)
+        self._update()
         return True
 
-    def __commit(self):
-        if self.__dict.current():
-            self.__dict.confirm(self.__shrunk)
-            self.__dict.reset()
-            self.__lookup_table.clear()
-            visible = 0 < self.__lookup_table.get_number_of_candidates()
-            self.update_lookup_table(self.__lookup_table, visible)
-            self.__previous_text = ''
+    def _commit(self):
+        if self._dict.current():
+            self._dict.confirm(self._shrunk)
+            self._dict.reset()
+            self._lookup_table.clear()
+            visible = 0 < self._lookup_table.get_number_of_candidates()
+            self.update_lookup_table(self._lookup_table, visible)
+            self._previous_text = ''
 
-    def __commit_string(self, text):
+    def _commit_string(self, text):
         if text == '゛':
-            prev, pos = self.__get_surrounding_text()
+            prev, pos = self._get_surrounding_text()
             if 0 < pos:
-                found = _non_daku.find(prev[pos - 1])
+                found = NON_DAKU.find(prev[pos - 1])
                 if 0 <= found:
-                    self.__delete_surrounding_text(1)
-                    text = _daku[found]
+                    self._delete_surrounding_text(1)
+                    text = DAKU[found]
         elif text == '゜':
-            prev, pos = self.__get_surrounding_text()
+            prev, pos = self._get_surrounding_text()
             if 0 < pos:
-                found = _non_handaku.find(prev[pos - 1])
+                found = NON_HANDAKU.find(prev[pos - 1])
                 if 0 <= found:
-                    self.__delete_surrounding_text(1)
-                    text = _handaku[found]
-        self.__committed = text
-        self.__acked = False
-        self.__previous_text += text
+                    self._delete_surrounding_text(1)
+                    text = HANDAKU[found]
+        self._committed = text
+        self._acked = False
+        self._previous_text += text
         self.commit_text(IBus.Text.new_from_string(text))
 
-    def __reset(self, full=True):
-        self.__dict.reset()
-        self.__lookup_table.clear()
-        self.__update_lookup_table()
+    def _reset(self, full=True):
+        self._dict.reset()
+        self._lookup_table.clear()
+        self._update_lookup_table()
         if full:
-            self.__committed = ''
-            self.__acked = True
-            self.__previous_text = ''
-            self.__preedit_string = ''
-            self.__ignore_surrounding_text = False
+            self._committed = ''
+            self._acked = True
+            self._previous_text = ''
+            self._preedit_string = ''
+            self._ignore_surrounding_text = False
 
-    def __update_candidate(self):
-        index = self.__lookup_table.get_cursor_pos()
-        size = len(self.__shrunk) + len(self.__dict.current())
-        self.__dict.set_current(index)
-        self.__delete_surrounding_text(size)
-        self.__commit_string(self.__shrunk + self.__dict.current())
+    def _update_candidate(self):
+        index = self._lookup_table.get_cursor_pos()
+        size = len(self._shrunk) + len(self._dict.current())
+        self._dict.set_current(index)
+        self._delete_surrounding_text(size)
+        self._commit_string(self._shrunk + self._dict.current())
 
     def do_page_up(self):
-        if self.__lookup_table.page_up():
-            self.__update_lookup_table()
-            self.__update_candidate()
+        if self._lookup_table.page_up():
+            self._update_lookup_table()
+            self._update_candidate()
         return True
 
     def do_page_down(self):
-        if self.__lookup_table.page_down():
-            self.__update_lookup_table()
-            self.__update_candidate()
+        if self._lookup_table.page_down():
+            self._update_lookup_table()
+            self._update_candidate()
         return True
 
     def do_cursor_up(self):
-        if self.__lookup_table.cursor_up():
-            self.__update_lookup_table()
-            self.__update_candidate()
+        if self._lookup_table.cursor_up():
+            self._update_lookup_table()
+            self._update_candidate()
         return True
 
     def do_cursor_down(self):
-        if self.__lookup_table.cursor_down():
-            self.__update_lookup_table()
-            self.__update_candidate()
+        if self._lookup_table.cursor_down():
+            self._update_lookup_table()
+            self._update_candidate()
         return True
 
-    def __update(self):
-        preedit_len = len(self.__preedit_string)
-        text = IBus.Text.new_from_string(self.__preedit_string)
+    def _update(self):
+        preedit_len = len(self._preedit_string)
+        text = IBus.Text.new_from_string(self._preedit_string)
         if 0 < preedit_len:
             attrs = IBus.AttrList()
             attrs.append(IBus.Attribute.new(IBus.AttrType.UNDERLINE, IBus.AttrUnderline.SINGLE, 0, preedit_len))
@@ -698,24 +696,24 @@ class EngineReplaceWithKanji(IBus.Engine):
         # cf. "Qt5 IBus input context does not implement hide_preedit_text()",
         #     https://bugreports.qt.io/browse/QTBUG-48412
         self.update_preedit_text(text, preedit_len, 0 < preedit_len)
-        self.__update_lookup_table()
+        self._update_lookup_table()
 
-    def __update_lookup_table(self):
+    def _update_lookup_table(self):
         if self.is_enabled():
-            visible = 0 < self.__lookup_table.get_number_of_candidates()
-            self.update_lookup_table(self.__lookup_table, visible)
+            visible = 0 < self._lookup_table.get_number_of_candidates()
+            self.update_lookup_table(self._lookup_table, visible)
 
     def do_focus_in(self):
         logger.info("focus_in")
-        self.__event.reset()
-        self.register_properties(self.__prop_list)
+        self._event.reset()
+        self.register_properties(self._prop_list)
         # Request the initial surrounding-text in addition to the "enable" handler.
         self.get_surrounding_text()
 
     def do_focus_out(self):
         logger.info("focus_out")
-        self.__reset()
-        self.__dict.save_orders()
+        self._reset()
+        self._dict.save_orders()
 
     def do_enable(self):
         logger.info("enable")
@@ -724,13 +722,13 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def do_disable(self):
         logger.info("disable")
-        self.__reset()
-        self.__mode = 'A'
-        self.__dict.save_orders()
+        self._reset()
+        self._mode = 'A'
+        self._dict.save_orders()
 
     def do_reset(self):
         logger.info("reset")
-        self.__reset()
+        self._reset()
         # Do not switch back to the Alphabet mode here; 'reset' should be
         # called when the text cursor is moved by a mouse click, etc.
 
@@ -756,12 +754,12 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def set_surrounding_text_cb(self, engine, text, cursor_pos, anchor_pos):
         text = self.get_plain_text(text.get_text()[:cursor_pos])
-        if self.__committed:
-            pos = text.rfind(self.__committed)
-            if 0 <= pos and pos + len(self.__committed) == len(text):
-                self.__acked = True
-                self.__committed = ''
-        logger.debug("set_surrounding_text_cb(%s, %d, %d) => %d" % (text, cursor_pos, anchor_pos, self.__acked))
+        if self._committed:
+            pos = text.rfind(self._committed)
+            if 0 <= pos and pos + len(self._committed) == len(text):
+                self._acked = True
+                self._committed = ''
+        logger.debug("set_surrounding_text_cb(%s, %d, %d) => %d" % (text, cursor_pos, anchor_pos, self._acked))
 
     def get_plain_text(self, text):
         plain = ''
@@ -782,4 +780,4 @@ class EngineReplaceWithKanji(IBus.Engine):
         # always follow the cursor position. The following code is not
         # necessary on Ubuntu 18.04 or Fedora 30.
         logger.debug("set_cursor_location_cb(%d, %d, %d, %d)" % (x, y, w, h))
-        self.__update_lookup_table()
+        self._update_lookup_table()

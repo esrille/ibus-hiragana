@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
-#
 # ibus-replace-with-kanji - Replace with Kanji Japanese input method for IBus
 #
-# Copyright (c) 2017-2019 Esrille Inc.
+# Copyright (c) 2017-2020 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,10 +20,11 @@ import re
 
 logger = logging.getLogger(__name__)
 
-_re_not_yomi = re.compile(r'[^ぁ-ゖァ-ー―]')
-_re_yomi = re.compile(r'^[ぁ-ゖァ-ー―]+[、。，．]?$')
-
-_dic_ver = "v0.4.0"
+DICTIONARY_VERSION = "v0.4.0"
+NON_YOMIGANA = re.compile(r'[^ぁ-ゖァ-ー―]')
+YOMIGANA = re.compile(r'^[ぁ-ゖァ-ー―]+[、。，．]?$')
+HIRAGANA = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっぱぴぷぺぽゔ"
+TYOUON = "あいうえおあいうえおあいうえおあいうえおあいうえおあいうえおあいうえおあうおあいうえおあおんあいうえおあいうえおあいうえおあいうえおあいうえおあうおうあいうえおう"
 
 
 class Dictionary:
@@ -33,37 +32,37 @@ class Dictionary:
     def __init__(self, path):
         logger.info("Dictionary(%s)", path)
 
-        self.__dict_base = {}
-        self.__dict = {}
+        self._dict_base = {}
+        self._dict = {}
 
-        self.__yomi = ''
-        self.__no = 0
-        self.__cand = []
-        self.__numeric = ''
-        self.__dirty = False
+        self._yomi = ''
+        self._no = 0
+        self._cand = []
+        self._numeric = ''
+        self._dirty = False
 
-        self.__orders_path = ''
+        self._orders_path = ''
 
         # Load Katakana dictionary first so that Katakana words come after Kanji words.
         katakana_path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'katakana.dic')
-        self.__load_dict(self.__dict_base, katakana_path)
+        self._load_dict(self._dict_base, katakana_path)
 
         # Load system dictionary
-        self.__load_dict(self.__dict_base, path)
+        self._load_dict(self._dict_base, path)
 
         # Load private dictionary
-        self.__dict = self.__dict_base.copy()
+        self._dict = self._dict_base.copy()
 
         my_path = os.path.expanduser('~/.local/share/ibus-replace-with-kanji/my.dic')
-        self.__load_dict(self.__dict, my_path, 'a+')
+        self._load_dict(self._dict, my_path, 'a+')
 
         base = os.path.basename(path)
         if base:
-            self.__orders_path = os.path.expanduser('~/.local/share/ibus-replace-with-kanji')
-            self.__orders_path = os.path.join(self.__orders_path, base)
-            self.__load_dict(self.__dict, self.__orders_path, 'a+', version_checked=False)
+            self._orders_path = os.path.expanduser('~/.local/share/ibus-replace-with-kanji')
+            self._orders_path = os.path.join(self._orders_path, base)
+            self._load_dict(self._dict, self._orders_path, 'a+', version_checked=False)
 
-    def __load_dict(self, dict, path, mode='r', version_checked=True):
+    def _load_dict(self, dict, path, mode='r', version_checked=True):
         with open(path, mode) as file:
             file.seek(0, 0)   # in case opened in the 'a+' mode
             for line in file:
@@ -71,7 +70,7 @@ class Dictionary:
                 if not line:
                     continue
                 if line[0] == ';':
-                    if line == "; " + _dic_ver:
+                    if line == "; " + DICTIONARY_VERSION:
                         version_checked = True
                     continue
                 if not version_checked:
@@ -79,13 +78,13 @@ class Dictionary:
                 p = line.split(' ', 1)
                 yomi = p[0]
                 cand = p[1].strip(' \n/').split('/')
-                self.__merge__entry(dict, yomi, cand)
-                yomi99 = self.__to_99(yomi)
+                self._merge_entry(dict, yomi, cand)
+                yomi99 = self._to_99(yomi)
                 if yomi99 != yomi:
-                    self.__merge__entry(dict, yomi99, cand)
+                    self._merge_entry(dict, yomi99, cand)
             logger.info("Loaded %s", path)
 
-    def __merge__entry(self, dict, yomi, cand):
+    def _merge_entry(self, dict, yomi, cand):
         if yomi not in dict:
             dict[yomi] = cand
         else:
@@ -96,72 +95,70 @@ class Dictionary:
                 update.insert(0, i)
             dict[yomi] = update
 
-    def __to_99(self, s):
-        hiragana = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっぱぴぷぺぽゔ"
-        tyouon = "あいうえおあいうえおあいうえおあいうえおあいうえおあいうえおあいうえおあうおあいうえおあおんあいうえおあいうえおあいうえおあいうえおあいうえおあうおうあいうえおう"
+    def _to_99(self, s):
         t = ''
         b = ''
         for c in s:
             if c == 'ー' and b:
-                i = hiragana.find(b)
+                i = HIRAGANA.find(b)
                 if i == -1:
                     t += c
                 else:
-                    t += tyouon[i]
+                    t += TYOUON[i]
             else:
                 t += c
             b = c
         return t
 
-    def __str(self, s):
+    def _str(self, s):
         if s[-1] == '―':
             return s[:-1]
         return s
 
     def reset(self):
-        self.__yomi = ''
+        self._yomi = ''
 
     def next(self):
-        if self.__no + 1 < len(self.__cand):
-            self.__no += 1
-        return self.__str(self.__cand[self.__no])
+        if self._no + 1 < len(self._cand):
+            self._no += 1
+        return self._str(self._cand[self._no])
 
     def previous(self):
-        if 0 < self.__no:
-            self.__no -= 1
-        return self.__str(self.__cand[self.__no])
+        if 0 < self._no:
+            self._no -= 1
+        return self._str(self._cand[self._no])
 
     def current(self):
-        if self.__yomi:
-            return self.__str(self.__cand[self.__no])
+        if self._yomi:
+            return self._str(self._cand[self._no])
         return ''
 
     def set_current(self, index):
         index = int(index)
-        if self.__yomi and 0 <= index and index < len(self.__cand):
-            self.__no = index
+        if self._yomi and 0 <= index and index < len(self._cand):
+            self._no = index
 
     def reading(self):
-        return self.__yomi
+        return self._yomi
 
     def cand(self):
-        if self.__yomi:
-            return self.__cand
+        if self._yomi:
+            return self._cand
         return []
 
-    def __match(self, okuri, yomi):
+    def _match(self, okuri, yomi):
         if okuri and 0 <= "iIkKgsStnbmrw".find(okuri[-1]):
             suffix = okuri[-1]
             okuri = okuri[:-1]
         else:
             suffix = ''
-        l = min(len(okuri), len(yomi))
-        if not yomi.startswith(okuri[:l]):
+        pos = min(len(okuri), len(yomi))
+        if not yomi.startswith(okuri[:pos]):
             return False
-        okuri = okuri[l:]
+        okuri = okuri[pos:]
         if okuri:
             return True
-        yomi = yomi[l:]
+        yomi = yomi[pos:]
         if not suffix or not yomi:
             return True
         if suffix == 'i' or suffix == 'I':
@@ -209,7 +206,7 @@ class Dictionary:
         self.reset()
         # Look for the nearest hyphen.
         suffix = yomi[:pos].rfind('―')
-        if 0 <= suffix and not _re_yomi.match(yomi[suffix:pos]):
+        if 0 <= suffix and not YOMIGANA.match(yomi[suffix:pos]):
             suffix = -1
         if suffix <= 0:
             numeric = ''
@@ -221,45 +218,45 @@ class Dictionary:
                     if 0 < i and yomi[i - 1].isnumeric():
                         continue
                     has_numeric = True
-                elif _re_not_yomi.match(yomi[i]):
+                elif NON_YOMIGANA.match(yomi[i]):
                     break
                 y = yomi[i:size]
                 if not has_numeric:
-                    if y in self.__dict:
-                        self.__yomi = y
-                        self.__cand = self.__dict[y]
-                        self.__no = 0
-                        self.__order = list()
-                        self.__numeric = ''
+                    if y in self._dict:
+                        self._yomi = y
+                        self._cand = self._dict[y]
+                        self._no = 0
+                        self._order = list()
+                        self._numeric = ''
                 else:
                     yy = y.replace(numeric, '#')
-                    if yy in self.__dict:
-                        self.__yomi = yy[1:]
+                    if yy in self._dict:
+                        self._yomi = yy[1:]
                         cand = list()
-                        for c in self.__dict[yy]:
+                        for c in self._dict[yy]:
                             cand.append(c[1:])
-                        self.__cand = cand
-                        self.__no = 0
-                        self.__order = list()
-                        self.__numeric = numeric
+                        self._cand = cand
+                        self._no = 0
+                        self._order = list()
+                        self._numeric = numeric
             return self.current()
 
         # Process suffix
         size = suffix + 1
         y = yomi
         for i in range(len(yomi[size:])):
-            if _re_not_yomi.match(yomi[size + i]):
+            if NON_YOMIGANA.match(yomi[size + i]):
                 y = y[:size + i]
                 break
         for i in range(size - 2, -1, -1):
-            if _re_not_yomi.match(y[i]):
+            if NON_YOMIGANA.match(y[i]):
                 break
-            if y[i:size] in self.__dict:
+            if y[i:size] in self._dict:
                 cand = list()
                 order = list()
                 n = 0
-                for c in self.__dict[y[i:size]]:
-                    p = self.__match(c[1:], y[size:])
+                for c in self._dict[y[i:size]]:
+                    p = self._match(c[1:], y[size:])
                     logger.debug("lookup: %s %s => %d", c, y[size:], p)
                     c = c[0] + yomi[size:pos]
                     if p and c not in cand:
@@ -267,64 +264,64 @@ class Dictionary:
                         order.append(n)
                     n += 1
                 if cand:
-                    self.__yomi = yomi[i:pos]
-                    self.__cand = cand
-                    self.__no = 0
-                    self.__order = order
-                    self.__numeric = ''
+                    self._yomi = yomi[i:pos]
+                    self._cand = cand
+                    self._no = 0
+                    self._order = order
+                    self._numeric = ''
         return self.current()
 
     def confirm(self, shrunk):
-        if not self.__yomi:
+        if not self._yomi:
             return
 
         # Get a copy of the original candidate list
-        yomi = self.__yomi
-        no = self.__no
+        yomi = self._yomi
+        no = self._no
 
-        if self.__order:
+        if self._order:
             yomi = yomi[:yomi.find('―') + 1]
-            no = self.__order[no]
-            cand = self.__dict[yomi][:]
-        elif self.__numeric:
+            no = self._order[no]
+            cand = self._dict[yomi][:]
+        elif self._numeric:
             yomi = '#' + yomi
             cand = list()
-            for c in self.__cand:
+            for c in self._cand:
                 cand.append('#' + c)
         else:
-            cand = self.__cand[:]
+            cand = self._cand[:]
 
         # Update the order of the candidates.
         first = cand[no]
         if 0 < no:
             cand.remove(first)
             cand.insert(0, first)
-            self.__dict[yomi] = cand
-            self.__dirty = True
+            self._dict[yomi] = cand
+            self._dirty = True
 
         # Personalize the dictionary if the candidate has been selected by shrinking the reading.
-        if shrunk and not self.__order and not self.__numeric:
+        if shrunk and not self._order and not self._numeric:
             yomi = shrunk + yomi
             if self.lookup(yomi, len(yomi)):
                 first = shrunk + first
-                cand = self.__cand[:]
+                cand = self._cand[:]
                 try:
                     cand.remove(first)
                 except ValueError:
                     pass
                 cand.insert(0, first)
-                self.__dict[yomi] = cand
-                self.__dirty = True
+                self._dict[yomi] = cand
+                self._dirty = True
 
     def save_orders(self):
-        if not self.__dirty:
+        if not self._dirty:
             return
-        with open(self.__orders_path, 'w') as file:
-            file.write("; " + _dic_ver + "\n")
-            for yomi, cand in self.__dict.items():
-                if yomi not in self.__dict_base or cand != self.__dict_base[yomi]:
+        with open(self._orders_path, 'w') as file:
+            file.write("; " + DICTIONARY_VERSION + "\n")
+            for yomi, cand in self._dict.items():
+                if yomi not in self._dict_base or cand != self._dict_base[yomi]:
                     file.write(yomi + " /" + '/'.join(cand) + "/\n")
-        self.__dirty = False
+        self._dirty = False
 
     def dump(self):
-        print('\'', self.__yomi, '\' ', self.__no, ' ', self.__cand, sep='')
+        print('\'', self._yomi, '\' ', self._no, ' ', self._cand, sep='')
