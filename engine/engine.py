@@ -21,6 +21,7 @@ import bits
 from dictionary import Dictionary
 from event import Event
 from i18n import _
+import package
 
 import json
 import logging
@@ -207,7 +208,7 @@ class EngineReplaceWithKanji(IBus.Engine):
     def _load_dictionary(self, config):
         var = config.get_value('engine/replace-with-kanji-python', 'dictionary')
         if var is None or var.get_type_string() != 's':
-            path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'restrained.dic')
+            path = os.path.join(package.get_datadir(), 'restrained.dic')
             if var:
                 config.unset('engine/replace-with-kanji-python', 'dictionary')
         else:
@@ -215,7 +216,7 @@ class EngineReplaceWithKanji(IBus.Engine):
         return Dictionary(path)
 
     def _load_layout(self, config):
-        default_layout = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'layouts')
+        default_layout = os.path.join(package.get_datadir(), 'layouts')
         default_layout = os.path.join(default_layout, 'roomazi.json')
         var = config.get_value('engine/replace-with-kanji-python', 'layout')
         if var is None:
@@ -740,8 +741,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             dialog.set_copyright("Copyright 2017-2020 Esrille Inc.")
             dialog.set_authors(["Esrille Inc."])
             dialog.set_documenters(["Esrille Inc."])
-            dialog.set_website("file://" + os.path.join(os.getenv("IBUS_REPLACE_WITH_KANJI_LOCATION"),
-                               "help/index.html"))
+            dialog.set_website("file://" + os.path.join(package.get_datadir(), "help/index.html"))
             dialog.set_website_label(_("Introduction to Hiragana IME"))
             dialog.set_logo_icon_name("ibus-replace-with-kanji")
             # To close the dialog when "close" is clicked, e.g. on RPi,

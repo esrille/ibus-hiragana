@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import package
+
 import json
 import locale
 import logging
@@ -33,7 +35,7 @@ def _(string):
 def initialize():
     global _uitexts
     lang = locale.getdefaultlocale()[0]
-    filename = os.path.join(os.getenv("IBUS_REPLACE_WITH_KANJI_LOCATION"), "locale")
+    filename = os.path.join(package.get_datadir(), "locale")
     filename = os.path.join(filename, "ibus-replace-with-kanji." + lang + ".json")
     try:
         with open(filename, 'r') as file:

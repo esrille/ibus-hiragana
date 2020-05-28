@@ -1,6 +1,6 @@
-#!/bin/sh
+# ibus-replace-with-kanji - Replace with Kanji Japanese input method for IBus
 #
-# Copyright (c) 2017-2020 Esrille Inc.
+# Copyright (c) 2020 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,6 +14,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-PYTHON=@PYTHON@
-prefix=@prefix@
-exec ${PYTHON} @prefix@/share/ibus-replace-with-kanji/main.py $@
+# This file is a template file processed by the configure script.
+# The file name is listed in AC_CONFIG_FILES of configure.ac.
+
+
+def get_name():
+    return '@PACKAGE_NAME@'
+
+
+def get_version():
+    return '@VERSION@'
+
+
+def get_prefix():
+    return '@prefix@'
+
+
+def get_datadir():
+    return '${pkgdatadir}'

@@ -18,6 +18,7 @@
 # limitations under the License.
 
 import i18n
+import package
 
 import getopt
 import os
@@ -46,7 +47,7 @@ class IMApp:
             self._component = IBus.Component(
                 name="org.freedesktop.IBus.ReplaceWithKanji",
                 description="Replace With Kanji Input Method",
-                version="0.8.0",
+                version=package.get_version(),
                 license="Apache",
                 author="Esrille Inc. <info@esrille.com>",
                 homepage="https://github.com/esrille/ibus-replace-with-kanji",

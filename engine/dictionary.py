@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import package
+
 import os
 import logging
 import re
@@ -44,7 +46,7 @@ class Dictionary:
         self._orders_path = ''
 
         # Load Katakana dictionary first so that Katakana words come after Kanji words.
-        katakana_path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'katakana.dic')
+        katakana_path = os.path.join(package.get_datadir(), 'katakana.dic')
         self._load_dict(self._dict_base, katakana_path)
 
         # Load system dictionary

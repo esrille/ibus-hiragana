@@ -23,7 +23,8 @@ engine_replace_with_kanji_PYTHON = \
 	i18n.py \
 	main.py \
 	$(NULL)
-
+BUILT_SOURCES = package.py
+nodist_engine_replace_with_kanji_PYTHON = package.py
 engine_replace_with_kanjidir = $(datadir)/ibus-replace-with-kanji
 
 libexec_SCRIPTS= ibus-engine-replace-with-kanji
@@ -38,14 +39,24 @@ gsettings_SCHEMAS = org.freedesktop.ibus.engine.replace-with-kanji-python.gschem
 CLEANFILES = \
 	ibus-engine-replace-with-kanji \
 	org.freedesktop.ibus.engine.replace-with-kanji-python.gschema.xml \
+	package.py \
 	replace-with-kanji-python.xml \
 	$(NULL)
 
 EXTRA_DIST = \
 	ibus-engine-replace-with-kanji.in \
-	replace-with-kanji-python.xml.in.in \
 	org.freedesktop.ibus.engine.replace-with-kanji-python.gschema.xml.in \
+	package.py.in.in \
+	replace-with-kanji-python.xml.in.in \
 	$(NULL)
+
+package.py: package.py.in
+	$(AM_V_GEN) \
+	( \
+		pkgdatadir=${pkgdatadir}; \
+		s=`cat $<`; \
+		eval "echo \"$${s}\""; \
+	) > $@
 
 replace-with-kanji-python.xml: replace-with-kanji-python.xml.in
 	$(AM_V_GEN) \

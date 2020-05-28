@@ -33,6 +33,7 @@ AC_CONFIG_FILES(Makefile
 ibus-replace-with-kanji.spec
 engine/Makefile
 engine/ibus-engine-replace-with-kanji
+engine/package.py.in
 engine/replace-with-kanji-python.xml.in
 icons/Makefile
 layouts/Makefile
