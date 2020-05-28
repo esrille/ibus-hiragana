@@ -171,6 +171,8 @@ class Event:
             keyval = keysyms.F13
         elif keyval == 0x1008ff45:
             keyval = keysyms.F14
+        elif keyval == keysyms.Meta_R:  # [Shift]-[Alt_R]
+            keyval = keysyms.Alt_R
 
         self._modifiers &= ~bits.Dual_Bits
         is_press = ((state & IBus.ModifierType.RELEASE_MASK) == 0)
