@@ -83,17 +83,19 @@ def print_help(v=0):
 
 
 def main():
-
     os.umask(0o077)
 
     # Create user specific data directory
     datadir = os.path.expanduser('~/.local/share/ibus-replace-with-kanji')
     os.makedirs(datadir, 0o700, True)
     os.chmod(datadir, 0o700)  # For logfile created by v0.2.0 or earlier
-    logfile = os.path.expanduser('~/.local/share/ibus-replace-with-kanji/ibus-replace-with-kanji.log')
 
     # Create a debug log file
+    logfile = os.path.expanduser('~/.local/share/ibus-replace-with-kanji/ibus-replace-with-kanji.log')
     logging.basicConfig(filename=logfile, filemode='w', level=logging.WARNING)
+
+    # Load the localization file
+    i18n.initialize()
 
     exec_by_ibus = False
     daemonize = False
@@ -125,5 +127,4 @@ def main():
 
 
 if __name__ == "__main__":
-    i18n.initialize()
     main()

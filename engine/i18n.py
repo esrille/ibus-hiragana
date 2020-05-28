@@ -16,8 +16,10 @@
 
 import json
 import locale
+import logging
 import os
 
+logger = logging.getLogger(__name__)
 _uitexts = {}
 
 
@@ -36,5 +38,5 @@ def initialize():
     try:
         with open(filename, 'r') as file:
             _uitexts = json.load(file)
-    except:
-        pass
+    except Exception as error:
+        logger.error(error)
