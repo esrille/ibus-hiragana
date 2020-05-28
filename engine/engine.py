@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-#
 # ibus-replace-with-kanji - Replace with Kanji Japanese input method for IBus
 #
 # Using source code derived from
@@ -28,6 +26,7 @@ import time
 
 import gi
 gi.require_version('IBus', '1.0')
+gi.require_version('Gdk', '3.0')
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gdk, Gtk, IBus
 
@@ -36,7 +35,6 @@ from dictionary import Dictionary
 from event import Event
 
 import bits
-import roomazi
 
 keysyms = IBus
 
@@ -118,11 +116,11 @@ class EngineReplaceWithKanji(IBus.Engine):
     __gtype_name__ = 'EngineReplaceWithKanji'
 
     def __init__(self):
-        super(EngineReplaceWithKanji, self).__init__()
+        super().__init__()
         self.__mode = 'A'     # __mode must be one of _input_mode_names
         self.__override = False
 
-        self.__layout = roomazi.layout
+        self.__layout = dict()
         self.__to_kana = self.__handle_roomazi_layout
 
         self.__preedit_string = ''
@@ -219,29 +217,33 @@ class EngineReplaceWithKanji(IBus.Engine):
         return Dictionary(path)
 
     def __load_layout(self, config):
+        default_layout = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'layouts')
+        default_layout = os.path.join(default_layout, 'roomazi.json')
         var = config.get_value('engine/replace-with-kanji-python', 'layout')
-        if var is None or var.get_type_string() != 's':
-            path = os.path.join(os.getenv('IBUS_REPLACE_WITH_KANJI_LOCATION'), 'layouts')
-            path = os.path.join(path, 'roomazi.json')
-            if var:
-                config.unset('engine/replace-with-kanji-python', 'layout')
+        if var is None:
+            path = default_layout
+        elif var.get_type_string() != 's':
+            config.unset('engine/replace-with-kanji-python', 'layout')
+            path = default_layout
         else:
             path = var.get_string()
         logger.info("layout: %s", path)
-        layout = roomazi.layout     # Use 'roomazi' as default
+        layout = dict()
         try:
             with open(path) as f:
                 layout = json.load(f)
-        except ValueError as error:
-            logger.error("JSON error: %s", error)
-        except OSError as error:
-            logger.error("Error: %s", error)
-        except:
-            logger.error("Unexpected error: %s %s", sys.exc_info()[0], sys.exc_info()[1])
-        self.__to_kana = self.__handle_roomazi_layout
-        if 'Type' in layout:
-            if layout['Type'] == 'Kana':
-                self.__to_kana = self.__handle_kana_layout
+        except Exception as error:
+            logger.error(error)
+        if not layout:
+            try:
+                with open(default_layout) as f:
+                    layout = json.load(f)
+            except Exception as error:
+                logger.error(error)
+        if layout.get('Type') == 'Kana':
+            self.__to_kana = self.__handle_kana_layout
+        else:
+            self.__to_kana = self.__handle_roomazi_layout
         return layout
 
     def __load_delay(self, config):
