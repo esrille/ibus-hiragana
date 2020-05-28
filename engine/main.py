@@ -35,42 +35,40 @@ from engine import EngineReplaceWithKanji
 
 class IMApp:
     def __init__(self, exec_by_ibus):
-        engine_name = "replace-with-kanji-python" if exec_by_ibus else "replace-with-kanji-python (debug)"
-        self.__component = IBus.Component.new(
-            "org.freedesktop.IBus.ReplaceWithKanji",
-            "Replace With Kanji Input Method",
-            "0.8.0",
-            "Apache",
-            "Esrille Inc. <info@esrille.com>",
-            "https://github.com/esrille/ibus-replace-with-kanji",
-            "/usr/bin/exec",
-            "ibus-replace-with-kanji")
-        engine = IBus.EngineDesc.new(
-            "replace-with-kanji-python",
-            engine_name,
-            "Japanese Replace With Kanji",
-            "ja",
-            "Apache",
-            "Esrille Inc. <info@esrille.com>",
-            "",
-            "us")
-        self.__component.add_engine(engine)
-        self.__mainloop = GLib.MainLoop()
-        self.__bus = IBus.Bus()
-        self.__bus.connect("disconnected", self.__bus_disconnected_cb)
-        self.__factory = IBus.Factory.new(self.__bus.get_connection())
-        self.__factory.add_engine("replace-with-kanji-python", GObject.type_from_name("EngineReplaceWithKanji"))
+        self._mainloop = GLib.MainLoop()
+        self._bus = IBus.Bus()
+        self._bus.connect("disconnected", self._bus_disconnected_cb)
+        self._factory = IBus.Factory(self._bus)
+        self._factory.add_engine("replace-with-kanji-python", GObject.type_from_name("EngineReplaceWithKanji"))
         if exec_by_ibus:
-            self.__bus.request_name("org.freedesktop.IBus.ReplaceWithKanji", 0)
+            self._bus.request_name("org.freedesktop.IBus.ReplaceWithKanji", 0)
         else:
-            self.__bus.register_component(self.__component)
-            self.__bus.set_global_engine_async("replace-with-kanji-python", -1, None, None, None)
+            self._component = IBus.Component(
+                name="org.freedesktop.IBus.ReplaceWithKanji",
+                description="Replace With Kanji Input Method",
+                version="0.8.0",
+                license="Apache",
+                author="Esrille Inc. <info@esrille.com>",
+                homepage="https://github.com/esrille/ibus-replace-with-kanji",
+                textdomain="ibus-replace-with-kanji")
+            engine = IBus.EngineDesc(
+                name="replace-with-kanji-python",
+                longname="replace-with-kanji-python",
+                description="Japanese Replace With Kanji",
+                language="ja",
+                license="Apache",
+                author="Esrille Inc. <info@esrille.com>",
+                icon="ibus-replace-with-kanji",
+                layout="default")
+            self._component.add_engine(engine)
+            self._bus.register_component(self._component)
+            self._bus.set_global_engine_async("replace-with-kanji-python", -1, None, None, None)
 
     def run(self):
-        self.__mainloop.run()
+        self._mainloop.run()
 
-    def __bus_disconnected_cb(self, bus):
-        self.__mainloop.quit()
+    def _bus_disconnected_cb(self, bus):
+        self._mainloop.quit()
 
 
 def print_help(v=0):
