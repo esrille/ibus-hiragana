@@ -70,8 +70,8 @@ replace-with-kanji.xml: replace-with-kanji.xml.in
 org.freedesktop.ibus.engine.replace-with-kanji.gschema.xml: org.freedesktop.ibus.engine.replace-with-kanji.gschema.xml.in
 	$(AM_V_GEN) \
 	( \
-		libexecdir=${libexecdir}; \
 		pkgdatadir=${pkgdatadir}; \
+		PACKAGE=${PACKAGE}; \
 		s=`cat $<`; \
 		eval "echo \"$${s}\""; \
 	) > $@

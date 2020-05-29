@@ -58,7 +58,7 @@
       <default>\"WARNING\"</default>
       <summary>Logging Level</summary>
       <description>
-        The logging level for the logfile '~/.local/share/ibus-replace-with-kanji/ibus-replace-with-kanji.log'.
+        The logging level for the logfile '~/.local/share/${PACKAGE}/${PACKAGE}.log'.
       </description>
     </key>
   </schema>
