@@ -4,7 +4,7 @@
 
 　インストールができたら、「IBusの￹設定￺せってい￻(IBus Preferences)」の「￹入力￺にゅうりょく￻メソッド(Input Method)」タブで、
 <br><br>
-![アイコン](icon.png) ￹日本語￺にほんご￻(Japanese) - Hiragana
+![アイコン](icon.png) ￹日本語￺にほんご￻(Japanese) - Hiragana IME
 <br><br>
 を￹選択￺せんたく￻してください。
 
