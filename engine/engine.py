@@ -743,7 +743,7 @@ class EngineReplaceWithKanji(IBus.Engine):
             dialog.set_documenters(["Esrille Inc."])
             dialog.set_website("file://" + os.path.join(package.get_datadir(), "help/index.html"))
             dialog.set_website_label(_("Introduction to Hiragana IME"))
-            dialog.set_logo_icon_name("ibus-replace-with-kanji")
+            dialog.set_logo_icon_name(package.get_name())
             # To close the dialog when "close" is clicked, e.g. on RPi,
             # we connect the "response" signal to about_response_callback
             dialog.connect("response", self.about_response_callback)

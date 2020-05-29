@@ -55,13 +55,12 @@ class Dictionary:
         # Load private dictionary
         self._dict = self._dict_base.copy()
 
-        my_path = os.path.expanduser('~/.local/share/ibus-replace-with-kanji/my.dic')
+        my_path = os.path.join(package.get_user_datadir(), 'my.dic')
         self._load_dict(self._dict, my_path, 'a+')
 
         base = os.path.basename(path)
         if base:
-            self._orders_path = os.path.expanduser('~/.local/share/ibus-replace-with-kanji')
-            self._orders_path = os.path.join(self._orders_path, base)
+            self._orders_path = os.path.join(package.get_user_datadir(), base)
             self._load_dict(self._dict, self._orders_path, 'a+', version_checked=False)
 
     def _load_dict(self, dict, path, mode='r', version_checked=True):

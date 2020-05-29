@@ -35,8 +35,8 @@ def _(string):
 def initialize():
     global _uitexts
     lang = locale.getdefaultlocale()[0]
-    filename = os.path.join(package.get_datadir(), "locale")
-    filename = os.path.join(filename, "ibus-replace-with-kanji." + lang + ".json")
+    filename = os.path.join(package.get_datadir(), 'locale')
+    filename = os.path.join(filename, package.get_name() + '.' + lang + '.json')
     try:
         with open(filename, 'r') as file:
             _uitexts = json.load(file)

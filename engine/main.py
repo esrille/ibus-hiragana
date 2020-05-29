@@ -50,8 +50,8 @@ class IMApp:
                 version=package.get_version(),
                 license="Apache",
                 author="Esrille Inc. <info@esrille.com>",
-                homepage="https://github.com/esrille/ibus-replace-with-kanji",
-                textdomain="ibus-replace-with-kanji")
+                homepage="https://github.com/esrille/" + package.get_name(),
+                textdomain=package.get_name())
             engine = IBus.EngineDesc(
                 name="replace-with-kanji-python",
                 longname="replace-with-kanji-python",
@@ -59,7 +59,7 @@ class IMApp:
                 language="ja",
                 license="Apache",
                 author="Esrille Inc. <info@esrille.com>",
-                icon="ibus-replace-with-kanji",
+                icon=package.get_name(),
                 layout="default")
             self._component.add_engine(engine)
             self._bus.register_component(self._component)
@@ -83,12 +83,12 @@ def main():
     os.umask(0o077)
 
     # Create user specific data directory
-    datadir = os.path.expanduser('~/.local/share/ibus-replace-with-kanji')
-    os.makedirs(datadir, 0o700, True)
-    os.chmod(datadir, 0o700)  # For logfile created by v0.2.0 or earlier
+    user_datadir = package.get_user_datadir()
+    os.makedirs(user_datadir, 0o700, True)
+    os.chmod(user_datadir, 0o700)   # For logfile created by v0.2.0 or earlier
 
     # Create a debug log file
-    logfile = os.path.expanduser('~/.local/share/ibus-replace-with-kanji/ibus-replace-with-kanji.log')
+    logfile = os.path.join(user_datadir, package.get_name() + '.log')
     logging.basicConfig(filename=logfile, filemode='w', level=logging.WARNING)
 
     # Load the localization file
