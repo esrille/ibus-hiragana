@@ -8,7 +8,7 @@
 
 　￹設定￺せってい￻の￹変更￺へんこう￻は、「dconf Editor」をつかうのが、いまのところ、かんたんです。「dconf Editor」で、
 ```
-/desktop/ibus/engine/replace-with-kanji-python
+/desktop/ibus/engine/replace-with-kanji
 ```
 をひらくと、「ひらがなIME」の￹設定￺せってい￻￹画面￺がめん￻になります。
 

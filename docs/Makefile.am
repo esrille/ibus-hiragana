@@ -14,7 +14,6 @@
 
 help_DATA = \
 	default.css \
-	dictionary.html \
 	experimental.html \
 	index.html \
 	install.html \
@@ -37,7 +36,6 @@ EXTRA_DIST = \
 	update \
 	Makefile.am \
 	md2html.py \
-	dictionary.md \
 	experimental.md \
 	index.md \
 	install.md \
@@ -46,7 +44,6 @@ EXTRA_DIST = \
 	settings.md \
 	usage.md \
 	default.css \
-	dictionary.html \
 	experimental.html \
 	index.html \
 	install.html \

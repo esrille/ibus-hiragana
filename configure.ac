@@ -16,7 +16,7 @@ AC_INIT([ibus-replace-with-kanji], [0.8.0], [https://github.com/esrille/ibus-rep
 AM_INIT_AUTOMAKE([foreign tar-ustar])
 
 # Check IBus
-#   Note replace-with-kanji-python.xml uses icon_prop_key and
+#   Note replace-with-kanji.xml uses icon_prop_key and
 #   ibus 1.5.11 or later is required
 PKG_CHECK_MODULES(IBUS, [ibus-1.0 >= 1.5.11])
 AC_SUBST(IBUS_DATADIR, $($PKG_CONFIG --variable=datadir ibus-1.0) )
@@ -34,7 +34,7 @@ ibus-replace-with-kanji.spec
 engine/Makefile
 engine/ibus-engine-replace-with-kanji
 engine/package.py.in
-engine/replace-with-kanji-python.xml.in
+engine/replace-with-kanji.xml.in
 icons/Makefile
 layouts/Makefile
 locale/Makefile

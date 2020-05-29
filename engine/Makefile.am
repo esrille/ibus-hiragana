@@ -29,25 +29,25 @@ engine_replace_with_kanjidir = $(datadir)/ibus-replace-with-kanji
 
 libexec_SCRIPTS= ibus-engine-replace-with-kanji
 
-component_DATA = replace-with-kanji-python.xml
+component_DATA = replace-with-kanji.xml
 componentdir = @IBUS_DATADIR@/ibus/component
 
-gsettings_SCHEMAS = org.freedesktop.ibus.engine.replace-with-kanji-python.gschema.xml
+gsettings_SCHEMAS = org.freedesktop.ibus.engine.replace-with-kanji.gschema.xml
 
 @GSETTINGS_RULES@
 
 CLEANFILES = \
 	ibus-engine-replace-with-kanji \
-	org.freedesktop.ibus.engine.replace-with-kanji-python.gschema.xml \
+	org.freedesktop.ibus.engine.replace-with-kanji.gschema.xml \
 	package.py \
-	replace-with-kanji-python.xml \
+	replace-with-kanji.xml \
 	$(NULL)
 
 EXTRA_DIST = \
 	ibus-engine-replace-with-kanji.in \
-	org.freedesktop.ibus.engine.replace-with-kanji-python.gschema.xml.in \
+	org.freedesktop.ibus.engine.replace-with-kanji.gschema.xml.in \
 	package.py.in.in \
-	replace-with-kanji-python.xml.in.in \
+	replace-with-kanji.xml.in.in \
 	$(NULL)
 
 package.py: package.py.in
@@ -58,7 +58,7 @@ package.py: package.py.in
 		eval "echo \"$${s}\""; \
 	) > $@
 
-replace-with-kanji-python.xml: replace-with-kanji-python.xml.in
+replace-with-kanji.xml: replace-with-kanji.xml.in
 	$(AM_V_GEN) \
 	( \
 		libexecdir=${libexecdir}; \
@@ -67,7 +67,7 @@ replace-with-kanji-python.xml: replace-with-kanji-python.xml.in
 		eval "echo \"$${s}\""; \
 	) > $@
 
-org.freedesktop.ibus.engine.replace-with-kanji-python.gschema.xml: org.freedesktop.ibus.engine.replace-with-kanji-python.gschema.xml.in
+org.freedesktop.ibus.engine.replace-with-kanji.gschema.xml: org.freedesktop.ibus.engine.replace-with-kanji.gschema.xml.in
 	$(AM_V_GEN) \
 	( \
 		libexecdir=${libexecdir}; \

@@ -1,5 +1,5 @@
 <?xml version=\"1.0\" encoding=\"utf-8\"?>
-<!-- filename: replace-with-kanji-python.xml -->
+<!-- filename: replace-with-kanji.xml -->
 <component>
 	<name>org.freedesktop.IBus.ReplaceWithKanji</name>
 	<description>Replace With Kanji Input Method</description>
@@ -12,7 +12,7 @@
 
 	<engines>
 		<engine>
-			<name>replace-with-kanji-python</name>
+			<name>replace-with-kanji</name>
 			<language>ja</language>
 			<license>Apache</license>
 			<author>Esrille Inc. &lt;info@esrille.com&gt;</author>

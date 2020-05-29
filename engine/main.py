@@ -40,7 +40,7 @@ class IMApp:
         self._bus = IBus.Bus()
         self._bus.connect("disconnected", self._bus_disconnected_cb)
         self._factory = IBus.Factory(self._bus)
-        self._factory.add_engine("replace-with-kanji-python", GObject.type_from_name("EngineReplaceWithKanji"))
+        self._factory.add_engine("replace-with-kanji", GObject.type_from_name("EngineReplaceWithKanji"))
         if exec_by_ibus:
             self._bus.request_name("org.freedesktop.IBus.ReplaceWithKanji", 0)
         else:
@@ -53,8 +53,8 @@ class IMApp:
                 homepage="https://github.com/esrille/" + package.get_name(),
                 textdomain=package.get_name())
             engine = IBus.EngineDesc(
-                name="replace-with-kanji-python",
-                longname="replace-with-kanji-python",
+                name="replace-with-kanji",
+                longname="replace-with-kanji",
                 description="Japanese Replace With Kanji",
                 language="ja",
                 license="Apache",
@@ -63,7 +63,7 @@ class IMApp:
                 layout="default")
             self._component.add_engine(engine)
             self._bus.register_component(self._component)
-            self._bus.set_global_engine_async("replace-with-kanji-python", -1, None, None, None)
+            self._bus.set_global_engine_async("replace-with-kanji", -1, None, None, None)
 
     def run(self):
         self._mainloop.run()
