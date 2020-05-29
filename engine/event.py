@@ -27,15 +27,13 @@ logger = logging.getLogger(__name__)
 
 keysyms = IBus
 
+MODIFIERS = (keysyms.Shift_L, keysyms.Shift_R, keysyms.Control_L, keysyms.Control_R, keysyms.Alt_L, keysyms.Alt_R)
+
 
 class Event:
     def __init__(self, engine, delay, layout):
         self._engine = engine
         self._delay = delay    # Delay for non-shift keys in milliseconds (mainly for Nicola layout)
-
-        self.MODIFIERS = (keysyms.Shift_L, keysyms.Shift_R,
-                          keysyms.Control_L, keysyms.Control_R,
-                          keysyms.Alt_L, keysyms.Alt_R)
 
         # Set to the default values
         self._OnOffByCaps = True               # or False
@@ -79,8 +77,8 @@ class Event:
         # Check dual role modifiers
         self._capture_alt_r = False
         for k in (self._Henkan, self._Muhenkan, self._Kana, self._Space, self._Shrink):
-            if k in self.MODIFIERS:
-                self._DualBits |= bits.Dual_ShiftL_Bit << self.MODIFIERS.index(k)
+            if k in MODIFIERS:
+                self._DualBits |= bits.Dual_ShiftL_Bit << MODIFIERS.index(k)
             if k == keysyms.Alt_R:
                 self._capture_alt_r = True
 
@@ -122,7 +120,7 @@ class Event:
                self._keyval == keysyms.yen or self.is_space()
 
     def is_modifier(self):
-        return self._keyval in self.MODIFIERS
+        return self._keyval in MODIFIERS
 
     def is_shift(self):
         mask = bits.ShiftL_Bit | bits.ShiftR_Bit
