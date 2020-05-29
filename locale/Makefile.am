@@ -13,13 +13,13 @@
 # limitations under the License.
 
 i18n_DATA = \
-	ibus-replace-with-kanji.ja_JP.json \
+	ibus-hiragana.ja_JP.json \
 	$(NULL)
 
 i18ndir = $(pkgdatadir)/locale
 
 EXTRA_DIST = \
-	ibus-replace-with-kanji.ja_JP.json \
+	ibus-hiragana.ja_JP.json \
 	$(NULL)
 
 uninstall-hook:

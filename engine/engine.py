@@ -1,4 +1,4 @@
-# ibus-replace-with-kanji - Replace with Kanji Japanese input method for IBus
+# ibus-hiragana - Hiragana IME for IBus
 #
 # Using source code derived from
 #   ibus-tmpl - The Input Bus template project
@@ -111,8 +111,8 @@ def to_zenkaku(asc):
     return asc.translate(TO_ZENKAKU)
 
 
-class EngineReplaceWithKanji(IBus.Engine):
-    __gtype_name__ = 'EngineReplaceWithKanji'
+class EngineHiragana(IBus.Engine):
+    __gtype_name__ = 'EngineHiragana'
 
     def __init__(self):
         super().__init__()
@@ -183,22 +183,22 @@ class EngineReplaceWithKanji(IBus.Engine):
         self.update_property(self._input_mode_prop)
 
     def _load_input_mode(self, config):
-        var = config.get_value('engine/replace-with-kanji', 'mode')
+        var = config.get_value('engine/hiragana', 'mode')
         if var is None or var.get_type_string() != 's' or not var.get_string() in INPUT_MODE_NAMES:
             mode = 'A'
             if var:
-                config.unset('engine/replace-with-kanji', 'mode')
+                config.unset('engine/hiragana', 'mode')
         else:
             mode = var.get_string()
         logger.info("input mode: %s", mode)
         return mode
 
     def _load_logging_level(self, config):
-        var = config.get_value('engine/replace-with-kanji', 'logging_level')
+        var = config.get_value('engine/hiragana', 'logging_level')
         if var is None or var.get_type_string() != 's' or not var.get_string() in NAME_TO_LOGGING_LEVEL:
             level = 'WARNING'
             if var:
-                config.unset('engine/replace-with-kanji', 'logging_level')
+                config.unset('engine/hiragana', 'logging_level')
         else:
             level = var.get_string()
         logger.info("logging_level: %s", level)
@@ -206,11 +206,11 @@ class EngineReplaceWithKanji(IBus.Engine):
         return level
 
     def _load_dictionary(self, config):
-        var = config.get_value('engine/replace-with-kanji', 'dictionary')
+        var = config.get_value('engine/hiragana', 'dictionary')
         if var is None or var.get_type_string() != 's':
             path = os.path.join(package.get_datadir(), 'restrained.dic')
             if var:
-                config.unset('engine/replace-with-kanji', 'dictionary')
+                config.unset('engine/hiragana', 'dictionary')
         else:
             path = var.get_string()
         return Dictionary(path)
@@ -218,11 +218,11 @@ class EngineReplaceWithKanji(IBus.Engine):
     def _load_layout(self, config):
         default_layout = os.path.join(package.get_datadir(), 'layouts')
         default_layout = os.path.join(default_layout, 'roomazi.json')
-        var = config.get_value('engine/replace-with-kanji', 'layout')
+        var = config.get_value('engine/hiragana', 'layout')
         if var is None:
             path = default_layout
         elif var.get_type_string() != 's':
-            config.unset('engine/replace-with-kanji', 'layout')
+            config.unset('engine/hiragana', 'layout')
             path = default_layout
         else:
             path = var.get_string()
@@ -246,22 +246,22 @@ class EngineReplaceWithKanji(IBus.Engine):
         return layout
 
     def _load_delay(self, config):
-        var = config.get_value('engine/replace-with-kanji', 'delay')
+        var = config.get_value('engine/hiragana', 'delay')
         if var is None or var.get_type_string() != 'i':
             delay = 0
             if var:
-                config.unset('engine/replace-with-kanji', 'delay')
+                config.unset('engine/hiragana', 'delay')
         else:
             delay = var.get_int32()
         logger.info("delay: %d", delay)
         return delay
 
     def _load_x4063_mode(self, config):
-        var = config.get_value('engine/replace-with-kanji', 'nn_as_jis_x_4063')
+        var = config.get_value('engine/hiragana', 'nn_as_jis_x_4063')
         if var is None or var.get_type_string() != 'b':
             mode = True
             if var:
-                config.unset('engine/replace-with-kanji', 'nn_as_jis_x_4063')
+                config.unset('engine/hiragana', 'nn_as_jis_x_4063')
         else:
             mode = var.get_boolean()
         logger.info("nn_as_jis_x_4063 mode: {}".format(mode))
@@ -269,7 +269,7 @@ class EngineReplaceWithKanji(IBus.Engine):
 
     def _config_value_changed_cb(self, config, section, name, value):
         section = section.replace('_', '-')
-        if section != 'engine/replace-with-kanji':
+        if section != 'engine/hiragana':
             return
         logger.debug("config_value_changed({}, {}, {})".format(section, name, value))
         if name == "logging_level":

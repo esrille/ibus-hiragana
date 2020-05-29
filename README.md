@@ -1,6 +1,6 @@
 # ひらがなIME for IBus
 
-　「ひらがなIME」は、かながきする<ruby>部分<rp>(</rp><rt>ぶぶん</rt><rp>)</rp></ruby>のおおくなった<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>しやすくした<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>インプット メソッドです。Fedora、Ubuntu、Raspberry Pi<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>のRaspbianなど、[IBus](https://github.com/ibus/ibus/wiki)に<ruby>対応<rp>(</rp><rt>たいおう</rt><rp>)</rp></ruby>したオペレーティング システム（OS）で<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>できます。
+　「ひらがな<ruby>IME<rp>(</rp><rt>アイエムイー</rt><rp>)</rp></ruby>」は、かながきする<ruby>部分<rp>(</rp><rt>ぶぶん</rt><rp>)</rp></ruby>のおおくなった<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>しやすくした<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>インプット メソッドです。Fedora、Ubuntu、Raspberry Pi<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>のRaspbianなど、[IBus](https://github.com/ibus/ibus/wiki)に<ruby>対応<rp>(</rp><rt>たいおう</rt><rp>)</rp></ruby>したオペレーティング システム（OS）で<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>できます。
 
 　これまでの<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>IMEとちがって、「ひらがなIME」には「よみの<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>モード」がありません。ひらがなを<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>するのに、いちいち〔Enter〕キーや〔<ruby>無変換<rp>(</rp><rt>むへんかん</rt><rp>)</rp></ruby>〕キーをおす<ruby>必要<rp>(</rp><rt>ひつよう</rt><rp>)</rp></ruby>はありません。そのかわりに、<ruby>文中<rp>(</rp><rt>ぶんちゅう</rt><rp>)</rp></ruby>のひらがなの<ruby>部分<rp>(</rp><rt>ぶぶん</rt><rp>)</rp></ruby>を、いつでも<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>におきかえることができます。
 
@@ -10,17 +10,22 @@
 
 ## インストール<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby>
 
-　つかっているOSが、Fedora, Ubuntu, Raspbianのどれかであれば、インストール<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>のソフトウェア パッケージを「[Releases](https://github.com/esrille/ibus-replace-with-kanji/releases)」ページからダウンロードできます。
+　つかっているOSが、Fedora, Ubuntu, Raspbianのどれかであれば、インストール<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>のソフトウェア パッケージを「[Releases](https://github.com/esrille/ibus-hiragana/releases)」ページからダウンロードできます。
 
-　インストールができたら、「IBusの<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>(IBus Preferences)」の「<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>メソッド(Input Method)」タブで、
+　インストールができたら、
 
-![アイコン](icons/ibus-replace-with-kanji.png) <ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>(Japanese) - ReplaceWithKanji
+- 「<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>」の「<ruby>地域<rp>(</rp><rt>ちいき</rt><rp>)</rp></ruby>と<ruby>言語<rp>(</rp><rt>げんご</rt><rp>)</rp></ruby>」タブの「<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソース」、もしくは、
+- 「IBusの<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>(IBus Preferences)」の「<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>メソッド(Input Method)」タブで、
 
-を<ruby>選択<rp>(</rp><rt>せんたく</rt><rp>)</rp></ruby>してください。
+![アイコン](icons/ibus-hiragana.png) <ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>(Japanese) - Hiragana IME
+
+を<ruby>追加<rp>(</rp><rt>ついか</rt><rp>)</rp></ruby>してください。
+
+　IMEのきりかえは、トップバー（システムトレイ）の「en」や「あ」といった<ruby>表示<rp>(</rp><rt>ひょうじ</rt><rp>)</rp></ruby>がされているアイコンをクリックしておこないます。
 
 ※ 「ひらがなIME」をじぶんでビルドしてインストールしたいときは、つぎの<ruby>手順<rp>(</rp><rt>てじゅん</rt><rp>)</rp></ruby>でインストールできます。
 ```
-git clone https://github.com/esrille/ibus-replace-with-kanji.git
+git clone https://github.com/esrille/ibus-hiragana.git
 ./autogen.sh
 make
 sudo make install
@@ -30,5 +35,5 @@ sudo make install
 
 　くわしい、つかいかたについては、「ひらがなIME」の<ruby>手<rp>(</rp><rt>て</rt><rp>)</rp></ruby>びきをみてください。
 
-- [ひらがなIMEの<ruby>手<rp>(</rp><rt>て</rt><rp>)</rp></ruby>びき](https://esrille.github.io/ibus-replace-with-kanji/)
-- [ひらがなIMEの<ruby>開発<rp>(</rp><rt>かいはつ</rt><rp>)</rp></ruby>について](https://github.com/esrille/ibus-replace-with-kanji/blob/master/CONTRIBUTING.md)
+- [ひらがなIMEの<ruby>手<rp>(</rp><rt>て</rt><rp>)</rp></ruby>びき](https://esrille.github.io/ibus-hiragana/)
+- [ひらがなIMEの<ruby>開発<rp>(</rp><rt>かいはつ</rt><rp>)</rp></ruby>について](https://github.com/esrille/ibus-hiragana/blob/master/CONTRIBUTING.md)

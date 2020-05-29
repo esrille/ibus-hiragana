@@ -1,7 +1,6 @@
 #!/usr/bin/python3
-# -*- coding: utf-8 -*-
 #
-# Copyright (c) 2017 Esrille Inc.
+# Copyright (c) 2017-2020 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -80,7 +79,7 @@ if __name__ == '__main__':
     print(';; 日本語漢字置換インプット メソッド')
     print(';; Copyright (c) 2017-2020 Esrille Inc.')
     print(';;')
-    print(';;   https://github.com/esrille/ibus-replace-with-kanji')
+    print(';;   https://github.com/esrille/ibus-hiragana')
     print(';;')
     print(';; この辞書は、')
     print(';;  ', path)

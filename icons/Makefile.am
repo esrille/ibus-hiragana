@@ -12,13 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-hicolor_icon_32_DATA = ibus-replace-with-kanji.png
+hicolor_icon_32_DATA = ibus-hiragana.png
 hicolor_icon_32dir = $(datadir)/icons/hicolor/32x32/apps
 
-hicolor_icon_scalable_DATA = ibus-replace-with-kanji.svg
+hicolor_icon_scalable_DATA = ibus-hiragana.svg
 hicolor_icon_scalabledir = $(datadir)/icons/hicolor/scalable/apps
 
 EXTRA_DIST = \
-	ibus-replace-with-kanji.png \
-	ibus-replace-with-kanji.svg \
+	ibus-hiragana.png \
+	ibus-hiragana.svg \
 	$(NULL)

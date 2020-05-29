@@ -1,4 +1,4 @@
-# ibus-replace-with-kanji - Replace with Kanji Japanese input method for IBus
+# ibus-hiragana - Hiragana IME for IBus
 #
 # Copyright (c) 2017-2020 Esrille Inc.
 #
@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# EngineReplaceWithKanji.__modifiers bits
+# EngineHiragana.__modifiers bits
 ShiftL_Bit = 0x01
 ShiftR_Bit = 0x02
 ControlL_Bit = 0x04

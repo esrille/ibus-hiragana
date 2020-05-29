@@ -16,4 +16,4 @@
 
 PYTHON=@PYTHON@
 prefix=@prefix@
-exec ${PYTHON} @prefix@/share/ibus-replace-with-kanji/main.py $@
+exec ${PYTHON} @prefix@/share/ibus-hiragana/main.py $@

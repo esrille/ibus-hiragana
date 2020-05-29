@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-AC_INIT([ibus-replace-with-kanji], [0.8.0], [https://github.com/esrille/ibus-replace-with-kanji/issues])
+AC_INIT([ibus-hiragana], [0.8.0], [https://github.com/esrille/ibus-hiragana/issues])
 AM_INIT_AUTOMAKE([foreign tar-ustar])
 
 # Check IBus
-#   Note replace-with-kanji.xml uses icon_prop_key and
+#   Note hiragana.xml uses icon_prop_key and
 #   ibus 1.5.11 or later is required
 PKG_CHECK_MODULES(IBUS, [ibus-1.0 >= 1.5.11])
 AC_SUBST(IBUS_DATADIR, $($PKG_CONFIG --variable=datadir ibus-1.0) )
@@ -30,11 +30,11 @@ GLIB_GSETTINGS
 
 # OUTPUT files
 AC_CONFIG_FILES(Makefile
-ibus-replace-with-kanji.spec
+ibus-hiragana.spec
 engine/Makefile
-engine/ibus-engine-replace-with-kanji
+engine/ibus-engine-hiragana
 engine/package.py.in
-engine/replace-with-kanji.xml.in
+engine/hiragana.xml.in
 icons/Makefile
 layouts/Makefile
 locale/Makefile

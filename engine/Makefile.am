@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-engine_replace_with_kanji_PYTHON = \
+engine_hiragana_PYTHON = \
 	bits.py \
 	dictionary.py \
 	engine.py \
@@ -24,30 +24,30 @@ engine_replace_with_kanji_PYTHON = \
 	main.py \
 	$(NULL)
 BUILT_SOURCES = package.py
-nodist_engine_replace_with_kanji_PYTHON = package.py
-engine_replace_with_kanjidir = $(datadir)/ibus-replace-with-kanji
+nodist_engine_hiragana_PYTHON = package.py
+engine_hiraganadir = $(datadir)/ibus-hiragana
 
-libexec_SCRIPTS= ibus-engine-replace-with-kanji
+libexec_SCRIPTS= ibus-engine-hiragana
 
-component_DATA = replace-with-kanji.xml
+component_DATA = hiragana.xml
 componentdir = @IBUS_DATADIR@/ibus/component
 
-gsettings_SCHEMAS = org.freedesktop.ibus.engine.replace-with-kanji.gschema.xml
+gsettings_SCHEMAS = org.freedesktop.ibus.engine.hiragana.gschema.xml
 
 @GSETTINGS_RULES@
 
 CLEANFILES = \
-	ibus-engine-replace-with-kanji \
-	org.freedesktop.ibus.engine.replace-with-kanji.gschema.xml \
+	ibus-engine-hiragana \
+	org.freedesktop.ibus.engine.hiragana.gschema.xml \
 	package.py \
-	replace-with-kanji.xml \
+	hiragana.xml \
 	$(NULL)
 
 EXTRA_DIST = \
-	ibus-engine-replace-with-kanji.in \
-	org.freedesktop.ibus.engine.replace-with-kanji.gschema.xml.in \
+	ibus-engine-hiragana.in \
+	org.freedesktop.ibus.engine.hiragana.gschema.xml.in \
 	package.py.in.in \
-	replace-with-kanji.xml.in.in \
+	hiragana.xml.in.in \
 	$(NULL)
 
 package.py: package.py.in
@@ -58,7 +58,7 @@ package.py: package.py.in
 		eval "echo \"$${s}\""; \
 	) > $@
 
-replace-with-kanji.xml: replace-with-kanji.xml.in
+hiragana.xml: hiragana.xml.in
 	$(AM_V_GEN) \
 	( \
 		libexecdir=${libexecdir}; \
@@ -67,7 +67,7 @@ replace-with-kanji.xml: replace-with-kanji.xml.in
 		eval "echo \"$${s}\""; \
 	) > $@
 
-org.freedesktop.ibus.engine.replace-with-kanji.gschema.xml: org.freedesktop.ibus.engine.replace-with-kanji.gschema.xml.in
+org.freedesktop.ibus.engine.hiragana.gschema.xml: org.freedesktop.ibus.engine.hiragana.gschema.xml.in
 	$(AM_V_GEN) \
 	( \
 		pkgdatadir=${pkgdatadir}; \

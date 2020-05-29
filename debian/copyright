@@ -1,17 +1,17 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: ibus-replace-with-kanji
-Source: https://github.com/esrille/ibus-replace-with-kanji
+Upstream-Name: ibus-hiragana
+Source: https://github.com/esrille/ibus-hiragana
 
 Files: *
-Copyright: 2017-2019 Esrille Inc. <info@esrille.com>
+Copyright: 2017-2020 Esrille Inc. <info@esrille.com>
 License: Apache-2.0
 
 Files: dic/restrained*.dic
-Copyright: 2017-2019 Esrille Inc. <info@esrille.com>
+Copyright: 2017-2020 Esrille Inc. <info@esrille.com>
 License: GPL-2+
 
 Files: dic/katakana.dic
-Copyright: 2017-2019 Esrille Inc. <info@esrille.com>
+Copyright: 2017-2020 Esrille Inc. <info@esrille.com>
 License: CC-BY-SA-3.0
 
 License: Apache-2.0

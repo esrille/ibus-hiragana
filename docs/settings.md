@@ -8,7 +8,7 @@
 
 　￹設定￺せってい￻の￹変更￺へんこう￻は、「dconf Editor」をつかうのが、いまのところ、かんたんです。「dconf Editor」で、
 ```
-/desktop/ibus/engine/replace-with-kanji
+/desktop/ibus/engine/hiragana
 ```
 をひらくと、「ひらがなIME」の￹設定￺せってい￻￹画面￺がめん￻になります。
 
@@ -46,14 +46,14 @@ restrained.9.dic | ￹許容￺きょよう￻されているおくりがなを�
 
 ￹例￺れい￻ (インストール￹先￺さき￻が /usr のばあい) :
 
-    /usr/share/ibus-replace-with-kanji/restrained.dic
+    /usr/share/ibus-hiragana/restrained.dic
 
 <br>
 ![settings-dictionary](settings-dictionary.png)
 
 ### ￹個人￺こじん￻￹用￺よう￻￹辞書￺じしょ￻
 
-　システムの￹辞書￺じしょ￻ファイルにない￹単語￺たんご￻は、￹個人￺こじん￻￹用￺よう￻の￹辞書￺じしょ￻ファイルにいれておくことができます。￹個人￺こじん￻￹用￺よう￻の￹辞書￺じしょ￻は、ディレクトリ ~/.local/share/ibus-replace-with-kanji/ のなかの my.dic というなまえのファイルです。￹追加￺ついか￻した￹単語￺たんご￻は、￹次回￺じかい￻IBusデーモンを￹起動￺きどう￻したときから、つかえるようになります。
+　システムの￹辞書￺じしょ￻ファイルにない￹単語￺たんご￻は、￹個人￺こじん￻￹用￺よう￻の￹辞書￺じしょ￻ファイルにいれておくことができます。￹個人￺こじん￻￹用￺よう￻の￹辞書￺じしょ￻は、ディレクトリ ~/.local/share/ibus-hiragana/ のなかの my.dic というなまえのファイルです。￹追加￺ついか￻した￹単語￺たんご￻は、￹次回￺じかい￻IBusデーモンを￹起動￺きどう￻したときから、つかえるようになります。
 
 　￹辞書￺じしょ￻ファイルには、つぎのテキスト￹形式￺けいしき￻で￹単語￺たんご￻を￹保存￺ほぞん￻します。
 
@@ -88,7 +88,7 @@ restrained.9.dic | ￹許容￺きょよう￻されているおくりがなを�
 
 <br>￹例￺れい￻ (インストール￹先￺さき￻が /usr のばあい) :
 
-    /usr/share/ibus-replace-with-kanji/layouts/roomazi.109.json
+    /usr/share/ibus-hiragana/layouts/roomazi.109.json
 
 <br>
 ![settings-layout](settings-layout.png)

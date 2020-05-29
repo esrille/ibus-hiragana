@@ -1,4 +1,4 @@
-# ibus-replace-with-kanji - Replace with Kanji Japanese input method for IBus
+# ibus-hiragana - Hiragana IME for IBus
 #
 # Using source code derived from
 #   ibus-tmpl - The Input Bus template project
@@ -31,7 +31,7 @@ from gi.repository import IBus
 from gi.repository import GLib
 from gi.repository import GObject
 
-from engine import EngineReplaceWithKanji
+from engine import EngineHiragana
 
 
 class IMApp:
@@ -40,22 +40,22 @@ class IMApp:
         self._bus = IBus.Bus()
         self._bus.connect("disconnected", self._bus_disconnected_cb)
         self._factory = IBus.Factory(self._bus)
-        self._factory.add_engine("replace-with-kanji", GObject.type_from_name("EngineReplaceWithKanji"))
+        self._factory.add_engine("hiragana", GObject.type_from_name("EngineHiragana"))
         if exec_by_ibus:
-            self._bus.request_name("org.freedesktop.IBus.ReplaceWithKanji", 0)
+            self._bus.request_name("org.freedesktop.IBus.Hiragana", 0)
         else:
             self._component = IBus.Component(
-                name="org.freedesktop.IBus.ReplaceWithKanji",
-                description="Replace With Kanji Input Method",
+                name="org.freedesktop.IBus.Hiragana",
+                description="Hiragana IME",
                 version=package.get_version(),
                 license="Apache",
                 author="Esrille Inc. <info@esrille.com>",
                 homepage="https://github.com/esrille/" + package.get_name(),
                 textdomain=package.get_name())
             engine = IBus.EngineDesc(
-                name="replace-with-kanji",
-                longname="replace-with-kanji",
-                description="Japanese Replace With Kanji",
+                name="hiragana",
+                longname="Hiragana IME",
+                description="Hiragana IME",
                 language="ja",
                 license="Apache",
                 author="Esrille Inc. <info@esrille.com>",
@@ -63,7 +63,7 @@ class IMApp:
                 layout="default")
             self._component.add_engine(engine)
             self._bus.register_component(self._component)
-            self._bus.set_global_engine_async("replace-with-kanji", -1, None, None, None)
+            self._bus.set_global_engine_async("hiragana", -1, None, None, None)
 
     def run(self):
         self._mainloop.run()

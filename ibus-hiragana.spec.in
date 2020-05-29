@@ -1,7 +1,7 @@
 Name:       @PACKAGE_NAME@
 Version:    @PACKAGE_VERSION@
 Release:    1%{?dist}
-Summary:    Replace with Kanji Japanese input method for IBus
+Summary:    Hiragana IME for IBus
 License:    ASL 2.0
 URL:        https://github.com/esrille/%{name}
 Source0:    https://github.com/esrille/%{name}/releases/download/v%{version}/%{name}-%{version}.tar.gz
@@ -14,7 +14,7 @@ BuildRequires: python3-devel
 BuildArch:  noarch
 
 %description
-ibus-replace-with-kanji is a "Replace with Kanji" Japanese input method for IBus.
+Hiragana IME for IBus.
 
 %global __python %{__python3}
 
@@ -36,9 +36,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc README.md
 %license LICENSE NOTICE
 %{_datadir}/%{name}
-%{_datadir}/ibus/component/replace-with-kanji.xml
-%{_datadir}/glib-2.0/schemas/org.freedesktop.ibus.engine.replace-with-kanji.gschema.xml
+%{_datadir}/ibus/component/hiragana.xml
+%{_datadir}/glib-2.0/schemas/org.freedesktop.ibus.engine.hiragana.gschema.xml
 %{_datadir}/icons
-%{_libexecdir}/ibus-engine-replace-with-kanji
+%{_libexecdir}/ibus-engine-hiragana
 
 %changelog

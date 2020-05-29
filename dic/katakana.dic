@@ -1,7 +1,7 @@
-;; Replace with Kanji Japanese input method for IBus
+;; Hiragana IME for IBus
 ;; Copyright (c) 2017-2020 Esrille Inc.
 ;;
-;;   https://github.com/esrille/ibus-replace-with-kanji
+;;   https://github.com/esrille/ibus-hiragana
 ;;
 ;; This file is made available under a Creative Commons Attribution-
 ;; ShareAlike Licence (V3.0). The Licence Deed can be viewed,

@@ -1,6 +1,6 @@
 <?xml version=\"1.0\" encoding=\"utf-8\"?>
 <schemalist>
-  <schema id='org.freedesktop.ibus.engine.replace-with-kanji' path='/desktop/ibus/engine/replace-with-kanji/'>
+  <schema id='org.freedesktop.ibus.engine.hiragana' path='/desktop/ibus/engine/hiragana/'>
     <key name='mode' type='s'>
       <choices>
         <choice value='A'/>

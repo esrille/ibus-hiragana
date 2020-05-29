@@ -1,9 +1,9 @@
 <?xml version=\"1.0\" encoding=\"utf-8\"?>
-<!-- filename: replace-with-kanji.xml -->
+<!-- filename: hiragana.xml -->
 <component>
-	<name>org.freedesktop.IBus.ReplaceWithKanji</name>
-	<description>Replace With Kanji Input Method</description>
-	<exec>${libexecdir}/ibus-engine-replace-with-kanji --ibus</exec>
+	<name>org.freedesktop.IBus.Hiragana</name>
+	<description>Hiragana IME</description>
+	<exec>${libexecdir}/ibus-engine-hiragana --ibus</exec>
 	<version>@VERSION@</version>
 	<author>Esrille Inc. &lt;info@esrille.com&gt;</author>
 	<license>Apache</license>
@@ -12,15 +12,15 @@
 
 	<engines>
 		<engine>
-			<name>replace-with-kanji</name>
+			<name>hiragana</name>
 			<language>ja</language>
 			<license>Apache</license>
 			<author>Esrille Inc. &lt;info@esrille.com&gt;</author>
 			<icon>@PACKAGE_NAME@</icon>
 			<icon_prop_key>InputMode</icon_prop_key>
 			<layout>default</layout>
-			<longname>ReplaceWithKanji</longname>
-			<description>Replace With Kanji Input Method</description>
+			<longname>Hiragana IME</longname>
+			<description>Hiragana IME</description>
 			<rank>0</rank>
 		</engine>
 	</engines>

@@ -23,7 +23,7 @@ GNOMEの￹標準￺ひょうじゅん￻のテキスト エディターgeditや
 
 　「ひらがなIME」は、オープンソースソフトウェアです。
 プログラムは￹Python￺パイソン￻でかかれています。その￹行数￺ぎょうすう￻は、￹約￺やく￻1,600￹行￺ぎょう￻(v0.8.0)です。
-メインのリポジトリは、[GitHub](https://github.com/esrille/ibus-replace-with-kanji)にあります。
+メインのリポジトリは、[GitHub](https://github.com/esrille/ibus-hiragana)にあります。
 
 <hr>
 <br><small>Copyright 2017-2020 Esrille Inc. </small>

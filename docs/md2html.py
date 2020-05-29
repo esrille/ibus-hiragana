@@ -118,7 +118,7 @@ def main():
 
     body = md.convert(source)
     description = title
-    og_image = 'https://esrille.github.io/ibus-replace-with-kanji/screenshot.png'
+    og_image = 'https://esrille.github.io/ibus-hiragana/screenshot.png'
     if 'summary' in md.Meta:
         description = ' '.join(md.Meta['summary'])
     if 'language' in md.Meta:

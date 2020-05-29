@@ -1,7 +1,7 @@
 ;; 日本語漢字置換インプット メソッド
 ;; Copyright (c) 2017-2020 Esrille Inc.
 ;;
-;;   https://github.com/esrille/ibus-replace-with-kanji
+;;   https://github.com/esrille/ibus-hiragana
 ;;
 ;; この辞書は、
 ;;   /usr/share/skk/SKK-JISYO.ML

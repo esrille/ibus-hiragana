@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-# -*- coding: utf-8 -*-
 #
 # Copyright (c) 2017-2020 Esrille Inc.
 #
@@ -74,10 +73,10 @@ def main():
         path = sys.argv[1]
     gairaigo = load(path)
 
-    print(';; Replace with Kanji Japanese input method for IBus')
+    print(';; Hiragana IME for IBus')
     print(';; Copyright (c) 2017-2020 Esrille Inc.')
     print(';;')
-    print(';;   https://github.com/esrille/ibus-replace-with-kanji')
+    print(';;   https://github.com/esrille/ibus-hiragana')
     print(';;')
     print(';; This file is made available under a Creative Commons Attribution-')
     print(';; ShareAlike Licence (V3.0). The Licence Deed can be viewed,')
