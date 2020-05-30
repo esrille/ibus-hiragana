@@ -1,3 +1,5 @@
+# ibus-hiragana - Hiragana IME for IBus
+#
 # Copyright (c) 2020 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,15 +14,33 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-i18n_DATA = \
-	ibus-hiragana.ja_JP.json \
-	$(NULL)
+# This file is a template file processed by the configure script.
+# The file name is listed in AC_CONFIG_FILES of configure.ac.
 
-i18ndir = $(pkgdatadir)/locale
+import os
+import gi
+from gi.repository import GLib
 
-EXTRA_DIST = \
-	ibus-hiragana.ja_JP.json \
-	$(NULL)
 
-uninstall-hook:
-	-rmdir $(i18ndir)
+def get_name():
+    return '@PACKAGE_NAME@'
+
+
+def get_version():
+    return '@VERSION@'
+
+
+def get_prefix():
+    return '@prefix@'
+
+
+def get_datadir():
+    return '${pkgdatadir}'
+
+
+def get_user_datadir():
+    return os.path.join(GLib.get_user_data_dir(), '@PACKAGE_NAME@')
+
+
+def get_localedir():
+    return '${localedir}'

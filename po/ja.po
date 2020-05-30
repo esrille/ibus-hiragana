@@ -1,0 +1,138 @@
+# Japanese translation of ibus-hiragana
+# Copyright (C) 2020 Esrille Inc. <info@esrille.com>
+# This file is distributed under the same license as the ibus-hiragana package.
+msgid ""
+msgstr ""
+"Project-Id-Version: ibus-hiragana 0.8.0\n"
+"Report-Msgid-Bugs-To: https://github.com/esrille/ibus-hiragana/issues\n"
+"POT-Creation-Date: 2020-05-31 03:15+0900\n"
+"PO-Revision-Date: 2020-05-31 01:23+0900\n"
+"Last-Translator: Esrille Inc. <info@esrille.com>\n"
+"Language-Team: Japanese <info@esrille.com>\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: engine/engine.py:164 engine/engine.py:197
+#, python-format
+msgid "Input mode (%s)"
+msgstr "入力モード (%s)"
+
+#: engine/engine.py:175
+msgid "Setup"
+msgstr "設定"
+
+#: engine/engine.py:186
+msgid "About Hiragana IME..."
+msgstr "ひらがなIMEについて..."
+
+#: engine/engine.py:769
+msgid "Hiragana IME"
+msgstr "ひらがなIME"
+
+#: engine/engine.py:774
+msgid "Introduction to Hiragana IME"
+msgstr "ひらがなIMEの手びき"
+
+#: setup/main.py:56
+msgid "Rōmaji Input"
+msgstr "ローマ字入力"
+
+#: setup/main.py:57
+msgid "Kana Input (JIS Layout)"
+msgstr "かな入力(JIS配列)"
+
+#: setup/main.py:58
+msgid "Kana Input (New Stickney Layout)"
+msgstr "かな入力(ニュースティックニー配列)"
+
+#: setup/main.py:67
+msgid "Japanese Keyboard"
+msgstr "日本語キーボード"
+
+#: setup/main.py:68
+msgid "US Keyboard"
+msgstr "英語(US)キーボード"
+
+#: setup/main.py:101
+msgid "1st grade"
+msgstr "小学校１年生用"
+
+#: setup/main.py:102
+msgid "2nd grade"
+msgstr "小学校２年生用"
+
+#: setup/main.py:103
+msgid "3rd grade"
+msgstr "小学校３年生用"
+
+#: setup/main.py:104
+msgid "4th grade"
+msgstr "小学校４年生用"
+
+#: setup/main.py:105
+msgid "5th grade"
+msgstr "小学校５年生用"
+
+#: setup/main.py:106
+msgid "6th grade"
+msgstr "小学校６年生用"
+
+#: setup/main.py:107
+msgid "7-9th grade"
+msgstr "中学生用"
+
+#: setup/main.py:108
+msgid "10th+ grade (Okurigana: general)"
+msgstr "おとな用(おくりがな: 本則)"
+
+#: setup/main.py:109
+msgid "10th+ grade (Okurigana: general + permissible)"
+msgstr "おとな用(おくりがな: 本則+許容)"
+
+#: setup/setup.glade:8
+msgid "Hiragana IME Setup"
+msgstr "ひらがなIMEの設定"
+
+#: setup/setup.glade:46
+msgid "<b>Keyboard</b>"
+msgstr "<b>キーボード</b>"
+
+#: setup/setup.glade:76
+msgid "Layout"
+msgstr "配列"
+
+#: setup/setup.glade:98
+msgid "Type"
+msgstr "種類"
+
+#: setup/setup.glade:162
+msgid "<b>Rōmaji</b>"
+msgstr "<b>ローマ字</b>"
+
+#: setup/setup.glade:187
+msgid "Always convert 'nn' to 'ん'"
+msgstr "'nn'をかならず「ん」に変換する"
+
+#: setup/setup.glade:230
+msgid "Keyboard"
+msgstr "キーボード"
+
+#: setup/setup.glade:257
+msgid "<b>Dictionary</b>"
+msgstr "<b>辞書</b>"
+
+#: setup/setup.glade:282
+msgid "Kanji Dictionary File"
+msgstr "漢字辞書ファイル"
+
+#: setup/setup.glade:324
+msgid "Dictionary"
+msgstr "辞書"
+
+#~ msgid "Set up Hiragana IME"
+#~ msgstr "ひらがなIMEを設定します"
+
+#~ msgid "ibus-setup-hiragana"
+#~ msgstr "ibus-setup-hiragana"

@@ -17,21 +17,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import i18n
+from engine import EngineHiragana
 import package
 
 import getopt
+import gettext
 import os
+import locale
 import logging
 import sys
 
-from gi import require_version
-require_version('IBus', '1.0')
-from gi.repository import IBus
+import gi
 from gi.repository import GLib
-from gi.repository import GObject
+gi.require_version('IBus', '1.0')
+from gi.repository import GObject, IBus
 
-from engine import EngineHiragana
+_ = lambda a : gettext.dgettext(package.get_name(), a)
 
 
 class IMApp:
@@ -91,9 +92,6 @@ def main():
     logfile = os.path.join(user_datadir, package.get_name() + '.log')
     logging.basicConfig(filename=logfile, filemode='w', level=logging.WARNING)
 
-    # Load the localization file
-    i18n.initialize()
-
     exec_by_ibus = False
     daemonize = False
 
@@ -124,4 +122,9 @@ def main():
 
 
 if __name__ == "__main__":
+    try:
+        locale.bindtextdomain(package.get_name(), package.get_localedir())
+    except Exception:
+        pass
+    gettext.bindtextdomain(package.get_name(), package.get_localedir())
     main()

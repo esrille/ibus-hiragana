@@ -20,9 +20,9 @@
 import bits
 from dictionary import Dictionary
 from event import Event
-from i18n import _
 import package
 
+import gettext
 import json
 import logging
 import os
@@ -38,6 +38,8 @@ from gi.repository import Gtk, IBus
 keysyms = IBus
 
 logger = logging.getLogger(__name__)
+
+_ = lambda a : gettext.dgettext(package.get_name(), a)
 
 HIRAGANA = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんゔがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっぱぴぷぺぽゎゐゑ・ーゝゞ"
 KATAKANA = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンヴガギグゲゴザジズゼゾダヂヅデドバビブベボァィゥェォャュョッパピプペポヮヰヱ・ーヽヾ"
@@ -148,8 +150,10 @@ class EngineHiragana(IBus.Engine):
         self._committed = ''
         self._acked = True
         self.connect('set-surrounding-text', self.set_surrounding_text_cb)
-
         self.connect('set-cursor-location', self.set_cursor_location_cb)
+
+        self._about_dialog = None
+        self._setup_pid = 0
 
     def _init_props(self):
         self._prop_list = IBus.PropList()
@@ -165,7 +169,18 @@ class EngineHiragana(IBus.Engine):
             state=IBus.PropState.UNCHECKED,
             sub_props=None)
         self._prop_list.append(self._input_mode_prop)
-        self._about_prop = IBus.Property(
+        prop = IBus.Property(
+            key='Setup',
+            prop_type=IBus.PropType.NORMAL,
+            label=IBus.Text.new_from_string(_("Setup")),
+            icon=None,
+            tooltip=None,
+            sensitive=True,
+            visible=True,
+            state=IBus.PropState.UNCHECKED,
+            sub_props=None)
+        self._prop_list.append(prop)
+        prop = IBus.Property(
             key='About',
             prop_type=IBus.PropType.NORMAL,
             label=IBus.Text.new_from_string(_("About Hiragana IME...")),
@@ -175,7 +190,7 @@ class EngineHiragana(IBus.Engine):
             visible=True,
             state=IBus.PropState.UNCHECKED,
             sub_props=None)
-        self._prop_list.append(self._about_prop)
+        self._prop_list.append(prop)
 
     def _update_input_mode(self):
         self._input_mode_prop.set_symbol(IBus.Text.new_from_string(self._mode))
@@ -733,9 +748,23 @@ class EngineHiragana(IBus.Engine):
         # Do not switch back to the Alphabet mode here; 'reset' should be
         # called when the text cursor is moved by a mouse click, etc.
 
+    def _start_setup(self):
+        if self._setup_pid != 0:
+            pid, status = os.waitpid(self._setup_pid, os.WNOHANG)
+            if pid != self._setup_pid:
+                return
+            self._setup_pid = 0
+        filename = os.path.join(package.get_libexecdir(), 'ibus-setup-hiragana')
+        self._setup_pid = os.spawnl(os.P_NOWAIT, filename, 'ibus-setup-hiragana')
+
     def do_property_activate(self, prop_name, state):
         logger.info("property_activate(%s, %d)" % (prop_name, state))
+        if prop_name == "Setup":
+            self._start_setup()
         if prop_name == "About":
+            if self._about_dialog:
+                self._about_dialog.present()
+                return
             dialog = Gtk.AboutDialog()
             dialog.set_program_name(_("Hiragana IME"))
             dialog.set_copyright("Copyright 2017-2020 Esrille Inc.")
@@ -747,10 +776,12 @@ class EngineHiragana(IBus.Engine):
             # To close the dialog when "close" is clicked, e.g. on RPi,
             # we connect the "response" signal to about_response_callback
             dialog.connect("response", self.about_response_callback)
+            self._about_dialog = dialog
             dialog.show()
 
     def about_response_callback(self, dialog, response):
         dialog.destroy()
+        self._about_dialog = None
 
     def set_surrounding_text_cb(self, engine, text, cursor_pos, anchor_pos):
         text = self.get_plain_text(text.get_text()[:cursor_pos])

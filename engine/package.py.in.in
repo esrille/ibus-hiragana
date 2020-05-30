@@ -18,6 +18,8 @@
 # The file name is listed in AC_CONFIG_FILES of configure.ac.
 
 import os
+import gi
+from gi.repository import GLib
 
 
 def get_name():
@@ -37,4 +39,12 @@ def get_datadir():
 
 
 def get_user_datadir():
-    return os.path.expanduser('~/.local/share/' + '@PACKAGE_NAME@')
+    return os.path.join(GLib.get_user_data_dir(), '@PACKAGE_NAME@')
+
+
+def get_libexecdir():
+    return '${libexecdir}'
+
+
+def get_localedir():
+    return '${localedir}'

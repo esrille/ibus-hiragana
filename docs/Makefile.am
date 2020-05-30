@@ -22,12 +22,10 @@ help_DATA = \
 	settings.html \
 	template.html \
 	usage.html \
-	dconf-editor.png \
 	icon.png \
 	screenshot.png \
-	settings-dictionary.png \
-	settings-layout.png \
-	settings-nn.png \
+	ibus-setup-hiragana_1.png \
+	ibus-setup-hiragana_2.png \
 	$(NULL)
 
 helpdir = $(pkgdatadir)/help
@@ -52,12 +50,10 @@ EXTRA_DIST = \
 	settings.html \
 	template.html \
 	usage.html \
-	dconf-editor.png \
 	icon.png \
 	screenshot.png \
-	settings-dictionary.png \
-	settings-layout.png \
-	settings-nn.png \
+	ibus-setup-hiragana_1.png \
+	ibus-setup-hiragana_2.png \
 	$(NULL)
 
 uninstall-hook:

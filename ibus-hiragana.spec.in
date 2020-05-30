@@ -10,6 +10,9 @@ Requires:   python3
 Requires:   python3-dbus
 Requires:   python3-pyxdg
 BuildRequires: ibus-devel
+BuildRequires: gettext-devel
+BuildRequires: libtool
+BuildRequires: pkgconfig
 BuildRequires: python3-devel
 BuildArch:  noarch
 
@@ -28,17 +31,21 @@ make %{?_smp_mflags}
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=${RPM_BUILD_ROOT} install
+%find_lang %{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files
+%files -f %{name}.lang
+%defattr(-,root,root,-)
 %doc README.md
 %license LICENSE NOTICE
 %{_datadir}/%{name}
-%{_datadir}/ibus/component/hiragana.xml
+%{_datadir}/applications
+%{_datadir}/ibus/component/*
 %{_datadir}/glib-2.0/schemas/org.freedesktop.ibus.engine.hiragana.gschema.xml
 %{_datadir}/icons
 %{_libexecdir}/ibus-engine-hiragana
+%{_libexecdir}/ibus-setup-hiragana
 
 %changelog

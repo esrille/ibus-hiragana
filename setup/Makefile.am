@@ -1,7 +1,4 @@
-# Copyright (c) 2017-2020 Esrille Inc.
-#
-# Using source code derived from
-#   ibus-tmpl - The Input Bus template project
+# Copyright (c) 2020 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,64 +12,55 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-engine_hiragana_PYTHON = \
-	bits.py \
-	dictionary.py \
-	engine.py \
-	event.py \
+setup_hiragana_PYTHON = \
 	main.py \
+	setup.glade \
 	$(NULL)
 BUILT_SOURCES = package.py
-nodist_engine_hiragana_PYTHON = package.py
-engine_hiraganadir = $(pkgdatadir)
+nodist_setup_hiragana_PYTHON = package.py
+setup_hiraganadir = $(pkgdatadir)/setup
 
-libexec_SCRIPTS= ibus-engine-hiragana
+libexec_SCRIPTS = ibus-setup-hiragana
 
-component_DATA = hiragana.xml
-componentdir = @IBUS_DATADIR@/ibus/component
-
-gsettings_SCHEMAS = org.freedesktop.ibus.engine.hiragana.gschema.xml
-
-@GSETTINGS_RULES@
+desktop_DATA = ibus-setup-hiragana.desktop
+desktopdir = $(datadir)/applications
 
 CLEANFILES = \
-	ibus-engine-hiragana \
-	org.freedesktop.ibus.engine.hiragana.gschema.xml \
+	ibus-setup-hiragana \
+	ibus-setup-hiragana.desktop \
+	ibus-setup-hiragana.in \
 	package.py \
-	hiragana.xml \
+	package.py.in \
 	$(NULL)
 
 EXTRA_DIST = \
-	ibus-engine-hiragana.in \
-	org.freedesktop.ibus.engine.hiragana.gschema.xml.in \
+	ibus-setup-hiragana.desktop.in \
+	ibus-setup-hiragana.in.in \
 	package.py.in.in \
-	hiragana.xml.in.in \
 	$(NULL)
 
 package.py: package.py.in
 	$(AM_V_GEN) \
 	( \
-		libexecdir=${libexecdir}; \
+		pkgdatadir=${pkgdatadir}; \
 		localedir=${localedir}; \
+		s=`cat $<`; \
+		eval "echo \"$${s}\""; \
+	) > $@
+
+ibus-setup-hiragana: ibus-setup-hiragana.in
+	$(AM_V_GEN) \
+	( \
 		pkgdatadir=${pkgdatadir}; \
 		s=`cat $<`; \
 		eval "echo \"$${s}\""; \
 	) > $@
 
-hiragana.xml: hiragana.xml.in
+ibus-setup-hiragana.desktop: ibus-setup-hiragana.desktop.in
 	$(AM_V_GEN) \
 	( \
 		libexecdir=${libexecdir}; \
 		pkgdatadir=${pkgdatadir}; \
-		s=`cat $<`; \
-		eval "echo \"$${s}\""; \
-	) > $@
-
-org.freedesktop.ibus.engine.hiragana.gschema.xml: org.freedesktop.ibus.engine.hiragana.gschema.xml.in
-	$(AM_V_GEN) \
-	( \
-		pkgdatadir=${pkgdatadir}; \
-		PACKAGE=${PACKAGE}; \
 		s=`cat $<`; \
 		eval "echo \"$${s}\""; \
 	) > $@
