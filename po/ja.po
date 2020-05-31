@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ibus-hiragana 0.8.0\n"
 "Report-Msgid-Bugs-To: https://github.com/esrille/ibus-hiragana/issues\n"
-"POT-Creation-Date: 2020-05-31 13:54+0900\n"
+"POT-Creation-Date: 2020-05-31 15:52+0900\n"
 "PO-Revision-Date: 2020-05-31 01:23+0900\n"
 "Last-Translator: Esrille Inc. <info@esrille.com>\n"
 "Language-Team: Japanese <info@esrille.com>\n"
@@ -27,11 +27,11 @@ msgstr "設定"
 msgid "About Hiragana IME..."
 msgstr "ひらがなIMEについて..."
 
-#: engine/engine.py:769
+#: engine/engine.py:774
 msgid "Hiragana IME"
 msgstr "ひらがなIME"
 
-#: engine/engine.py:774
+#: engine/engine.py:779
 msgid "Introduction to Hiragana IME"
 msgstr "ひらがなIMEの手びき"
 
