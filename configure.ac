@@ -25,7 +25,7 @@ PKG_CHECK_MODULES(IBUS, [ibus-1.0 >= 1.5.11])
 AC_SUBST(IBUS_DATADIR, $($PKG_CONFIG --variable=datadir ibus-1.0) )
 
 # Check Python
-AM_PATH_PYTHON([3.3])
+AM_PATH_PYTHON([3.7])
 
 # define GETTEXT_* variables
 GETTEXT_PACKAGE=AC_PACKAGE_NAME

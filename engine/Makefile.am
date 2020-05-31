@@ -75,3 +75,7 @@ org.freedesktop.ibus.engine.hiragana.gschema.xml: org.freedesktop.ibus.engine.hi
 		s=`cat $<`; \
 		eval "echo \"$${s}\""; \
 	) > $@
+
+uninstall-hook:
+	-rmdir $(engine_hiraganadir)/__pycache__
+	-rmdir $(engine_hiraganadir)

@@ -64,3 +64,7 @@ ibus-setup-hiragana.desktop: ibus-setup-hiragana.desktop.in
 		s=`cat $<`; \
 		eval "echo \"$${s}\""; \
 	) > $@
+
+uninstall-hook:
+	-rmdir $(setup_hiraganadir)/__pycache__
+	-rmdir $(setup_hiraganadir)

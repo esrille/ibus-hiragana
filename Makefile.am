@@ -46,3 +46,6 @@ noinst_DIST = \
 DISTCLEANFILES = \
 	po/stamp-it \
 	$(NULL)
+
+uninstall-hook:
+	-rmdir $(pkgdatadir)
