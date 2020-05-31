@@ -1,0 +1,135 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Esrille Inc. <info@esrille.com>
+# This file is distributed under the same license as the ibus-hiragana package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ibus-hiragana 0.9.0\n"
+"Report-Msgid-Bugs-To: https://github.com/esrille/ibus-hiragana/issues\n"
+"POT-Creation-Date: 2020-05-31 13:54+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: engine/engine.py:164 engine/engine.py:197
+#, python-format
+msgid "Input mode (%s)"
+msgstr ""
+
+#: engine/engine.py:175
+msgid "Setup"
+msgstr ""
+
+#: engine/engine.py:186
+msgid "About Hiragana IME..."
+msgstr ""
+
+#: engine/engine.py:769
+msgid "Hiragana IME"
+msgstr ""
+
+#: engine/engine.py:774
+msgid "Introduction to Hiragana IME"
+msgstr ""
+
+#: setup/main.py:56
+msgid "Rōmaji Input"
+msgstr ""
+
+#: setup/main.py:57
+msgid "Kana Input (JIS Layout)"
+msgstr ""
+
+#: setup/main.py:58
+msgid "Kana Input (New Stickney Layout)"
+msgstr ""
+
+#: setup/main.py:67
+msgid "Japanese Keyboard"
+msgstr ""
+
+#: setup/main.py:68
+msgid "US Keyboard"
+msgstr ""
+
+#: setup/main.py:101
+msgid "1st grade"
+msgstr ""
+
+#: setup/main.py:102
+msgid "2nd grade"
+msgstr ""
+
+#: setup/main.py:103
+msgid "3rd grade"
+msgstr ""
+
+#: setup/main.py:104
+msgid "4th grade"
+msgstr ""
+
+#: setup/main.py:105
+msgid "5th grade"
+msgstr ""
+
+#: setup/main.py:106
+msgid "6th grade"
+msgstr ""
+
+#: setup/main.py:107
+msgid "7-9th grade"
+msgstr ""
+
+#: setup/main.py:108
+msgid "10th+ grade (Okurigana: general)"
+msgstr ""
+
+#: setup/main.py:109
+msgid "10th+ grade (Okurigana: general + permissible)"
+msgstr ""
+
+#: setup/setup.glade:8
+msgid "Hiragana IME Setup"
+msgstr ""
+
+#: setup/setup.glade:46
+msgid "<b>Keyboard</b>"
+msgstr ""
+
+#: setup/setup.glade:76
+msgid "Layout"
+msgstr ""
+
+#: setup/setup.glade:98
+msgid "Type"
+msgstr ""
+
+#: setup/setup.glade:162
+msgid "<b>Rōmaji</b>"
+msgstr ""
+
+#: setup/setup.glade:187
+msgid "Always convert 'nn' to 'ん'"
+msgstr ""
+
+#: setup/setup.glade:230
+msgid "Keyboard"
+msgstr ""
+
+#: setup/setup.glade:257
+msgid "<b>Dictionary</b>"
+msgstr ""
+
+#: setup/setup.glade:282
+msgid "Kanji Dictionary File"
+msgstr ""
+
+#: setup/setup.glade:324
+msgid "Dictionary"
+msgstr ""
