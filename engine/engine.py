@@ -17,8 +17,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import bits
 from dictionary import Dictionary
+import event
 from event import Event
 import package
 
@@ -314,9 +314,9 @@ class EngineHiragana(IBus.Engine):
             if self._event.is_shift():
                 if 'Shift' in self._layout:
                     yomi = self._layout['\\Shift'][c]
-                elif modifiers & bits.ShiftL_Bit:
+                elif modifiers & event.SHIFT_L_BIT:
                     yomi = self._layout['\\ShiftL'][c]
-                elif modifiers & bits.ShiftR_Bit:
+                elif modifiers & event.SHIFT_R_BIT:
                     yomi = self._layout['\\ShiftR'][c]
             else:
                 yomi = self._layout['\\Normal'][c]
@@ -324,9 +324,9 @@ class EngineHiragana(IBus.Engine):
             if self._event.is_shift():
                 if 'Shift' in self._layout:
                     yomi = self._layout['Shift'][c]
-                elif modifiers & bits.ShiftL_Bit:
+                elif modifiers & event.SHIFT_L_BIT:
                     yomi = self._layout['ShiftL'][c]
-                elif modifiers & bits.ShiftR_Bit:
+                elif modifiers & event.SHIFT_R_BIT:
                     yomi = self._layout['ShiftR'][c]
             else:
                 yomi = self._layout['Normal'][c]

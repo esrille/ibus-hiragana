@@ -14,8 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import bits
-
 import logging
 
 from gi import require_version
@@ -28,6 +26,28 @@ logger = logging.getLogger(__name__)
 keysyms = IBus
 
 MODIFIERS = (keysyms.Shift_L, keysyms.Shift_R, keysyms.Control_L, keysyms.Control_R, keysyms.Alt_L, keysyms.Alt_R)
+
+SHIFT_L_BIT = 0x01
+SHIFT_R_BIT = 0x02
+CONTROL_L_BIT = 0x04
+CONTROL_R_BIT = 0x08
+ALT_L_BIT = 0x10
+ALT_R_BIT = 0x20
+SPACE_BIT = 0x40
+PREFIX_BIT = 0x80
+
+DUAL_SHIFT_L_BIT = SHIFT_L_BIT << 8
+DUAL_SHIFT_R_BIT = SHIFT_R_BIT << 8
+DUAL_CONTROL_R_BIT = CONTROL_R_BIT << 8
+DUAL_ALT_R_BIT = ALT_R_BIT << 8
+DUAL_SPACE_BIT = SPACE_BIT << 8
+DUAL_BITS = DUAL_SPACE_BIT | DUAL_SHIFT_L_BIT | DUAL_SHIFT_R_BIT | DUAL_CONTROL_R_BIT | DUAL_ALT_R_BIT
+
+NOT_DUAL_SHIFT_L_BIT = SHIFT_L_BIT << 16
+NOT_DUAL_SHIFT_R_BIT = SHIFT_R_BIT << 16
+NOT_DUAL_CONTROL_R_BIT = CONTROL_R_BIT << 16
+NOT_DUAL_ALT_R_BIT = ALT_R_BIT << 16
+NOT_DUAL_SPACE_BIT = SPACE_BIT << 16
 
 
 class Event:
@@ -46,7 +66,7 @@ class Event:
         self._Shrink = keysyms.VoidSymbol
         self._Prefix = False                   # True if Shift is to be prefixed
         self._HasYen = False
-        self._DualBits = bits.Dual_ShiftL_Bit
+        self._DualBits = DUAL_SHIFT_L_BIT
 
         if layout.get("Keyboard") == "109":
             self._Kana = keysyms.Hiragana_Katakana
@@ -57,11 +77,11 @@ class Event:
 
         self._SandS = layout.get("SandS", False)
         if self._SandS:
-            self._DualBits |= bits.Dual_Space_Bit
+            self._DualBits |= DUAL_SPACE_BIT
         else:
             self._Prefix = layout.get("Prefix", False)
             if self._Prefix:
-                self._DualBits |= bits.Dual_Space_Bit
+                self._DualBits |= DUAL_SPACE_BIT
 
         if "Space" in layout:
             self._Space = IBus.keyval_from_name(layout["Space"])
@@ -78,7 +98,7 @@ class Event:
         self._capture_alt_r = False
         for k in (self._Henkan, self._Muhenkan, self._Kana, self._Space, self._Shrink):
             if k in MODIFIERS:
-                self._DualBits |= bits.Dual_ShiftL_Bit << MODIFIERS.index(k)
+                self._DualBits |= DUAL_SHIFT_L_BIT << MODIFIERS.index(k)
             if k == keysyms.Alt_R:
                 self._capture_alt_r = True
 
@@ -89,20 +109,20 @@ class Event:
 
     def reset(self):
         self._state = 0
-        self._modifiers = 0    # See bits.py
+        self._modifiers = 0    # See
 
     def is_key(self, keyval):
         if keyval == keysyms.VoidSymbol:
             return False
         if not self.is_modifier() and keyval == self._keyval:
             return True
-        if keyval == keysyms.Shift_L and (self._modifiers & bits.Dual_ShiftL_Bit):
+        if keyval == keysyms.Shift_L and (self._modifiers & DUAL_SHIFT_L_BIT):
             return True
-        if keyval == keysyms.Shift_R and (self._modifiers & bits.Dual_ShiftR_Bit):
+        if keyval == keysyms.Shift_R and (self._modifiers & DUAL_SHIFT_R_BIT):
             return True
-        if keyval == keysyms.Control_R and (self._modifiers & bits.Dual_ControlR_Bit):
+        if keyval == keysyms.Control_R and (self._modifiers & DUAL_CONTROL_R_BIT):
             return True
-        if keyval == keysyms.Alt_R and (self._modifiers & bits.Dual_AltR_Bit):
+        if keyval == keysyms.Alt_R and (self._modifiers & DUAL_ALT_R_BIT):
             return True
         return False
 
@@ -123,15 +143,15 @@ class Event:
         return self._keyval in MODIFIERS
 
     def is_shift(self):
-        mask = bits.ShiftL_Bit | bits.ShiftR_Bit
-        if self._SandS and (self._modifiers & bits.Space_Bit):
+        mask = SHIFT_L_BIT | SHIFT_R_BIT
+        if self._SandS and (self._modifiers & SPACE_BIT):
             return True
-        if self._Prefix and (self._modifiers & (bits.Space_Bit | bits.Prefix_Bit)):
+        if self._Prefix and (self._modifiers & (SPACE_BIT | PREFIX_BIT)):
             return True
-        if self._keyval == keysyms.Shift_R and (self._modifiers & bits.Dual_ShiftR_Bit):
-            mask &= ~bits.ShiftR_Bit
-        if self._keyval == keysyms.Shift_L and (self._modifiers & bits.Dual_ShiftL_Bit):
-            mask &= ~bits.ShiftL_Bit
+        if self._keyval == keysyms.Shift_R and (self._modifiers & DUAL_SHIFT_R_BIT):
+            mask &= ~SHIFT_R_BIT
+        if self._keyval == keysyms.Shift_L and (self._modifiers & DUAL_SHIFT_L_BIT):
+            mask &= ~SHIFT_L_BIT
         if self._modifiers & mask:
             return True
         return False
@@ -153,10 +173,10 @@ class Event:
         return self.is_key(self._Shrink)
 
     def is_suffix(self):
-        return self._modifiers & bits.Dual_ShiftL_Bit
+        return self._modifiers & DUAL_SHIFT_L_BIT
 
     def is_dual_role(self):
-        return self._modifiers & bits.Dual_Bits
+        return self._modifiers & DUAL_BITS
 
     def process_key_event(self, keyval, keycode, state):
         logger.debug("process_key_event(%s, %04x, %04x) %02x" %
@@ -172,37 +192,37 @@ class Event:
         elif keyval == keysyms.Meta_R:  # [Shift]-[Alt_R]
             keyval = keysyms.Alt_R
 
-        self._modifiers &= ~bits.Dual_Bits
+        self._modifiers &= ~DUAL_BITS
         is_press = ((state & IBus.ModifierType.RELEASE_MASK) == 0)
         if is_press:
             if keyval == keysyms.space:
-                self._modifiers |= bits.Space_Bit
-                self._modifiers &= ~bits.Not_Dual_Space_Bit
+                self._modifiers |= SPACE_BIT
+                self._modifiers &= ~NOT_DUAL_SPACE_BIT
             elif keyval == keysyms.Shift_L:
-                self._modifiers |= bits.ShiftL_Bit
-                self._modifiers &= ~bits.Not_Dual_ShiftL_Bit
+                self._modifiers |= SHIFT_L_BIT
+                self._modifiers &= ~NOT_DUAL_SHIFT_L_BIT
             elif keyval == keysyms.Shift_R:
-                self._modifiers |= bits.ShiftR_Bit
-                self._modifiers &= ~bits.Not_Dual_ShiftR_Bit
+                self._modifiers |= SHIFT_R_BIT
+                self._modifiers &= ~NOT_DUAL_SHIFT_R_BIT
             elif keyval == keysyms.Control_L:
-                self._modifiers |= bits.ControlL_Bit
+                self._modifiers |= CONTROL_L_BIT
             elif keyval == keysyms.Control_R:
-                self._modifiers |= bits.ControlR_Bit
-                self._modifiers &= ~bits.Not_Dual_ControlR_Bit
+                self._modifiers |= CONTROL_R_BIT
+                self._modifiers &= ~NOT_DUAL_CONTROL_R_BIT
             elif keyval == keysyms.Alt_R:
-                self._modifiers |= bits.AltR_Bit
-                self._modifiers &= ~bits.Not_Dual_AltR_Bit
+                self._modifiers |= ALT_R_BIT
+                self._modifiers &= ~NOT_DUAL_ALT_R_BIT
 
-            if (self._modifiers & bits.Space_Bit) and keyval != keysyms.space:
-                self._modifiers |= bits.Not_Dual_Space_Bit
-            if (self._modifiers & bits.ShiftL_Bit) and keyval != keysyms.Shift_L:
-                self._modifiers |= bits.Not_Dual_ShiftL_Bit
-            if (self._modifiers & bits.ShiftR_Bit) and keyval != keysyms.Shift_R:
-                self._modifiers |= bits.Not_Dual_ShiftR_Bit
-            if (self._modifiers & bits.ControlR_Bit) and keyval != keysyms.Control_R:
-                self._modifiers |= bits.Not_Dual_ControlR_Bit
-            if (self._modifiers & bits.AltR_Bit) and keyval != keysyms.Alt_R:
-                self._modifiers |= bits.Not_Dual_AltR_Bit
+            if (self._modifiers & SPACE_BIT) and keyval != keysyms.space:
+                self._modifiers |= NOT_DUAL_SPACE_BIT
+            if (self._modifiers & SHIFT_L_BIT) and keyval != keysyms.Shift_L:
+                self._modifiers |= NOT_DUAL_SHIFT_L_BIT
+            if (self._modifiers & SHIFT_R_BIT) and keyval != keysyms.Shift_R:
+                self._modifiers |= NOT_DUAL_SHIFT_R_BIT
+            if (self._modifiers & CONTROL_R_BIT) and keyval != keysyms.Control_R:
+                self._modifiers |= NOT_DUAL_CONTROL_R_BIT
+            if (self._modifiers & ALT_R_BIT) and keyval != keysyms.Alt_R:
+                self._modifiers |= NOT_DUAL_ALT_R_BIT
 
             # Check CAPS LOCK for IME on/off
             if self._OnOffByCaps:
@@ -239,42 +259,42 @@ class Event:
         else:
 
             if keyval == keysyms.space:
-                if not (self._modifiers & bits.Not_Dual_Space_Bit):
-                    self._modifiers |= bits.Dual_Space_Bit
-                self._modifiers &= ~bits.Space_Bit
+                if not (self._modifiers & NOT_DUAL_SPACE_BIT):
+                    self._modifiers |= DUAL_SPACE_BIT
+                self._modifiers &= ~SPACE_BIT
             elif keyval == keysyms.Shift_L:
-                if not (self._modifiers & bits.Not_Dual_ShiftL_Bit):
-                    self._modifiers |= bits.Dual_ShiftL_Bit
-                self._modifiers &= ~bits.ShiftL_Bit
+                if not (self._modifiers & NOT_DUAL_SHIFT_L_BIT):
+                    self._modifiers |= DUAL_SHIFT_L_BIT
+                self._modifiers &= ~SHIFT_L_BIT
             elif keyval == keysyms.Shift_R:
-                if not (self._modifiers & bits.Not_Dual_ShiftR_Bit):
-                    self._modifiers |= bits.Dual_ShiftR_Bit
-                self._modifiers &= ~bits.ShiftR_Bit
+                if not (self._modifiers & NOT_DUAL_SHIFT_R_BIT):
+                    self._modifiers |= DUAL_SHIFT_R_BIT
+                self._modifiers &= ~SHIFT_R_BIT
             elif keyval == keysyms.Control_L:
-                self._modifiers &= ~bits.ControlL_Bit
+                self._modifiers &= ~CONTROL_L_BIT
             elif keyval == keysyms.Control_R:
-                if not (self._modifiers & bits.Not_Dual_ControlR_Bit):
-                    self._modifiers |= bits.Dual_ControlR_Bit
-                self._modifiers &= ~bits.ControlR_Bit
+                if not (self._modifiers & NOT_DUAL_CONTROL_R_BIT):
+                    self._modifiers |= DUAL_CONTROL_R_BIT
+                self._modifiers &= ~CONTROL_R_BIT
             elif keyval == keysyms.Alt_R:
-                if not (self._modifiers & bits.Not_Dual_AltR_Bit):
-                    self._modifiers |= bits.Dual_AltR_Bit
-                self._modifiers &= ~bits.AltR_Bit
+                if not (self._modifiers & NOT_DUAL_ALT_R_BIT):
+                    self._modifiers |= DUAL_ALT_R_BIT
+                self._modifiers &= ~ALT_R_BIT
 
         if self._engine.is_enabled():
             if self._SandS:
-                if (self._modifiers & bits.Space_Bit) and keyval == keysyms.space:
+                if (self._modifiers & SPACE_BIT) and keyval == keysyms.space:
                     return True
             elif self._Prefix:
-                if (self._modifiers & bits.Space_Bit) and keyval == keysyms.space:
+                if (self._modifiers & SPACE_BIT) and keyval == keysyms.space:
                     return True
-                if self._modifiers & bits.Dual_Space_Bit:
-                    self._modifiers ^= bits.Prefix_Bit
+                if self._modifiers & DUAL_SPACE_BIT:
+                    self._modifiers ^= PREFIX_BIT
                     return True
 
         # Ignore normal key release events
         if not is_press and not (self._modifiers & self._DualBits):
-            self._modifiers &= ~bits.Prefix_Bit
+            self._modifiers &= ~PREFIX_BIT
             return False
 
         if self._engine.is_enabled():
@@ -320,7 +340,7 @@ class Event:
         keyval = self.update_key_event(keyval, keycode, state)
         processed = self._engine.handle_key_event(keyval, keycode, state, self._modifiers)
         if state & IBus.ModifierType.RELEASE_MASK:
-            self._modifiers &= ~bits.Prefix_Bit
+            self._modifiers &= ~PREFIX_BIT
         if keyval == keysyms.Alt_R and self._capture_alt_r:
             return True
         if self.is_dual_role():

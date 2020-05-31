@@ -16,7 +16,6 @@
 # limitations under the License.
 
 engine_hiragana_PYTHON = \
-	bits.py \
 	dictionary.py \
 	engine.py \
 	event.py \
