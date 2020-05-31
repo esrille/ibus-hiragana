@@ -45,12 +45,15 @@ class Dictionary:
 
         self._orders_path = ''
 
-        # Load Katakana dictionary first so that Katakana words come after Kanji words.
-        katakana_path = os.path.join(package.get_datadir(), 'katakana.dic')
-        self._load_dict(self._dict_base, katakana_path)
+        try:
+            # Load Katakana dictionary first so that Katakana words come after Kanji words.
+            katakana_path = os.path.join(package.get_datadir(), 'katakana.dic')
+            self._load_dict(self._dict_base, katakana_path)
 
-        # Load system dictionary
-        self._load_dict(self._dict_base, path)
+            # Load system dictionary
+            self._load_dict(self._dict_base, path)
+        except Exception as error:
+            logger.error(error)
 
         # Load private dictionary
         self._dict = self._dict_base.copy()

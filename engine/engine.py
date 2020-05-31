@@ -122,7 +122,7 @@ class EngineHiragana(IBus.Engine):
         self._override = False
 
         self._layout = dict()
-        self._to_kana = self._handle_roomazi_layout
+        self._to_kana = self._handle_default_layout
 
         self._preedit_string = ''
         self._previous_text = ''
@@ -256,8 +256,10 @@ class EngineHiragana(IBus.Engine):
                 logger.error(error)
         if layout.get('Type') == 'Kana':
             self._to_kana = self._handle_kana_layout
-        else:
+        elif 'Roomazi' in layout:
             self._to_kana = self._handle_roomazi_layout
+        else:
+            self._to_kana = self._handle_default_layout
         return layout
 
     def _load_delay(self, config):
@@ -305,6 +307,9 @@ class EngineHiragana(IBus.Engine):
             self._override = True
         elif name == "nn_as_jis_x_4063":
             self._set_x4063_mode(self._load_x4063_mode(self._config))
+
+    def _handle_default_layout(self, preedit, keyval, state=0, modifiers=0):
+        return self._event.chr(), ''
 
     def _handle_kana_layout(self, preedit, keyval, state=0, modifiers=0):
         yomi = ''
