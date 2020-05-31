@@ -1,3 +1,9 @@
+ibus-hiragana (0.9.0) unstable; urgency=low
+
+  * See https://github.com/esrille/ibus-hiragana/releases/tag/v0.9.0
+
+ -- Esrille Inc. <info@esrille.com>  Sun, 31 May 2020 16:54:31 +0900
+
 ibus-hiragana (0.8.0) unstable; urgency=low
 
   * See https://github.com/esrille/ibus-replace-with-kanji/releases/tag/v0.8.0
