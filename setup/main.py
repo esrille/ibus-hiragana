@@ -176,7 +176,7 @@ class SetupEngineHiragana:
         self._window.destroy()
 
     def on_ok(self, *args):
-        # self.apply()
+        self.apply()
         self._window.destroy()
 
     def on_destroy(self, *args):
