@@ -35,6 +35,7 @@ ALT_L_BIT = 0x10
 ALT_R_BIT = 0x20
 SPACE_BIT = 0x40
 PREFIX_BIT = 0x80
+MODIFIER_BITS = SHIFT_L_BIT | SHIFT_R_BIT | CONTROL_L_BIT | CONTROL_R_BIT | ALT_L_BIT | ALT_R_BIT | SPACE_BIT
 
 DUAL_SHIFT_L_BIT = SHIFT_L_BIT << 8
 DUAL_SHIFT_R_BIT = SHIFT_R_BIT << 8
@@ -196,22 +197,37 @@ class Event:
         is_press = ((state & IBus.ModifierType.RELEASE_MASK) == 0)
         if is_press:
             if keyval == keysyms.space:
+                if self._modifiers & MODIFIER_BITS:
+                    self._modifiers |= NOT_DUAL_SPACE_BIT
+                else:
+                    self._modifiers &= ~NOT_DUAL_SPACE_BIT
                 self._modifiers |= SPACE_BIT
-                self._modifiers &= ~NOT_DUAL_SPACE_BIT
             elif keyval == keysyms.Shift_L:
+                if self._modifiers & MODIFIER_BITS:
+                    self._modifiers |= NOT_DUAL_SHIFT_L_BIT
+                else:
+                    self._modifiers &= ~NOT_DUAL_SHIFT_L_BIT
                 self._modifiers |= SHIFT_L_BIT
-                self._modifiers &= ~NOT_DUAL_SHIFT_L_BIT
             elif keyval == keysyms.Shift_R:
+                if self._modifiers & MODIFIER_BITS:
+                    self._modifiers |= NOT_DUAL_SHIFT_R_BIT
+                else:
+                    self._modifiers &= ~NOT_DUAL_SHIFT_R_BIT
                 self._modifiers |= SHIFT_R_BIT
-                self._modifiers &= ~NOT_DUAL_SHIFT_R_BIT
             elif keyval == keysyms.Control_L:
                 self._modifiers |= CONTROL_L_BIT
             elif keyval == keysyms.Control_R:
+                if self._modifiers & MODIFIER_BITS:
+                    self._modifiers |= NOT_DUAL_CONTROL_R_BIT
+                else:
+                    self._modifiers &= ~NOT_DUAL_CONTROL_R_BIT
                 self._modifiers |= CONTROL_R_BIT
-                self._modifiers &= ~NOT_DUAL_CONTROL_R_BIT
             elif keyval == keysyms.Alt_R:
+                if self._modifiers & MODIFIER_BITS:
+                    self._modifiers |= NOT_DUAL_ALT_R_BIT
+                else:
+                    self._modifiers &= ~NOT_DUAL_ALT_R_BIT
                 self._modifiers |= ALT_R_BIT
-                self._modifiers &= ~NOT_DUAL_ALT_R_BIT
 
             if (self._modifiers & SPACE_BIT) and keyval != keysyms.space:
                 self._modifiers |= NOT_DUAL_SPACE_BIT
