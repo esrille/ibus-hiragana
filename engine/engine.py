@@ -576,11 +576,24 @@ class EngineHiragana(IBus.Engine):
 
     def handle_katakana(self):
         text, pos = self._get_surrounding_text()
+        if self._preedit_string == 'n':
+            self._preedit_string = ''
+            if self._acked:
+                text = text[:pos] + 'ん'
+                pos += 1
+                self._commit_string('ん')
+                self._acked = True
+                self._committed = ''
+            else:
+                self._update()
+                self._commit_string('ン')
+                return True
         for i in reversed(range(pos)):
             if 0 <= KATAKANA.find(text[i]):
                 continue
             found = HIRAGANA.find(text[i])
             if 0 <= found:
+                self._update()
                 self._delete_surrounding_text(pos - i)
                 self._commit_string(KATAKANA[found] + text[i + 1:pos])
             break
