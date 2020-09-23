@@ -168,7 +168,7 @@ class Event:
     def is_muhenkan(self):
         if self.is_key(self._Henkan) or self.is_key(keysyms.Henkan):
             return self.is_shift()
-        return False
+        return self.is_key(self._Muhenkan)
 
     def is_shrink(self):
         return self.is_key(self._Shrink)
