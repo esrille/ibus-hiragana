@@ -31,6 +31,7 @@ import sys
 import time
 
 import gi
+
 gi.require_version('IBus', '1.0')
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, IBus
@@ -39,7 +40,7 @@ keysyms = IBus
 
 logger = logging.getLogger(__name__)
 
-_ = lambda a : gettext.dgettext(package.get_name(), a)
+_ = lambda a: gettext.dgettext(package.get_name(), a)
 
 HIRAGANA = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんゔがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっぱぴぷぺぽゎゐゑ・ーゝゞ"
 KATAKANA = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンヴガギグゲゴザジズゼゾダヂヅデドバビブベボァィゥェォャュョッパピプペポヮヰヱ・ーヽヾ"
@@ -118,7 +119,7 @@ class EngineHiragana(IBus.Engine):
 
     def __init__(self):
         super().__init__()
-        self._mode = 'A'    # _mode must be one of _input_mode_names
+        self._mode = 'A'  # _mode must be one of _input_mode_names
         self._override = False
 
         self._layout = dict()
@@ -159,15 +160,16 @@ class EngineHiragana(IBus.Engine):
         self._prop_list = IBus.PropList()
         self._input_mode_prop = IBus.Property(
             key='InputMode',
-            prop_type=IBus.PropType.NORMAL,
+            prop_type=IBus.PropType.MENU,
             symbol=IBus.Text.new_from_string(self._mode),
             label=IBus.Text.new_from_string(_("Input mode (%s)") % self._mode),
             icon=None,
             tooltip=None,
-            sensitive=False,
+            sensitive=True,
             visible=True,
             state=IBus.PropState.UNCHECKED,
             sub_props=None)
+        self._input_mode_prop.set_sub_props(self._init_input_mode_props())
         self._prop_list.append(self._input_mode_prop)
         prop = IBus.Property(
             key='Setup',
@@ -191,6 +193,55 @@ class EngineHiragana(IBus.Engine):
             state=IBus.PropState.UNCHECKED,
             sub_props=None)
         self._prop_list.append(prop)
+
+    def _init_input_mode_props(self):
+        props = IBus.PropList()
+        props.append(IBus.Property(key='InputMode.Alphanumeric',
+                                   prop_type=IBus.PropType.RADIO,
+                                   label=IBus.Text.new_from_string(_("Alphanumeric (A)")),
+                                   icon=None,
+                                   tooltip=None,
+                                   sensitive=True,
+                                   visible=True,
+                                   state=IBus.PropState.CHECKED,
+                                   sub_props=None))
+        props.append(IBus.Property(key='InputMode.Hiragana',
+                                   prop_type=IBus.PropType.RADIO,
+                                   label=IBus.Text.new_from_string(_("Hiragana (あ)")),
+                                   icon=None,
+                                   tooltip=None,
+                                   sensitive=True,
+                                   visible=True,
+                                   state=IBus.PropState.UNCHECKED,
+                                   sub_props=None))
+        props.append(IBus.Property(key='InputMode.Katakana',
+                                   prop_type=IBus.PropType.RADIO,
+                                   label=IBus.Text.new_from_string(_("Katakana (ア)")),
+                                   icon=None,
+                                   tooltip=None,
+                                   sensitive=True,
+                                   visible=True,
+                                   state=IBus.PropState.UNCHECKED,
+                                   sub_props=None))
+        props.append(IBus.Property(key='InputMode.WideAlphanumeric',
+                                   prop_type=IBus.PropType.RADIO,
+                                   label=IBus.Text.new_from_string(_("Wide Alphanumeric (Ａ)")),
+                                   icon=None,
+                                   tooltip=None,
+                                   sensitive=True,
+                                   visible=True,
+                                   state=IBus.PropState.UNCHECKED,
+                                   sub_props=None))
+        props.append(IBus.Property(key='InputMode.HalfWidthKatakana',
+                                   prop_type=IBus.PropType.RADIO,
+                                   label=IBus.Text.new_from_string(_("Halfwidth Katakana (ｱ)")),
+                                   icon=None,
+                                   tooltip=None,
+                                   sensitive=True,
+                                   visible=True,
+                                   state=IBus.PropState.UNCHECKED,
+                                   sub_props=None))
+        return props
 
     def _update_input_mode(self):
         self._input_mode_prop.set_symbol(IBus.Text.new_from_string(self._mode))
@@ -788,7 +839,7 @@ class EngineHiragana(IBus.Engine):
         logger.info("property_activate(%s, %d)" % (prop_name, state))
         if prop_name == "Setup":
             self._start_setup()
-        if prop_name == "About":
+        elif prop_name == "About":
             if self._about_dialog:
                 self._about_dialog.present()
                 return
@@ -806,6 +857,17 @@ class EngineHiragana(IBus.Engine):
             dialog.connect("response", self.about_response_callback)
             self._about_dialog = dialog
             dialog.show()
+        elif prop_name.startswith('InputMode.'):
+            if state == IBus.PropState.CHECKED:
+                mode = {
+                    'InputMode.Alphanumeric': 'A',
+                    'InputMode.Hiragana': 'あ',
+                    'InputMode.Katakana': 'ア',
+                    'InputMode.WideAlphanumeric': 'Ａ',
+                    'InputMode.HalfWidthKatakana': 'ｱ',
+                }.get(prop_name, 'A')
+                self.set_mode(mode)
+                self._override = True
 
     def about_response_callback(self, dialog, response):
         dialog.destroy()
