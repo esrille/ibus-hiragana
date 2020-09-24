@@ -619,6 +619,15 @@ class EngineHiragana(IBus.Engine):
     def handle_shrink(self, keyval, state):
         logger.debug("handle_shrink: '%s'", self._dict.current())
         if not self._dict.current():
+            text, pos = self._get_surrounding_text()
+            if 1 <= pos:
+                (cand, size) = self.lookup_dictionary(text[pos - 1:], 1)
+                self._shrunk = ''
+                if self._dict.current():
+                    self._update()
+                    self._delete_surrounding_text(size)
+                    self._commit_string(self._shrunk + cand)
+                    return True
             return False
         yomi = self._dict.reading()
         if len(yomi) <= 1:
