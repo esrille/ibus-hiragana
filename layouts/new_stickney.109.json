@@ -5,8 +5,9 @@
     "Prefix": true,
     "Henkan": "colon",
     "Muhenkan": "asterisk",
-    "Space": "Shift_R",
-    "Shrink": "Control_R",
+    "Katakana": "Control_R",
+    "Shrink": "Shift_R",
+    "Space": "Hiragana_Katakana",
     "Normal": {
         " ": "　",
         "1": "１", "!": "１", "2": "２", "\"": "２", "3": "３", "#": "３", "4": "４", "$": "４", "5": "５", "%": "５",

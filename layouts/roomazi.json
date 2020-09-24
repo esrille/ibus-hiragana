@@ -1,8 +1,8 @@
 {
-    "Space": "Shift_R",
+    "Space": "Alt_R",
     "Henkan": "space",
-    "Katakana": "Alt_R",
-    "Shrink": "Control_R",
+    "Katakana": "Control_R",
+    "Shrink": "Shift_R",
     "Roomazi": {
         " ": "　",
         "!": "！", "\"": "＂", "#": "＃", "$": "＄", "%": "％",

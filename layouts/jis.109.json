@@ -2,7 +2,7 @@
     "Keyboard": "109",
     "OnOffByCaps": false,
     "Type": "Kana",
-    "Shrink": "Control_R",
+    "Shrink": "Shift_R",
     "Normal": {
         " ": "　",
         "1": "ぬ", "!": "ぬ", "2": "ふ", "\"": "ふ", "3": "あ", "#": "あ", "4": "う", "$": "う", "5": "え", "%": "え",
