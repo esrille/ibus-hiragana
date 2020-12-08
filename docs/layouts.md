@@ -60,11 +60,11 @@
 <div class='layer109 L3'>
 <div></div><div class='n'>ぬ</div><div class='h'>ふ</div><div class='a'>あ</div><div class='a'>う</div><div class='a'>え</div><div class='a'>お</div><div class='y'>や</div><div class='y'>ゆ</div><div class='y'>よ</div><div class='w'>わ</div><div class='h'>ほ</div><div class='h'>へ</div><div class='x'>ー</div><div></div>
 <br>
-<div class='k150'></div><div class='t'>た</div><div class='t'>て</div><div class='a'>い</div><div class='s'>す</div><div class='k'>か</div><div class='x'>ん</div><div class='n'>な</div><div class='n'>に</div><div class='r'>ら</div><div class='s'>せ</div><div><span class='small'>゛</span></div><div><span class='small h'>゜</span></div><div class='k150'></div>
+<div class='k150 kana'>よみ短縮</div><div class='t'>た</div><div class='t'>て</div><div class='a'>い</div><div class='s'>す</div><div class='k'>か</div><div class='x'>ん</div><div class='n'>な</div><div class='n'>に</div><div class='r'>ら</div><div class='s'>せ</div><div><span class='small'>゛</span></div><div><span class='small h'>゜</span></div><div class='k150'></div>
 <br>
 <div class='k175'></div><div class='t'>ち</div><div class='t'>と</div><div class='s'>し</div><div class='h'>は</div><div class='k'>き</div><div class='k'>く</div><div class='m'>ま</div><div class='n'>の</div><div class='r'>り</div><div class='r'>れ</div><div class='k'>け</div><div class='m'>む</div><div class='k125'></div>
 <br>
-<div class='k225 kana'>おくりがな</div><div class='t'>つ</div><div class='s'>さ</div><div class='s'>そ</div><div class='h'>ひ</div><div class='k'>こ</div><div class='m'>み</div><div class='m'>も</div><div class='n'>ね</div><div class='r'>る</div><div class='m'>め</div><div class='r'>ろ</div><div class='k175 kana'>よみ短縮</div>
+<div class='k225 kana'>おくりがな</div><div class='t'>つ</div><div class='s'>さ</div><div class='s'>そ</div><div class='h'>ひ</div><div class='k'>こ</div><div class='m'>み</div><div class='m'>も</div><div class='n'>ね</div><div class='r'>る</div><div class='m'>め</div><div class='r'>ろ</div><div class='k175'></div>
 <br>
 <div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150 kana'>A</div><div class='k250'></div><div class='k150 kana'>あ</div><div class='k125'></div><div></div><div></div><div></div><div class='k125'></div>
 </div>
@@ -204,11 +204,11 @@
 <div class='layer L3'>
 <div>…</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'></div>
 <br>
-<div class='k150'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>「</div><div>」</div><div class='k150'><span class='kana'>\</span></div>
+<div class='k150 kana'>よみ短縮</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>「</div><div>」</div><div class='k150'><span class='kana'>\</span></div>
 <br>
 <div class='k175'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k225'></div>
 <br>
-<div class='k225 kana'>おくりがな</div><div></div><div></div><div></div><div></div><div></div><div><span></span></div><div></div><div>、</div><div>。</div><div>・</div><div class='k275 kana'>よみ短縮</div>
+<div class='k225 kana'>おくりがな</div><div></div><div></div><div></div><div></div><div></div><div><span></span></div><div></div><div>、</div><div>。</div><div>・</div><div class='k275'></div>
 <br>
 <div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'><span class='kana'>変換</span></div><div class='k125'><span class='kana'>空白</span></div><div class='k125'></div><div class='k125'></div><div class='k125'><span class='kana'>カタカナ</span></div>
 </div>
@@ -270,11 +270,11 @@
 <div class='layer109 L3'>
 <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>…</div><div><span class='kana'>\</span></div><div></div>
 <br>
-<div class='k150'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>「</div><div class='k150'></div>
+<div class='k150 kana'>よみ短縮</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>「</div><div class='k150'></div>
 <br>
 <div class='k175'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>」</div><div class='k125'></div>
 <br>
-<div class='k225 kana'>おくりがな</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>、</div><div>。</div><div>・</div><div></div><div class='k175 kana'>よみ短縮</div>
+<div class='k225 kana'>おくりがな</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>、</div><div>。</div><div>・</div><div></div><div class='k175'></div>
 <br>
 <div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150 kana'>A</div><div class='k250'></div><div class='k150 kana'>あ</div><div class='k125'></div><div></div><div></div><div></div><div class='k125 kana'></div>
 </div>
@@ -343,11 +343,11 @@
 <div class='layer L3'>
 <div>…</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'></div>
 <br>
-<div class='k150'></div><div class='k'>け</div><div class='k'>く</div><div class='s'>す</div><div class='s'>さ</div><div class='s'>せ</div><div class='t'>つ</div><div class='n'>に</div><div class='n'>の</div><div class='w'>を</div><div class='w'>わ</div><div>「</div><div>」</div><div class='k150'><span class='kana'>\</span></div>
+<div class='k150 kana'>よみ短縮</div><div class='k'>け</div><div class='k'>く</div><div class='s'>す</div><div class='s'>さ</div><div class='s'>せ</div><div class='t'>つ</div><div class='n'>に</div><div class='n'>の</div><div class='w'>を</div><div class='w'>わ</div><div>「</div><div>」</div><div class='k150'><span class='kana'>\</span></div>
 <br>
 <div class='k175'></div><div class='t'>た</div><div class='k'>か</div><div class='s'>し</div><div class='h'>は</div><div class='t'>て</div><div class='r'>ら</div><div class='a'>う</div><div class='a'>い</div><div><span class='small'>゛</span></div><div class='n'>な</div><div><span class='kana'>変換</span></div><div class='k225'></div>
 <br>
-<div class='k225 kana'>おくりがな</div><div class='t'>ち</div><div class='k'>き</div><div class='k'>こ</div><div class='t'>と</div><div class='y'>よ</div><div><span class='small x'>っ</span></div><div class='x'>ん</div><div>、</div><div>。</div><div class='n'>ね</div><div class='k275 kana'>よみ短縮</div>
+<div class='k225 kana'>おくりがな</div><div class='t'>ち</div><div class='k'>き</div><div class='k'>こ</div><div class='t'>と</div><div class='y'>よ</div><div><span class='small x'>っ</span></div><div class='x'>ん</div><div>、</div><div>。</div><div class='n'>ね</div><div class='k275'></div>
 <br>
 <div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'><span class='kana'>前置・連続
 シフト</span></div><div class='k125'><span class='kana'>空白</span></div><div class='k125'></div><div class='k125'></div><div class='k125'><span class='kana'>カタカナ</span></div>
@@ -408,11 +408,11 @@
 <div class='layer109 L3'>
 <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>…</div><div><span class='kana'>\</span></div><div></div>
 <br>
-<div class='k150'></div><div class='k'>け</div><div class='k'>く</div><div class='s'>す</div><div class='s'>さ</div><div class='s'>せ</div><div class='t'>つ</div><div class='n'>に</div><div class='n'>の</div><div class='w'>を</div><div class='w'>わ</div><div></div><div>「</div><div class='k150'></div>
+<div class='k150 kana'>よみ短縮</div><div class='k'>け</div><div class='k'>く</div><div class='s'>す</div><div class='s'>さ</div><div class='s'>せ</div><div class='t'>つ</div><div class='n'>に</div><div class='n'>の</div><div class='w'>を</div><div class='w'>わ</div><div></div><div>「</div><div class='k150'></div>
 <br>
 <div class='k175'></div><div class='t'>た</div><div class='k'>か</div><div class='s'>し</div><div class='h'>は</div><div class='t'>て</div><div class='r'>ら</div><div class='a'>う</div><div class='a'>い</div><div><span class='small'>゛</span></div><div class='n'>な</div><div><span class='kana'>変換</span></div><div>」</div><div class='k125'></div>
 <br>
-<div class='k225 kana'>おくりがな</div><div class='t'>ち</div><div class='k'>き</div><div class='k'>こ</div><div class='t'>と</div><div class='y'>よ</div><div><span class='small x'>っ</span></div><div class='x'>ん</div><div>、</div><div>。</div><div class='n'>ね</div><div><span class='kana'>空白</span></div><div class='k175 kana'>よみ短縮</div>
+<div class='k225 kana'>おくりがな</div><div class='t'>ち</div><div class='k'>き</div><div class='k'>こ</div><div class='t'>と</div><div class='y'>よ</div><div><span class='small x'>っ</span></div><div class='x'>ん</div><div>、</div><div>。</div><div class='n'>ね</div><div><span class='kana'>空白</span></div><div class='k175'></div>
 <br>
 <div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150 kana'>A</div><div class='k250 kana'>前置・連続シフト</div><div class='k150 kana'>あ</div><div class='k125 kana'>空白</div><div></div><div></div><div></div><div class='k125 kana'>カタカナ</div>
 </div>

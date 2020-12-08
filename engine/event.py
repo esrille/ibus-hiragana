@@ -64,7 +64,6 @@ class Event:
         self._Eisuu = keysyms.VoidSymbol       # or keysyms.Eisu_toggle
         self._Kana = keysyms.VoidSymbol        # or keysyms.Hiragana_Katakana, keysyms.Control_R
         self._Space = keysyms.VoidSymbol       # Extra space key
-        self._Shrink = keysyms.VoidSymbol
         self._Prefix = False                   # True if Shift is to be prefixed
         self._HasYen = False
         self._DualBits = DUAL_SHIFT_L_BIT
@@ -92,12 +91,10 @@ class Event:
             self._Muhenkan = IBus.keyval_from_name(layout["Muhenkan"])
         if "Katakana" in layout:
             self._Kana = IBus.keyval_from_name(layout["Katakana"])
-        if "Shrink" in layout:
-            self._Shrink = IBus.keyval_from_name(layout["Shrink"])
 
         # Check dual role modifiers
         self._capture_alt_r = False
-        for k in (self._Henkan, self._Muhenkan, self._Kana, self._Space, self._Shrink):
+        for k in (self._Henkan, self._Muhenkan, self._Kana, self._Space):
             if k in MODIFIERS:
                 self._DualBits |= DUAL_SHIFT_L_BIT << MODIFIERS.index(k)
             if k == keysyms.Alt_R:
@@ -169,9 +166,6 @@ class Event:
         if self.is_key(self._Henkan) or self.is_key(keysyms.Henkan):
             return self.is_shift()
         return self.is_key(self._Muhenkan)
-
-    def is_shrink(self):
-        return self.is_key(self._Shrink)
 
     def is_suffix(self):
         return self._modifiers & DUAL_SHIFT_L_BIT

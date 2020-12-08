@@ -75,6 +75,8 @@ IAA = '\uFFF9'  # IAA (INTERLINEAR ANNOTATION ANCHOR)
 IAS = '\uFFFA'  # IAS (INTERLINEAR ANNOTATION SEPARATOR)
 IAT = '\uFFFB'  # IAT (INTERLINEAR ANNOTATION TERMINATOR)
 
+CANDIDATE_BACKGROUND_COLOR = 0xd1eaff
+
 
 def to_katakana(kana):
     return kana.translate(TO_KATAKANA)
@@ -146,7 +148,7 @@ class EngineHiragana(IBus.Engine):
         self.set_mode(self._load_input_mode(self._config))
         self._set_x4063_mode(self._load_x4063_mode(self._config))
 
-        self._shrunk = ''
+        self._shrunk = []
 
         self._committed = ''
         self._acked = True
@@ -509,7 +511,8 @@ class EngineHiragana(IBus.Engine):
         self._preedit_string = ''
         self._commit()
         self._mode = mode
-        self._update()
+        self._update_romazi_preedit()
+        self._update_lookup_table()
         self._update_input_mode()
         return True
 
@@ -541,11 +544,6 @@ class EngineHiragana(IBus.Engine):
                 return self.do_cursor_up()
             elif keyval == keysyms.Down or self._event.is_henkan():
                 return self.do_cursor_down()
-            elif keyval == keysyms.Escape:
-                return self.handle_escape(state)
-            elif keyval == keysyms.Return:
-                self._commit()
-                return True
 
         if self._preedit_string:
             if keyval == keysyms.Return:
@@ -553,18 +551,28 @@ class EngineHiragana(IBus.Engine):
                     self._preedit_string = 'ん'
                 self._commit_string(self._preedit_string)
                 self._preedit_string = ''
-                self._update()
+                self._update_romazi_preedit()
                 return True
             if keyval == keysyms.Escape:
                 self._preedit_string = ''
-                self._update()
+                self._update_romazi_preedit()
+                return True
+
+        if self._dict.current():
+            if keyval == keysyms.Tab:
+                if not self._event.is_shift():
+                    return self.handle_shrink()
+                else:
+                    return self.handle_expand()
+            if keyval == keysyms.Escape:
+                return self.handle_escape()
+            if keyval == keysyms.Return:
+                self._commit()
                 return True
 
         # Handle Japanese text
         if self._event.is_henkan():
             return self.handle_replace(keyval, state)
-        if self._event.is_shrink():
-            return self.handle_shrink(keyval, state)
         self._commit()
         yomi = ''
         if self._event.is_katakana():
@@ -576,7 +584,7 @@ class EngineHiragana(IBus.Engine):
         if self._event.is_backspace():
             if 1 <= len(self._preedit_string):
                 self._preedit_string = self._preedit_string[:-1]
-                self._update()
+                self._update_romazi_preedit()
                 return True
             elif 0 < len(self._previous_text):
                 self._previous_text = self._previous_text[:-1]
@@ -597,7 +605,7 @@ class EngineHiragana(IBus.Engine):
             elif self.get_mode() == 'ｱ':
                 yomi = to_hankaku(to_katakana(yomi))
             self._commit_string(yomi)
-        self._update()
+        self._update_romazi_preedit()
         return True
 
     def lookup_dictionary(self, yomi, pos):
@@ -636,7 +644,7 @@ class EngineHiragana(IBus.Engine):
                 self._acked = True
                 self._committed = ''
             else:
-                self._update()
+                self._update_romazi_preedit()
                 self._commit_string('ン')
                 return True
         for i in reversed(range(pos)):
@@ -644,7 +652,7 @@ class EngineHiragana(IBus.Engine):
                 continue
             found = HIRAGANA.find(text[i])
             if 0 <= found:
-                self._update()
+                self._update_romazi_preedit()
                 self._delete_surrounding_text(pos - i)
                 self._commit_string(KATAKANA[found] + text[i + 1:pos])
             break
@@ -654,67 +662,66 @@ class EngineHiragana(IBus.Engine):
         if not self._dict.current():
             text, pos = self._get_surrounding_text()
             (cand, size) = self.lookup_dictionary(text, pos)
-            self._shrunk = ''
+            if self._dict.current():
+                self._shrunk = []
+                self._update_romazi_preedit()
+                self._delete_surrounding_text(size)
+                self._update_candidate_preedit(cand)
         else:
-            size = len(self._shrunk) + len(self._dict.current())
             if not self._event.is_shift():
                 cand = self._dict.next()
             else:
                 cand = self._dict.previous()
-        if self._dict.current():
-            self._update()
-            self._delete_surrounding_text(size)
-            self._commit_string(self._shrunk + cand)
+            self._update_candidate_preedit(cand)
         return True
 
-    def handle_shrink(self, keyval, state):
-        logger.debug("handle_shrink: '%s'", self._dict.current())
-        if not self._dict.current():
-            text, pos = self._get_surrounding_text()
-            if 1 <= pos:
-                (cand, size) = self.lookup_dictionary(text[pos - 1:], 1)
-                self._shrunk = ''
-                if self._dict.current():
-                    self._update()
-                    self._delete_surrounding_text(size)
-                    self._commit_string(self._shrunk + cand)
-                    return True
-            return False
-        yomi = self._dict.reading()
-        if len(yomi) <= 1:
-            self.handle_escape(state)
+    def handle_expand(self):
+        assert self._dict.current()
+        if not self._shrunk:
             return True
-        current_size = len(self._shrunk) + len(self._dict.current())
+        kana = self._shrunk[-1]
+        yomi = self._dict.reading()
+        text, pos = self._get_surrounding_text()
+        (cand, size) = self.lookup_dictionary(kana + yomi + text[pos:], len(kana + yomi))
+        assert 0 < size
+        self._delete_surrounding_text(len(kana))
+        self._shrunk.pop(-1)
+        self._update_candidate_preedit(cand)
+        return True
+
+    def handle_shrink(self):
+        logger.debug("handle_shrink: '%s'", self._dict.current())
+        assert self._dict.current()
+        yomi = self._dict.reading()
+        if len(yomi) <= 1 or yomi[1] == '―':
+            return True
         text, pos = self._get_surrounding_text()
         (cand, size) = self.lookup_dictionary(yomi[1:] + text[pos:], len(yomi) - 1)
         kana = yomi
         if 0 < size:
             kana = kana[:-size]
-        self._shrunk += kana
-        self._delete_surrounding_text(current_size)
-        self._commit_string(self._shrunk + cand)
-        # Update preedit *after* committing the string to append preedit.
-        self._update()
+            self._shrunk.append(kana)
+            self._commit_string(kana)
+        else:
+            (cand, size) = self.lookup_dictionary(yomi + text[pos:], len(yomi))
+        self._update_candidate_preedit(cand)
         return True
 
-    def handle_escape(self, state):
-        if not self._dict.current():
-            return False
-        size = len(self._dict.current())
+    def handle_escape(self):
+        assert self._dict.current()
         yomi = self._dict.reading()
-        self._delete_surrounding_text(size)
-        self._commit_string(yomi)
         self._reset(False)
-        self._update()
+        self._commit_string(yomi)
         return True
 
     def _commit(self):
-        if self._dict.current():
-            self._dict.confirm(self._shrunk)
+        current = self._dict.current()
+        if current:
+            self._dict.confirm(''.join(self._shrunk))
             self._dict.reset()
             self._lookup_table.clear()
-            visible = 0 < self._lookup_table.get_number_of_candidates()
-            self.update_lookup_table(self._lookup_table, visible)
+            self._update_candidate_preedit('')
+            self._commit_string(current)
             self._previous_text = ''
 
     def _commit_string(self, text):
@@ -747,41 +754,36 @@ class EngineHiragana(IBus.Engine):
             self._previous_text = ''
             self._preedit_string = ''
             self._ignore_surrounding_text = False
+        self._update_romazi_preedit()
 
     def _update_candidate(self):
         index = self._lookup_table.get_cursor_pos()
-        size = len(self._shrunk) + len(self._dict.current())
         self._dict.set_current(index)
-        self._delete_surrounding_text(size)
-        self._commit_string(self._shrunk + self._dict.current())
+        self._update_candidate_preedit(self._dict.current())
 
     def do_page_up(self):
         if self._lookup_table.page_up():
-            self._update_lookup_table()
             self._update_candidate()
         return True
 
     def do_page_down(self):
         if self._lookup_table.page_down():
-            self._update_lookup_table()
             self._update_candidate()
         return True
 
     def do_cursor_up(self):
         if self._lookup_table.cursor_up():
-            self._update_lookup_table()
             self._update_candidate()
         return True
 
     def do_cursor_down(self):
         if self._lookup_table.cursor_down():
-            self._update_lookup_table()
             self._update_candidate()
         return True
 
-    def _update(self):
-        preedit_len = len(self._preedit_string)
+    def _update_romazi_preedit(self):
         text = IBus.Text.new_from_string(self._preedit_string)
+        preedit_len = len(self._preedit_string)
         if 0 < preedit_len:
             attrs = IBus.AttrList()
             attrs.append(IBus.Attribute.new(IBus.AttrType.UNDERLINE, IBus.AttrUnderline.SINGLE, 0, preedit_len))
@@ -790,6 +792,19 @@ class EngineHiragana(IBus.Engine):
         # cf. "Qt5 IBus input context does not implement hide_preedit_text()",
         #     https://bugreports.qt.io/browse/QTBUG-48412
         self.update_preedit_text(text, preedit_len, 0 < preedit_len)
+
+    def _update_candidate_preedit(self, cand):
+        assert len(self._preedit_string) == 0
+        text = IBus.Text.new_from_string(cand)
+        cand_len = len(cand)
+        if 0 < cand_len:
+            attrs = IBus.AttrList()
+            attrs.append(IBus.Attribute.new(IBus.AttrType.BACKGROUND, CANDIDATE_BACKGROUND_COLOR, 0, cand_len))
+            text.set_attributes(attrs)
+        # Note self.hide_preedit_text() does not seem to work as expected with Kate.
+        # cf. "Qt5 IBus input context does not implement hide_preedit_text()",
+        #     https://bugreports.qt.io/browse/QTBUG-48412
+        self.update_preedit_text_with_mode(text, cand_len, 0 < cand_len, IBus.PreeditFocusMode.COMMIT)
         self._update_lookup_table()
 
     def _update_lookup_table(self):
