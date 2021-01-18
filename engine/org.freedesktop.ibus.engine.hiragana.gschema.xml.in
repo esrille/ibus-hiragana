@@ -31,6 +31,13 @@
         The pathname to the Kanji dictionary file.
       </description>
     </key>
+    <key name='user-dictionary' type='s'>
+      <default>\"my.dic\"</default>
+      <summary>User Kanji Dictionary File</summary>
+      <description>
+        The filename of the user Kanji dictionary file.
+      </description>
+    </key>
     <key name='layout' type='s'>
       <default>\"${pkgdatadir}/layouts/roomazi.json\"</default>
       <summary>Keyboard Layout File</summary>

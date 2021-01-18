@@ -1,6 +1,6 @@
 # ibus-hiragana - Hiragana IME for IBus
 #
-# Copyright (c) 2020 Esrille Inc.
+# Copyright (c) 2020, 2021 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,12 +24,14 @@ GLib.set_prgname('ibus-setup-hiragana')
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
+from gi.repository import Gdk
 gi.require_version('IBus', '1.0')
 from gi.repository import IBus
 
-import os
-import locale
 import gettext
+import locale
+import os
+import sys
 
 _ = lambda a : gettext.dgettext(package.get_name(), a)
 
@@ -111,11 +113,20 @@ class SetupEngineHiragana:
         renderer = Gtk.CellRendererText()
         self._kanzi_dictionaries.pack_start(renderer, True)
         self._kanzi_dictionaries.add_attribute(renderer, 'text', 0)
-        current = 'restrained.dic'
+        self._kanzi_dictionaries.set_active(7)
+        current = self._settings.get_string('dictionary')
+        current = os.path.basename(current)
         for i in model:
             if i[1] == current:
                 self._kanzi_dictionaries.set_active(i[2])
                 break
+
+        self._user_dictionary = self._builder.get_object('UserDictionary')
+        current = self._settings.get_string('user-dictionary')
+        self._user_dictionary.set_text(current)
+        self._default_user_dictionary = self._settings.get_default_value('user-dictionary').get_string()
+
+        self._reload_dictionaries = self._builder.get_object('ReloadDictionaries')
 
     def _init_nn_as_x4063(self):
         self._nn_as_x4063 = self._builder.get_object('NnAsX4063')
@@ -137,17 +148,27 @@ class SetupEngineHiragana:
             i = self._keyboard_types.get_active()
             layout += model[i][1]
         layout = os.path.join(package.get_datadir(), 'layouts/' + layout + '.json')
-        self._settings.set_value('layout', GLib.Variant.new_string(layout))
+        self._settings.set_string('layout', layout)
 
         # nn-as-jis-x-4063
         nn_as_x4063 = self._nn_as_x4063.get_active()
-        self._settings.set_value('nn-as-jis-x-4063', GLib.Variant.new_boolean(nn_as_x4063))
+        self._settings.set_boolean('nn-as-jis-x-4063', nn_as_x4063)
 
         # dictionary
         model = self._kanzi_dictionaries.get_model()
         i = self._kanzi_dictionaries.get_active()
         dictionary = os.path.join(package.get_datadir(), model[i][1])
-        self._settings.set_value('dictionary', GLib.Variant.new_string(dictionary))
+        self._settings.set_string('dictionary', dictionary)
+
+        # user-dictionary
+        user = self._user_dictionary.get_text().strip()
+        if user == self._default_user_dictionary:
+            self._settings.reset('user-dictionary')
+        else:
+            self._settings.set_string('user-dictionary', user)
+
+        if self._reload_dictionaries.get_active():
+            print('reload_dictionaries', flush=True)
 
     def on_value_changed(self, settings, key):
         value = settings.get_value(key)
@@ -158,13 +179,15 @@ class SetupEngineHiragana:
             self._nn_as_x4063.set_active(value.get_boolean())
         elif key == 'dictionary':
             current = value.get_string()
-            current = current[len(package.get_datadir()) + 1:]
-            print(current)
+            current = os.path.basename(current)
             model = self._kanzi_dictionaries.get_model()
             for i in model:
                 if i[1] == current:
                     self._kanzi_dictionaries.set_active(i[2])
                     break
+        elif key == 'user-dictionary':
+            current = value.get_string()
+            self._user_dictionary.set_text(current)
 
     #
     # Glade signal handlers. The signal names are declared in Glade
@@ -178,6 +201,16 @@ class SetupEngineHiragana:
     def on_ok(self, *args):
         self.apply()
         self._window.destroy()
+
+    def on_edit(self, *args):
+        path = self._user_dictionary.get_text().strip()
+        path = os.path.join(package.get_user_datadir(), path)
+        with open(path, 'a+') as f:
+            pass
+        try:
+            Gtk.show_uri_on_window(None, 'file://' + path, Gdk.CURRENT_TIME)
+        except Exception:
+            pass
 
     def on_destroy(self, *args):
         Gtk.main_quit()

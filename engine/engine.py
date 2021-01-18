@@ -26,8 +26,10 @@ import gettext
 import json
 import logging
 import os
+import queue
 import re
-import sys
+import subprocess
+import threading
 import time
 
 import gi
@@ -156,7 +158,8 @@ class EngineHiragana(IBus.Engine):
         self.connect('set-cursor-location', self.set_cursor_location_cb)
 
         self._about_dialog = None
-        self._setup_pid = 0
+        self._setup_proc = None
+        self._q = queue.Queue()
 
     def _init_props(self):
         self._prop_list = IBus.PropList()
@@ -281,7 +284,16 @@ class EngineHiragana(IBus.Engine):
                 config.unset('engine/hiragana', 'dictionary')
         else:
             path = var.get_string()
-        return Dictionary(path)
+
+        var = config.get_value('engine/hiragana', 'user_dictionary')
+        if var is None or var.get_type_string() != 's':
+            user = 'my.dic'
+            if var:
+                config.unset('engine/hiragana', 'user_dictionary')
+        else:
+            user = var.get_string()
+
+        return Dictionary(path, user)
 
     def _load_layout(self, config):
         default_layout = os.path.join(package.get_datadir(), 'layouts')
@@ -351,7 +363,7 @@ class EngineHiragana(IBus.Engine):
             self._reset()
             self._layout = self._load_layout(config)
             self._event = Event(self, self._delay, self._layout)
-        elif name == "dictionary":
+        elif name == 'dictionary' or name == 'user_dictionary':
             self._reset()
             self._dict = self._load_dictionary(config)
         elif name == 'mode':
@@ -755,6 +767,9 @@ class EngineHiragana(IBus.Engine):
             self._ignore_surrounding_text = False
         self._update_romazi_preedit()
 
+        assert not self._dict.current()
+        self._handle_setup_proc()
+
     def _update_candidate(self):
         index = self._lookup_table.get_cursor_pos()
         self._dict.set_current(index)
@@ -840,14 +855,40 @@ class EngineHiragana(IBus.Engine):
         # Do not switch back to the Alphabet mode here; 'reset' should be
         # called when the text cursor is moved by a mouse click, etc.
 
-    def _start_setup(self):
-        if self._setup_pid != 0:
-            pid, status = os.waitpid(self._setup_pid, os.WNOHANG)
-            if pid != self._setup_pid:
+    def _readline(self, process: subprocess.Popen):
+        for line in iter(process.stdout.readline, ''):
+            self._q.put(line.strip())
+            if process.poll() is not None:
                 return
-            self._setup_pid = 0
-        filename = os.path.join(package.get_libexecdir(), 'ibus-setup-hiragana')
-        self._setup_pid = os.spawnl(os.P_NOWAIT, filename, 'ibus-setup-hiragana')
+
+    def _start_setup(self):
+        if self._setup_proc:
+            if self._setup_proc.poll() is None:
+                return
+            self._setup_proc = None
+        try:
+            filename = os.path.join(package.get_libexecdir(), 'ibus-setup-hiragana')
+            self._setup_proc = subprocess.Popen([filename], text=True, stdout=subprocess.PIPE)
+            t = threading.Thread(target=self._readline, args=(self._setup_proc,), daemon=True)
+            t.start()
+        except OSError as e:
+            logger.error(e)
+        except ValueError as e:
+            logger.error(e)
+
+    def _handle_setup_proc(self):
+        last = ''
+        while True:
+            try:
+                line = self._q.get_nowait()
+                if line == last:
+                    continue
+                last = line
+                logger.info(line)
+                if line == 'reload_dictionaries':
+                    self._dict = self._load_dictionary(self._config)
+            except queue.Empty:
+                break
 
     def do_property_activate(self, prop_name, state):
         logger.info("property_activate(%s, %d)" % (prop_name, state))

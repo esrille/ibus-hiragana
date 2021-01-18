@@ -1,6 +1,6 @@
 # ibus-hiragana - Hiragana IME for IBus
 #
-# Copyright (c) 2017-2020 Esrille Inc.
+# Copyright (c) 2017-2021 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -31,8 +31,8 @@ TYOUON = "あいうえおあいうえおあいうえおあいうえおあいう�
 
 class Dictionary:
 
-    def __init__(self, path):
-        logger.info("Dictionary(%s)", path)
+    def __init__(self, path, user):
+        logger.info(f'Dictionary("{path}", "{user}")')
 
         self._dict_base = {}
         self._dict = {}
@@ -49,7 +49,6 @@ class Dictionary:
             # Load Katakana dictionary first so that Katakana words come after Kanji words.
             katakana_path = os.path.join(package.get_datadir(), 'katakana.dic')
             self._load_dict(self._dict_base, katakana_path)
-
             # Load system dictionary
             self._load_dict(self._dict_base, path)
         except Exception as error:
@@ -57,9 +56,9 @@ class Dictionary:
 
         # Load private dictionary
         self._dict = self._dict_base.copy()
-
-        my_path = os.path.join(package.get_user_datadir(), 'my.dic')
-        self._load_dict(self._dict, my_path, 'a+')
+        if user:
+            my_path = os.path.join(package.get_user_datadir(), user)
+            self._load_dict(self._dict, my_path, 'a+')
 
         base = os.path.basename(path)
         if base:
