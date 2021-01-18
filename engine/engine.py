@@ -3,7 +3,7 @@
 # Using source code derived from
 #   ibus-tmpl - The Input Bus template project
 #
-# Copyright (c) 2017-2020 Esrille Inc.
+# Copyright (c) 2017-2021 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -334,31 +334,30 @@ class EngineHiragana(IBus.Engine):
                 config.unset('engine/hiragana', 'nn_as_jis_x_4063')
         else:
             mode = var.get_boolean()
-        logger.info("nn_as_jis_x_4063 mode: {}".format(mode))
+        logger.info(f'nn_as_jis_x_4063 mode: {mode}')
         return mode
 
     def _config_value_changed_cb(self, config, section, name, value):
-        section = section.replace('_', '-')
         if section != 'engine/hiragana':
             return
-        logger.debug("config_value_changed({}, {}, {})".format(section, name, value))
-        if name == "logging_level":
+        logger.debug(f'config_value_changed("{section}", "{name}", {value})')
+        if name == 'logging_level':
             self._logging_level = self._load_logging_level(config)
-        elif name == "delay":
+        elif name == 'delay':
             self._reset()
             self._delay = self._load_delay(config)
             self._event = Event(self, self._delay, self._layout)
-        elif name == "layout":
+        elif name == 'layout':
             self._reset()
             self._layout = self._load_layout(config)
             self._event = Event(self, self._delay, self._layout)
         elif name == "dictionary":
             self._reset()
             self._dict = self._load_dictionary(config)
-        elif name == "mode":
+        elif name == 'mode':
             self.set_mode(self._load_input_mode(self._config))
             self._override = True
-        elif name == "nn_as_jis_x_4063":
+        elif name == 'nn_as_jis_x_4063':
             self._set_x4063_mode(self._load_x4063_mode(self._config))
 
     def _handle_default_layout(self, preedit, keyval, state=0, modifiers=0):
@@ -395,10 +394,10 @@ class EngineHiragana(IBus.Engine):
 
     def _set_x4063_mode(self, on):
         if on:
-            self.character_after_n = "aiueo\'wyn"
+            self.character_after_n = "aiueo'wyn"
         else:
-            self.character_after_n = "aiueo\'wy"
-        logger.debug("set_x4063_mode({})".format(on))
+            self.character_after_n = "aiueo'wy"
+        logger.debug(f'set_x4063_mode({on})')
 
     def _handle_roomazi_layout(self, preedit, keyval, state=0, modifiers=0):
         yomi = ''
@@ -852,15 +851,15 @@ class EngineHiragana(IBus.Engine):
 
     def do_property_activate(self, prop_name, state):
         logger.info("property_activate(%s, %d)" % (prop_name, state))
-        if prop_name == "Setup":
+        if prop_name == 'Setup':
             self._start_setup()
-        elif prop_name == "About":
+        elif prop_name == 'About':
             if self._about_dialog:
                 self._about_dialog.present()
                 return
             dialog = Gtk.AboutDialog()
             dialog.set_program_name(_("Hiragana IME"))
-            dialog.set_copyright("Copyright 2017-2020 Esrille Inc.")
+            dialog.set_copyright("Copyright 2017-2021 Esrille Inc.")
             dialog.set_authors(["Esrille Inc."])
             dialog.set_documenters(["Esrille Inc."])
             dialog.set_website("file://" + os.path.join(package.get_datadir(), "help/index.html"))
