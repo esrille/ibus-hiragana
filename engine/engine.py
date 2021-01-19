@@ -276,7 +276,7 @@ class EngineHiragana(IBus.Engine):
         logging.getLogger().setLevel(NAME_TO_LOGGING_LEVEL[level])
         return level
 
-    def _load_dictionary(self, config):
+    def _load_dictionary(self, config, clear_history=False):
         var = config.get_value('engine/hiragana', 'dictionary')
         if var is None or var.get_type_string() != 's':
             path = os.path.join(package.get_datadir(), 'restrained.dic')
@@ -293,7 +293,7 @@ class EngineHiragana(IBus.Engine):
         else:
             user = var.get_string()
 
-        return Dictionary(path, user)
+        return Dictionary(path, user, clear_history)
 
     def _load_layout(self, config):
         default_layout = os.path.join(package.get_datadir(), 'layouts')
@@ -887,6 +887,8 @@ class EngineHiragana(IBus.Engine):
                 logger.info(line)
                 if line == 'reload_dictionaries':
                     self._dict = self._load_dictionary(self._config)
+                elif line == 'clear_input_history':
+                    self._dict = self._load_dictionary(self._config, clear_history=True)
             except queue.Empty:
                 break
 

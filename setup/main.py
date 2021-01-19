@@ -127,6 +127,7 @@ class SetupEngineHiragana:
         self._default_user_dictionary = self._settings.get_default_value('user-dictionary').get_string()
 
         self._reload_dictionaries = self._builder.get_object('ReloadDictionaries')
+        self._clear_input_history = self._builder.get_object('ClearInputHistory')
 
     def _init_nn_as_x4063(self):
         self._nn_as_x4063 = self._builder.get_object('NnAsX4063')
@@ -167,7 +168,10 @@ class SetupEngineHiragana:
         else:
             self._settings.set_string('user-dictionary', user)
 
-        if self._reload_dictionaries.get_active():
+        if self._clear_input_history.get_active():
+            # clear_input_history also reloads dictionaries
+            print('clear_input_history', flush=True)
+        elif self._reload_dictionaries.get_active():
             print('reload_dictionaries', flush=True)
 
     def on_value_changed(self, settings, key):

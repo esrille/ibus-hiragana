@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ibus-hiragana 0.10.0\n"
 "Report-Msgid-Bugs-To: https://github.com/esrille/ibus-hiragana/issues\n"
-"POT-Creation-Date: 2021-01-18 18:16+0900\n"
+"POT-Creation-Date: 2021-01-19 18:20+0900\n"
 "PO-Revision-Date: 2020-09-24 11:59+0900\n"
 "Last-Translator: Esrille Inc. <info@esrille.com>\n"
 "Language-Team: Japanese <info@esrille.com>\n"
@@ -47,11 +47,11 @@ msgstr "全角英数 (Ａ)"
 msgid "Halfwidth Katakana (ｱ)"
 msgstr "半角カタカナ (ｱ)"
 
-#: engine/engine.py:902
+#: engine/engine.py:904
 msgid "Hiragana IME"
 msgstr "ひらがなIME"
 
-#: engine/engine.py:907
+#: engine/engine.py:909
 msgid "Introduction to Hiragana IME"
 msgstr "ひらがなIMEの手びき"
 
@@ -155,6 +155,10 @@ msgstr "個人用辞書名"
 msgid "Reload dictionaries"
 msgstr "辞書を読みなおす"
 
-#: setup/setup.glade:426
+#: setup/setup.glade:418
+msgid "Clear input history"
+msgstr "入力履歴をクリアする"
+
+#: setup/setup.glade:461
 msgid "Dictionary"
 msgstr "辞書"

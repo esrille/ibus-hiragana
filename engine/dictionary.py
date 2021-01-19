@@ -31,7 +31,7 @@ TYOUON = "あいうえおあいうえおあいうえおあいうえおあいう�
 
 class Dictionary:
 
-    def __init__(self, path, user):
+    def __init__(self, path, user, clear_history=False):
         logger.info(f'Dictionary("{path}", "{user}")')
 
         self._dict_base = {}
@@ -63,6 +63,10 @@ class Dictionary:
         base = os.path.basename(path)
         if base:
             self._orders_path = os.path.join(package.get_user_datadir(), base)
+            if clear_history:
+                logger.info('clear_history')
+                with open(self._orders_path, 'w') as file:
+                    file.write("; " + DICTIONARY_VERSION + "\n")
             self._load_dict(self._dict, self._orders_path, 'a+', version_checked=False)
 
     def _load_dict(self, dict, path, mode='r', version_checked=True):
