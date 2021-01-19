@@ -1,7 +1,7 @@
 # はじめに
 
 　「ひらがな￹IME￺アイエムイー￻」は、かながきする￹部分￺ぶぶん￻のおおくなった￹日本語￺にほんご￻を￹入力￺にゅうりょく￻しやすくした￹日本語￺にほんご￻インプット メソッドです。
-Fedora、Ubuntu、Raspberry Pi￹用￺よう￻のRaspbianなど、[IBus](https://github.com/ibus/ibus/wiki)に￹対応￺たいおう￻したオペレーティング システム（OS）で￹利用￺りよう￻できます。
+Fedora, Ubuntu, Raspberry Pi OSなど、[IBus](https://github.com/ibus/ibus/wiki)に￹対応￺たいおう￻したオペレーティング システム（OS）で￹利用￺りよう￻できます。
 
 　これまでの￹日本語￺にほんご￻IMEとちがって、「ひらがなIME」には「よみの￹入力￺にゅうりょく￻モード」がありません。
 ひらがなを￹入力￺にゅうりょく￻するのに、いちいち〔Enter〕キーや〔￹無変換￺むへんかん￻〕キーをおす￹必要￺ひつよう￻はありません。
@@ -25,4 +25,4 @@ GNOMEの￹標準￺ひょうじゅん￻のテキスト エディターgeditや
 メインのリポジトリは、[GitHub](https://github.com/esrille/ibus-hiragana)にあります。
 
 <hr>
-<br><small>Copyright 2017-2020 Esrille Inc. </small>
+<br><small>Copyright 2017-2021 Esrille Inc. </small>
