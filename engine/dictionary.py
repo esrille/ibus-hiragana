@@ -70,6 +70,7 @@ class Dictionary:
             self._load_dict(self._dict, self._orders_path, 'a+', version_checked=False)
 
     def _load_dict(self, dict, path, mode='r', version_checked=True):
+        reorder_only = not version_checked
         with open(path, mode) as file:
             file.seek(0, 0)   # in case opened in the 'a+' mode
             for line in file:
@@ -85,14 +86,22 @@ class Dictionary:
                 p = line.split(' ', 1)
                 yomi = p[0]
                 cand = p[1].strip(' \n/').split('/')
-                self._merge_entry(dict, yomi, cand)
+                self._merge_entry(dict, yomi, cand, reorder_only)
                 yomi99 = self._to_99(yomi)
                 if yomi99 != yomi:
-                    self._merge_entry(dict, yomi99, cand)
+                    self._merge_entry(dict, yomi99, cand, reorder_only)
             logger.info("Loaded %s", path)
 
-    def _merge_entry(self, dict, yomi, cand):
-        if yomi not in dict:
+    def _merge_entry(self, dict, yomi, cand, reorder_only):
+        if reorder_only:
+            if yomi in dict:
+                update = list(dict[yomi])
+                for i in reversed(cand):
+                    if i in update:
+                        update.remove(i)
+                        update.insert(0, i)
+                dict[yomi] = update
+        elif yomi not in dict:
             dict[yomi] = cand
         else:
             update = list(dict[yomi])
