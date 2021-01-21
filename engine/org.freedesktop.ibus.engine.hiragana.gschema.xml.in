@@ -1,6 +1,6 @@
 <?xml version=\"1.0\" encoding=\"utf-8\"?>
 <schemalist>
-  <schema id='org.freedesktop.ibus.engine.hiragana' path='/desktop/ibus/engine/hiragana/'>
+  <schema id='org.freedesktop.ibus.engine.hiragana' path='/org/freedesktop/ibus/engine/hiragana/'>
     <key name='mode' type='s'>
       <choices>
         <choice value='A'/>

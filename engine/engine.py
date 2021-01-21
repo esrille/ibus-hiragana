@@ -33,10 +33,9 @@ import threading
 import time
 
 import gi
-
 gi.require_version('IBus', '1.0')
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk, IBus
+from gi.repository import Gio, Gtk, IBus
 
 keysyms = IBus
 
@@ -138,17 +137,17 @@ class EngineHiragana(IBus.Engine):
 
         self._init_props()
 
-        self._config = IBus.Bus().get_config()
-        self._config.connect('value-changed', self._config_value_changed_cb)
+        self._settings = Gio.Settings.new('org.freedesktop.ibus.engine.hiragana')
+        self._settings.connect('changed', self._config_value_changed_cb)
 
-        self._logging_level = self._load_logging_level(self._config)
-        self._dict = self._load_dictionary(self._config)
-        self._layout = self._load_layout(self._config)
-        self._delay = self._load_delay(self._config)
+        self._logging_level = self._load_logging_level(self._settings)
+        self._dict = self._load_dictionary(self._settings)
+        self._layout = self._load_layout(self._settings)
+        self._delay = self._load_delay(self._settings)
         self._event = Event(self, self._delay, self._layout)
 
-        self.set_mode(self._load_input_mode(self._config))
-        self._set_x4063_mode(self._load_x4063_mode(self._config))
+        self.set_mode(self._load_input_mode(self._settings))
+        self._set_x4063_mode(self._load_x4063_mode(self._settings))
 
         self._shrunk = []
 
@@ -253,60 +252,33 @@ class EngineHiragana(IBus.Engine):
         self._input_mode_prop.set_label(IBus.Text.new_from_string(_("Input mode (%s)") % self._mode))
         self.update_property(self._input_mode_prop)
 
-    def _load_input_mode(self, config):
-        var = config.get_value('engine/hiragana', 'mode')
-        if var is None or var.get_type_string() != 's' or not var.get_string() in INPUT_MODE_NAMES:
+    def _load_input_mode(self, settings):
+        mode = settings.get_string('mode')
+        if mode not in INPUT_MODE_NAMES:
             mode = 'A'
-            if var:
-                config.unset('engine/hiragana', 'mode')
-        else:
-            mode = var.get_string()
-        logger.info("input mode: %s", mode)
+            settings.reset('mode')
+        logger.info(f'input mode: {mode}')
         return mode
 
-    def _load_logging_level(self, config):
-        var = config.get_value('engine/hiragana', 'logging_level')
-        if var is None or var.get_type_string() != 's' or not var.get_string() in NAME_TO_LOGGING_LEVEL:
+    def _load_logging_level(self, settings):
+        level = settings.get_string('logging-level')
+        if not level in NAME_TO_LOGGING_LEVEL:
             level = 'WARNING'
-            if var:
-                config.unset('engine/hiragana', 'logging_level')
-        else:
-            level = var.get_string()
-        logger.info("logging_level: %s", level)
+            settings.reset('logging-level')
+        logger.info(f'logging_level: {level}')
         logging.getLogger().setLevel(NAME_TO_LOGGING_LEVEL[level])
         return level
 
-    def _load_dictionary(self, config, clear_history=False):
-        var = config.get_value('engine/hiragana', 'dictionary')
-        if var is None or var.get_type_string() != 's':
-            path = os.path.join(package.get_datadir(), 'restrained.dic')
-            if var:
-                config.unset('engine/hiragana', 'dictionary')
-        else:
-            path = var.get_string()
-
-        var = config.get_value('engine/hiragana', 'user_dictionary')
-        if var is None or var.get_type_string() != 's':
-            user = 'my.dic'
-            if var:
-                config.unset('engine/hiragana', 'user_dictionary')
-        else:
-            user = var.get_string()
-
+    def _load_dictionary(self, settings, clear_history=False):
+        path = settings.get_string('dictionary')
+        user = settings.get_string('user-dictionary')
         return Dictionary(path, user, clear_history)
 
-    def _load_layout(self, config):
+    def _load_layout(self, settings):
         default_layout = os.path.join(package.get_datadir(), 'layouts')
         default_layout = os.path.join(default_layout, 'roomazi.json')
-        var = config.get_value('engine/hiragana', 'layout')
-        if var is None:
-            path = default_layout
-        elif var.get_type_string() != 's':
-            config.unset('engine/hiragana', 'layout')
-            path = default_layout
-        else:
-            path = var.get_string()
-        logger.info("layout: %s", path)
+        path = settings.get_string('layout')
+        logger.info(f'layout: {path}')
         layout = dict()
         try:
             with open(path) as f:
@@ -327,50 +299,36 @@ class EngineHiragana(IBus.Engine):
             self._to_kana = self._handle_default_layout
         return layout
 
-    def _load_delay(self, config):
-        var = config.get_value('engine/hiragana', 'delay')
-        if var is None or var.get_type_string() != 'i':
-            delay = 0
-            if var:
-                config.unset('engine/hiragana', 'delay')
-        else:
-            delay = var.get_int32()
-        logger.info("delay: %d", delay)
+    def _load_delay(self, settings):
+        delay = settings.get_int('delay')
+        logger.info(f'delay: {delay}')
         return delay
 
-    def _load_x4063_mode(self, config):
-        var = config.get_value('engine/hiragana', 'nn_as_jis_x_4063')
-        if var is None or var.get_type_string() != 'b':
-            mode = True
-            if var:
-                config.unset('engine/hiragana', 'nn_as_jis_x_4063')
-        else:
-            mode = var.get_boolean()
+    def _load_x4063_mode(self, settings):
+        mode = settings.get_boolean('nn-as-jis-x-4063')
         logger.info(f'nn_as_jis_x_4063 mode: {mode}')
         return mode
 
-    def _config_value_changed_cb(self, config, section, name, value):
-        if section != 'engine/hiragana':
-            return
-        logger.debug(f'config_value_changed("{section}", "{name}", {value})')
-        if name == 'logging_level':
-            self._logging_level = self._load_logging_level(config)
-        elif name == 'delay':
+    def _config_value_changed_cb(self, settings, key):
+        logger.debug(f'config_value_changed("{key}")')
+        if key == 'logging-level':
+            self._logging_level = self._load_logging_level(settings)
+        elif key == 'delay':
             self._reset()
-            self._delay = self._load_delay(config)
+            self._delay = self._load_delay(settings)
             self._event = Event(self, self._delay, self._layout)
-        elif name == 'layout':
+        elif key == 'layout':
             self._reset()
-            self._layout = self._load_layout(config)
+            self._layout = self._load_layout(settings)
             self._event = Event(self, self._delay, self._layout)
-        elif name == 'dictionary' or name == 'user_dictionary':
+        elif key == 'dictionary' or key == 'user-dictionary':
             self._reset()
-            self._dict = self._load_dictionary(config)
-        elif name == 'mode':
-            self.set_mode(self._load_input_mode(self._config))
+            self._dict = self._load_dictionary(settings)
+        elif key == 'mode':
+            self.set_mode(self._load_input_mode(settings))
             self._override = True
-        elif name == 'nn_as_jis_x_4063':
-            self._set_x4063_mode(self._load_x4063_mode(self._config))
+        elif key == 'nn-as-jis-x-4063':
+            self._set_x4063_mode(self._load_x4063_mode(settings))
 
     def _handle_default_layout(self, preedit, keyval, state=0, modifiers=0):
         return self._event.chr(), ''
@@ -433,7 +391,7 @@ class EngineHiragana(IBus.Engine):
         if not (self.client_capabilities & IBus.Capabilite.SURROUNDING_TEXT):
             self._ignore_surrounding_text = True
         if self._ignore_surrounding_text or not self._acked:
-            logger.debug("surrounding text: [%s]" % (self._previous_text))
+            logger.debug(f'surrounding text: "{self._previous_text}"')
             return self._previous_text, len(self._previous_text)
 
         tuple = self.get_surrounding_text()
@@ -457,7 +415,7 @@ class EngineHiragana(IBus.Engine):
         if 0 < preedit_len and preedit_len <= pos and text[pos - preedit_len:pos] == self._preedit_string:
             text = text[:-preedit_len]
             pos -= preedit_len
-        logger.debug("surrounding text: '%s', %d, [%s]", text, pos, self._previous_text)
+        logger.debug(f'surrounding text: "{text}", {pos}, "{self._previous_text}"')
         return text, pos
 
     def _delete_surrounding_text(self, size):
@@ -518,7 +476,7 @@ class EngineHiragana(IBus.Engine):
         self._override = False
         if self._mode == mode:
             return False
-        logger.debug("set_mode(%s)" % (mode))
+        logger.debug(f'set_mode({mode})')
         self._preedit_string = ''
         self._commit()
         self._mode = mode
@@ -701,7 +659,7 @@ class EngineHiragana(IBus.Engine):
         return True
 
     def handle_shrink(self):
-        logger.debug("handle_shrink: '%s'", self._dict.current())
+        logger.debug(f'handle_shrink: "{self._dict.current()}"')
         assert self._dict.current()
         yomi = self._dict.reading()
         if len(yomi) <= 1 or yomi[1] == '―':
@@ -827,30 +785,30 @@ class EngineHiragana(IBus.Engine):
             self.update_lookup_table(self._lookup_table, visible)
 
     def do_focus_in(self):
-        logger.info("focus_in")
+        logger.info('focus_in')
         self._event.reset()
         self.register_properties(self._prop_list)
         # Request the initial surrounding-text in addition to the "enable" handler.
         self.get_surrounding_text()
 
     def do_focus_out(self):
-        logger.info("focus_out")
+        logger.info('focus_out')
         self._reset()
         self._dict.save_orders()
 
     def do_enable(self):
-        logger.info("enable")
+        logger.info('enable')
         # Request the initial surrounding-text when enabled as documented.
         self.get_surrounding_text()
 
     def do_disable(self):
-        logger.info("disable")
+        logger.info('disable')
         self._reset()
         self._mode = 'A'
         self._dict.save_orders()
 
     def do_reset(self):
-        logger.info("reset")
+        logger.info('reset')
         self._reset()
         # Do not switch back to the Alphabet mode here; 'reset' should be
         # called when the text cursor is moved by a mouse click, etc.
@@ -886,14 +844,14 @@ class EngineHiragana(IBus.Engine):
                 last = line
                 logger.info(line)
                 if line == 'reload_dictionaries':
-                    self._dict = self._load_dictionary(self._config)
+                    self._dict = self._load_dictionary(self._settings)
                 elif line == 'clear_input_history':
-                    self._dict = self._load_dictionary(self._config, clear_history=True)
+                    self._dict = self._load_dictionary(self._settings, clear_history=True)
             except queue.Empty:
                 break
 
     def do_property_activate(self, prop_name, state):
-        logger.info("property_activate(%s, %d)" % (prop_name, state))
+        logger.info(f'property_activate({prop_name}, {state})')
         if prop_name == 'Setup':
             self._start_setup()
         elif prop_name == 'About':
@@ -937,7 +895,7 @@ class EngineHiragana(IBus.Engine):
             if 0 <= pos and pos + len(self._committed) == len(text):
                 self._acked = True
                 self._committed = ''
-        logger.debug("set_surrounding_text_cb(%s, %d, %d) => %d" % (text, cursor_pos, anchor_pos, self._acked))
+        logger.debug(f'set_surrounding_text_cb({text}, {cursor_pos}, {anchor_pos}) => {self._acked}')
 
     def get_plain_text(self, text):
         plain = ''
@@ -957,5 +915,5 @@ class EngineHiragana(IBus.Engine):
         # On Raspbian, at least till Buster, the candidate window does not
         # always follow the cursor position. The following code is not
         # necessary on Ubuntu 18.04 or Fedora 30.
-        logger.debug("set_cursor_location_cb(%d, %d, %d, %d)" % (x, y, w, h))
+        logger.debug(f'set_cursor_location_cb({x}, {y}, {w}, {h})')
         self._update_lookup_table()
