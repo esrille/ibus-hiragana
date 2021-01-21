@@ -22,7 +22,7 @@ Fedora, Ubuntu, Raspberry Pi OSなど、[IBus](https://github.com/ibus/ibus/wiki
 ## 「ひらがなIME」の￹開発￺かいはつ￻
 
 　「ひらがなIME」は、オープンソースソフトウェアです。
-プログラムは￹Python￺パイソン￻でかかれています。IMEの￹行数￺ぎょうすう￻は、￹約￺やく￻1,900￹行￺ぎょう￻(v0.12.0)です。
+プログラムは￹Python￺パイソン￻でかかれています。IMEの￹行数￺ぎょうすう￻は、￹約￺やく￻1,800￹行￺ぎょう￻(v0.12.0)です。
 メインのリポジトリは、[GitHub](https://github.com/esrille/ibus-hiragana)にあります。
 
 <hr>
