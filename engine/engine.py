@@ -76,6 +76,7 @@ IAA = '\uFFF9'  # IAA (INTERLINEAR ANNOTATION ANCHOR)
 IAS = '\uFFFA'  # IAS (INTERLINEAR ANNOTATION SEPARATOR)
 IAT = '\uFFFB'  # IAT (INTERLINEAR ANNOTATION TERMINATOR)
 
+CANDIDATE_FOREGROUND_COLOR = 0x000000
 CANDIDATE_BACKGROUND_COLOR = 0xd1eaff
 
 
@@ -771,6 +772,7 @@ class EngineHiragana(IBus.Engine):
         cand_len = len(cand)
         if 0 < cand_len:
             attrs = IBus.AttrList()
+            attrs.append(IBus.Attribute.new(IBus.AttrType.FOREGROUND, CANDIDATE_FOREGROUND_COLOR, 0, cand_len))
             attrs.append(IBus.Attribute.new(IBus.AttrType.BACKGROUND, CANDIDATE_BACKGROUND_COLOR, 0, cand_len))
             text.set_attributes(attrs)
         # Note self.hide_preedit_text() does not seem to work as expected with Kate.
