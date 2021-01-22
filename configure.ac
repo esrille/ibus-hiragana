@@ -13,6 +13,7 @@
 # limitations under the License.
 
 AC_INIT([ibus-hiragana], [0.12.0], [https://github.com/esrille/ibus-hiragana/issues])
+AC_CONFIG_AUX_DIR([.])
 AM_INIT_AUTOMAKE([foreign tar-ustar])
 
 AM_GNU_GETTEXT_REQUIRE_VERSION([0.19.8])
