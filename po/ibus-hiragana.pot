@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ibus-hiragana 0.12.0\n"
 "Report-Msgid-Bugs-To: https://github.com/esrille/ibus-hiragana/issues\n"
-"POT-Creation-Date: 2021-01-22 04:19+0900\n"
+"POT-Creation-Date: 2021-01-22 08:27+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,44 +17,44 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: engine/engine.py:169 engine/engine.py:252
+#: engine/engine.py:170 engine/engine.py:253
 #, python-format
 msgid "Input mode (%s)"
 msgstr ""
 
-#: engine/engine.py:181
+#: engine/engine.py:182
 msgid "Setup"
 msgstr ""
 
-#: engine/engine.py:192
+#: engine/engine.py:193
 msgid "About Hiragana IME..."
 msgstr ""
 
-#: engine/engine.py:205
+#: engine/engine.py:206
 msgid "Alphanumeric (A)"
 msgstr ""
 
-#: engine/engine.py:214
+#: engine/engine.py:215
 msgid "Hiragana (あ)"
 msgstr ""
 
-#: engine/engine.py:223
+#: engine/engine.py:224
 msgid "Katakana (ア)"
 msgstr ""
 
-#: engine/engine.py:232
+#: engine/engine.py:233
 msgid "Wide Alphanumeric (Ａ)"
 msgstr ""
 
-#: engine/engine.py:241
+#: engine/engine.py:242
 msgid "Halfwidth Katakana (ｱ)"
 msgstr ""
 
-#: engine/engine.py:862
+#: engine/engine.py:864
 msgid "Hiragana IME"
 msgstr ""
 
-#: engine/engine.py:867
+#: engine/engine.py:869
 msgid "Introduction to Hiragana IME"
 msgstr ""
 
