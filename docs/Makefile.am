@@ -1,4 +1,4 @@
-# Copyright (c) 2019-2020 Esrille Inc.
+# Copyright (c) 2019-2021 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-help_DATA = \
+dist_help_DATA = \
 	default.css \
 	experimental.html \
 	index.html \
@@ -41,19 +41,6 @@ EXTRA_DIST = \
 	layouts.md \
 	settings.md \
 	usage.md \
-	default.css \
-	experimental.html \
-	index.html \
-	install.html \
-	key_assign.html \
-	layouts.html \
-	settings.html \
-	template.html \
-	usage.html \
-	icon.png \
-	screenshot.png \
-	ibus-setup-hiragana_1.png \
-	ibus-setup-hiragana_2.png \
 	$(NULL)
 
 uninstall-hook:

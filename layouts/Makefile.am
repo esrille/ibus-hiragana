@@ -1,4 +1,4 @@
-# Copyright (c) 2017-2020 Esrille Inc.
+# Copyright (c) 2017-2021 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-layouts_DATA = \
+dist_layouts_DATA = \
 	jis.109.json \
 	roomazi.json \
 	roomazi.109.json \
@@ -21,14 +21,6 @@ layouts_DATA = \
 	$(NULL)
 
 layoutsdir = $(pkgdatadir)/layouts
-
-EXTRA_DIST = \
-	jis.109.json \
-	roomazi.json \
-	roomazi.109.json \
-	new_stickney.json \
-	new_stickney.109.json \
-	$(NULL)
 
 uninstall-hook:
 	-rmdir $(layoutsdir)
