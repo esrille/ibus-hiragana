@@ -868,6 +868,7 @@ class EngineHiragana(IBus.Engine):
             dialog.set_website("file://" + os.path.join(package.get_datadir(), "help/index.html"))
             dialog.set_website_label(_("Introduction to Hiragana IME"))
             dialog.set_logo_icon_name(package.get_name())
+            dialog.set_default_icon_name(package.get_name())
             dialog.set_version(package.get_version())
             # To close the dialog when "close" is clicked, e.g. on RPi,
             # we connect the "response" signal to about_response_callback
