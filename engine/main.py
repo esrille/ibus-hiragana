@@ -3,7 +3,7 @@
 # Using source code derived from
 #   ibus-tmpl - The Input Bus template project
 #
-# Copyright (c) 2017-2020 Esrille Inc.
+# Copyright (c) 2017-2021 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -28,9 +28,8 @@ import logging
 import sys
 
 import gi
-from gi.repository import GLib
 gi.require_version('IBus', '1.0')
-from gi.repository import GObject, IBus
+from gi.repository import GLib, GObject, IBus
 
 _ = lambda a : gettext.dgettext(package.get_name(), a)
 
