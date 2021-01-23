@@ -50,6 +50,7 @@ class SetupEngineHiragana:
         self._init_nn_as_x4063()
         self._set_current_keyboard(self._settings.get_string('layout'))
         self._window = self._builder.get_object('SetupDialog')
+        self._window.set_default_icon_name('ibus-setup-hiragana')
         self._window.show()
 
     def _init_keyboard_layout(self):
