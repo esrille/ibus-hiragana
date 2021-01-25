@@ -74,7 +74,7 @@ def main():
     gairaigo = load(path)
 
     print(';; Hiragana IME for IBus')
-    print(';; Copyright (c) 2017-2020 Esrille Inc.')
+    print(';; Copyright (c) 2017-2021 Esrille Inc.')
     print(';;')
     print(';;   https://github.com/esrille/ibus-hiragana')
     print(';;')

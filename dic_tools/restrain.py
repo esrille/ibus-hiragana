@@ -76,15 +76,14 @@ if __name__ == '__main__':
     dict = dic.union(dict, dic.load('basic.dic'))               # 「にほん」を追加。
 
     # ヘッダーを出力します。
-    print(';; 日本語漢字置換インプット メソッド')
-    print(';; Copyright (c) 2017-2020 Esrille Inc.')
+    print(';; Hiragana IME for IBus')
+    print(';; Copyright (c) 2017-2021 Esrille Inc.')
     print(';;')
     print(';;   https://github.com/esrille/ibus-hiragana')
     print(';;')
     print(';; この辞書は、')
     print(';;  ', path)
-    print(';; をもとに、日本語漢字置換インプット メソッド用にプログラムで')
-    print(';; 自動生成した辞書です。')
+    print(';; をもとに、ひらがなIME用にプログラムで自動生成した辞書です。')
     print(';;')
     print(';;')
     dic.copy_header(path)

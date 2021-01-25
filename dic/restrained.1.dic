@@ -1,12 +1,11 @@
-;; 日本語漢字置換インプット メソッド
-;; Copyright (c) 2017-2020 Esrille Inc.
+;; Hiragana IME for IBus
+;; Copyright (c) 2017-2021 Esrille Inc.
 ;;
 ;;   https://github.com/esrille/ibus-hiragana
 ;;
 ;; この辞書は、
 ;;   /usr/share/skk/SKK-JISYO.ML
-;; をもとに、日本語漢字置換インプット メソッド用にプログラムで
-;; 自動生成した辞書です。
+;; をもとに、ひらがなIME用にプログラムで自動生成した辞書です。
 ;;
 ;;
 ;; -*- mode: fundamental; coding: euc-jp -*-
