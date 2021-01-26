@@ -27,6 +27,7 @@ NON_YOMIGANA = re.compile(r'[^ぁ-ゖァ-ー―]')
 YOMIGANA = re.compile(r'^[ぁ-ゖァ-ー―]+[、。，．]?$')
 HIRAGANA = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっぱぴぷぺぽゔ"
 TYOUON = "あいうえおあいうえおあいうえおあいうえおあいうえおあいうえおあいうえおあうおあいうえおあおんあいうえおあいうえおあいうえおあいうえおあいうえおあうおうあいうえおう"
+OKURIGANA = re.compile(r'[ぁ-ゖiIkKgsStnbmrw]+$')
 
 
 class Dictionary:
@@ -272,9 +273,15 @@ class Dictionary:
                 order = list()
                 n = 0
                 for c in self._dict[y[i:size]]:
-                    p = self._match(c[1:], y[size:])
+                    pattern = OKURIGANA.search(c)
+                    if pattern:
+                        pos_okuri = pattern.start()
+                    else:
+                        pos_okuri = len(c)
+                    okuri = c[pos_okuri:]
+                    p = self._match(okuri, y[size:])
                     logger.debug("lookup: %s %s => %d", c, y[size:], p)
-                    c = c[0] + yomi[size:pos]
+                    c = c[:pos_okuri] + yomi[size:pos]
                     if p and c not in cand:
                         cand.append(c)
                         order.append(n)

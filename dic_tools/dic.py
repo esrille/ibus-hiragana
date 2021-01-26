@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (c) 2017 Esrille Inc.
+# Copyright (c) 2017-2021 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -102,6 +102,21 @@ def zyouyou(grade = 10):
         dict[yomi] = l
     return dict
 
+# 常用漢字表から漢字の学習年度辞書をつくります。
+def zyouyou_grades():
+    grades = {}
+    with open('zyouyou-kanji.csv', 'r') as zyouyou:
+        for row in zyouyou:
+            grade = 10
+            row = row.strip(' \n').split(',')
+            kanji = row[0]
+            for yomi in row[1:]:
+                g = int(yomi[-1])
+                if g < grade:
+                    grade = g
+            grades[kanji] = grade
+    return grades
+
 def _get_encoding(path):
     if 0 <= path.find('SKK-JISYO'):     # SKKの辞書
         return 'euc_jp'
@@ -146,6 +161,48 @@ def load(path):
                 else:
                     dict[yomi].extend([x for x in s if x not in dict[yomi]])
         file.close()
+    return dict
+
+def _get_grade(cand, grades):
+    grade = 10
+    for i in cand:
+        if i == '―' or re_kana.search(i):
+            continue
+        g = grades.get(i, grade)
+        if g < grade:
+            grade = g
+    return grade
+
+# 付表をよみこみます。
+def load_huhyou(path, grade = 10):
+    grades = zyouyou_grades()
+    dict = {}
+    with open(path, 'r') as file:
+        for row in file:
+            row = row.strip(' \n')
+            if not row or row[0] == ';':
+                continue
+            row = row.split(':', 1)
+            level = int(row[0])
+            if level == 3 and grade < 8:
+                continue
+            elif level == 2 and grade < 7:
+                continue
+            row = row[1].split(' ', 1)
+            yomi = row[0]
+            cand = row[1].strip(' \n/').split('/')
+            if 1 < level:
+                s = cand
+            else:
+                s = list()
+                for i in cand:
+                    if _get_grade(i, grades) <= grade:
+                        s.append(i)
+            if s:
+                if not yomi in dict:
+                    dict[yomi] = s
+                else:
+                    dict[yomi].extend([x for x in s if x not in dict[yomi]])
     return dict
 
 # SKK辞書のヘッダー部分を出力します。
