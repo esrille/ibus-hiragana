@@ -109,7 +109,7 @@ pre {
 code {
   word-wrap: normal;
   word-break: normal;
-  white-space: pre;
+  white-space: pre-wrap;
   text-align: left;
 }
 .highlight {

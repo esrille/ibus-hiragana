@@ -95,22 +95,163 @@ aside a:hover {
 <pre><code>お―とす〔変換〕 → 落とす
 おと―す〔変換〕 → 落す</code></pre>
 <h3><ruby>個人<rp>(</rp><rt>こじん</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby><ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby></h3>
-<p>&#x3000;「ひらがなIME」の<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby><ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>にない<ruby>単語<rp>(</rp><rt>たんご</rt><rp>)</rp></ruby>は、<ruby>個人<rp>(</rp><rt>こじん</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>の<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>ファイルに<ruby>登録<rp>(</rp><rt>とうろく</rt><rp>)</rp></ruby>できます。<ruby>個人<rp>(</rp><rt>こじん</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>の<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>ファイルは、ディレクトリ ~/.local/share/ibus-hiragana/ のなかに<ruby>保存<rp>(</rp><rt>ほぞん</rt><rp>)</rp></ruby>されています。はじめは my.dic というなまえになっています。</p>
-<p>&#x3000;<ruby>個人<rp>(</rp><rt>こじん</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby><ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>は、[<ruby>編集<rp>(</rp><rt>へんしゅう</rt><rp>)</rp></ruby>]ボタンをおすと<ruby>編集<rp>(</rp><rt>へんしゅう</rt><rp>)</rp></ruby>できます。<ruby>個人<rp>(</rp><rt>こじん</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby><ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>ファイルには、したのような<ruby>形式<rp>(</rp><rt>けいしき</rt><rp>)</rp></ruby>で<ruby>単語<rp>(</rp><rt>たんご</rt><rp>)</rp></ruby>を<ruby>保存<rp>(</rp><rt>ほぞん</rt><rp>)</rp></ruby>します。</p>
+<p>&#x3000;「ひらがなIME」の<ruby>標準<rp>(</rp><rt>ひょうじゅん</rt><rp>)</rp></ruby>の<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby><ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>にない<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>は、<ruby>個人<rp>(</rp><rt>こじん</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>の<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>ファイルに<ruby>登録<rp>(</rp><rt>とうろく</rt><rp>)</rp></ruby>できます。<ruby>個人<rp>(</rp><rt>こじん</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>の<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>ファイルは、ディレクトリ ~/.local/share/ibus-hiragana/ のなかに<ruby>保存<rp>(</rp><rt>ほぞん</rt><rp>)</rp></ruby>されています。はじめは my.dic というなまえになっています。</p>
+<p>&#x3000;<ruby>個人<rp>(</rp><rt>こじん</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby><ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>は、[<ruby>編集<rp>(</rp><rt>へんしゅう</rt><rp>)</rp></ruby>]ボタンをおすと<ruby>編集<rp>(</rp><rt>へんしゅう</rt><rp>)</rp></ruby>できます。<ruby>個人<rp>(</rp><rt>こじん</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby><ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>ファイルには、したのような<ruby>形式<rp>(</rp><rt>けいしき</rt><rp>)</rp></ruby>で<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>を<ruby>保存<rp>(</rp><rt>ほぞん</rt><rp>)</rp></ruby>します。<ruby>動詞<rp>(</rp><rt>どうし</rt><rp>)</rp></ruby>や<ruby>形容詞<rp>(</rp><rt>けいようし</rt><rp>)</rp></ruby>などの<ruby>登録<rp>(</rp><rt>とうろく</rt><rp>)</rp></ruby>のしかたは、このあとの「<a href="#okurigana">おくりがなのある<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>の<ruby>登録<rp>(</rp><rt>とうろく</rt><rp>)</rp></ruby>のしかた</a>」でくわしく<ruby>説明<rp>(</rp><rt>せつめい</rt><rp>)</rp></ruby>します。</p>
 <pre><code>; セミコロン(;)ではじまる行はコメントです。
-; よみ /単語/
+; 単語は、「よみ」, 半角スペース, そのあとにスラッシュ(/)で語をかこんで登録します。
 きれい /綺麗/
-; よみ /単語1/単語2/
+; おなじよみの語は一行にまとめて登録できます。
 かいざん /改竄/改ざん/
-; 用言のよみは、おくりがなの手前まで指定して水平バーでとめます。
-; 五段活用動詞の漢字には、最後にkgstnbmrwをつけます(kは、カ行をしめします)。
+; おくりがなのある語のよみは、漢字におきかえる部分だけをかいて、水平バー（―）でとめます。
 ささや― /囁k/
-; 形容詞は、最後にiをつけます。
 あお― /碧i/
 </code></pre>
 
 <p>&#x3000;<ruby>編集<rp>(</rp><rt>へんしゅう</rt><rp>)</rp></ruby>した<ruby>最新<rp>(</rp><rt>さいしん</rt><rp>)</rp></ruby>の<ruby>個人<rp>(</rp><rt>こじん</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby><ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>をつかうには、「<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>を<ruby>読<rp>(</rp><rt>よ</rt><rp>)</rp></ruby>みなおす」スイッチをオンにして[<ruby>適用<rp>(</rp><rt>てきよう</rt><rp>)</rp></ruby>]ボタンをおします。</p>
 <p>&#x3000;<ruby>複数<rp>(</rp><rt>ふくすう</rt><rp>)</rp></ruby>の<ruby>個人<rp>(</rp><rt>こじん</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby><ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>ファイルをつかいわけることもできます。そのときは、<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>したい<ruby>個人<rp>(</rp><rt>こじん</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby><ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>のファイル<ruby>名<rp>(</rp><rt>めい</rt><rp>)</rp></ruby>を「<ruby>個人<rp>(</rp><rt>こじん</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby><ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby><ruby>名<rp>(</rp><rt>めい</rt><rp>)</rp></ruby>」テキストボックスに<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>しておきます。</p>
+<h3 id="okurigana">おくりがなのある<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>の<ruby>登録<rp>(</rp><rt>とうろく</rt><rp>)</rp></ruby>のしかた</h3>
+<p>&#x3000;「ひらがなIME」の<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>におくりがなのある<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>を<ruby>登録<rp>(</rp><rt>とうろく</rt><rp>)</rp></ruby>するときのかきかたは、つぎのとおりです。「よみ」の<ruby>部分<rp>(</rp><rt>ぶぶん</rt><rp>)</rp></ruby>には、<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>におきかえる<ruby>部分<rp>(</rp><rt>ぶぶん</rt><rp>)</rp></ruby>だけ、かなでかいて、水平バー（―）でとめます。「<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>」の<ruby>部分<rp>(</rp><rt>ぶぶん</rt><rp>)</rp></ruby>のかきかたは、以下のように<ruby>品詞<rp>(</rp><rt>ひんし</rt><rp>)</rp></ruby>や<ruby>活用形<rp>(</rp><rt>かつようけい</rt><rp>)</rp></ruby>によってかわってきます。</p>
+<h4>五<ruby>段<rp>(</rp><rt>だん</rt><rp>)</rp></ruby><ruby>活用<rp>(</rp><rt>かつよう</rt><rp>)</rp></ruby>の<ruby>動詞<rp>(</rp><rt>どうし</rt><rp>)</rp></ruby></h4>
+<p>&#x3000;「<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>」の<ruby>部分<rp>(</rp><rt>ぶぶん</rt><rp>)</rp></ruby>には、<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>・（もしあれば）<ruby>活用語尾<rp>(</rp><rt>かつようごび</rt><rp>)</rp></ruby>のまえのおくりがな・<ruby>活用語尾<rp>(</rp><rt>かつようごび</rt><rp>)</rp></ruby>の<ruby>記号<rp>(</rp><rt>きごう</rt><rp>)</rp></ruby>（kgstnbmrwのどれかひとつ）をかきます。</p>
+<table>
+<thead>
+<tr>
+<th><ruby>行<rp>(</rp><rt>ぎょう</rt><rp>)</rp></ruby></th>
+<th>よみ</th>
+<th><ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>カ<ruby>行<rp>(</rp><rt>ぎょう</rt><rp>)</rp></ruby></td>
+<td>か―</td>
+<td>書k</td>
+</tr>
+<tr>
+<td>ガ<ruby>行<rp>(</rp><rt>ぎょう</rt><rp>)</rp></ruby></td>
+<td>およ―</td>
+<td>泳g</td>
+</tr>
+<tr>
+<td>サ<ruby>行<rp>(</rp><rt>ぎょう</rt><rp>)</rp></ruby></td>
+<td>ち―</td>
+<td>散らs</td>
+</tr>
+<tr>
+<td>タ<ruby>行<rp>(</rp><rt>ぎょう</rt><rp>)</rp></ruby></td>
+<td>う―</td>
+<td>打t</td>
+</tr>
+<tr>
+<td>ナ<ruby>行<rp>(</rp><rt>ぎょう</rt><rp>)</rp></ruby></td>
+<td>し―</td>
+<td>死n</td>
+</tr>
+<tr>
+<td>バ<ruby>行<rp>(</rp><rt>ぎょう</rt><rp>)</rp></ruby></td>
+<td>あそ―</td>
+<td>遊b</td>
+</tr>
+<tr>
+<td>マ<ruby>行<rp>(</rp><rt>ぎょう</rt><rp>)</rp></ruby></td>
+<td>あか―</td>
+<td>赤らm</td>
+</tr>
+<tr>
+<td>ラ<ruby>行<rp>(</rp><rt>ぎょう</rt><rp>)</rp></ruby></td>
+<td>あず―</td>
+<td>預かr</td>
+</tr>
+<tr>
+<td>ワア<ruby>行<rp>(</rp><rt>ぎょう</rt><rp>)</rp></ruby></td>
+<td>あ―</td>
+<td>会w</td>
+</tr>
+</tbody>
+</table>
+<h4><ruby>上<rp>(</rp><rt>かみ</rt><rp>)</rp></ruby><ruby>一段<rp>(</rp><rt>いちだん</rt><rp>)</rp></ruby><ruby>活用<rp>(</rp><rt>かつよう</rt><rp>)</rp></ruby>/<ruby>下<rp>(</rp><rt>しも</rt><rp>)</rp></ruby><ruby>一段<rp>(</rp><rt>いちだん</rt><rp>)</rp></ruby><ruby>活用<rp>(</rp><rt>かつよう</rt><rp>)</rp></ruby>の<ruby>動詞<rp>(</rp><rt>どうし</rt><rp>)</rp></ruby></h4>
+<p>&#x3000;「<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>」の<ruby>部分<rp>(</rp><rt>ぶぶん</rt><rp>)</rp></ruby>には、<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>と<ruby>活用<rp>(</rp><rt>かつよう</rt><rp>)</rp></ruby><ruby>語尾<rp>(</rp><rt>ごび</rt><rp>)</rp></ruby>のさいしょの一<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>（イ<ruby>段<rp>(</rp><rt>だん</rt><rp>)</rp></ruby>もしくはエ<ruby>段<rp>(</rp><rt>だん</rt><rp>)</rp></ruby>の<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>）をかきます。</p>
+<table>
+<thead>
+<tr>
+<th><ruby>活用<rp>(</rp><rt>かつよう</rt><rp>)</rp></ruby></th>
+<th>よみ</th>
+<th><ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><ruby>上<rp>(</rp><rt>かみ</rt><rp>)</rp></ruby><ruby>一段<rp>(</rp><rt>いちだん</rt><rp>)</rp></ruby></td>
+<td>お―</td>
+<td>起き</td>
+</tr>
+<tr>
+<td><ruby>下<rp>(</rp><rt>しも</rt><rp>)</rp></ruby><ruby>一段<rp>(</rp><rt>いちだん</rt><rp>)</rp></ruby></td>
+<td>み―</td>
+<td>見え</td>
+</tr>
+</tbody>
+</table>
+<h4><ruby>形容詞<rp>(</rp><rt>けいようし</rt><rp>)</rp></ruby>（イ<ruby>形容詞<rp>(</rp><rt>けいようし</rt><rp>)</rp></ruby>）</h4>
+<p>&#x3000;「<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>」の<ruby>部分<rp>(</rp><rt>ぶぶん</rt><rp>)</rp></ruby>には、<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>・（もしあれば）<ruby>活用語尾<rp>(</rp><rt>かつようごび</rt><rp>)</rp></ruby>のまえのおくりがな・<ruby>活用語尾<rp>(</rp><rt>かつようごび</rt><rp>)</rp></ruby>の<ruby>記号<rp>(</rp><rt>きごう</rt><rp>)</rp></ruby>（i）をかきます。</p>
+<table>
+<thead>
+<tr>
+<th>よみ</th>
+<th><ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>あか―</td>
+<td>赤i</td>
+</tr>
+<tr>
+<td>つめ―</td>
+<td>冷たi</td>
+</tr>
+</tbody>
+</table>
+<h4><ruby>形容動詞<rp>(</rp><rt>けいようどうし</rt><rp>)</rp></ruby>（ナ<ruby>形容詞<rp>(</rp><rt>けいようし</rt><rp>)</rp></ruby>）</h4>
+<p>&#x3000;「<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>」の<ruby>部分<rp>(</rp><rt>ぶぶん</rt><rp>)</rp></ruby>には、<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>と<ruby>語幹<rp>(</rp><rt>ごかん</rt><rp>)</rp></ruby><ruby>部分<rp>(</rp><rt>ぶぶん</rt><rp>)</rp></ruby>のおくりがなをかきます。</p>
+<table>
+<thead>
+<tr>
+<th>よみ</th>
+<th><ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>あき―</td>
+<td>明らか</td>
+</tr>
+<tr>
+<td>しず―</td>
+<td>静か</td>
+</tr>
+</tbody>
+</table>
+<h4>そのほかの<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>のおくりがな</h4>
+<p>&#x3000;「<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>」の<ruby>部分<rp>(</rp><rt>ぶぶん</rt><rp>)</rp></ruby>には、<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>とおくりがなをそのままかきます。</p>
+<table>
+<thead>
+<tr>
+<th>よみ</th>
+<th><ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ひと―</td>
+<td>独り</td>
+</tr>
+<tr>
+<td>すこ―</td>
+<td>少し</td>
+</tr>
+</tbody>
+</table>
 <h3><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby><ruby>履歴<rp>(</rp><rt>りれき</rt><rp>)</rp></ruby>のクリア</h3>
 <p>&#x3000;<ruby>同音<rp>(</rp><rt>どうおん</rt><rp>)</rp></ruby><ruby>異義<rp>(</rp><rt>いぎ</rt><rp>)</rp></ruby><ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>やよみを<ruby>短縮<rp>(</rp><rt>たんしゅく</rt><rp>)</rp></ruby>したことばの<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby><ruby>中<rp>(</rp><rt>ちゅう</rt><rp>)</rp></ruby>は、よくつかうものが<ruby>一覧<rp>(</rp><rt>いちらん</rt><rp>)</rp></ruby>のはじめのほうにきます。これを<ruby>初期<rp>(</rp><rt>しょき</rt><rp>)</rp></ruby><ruby>状態<rp>(</rp><rt>じょうたい</rt><rp>)</rp></ruby>にもどしたいときは、「<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby><ruby>履歴<rp>(</rp><rt>りれき</rt><rp>)</rp></ruby>をクリアする」スイッチをオンにして[<ruby>適用<rp>(</rp><rt>てきよう</rt><rp>)</rp></ruby>]ボタンをおします。</p>
 </main>
