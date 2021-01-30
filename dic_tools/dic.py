@@ -184,6 +184,8 @@ def load_huhyou(path, grade = 10):
                 continue
             row = row.split(':', 1)
             level = int(row[0])
+            if level == 4 and grade < 9:
+                continue
             if level == 3 and grade < 8:
                 continue
             elif level == 2 and grade < 7:
