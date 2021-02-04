@@ -180,10 +180,6 @@ class Event:
         # Ignore XFree86 anomaly.
         if keyval == keysyms.ISO_Left_Tab:
             keyval = keysyms.Tab
-        elif keyval == 0x1008ff81:
-            keyval = keysyms.F13
-        elif keyval == 0x1008ff45:
-            keyval = keysyms.F14
         elif keyval == keysyms.Meta_R:  # [Shift]-[Alt_R]
             keyval = keysyms.Alt_R
 
