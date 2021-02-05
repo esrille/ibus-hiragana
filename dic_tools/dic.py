@@ -164,12 +164,10 @@ def load(path):
     return dict
 
 def _get_grade(cand, grades):
-    grade = 10
+    grade = 1
     for i in cand:
-        if i == '―' or re_kana.search(i):
-            continue
         g = grades.get(i, grade)
-        if g < grade:
+        if grade < g:
             grade = g
     return grade
 
