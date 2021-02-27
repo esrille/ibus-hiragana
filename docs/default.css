@@ -451,13 +451,13 @@ em:lang(ja), h1:lang(ja), h2:lang(ja), h3:lang(ja), h4:lang(ja), h5:lang(ja), h6
 .L0 {
   top: 2px;
   left: 12px;
+  line-height: 45px;
 }
 .L0>div {
   padding: 0;
   border: solid 1px black;
   border-radius: 4px;
   text-align: center;
-  line-height: 45px;
 }
 .L1 {
   top: 2px;
@@ -465,9 +465,10 @@ em:lang(ja), h1:lang(ja), h2:lang(ja), h3:lang(ja), h4:lang(ja), h5:lang(ja), h6
   line-height: 45px;
 }
 .L2 {
-  top: 2px;
+  top: -12px;
   left: 12px;
   text-align: center;
+  line-height: 45px;
 }
 .L3 {
   top: 15px;
@@ -477,7 +478,7 @@ em:lang(ja), h1:lang(ja), h2:lang(ja), h3:lang(ja), h4:lang(ja), h5:lang(ja), h6
   color: #666;
 }
 .L4 {
-  top: 4px;
+  top: 2px;
   left: 42px;
   line-height: 45px;
   color: #666;
