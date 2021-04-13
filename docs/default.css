@@ -319,7 +319,7 @@ em:lang(ja), h1:lang(ja), h2:lang(ja), h3:lang(ja), h4:lang(ja), h5:lang(ja), h6
   width: 57px;
 }
 .layer>.k150 {
-  padding: 0 12px;
+  width: 69px;
 }
 .layer>.k175 {
   width: 82px;
@@ -332,6 +332,9 @@ em:lang(ja), h1:lang(ja), h2:lang(ja), h3:lang(ja), h4:lang(ja), h5:lang(ja), h6
 }
 .layer>.k275 {
   width: 131px;
+}
+.layer>.k300 {
+  width: 144px;
 }
 .layer>.k625 {
   width: 303px;
@@ -373,6 +376,9 @@ em:lang(ja), h1:lang(ja), h2:lang(ja), h3:lang(ja), h4:lang(ja), h5:lang(ja), h6
 }
 .layer109>.k375 {
   width: 180px;
+}
+.layer109>.k300 {
+  width: 144px;
 }
 .layer109>.k400 {
   width: 193px;

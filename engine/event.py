@@ -1,6 +1,6 @@
 # ibus-hiragana - Hiragana IME for IBus
 #
-# Copyright (c) 2017-2020 Esrille Inc.
+# Copyright (c) 2017-2021 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -158,14 +158,14 @@ class Event:
         return self.is_key(self._Kana)
 
     def is_henkan(self):
-        if self.is_key(self._Henkan) or self.is_key(keysyms.Henkan):
+        if self.is_key(self._Henkan) or self.is_key(keysyms.Henkan) or self.is_key(keysyms.Hangul):
             return not self.is_shift()
         return False
 
     def is_muhenkan(self):
-        if self.is_key(self._Henkan) or self.is_key(keysyms.Henkan):
+        if self.is_key(self._Henkan) or self.is_key(keysyms.Henkan) or self.is_key(keysyms.Hangul):
             return self.is_shift()
-        return self.is_key(self._Muhenkan)
+        return False
 
     def is_suffix(self):
         return self._modifiers & DUAL_SHIFT_L_BIT
@@ -244,22 +244,31 @@ class Event:
                         self._engine.enable_ime()
                     else:
                         self._engine.disable_ime()
-            elif keyval == self._Eisuu:
-                if self._engine.is_enabled():
-                    self._engine.disable_ime()
-                else:
-                    self._engine.enable_ime()
-                return True
-            elif keyval == keysyms.Zenkaku_Hankaku:
-                self._engine.switch_zenkaku_hankaku()
-                return True
 
-            if self._engine.is_enabled():
-                if keyval == keysyms.Muhenkan:
-                    self._engine.disable_ime()
+            if keyval in (keysyms.Muhenkan, keysyms.Hangul_Hanja):
+                # [無変換], [A]
+                if self._modifiers & (SHIFT_L_BIT | SHIFT_R_BIT):
+                    mode = 'Ａ'
+                elif self._modifiers & (CONTROL_L_BIT | CONTROL_R_BIT):
+                    mode = {
+                        'ア': 'ｱ',
+                        'ｱ': 'あ',
+                        'あ': 'ア'
+                    }.get(self._engine.get_mode(), 'あ')
+                else:
+                    mode = 'A'
+                if self._engine.set_mode(mode, True):
                     return True
-            elif keyval == keysyms.Henkan:
-                self._engine.enable_ime()
+            elif keyval in (keysyms.Henkan, keysyms.Hangul, keysyms.Hiragana_Katakana):
+                # [変換], [あ], [ひらがな]
+                if not self._engine.is_lookup_table_visible():
+                    mode = 'ア' if self._modifiers & (SHIFT_L_BIT | SHIFT_R_BIT) else 'あ'
+                    if self._engine.set_mode(mode, True):
+                        return True
+            elif keyval in (self._Eisuu, keysyms.Zenkaku_Hankaku):
+                # [英数], [全角/半角]
+                mode = 'A' if self._engine.get_mode() != 'A' else 'あ'
+                self._engine.set_mode(mode)
                 return True
 
         else:

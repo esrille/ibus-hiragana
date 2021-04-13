@@ -326,8 +326,7 @@ class EngineHiragana(IBus.Engine):
             self._reset()
             self._dict = self._load_dictionary(settings)
         elif key == 'mode':
-            self.set_mode(self._load_input_mode(settings))
-            self._override = True
+            self.set_mode(self._load_input_mode(settings), True)
         elif key == 'nn-as-jis-x-4063':
             self._set_x4063_mode(self._load_x4063_mode(settings))
 
@@ -436,45 +435,23 @@ class EngineHiragana(IBus.Engine):
     def is_enabled(self):
         return self.get_mode() != 'A'
 
-    def enable_ime(self):
+    def enable_ime(self, override=False):
         if not self.is_enabled():
-            self.set_mode('あ')
+            self.set_mode('あ', override)
             return True
         return False
 
-    def disable_ime(self):
+    def disable_ime(self, override=False):
         if self.is_enabled():
-            self.set_mode('A')
+            self.set_mode('A', override)
             return True
         return False
-
-    def switch_zenkaku_hankaku(self):
-        mode = self.get_mode()
-        mode = {
-            'A': 'Ａ',
-            'Ａ': 'A',
-            'ア': 'ｱ',
-            'ｱ': 'ア',
-            'あ': 'あ'
-        }.get(mode, 'A')
-        return self.set_mode(mode)
-
-    def switch_katakana(self):
-        mode = self.get_mode()
-        mode = {
-            'A': 'ｱ',
-            'Ａ': 'ア',
-            'ア': 'あ',
-            'ｱ': 'あ',
-            'あ': 'ア'
-        }.get(mode, 'ア')
-        return self.set_mode(mode)
 
     def get_mode(self):
         return self._mode
 
-    def set_mode(self, mode):
-        self._override = False
+    def set_mode(self, mode, override=False):
+        self._override = override
         if self._mode == mode:
             return False
         logger.debug(f'set_mode({mode})')
@@ -506,9 +483,9 @@ class EngineHiragana(IBus.Engine):
 
         # Handle Candidate window
         if 0 < self._lookup_table.get_number_of_candidates():
-            if keyval == keysyms.Page_Up or keyval == keysyms.KP_Page_Up:
+            if keyval in (keysyms.Page_Up, keysyms.KP_Page_Up):
                 return self.do_page_up()
-            elif keyval == keysyms.Page_Down or keyval == keysyms.KP_Page_Down:
+            elif keyval in (keysyms.Page_Down, keysyms.KP_Page_Down):
                 return self.do_page_down()
             elif keyval == keysyms.Up or self._event.is_muhenkan():
                 return self.do_cursor_up()
@@ -546,10 +523,7 @@ class EngineHiragana(IBus.Engine):
         self._commit()
         yomi = ''
         if self._event.is_katakana():
-            if self._event.is_shift():
-                self.switch_katakana()
-            else:
-                self.handle_katakana()
+            self.handle_katakana()
             return True
         if self._event.is_backspace():
             if 1 <= len(self._preedit_string):
@@ -786,6 +760,9 @@ class EngineHiragana(IBus.Engine):
             visible = 0 < self._lookup_table.get_number_of_candidates()
             self.update_lookup_table(self._lookup_table, visible)
 
+    def is_lookup_table_visible(self):
+        return 0 < self._lookup_table.get_number_of_candidates()
+
     def do_focus_in(self):
         logger.info('focus_in')
         self._event.reset()
@@ -884,8 +861,7 @@ class EngineHiragana(IBus.Engine):
                     'InputMode.WideAlphanumeric': 'Ａ',
                     'InputMode.HalfWidthKatakana': 'ｱ',
                 }.get(prop_name, 'A')
-                self.set_mode(mode)
-                self._override = True
+                self.set_mode(mode, True)
 
     def about_response_callback(self, dialog, response):
         dialog.destroy()
