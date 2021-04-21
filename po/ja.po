@@ -3,9 +3,9 @@
 # This file is distributed under the same license as the ibus-hiragana package.
 msgid ""
 msgstr ""
-"Project-Id-Version: ibus-hiragana 0.10.0\n"
+"Project-Id-Version: ibus-hiragana 0.12.2\n"
 "Report-Msgid-Bugs-To: https://github.com/esrille/ibus-hiragana/issues\n"
-"POT-Creation-Date: 2021-01-23 23:25+0900\n"
+"POT-Creation-Date: 2021-04-13 15:20+0900\n"
 "PO-Revision-Date: 2020-09-24 11:59+0900\n"
 "Last-Translator: Esrille Inc. <info@esrille.com>\n"
 "Language-Team: Japanese <info@esrille.com>\n"
@@ -47,11 +47,11 @@ msgstr "全角英数 (Ａ)"
 msgid "Halfwidth Katakana (ｱ)"
 msgstr "半角カタカナ (ｱ)"
 
-#: engine/engine.py:864
+#: engine/engine.py:841
 msgid "Hiragana IME"
 msgstr "ひらがなIME"
 
-#: engine/engine.py:869
+#: engine/engine.py:846
 msgid "Introduction to Hiragana IME"
 msgstr "ひらがなIMEの手びき"
 
