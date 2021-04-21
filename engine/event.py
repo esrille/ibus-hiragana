@@ -180,7 +180,8 @@ class Event:
         # Ignore XFree86 anomaly.
         if keyval == keysyms.ISO_Left_Tab:
             keyval = keysyms.Tab
-        elif keyval == keysyms.Meta_R:  # [Shift]-[Alt_R]
+        elif keyval in (keysyms.Meta_R, keysyms.ISO_Level3_Shift):
+            # [Shift]-[Alt_R] or [AltGr]
             keyval = keysyms.Alt_R
 
         self._modifiers &= ~DUAL_BITS
