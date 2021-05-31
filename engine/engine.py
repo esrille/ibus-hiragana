@@ -152,8 +152,7 @@ class EngineHiragana(IBus.Engine):
 
         self._shrunk = []
 
-        self._committed = ''
-        self._acked = True
+        self._acked = False
         self.connect('set-surrounding-text', self.set_surrounding_text_cb)
         self.connect('set-cursor-location', self.set_cursor_location_cb)
 
@@ -561,16 +560,8 @@ class EngineHiragana(IBus.Engine):
         size = len(self._dict.reading())
         if 0 < size:
             if self._preedit_string == 'n':
-                if self._acked:
-                    # For furiganapad, yomi has to be committed anyway.
-                    # However, 'ん' will be acked by set_cursor_location_cb()
-                    # only after the converted text is committed later.
-                    # So we pretend that 'ん' is acked here.
-                    self._commit_string('ん')
-                    self._acked = True
-                    self._committed = ''
-                else:
-                    size = size - 1
+                # For furiganapad, yomi has to be committed anyway.
+                self._commit_string('ん')
             self._preedit_string = ''
             if 1 < len(self._dict.cand()):
                 for c in self._dict.cand():
@@ -581,16 +572,9 @@ class EngineHiragana(IBus.Engine):
         text, pos = self._get_surrounding_text()
         if self._preedit_string == 'n':
             self._preedit_string = ''
-            if self._acked:
-                text = text[:pos] + 'ん'
-                pos += 1
-                self._commit_string('ん')
-                self._acked = True
-                self._committed = ''
-            else:
-                self._update_romazi_preedit()
-                self._commit_string('ン')
-                return True
+            text = text[:pos] + 'ん'
+            pos += 1
+            self._commit_string('ん')
         for i in reversed(range(pos)):
             if 0 <= KATAKANA.find(text[i]):
                 continue
@@ -683,8 +667,6 @@ class EngineHiragana(IBus.Engine):
                 if 0 <= found:
                     self._delete_surrounding_text(1)
                     text = HANDAKU[found]
-        self._committed = text
-        self._acked = False
         self._previous_text += text
         self.commit_text(IBus.Text.new_from_string(text))
 
@@ -693,8 +675,7 @@ class EngineHiragana(IBus.Engine):
         self._lookup_table.clear()
         self._update_lookup_table()
         if full:
-            self._committed = ''
-            self._acked = True
+            self._acked = False
             self._previous_text = ''
             self._preedit_string = ''
             self._ignore_surrounding_text = False
@@ -752,7 +733,7 @@ class EngineHiragana(IBus.Engine):
         # Note self.hide_preedit_text() does not seem to work as expected with Kate.
         # cf. "Qt5 IBus input context does not implement hide_preedit_text()",
         #     https://bugreports.qt.io/browse/QTBUG-48412
-        self.update_preedit_text_with_mode(text, cand_len, 0 < cand_len, IBus.PreeditFocusMode.COMMIT)
+        self.update_preedit_text(text, cand_len, 0 < cand_len)
         self._update_lookup_table()
 
     def _update_lookup_table(self):
@@ -868,13 +849,9 @@ class EngineHiragana(IBus.Engine):
         self._about_dialog = None
 
     def set_surrounding_text_cb(self, engine, text, cursor_pos, anchor_pos):
-        text = self.get_plain_text(text.get_text()[:cursor_pos])
-        if self._committed:
-            pos = text.rfind(self._committed)
-            if 0 <= pos and pos + len(self._committed) == len(text):
-                self._acked = True
-                self._committed = ''
-        logger.debug(f'set_surrounding_text_cb({text}, {cursor_pos}, {anchor_pos}) => {self._acked}')
+        self._acked = True
+        text = self.get_plain_text(text.get_text())
+        logger.debug(f'set_surrounding_text_cb({text}, {cursor_pos}, {anchor_pos})')
 
     def get_plain_text(self, text):
         plain = ''
