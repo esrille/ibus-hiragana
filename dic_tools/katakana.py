@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 #
-# Copyright (c) 2017-2020 Esrille Inc.
+# Copyright (c) 2017-2021 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -59,6 +59,7 @@ def load(path):
         s.remove('アイウエオ')
         s.remove('アアダプタ')
         s.remove('アアダプター')
+        s.remove('フアン')
     except:
         pass
 
@@ -89,7 +90,7 @@ def main():
     for i in copyright:
         print(';;  ', i)
     print(';;')
-    print(';;   http://www.edrdg.org/jmdict/edict.html')
+    print(';;   https://www.edrdg.org/jmdict/edict.html')
     print(';;')
 
     for i in sorted(gairaigo):
