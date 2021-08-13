@@ -457,7 +457,7 @@ class EngineHiragana(IBus.Engine):
         self._preedit_string = ''
         self._commit()
         self._mode = mode
-        self._update_romazi_preedit()
+        self._update_roomazi_preedit()
         self._update_lookup_table()
         self._update_input_mode()
         return True
@@ -497,11 +497,11 @@ class EngineHiragana(IBus.Engine):
                     self._preedit_string = 'ん'
                 self._commit_string(self._preedit_string)
                 self._preedit_string = ''
-                self._update_romazi_preedit()
+                self._update_roomazi_preedit()
                 return True
             if keyval == keysyms.Escape:
                 self._preedit_string = ''
-                self._update_romazi_preedit()
+                self._update_roomazi_preedit()
                 return True
 
         if self._dict.current():
@@ -527,7 +527,7 @@ class EngineHiragana(IBus.Engine):
         if self._event.is_backspace():
             if 1 <= len(self._preedit_string):
                 self._preedit_string = self._preedit_string[:-1]
-                self._update_romazi_preedit()
+                self._update_roomazi_preedit()
                 return True
             elif 0 < len(self._previous_text):
                 self._previous_text = self._previous_text[:-1]
@@ -548,7 +548,7 @@ class EngineHiragana(IBus.Engine):
             elif self.get_mode() == 'ｱ':
                 yomi = to_hankaku(to_katakana(yomi))
             self._commit_string(yomi)
-        self._update_romazi_preedit()
+        self._update_roomazi_preedit()
         return True
 
     def lookup_dictionary(self, yomi, pos):
@@ -580,7 +580,7 @@ class EngineHiragana(IBus.Engine):
                 continue
             found = HIRAGANA.find(text[i])
             if 0 <= found:
-                self._update_romazi_preedit()
+                self._update_roomazi_preedit()
                 self._delete_surrounding_text(pos - i)
                 self._commit_string(KATAKANA[found] + text[i + 1:pos])
             break
@@ -592,7 +592,7 @@ class EngineHiragana(IBus.Engine):
             (cand, size) = self.lookup_dictionary(text, pos)
             if self._dict.current():
                 self._shrunk = []
-                self._update_romazi_preedit()
+                self._update_roomazi_preedit()
                 self._delete_surrounding_text(size)
                 self._update_candidate_preedit(cand)
         else:
@@ -679,7 +679,7 @@ class EngineHiragana(IBus.Engine):
             self._previous_text = ''
             self._preedit_string = ''
             self._ignore_surrounding_text = False
-        self._update_romazi_preedit()
+        self._update_roomazi_preedit()
 
         assert not self._dict.current()
         self._handle_setup_proc()
@@ -709,7 +709,7 @@ class EngineHiragana(IBus.Engine):
             self._update_candidate()
         return True
 
-    def _update_romazi_preedit(self):
+    def _update_roomazi_preedit(self):
         text = IBus.Text.new_from_string(self._preedit_string)
         preedit_len = len(self._preedit_string)
         if 0 < preedit_len:
