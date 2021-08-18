@@ -419,6 +419,10 @@ em:lang(ja), h1:lang(ja), h2:lang(ja), h3:lang(ja), h4:lang(ja), h5:lang(ja), h6
 .kana-border {
   border: 1px solid #3c6;
 }
+.oadg {
+  display: none;
+  color: #27c;
+}
 
 .a {
   color: #f30

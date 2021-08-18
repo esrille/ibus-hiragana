@@ -70,17 +70,21 @@
 </div>
 
 <div class='layer109 L4'>
-<div></div><div></div><div></div><div class='a'>ぁ</div><div class='a'>ぅ</div><div class='a'>ぇ</div><div class='a'>ぉ</div><div class='y'>ゃ</div><div class='y'>ゅ</div><div class='y'>ょ</div><div class='w'>を</div><div></div><div>〜</div><div></div><div></div>
+<div></div><div></div><div></div><div class='a'>ぁ</div><div class='a'>ぅ</div><div class='a'>ぇ</div><div class='a'>ぉ</div><div class='y'>ゃ</div><div class='y'>ゅ</div><div class='y'>ょ</div><div class='w'>を</div><div><span class='oadg'>£</span></div><div><span class='oadg'>々</span></div><div><span class='oadg'>￢</span></div><div></div>
 <br>
-<div class='k150'></div><div></div><div></div><div class='a'>ぃ</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>「</div><div class='k150'></div>
+<div class='k150'></div><div></div><div></div><div class='a'>ぃ</div><div></div><div></div><div></div><div></div><div></div><div></div><div><span class='oadg'>『</span></div><div><span class='oadg'>￠</span></div><div>「</div><div class='k150'></div>
 <br>
-<div class='k175'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>」</div><div class='k125'></div>
+<div class='k175'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div><span class='oadg'>』</span></div><div><span class='oadg'>ヶ</span></div><div>」</div><div class='k125'></div>
 <br>
-<div class='k225'></div><div><span class='small t'>っ</span></div><div></div><div></div><div></div><div></div><div></div><div></div><div>、</div><div>。</div><div><span class='small'>・</span></div><div></div><div class='k175'></div>
+<div class='k225'></div><div><span class='small t'>っ</span></div><div></div><div></div><div></div><div></div><div></div><div></div><div>、</div><div>。</div><div><span class='small'>・</span></div><div><span class='oadg'>￤</span></div><div class='k175'></div>
 <br>
 <div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150'></div><div class='k250'></div><div class='k150'></div><div class='k125'></div><div></div><div></div><div></div><div class='k125'></div>
 </div>
 </div>
+
+<!--
+-  ￹右￺みぎ￻￹上￺うえ￻にある<span class='oadg'>￹青￺あお￻￹色￺いろ￻</span>の￹文字￺もじ￻や￹記号￺きごう￻（<span class='oadg'>『』£￠ヶ々￢￤</span>）は、￹以前￺いぜん￻の￹日本語￺にほんご￻109キーボードなどに￹刻印￺こくいん￻されていたものです。「ひらがなIME」では、￹入力￺にゅうりょく￻モードが「ひらがな」のときに、〔Shift〕キーと￹同時￺どうじ￻におすと￹入力￺にゅうりょく￻できます。
+-->
 
 ### スティックニーのかな￹配列￺はいれつ￻（￹参考￺さんこう￻）
 
@@ -146,7 +150,7 @@
 </div>
 </div>
 
-　スティックニーのかな￹配列￺はいれつ￻のままなら、キーボードから￹文字￺もじ￻をさがすのもかんたんでした。
+　スティックニーのかな￹配列￺はいれつ￻のままなら、キーボードから￹文字￺もじ￻をさがすのもかんたんでした。いまのJISかな￹配列￺はいれつ￻では、「<span class='k'>け</span><span class='s'>せ</span><span class='n'>ぬ</span><span class='h'>へ</span><span class='m'>むめ</span><span class='r'>ろ</span><span class='w'>を</span>」といった￹文字￺もじ￻が、うちにくい￹位置￺いち￻にうごかされてしまっています。
 
 ## 99￹式￺しき￻ローマ￹字￺じ￻￹用￺よう￻￹配列￺はいれつ￻ {#roomazi}
 　ローマ￹字￺じ￻￹入力￺にゅうりょく￻のときにつかうローマ￹字￺じ￻のつづりかたは、￹国語￺こくご￻や￹英語￺えいご￻でならうかきかたと、すこしちがいます。
@@ -202,9 +206,9 @@
 </div>
 
 <div class='layer L3'>
-<div>…</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'></div>
+<div>…</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>ー</div><div></div><div class='k200'></div>
 <br>
-<div class='k150 kana'>よみ短縮</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>「</div><div>」</div><div class='k150'><span class='kana'>\</span></div>
+<div class='k150 kana'>よみ短縮</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>「</div><div>」</div><div class='k150'>￥</div>
 <br>
 <div class='k175 kana'>あ/A</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k225'></div>
 <br>
@@ -268,7 +272,7 @@
 </div>
 
 <div class='layer109 L3'>
-<div class='kana'>あ/A</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>…</div><div><span class='kana'>\</span></div><div></div>
+<div class='kana'>あ/A</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>ー</div><div>…</div><div>￥</div><div></div>
 <br>
 <div class='k150 kana'>よみ短縮</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>「</div><div class='k150'></div>
 <br>
@@ -343,7 +347,7 @@
 <div class='layer L3'>
 <div>…</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'></div>
 <br>
-<div class='k150 kana'>よみ短縮</div><div class='k'>け</div><div class='k'>く</div><div class='s'>す</div><div class='s'>さ</div><div class='s'>せ</div><div class='t'>つ</div><div class='n'>に</div><div class='n'>の</div><div class='w'>を</div><div class='w'>わ</div><div>「</div><div>」</div><div class='k150'><span class='kana'>\</span></div>
+<div class='k150 kana'>よみ短縮</div><div class='k'>け</div><div class='k'>く</div><div class='s'>す</div><div class='s'>さ</div><div class='s'>せ</div><div class='t'>つ</div><div class='n'>に</div><div class='n'>の</div><div class='w'>を</div><div class='w'>わ</div><div>「</div><div>」</div><div class='k150'>￥</div>
 <br>
 <div class='k175 kana'>あ/A</div><div class='t'>た</div><div class='k'>か</div><div class='s'>し</div><div class='h'>は</div><div class='t'>て</div><div class='r'>ら</div><div class='a'>う</div><div class='a'>い</div><div><span class='small'>゛</span></div><div class='n'>な</div><div><span class='kana'>変換</span></div><div class='k225'></div>
 <br>
@@ -360,7 +364,7 @@
 <br>
 <div class='k175'></div><div><span class='small h'>゜</span></div><div class='s'>そ</div><div class='y'>や</div><div class='y'>ゆ</div><div class='h'>ほ</div><div class='r'>れ</div><div class='r'>る</div><div class='r'>り</div><div class='a'>あ</div><div class='m'>ま</div><div></div><div class='k225'></div>
 <br>
-<div class='k225'></div><div>？</div><div>ゐ</div><div></div><div>ゑ</div><div class='w'></div><div class='r'>ろ</div><div class='x'>ー</div><div class='n'>ぬ</div><div class='m'>む</div><div class='m'>め</div><div class='k275'></div>
+<div class='k225'></div><div>？</div><div>ゐ</div><div>ゝ</div><div>ゑ</div><div class='w'></div><div class='r'>ろ</div><div class='x'>ー</div><div class='n'>ぬ</div><div class='m'>む</div><div class='m'>め</div><div class='k275'></div>
 <br>
 <div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
 </div>
@@ -406,7 +410,7 @@
 </div>
 
 <div class='layer109 L3'>
-<div class='kana'>あ/A</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>…</div><div><span class='kana'>\</span></div><div></div>
+<div class='kana'>あ/A</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>…</div><div>￥</div><div></div>
 <br>
 <div class='k150 kana'>よみ短縮</div><div class='k'>け</div><div class='k'>く</div><div class='s'>す</div><div class='s'>さ</div><div class='s'>せ</div><div class='t'>つ</div><div class='n'>に</div><div class='n'>の</div><div class='w'>を</div><div class='w'>わ</div><div></div><div>「</div><div class='k150'></div>
 <br>
@@ -424,7 +428,7 @@
 <br>
 <div class='k175'></div><div><span class='small h'>゜</span></div><div class='s'>そ</div><div class='y'>や</div><div class='y'>ゆ</div><div class='h'>ほ</div><div class='r'>れ</div><div class='r'>る</div><div class='r'>り</div><div class='a'>あ</div><div class='m'>ま</div><div></div><div>』</div><div class='k125'></div>
 <br>
-<div class='k225'></div><div>？</div><div>ゐ</div><div></div><div>ゑ</div><div class='w'></div><div class='r'>ろ</div><div class='x'>ー</div><div class='n'>ぬ</div><div class='m'>む</div><div class='m'>め</div><div></div><div class='k175'></div>
+<div class='k225'></div><div>？</div><div>ゐ</div><div>ゝ</div><div>ゑ</div><div class='w'></div><div class='r'>ろ</div><div class='x'>ー</div><div class='n'>ぬ</div><div class='m'>む</div><div class='m'>め</div><div></div><div class='k175'></div>
 <br>
 <div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150'></div><div class='k250'></div><div class='k150'></div><div class='k125'></div><div></div><div></div><div></div><div class='k125'></div>
 </div>

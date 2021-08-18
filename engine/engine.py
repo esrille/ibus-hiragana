@@ -335,30 +335,17 @@ class EngineHiragana(IBus.Engine):
     def _handle_kana_layout(self, preedit, keyval, state=0, modifiers=0):
         yomi = ''
         c = self._event.chr().lower()
-        if preedit == '\\':
-            preedit = ''
-            if self._event.is_shift():
-                if 'Shift' in self._layout:
-                    yomi = self._layout['\\Shift'][c]
-                elif modifiers & event.SHIFT_L_BIT:
-                    yomi = self._layout['\\ShiftL'][c]
-                elif modifiers & event.SHIFT_R_BIT:
-                    yomi = self._layout['\\ShiftR'][c]
-            else:
-                yomi = self._layout['\\Normal'][c]
+        if c == '_' and self._event._keycode == 0x59:
+            c = '¦'
+        if self._event.is_shift():
+            if 'Shift' in self._layout:
+                yomi = self._layout['Shift'].get(c, '')
+            elif modifiers & event.SHIFT_L_BIT:
+                yomi = self._layout['ShiftL'].get(c, '')
+            elif modifiers & event.SHIFT_R_BIT:
+                yomi = self._layout['ShiftR'].get(c, '')
         else:
-            if self._event.is_shift():
-                if 'Shift' in self._layout:
-                    yomi = self._layout['Shift'][c]
-                elif modifiers & event.SHIFT_L_BIT:
-                    yomi = self._layout['ShiftL'][c]
-                elif modifiers & event.SHIFT_R_BIT:
-                    yomi = self._layout['ShiftR'][c]
-            else:
-                yomi = self._layout['Normal'][c]
-            if yomi == '\\':
-                preedit += yomi
-                yomi = ''
+            yomi = self._layout['Normal'].get(c, '')
         return yomi, preedit
 
     def _set_x4063_mode(self, on):
@@ -378,9 +365,6 @@ class EngineHiragana(IBus.Engine):
         if preedit in self._layout['Roomazi']:
             yomi += self._layout['Roomazi'][preedit]
             preedit = ''
-            if yomi == '\\':
-                preedit = yomi
-                yomi = ''
         elif 2 <= len(preedit) and preedit[0] == preedit[1] and RE_SOKUON.search(preedit[1]):
             yomi += 'っ'
             preedit = preedit[1:]
@@ -468,8 +452,22 @@ class EngineHiragana(IBus.Engine):
     def do_process_key_event(self, keyval, keycode, state):
         return self._event.process_key_event(keyval, keycode, state)
 
+    def handle_alt_graph(self, keyval, keycode, state, modifiers):
+        logger.debug(f'handle_alt_graph("{self._event.chr()}")')
+        c = self._event.chr().lower()
+        if not c:
+            return c
+        if not self._event.is_shift():
+            return self._layout['\\Normal'].get(c, '')
+        if '\\Shift' in self._layout:
+            return self._layout['\\Shift'].get(c, '')
+        if modifiers & event.SHIFT_L_BIT:
+            return self._layout['\\ShiftL'].get(c, '')
+        if modifiers & event.SHIFT_R_BIT:
+            return self._layout['\\ShiftR'].get(c, '')
+
     def handle_key_event(self, keyval, keycode, state, modifiers):
-        logger.debug("handle_key_event(%s, %04x, %04x, %04x)" % (IBus.keyval_name(keyval), keycode, state, modifiers))
+        logger.debug(f'handle_key_event("{IBus.keyval_name(keyval)}", {keyval:#04x}, {keycode:#04x}, {state:#010x}, {modifiers:#07x})')
 
         if self._event.is_dual_role():
             pass
@@ -517,7 +515,7 @@ class EngineHiragana(IBus.Engine):
                 return True
 
         # Handle Japanese text
-        if self._event.is_henkan():
+        if self._event.is_henkan() and not(modifiers & event.ALT_R_BIT):
             return self.handle_replace(keyval, state)
         self._commit()
         yomi = ''
@@ -533,7 +531,11 @@ class EngineHiragana(IBus.Engine):
                 self._previous_text = self._previous_text[:-1]
             return False
         if self._event.is_ascii():
-            if self.get_mode() == 'Ａ':
+            if modifiers & event.ALT_R_BIT:
+                yomi = self.handle_alt_graph(keyval, keycode, state, modifiers)
+                if yomi:
+                    self._preedit_string = ''
+            elif self.get_mode() == 'Ａ':
                 yomi = to_zenkaku(self._event.chr())
             else:
                 yomi, self._preedit_string = self._to_kana(self._preedit_string, keyval, state, modifiers)
@@ -560,7 +562,7 @@ class EngineHiragana(IBus.Engine):
         size = len(self._dict.reading())
         if 0 < size:
             if self._preedit_string == 'n':
-                # For furiganapad, yomi has to be committed anyway.
+                # For FuriganaPad, yomi has to be committed anyway.
                 self._commit_string('ん')
             self._preedit_string = ''
             if 1 < len(self._dict.cand()):
@@ -851,7 +853,7 @@ class EngineHiragana(IBus.Engine):
     def set_surrounding_text_cb(self, engine, text, cursor_pos, anchor_pos):
         self._acked = True
         text = self.get_plain_text(text.get_text())
-        logger.debug(f'set_surrounding_text_cb({text}, {cursor_pos}, {anchor_pos})')
+        logger.debug(f'set_surrounding_text_cb("{text}", {cursor_pos}, {anchor_pos})')
 
     def get_plain_text(self, text):
         plain = ''

@@ -174,8 +174,7 @@ class Event:
         return self._modifiers & DUAL_BITS
 
     def process_key_event(self, keyval, keycode, state):
-        logger.debug("process_key_event(%s, %04x, %04x) %02x" %
-                     (IBus.keyval_name(keyval), keycode, state, self._modifiers))
+        logger.debug(f'process_key_event("{IBus.keyval_name(keyval)}", {keyval:#04x}, {keycode:#04x}, {state:#010x}) {self._modifiers:#07x}')
 
         # Ignore XFree86 anomaly.
         if keyval == keysyms.ISO_Left_Tab:
@@ -326,6 +325,12 @@ class Event:
         self.update_key_event(keyval, keycode, state)
         c = self.chr()
         if c:
+            if self._modifiers & ALT_R_BIT:
+                # AltGr
+                graph = self._engine.handle_alt_graph(keyval, keycode, state, self._modifiers)
+                if graph:
+                    self._engine.commit_text(IBus.Text.new_from_string(graph))
+                return True
             # Commit a remapped character
             if c == '¥' and not self._HasYen:
                 c = '\\'
