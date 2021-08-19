@@ -515,8 +515,8 @@ class EngineHiragana(IBus.Engine):
                 return True
 
         # Handle Japanese text
-        if self._event.is_henkan() and not(modifiers & event.ALT_R_BIT):
-            return self.handle_replace(keyval, state)
+        if (self._event.is_henkan() or self._event.is_muhenkan()) and not(modifiers & event.ALT_R_BIT):
+            return self.handle_replace()
         self._commit()
         yomi = ''
         if self._event.is_katakana():
@@ -588,20 +588,23 @@ class EngineHiragana(IBus.Engine):
             break
         return True
 
-    def handle_replace(self, keyval, state):
-        if not self._dict.current():
-            text, pos = self._get_surrounding_text()
-            (cand, size) = self.lookup_dictionary(text, pos)
-            if self._dict.current():
-                self._shrunk = []
-                self._update_roomazi_preedit()
-                self._delete_surrounding_text(size)
-                self._update_candidate_preedit(cand)
-        else:
-            if not self._event.is_shift():
-                cand = self._dict.next()
+    def handle_replace(self):
+        if self._dict.current():
+            return True
+        text, pos = self._get_surrounding_text()
+        if self._event.is_henkan():
+            cand, size = self.lookup_dictionary(text, pos)
+        elif 1 <= pos:
+            assert self._event.is_muhenkan()
+            suffix = text[:pos].rfind('―')
+            if 0 < suffix:
+                cand, size = self.lookup_dictionary(text[suffix - 1:], pos - suffix + 1)
             else:
-                cand = self._dict.previous()
+                cand, size = self.lookup_dictionary(text[pos - 1], 1)
+        if self._dict.current():
+            self._shrunk = []
+            self._update_roomazi_preedit()
+            self._delete_surrounding_text(size)
             self._update_candidate_preedit(cand)
         return True
 

@@ -35,7 +35,8 @@ ALT_L_BIT = 0x10
 ALT_R_BIT = 0x20
 SPACE_BIT = 0x40
 PREFIX_BIT = 0x80
-MODIFIER_BITS = SHIFT_L_BIT | SHIFT_R_BIT | CONTROL_L_BIT | CONTROL_R_BIT | ALT_L_BIT | ALT_R_BIT | SPACE_BIT
+SHIFT_BITS = SHIFT_L_BIT | SHIFT_R_BIT
+MODIFIER_BITS = SHIFT_BITS | CONTROL_L_BIT | CONTROL_R_BIT | ALT_L_BIT | ALT_R_BIT | SPACE_BIT
 
 DUAL_SHIFT_L_BIT = SHIFT_L_BIT << 8
 DUAL_SHIFT_R_BIT = SHIFT_R_BIT << 8
@@ -141,7 +142,7 @@ class Event:
         return self._keyval in MODIFIERS
 
     def is_shift(self):
-        mask = SHIFT_L_BIT | SHIFT_R_BIT
+        mask = SHIFT_BITS
         if self._SandS and (self._modifiers & SPACE_BIT):
             return True
         if self._Prefix and (self._modifiers & (SPACE_BIT | PREFIX_BIT)):
@@ -163,6 +164,8 @@ class Event:
         return False
 
     def is_muhenkan(self):
+        if self.is_key(self._Muhenkan):
+            return True
         if self.is_key(self._Henkan) or self.is_key(keysyms.Henkan) or self.is_key(keysyms.Hangul):
             return self.is_shift()
         return False
@@ -247,7 +250,7 @@ class Event:
 
             if keyval in (keysyms.Muhenkan, keysyms.Hangul_Hanja):
                 # [無変換], [A]
-                if self._modifiers & (SHIFT_L_BIT | SHIFT_R_BIT):
+                if self._modifiers & SHIFT_BITS:
                     mode = 'Ａ'
                 elif self._modifiers & (CONTROL_L_BIT | CONTROL_R_BIT):
                     mode = {
@@ -262,7 +265,9 @@ class Event:
             elif keyval in (keysyms.Henkan, keysyms.Hangul, keysyms.Hiragana_Katakana):
                 # [変換], [あ], [ひらがな]
                 if not self._engine.is_lookup_table_visible():
-                    mode = 'ア' if self._modifiers & (SHIFT_L_BIT | SHIFT_R_BIT) else 'あ'
+                    mode = 'あ'
+                    if keyval == keysyms.Hiragana_Katakana and (self._modifiers & SHIFT_BITS):
+                        mode = 'ア'
                     if self._engine.set_mode(mode, True):
                         return True
             elif keyval in (self._Eisuu, keysyms.Zenkaku_Hankaku):
