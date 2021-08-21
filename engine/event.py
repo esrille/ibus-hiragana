@@ -178,12 +178,17 @@ class Event:
 
     def process_key_event(self, keyval, keycode, state):
         logger.debug(f'process_key_event("{IBus.keyval_name(keyval)}", {keyval:#04x}, {keycode:#04x}, {state:#010x}) {self._modifiers:#07x}')
+        alt_gr = False
 
         # Ignore XFree86 anomaly.
         if keyval == keysyms.ISO_Left_Tab:
             keyval = keysyms.Tab
+        elif keyval == keysyms.Meta_L:
+            # [Shift]-[Alt_L]
+            keyval = keysyms.Alt_L
         elif keyval in (keysyms.Meta_R, keysyms.ISO_Level3_Shift):
             # [Shift]-[Alt_R] or [AltGr]
+            alt_gr = True
             keyval = keysyms.Alt_R
 
         self._modifiers &= ~DUAL_BITS
@@ -323,9 +328,9 @@ class Event:
                 return True
             return self.handle_key_event(keyval, keycode, state)
 
-        if not is_press:
-            return False
-        if state & (IBus.ModifierType.CONTROL_MASK | IBus.ModifierType.MOD1_MASK):
+        if self.is_dual_role() and alt_gr:
+            pass
+        elif state & (IBus.ModifierType.CONTROL_MASK | IBus.ModifierType.MOD1_MASK):
             return False
         self.update_key_event(keyval, keycode, state)
         c = self.chr()
