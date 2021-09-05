@@ -79,16 +79,27 @@ IAT = '\uFFFB'  # IAT (INTERLINEAR ANNOTATION TERMINATOR)
 CANDIDATE_FOREGROUND_COLOR = 0x000000
 CANDIDATE_BACKGROUND_COLOR = 0xd1eaff
 
+SURROUNDING_RESET = 0
+SURROUNDING_COMMITTED = 1
+SURROUNDING_SUPPORTED = 2
+SURROUNDING_NOT_SUPPORTED = -1
+
+# Web applications running on web browsers sometimes need a short delay
+# between delete_surrounding_text() and commit_text(), and between
+# multiple forward_key_event().
+# Gmail running on Firefox 91.0.2 is an example of such an application.
+EVENT_DELAY = 0.02
+
 
 def to_katakana(kana):
     return kana.translate(TO_KATAKANA)
 
 
 def to_hankaku(kana):
-    str = ''
+    s = ''
     for c in kana:
         c = c.translate(TO_HANDAKU)
-        str += {
+        s += {
             '。': '｡', '「': '｢', '」': '｣', '、': '､', '・': '･',
             'ヲ': 'ｦ',
             'ァ': 'ｧ', 'ィ': 'ｨ', 'ゥ': 'ｩ', 'ェ': 'ｪ', 'ォ': 'ｫ',
@@ -111,7 +122,7 @@ def to_hankaku(kana):
             'パ': 'ﾊﾟ', 'ピ': 'ﾋﾟ', 'プ': 'ﾌﾟ', 'ペ': 'ﾍﾟ', 'ポ': 'ﾎﾟ',
             'ヴ': 'ｳﾞ'
         }.get(c, c)
-    return str
+    return s
 
 
 def to_zenkaku(asc):
@@ -129,9 +140,10 @@ class EngineHiragana(IBus.Engine):
         self._layout = dict()
         self._to_kana = self._handle_default_layout
 
-        self._preedit_string = ''
+        self._preedit_string = ''   # in rômazi
         self._previous_text = ''
-        self._ignore_surrounding_text = False
+        self._shrunk = []
+        self._surrounding = SURROUNDING_RESET
 
         self._lookup_table = IBus.LookupTable.new(10, 0, True, False)
         self._lookup_table.set_orientation(IBus.Orientation.VERTICAL)
@@ -150,9 +162,6 @@ class EngineHiragana(IBus.Engine):
         self.set_mode(self._load_input_mode(self._settings))
         self._set_x4063_mode(self._load_x4063_mode(self._settings))
 
-        self._shrunk = []
-
-        self._acked = False
         self.connect('set-surrounding-text', self.set_surrounding_text_cb)
         self.connect('set-cursor-location', self.set_cursor_location_cb)
 
@@ -262,7 +271,7 @@ class EngineHiragana(IBus.Engine):
 
     def _load_logging_level(self, settings):
         level = settings.get_string('logging-level')
-        if not level in NAME_TO_LOGGING_LEVEL:
+        if level not in NAME_TO_LOGGING_LEVEL:
             level = 'WARNING'
             settings.reset('logging-level')
         logger.info(f'logging_level: {level}')
@@ -372,8 +381,12 @@ class EngineHiragana(IBus.Engine):
 
     def _get_surrounding_text(self):
         if not (self.client_capabilities & IBus.Capabilite.SURROUNDING_TEXT):
-            self._ignore_surrounding_text = True
-        if self._ignore_surrounding_text or not self._acked:
+            self._surrounding = SURROUNDING_NOT_SUPPORTED
+
+        if self._surrounding != SURROUNDING_SUPPORTED:
+            # Call get_surrounding_text() anyway to see if the surrounding
+            # text is supported in the current client.
+            self.get_surrounding_text()
             logger.debug(f'surrounding text: "{self._previous_text}"')
             return self._previous_text, len(self._previous_text)
 
@@ -402,15 +415,10 @@ class EngineHiragana(IBus.Engine):
         return text, pos
 
     def _delete_surrounding_text(self, size):
-        self._previous_text = self._previous_text[:-size]
-        if not self._ignore_surrounding_text and self._acked:
+        if self._surrounding == SURROUNDING_SUPPORTED:
             self.delete_surrounding_text(-size, size)
         else:
-            # Note a short delay after each BackSpace is necessary for the target application to catch up.
-            for i in range(size):
-                self.forward_key_event(IBus.BackSpace, 14, 0)
-                time.sleep(0.02)
-            self.forward_key_event(IBus.BackSpace, 14, IBus.ModifierType.RELEASE_MASK)
+            self._previous_text = self._previous_text[:-size]
 
     def is_overridden(self):
         return self._override
@@ -441,7 +449,7 @@ class EngineHiragana(IBus.Engine):
         self._preedit_string = ''
         self._commit()
         self._mode = mode
-        self._update_roomazi_preedit()
+        self._update_preedit()
         self._update_lookup_table()
         self._update_input_mode()
         return True
@@ -495,11 +503,11 @@ class EngineHiragana(IBus.Engine):
                     self._preedit_string = 'ん'
                 self._commit_string(self._preedit_string)
                 self._preedit_string = ''
-                self._update_roomazi_preedit()
+                self._update_preedit()
                 return True
             if keyval == keysyms.Escape:
                 self._preedit_string = ''
-                self._update_roomazi_preedit()
+                self._update_preedit()
                 return True
 
         if self._dict.current():
@@ -509,7 +517,9 @@ class EngineHiragana(IBus.Engine):
                 else:
                     return self.handle_expand()
             if keyval == keysyms.Escape:
-                return self.handle_escape()
+                self._handle_escape()
+                self._update_preedit()
+                return True
             if keyval == keysyms.Return:
                 self._commit()
                 return True
@@ -517,7 +527,8 @@ class EngineHiragana(IBus.Engine):
         # Handle Japanese text
         if (self._event.is_henkan() or self._event.is_muhenkan()) and not(modifiers & event.ALT_R_BIT):
             return self.handle_replace()
-        self._commit()
+        if self._dict.current():
+            self._commit()
         yomi = ''
         if self._event.is_katakana():
             self.handle_katakana()
@@ -525,10 +536,12 @@ class EngineHiragana(IBus.Engine):
         if self._event.is_backspace():
             if 1 <= len(self._preedit_string):
                 self._preedit_string = self._preedit_string[:-1]
-                self._update_roomazi_preedit()
+                self._update_preedit()
                 return True
-            elif 0 < len(self._previous_text):
+            if self._previous_text:
                 self._previous_text = self._previous_text[:-1]
+                self._update_preedit()
+                return True
             return False
         if self._event.is_ascii():
             if modifiers & event.ALT_R_BIT:
@@ -541,8 +554,14 @@ class EngineHiragana(IBus.Engine):
                 yomi, self._preedit_string = self._to_kana(self._preedit_string, keyval, state, modifiers)
         elif keyval == keysyms.hyphen:
             yomi = '―'
+        elif self._previous_text:
+            if keyval == keysyms.Escape:
+                self._previous_text = ''
+            else:
+                self._commit()
+            self._update_preedit()
+            return True
         else:
-            self._previous_text = ''
             return False
         if yomi:
             if self.get_mode() == 'ア':
@@ -550,7 +569,7 @@ class EngineHiragana(IBus.Engine):
             elif self.get_mode() == 'ｱ':
                 yomi = to_hankaku(to_katakana(yomi))
             self._commit_string(yomi)
-        self._update_roomazi_preedit()
+        self._update_preedit()
         return True
 
     def lookup_dictionary(self, yomi, pos):
@@ -582,9 +601,10 @@ class EngineHiragana(IBus.Engine):
                 continue
             found = HIRAGANA.find(text[i])
             if 0 <= found:
-                self._update_roomazi_preedit()
                 self._delete_surrounding_text(pos - i)
+                time.sleep(EVENT_DELAY)
                 self._commit_string(KATAKANA[found] + text[i + 1:pos])
+                self._update_preedit()
             break
         return True
 
@@ -603,9 +623,8 @@ class EngineHiragana(IBus.Engine):
                 cand, size = self.lookup_dictionary(text[pos - 1], 1)
         if self._dict.current():
             self._shrunk = []
-            self._update_roomazi_preedit()
             self._delete_surrounding_text(size)
-            self._update_candidate_preedit(cand)
+            self._update_preedit(cand)
         return True
 
     def handle_expand(self):
@@ -619,7 +638,7 @@ class EngineHiragana(IBus.Engine):
         assert 0 < size
         self._delete_surrounding_text(len(kana))
         self._shrunk.pop(-1)
-        self._update_candidate_preedit(cand)
+        self._update_preedit(cand)
         return True
 
     def handle_shrink(self):
@@ -637,27 +656,30 @@ class EngineHiragana(IBus.Engine):
             self._commit_string(kana)
         else:
             (cand, size) = self.lookup_dictionary(yomi + text[pos:], len(yomi))
-        self._update_candidate_preedit(cand)
+        self._update_preedit(cand)
         return True
 
-    def handle_escape(self):
+    def _handle_escape(self):
         assert self._dict.current()
         yomi = self._dict.reading()
         self._reset(False)
         self._commit_string(yomi)
-        return True
 
     def _commit(self):
+        logger.debug(f'_commit(): ({self._previous_text})')
         current = self._dict.current()
         if current:
             self._dict.confirm(''.join(self._shrunk))
             self._dict.reset()
             self._lookup_table.clear()
-            self._update_candidate_preedit('')
-            self._commit_string(current)
-            self._previous_text = ''
+        text = self._previous_text + current
+        self._previous_text = ''
+        self._update_preedit()
+        self.commit_text(IBus.Text.new_from_string(text))
 
     def _commit_string(self, text):
+        size = len(self._previous_text)
+
         if text == '゛':
             prev, pos = self._get_surrounding_text()
             if 0 < pos:
@@ -665,6 +687,7 @@ class EngineHiragana(IBus.Engine):
                 if 0 <= found:
                     self._delete_surrounding_text(1)
                     text = DAKU[found]
+                    time.sleep(EVENT_DELAY)
         elif text == '゜':
             prev, pos = self._get_surrounding_text()
             if 0 < pos:
@@ -672,27 +695,48 @@ class EngineHiragana(IBus.Engine):
                 if 0 <= found:
                     self._delete_surrounding_text(1)
                     text = HANDAKU[found]
-        self._previous_text += text
-        self.commit_text(IBus.Text.new_from_string(text))
+                    time.sleep(EVENT_DELAY)
+
+        if self._surrounding == SURROUNDING_COMMITTED:
+            self._surrounding = SURROUNDING_NOT_SUPPORTED
+            logger.debug(f'_commit_string({text}): committed ({self._previous_text})')
+            # Hide preedit text for a moment so that the current client can
+            # process the backspace keys.
+            self.update_preedit_text(IBus.Text.new_from_string(''), 0, 0)
+            # Note delete_surrounding_text() doesn't work here.
+            self._forward_backspaces(size)
+
+        if self._surrounding == SURROUNDING_NOT_SUPPORTED:
+            self._previous_text += text
+            logger.debug(f'_commit_string({text}): legacy ({self._previous_text})')
+        else:
+            if self._surrounding != SURROUNDING_SUPPORTED:
+                self._surrounding = SURROUNDING_COMMITTED
+                self._previous_text += text
+            self.commit_text(IBus.Text.new_from_string(text))
+            logger.debug(f'_commit_string({text}): modeless ({self._surrounding}, {self._previous_text})')
 
     def _reset(self, full=True):
+        logger.debug(f'_reset({full}): "{self._previous_text}", "{self._preedit_string}"')
+        if self._previous_text or self._preedit_string:
+            # Do not clear self._previous_text and self._preedit_string by _reset().
+            # There are several applications that issues 'reset' when they shouldn't.
+            return
         self._dict.reset()
         self._lookup_table.clear()
         self._update_lookup_table()
         if full:
-            self._acked = False
             self._previous_text = ''
             self._preedit_string = ''
-            self._ignore_surrounding_text = False
-        self._update_roomazi_preedit()
-
+            self._surrounding = SURROUNDING_RESET
+        self._update_preedit()
         assert not self._dict.current()
         self._handle_setup_proc()
 
     def _update_candidate(self):
         index = self._lookup_table.get_cursor_pos()
         self._dict.set_current(index)
-        self._update_candidate_preedit(self._dict.current())
+        self._update_preedit(self._dict.current())
 
     def do_page_up(self):
         if self._lookup_table.page_up():
@@ -714,31 +758,29 @@ class EngineHiragana(IBus.Engine):
             self._update_candidate()
         return True
 
-    def _update_roomazi_preedit(self):
-        text = IBus.Text.new_from_string(self._preedit_string)
-        preedit_len = len(self._preedit_string)
-        if 0 < preedit_len:
-            attrs = IBus.AttrList()
-            attrs.append(IBus.Attribute.new(IBus.AttrType.UNDERLINE, IBus.AttrUnderline.SINGLE, 0, preedit_len))
-            text.set_attributes(attrs)
-        # Note self.hide_preedit_text() does not seem to work as expected with Kate.
-        # cf. "Qt5 IBus input context does not implement hide_preedit_text()",
-        #     https://bugreports.qt.io/browse/QTBUG-48412
-        self.update_preedit_text(text, preedit_len, 0 < preedit_len)
-
-    def _update_candidate_preedit(self, cand):
-        assert len(self._preedit_string) == 0
-        text = IBus.Text.new_from_string(cand)
+    def _update_preedit(self, cand=''):
+        previous_text = self._previous_text if self._surrounding != SURROUNDING_COMMITTED else ''
+        text = IBus.Text.new_from_string(previous_text + cand + self._preedit_string)
+        previous_len = len(previous_text)
         cand_len = len(cand)
+        preedit_len = len(self._preedit_string)
+        text_len = previous_len + cand_len + preedit_len
+        attrs = IBus.AttrList() if 0 < text_len else None
+        if 0 < previous_len:
+            attrs.append(IBus.Attribute.new(IBus.AttrType.UNDERLINE, IBus.AttrUnderline.SINGLE, 0, previous_len))
         if 0 < cand_len:
-            attrs = IBus.AttrList()
-            attrs.append(IBus.Attribute.new(IBus.AttrType.FOREGROUND, CANDIDATE_FOREGROUND_COLOR, 0, cand_len))
-            attrs.append(IBus.Attribute.new(IBus.AttrType.BACKGROUND, CANDIDATE_BACKGROUND_COLOR, 0, cand_len))
+            assert preedit_len == 0
+            attrs.append(IBus.Attribute.new(IBus.AttrType.FOREGROUND, CANDIDATE_FOREGROUND_COLOR, previous_len, previous_len + cand_len))
+            attrs.append(IBus.Attribute.new(IBus.AttrType.BACKGROUND, CANDIDATE_BACKGROUND_COLOR, previous_len, previous_len + cand_len))
+        if 0 < preedit_len:
+            assert cand_len == 0
+            attrs.append(IBus.Attribute.new(IBus.AttrType.UNDERLINE, IBus.AttrUnderline.SINGLE, previous_len, previous_len + preedit_len))
+        if attrs:
             text.set_attributes(attrs)
         # Note self.hide_preedit_text() does not seem to work as expected with Kate.
         # cf. "Qt5 IBus input context does not implement hide_preedit_text()",
         #     https://bugreports.qt.io/browse/QTBUG-48412
-        self.update_preedit_text(text, cand_len, 0 < cand_len)
+        self.update_preedit_text(text, text_len, 0 < text_len)
         self._update_lookup_table()
 
     def _update_lookup_table(self):
@@ -755,6 +797,7 @@ class EngineHiragana(IBus.Engine):
         self.register_properties(self._prop_list)
         # Request the initial surrounding-text in addition to the "enable" handler.
         self.get_surrounding_text()
+        self._update_preedit()
 
     def do_focus_out(self):
         logger.info('focus_out')
@@ -854,7 +897,8 @@ class EngineHiragana(IBus.Engine):
         self._about_dialog = None
 
     def set_surrounding_text_cb(self, engine, text, cursor_pos, anchor_pos):
-        self._acked = True
+        self._surrounding = SURROUNDING_SUPPORTED
+        self._previous_text = ''
         text = self.get_plain_text(text.get_text())
         logger.debug(f'set_surrounding_text_cb("{text}", {cursor_pos}, {anchor_pos})')
 
@@ -878,3 +922,10 @@ class EngineHiragana(IBus.Engine):
         # necessary on Ubuntu 18.04 or Fedora 30.
         logger.debug(f'set_cursor_location_cb({x}, {y}, {w}, {h})')
         self._update_lookup_table()
+
+    def _forward_backspaces(self, size):
+        logger.debug(f'_forward_backspaces({size})')
+        for i in range(size):
+            self.forward_key_event(IBus.BackSpace, 14, 0)
+            time.sleep(EVENT_DELAY)
+            self.forward_key_event(IBus.BackSpace, 14, IBus.ModifierType.RELEASE_MASK)
