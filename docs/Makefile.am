@@ -23,6 +23,7 @@ dist_help_DATA = \
 	template.html \
 	usage.html \
 	icon.png \
+	screenshot.mp4 \
 	screenshot.png \
 	ibus-setup-hiragana_1.png \
 	ibus-setup-hiragana_2.png \
