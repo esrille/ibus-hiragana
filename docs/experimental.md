@@ -5,7 +5,7 @@
 
 ## Alt Grキーをつかう {#alternative_keyboard_input}
 
-　￹右￺みぎ￻〔ALT〕キーをAlt Grキーに￹設定￺せってい￻すると、￹一部￺いちぶ￻の￹文字￺もじ￻や￹記号￺きごう￻をキーボードからちょくせつ￹入力￺にゅうりょく￻できます。
+　￹右￺みぎ￻❲ALT❳キーをAlt Grキーに￹設定￺せってい￻すると、￹一部￺いちぶ￻の￹文字￺もじ￻や￹記号￺きごう￻をキーボードからちょくせつ￹入力￺にゅうりょく￻できます。
 IMEの￹入力￺にゅうりょく￻モードは、「￹英数￺えいすう￻モード」でも「ひらがなモード」でもどちらでもかまいません。
 　￹入力￺にゅうりょく￻できる￹文字￺もじ￻や￹記号￺きごう￻については、このあとのキーボードの￹図￺ず￻のとおりです。
 
@@ -13,10 +13,10 @@ IMEの￹入力￺にゅうりょく￻モードは、「￹英数￺えいす�
 
 キー コンビネーション | ￹入力￺にゅうりょく￻される￹文字￺もじ￻
 ---|---
-〔Alt Gr〕-〔1〕| ￹一￺いち￻
-〔Alt Gr〕-〔2〕| ￹二￺に￻
-〔Alt Gr〕-〔a〕| â
-〔Alt Gr〕-〔Shift〕-〔a〕| Â
+❲Alt Gr❳-❲1❳| ￹一￺いち￻
+❲Alt Gr❳-❲2❳| ￹二￺に￻
+❲Alt Gr❳-❲a❳| â
+❲Alt Gr❳-❲Shift❳-❲a❳| Â
 
 ### ￹英語￺えいご￻キーボード
 
@@ -70,7 +70,7 @@ IMEの￹入力￺にゅうりょく￻モードは、「￹英数￺えいす�
 </div>
 
 <div class='layer L4'>
-<div></div><div>十</div><div>²</div><div>³</div><div>£</div><div>€</div><div>〔</div><div>〕</div><div>×</div><div>【</div><div>】</div><div>≒</div><div>±</div><div class='k200'></div>
+<div></div><div>十</div><div>²</div><div>³</div><div>£</div><div>€</div><div>❲</div><div>❳</div><div>×</div><div>【</div><div>】</div><div>≒</div><div>±</div><div class='k200'></div>
 <br>
 <div class='k150'></div><div></div><div></div><div>Ê</div><div></div><div>™</div><div></div><div>Û</div><div>Î</div><div>Ô</div><div></div><div>｛</div><div>｝</div><div class='k150'></div>
 <br>
@@ -134,7 +134,7 @@ IMEの￹入力￺にゅうりょく￻モードは、「￹英数￺えいす�
 </div>
 
 <div class='layer109 L4'>
-<div></div><div>十</div><div>²</div><div>³</div><div>£</div><div>€</div><div>〔</div><div>〕</div><div>【</div><div>】</div><div>°</div><div>≒</div><div>〜</div><div></div><div></div>
+<div></div><div>十</div><div>²</div><div>³</div><div>£</div><div>€</div><div>❲</div><div>❳</div><div>【</div><div>】</div><div>°</div><div>≒</div><div>〜</div><div></div><div></div>
 <br>
 <div class='k150'></div><div></div><div></div><div>Ê</div><div></div><div>™</div><div></div><div>Û</div><div>Î</div><div>Ô</div><div></div><div></div><div>“</div><div class='k150'></div>
 <br>
@@ -146,7 +146,7 @@ IMEの￹入力￺にゅうりょく￻モードは、「￹英数￺えいす�
 </div>
 </div>
 
-### ￹右￺みぎ￻〔Alt〕キーを Alt Gr に￹設定￺せってい￻する￹方法￺ほうほう￻
+### ￹右￺みぎ￻❲Alt❳キーを Alt Gr に￹設定￺せってい￻する￹方法￺ほうほう￻
 
 　GNOME￹環境￺かんきょう￻を￹利用￺りよう￻しているばあいは、GNOME Tweaksを￹実行￺じっこう￻して、「Keyboard & Mouse （キーボードとマウス）」-「Additional Layout Options （￹追加￺ついか￻のレイアウトオプション）」-「Key to choose the 3rd level （￹第￺だい￻３￹層￺そう￻を￹選択￺せんたく￻するキー）」のなかの「Right Alt」にチェックをいれます。
 
