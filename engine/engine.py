@@ -668,7 +668,6 @@ class EngineHiragana(IBus.Engine):
         self._commit_string(yomi)
 
     def _commit(self):
-        logger.debug(f'_commit(): ({self._previous_text})')
         current = self._dict.current()
         if current:
             self._dict.confirm(''.join(self._shrunk))
@@ -677,7 +676,9 @@ class EngineHiragana(IBus.Engine):
         text = self._previous_text + current
         self._previous_text = ''
         self._update_preedit()
-        self.commit_text(IBus.Text.new_from_string(text))
+        if text:
+            logger.debug(f'_commit(): "{text}"')
+            self.commit_text(IBus.Text.new_from_string(text))
 
     def _commit_string(self, text):
         size = len(self._previous_text)
