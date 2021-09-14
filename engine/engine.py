@@ -54,10 +54,10 @@ DAKU = 'ぁぃぅぇぉがぎぐげござじずぜぞだぢづでどばびぶべ
 NON_HANDAKU = 'はひふへほハヒフヘホぱぴぷぺぽパピプペポ'
 HANDAKU = 'ぱぴぷぺぽパピプペポはひふへほハヒフヘホ'
 
-ZENKAKU = ''.join(chr(i) for i in range(0xff01, 0xff5f)) + '　￥'
-HANKAKU = ''.join(chr(i) for i in range(0x21, 0x7f)) + ' ¥'
+ZENKAKU = ''.join(chr(i) for i in range(0xff01, 0xff5f)) + '　〔〕［］￥？'
+HANKAKU = ''.join(chr(i) for i in range(0x21, 0x7f)) + ' ❲❳[]¥?'
 
-TO_HANDAKU = str.maketrans(ZENKAKU, HANKAKU)
+TO_HANKAKU = str.maketrans(ZENKAKU, HANKAKU)
 TO_ZENKAKU = str.maketrans(HANKAKU, ZENKAKU)
 
 RE_SOKUON = re.compile(r'[kstnhmyrwgzdbpfjv]')
@@ -98,7 +98,7 @@ def to_katakana(kana):
 def to_hankaku(kana):
     s = ''
     for c in kana:
-        c = c.translate(TO_HANDAKU)
+        c = c.translate(TO_HANKAKU)
         s += {
             '。': '｡', '「': '｢', '」': '｣', '、': '､', '・': '･',
             'ヲ': 'ｦ',
@@ -547,6 +547,8 @@ class EngineHiragana(IBus.Engine):
             if modifiers & event.ALT_R_BIT:
                 yomi = self.handle_alt_graph(keyval, keycode, state, modifiers)
                 if yomi:
+                    if self.get_mode() != 'ｱ':
+                        yomi = to_zenkaku(yomi)
                     self._preedit_string = ''
             elif self.get_mode() == 'Ａ':
                 yomi = to_zenkaku(self._event.chr())

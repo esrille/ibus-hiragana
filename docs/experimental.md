@@ -60,7 +60,7 @@ IMEの￹入力￺にゅうりょく￻モードは、「￹英数￺えいす�
 <div class='layer L3'>
 <div></div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div><div>七</div><div>八</div><div>九</div><div>〇</div><div>—</div><div>≠</div><div class='k200'></div>
 <br>
-<div class='k150'></div><div></div><div></div><div>ê</div><div>®</div><div>〒</div><div></div><div>û</div><div>î</div><div>ô</div><div>π</div><div>［</div><div>］</div><div class='k150'></div>
+<div class='k150'></div><div></div><div></div><div>ê</div><div>®</div><div>〒</div><div></div><div>û</div><div>î</div><div>ô</div><div>π</div><div>［</div><div>］</div><div class='k150'>¥</div>
 <br>
 <div class='k175'></div><div>â</div><div>§</div><div></div><div></div><div></div><div></div><div>←</div><div>↓</div><div>→</div><div>※</div><div>“</div><div class='k225'></div>
 <br>
