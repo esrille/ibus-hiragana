@@ -22,10 +22,8 @@
 ;; SKK Development Team <skk@ring.gr.jp>
 ;;
 ;; Maintainer: SKK Development Team <skk@ring.gr.jp>
-;; Version: $Id: SKK-JISYO.ML,v 1.10 2006/02/19 17:23:08 skk-cvs Exp $
 ;; Keywords: japanese
 ;; Created: April 13, 2003
-;; Last Modified: $Date: 2006/02/19 17:23:08 $
 ;;
 ;; This dictionary is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -7322,7 +7320,7 @@
 しゅい /首位/主意/主位/
 しゅいん /主因/
 しゅう /秋/週/州/終/習/集/周/修/収/宗/就/衆/
-しゅうい /周囲/衆意/
+しゅうい /周囲/
 しゅういん /衆院/
 しゅうう /秋雨/
 しゅうえき /収益/
@@ -9724,7 +9722,7 @@
 せいがいは /青海波/
 せいがく /声楽/聖楽/
 せいがん /西岸/正眼/晴眼/青眼/
-せいき /正規/生気/生起/精気/精機/性器/星紀/西紀/成規/清規/世紀/正気/
+せいき /正規/生気/生起/精気/精機/性器/世紀/
 せいきぐん /正規軍/
 せいきぶんぷ /正規分布/
 せいきまつ /世紀末/
@@ -9737,7 +9735,7 @@
 せいきん /精勤/
 せいぎ /正義/精義/
 せいぎかん /正義感/
-せいぎょ /成魚/生魚/
+せいぎょ /成魚/
 せいぎょう /成業/正業/生業/聖業/
 せいぎょく /青玉/
 せいく /成句/
@@ -16108,7 +16106,7 @@
 ぶしゅ /部首/
 ぶしょ /部署/
 ぶしょう /武将/
-ぶじ /無事/武事/
+ぶじ /無事/
 ぶじゅつ /武術/
 ぶじん /武人/
 ぶすう /部数/

@@ -22,10 +22,8 @@
 ;; SKK Development Team <skk@ring.gr.jp>
 ;;
 ;; Maintainer: SKK Development Team <skk@ring.gr.jp>
-;; Version: $Id: SKK-JISYO.ML,v 1.10 2006/02/19 17:23:08 skk-cvs Exp $
 ;; Keywords: japanese
 ;; Created: April 13, 2003
-;; Last Modified: $Date: 2006/02/19 17:23:08 $
 ;;
 ;; This dictionary is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -5928,12 +5926,12 @@
 せいがいは /青海波/
 せいがく /声楽/
 せいがん /西岸/
-せいき /生気/生起/星紀/西紀/世紀/正気/
+せいき /生気/生起/世紀/
 せいきまつ /世紀末/
 せいきょう /生協/正教/
 せいきょうかい /正教会/
 せいきょうと /清教徒/
-せいぎょ /成魚/生魚/
+せいぎょ /成魚/
 せいぎょう /成業/正業/生業/
 せいぎょく /青玉/
 せいくん /正訓/

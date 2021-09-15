@@ -22,10 +22,8 @@
 ;; SKK Development Team <skk@ring.gr.jp>
 ;;
 ;; Maintainer: SKK Development Team <skk@ring.gr.jp>
-;; Version: $Id: SKK-JISYO.ML,v 1.10 2006/02/19 17:23:08 skk-cvs Exp $
 ;; Keywords: japanese
 ;; Created: April 13, 2003
-;; Last Modified: $Date: 2006/02/19 17:23:08 $
 ;;
 ;; This dictionary is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -2045,10 +2043,9 @@
 せいかつくうかん /生活空間/
 せいかつりょく /生活力/
 せいがく /声楽/
-せいき /生気/正気/
+せいき /生気/
 せいきょう /正教/
 せいきょうかい /正教会/
-せいぎょ /生魚/
 せいぎょく /青玉/
 せいけい /生計/
 せいご /生後/

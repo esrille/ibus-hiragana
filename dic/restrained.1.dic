@@ -22,10 +22,8 @@
 ;; SKK Development Team <skk@ring.gr.jp>
 ;;
 ;; Maintainer: SKK Development Team <skk@ring.gr.jp>
-;; Version: $Id: SKK-JISYO.ML,v 1.10 2006/02/19 17:23:08 skk-cvs Exp $
 ;; Keywords: japanese
 ;; Created: April 13, 2003
-;; Last Modified: $Date: 2006/02/19 17:23:08 $
 ;;
 ;; This dictionary is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -522,7 +520,7 @@
 すいりょく /水力/
 せい /正/生/青/
 せいか /生花/
-せいき /生気/正気/
+せいき /生気/
 せいぎょく /青玉/
 せいざん /青山/
 せいじ /正字/
