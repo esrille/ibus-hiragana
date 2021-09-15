@@ -1,3 +1,9 @@
+ibus-hiragana (0.13.0) unstable; urgency=low
+
+  * See https://github.com/esrille/ibus-hiragana/releases/tag/v0.13.0
+
+ -- Esrille Inc. <info@esrille.com>  Wed, 15 Sep 2021 12:27:57 +0900
+
 ibus-hiragana (0.12.3) unstable; urgency=low
 
   * See https://github.com/esrille/ibus-hiragana/releases/tag/v0.12.3
