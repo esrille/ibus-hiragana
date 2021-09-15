@@ -56,9 +56,9 @@ class SetupEngineHiragana:
     def _init_keyboard_layout(self):
         self._keyboard_layouts = self._builder.get_object('KeyboardLayout')
         model = Gtk.ListStore(str, str, int)
-        model.append([_('Rōmaji Input'), 'roomazi', 0])
-        model.append([_('Kana Input (JIS Layout)'), 'jis', 1])
-        model.append([_('Kana Input (New Stickney Layout)'), 'new_stickney', 2])
+        model.append([_('Rōmaji'), 'roomazi', 0])
+        model.append([_('Kana (JIS Layout)'), 'jis', 1])
+        model.append([_('Kana (New Stickney Layout)'), 'new_stickney', 2])
         self._keyboard_layouts.set_model(model)
         renderer = Gtk.CellRendererText()
         self._keyboard_layouts.pack_start(renderer, True)
