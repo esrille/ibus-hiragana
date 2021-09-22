@@ -108,7 +108,7 @@ class Event:
 
     def reset(self):
         self._state = 0
-        self._modifiers = 0    # See
+        self._modifiers = 0
 
     def is_key(self, keyval):
         if keyval == keysyms.VoidSymbol:

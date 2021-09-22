@@ -79,10 +79,18 @@ IAT = '\uFFFB'  # IAT (INTERLINEAR ANNOTATION TERMINATOR)
 CANDIDATE_FOREGROUND_COLOR = 0x000000
 CANDIDATE_BACKGROUND_COLOR = 0xd1eaff
 
+# There are several applications that claim to support
+# IBus.Capabilite.SURROUNDING_TEXT but actually don't;
+# e.g. Google Chrome v93.0.
+# Those applications are marked as SURROUNDING_BROKEN.
+# 'focus_in', 'focus_out' and 'reset' signals from those
+# applications need to be ignored for Kana-Kanji
+# conversion in the legacy mode.
 SURROUNDING_RESET = 0
 SURROUNDING_COMMITTED = 1
 SURROUNDING_SUPPORTED = 2
 SURROUNDING_NOT_SUPPORTED = -1
+SURROUNDING_BROKEN = -2
 
 # Web applications running on web browsers sometimes need a short delay
 # between delete_surrounding_text() and commit_text(), and between
@@ -486,6 +494,8 @@ class EngineHiragana(IBus.Engine):
             self._commit()
             return False
 
+        self._check_surrounding_support()
+
         # Handle Candidate window
         if 0 < self._lookup_table.get_number_of_candidates():
             if keyval in (keysyms.Page_Up, keysyms.KP_Page_Up):
@@ -680,9 +690,17 @@ class EngineHiragana(IBus.Engine):
             logger.debug(f'_commit(): "{text}"')
             self.commit_text(IBus.Text.new_from_string(text))
 
-    def _commit_string(self, text):
-        size = len(self._previous_text)
+    def _check_surrounding_support(self):
+        if self._surrounding == SURROUNDING_COMMITTED:
+            logger.debug(f'_check_surrounding_support(): "{self._previous_text}"')
+            self._surrounding = SURROUNDING_BROKEN
+            # Hide preedit text for a moment so that the current client can
+            # process the backspace keys.
+            self.update_preedit_text(IBus.Text.new_from_string(''), 0, 0)
+            # Note delete_surrounding_text() doesn't work here.
+            self._forward_backspaces(len(self._previous_text))
 
+    def _commit_string(self, text):
         if text == '゛':
             prev, pos = self._get_surrounding_text()
             if 0 < pos:
@@ -700,16 +718,7 @@ class EngineHiragana(IBus.Engine):
                     text = HANDAKU[found]
                     time.sleep(EVENT_DELAY)
 
-        if self._surrounding == SURROUNDING_COMMITTED:
-            self._surrounding = SURROUNDING_NOT_SUPPORTED
-            logger.debug(f'_commit_string({text}): committed ({self._previous_text})')
-            # Hide preedit text for a moment so that the current client can
-            # process the backspace keys.
-            self.update_preedit_text(IBus.Text.new_from_string(''), 0, 0)
-            # Note delete_surrounding_text() doesn't work here.
-            self._forward_backspaces(size)
-
-        if self._surrounding == SURROUNDING_NOT_SUPPORTED:
+        if self._surrounding in (SURROUNDING_NOT_SUPPORTED, SURROUNDING_BROKEN):
             self._previous_text += text
             logger.debug(f'_commit_string({text}): legacy ({self._previous_text})')
         else:
@@ -720,11 +729,6 @@ class EngineHiragana(IBus.Engine):
             logger.debug(f'_commit_string({text}): modeless ({self._surrounding}, {self._previous_text})')
 
     def _reset(self, full=True):
-        logger.debug(f'_reset({full}): "{self._previous_text}", "{self._preedit_string}"')
-        if self._previous_text or self._preedit_string:
-            # Do not clear self._previous_text and self._preedit_string by _reset().
-            # There are several applications that issues 'reset' when they shouldn't.
-            return
         self._dict.reset()
         self._lookup_table.clear()
         self._update_lookup_table()
@@ -795,17 +799,20 @@ class EngineHiragana(IBus.Engine):
         return 0 < self._lookup_table.get_number_of_candidates()
 
     def do_focus_in(self):
-        logger.info('focus_in')
+        logger.info(f'focus_in: {self._surrounding}')
         self._event.reset()
         self.register_properties(self._prop_list)
-        # Request the initial surrounding-text in addition to the "enable" handler.
-        self.get_surrounding_text()
         self._update_preedit()
+        # Request the initial surrounding-text in addition to the "enable" handler.
+        if not self._previous_text:
+            self._surrounding = SURROUNDING_RESET
+        self.get_surrounding_text()
 
     def do_focus_out(self):
-        logger.info('focus_out')
-        self._reset()
-        self._dict.save_orders()
+        logger.info(f'focus_out: {self._surrounding}')
+        if self._surrounding != SURROUNDING_BROKEN:
+            self._reset()
+            self._dict.save_orders()
 
     def do_enable(self):
         logger.info('enable')
@@ -819,10 +826,11 @@ class EngineHiragana(IBus.Engine):
         self._dict.save_orders()
 
     def do_reset(self):
-        logger.info('reset')
-        self._reset()
-        # Do not switch back to the Alphabet mode here; 'reset' should be
-        # called when the text cursor is moved by a mouse click, etc.
+        logger.info(f'reset: {self._surrounding}')
+        if self._surrounding != SURROUNDING_BROKEN:
+            self._reset()
+        else:
+            self._update_preedit()
 
     def _readline(self, process: subprocess.Popen):
         for line in iter(process.stdout.readline, ''):
