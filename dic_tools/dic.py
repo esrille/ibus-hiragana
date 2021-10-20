@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-#
 # Copyright (c) 2017-2021 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -143,7 +141,7 @@ def load(path):
             if not re_skk_yomi.match(yomi):
                 continue
             if re_alpha.match(yomi[-1]):
-                # SKK辞書のあくりありのよみ
+                # SKK辞書のおくりありのよみ
                 yomi = yomi[:-1] + '―'
             kanji = row[1].strip(" \n/").split("/")
             s = list()
