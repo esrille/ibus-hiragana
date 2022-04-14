@@ -188,7 +188,7 @@ class Dictionary:
                     return True
                 if yomi.startswith("かれ"):
                     return True
-            if 0 <= "けういさかく".find(yomi[0]):
+            if 0 <= "けういさかくそみっ".find(yomi[0]):
                 return True
             if suffix == 'I':   # 連体詞「大きな」、「小さな」。
                 if yomi[0] == 'な':
