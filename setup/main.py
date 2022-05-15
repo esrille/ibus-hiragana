@@ -140,15 +140,10 @@ class SetupEngineHiragana:
 
     def apply(self):
         # layout
-        model = self._keyboard_layouts.get_model()
         i = self._keyboard_layouts.get_active()
-        layout = model[i][1]
-        if layout == 'jis':
-            layout += '.109'
-        else:
-            model = self._keyboard_types.get_model()
-            i = self._keyboard_types.get_active()
-            layout += model[i][1]
+        layout = self._keyboard_layouts.get_model()[i][1]
+        i = self._keyboard_types.get_active()
+        layout += self._keyboard_types.get_model()[i][1]
         layout = os.path.join(package.get_datadir(), 'layouts/' + layout + '.json')
         self._settings.set_string('layout', layout)
 
@@ -157,9 +152,9 @@ class SetupEngineHiragana:
         self._settings.set_boolean('nn-as-jis-x-4063', nn_as_x4063)
 
         # dictionary
-        model = self._kanzi_dictionaries.get_model()
         i = self._kanzi_dictionaries.get_active()
-        dictionary = os.path.join(package.get_datadir(), model[i][1])
+        dictionary = self._kanzi_dictionaries.get_model()[i][1]
+        dictionary = os.path.join(package.get_datadir(), dictionary)
         self._settings.set_string('dictionary', dictionary)
 
         # user-dictionary

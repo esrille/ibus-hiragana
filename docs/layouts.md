@@ -86,6 +86,70 @@
 -  ￹右￺みぎ￻￹上￺うえ￻にある<span class='oadg'>￹青￺あお￻￹色￺いろ￻</span>の￹文字￺もじ￻や￹記号￺きごう￻（<span class='oadg'>『』£￠ヶ々￢￤</span>）は、￹以前￺いぜん￻の￹日本語￺にほんご￻109キーボードなどに￹刻印￺こくいん￻されていたものです。「ひらがなIME」では、￹入力￺にゅうりょく￻モードが「ひらがな」のときに、❲Shift❳キーと￹同時￺どうじ￻におすと￹入力￺にゅうりょく￻できます。
 -->
 
+### ￹英語￺えいご￻キーボード￹用￺よう￻
+
+<div class='kbd'>
+<div class='layer L0'>
+<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'>Backspace</div>
+<br>
+<div class='k150'>Tab</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k150'></div>
+<br>
+<div class='k175'>Caps Lock</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k225'>Enter</div>
+<br>
+<div class='k225'>Shift</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k275'>Shift</div>
+<br>
+<div class='k125'>Ctrl</div><div class='k125'>❖</div><div class='k125'>Alt</div><div class='k625'></div><div class='k125'>Alt</div><div class='k125'>❖</div><div class='k125'>☰</div><div class='k125'>Ctrl</div>
+</div>
+
+<div class='layer L1'>
+<div>`</div><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>0</div><div>-</div><div>=</div><div class='k200'></div>
+<br>
+<div class='k150'></div><div>Q</div><div>W</div><div>E</div><div>R</div><div>T</div><div>Y</div><div>U</div><div>I</div><div>O</div><div>P</div><div>[</div><div>]</div><div class='k150'>\</div>
+<br>
+<div class='k175'></div><div>A</div><div>S</div><div>D</div><div>F</div><div>G</div><div>H</div><div>J</div><div>K</div><div>L</div><div>;</div><div>'</div><div class='k225'></div>
+<br>
+<div class='k225'></div><div>Z</div><div>X</div><div>C</div><div>V</div><div>B</div><div>N</div><div>M</div><div>,</div><div>.</div><div>/</div><div class='k275'></div>
+<br>
+<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
+</div>
+
+<div class='layer L2'>
+<div>~</div><div>!</div><div>@</div><div>#</div><div>$</div><div>%</div><div>^</div><div>&amp;</div><div>*</div><div>(</div><div>)</div><div>_</div><div>+</div><div class='k200'></div>
+<br>
+<div class='k150'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>{</div><div>}</div><div class='k150'>|</div>
+<br>
+<div class='k175'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>:</div><div>"</div><div class='k225'></div>
+<br>
+<div class='k225'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>&lt;</div><div>&gt;</div><div>?</div><div class='k275'></div>
+<br>
+<div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150'></div><div class='k250'></div><div class='k150'></div><div class='k125'></div><div></div><div></div><div></div><div class='k125'></div>
+</div>
+
+<div class='layer L3'>
+<div class='r'>ろ</div><div class='n'>ぬ</div><div class='h'>ふ</div><div class='a'>あ</div><div class='a'>う</div><div class='a'>え</div><div class='a'>お</div><div class='y'>や</div><div class='y'>ゆ</div><div class='y'>よ</div><div class='w'>わ</div><div class='h'>ほ</div><div class='h'>へ</div><div class='k200'></div>
+<br>
+<div class='k150 kana'>よみ短縮</div><div class='t'>た</div><div class='t'>て</div><div class='a'>い</div><div class='s'>す</div><div class='k'>か</div><div class='x'>ん</div><div class='n'>な</div><div class='n'>に</div><div class='r'>ら</div><div class='s'>せ</div><div><span class='small'>゛</span></div><div><span class='small h'>゜</span></div><div class='k150 m'>む</div>
+<br>
+<div class='k175 kana'>あ/A</div><div class='t'>ち</div><div class='t'>と</div><div class='s'>し</div><div class='h'>は</div><div class='k'>き</div><div class='k'>く</div><div class='m'>ま</div><div class='n'>の</div><div class='r'>り</div><div class='r'>れ</div><div class='k'>け</div><div class='k225'></div>
+<br>
+<div class='k225 kana'>おくりがな</div><div class='t'>つ</div><div class='s'>さ</div><div class='s'>そ</div><div class='h'>ひ</div><div class='k'>こ</div><div class='m'>み</div><div class='m'>も</div><div class='n'>ね</div><div class='r'>る</div><div class='m'>め</div><div class='k275'></div>
+<br>
+<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'><span class='kana'>変換</span></div><div class='k125'><span class='kana'>空白</span></div><div class='k125'></div><div class='k125'></div><div class='k125'><span class='kana'>カタカナ</span></div>
+</div>
+
+<div class='layer L4'>
+<div></div><div></div><div></div><div class='a'>ぁ</div><div class='a'>ぅ</div><div class='a'>ぇ</div><div class='a'>ぉ</div><div class='y'>ゃ</div><div class='y'>ゅ</div><div class='y'>ょ</div><div class='w'>を</div><div><span class='x'>ー</span></div><div><span class='oadg'>々</span></div><div class='k200'></div>
+<br>
+<div class='k150'></div><div></div><div></div><div class='a'>ぃ</div><div></div><div></div><div></div><div></div><div></div><div></div><div><span class='oadg'>『</span></div><div>「</div><div>」</div><div class='k150'><span class='oadg'>¬</span></div>
+<br>
+<div class='k175'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div><span class='oadg'>』</span></div><div><span class='oadg'>ヶ</span></div><div class='k225'></div>
+<br>
+<div class='k225'></div><div><span class='small t'>っ</span></div><div></div><div></div><div></div><div></div><div></div><div></div><div>、</div><div>。</div><div><span class='small'>・</span></div><div class='k275'></div>
+<br>
+<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
+</div>
+</div>
+
 ### スティックニーのかな￹配列￺はいれつ￻（￹参考￺さんこう￻）
 
 <div class='kbd'>
