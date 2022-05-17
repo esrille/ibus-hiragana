@@ -14,7 +14,7 @@
 
 dist_help_DATA = \
 	default.css \
-	experimental.html \
+	altgr.html \
 	index.html \
 	install.html \
 	key_assign.html \
@@ -35,7 +35,7 @@ EXTRA_DIST = \
 	update \
 	Makefile.am \
 	md2html.py \
-	experimental.md \
+	altgr.md \
 	index.md \
 	install.md \
 	key_assign.md \

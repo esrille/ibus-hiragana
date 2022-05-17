@@ -1,8 +1,8 @@
 #!/bin/sh
-./md2html.py index.md experimental.md install.md
+./md2html.py index.md altgr.md install.md
 ./md2html.py install.md index.md usage.md
 ./md2html.py usage.md install.md key_assign.md
 ./md2html.py key_assign.md usage.md layouts.md
 ./md2html.py layouts.md key_assign.md settings.md
-./md2html.py settings.md layouts.md experimental.md
-./md2html.py experimental.md settings.md index.md
+./md2html.py settings.md layouts.md altgr.md
+./md2html.py altgr.md settings.md index.md

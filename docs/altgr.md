@@ -1,80 +1,38 @@
-<!doctype html>
-<html lang='ja'>
-<head>
-<meta charset='UTF-8'>
-<meta name='viewport' content='width=device-width, maximum-scale=1.0, user-scalable=yes'>
-<title>実験的な機能 ― ひらがなIME</title>
-<link href='icon.png' rel='icon'>
-<link rel='stylesheet' type='text/css' href='default.css'>
-<meta content='実験的な機能' name='description'>
-<meta content='https://esrille.github.io/ibus-hiragana/experimental.html' property='og:url'>
-<meta content='実験的な機能 ― ひらがなIME' property='og:title'>
-<meta content='実験的な機能' property='og:description'>
-<meta content='https://esrille.github.io/ibus-hiragana/screenshot.png' property='og:image'>
-<meta content='product' property='og:type'>
-<meta content='summary_large_image' name='twitter:card'>
-<meta content='@esrille' name='twitter:creator'>
-<style>
-aside a:hover {
-  text-decoration: none;
-}
-.title {
-  font-size: 20pt;
-}
-</style>
-</head>
-<body>
-<div id='sidebar'>
-<aside>
-<a class='title' href='https://github.com/esrille/ibus-hiragana'><img alt="アイコン" src="icon.png"> ひらがなIME</a>
-<hr>
-<ul>
-<li><a href='index.html'>はじめに</a>
-<li><a href='install.html'>インストール<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby></a>
-<li><a href='usage.html'>つかいかた</a>
-<li><a href='key_assign.html'>キーのわりあて</a>
-<li><a href='layouts.html'>キーボードの<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby></a>
-<li><a href='settings.html'><ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp>のかえかた</ruby></a>
-<li><a href='experimental.html'><ruby>実験的<rp>(</rp><rt>じっけんてき</rt><rp>)</rp></ruby>な<ruby>機能<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby></a>
-</ul>
-<footer>
-</footer>
-</aside>
-</div>
-<main>
-<h1><ruby>実験的<rp>(</rp><rt>じっけんてき</rt><rp>)</rp></ruby>な<ruby>機能<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby></h1>
-<p>&#x3000;「ひらがなIME」は、すこし<ruby>実験的<rp>(</rp><rt>じっけんてき</rt><rp>)</rp></ruby>な<ruby>機能<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>も<ruby>実装<rp>(</rp><rt>じっそう</rt><rp>)</rp></ruby>しています。<ruby>将来<rp>(</rp><rt>しょうらい</rt><rp>)</rp></ruby>のバージョンでは、これらの<ruby>機能<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>は<ruby>変更<rp>(</rp><rt>へんこう</rt><rp>)</rp></ruby>したり、<ruby>削除<rp>(</rp><rt>さくじょ</rt><rp>)</rp></ruby>したりするかもしれません。</p>
-<h2 id="alternative_keyboard_input">Alt Grキーをつかう</h2>
-<p>&#x3000;<ruby>右<rp>(</rp><rt>みぎ</rt><rp>)</rp></ruby>❲ALT❳キーをAlt Grキーに<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>すると、<ruby>一部<rp>(</rp><rt>いちぶ</rt><rp>)</rp></ruby>の<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>や<ruby>記号<rp>(</rp><rt>きごう</rt><rp>)</rp></ruby>をキーボードからちょくせつ<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できます。IMEの<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>モードは、「<ruby>英数<rp>(</rp><rt>えいすう</rt><rp>)</rp></ruby>モード」でも「ひらがなモード」でもどちらでもかまいません。</p>
-<p>&#x3000;<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できる<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>や<ruby>記号<rp>(</rp><rt>きごう</rt><rp>)</rp></ruby>については、このあとのキーボードの<ruby>図<rp>(</rp><rt>ず</rt><rp>)</rp></ruby>のとおりです。</p>
-<h3><ruby>一例<rp>(</rp><rt>いちれい</rt><rp>)</rp></ruby></h3>
-<table>
-<thead>
-<tr>
-<th>キー コンビネーション</th>
-<th><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>される<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>❲Alt Gr❳-❲1❳</td>
-<td><ruby>一<rp>(</rp><rt>いち</rt><rp>)</rp></ruby></td>
-</tr>
-<tr>
-<td>❲Alt Gr❳-❲2❳</td>
-<td><ruby>二<rp>(</rp><rt>に</rt><rp>)</rp></ruby></td>
-</tr>
-<tr>
-<td>❲Alt Gr❳-❲a❳</td>
-<td>â</td>
-</tr>
-<tr>
-<td>❲Alt Gr❳-❲Shift❳-❲a❳</td>
-<td>Â</td>
-</tr>
-</tbody>
-</table>
-<h3><ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>キーボード</h3>
+# ❲AltGr❳キーをつかう {#alternative_keyboard_input}
+
+　￹右￺みぎ￻❲Alt❳キーを〔AltGr〕キーに￹設定￺せってい￻すると、キーボードで￹入力￺にゅうりょく￻できる￹文字￺もじ￻や￹記号￺きごう￻をふやせます。
+IMEの￹入力￺にゅうりょく￻モードは、「￹英数￺えいすう￻モード」でも「ひらがなモード」でもどちらでもかまいません。
+
+## 〔AltGr〕キーとは
+
+　AltGrは、“alternate graphic”の￹略￺りゃく￻です。
+￹国￺くに￻によっては、キーボードのノーマル￹面￺めん￻とシフト￹面￺めん￻だけでは￹文字￺もじ￻が、はいりきらないことがあります。
+そうした￹国￺くに￻では、￹右￺みぎ￻〔Alt〕キーを❲AltGr❳キーとして、さらにもう１￹面￺めん￻、￹文字￺もじ￻￹面￺めん￻を￹追加￺ついか￻しています。
+　￹日本語￺にほんご￻にも、よくつかう￹文字￺もじ￻で、キーボードからちょくせつ￹入力￺にゅうりょく￻できない￹文字￺もじ￻があります。
+たとえば、￹郵便￺ゆうびん￻￹番号￺ばんごう￻の「〒」や、￹温度￺おんど￻の「℃」といった￹文字￺もじ￻です。
+「ひらがなIME」では、そうした￹文字￺もじ￻を〔AltGr〕キーをつかって￹入力￺にゅうりょく￻することができます。
+
+## ￹右￺みぎ￻❲Alt❳キーを〔AltGr〕キーに￹設定￺せってい￻する￹方法￺ほうほう￻
+
+　GNOME￹環境￺かんきょう￻を￹利用￺りよう￻しているばあいは、GNOME Tweaksを￹実行￺じっこう￻して、「Keyboard & Mouse （キーボードとマウス）」-「Additional Layout Options （￹追加￺ついか￻のレイアウトオプション）」-「Key to choose the 3rd level （￹第￺だい￻３￹層￺そう￻を￹選択￺せんたく￻するキー）」のなかの「Right Alt」にチェックをいれます。
+
+## 〔AltGr〕キーをつかって￹入力￺にゅうりょく￻できる￹文字￺もじ￻や￹記号￺きごう￻
+
+　〔AltGr〕￹面￺めん￻の￹文字￺もじ￻を￹入力￺にゅうりょく￻するときは、〔AltGr〕キーをおさえながら、￹目的￺もくてき￻の￹文字￺もじ￻のキーをおします。
+
+### ￹例￺れい￻
+
+キー コンビネーション | ￹入力￺にゅうりょく￻される￹文字￺もじ￻
+---|---
+❲Alt Gr❳-❲1❳| ￹一￺いち￻
+❲Alt Gr❳-❲2❳| ￹二￺に￻
+❲Alt Gr❳-❲a❳| â
+❲Alt Gr❳-❲Shift❳-❲a❳| Â
+
+　〔AltGr〕￹面￺めん￻の￹文字￺もじ￻の￹配置￺はいち￻はつぎの￹図￺ず￻のとおりです。￹英語￺えいご￻キーボードと￹日本語￺にほんご￻キーボードでは、￹文字￺もじ￻の￹配置￺はいち￻されている￹位置￺いち￻がいちぶ￹異￺こと￻なります。
+
+### ￹英語￺えいご￻キーボード
+
 <div class='kbd'>
 <div class='layer L0'>
 <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'>Backspace</div>
@@ -137,7 +95,8 @@ aside a:hover {
 </div>
 </div>
 
-<h3><ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>キーボード</h3>
+### ￹日本語￺にほんご￻キーボード
+
 <div class='kbd'>
 <div class='layer109 L0'>
 <div style='line-height: 1em;'>半角/<br>全角&nbsp</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>⌫</div>
@@ -199,13 +158,3 @@ aside a:hover {
 <div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150'></div><div class='k250'></div><div class='k150'></div><div class='k125'></div><div></div><div></div><div></div><div class='k125'></div>
 </div>
 </div>
-
-<h3><ruby>右<rp>(</rp><rt>みぎ</rt><rp>)</rp></ruby>❲Alt❳キーを Alt Gr に<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>する<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby></h3>
-<p>&#x3000;GNOME<ruby>環境<rp>(</rp><rt>かんきょう</rt><rp>)</rp></ruby>を<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>しているばあいは、GNOME Tweaksを<ruby>実行<rp>(</rp><rt>じっこう</rt><rp>)</rp></ruby>して、「Keyboard &amp; Mouse （キーボードとマウス）」-「Additional Layout Options （<ruby>追加<rp>(</rp><rt>ついか</rt><rp>)</rp></ruby>のレイアウトオプション）」-「Key to choose the 3rd level （<ruby>第<rp>(</rp><rt>だい</rt><rp>)</rp></ruby>３<ruby>層<rp>(</rp><rt>そう</rt><rp>)</rp></ruby>を<ruby>選択<rp>(</rp><rt>せんたく</rt><rp>)</rp></ruby>するキー）」のなかの「Right Alt」にチェックをいれます。</p>
-</main>
-<nav>
-<a href=settings.html id='nav-prev'><div>&lt;</div></a>
-<a href=index.html id='nav-next'><div>&gt;</div></a>
-</nav>
-</body>
-</html>
