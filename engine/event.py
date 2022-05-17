@@ -342,8 +342,12 @@ class Event:
                     self._engine.commit_text(IBus.Text.new_from_string(graph))
                 return True
             # Commit a remapped character
-            if c == '¥' and not self._HasYen:
-                c = '\\'
+            if c == '¥':
+                if not self._HasYen:
+                    c = '\\'
+                else:
+                    self._engine.commit_text(IBus.Text.new_from_string('¥'))
+                    return True
             if c != chr(self._keyval):
                 # Note self._engine.forward_key_event does not seem to work with Qt applications.
                 self._engine.commit_text(IBus.Text.new_from_string(c))

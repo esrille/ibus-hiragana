@@ -425,37 +425,40 @@ em:lang(ja), h1:lang(ja), h2:lang(ja), h3:lang(ja), h4:lang(ja), h5:lang(ja), h6
 }
 
 .a {
-  color: #f30
+  color: #f00
 }
 .k {
-  color: #f40
+  color: #f63
 }
 .s {
-  color: #f83
+  color: #fa0
 }
 .t {
-  color: #0c6
+  color: #0c3
 }
 .n {
-  color: #099
+  color: #0aa
 }
 .h {
-  color: #09f
+  color: #099
 }
 .m {
   color: #39f
 }
 .y {
-  color: #86f
+  color: #46f
 }
 .r {
-  color: #b6f
+  color: #63f
 }
 .w {
-  color: #c3c
+  color: #a0a
 }
 .x {
-  color: #f3c
+  color: #808
+}
+.sp {
+  color: #bbb
 }
 
 .L0 {

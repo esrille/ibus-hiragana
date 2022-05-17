@@ -352,8 +352,6 @@ class EngineHiragana(IBus.Engine):
     def _handle_kana_layout(self, preedit, keyval, state=0, modifiers=0):
         yomi = ''
         c = self._event.chr().lower()
-        if c == '_' and self._event._keycode == 0x59:
-            c = '¦'
         if self._event.is_shift():
             if 'Shift' in self._layout:
                 yomi = self._layout['Shift'].get(c, '')
@@ -471,6 +469,8 @@ class EngineHiragana(IBus.Engine):
     def handle_alt_graph(self, keyval, keycode, state, modifiers):
         logger.debug(f'handle_alt_graph("{self._event.chr()}")')
         c = self._event.chr().lower()
+        if c == '_' and self._event._keycode == 0x0b:
+            c = '0'
         if not c:
             return c
         if not self._event.is_shift():

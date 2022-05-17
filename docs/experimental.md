@@ -60,9 +60,9 @@ IMEの￹入力￺にゅうりょく￻モードは、「￹英数￺えいす�
 <div class='layer L3'>
 <div></div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div><div>七</div><div>八</div><div>九</div><div>〇</div><div>—</div><div>≠</div><div class='k200'></div>
 <br>
-<div class='k150'></div><div></div><div></div><div>ê</div><div>®</div><div>〒</div><div></div><div>û</div><div>î</div><div>ô</div><div>π</div><div>［</div><div>］</div><div class='k150'>¥</div>
+<div class='k150'></div><div></div><div></div><div>ê</div><div>®</div><div>〒</div><div></div><div>û</div><div>î</div><div>ô</div><div>π</div><div>❲</div><div>❳</div><div class='k150'>¥</div>
 <br>
-<div class='k175'></div><div>â</div><div>§</div><div></div><div></div><div></div><div></div><div>←</div><div>↓</div><div>→</div><div>※</div><div>“</div><div class='k225'></div>
+<div class='k175'></div><div>â</div><div>§</div><div>°</div><div></div><div></div><div></div><div>←</div><div>↓</div><div>→</div><div>“</div><div>”</div><div class='k225'></div>
 <br>
 <div class='k225'></div><div></div><div>Ω</div><div>©</div><div>ゝ</div><div>々</div><div>ヶ</div><div>µ</div><div>，</div><div>．</div><div>÷</div><div class='k275'></div>
 <br>
@@ -70,13 +70,13 @@ IMEの￹入力￺にゅうりょく￻モードは、「￹英数￺えいす�
 </div>
 
 <div class='layer L4'>
-<div></div><div>十</div><div>²</div><div>³</div><div>£</div><div>€</div><div>❲</div><div>❳</div><div>×</div><div>【</div><div>】</div><div>≒</div><div>±</div><div class='k200'></div>
+<div></div><div>十</div><div>²</div><div>³</div><div>£</div><div>€</div><div>△</div><div>○</div><div>×</div><div>【</div><div>】</div><div>≒</div><div>±</div><div class='k200'></div>
 <br>
-<div class='k150'></div><div></div><div></div><div>Ê</div><div></div><div>™</div><div></div><div>Û</div><div>Î</div><div>Ô</div><div></div><div>｛</div><div>｝</div><div class='k150'></div>
+<div class='k150'></div><div></div><div></div><div>Ê</div><div></div><div>™</div><div></div><div>Û</div><div>Î</div><div>Ô</div><div></div><div>｟</div><div>｠</div><div class='k150'></div>
 <br>
-<div class='k175'></div><div>Â</div><div></div><div></div><div></div><div></div><div></div><div></div><div>↑</div><div></div><div>°</div><div>”</div><div class='k225'></div>
+<div class='k175'></div><div>Â</div><div>※</div><div>℃</div><div></div><div></div><div></div><div></div><div>↑</div><div></div><div>《</div><div>》</div><div class='k225'></div>
 <br>
-<div class='k225'></div><div></div><div></div><div></div><div>ゞ</div><div></div><div></div><div></div><div>〈</div><div>〉</div><div>？</div><div class='k275'></div>
+<div class='k225'></div><div></div><div></div><div>✓</div><div>ゞ</div><div>〻</div><div></div><div></div><div>〈</div><div>〉</div><div></div><div class='k275'></div>
 <br>
 <div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
 </div>
@@ -122,11 +122,11 @@ IMEの￹入力￺にゅうりょく￻モードは、「￹英数￺えいす�
 </div>
 
 <div class='layer109 L3'>
-<div></div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div><div>七</div><div>八</div><div>九</div><div>〇</div><div>—</div><div>≠</div><div>￥</div><div></div>
+<div></div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div><div>七</div><div>八</div><div>九</div><div>〇</div><div>—</div><div></div><div>￥</div><div></div>
 <br>
-<div class='k150'></div><div></div><div></div><div>ê</div><div>®</div><div>〒</div><div></div><div>û</div><div>î</div><div>ô</div><div>π</div><div></div><div>『</div><div class='k150'></div>
+<div class='k150'></div><div></div><div></div><div>ê</div><div>®</div><div>〒</div><div></div><div>û</div><div>î</div><div>ô</div><div>π</div><div></div><div>❲</div><div class='k150'></div>
 <br>
-<div class='k175'></div><div>â</div><div>§</div><div></div><div></div><div></div><div></div><div>←</div><div>↓</div><div>→</div><div>…</div><div>※</div><div>』</div><div class='k125'></div>
+<div class='k175'></div><div>â</div><div>§</div><div>°</div><div></div><div></div><div></div><div>←</div><div>↓</div><div>→</div><div>“</div><div>”</div><div>❳</div><div class='k125'></div>
 <br>
 <div class='k225'></div><div></div><div>Ω</div><div>©</div><div>ゝ</div><div>々</div><div>ヶ</div><div>µ</div><div>，</div><div>．</div><div>÷</div><div></div><div class='k175'></div>
 <br>
@@ -134,13 +134,13 @@ IMEの￹入力￺にゅうりょく￻モードは、「￹英数￺えいす�
 </div>
 
 <div class='layer109 L4'>
-<div></div><div>十</div><div>²</div><div>³</div><div>£</div><div>€</div><div>❲</div><div>❳</div><div>【</div><div>】</div><div>°</div><div>≒</div><div>〜</div><div></div><div></div>
+<div></div><div>十</div><div>²</div><div>³</div><div>£</div><div>€</div><div>“</div><div>”</div><div>【</div><div>】</div><div>≒</div><div>≠</div><div>△</div><div></div><div></div>
 <br>
-<div class='k150'></div><div></div><div></div><div>Ê</div><div></div><div>™</div><div></div><div>Û</div><div>Î</div><div>Ô</div><div></div><div></div><div>“</div><div class='k150'></div>
+<div class='k150'></div><div></div><div></div><div>Ê</div><div></div><div>™</div><div></div><div>Û</div><div>Î</div><div>Ô</div><div></div><div>○</div><div>｟</div><div class='k150'></div>
 <br>
-<div class='k175'></div><div>Â</div><div></div><div></div><div></div><div></div><div></div><div></div><div>↑</div><div></div><div>±</div><div>×</div><div>”</div><div class='k125'></div>
+<div class='k175'></div><div>Â</div><div>※</div><div>℃</div><div></div><div></div><div></div><div></div><div>↑</div><div></div><div>±</div><div>×</div><div>｠</div><div class='k125'></div>
 <br>
-<div class='k225'></div><div></div><div></div><div></div><div>ゞ</div><div></div><div></div><div></div><div>〈</div><div>〉</div><div>？</div><div></div><div class='k175'></div>
+<div class='k225'></div><div></div><div></div><div>✓</div><div>ゞ</div><div>〻</div><div></div><div></div><div>〈</div><div>〉</div><div>《</div><div>》</div><div class='k175'></div>
 <br>
 <div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150'></div><div class='k250'></div><div class='k150'></div><div class='k125'></div><div></div><div></div><div></div><div class='k125'></div>
 </div>
@@ -149,5 +149,3 @@ IMEの￹入力￺にゅうりょく￻モードは、「￹英数￺えいす�
 ### ￹右￺みぎ￻❲Alt❳キーを Alt Gr に￹設定￺せってい￻する￹方法￺ほうほう￻
 
 　GNOME￹環境￺かんきょう￻を￹利用￺りよう￻しているばあいは、GNOME Tweaksを￹実行￺じっこう￻して、「Keyboard & Mouse （キーボードとマウス）」-「Additional Layout Options （￹追加￺ついか￻のレイアウトオプション）」-「Key to choose the 3rd level （￹第￺だい￻３￹層￺そう￻を￹選択￺せんたく￻するキー）」のなかの「Right Alt」にチェックをいれます。
-
-

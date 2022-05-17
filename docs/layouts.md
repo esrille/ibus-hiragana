@@ -336,7 +336,7 @@
 </div>
 
 <div class='layer109 L3'>
-<div class='kana'>あ/A</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>ー</div><div>…</div><div>￥</div><div></div>
+<div class='kana'>あ/A</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>ー</div><div></div><div>￥</div><div></div>
 <br>
 <div class='k150 kana'>よみ短縮</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>「</div><div class='k150'></div>
 <br>
@@ -350,7 +350,7 @@
 <div class='layer109 L4'>
 <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>～</div><div></div><div></div>
 <br>
-<div class='k150'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>『</div><div class='k150'></div>
+<div class='k150'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>…</div><div>『</div><div class='k150'></div>
 <br>
 <div class='k175'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>』</div><div class='k125'></div>
 <br>
@@ -363,11 +363,25 @@
 - ￹変換￺へんかん￻には、❲変換❳キーをつかいます。￹空白￺くうはく￻を￹入力￺にゅうりょく￻したいときは、❲スペース❳キーをおします。
 - _（アンダースコア）を、❲Shift❳+❲0❳でも￹入力￺にゅうりょく￻できるようになります。
 
-## New Stickney ￹配列￺はいれつ￻ ‐ ￹第￺だい￻12￹案￺あん￻ {#new_stickney}
+## New Stickney ￹配列￺はいれつ￻ ‐ ￹第￺だい￻13￹案￺あん￻ {#new_stickney}
 
 　ローマ￹字￺じ￻になれていない￹小学生￺しょうがくせい￻にもおぼえやすいかな￹配列￺はいれつ￻として￹研究￺けんきゅう￻￹中￺ちゅう￻のかな￹配列￺はいれつ￻です。
-うちやすい３￹段￺だん￻１０￹列￺れつ￻のキーなかにすべてのかな￹文字￺もじ￻をおさめています。
+うちやすい３￹段￺だん￻10￹列￺れつ￻のキーなかにすべてのかな￹文字￺もじ￻をおさめています。
 ￹文字￺もじ￻のならびは、スティックニーさんが￹考案￺こうあん￻した￹手法￺しゅほう￻を￹応用￺おうよう￻して、コンピューターで￹設計￺せっけい￻しています。
+
+<!--
+<span class='a'>■</span>
+<span class='k'>■</span>
+<span class='s'>■</span>
+<span class='t'>■</span>
+<span class='n'>■</span>
+<span class='h'>■</span>
+<span class='m'>■</span>
+<span class='y'>■</span>
+<span class='r'>■</span>
+<span class='w'>■</span>
+<span class='x'>■</span>
+-->
 
 ### ￹英語￺えいご￻キーボード￹用￺よう￻
 
@@ -411,24 +425,24 @@
 <div class='layer L3'>
 <div>…</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'></div>
 <br>
-<div class='k150 kana'>よみ短縮</div><div class='k'>け</div><div class='k'>く</div><div class='s'>す</div><div class='s'>さ</div><div class='s'>せ</div><div class='t'>つ</div><div class='n'>に</div><div class='n'>の</div><div class='w'>を</div><div class='w'>わ</div><div>「</div><div>」</div><div class='k150'>￥</div>
+<div class='k150 kana'>よみ短縮</div><div class='k'>け</div><div class='k'>く</div><div class='s'>す</div><div class='s'>さ</div><div class='t'>つ</div><div class='n'>ね</div><div class='n'>に</div><div class='n'>の</div><div class='w'>を</div><div class='w'>わ</div><div>「</div><div>」</div><div class='k150'>￥</div>
 <br>
 <div class='k175 kana'>あ/A</div><div class='t'>た</div><div class='k'>か</div><div class='s'>し</div><div class='h'>は</div><div class='t'>て</div><div class='r'>ら</div><div class='a'>う</div><div class='a'>い</div><div><span class='small'>゛</span></div><div class='n'>な</div><div><span class='kana'>変換</span></div><div class='k225'></div>
 <br>
-<div class='k225 kana'>おくりがな</div><div class='t'>ち</div><div class='k'>き</div><div class='k'>こ</div><div class='t'>と</div><div class='y'>よ</div><div><span class='small x'>っ</span></div><div class='x'>ん</div><div>、</div><div>。</div><div class='n'>ね</div><div class='k275'></div>
+<div class='k225 kana'>おくりがな</div><div class='t'>ち</div><div class='k'>き</div><div class='k'>こ</div><div class='t'>と</div><div class='y'>よ</div><div><span class='small x'>っ</span></div><div class='x'>ん</div><div>、</div><div>。</div><div>⬚</div><div class='k275'></div>
 <br>
 <div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'><span class='kana'>前置・連続
-シフト</span></div><div class='k125'><span class='kana'>空白</span></div><div class='k125'></div><div class='k125'></div><div class='k125'><span class='kana'>カタカナ</span></div>
+シフト</span></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'><span class='kana'>カタカナ</span></div>
 </div>
 
 <div class='layer L4'>
 <div>～</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'></div>
 <br>
-<div class='k150'></div><div><span class='small'>・</span></div><div class='h'>ひ</div><div class='h'>ふ</div><div class='h'>へ</div><div></div><div></div><div class='m'>み</div><div class='m'>も</div><div class='a'>お</div><div class='a'>え</div><div>『</div><div>』</div><div class='k150'></div>
+<div class='k150'></div><div>／</div><div class='h'>ひ</div><div class='h'>ふ</div><div class='h'>へ</div><div></div><div class='m'>め</div><div class='m'>み</div><div class='m'>も</div><div class='a'>お</div><div class='a'>え</div><div>『</div><div>』</div><div class='k150'></div>
 <br>
 <div class='k175'></div><div><span class='small h'>゜</span></div><div class='s'>そ</div><div class='y'>や</div><div class='y'>ゆ</div><div class='h'>ほ</div><div class='r'>れ</div><div class='r'>る</div><div class='r'>り</div><div class='a'>あ</div><div class='m'>ま</div><div></div><div class='k225'></div>
 <br>
-<div class='k225'></div><div>？</div><div>ゐ</div><div>ゝ</div><div>ゑ</div><div class='w'></div><div class='r'>ろ</div><div class='x'>ー</div><div class='n'>ぬ</div><div class='m'>む</div><div class='m'>め</div><div class='k275'></div>
+<div class='k225'></div><div><span class='small'>・</span></div><div>ゐ</div><div class='s'>せ</div><div>ゑ</div><div style='transform: scale(0.5, 1); margin-left: -12px; margin-right: 12px'>⬚</div><div class='r'>ろ</div><div class='x'>ー</div><div class='n'>ぬ</div><div class='m'>む</div><div></div><div class='k275'></div>
 <br>
 <div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
 </div>
@@ -474,13 +488,13 @@
 </div>
 
 <div class='layer109 L3'>
-<div class='kana'>あ/A</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>…</div><div>￥</div><div></div>
+<div class='kana'>あ/A</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>￥</div><div></div>
 <br>
-<div class='k150 kana'>よみ短縮</div><div class='k'>け</div><div class='k'>く</div><div class='s'>す</div><div class='s'>さ</div><div class='s'>せ</div><div class='t'>つ</div><div class='n'>に</div><div class='n'>の</div><div class='w'>を</div><div class='w'>わ</div><div></div><div>「</div><div class='k150'></div>
+<div class='k150 kana'>よみ短縮</div><div class='k'>け</div><div class='k'>く</div><div class='s'>す</div><div class='s'>さ</div><div class='t'>つ</div><div class='n'>ね</div><div class='n'>に</div><div class='n'>の</div><div class='w'>を</div><div class='w'>わ</div><div></div><div>「</div><div class='k150'></div>
 <br>
 <div class='k175 kana'>あ/A</div><div class='t'>た</div><div class='k'>か</div><div class='s'>し</div><div class='h'>は</div><div class='t'>て</div><div class='r'>ら</div><div class='a'>う</div><div class='a'>い</div><div><span class='small'>゛</span></div><div class='n'>な</div><div><span class='kana'>変換</span></div><div>」</div><div class='k125'></div>
 <br>
-<div class='k225 kana'>おくりがな</div><div class='t'>ち</div><div class='k'>き</div><div class='k'>こ</div><div class='t'>と</div><div class='y'>よ</div><div><span class='small x'>っ</span></div><div class='x'>ん</div><div>、</div><div>。</div><div class='n'>ね</div><div><span class='kana'>空白</span></div><div class='k175'></div>
+<div class='k225 kana'>おくりがな</div><div class='t'>ち</div><div class='k'>き</div><div class='k'>こ</div><div class='t'>と</div><div class='y'>よ</div><div><span class='small x'>っ</span></div><div class='x'>ん</div><div>、</div><div>。</div><div>⬚</div><div><span></span></div><div class='k175'></div>
 <br>
 <div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150 kana'>A</div><div class='k250 kana'>前置・連続シフト</div><div class='k150 kana'>あ</div><div class='k125 kana'>空白</div><div></div><div></div><div></div><div class='k125 kana'>カタカナ</div>
 </div>
@@ -488,11 +502,11 @@
 <div class='layer109 L4'>
 <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>～</div><div></div><div></div>
 <br>
-<div class='k150'></div><div><span class='small'>・</span></div><div class='h'>ひ</div><div class='h'>ふ</div><div class='h'>へ</div><div></div><div></div><div class='m'>み</div><div class='m'>も</div><div class='a'>お</div><div class='a'>え</div><div></div><div>『</div><div class='k150'></div>
+<div class='k150'></div><div>／</div><div class='h'>ひ</div><div class='h'>ふ</div><div class='h'>へ</div><div></div><div class='m'>め</div><div class='m'>み</div><div class='m'>も</div><div class='a'>お</div><div class='a'>え</div><div>…</div><div>『</div><div class='k150'></div>
 <br>
 <div class='k175'></div><div><span class='small h'>゜</span></div><div class='s'>そ</div><div class='y'>や</div><div class='y'>ゆ</div><div class='h'>ほ</div><div class='r'>れ</div><div class='r'>る</div><div class='r'>り</div><div class='a'>あ</div><div class='m'>ま</div><div></div><div>』</div><div class='k125'></div>
 <br>
-<div class='k225'></div><div>？</div><div>ゐ</div><div>ゝ</div><div>ゑ</div><div class='w'></div><div class='r'>ろ</div><div class='x'>ー</div><div class='n'>ぬ</div><div class='m'>む</div><div class='m'>め</div><div></div><div class='k175'></div>
+<div class='k225'></div><div><span class='small'>・</span></div><div>ゐ</div><div class='s'>せ</div><div>ゑ</div><div style='transform: scale(0.5, 1); margin-left: -12px; margin-right: 12px'>⬚</div><div class='r'>ろ</div><div class='x'>ー</div><div class='n'>ぬ</div><div class='m'>む</div><div></div><div></div><div class='k175'></div>
 <br>
 <div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150'></div><div class='k250'></div><div class='k150'></div><div class='k125'></div><div></div><div></div><div></div><div class='k125'></div>
 </div>
@@ -511,3 +525,5 @@
 - ちいさな「っ」は、<span class='key'><span class='small x'>っ</span></span>とかかれているキーをおして￹入力￺にゅうりょく￻します。
 - ちいさな「ゃゅょぁぃぅぇぉ」は、あとからテンテンのキー <span class='key'><span class='small'>゛</span></span> をおして￹入力￺にゅうりょく￻します。
 <br>　たとえば: よ <span class='key'><span class='small'>゛</span></span> → ょ
+- かな￹入力￺にゅうりょく￻￹中￺ちゅう￻、￹全角￺ぜんかく￻の￹空白￺くうはく￻は<span class='key'><span class='small'>/</span></span>キーをおして￹入力￺にゅうりょく￻します。（<span class='key kana'>空白</span>キーも、もしあれば、つかえます。）
+- かな￹入力￺にゅうりょく￻￹中￺ちゅう￻、￹半角￺はんかく￻の￹空白￺くうはく￻は<span class='key kana'>前置・連続シフト</span> <span class='key'><span class='small'>b</span></span>キーで￹入力￺にゅうりょく￻できます。
