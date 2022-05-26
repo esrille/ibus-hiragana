@@ -26,4 +26,4 @@
 そうしたソフトでは、「ひらがなIME」でも、￹従来￺じゅうらい￻のIMEとおなじように「よみの￹入力￺にゅうりょく￻モード」をつかって￹文字￺もじ￻を￹入力￺にゅうりょく￻します。
 
 <hr>
-<br><small>Copyright 2017-2021 Esrille Inc. </small>
+<br><small>Copyright 2017-2022 Esrille Inc. </small>
