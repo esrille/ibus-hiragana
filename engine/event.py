@@ -1,6 +1,6 @@
 # ibus-hiragana - Hiragana IME for IBus
 #
-# Copyright (c) 2017-2021 Esrille Inc.
+# Copyright (c) 2017-2022 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -397,3 +397,6 @@ class Event:
             else:
                 c = chr(keyval)
         return c
+
+    def is_onoff_by_caps(self):
+        return self._OnOffByCaps

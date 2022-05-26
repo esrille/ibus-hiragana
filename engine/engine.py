@@ -3,7 +3,7 @@
 # Using source code derived from
 #   ibus-tmpl - The Input Bus template project
 #
-# Copyright (c) 2017-2021 Esrille Inc.
+# Copyright (c) 2017-2022 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -34,8 +34,9 @@ import time
 
 import gi
 gi.require_version('IBus', '1.0')
+gi.require_version('Gdk', '3.0')
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gio, Gtk, IBus
+from gi.repository import Gdk, Gio, Gtk, IBus
 
 keysyms = IBus
 
@@ -169,6 +170,9 @@ class EngineHiragana(IBus.Engine):
 
         self.set_mode(self._load_input_mode(self._settings))
         self._set_x4063_mode(self._load_x4063_mode(self._settings))
+
+        self._keymap = Gdk.Keymap.get_for_display(Gdk.Display.get_default())
+        self._keymap.connect('state-changed', self.keymap_state_changed_cb)
 
         self.connect('set-surrounding-text', self.set_surrounding_text_cb)
         self.connect('set-cursor-location', self.set_cursor_location_cb)
@@ -940,3 +944,12 @@ class EngineHiragana(IBus.Engine):
             self.forward_key_event(IBus.BackSpace, 14, 0)
             time.sleep(EVENT_DELAY)
             self.forward_key_event(IBus.BackSpace, 14, IBus.ModifierType.RELEASE_MASK)
+
+    def keymap_state_changed_cb(self, keymap):
+        if self._event.is_onoff_by_caps():
+            logger.debug(f'caps lock: {keymap.get_caps_lock_state()}')
+            if keymap.get_caps_lock_state():
+                self.enable_ime()
+            else:
+                self.disable_ime()
+        return True
