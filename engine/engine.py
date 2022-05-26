@@ -208,6 +208,17 @@ class EngineHiragana(IBus.Engine):
             sub_props=None)
         self._prop_list.append(prop)
         prop = IBus.Property(
+            key='Help',
+            prop_type=IBus.PropType.NORMAL,
+            label=IBus.Text.new_from_string(_("Help")),
+            icon=None,
+            tooltip=None,
+            sensitive=True,
+            visible=True,
+            state=IBus.PropState.UNCHECKED,
+            sub_props=None)
+        self._prop_list.append(prop)
+        prop = IBus.Property(
             key='About',
             prop_type=IBus.PropType.NORMAL,
             label=IBus.Text.new_from_string(_("About Hiragana IME...")),
@@ -877,17 +888,21 @@ class EngineHiragana(IBus.Engine):
         logger.info(f'property_activate({prop_name}, {state})')
         if prop_name == 'Setup':
             self._start_setup()
+        elif prop_name == 'Help':
+            url = 'file://' + os.path.join(package.get_datadir(), 'help/index.html')
+            # Use yelp to open local HTML help files.
+            subprocess.Popen(['yelp', url])
         elif prop_name == 'About':
             if self._about_dialog:
                 self._about_dialog.present()
                 return
             dialog = Gtk.AboutDialog()
             dialog.set_program_name(_("Hiragana IME"))
-            dialog.set_copyright("Copyright 2017-2021 Esrille Inc.")
+            dialog.set_copyright("Copyright 2017-2022 Esrille Inc.")
             dialog.set_authors(["Esrille Inc."])
             dialog.set_documenters(["Esrille Inc."])
-            dialog.set_website("file://" + os.path.join(package.get_datadir(), "help/index.html"))
-            dialog.set_website_label(_("Introduction to Hiragana IME"))
+            dialog.set_website("http://www.esrille.com/")
+            dialog.set_website_label("Esrille Inc.")
             dialog.set_logo_icon_name(package.get_name())
             dialog.set_default_icon_name(package.get_name())
             dialog.set_version(package.get_version())
