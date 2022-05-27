@@ -901,7 +901,7 @@ class EngineHiragana(IBus.Engine):
             dialog.set_copyright("Copyright 2017-2022 Esrille Inc.")
             dialog.set_authors(["Esrille Inc."])
             dialog.set_documenters(["Esrille Inc."])
-            dialog.set_website("http://www.esrille.com/")
+            dialog.set_website("https://www.esrille.com/")
             dialog.set_website_label("Esrille Inc.")
             dialog.set_logo_icon_name(package.get_name())
             dialog.set_default_icon_name(package.get_name())
