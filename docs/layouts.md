@@ -14,9 +14,9 @@
 ## JISかな￹配列￺はいれつ￻ {#jis}
 
 　￹現在￺げんざい￻のJISかな￹配列￺はいれつ￻は、1923年にバーナム・クース・スティックニーさんが￹設計￺せっけい￻した￹日本語￺にほんご￻タイプライター￹用￺よう￻の￹配列￺はいれつ￻がもとになっています。
-　もともとは、￹日本語￺にほんご￻￹用￺よう￻のタイプライターは、￹英文￺えいぶん￻￹用￺よう￻のタイプライターとはべつのものでした。かな￹文字￺もじ￻のキーは、￹配列￺はいれつ￻をおぼえやすいように、五十￹音￺おん￻の￹行￺ぎょう￻ごとにまとまっていました。￹文中￺ぶんちゅう￻にあまりでてこない、「ぬ」や「む」といったかな￹文字￺もじ￻は、シフトキーをつかってうつようになっていました。
-　そののち、一￹台￺だい￻で￹日本語￺にほんご￻と￹英語￺えいご￻どちらもうてる「コンビネーション タイプライター」がつくられました。シフトがわにアルファベットをおいたので、シフトがわにあったかな￹文字￺もじ￻は、キーボードのすみのほうにうつされました。
-　いまのJISかな￹配列￺はいれつ￻は、つかうキーの￹数￺かず￻のおおい、おぼえにくい￹配列￺はいれつ￻になってしまっています。これは、むかしのコンビネーション タイプライターのなごりです。￹現在￺げんざい￻では、JISかな￹配列￺はいれつ￻はあまりつかわれていません。
+　￹日本語￺にほんご￻￹用￺よう￻のカナ・タイプライターは、￹英文￺えいぶん￻￹用￺よう￻のタイプライターとはべつのものでした。かな￹文字￺もじ￻のキーは、￹配列￺はいれつ￻をおぼえやすいように、五十￹音￺おん￻の￹行￺ぎょう￻ごとにまとまっていました。￹文中￺ぶんちゅう￻にあまりでてこない、「ぬ」や「む」といったかな￹文字￺もじ￻は、シフトキーをつかってうつようになっていました。
+　そののち、一￹台￺だい￻で￹日本語￺にほんご￻と￹英語￺えいご￻どちらもうてるコンビネーション・タイプライターがつくられました。シフトがわにアルファベットをおいたので、シフトがわにあったかな￹文字￺もじ￻は、キーボードのすみのほうにうつされました。
+　いまのJISかな￹配列￺はいれつ￻は、つかうキーの￹数￺かず￻のおおい、おぼえにくい￹配列￺はいれつ￻になってしまっています。これは、むかしのコンビネーション・タイプライターのなごりです。￹現在￺げんざい￻では、JISかな￹配列￺はいれつ￻はあまりつかわれていません。
 
 ### ￹日本語￺にほんご￻キーボード￹用￺よう￻
 
@@ -363,11 +363,24 @@
 - ￹変換￺へんかん￻には、❲変換❳キーをつかいます。￹空白￺くうはく￻を￹入力￺にゅうりょく￻したいときは、❲スペース❳キーをおします。
 - _（アンダースコア）を、❲Shift❳+❲0❳でも￹入力￺にゅうりょく￻できるようになります。
 
-## New Stickney ￹配列￺はいれつ￻ ‐ ￹第￺だい￻13￹案￺あん￻ {#new_stickney}
+## New Stickney ￹配列￺はいれつ￻ ‐ ￹第￺だい￻14￹案￺あん￻ {#new_stickney}
 
-　ローマ￹字￺じ￻になれていない￹小学生￺しょうがくせい￻にもおぼえやすいかな￹配列￺はいれつ￻として￹研究￺けんきゅう￻￹中￺ちゅう￻のかな￹配列￺はいれつ￻です。
-うちやすい３￹段￺だん￻10￹列￺れつ￻のキーなかにすべてのかな￹文字￺もじ￻をおさめています。
-￹文字￺もじ￻のならびは、スティックニーさんが￹考案￺こうあん￻した￹手法￺しゅほう￻を￹応用￺おうよう￻して、コンピューターで￹設計￺せっけい￻しています。
+　New Stickney ￹配列￺はいれつ￻は、うちやすい３￹段￺だん￻10￹列￺れつ￻のキーのなかに、かな￹文字￺もじ￻をおさめた￹配列￺はいれつ￻です。
+できるだけおぼえやすいように、かな￹文字￺もじ￻をならべています。
+いっぽうで、なるべくはやく￹文章￺ぶんしょう￻の￹入力￺にゅうりょく￻もできるように￹設計￺せっけい￻してあります。
+￹設計￺せっけい￻にはコンピューターをもちいています。
+　スティックニーさんは、かなの￹配列￺はいれつ￻をおぼえやすくするために、つぎのような￹方法￺ほうほう￻をかんがえだしました。
+
+- かな￹文字￺もじ￻をなるべく￹行￺ぎょう￻ごとにかためる。
+- テンテン(゛)をつけられるかな￹文字￺もじ￻は、ひだり￹手￺て￻がわにおく。テンテンを￹入力￺にゅうりょく￻するキーは、みぎ￹手￺て￻がわにおく。
+
+　New Stickney ￹配列￺はいれつ￻もこのスティックニーさんの￹方法￺ほうほう￻をそのままつかっています。
+　ただ、キーボードの￹文字￺もじ￻の￹配列￺はいれつ￻は、おぼえやすいというだけでは、じゅうぶんではありません。
+じっさいの￹文章￺ぶんしょう￻をうちやくすくなっていることもたいせつです。
+たんじゅんな五十￹音￺おん￻￹順￺じゅん￻のキーボードは￹文章￺ぶんしょう￻の￹入力￺にゅうりょく￻にはむいていません。
+　かな￹文字￺もじ￻には、￹文中￺ぶんちゅう￻によくでてくる￹字￺じ￻もあれば、そうでない￹字￺じ￻もあります。
+￹文中￺ぶんちゅう￻のかな￹文字￺もじ￻のならびかたにも、よくあるならびかたと、そうでないものがあります。
+New Stickney ￹配列￺はいれつ￻は、そうした￹日本語￺にほんご￻の￹特徴￺とくちょう￻を￹利用￺りよう￻して、ひとつひとつの￹文字￺もじ￻をならべています。
 
 <!--
 <span class='a'>■</span>
@@ -425,7 +438,7 @@
 <div class='layer L3'>
 <div>…</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'></div>
 <br>
-<div class='k150 kana'>よみ短縮</div><div class='k'>け</div><div class='k'>く</div><div class='s'>す</div><div class='s'>さ</div><div class='t'>つ</div><div class='n'>ね</div><div class='n'>に</div><div class='n'>の</div><div class='w'>を</div><div class='w'>わ</div><div>「</div><div>」</div><div class='k150'>￥</div>
+<div class='k150 kana'>よみ短縮</div><div class='k'>け</div><div class='k'>く</div><div class='s'>す</div><div class='s'>さ</div><div class='t'>つ</div><div class='m'>め</div><div class='n'>に</div><div class='n'>の</div><div class='w'>を</div><div class='w'>わ</div><div>「</div><div>」</div><div class='k150'>￥</div>
 <br>
 <div class='k175 kana'>あ/A</div><div class='t'>た</div><div class='k'>か</div><div class='s'>し</div><div class='h'>は</div><div class='t'>て</div><div class='r'>ら</div><div class='a'>う</div><div class='a'>い</div><div><span class='small'>゛</span></div><div class='n'>な</div><div><span class='kana'>変換</span></div><div class='k225'></div>
 <br>
@@ -438,11 +451,11 @@
 <div class='layer L4'>
 <div>～</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'></div>
 <br>
-<div class='k150'></div><div>／</div><div class='h'>ひ</div><div class='h'>ふ</div><div class='h'>へ</div><div></div><div class='m'>め</div><div class='m'>み</div><div class='m'>も</div><div class='a'>お</div><div class='a'>え</div><div>『</div><div>』</div><div class='k150'></div>
+<div class='k150'></div><div>／</div><div class='h'>ひ</div><div class='h'>ふ</div><div class='h'>へ</div><div></div><div class='m'>む</div><div class='m'>み</div><div class='m'>も</div><div class='a'>お</div><div class='a'>え</div><div>『</div><div>』</div><div class='k150'></div>
 <br>
 <div class='k175'></div><div><span class='small h'>゜</span></div><div class='s'>そ</div><div class='y'>や</div><div class='y'>ゆ</div><div class='h'>ほ</div><div class='r'>れ</div><div class='r'>る</div><div class='r'>り</div><div class='a'>あ</div><div class='m'>ま</div><div></div><div class='k225'></div>
 <br>
-<div class='k225'></div><div><span class='small'>・</span></div><div>ゐ</div><div class='s'>せ</div><div>ゑ</div><div style='transform: scale(0.5, 1); margin-left: -12px; margin-right: 12px'>⬚</div><div class='r'>ろ</div><div class='x'>ー</div><div class='n'>ぬ</div><div class='m'>む</div><div></div><div class='k275'></div>
+<div class='k225'></div><div><span class='small'>・</span></div><div>ゐ</div><div class='s'>せ</div><div>ゑ</div><div style='transform: scale(0.5, 1); margin-left: -12px; margin-right: 12px'>⬚</div><div class='r'>ろ</div><div class='x'>ー</div><div class='n'>ね</div><div class='n'>ぬ</div><div></div><div class='k275'></div>
 <br>
 <div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
 </div>
@@ -490,7 +503,7 @@
 <div class='layer109 L3'>
 <div class='kana'>あ/A</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>￥</div><div></div>
 <br>
-<div class='k150 kana'>よみ短縮</div><div class='k'>け</div><div class='k'>く</div><div class='s'>す</div><div class='s'>さ</div><div class='t'>つ</div><div class='n'>ね</div><div class='n'>に</div><div class='n'>の</div><div class='w'>を</div><div class='w'>わ</div><div></div><div>「</div><div class='k150'></div>
+<div class='k150 kana'>よみ短縮</div><div class='k'>け</div><div class='k'>く</div><div class='s'>す</div><div class='s'>さ</div><div class='t'>つ</div><div class='m'>め</div><div class='n'>に</div><div class='n'>の</div><div class='w'>を</div><div class='w'>わ</div><div></div><div>「</div><div class='k150'></div>
 <br>
 <div class='k175 kana'>あ/A</div><div class='t'>た</div><div class='k'>か</div><div class='s'>し</div><div class='h'>は</div><div class='t'>て</div><div class='r'>ら</div><div class='a'>う</div><div class='a'>い</div><div><span class='small'>゛</span></div><div class='n'>な</div><div><span class='kana'>変換</span></div><div>」</div><div class='k125'></div>
 <br>
@@ -502,17 +515,17 @@
 <div class='layer109 L4'>
 <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>～</div><div></div><div></div>
 <br>
-<div class='k150'></div><div>／</div><div class='h'>ひ</div><div class='h'>ふ</div><div class='h'>へ</div><div></div><div class='m'>め</div><div class='m'>み</div><div class='m'>も</div><div class='a'>お</div><div class='a'>え</div><div>…</div><div>『</div><div class='k150'></div>
+<div class='k150'></div><div>／</div><div class='h'>ひ</div><div class='h'>ふ</div><div class='h'>へ</div><div></div><div class='m'>む</div><div class='m'>み</div><div class='m'>も</div><div class='a'>お</div><div class='a'>え</div><div>…</div><div>『</div><div class='k150'></div>
 <br>
 <div class='k175'></div><div><span class='small h'>゜</span></div><div class='s'>そ</div><div class='y'>や</div><div class='y'>ゆ</div><div class='h'>ほ</div><div class='r'>れ</div><div class='r'>る</div><div class='r'>り</div><div class='a'>あ</div><div class='m'>ま</div><div></div><div>』</div><div class='k125'></div>
 <br>
-<div class='k225'></div><div><span class='small'>・</span></div><div>ゐ</div><div class='s'>せ</div><div>ゑ</div><div style='transform: scale(0.5, 1); margin-left: -12px; margin-right: 12px'>⬚</div><div class='r'>ろ</div><div class='x'>ー</div><div class='n'>ぬ</div><div class='m'>む</div><div></div><div></div><div class='k175'></div>
+<div class='k225'></div><div><span class='small'>・</span></div><div>ゐ</div><div class='s'>せ</div><div>ゑ</div><div style='transform: scale(0.5, 1); margin-left: -12px; margin-right: 12px'>⬚</div><div class='r'>ろ</div><div class='x'>ー</div><div class='n'>ね</div><div class='n'>ぬ</div><div></div><div></div><div class='k175'></div>
 <br>
 <div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150'></div><div class='k250'></div><div class='k150'></div><div class='k125'></div><div></div><div></div><div></div><div class='k125'></div>
 </div>
 </div>
 
-- かな￹文字￺もじ￻は、50￹音￺おん￻の￹行￺ぎょう￻ごとにまとまっています。テンテン(゛)をつけられる<span class='k'>か</span>・<span class='s'>さ</span>・<span class='t'>た</span>・<span class='h'>は</span>￹行￺ぎょう￻、それから、<span class='y'>や</span>￹行￺ぎょう￻のかな￹文字￺もじ￻はひだり￹手￺て￻がわにあります。
+- かな￹文字￺もじ￻は、五十￹音￺おん￻の￹行￺ぎょう￻ごとにまとまっています。テンテン(゛)をつけられる<span class='k'>か</span>・<span class='s'>さ</span>・<span class='t'>た</span>・<span class='h'>は</span>￹行￺ぎょう￻、それから、<span class='y'>や</span>￹行￺ぎょう￻のかな￹文字￺もじ￻はひだり￹手￺て￻がわにあります。
 - テンテン(゛)のついた￹字￺じ￻は、あとからテンテンのキー <span class='key'><span class='small'>゛</span></span> をおして￹入力￺にゅうりょく￻します。
 <br>　たとえば: か <span class='key'><span class='small'>゛</span></span> → が
 - スペースキーは、<span class='key kana'>前置・連続シフト</span>キーになります。￹空白￺くうはく￻を￹入力￺にゅうりょく￻するときは、<span class='key kana'>空白</span>キーをおします。
