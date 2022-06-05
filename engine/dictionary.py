@@ -1,6 +1,6 @@
 # ibus-hiragana - Hiragana IME for IBus
 #
-# Copyright (c) 2017-2021 Esrille Inc.
+# Copyright (c) 2017-2022 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -91,7 +91,7 @@ class Dictionary:
                 yomi99 = self._to_99(yomi)
                 if yomi99 != yomi:
                     self._merge_entry(dict, yomi99, cand, reorder_only)
-            logger.info("Loaded %s", path)
+            logger.info(f'Loaded {path}')
 
     def _merge_entry(self, dict, yomi, cand, reorder_only):
         if reorder_only:
@@ -243,18 +243,18 @@ class Dictionary:
                         self._yomi = y
                         self._cand = self._dict[y]
                         self._no = 0
-                        self._order = list()
+                        self._order = []
                         self._numeric = ''
                 else:
                     yy = y.replace(numeric, '#')
                     if yy in self._dict:
                         self._yomi = yy[1:]
-                        cand = list()
+                        cand = []
                         for c in self._dict[yy]:
                             cand.append(c[1:])
                         self._cand = cand
                         self._no = 0
-                        self._order = list()
+                        self._order = []
                         self._numeric = numeric
             return self.current()
 
@@ -269,8 +269,8 @@ class Dictionary:
             if NON_YOMIGANA.match(y[i]):
                 break
             if y[i:size] in self._dict:
-                cand = list()
-                order = list()
+                cand = []
+                order = []
                 n = 0
                 for c in self._dict[y[i:size]]:
                     pattern = OKURIGANA.search(c)
@@ -280,7 +280,7 @@ class Dictionary:
                         pos_okuri = len(c)
                     okuri = c[pos_okuri:]
                     p = self._match(okuri, y[size:])
-                    logger.debug("lookup: %s %s => %d", c, y[size:], p)
+                    logger.debug(f'lookup: {c} {y[size:]} => {p}')
                     c = c[:pos_okuri] + yomi[size:pos]
                     if p and c not in cand:
                         cand.append(c)
@@ -308,7 +308,7 @@ class Dictionary:
             cand = self._dict[yomi][:]
         elif self._numeric:
             yomi = '#' + yomi
-            cand = list()
+            cand = []
             for c in self._cand:
                 cand.append('#' + c)
         else:
