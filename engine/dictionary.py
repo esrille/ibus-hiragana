@@ -28,6 +28,20 @@ YOMIGANA = re.compile(r'^[ぁ-ゖァ-ー―]+[、。，．]?$')
 HIRAGANA = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっぱぴぷぺぽゔ"
 TYOUON = "あいうえおあいうえおあいうえおあいうえおあいうえおあいうえおあいうえおあうおあいうえおあおんあいうえおあいうえおあいうえおあいうえおあいうえおあうおうあいうえおう"
 OKURIGANA = re.compile(r'[ぁ-ゖiIkKgsStnbmrw]+$')
+GODAN = {
+    'k': "かきくけこい",
+    'K': "かきくけこっ",  # 「いく」のみ
+    'g': "がぎぐげごい",
+    's': "さしすせそ",
+    'S': "しすせ",  # サ行変格活用
+    # see http://ci.nii.ac.jp/naid/40005174758, http://ci.nii.ac.jp/naid/40016557492
+    't': "たちつてとっ",
+    'n': "なにぬねのん",
+    'b': "ばびぶべぼん",
+    'm': "まみむめもん",
+    'r': "らりるれろっ",
+    'w': "わいうえおっ"
+}
 
 
 class Dictionary:
@@ -179,44 +193,18 @@ class Dictionary:
         if not suffix or not yomi:
             return True
         if suffix == 'i' or suffix == 'I':
-            if 2 <= len(yomi):
-                if yomi.startswith("かろ"):
-                    return True
-                if yomi.startswith("かっ"):
-                    return True
-                if yomi.startswith("けれ"):
-                    return True
-                if yomi.startswith("かれ"):
-                    return True
-            if 0 <= "けういさかくそみっ".find(yomi[0]):
+            if 0 <= "くういさみっ".find(yomi[0]):
                 return True
-            if suffix == 'I':   # 連体詞「大きな」、「小さな」。
-                if yomi[0] == 'な':
-                    return True
+            if 2 <= len(yomi) and yomi[:2] in ("かろ", "かっ", "けれ", "かれ", "そう"):
+                return True
+            if len(yomi) == 1 and 0 <= "かけそ".find(yomi[0]):
+                return True
+            if suffix == 'I' and yomi[0] == 'な':   # 連体詞「大きな」、「小さな」。
+                return True
             return False
-        if suffix == 'k':
-            return 0 <= "かきくけこい".find(yomi[0])
-        if suffix == 'K':   # 「いく」のみ
-            return 0 <= "かきくけこっ".find(yomi[0])
-        if suffix == 'g':
-            return 0 <= "がぎぐげごい".find(yomi[0])
-        if suffix == 's':
-            return 0 <= "さしすせそ".find(yomi[0])
-        if suffix == 'S':   # サ行変格活用
-            # see http://ci.nii.ac.jp/naid/40005174758, http://ci.nii.ac.jp/naid/40016557492
-            return 0 <= "しすせ".find(yomi[0])
-        if suffix == 't':
-            return 0 <= "たちつてとっ".find(yomi[0])
-        if suffix == 'n':
-            return 0 <= "なにぬねのん".find(yomi[0])
-        if suffix == 'b':
-            return 0 <= "ばびぶべぼん".find(yomi[0])
-        if suffix == 'm':
-            return 0 <= "まみむめもん".find(yomi[0])
-        if suffix == 'r':
-            return 0 <= "らりるれろっ".find(yomi[0])
-        if suffix == 'w':
-            return 0 <= "わいうえおっ".find(yomi[0])
+        godan = GODAN.get(suffix, '')
+        if godan:
+            return 0 <= godan.find(yomi[0])
         return False
 
     def lookup(self, yomi, pos):
