@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 #
-# Copyright (c) 2017-2021 Esrille Inc.
+# Copyright (c) 2017-2022 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -60,6 +60,12 @@ def load(path):
         s.remove('アアダプタ')
         s.remove('アアダプター')
         s.remove('フアン')
+        s.remove('ガサ')
+        # any word that begins 'を' makes the normal Japanese language hard to parse.
+        s.remove('ヲコト')
+        s.remove('ヲタ')
+        s.remove('ヲタク')
+        s.remove('ヲッカ')
     except:
         pass
 
@@ -75,7 +81,7 @@ def main():
     gairaigo = load(path)
 
     print(';; Hiragana IME for IBus')
-    print(';; Copyright (c) 2017-2021 Esrille Inc.')
+    print(';; Copyright (c) 2017-2022 Esrille Inc.')
     print(';;')
     print(';;   https://github.com/esrille/ibus-hiragana')
     print(';;')
