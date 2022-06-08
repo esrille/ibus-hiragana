@@ -9,6 +9,7 @@ Requires:   ibus >= 1.5.11
 Requires:   python3
 Requires:   python3-dbus
 Requires:   python3-pyxdg
+Requires:   yelp
 BuildRequires: ibus-devel
 BuildRequires: gettext-devel
 BuildRequires: libtool
