@@ -3,7 +3,7 @@
 # Using source code derived from
 #   ibus-tmpl - The Input Bus template project
 #
-# Copyright (c) 2017-2021 Esrille Inc.
+# Copyright (c) 2017-2022 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ import gi
 gi.require_version('IBus', '1.0')
 from gi.repository import GLib, GObject, IBus
 
-_ = lambda a : gettext.dgettext(package.get_name(), a)
+_ = lambda a: gettext.dgettext(package.get_name(), a)
 
 
 class IMApp:
@@ -87,9 +87,12 @@ def main():
     os.makedirs(user_datadir, 0o700, True)
     os.chmod(user_datadir, 0o700)   # For logfile created by v0.2.0 or earlier
 
-    # Create a debug log file
-    logfile = os.path.join(user_datadir, package.get_name() + '.log')
-    logging.basicConfig(filename=logfile, filemode='w', level=logging.WARNING)
+    if __debug__:
+        logging.basicConfig(level=logging.DEBUG)
+    else:
+        # Create a debug log file
+        logfile = os.path.join(user_datadir, package.get_name() + '.log')
+        logging.basicConfig(filename=logfile, filemode='w', level=logging.WARNING)
 
     exec_by_ibus = False
     daemonize = False
