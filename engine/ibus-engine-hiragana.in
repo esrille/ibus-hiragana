@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright (c) 2017-2020 Esrille Inc.
+# Copyright (c) 2017-2022 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,4 +16,4 @@
 
 PYTHON=@PYTHON@
 prefix=@prefix@
-exec ${PYTHON} @prefix@/share/ibus-hiragana/main.py $@
+exec ${PYTHON} -O @prefix@/share/ibus-hiragana/main.py $@
