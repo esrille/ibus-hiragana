@@ -102,9 +102,13 @@ class Dictionary:
                 yomi = p[0]
                 cand = p[1].strip(' \n/').split('/')
                 self._merge_entry(dict, yomi, cand, reorder_only)
+                if yomi.endswith('―'):
+                    self._merge_entry(dict, yomi[:-1], [yomi], reorder_only)
                 yomi99 = self._to_99(yomi)
                 if yomi99 != yomi:
                     self._merge_entry(dict, yomi99, cand, reorder_only)
+                    if yomi.endswith('―'):
+                        self._merge_entry(dict, yomi99[:-1], [yomi], reorder_only)
             logger.info(f'Loaded {path}')
 
     def _merge_entry(self, dict, yomi, cand, reorder_only):
@@ -141,27 +145,22 @@ class Dictionary:
             b = c
         return t
 
-    def _str(self, s):
-        if s[-1] == '―':
-            return s[:-1]
-        return s
-
     def reset(self):
         self._yomi = ''
 
     def next(self):
         if self._no + 1 < len(self._cand):
             self._no += 1
-        return self._str(self._cand[self._no])
+        return self._cand[self._no]
 
     def previous(self):
         if 0 < self._no:
             self._no -= 1
-        return self._str(self._cand[self._no])
+        return self._cand[self._no]
 
     def current(self):
         if self._yomi:
-            return self._str(self._cand[self._no])
+            return self._cand[self._no]
         return ''
 
     def set_current(self, index):
@@ -177,6 +176,9 @@ class Dictionary:
             return self._cand
         return []
 
+    # -1: yomi is not valid
+    # 0: yomi can be valid; still missing a few letters
+    # 1: yomi is valid
     def _match(self, okuri, yomi):
         if okuri and 0 <= "iIkKgsStnbmrw".find(okuri[-1]):
             suffix = okuri[-1]
@@ -184,30 +186,35 @@ class Dictionary:
         else:
             suffix = ''
         pos = min(len(okuri), len(yomi))
-        if not yomi.startswith(okuri[:pos]):
-            return False
-        okuri = okuri[pos:]
+
+        # おくりがなの固定部分をしらべる
         if okuri:
-            return True
-        yomi = yomi[pos:]
-        if not suffix or not yomi:
-            return True
+            if pos == 0:
+                return 0
+            if not yomi.startswith(okuri[:pos]):
+                return -1
+            if pos < len(okuri):
+                return 0
+            if not suffix:
+                return 1
+
+        # 活用をチェックする
+        assert pos == len(okuri)
+        if not suffix:
+            return 1
         if suffix == 'i' or suffix == 'I':
-            if 0 <= "くういさみっ".find(yomi[0]):
-                return True
-            if 2 <= len(yomi) and yomi[:2] in ("かろ", "かっ", "けれ", "かれ", "そう"):
-                return True
-            if len(yomi) == 1 and 0 <= "かけそ".find(yomi[0]):
-                return True
-            if suffix == 'I' and yomi[0] == 'な':   # 連体詞「大きな」、「小さな」。
-                return True
-            return False
+            return 1
+        yomi = yomi[pos:]
+        if not yomi:
+            return 0
         godan = GODAN.get(suffix, '')
-        if godan:
-            return 0 <= godan.find(yomi[0])
-        return False
+        if godan and 0 <= godan.find(yomi[0]):
+            return 1
+        return -1
 
     def lookup(self, yomi, pos):
+        logger.debug(f'lookup({yomi}, {pos})')
+
         self.reset()
         # Look for the nearest hyphen.
         suffix = yomi[:pos].rfind('―')
@@ -270,7 +277,7 @@ class Dictionary:
                     p = self._match(okuri, y[size:])
                     logger.debug(f'lookup: {c} {y[size:]} => {p}')
                     c = c[:pos_okuri] + yomi[size:pos]
-                    if p and c not in cand:
+                    if 0 <= p and c not in cand:
                         cand.append(c)
                         order.append(n)
                     n += 1
@@ -281,6 +288,30 @@ class Dictionary:
                     self._order = order
                     self._numeric = ''
         return self.current()
+
+    # Check if the current yougen is completed
+    def is_complete(self):
+        current = self.current()
+        if not current:
+            return True
+        if '―' in current[-1]:
+            return False
+
+        pos_suffix = self._yomi.rfind('―')
+        if pos_suffix <= 0:
+            return True
+        size = pos_suffix + 1
+        if size == len(self._yomi):
+            return False
+
+        current = self._dict[self._yomi[0:size]][0]
+        pattern = OKURIGANA.search(current)
+        if pattern:
+            pos_okuri = pattern.start()
+        else:
+            pos_okuri = len(current)
+        okuri = current[pos_okuri:]
+        return self._match(okuri, self._yomi[size:]) == 1
 
     def confirm(self, shrunk):
         if not self._yomi:
@@ -323,6 +354,12 @@ class Dictionary:
                 cand.insert(0, first)
                 self._dict[yomi] = cand
                 self._dirty = True
+
+    def create_pseudo_candidate(self, text):
+        self._yomi = text
+        self._cand = [text]
+        self._no = 0
+        self._numeric = ''
 
     def save_orders(self):
         if not self._dirty:

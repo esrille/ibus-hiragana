@@ -55,6 +55,8 @@ DAKU = 'ぁぃぅぇぉがぎぐげござじずぜぞだぢづでどばびぶべ
 NON_HANDAKU = 'はひふへほハヒフヘホぱぴぷぺぽパピプペポ'
 HANDAKU = 'ぱぴぷぺぽパピプペポはひふへほハヒフヘホ'
 
+OKURIGANA = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんゔがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっぱぴぷぺぽゎゐゑ゛゜"
+
 ZENKAKU = ''.join(chr(i) for i in range(0xff01, 0xff5f)) + '　〔〕［］￥？'
 HANKAKU = ''.join(chr(i) for i in range(0x21, 0x7f)) + ' ❲❳[]¥?'
 
@@ -138,22 +140,191 @@ def to_zenkaku(asc):
     return asc.translate(TO_ZENKAKU)
 
 
-class EngineHiragana(IBus.Engine):
+def get_plain_text(text):
+    plain = ''
+    in_ruby = False
+    for c in text:
+        if c == IAA:
+            in_ruby = False
+        elif c == IAS:
+            in_ruby = True
+        elif c == IAT:
+            in_ruby = False
+        elif not in_ruby:
+            plain += c
+    return plain
+
+
+# EngineModeless provides an ideal variant of get_surrounding_text().
+# It also support applications that do not support surrounding text API.
+# Note IBus.Engine.get_surrounding_text() can be used only once in
+# do_process_key_event(). For modeless IMEs, this is to restrictive.
+class EngineModeless(IBus.Engine):
+    def __init__(self):
+        super().__init__()
+        self._surrounding = SURROUNDING_RESET
+        self._preedit_text = ''
+        self._preedit_pos = 0
+        self._roman_text = ''
+        self.connect('set-surrounding-text', self.set_surrounding_text_cb)
+
+    def should_draw_preedit(self):
+        return self._surrounding in (SURROUNDING_NOT_SUPPORTED, SURROUNDING_BROKEN)
+
+    def has_preedit(self):
+        return self._preedit_text
+
+    def clear_preedit(self):
+        text = self._preedit_text
+        self._preedit_text = ''
+        return text
+
+    def clear_roman(self):
+        text = self._roman_text
+        self._roman_text = ''
+        return text
+
+    def _get_surrounding_text(self):
+        if not (self.client_capabilities & IBus.Capabilite.SURROUNDING_TEXT):
+            self._surrounding = SURROUNDING_NOT_SUPPORTED
+
+        if self._surrounding != SURROUNDING_SUPPORTED:
+            # Call get_surrounding_text() anyway to see if the surrounding
+            # text is supported in the current client.
+            super().get_surrounding_text()
+            logger.debug(f'surrounding text: "{self._preedit_text}"')
+            assert len(self._preedit_text) == self._preedit_pos
+            return self._preedit_text, self._preedit_pos
+
+        if self._preedit_text:
+            return self._preedit_text, self._preedit_pos
+
+        # Cache the current surrounding text in _preedit_text and _preedit_pos
+        tuple = super().get_surrounding_text()
+        text = tuple[0].get_text()
+        pos = tuple[1]
+
+        # Qt reports pos as if text is in UTF-16 while GTK reports pos in sane manner.
+        # If you're using primarily Qt, use the following code to amend the issue
+        # when a character in Unicode supplementary planes is included in text.
+        #
+        # Deal with surrogate pair manually. (Qt bug?)
+        # for i in range(len(text)):
+        #     if pos <= i:
+        #         break
+        #     if 0x10000 <= ord(text[i]):
+        #         pos -= 1
+
+        # Several applications insert the preedit text to the surrounding text.
+        # GTK IBus generally expects that preedit texts are not included in the surrounding text.
+        # We mimic GTK IBus's behavior here.
+        preedit_len = len(self._roman_text)
+        if 0 < preedit_len and preedit_len <= pos and text[pos - preedit_len:pos] == self._roman_text:
+            text = text[:-preedit_len]
+            pos -= preedit_len
+
+        self._preedit_text = text
+        self._preedit_pos = pos
+        logger.debug(f'surrounding text: "{self._preedit_text}", {self._preedit_pos}')
+        return self._preedit_text, self._preedit_pos
+
+    def _delete_surrounding_text(self, size):
+        logger.debug(f'_delete_surrounding_text({size})')
+        assert size <= self._preedit_pos
+        self._preedit_text = self._preedit_text[:self._preedit_pos - size] + self._preedit_text[self._preedit_pos:]
+        self._preedit_pos -= size
+        if self._surrounding == SURROUNDING_SUPPORTED:
+            self.delete_surrounding_text(-size, size)
+
+    def _commit_string(self, text):
+        self._preedit_text = self._preedit_text[:self._preedit_pos] + text + self._preedit_text[self._preedit_pos:]
+        self._preedit_pos += len(text)
+        if self.should_draw_preedit():
+            logger.debug(f'_commit_string("{text}"): legacy ({self._preedit_text})')
+        else:
+            if self._surrounding != SURROUNDING_SUPPORTED:
+                self._surrounding = SURROUNDING_COMMITTED
+            # Commit text anyway to notify the client application of the change
+            self.commit_text(IBus.Text.new_from_string(text))
+            logger.debug(f'_commit_string("{text}"): modeless')
+        return text
+
+    def commit_roman(self):
+        text = self._roman_text
+        if text:
+            if text == 'n':
+                text = 'ん'
+            self._commit_string(text)
+            self._roman_text = ''
+        return text
+
+    # Note _roman_text is not flushed; use commit_roman() first.
+    def flush(self, text=''):
+        logger.debug(f'flush("{text}")')
+        if self.should_draw_preedit():
+            text = self._preedit_text + text
+        self._preedit_text = ''
+        self._preedit_pos = 0
+        if text:
+            logger.debug(f'commit_text("{text}")')
+            self.commit_text(IBus.Text.new_from_string(text))
+        return text
+
+    def _reset(self):
+        self._preedit_text = ''
+        self._preedit_pos = 0
+        self._roman_text = ''
+        self._surrounding = SURROUNDING_RESET
+
+    def _check_surrounding_support(self):
+        if self._surrounding == SURROUNDING_COMMITTED:
+            logger.debug(f'_check_surrounding_support(): "{self._preedit_text}"')
+            self._surrounding = SURROUNDING_BROKEN
+            # Hide preedit text for a moment so that the current client can
+            # process the backspace keys.
+            self.update_preedit_text(IBus.Text.new_from_string(''), 0, 0)
+            # Note delete_surrounding_text() doesn't work here.
+            self._forward_backspaces(len(self._preedit_text))
+
+    def backspace(self):
+        if self._roman_text:
+            self._roman_text = self._roman_text[:-1]
+            return True
+        if 0 < self._preedit_pos:
+            self._preedit_text = self._preedit_text[:self._preedit_pos - 1] + self._preedit_text[self._preedit_pos:]
+            self._preedit_pos -= 1
+            if self.should_draw_preedit():
+                return True
+        return False
+
+    def set_surrounding_text_cb(self, engine, text, cursor_pos, anchor_pos):
+        self._surrounding = SURROUNDING_SUPPORTED
+        self._preedit_text = ''
+        text = get_plain_text(text.get_text())
+        logger.debug(f'set_surrounding_text_cb("{text}", {cursor_pos}, {anchor_pos})')
+
+    def do_enable(self):
+        logger.info('enable')
+        # Request the initial surrounding-text when enabled as documented.
+        super().get_surrounding_text()
+
+    def do_focus_in(self):
+        # Request the initial surrounding-text in addition to the "enable" handler.
+        if not self._preedit_text:
+            self._surrounding = SURROUNDING_RESET
+        super().get_surrounding_text()
+
+
+class EngineHiragana(EngineModeless):
     __gtype_name__ = 'EngineHiragana'
 
     def __init__(self):
         super().__init__()
         self._mode = 'A'  # _mode must be one of _input_mode_names
         self._override = False
-
         self._layout = dict()
         self._to_kana = self._handle_default_layout
-
-        self._preedit_string = ''   # in rômazi
-        self._previous_text = ''
         self._shrunk = []
-        self._surrounding = SURROUNDING_RESET
-
         self._lookup_table = IBus.LookupTable.new(10, 0, True, False)
         self._lookup_table.set_orientation(IBus.Orientation.VERTICAL)
 
@@ -174,7 +345,6 @@ class EngineHiragana(IBus.Engine):
         self._keymap = Gdk.Keymap.get_for_display(Gdk.Display.get_default())
         self._keymap.connect('state-changed', self.keymap_state_changed_cb)
 
-        self.connect('set-surrounding-text', self.set_surrounding_text_cb)
         self.connect('set-cursor-location', self.set_cursor_location_cb)
 
         self._about_dialog = None
@@ -400,47 +570,6 @@ class EngineHiragana(IBus.Engine):
             preedit = preedit[1:]
         return yomi, preedit
 
-    def _get_surrounding_text(self):
-        if not (self.client_capabilities & IBus.Capabilite.SURROUNDING_TEXT):
-            self._surrounding = SURROUNDING_NOT_SUPPORTED
-
-        if self._surrounding != SURROUNDING_SUPPORTED:
-            # Call get_surrounding_text() anyway to see if the surrounding
-            # text is supported in the current client.
-            self.get_surrounding_text()
-            logger.debug(f'surrounding text: "{self._previous_text}"')
-            return self._previous_text, len(self._previous_text)
-
-        tuple = self.get_surrounding_text()
-        text = tuple[0].get_text()
-        pos = tuple[1]
-
-        # Qt reports pos as if text is in UTF-16 while GTK reports pos in sane manner.
-        # If you're using primarily Qt, use the following code to amend the issue
-        # when a character in Unicode supplementary planes is included in text.
-        #
-        # Deal with surrogate pair manually. (Qt bug?)
-        # for i in range(len(text)):
-        #     if pos <= i:
-        #         break
-        #     if 0x10000 <= ord(text[i]):
-        #         pos -= 1
-
-        # Qt seems to insert self._preedit_string to the text, while GTK doesn't.
-        # We mimic GTK's behavior here.
-        preedit_len = len(self._preedit_string)
-        if 0 < preedit_len and preedit_len <= pos and text[pos - preedit_len:pos] == self._preedit_string:
-            text = text[:-preedit_len]
-            pos -= preedit_len
-        logger.debug(f'surrounding text: "{text}", {pos}, "{self._previous_text}"')
-        return text, pos
-
-    def _delete_surrounding_text(self, size):
-        if self._surrounding == SURROUNDING_SUPPORTED:
-            self.delete_surrounding_text(-size, size)
-        else:
-            self._previous_text = self._previous_text[:-size]
-
     def is_overridden(self):
         return self._override
 
@@ -467,7 +596,7 @@ class EngineHiragana(IBus.Engine):
         if self._mode == mode:
             return False
         logger.debug(f'set_mode({mode})')
-        self._preedit_string = ''
+        self.clear_roman()
         self._commit()
         self._mode = mode
         self._update_preedit()
@@ -522,18 +651,8 @@ class EngineHiragana(IBus.Engine):
             elif keyval == keysyms.Down or self._event.is_henkan():
                 return self.do_cursor_down()
 
-        if self._preedit_string:
-            if keyval == keysyms.Return:
-                if self._preedit_string == 'n':
-                    self._preedit_string = 'ん'
-                self._commit_string(self._preedit_string)
-                self._preedit_string = ''
-                self._update_preedit()
-                return True
-            if keyval == keysyms.Escape:
-                self._preedit_string = ''
-                self._update_preedit()
-                return True
+        # Cache the current surrounding text
+        self._get_surrounding_text()
 
         if self._dict.current():
             if keyval == keysyms.Tab:
@@ -546,46 +665,94 @@ class EngineHiragana(IBus.Engine):
                 self._update_preedit()
                 return True
             if keyval == keysyms.Return:
-                self._commit()
-                return True
+                current = self.confirm_candidate()
+                self._commit_string(current)
+                if current[-1] == '―':
+                    return self.handle_replace()
+                else:
+                    self.commit_roman()
+                    self.flush()
+                    self._update_preedit()
+                    return True
+
+        if keyval == keysyms.Return and self.commit_roman():
+            self._update_preedit()
+            return True
+        if keyval == keysyms.Escape and self.clear_roman():
+            self._update_preedit()
+            return True
 
         # Handle Japanese text
         if (self._event.is_henkan() or self._event.is_muhenkan()) and not(modifiers & event.ALT_R_BIT):
             return self.handle_replace()
-        if self._dict.current():
-            self._commit()
-        yomi = ''
+
+        result = self.process_surrouding_text(keyval, keycode, state, modifiers)
+        if self._surrounding == SURROUNDING_SUPPORTED:
+            self.flush()
+        return result
+
+    def process_surrouding_text(self, keyval, keycode, state, modifiers):
+        text, pos = self._get_surrounding_text()
+        logger.debug(f"process_surrouding_text: '{text}', current: '{self._dict.current()}'")
+        is_yougen = -1
+        to_revert = False
+        current = self._dict.current()
+        if current:
+            yomi = self._dict.reading()
+            completed = self._dict.is_complete()
+            self.confirm_candidate()
+            if completed:
+                self.flush(current)
+            elif current[-1] == '―':
+                is_yougen = pos
+                self._commit_string(current)
+            elif current[-1] in OKURIGANA or self._roman_text:
+                is_yougen = pos
+                to_revert = True
+                self._commit_string(current)
+                current = yomi
+            else:
+                self.flush(current)
+            self._update_preedit()
+
         if self._event.is_katakana():
             self.handle_katakana()
             return True
         if self._event.is_backspace():
-            if 1 <= len(self._preedit_string):
-                self._preedit_string = self._preedit_string[:-1]
-                self._update_preedit()
-                return True
-            if self._previous_text:
-                self._previous_text = self._previous_text[:-1]
+            if to_revert and 0 <= is_yougen:
+                if self._roman_text:
+                    self._roman_text = self._roman_text[:-1]
+                else:
+                    current = current[:-1]
+                text, pos = self._get_surrounding_text()
+                logger.debug(f"backspace: '{text}', {pos}, {self._roman_text}, {is_yougen}, {current}")
+                self._delete_surrounding_text(pos - is_yougen)
+                self._commit_string(current)
+                return self.handle_okurigana(is_yougen)
+            if self.backspace():
                 self._update_preedit()
                 return True
             return False
+        yomi = ''
         if self._event.is_ascii():
             if modifiers & event.ALT_R_BIT:
                 yomi = self.handle_alt_graph(keyval, keycode, state, modifiers)
                 if yomi:
                     if self.get_mode() != 'ｱ':
                         yomi = to_zenkaku(yomi)
-                    self._preedit_string = ''
+                    self.clear_roman()
             elif self.get_mode() == 'Ａ':
                 yomi = to_zenkaku(self._event.chr())
             else:
-                yomi, self._preedit_string = self._to_kana(self._preedit_string, keyval, state, modifiers)
+                yomi, self._roman_text = self._to_kana(self._roman_text, keyval, state, modifiers)
         elif keyval == keysyms.hyphen:
             yomi = '―'
-        elif self._previous_text:
+        elif self.has_preedit() and self.should_draw_preedit():
             if keyval == keysyms.Escape:
-                self._previous_text = ''
+                self.clear_preedit()
             else:
-                self._commit()
+                self.commit_roman()
+                self.flush()
             self._update_preedit()
             return True
         else:
@@ -595,31 +762,44 @@ class EngineHiragana(IBus.Engine):
                 yomi = to_katakana(yomi)
             elif self.get_mode() == 'ｱ':
                 yomi = to_hankaku(to_katakana(yomi))
+
+        if to_revert and 0 <= is_yougen and (yomi or self._roman_text):
+            text, pos = self._get_surrounding_text()
+            self._delete_surrounding_text(pos - is_yougen)
+            self._commit_string(current)
+
+        if yomi:
+            yomi = self._handle_dakuten(yomi)
             self._commit_string(yomi)
+
         self._update_preedit()
+
+        if 0 <= is_yougen and (yomi and yomi in OKURIGANA or self._roman_text):
+            return self.handle_okurigana(is_yougen)
+
         return True
 
     def lookup_dictionary(self, yomi, pos):
-        if self._preedit_string == 'n':
+        if self._roman_text == 'n':
             yomi = yomi[:pos] + 'ん'
             pos += 1
         self._lookup_table.clear()
         cand = self._dict.lookup(yomi, pos)
         size = len(self._dict.reading())
         if 0 < size:
-            if self._preedit_string == 'n':
+            if self._roman_text == 'n':
                 # For FuriganaPad, yomi has to be committed anyway.
+                self.clear_roman()
                 self._commit_string('ん')
-            self._preedit_string = ''
             if 1 < len(self._dict.cand()):
                 for c in self._dict.cand():
                     self._lookup_table.append_candidate(IBus.Text.new_from_string(c))
-        return (cand, size)
+        return cand, size
 
     def handle_katakana(self):
         text, pos = self._get_surrounding_text()
-        if self._preedit_string == 'n':
-            self._preedit_string = ''
+        if self._roman_text == 'n':
+            self.clear_roman()
             text = text[:pos] + 'ん'
             pos += 1
             self._commit_string('ん')
@@ -639,7 +819,8 @@ class EngineHiragana(IBus.Engine):
         if self._dict.current():
             return True
         text, pos = self._get_surrounding_text()
-        if self._event.is_henkan():
+        # Check Return for yôgen conversion
+        if self._event.is_henkan() or self._event.is_key(keysyms.Return):
             cand, size = self.lookup_dictionary(text, pos)
         elif 1 <= pos:
             assert self._event.is_muhenkan()
@@ -648,6 +829,23 @@ class EngineHiragana(IBus.Engine):
                 cand, size = self.lookup_dictionary(text[suffix - 1:], pos - suffix + 1)
             else:
                 cand, size = self.lookup_dictionary(text[pos - 1], 1)
+        if self._dict.current():
+            self._shrunk = []
+            self._delete_surrounding_text(size)
+            self._update_preedit(cand)
+        return True
+
+    def handle_okurigana(self, pos_yougen):
+        text, pos = self._get_surrounding_text()
+        assert pos_yougen < pos
+        text = text[pos_yougen:pos]
+        pos = len(text)
+        logger.debug(f"handle_okurigana: '{text}', '{self._roman_text}'")
+        cand, size = self.lookup_dictionary(text, pos)
+        if not self._dict.current():
+            self._dict.create_pseudo_candidate(text)
+            cand = text
+            size = len(text)
         if self._dict.current():
             self._shrunk = []
             self._delete_surrounding_text(size)
@@ -687,70 +885,51 @@ class EngineHiragana(IBus.Engine):
         return True
 
     def _handle_escape(self):
+        self.clear_roman()
         assert self._dict.current()
         yomi = self._dict.reading()
         self._reset(False)
         self._commit_string(yomi)
 
-    def _commit(self):
+    def confirm_candidate(self):
         current = self._dict.current()
         if current:
             self._dict.confirm(''.join(self._shrunk))
             self._dict.reset()
             self._lookup_table.clear()
-        text = self._previous_text + current
-        self._previous_text = ''
+        return current
+
+    def _commit(self):
+        current = self.confirm_candidate()
+        text = self.flush(current)
         self._update_preedit()
-        if text:
-            logger.debug(f'_commit(): "{text}"')
-            self.commit_text(IBus.Text.new_from_string(text))
+        return text
 
-    def _check_surrounding_support(self):
-        if self._surrounding == SURROUNDING_COMMITTED:
-            logger.debug(f'_check_surrounding_support(): "{self._previous_text}"')
-            self._surrounding = SURROUNDING_BROKEN
-            # Hide preedit text for a moment so that the current client can
-            # process the backspace keys.
-            self.update_preedit_text(IBus.Text.new_from_string(''), 0, 0)
-            # Note delete_surrounding_text() doesn't work here.
-            self._forward_backspaces(len(self._previous_text))
-
-    def _commit_string(self, text):
-        if text == '゛':
-            prev, pos = self._get_surrounding_text()
-            if 0 < pos:
-                found = NON_DAKU.find(prev[pos - 1])
-                if 0 <= found:
-                    self._delete_surrounding_text(1)
-                    text = DAKU[found]
-                    time.sleep(EVENT_DELAY)
-        elif text == '゜':
-            prev, pos = self._get_surrounding_text()
-            if 0 < pos:
-                found = NON_HANDAKU.find(prev[pos - 1])
-                if 0 <= found:
-                    self._delete_surrounding_text(1)
-                    text = HANDAKU[found]
-                    time.sleep(EVENT_DELAY)
-
-        if self._surrounding in (SURROUNDING_NOT_SUPPORTED, SURROUNDING_BROKEN):
-            self._previous_text += text
-            logger.debug(f'_commit_string({text}): legacy ({self._previous_text})')
-        else:
-            if self._surrounding != SURROUNDING_SUPPORTED:
-                self._surrounding = SURROUNDING_COMMITTED
-                self._previous_text += text
-            self.commit_text(IBus.Text.new_from_string(text))
-            logger.debug(f'_commit_string({text}): modeless ({self._surrounding}, {self._previous_text})')
+    def _handle_dakuten(self, c):
+        if c not in '゛゜':
+            return c
+        text, pos = self._get_surrounding_text()
+        if pos <= 0:
+            return c
+        if c == '゛':
+            found = NON_DAKU.find(text[pos - 1])
+            if 0 <= found:
+                self._delete_surrounding_text(1)
+                c = DAKU[found]
+        elif c == '゜':
+            found = NON_HANDAKU.find(text[pos - 1])
+            if 0 <= found:
+                self._delete_surrounding_text(1)
+                c = HANDAKU[found]
+        time.sleep(EVENT_DELAY)
+        return c
 
     def _reset(self, full=True):
         self._dict.reset()
         self._lookup_table.clear()
         self._update_lookup_table()
         if full:
-            self._previous_text = ''
-            self._preedit_string = ''
-            self._surrounding = SURROUNDING_RESET
+            super()._reset()
         self._update_preedit()
         assert not self._dict.current()
         self._handle_setup_proc()
@@ -781,22 +960,24 @@ class EngineHiragana(IBus.Engine):
         return True
 
     def _update_preedit(self, cand=''):
-        previous_text = self._previous_text if self._surrounding != SURROUNDING_COMMITTED else ''
-        text = IBus.Text.new_from_string(previous_text + cand + self._preedit_string)
-        previous_len = len(previous_text)
+        preedit_text = self._preedit_text if self.should_draw_preedit() else ''
+        text = IBus.Text.new_from_string(preedit_text + cand + self._roman_text)
+        preedit_len = len(preedit_text)
         cand_len = len(cand)
-        preedit_len = len(self._preedit_string)
-        text_len = previous_len + cand_len + preedit_len
+        roman_len = len(self._roman_text)
+        text_len = preedit_len + cand_len + roman_len
         attrs = IBus.AttrList() if 0 < text_len else None
-        if 0 < previous_len:
-            attrs.append(IBus.Attribute.new(IBus.AttrType.UNDERLINE, IBus.AttrUnderline.SINGLE, 0, previous_len))
-        if 0 < cand_len:
-            assert preedit_len == 0
-            attrs.append(IBus.Attribute.new(IBus.AttrType.FOREGROUND, CANDIDATE_FOREGROUND_COLOR, previous_len, previous_len + cand_len))
-            attrs.append(IBus.Attribute.new(IBus.AttrType.BACKGROUND, CANDIDATE_BACKGROUND_COLOR, previous_len, previous_len + cand_len))
+        pos = 0
         if 0 < preedit_len:
-            assert cand_len == 0
-            attrs.append(IBus.Attribute.new(IBus.AttrType.UNDERLINE, IBus.AttrUnderline.SINGLE, previous_len, previous_len + preedit_len))
+            attrs.append(IBus.Attribute.new(IBus.AttrType.UNDERLINE, IBus.AttrUnderline.SINGLE, pos, pos + preedit_len))
+            pos += preedit_len
+        if 0 < cand_len:
+            attrs.append(IBus.Attribute.new(IBus.AttrType.FOREGROUND, CANDIDATE_FOREGROUND_COLOR, pos, pos + cand_len))
+            attrs.append(IBus.Attribute.new(IBus.AttrType.BACKGROUND, CANDIDATE_BACKGROUND_COLOR, pos, pos + cand_len))
+            pos += cand_len
+        if 0 < roman_len:
+            attrs.append(IBus.Attribute.new(IBus.AttrType.UNDERLINE, IBus.AttrUnderline.SINGLE, pos, pos + roman_len))
+            pos += preedit_len
         if attrs:
             text.set_attributes(attrs)
         # Note self.hide_preedit_text() does not seem to work as expected with Kate.
@@ -818,21 +999,13 @@ class EngineHiragana(IBus.Engine):
         self._event.reset()
         self.register_properties(self._prop_list)
         self._update_preedit()
-        # Request the initial surrounding-text in addition to the "enable" handler.
-        if not self._previous_text:
-            self._surrounding = SURROUNDING_RESET
-        self.get_surrounding_text()
+        super().do_focus_in()
 
     def do_focus_out(self):
         logger.info(f'focus_out: {self._surrounding}')
         if self._surrounding != SURROUNDING_BROKEN:
             self._reset()
             self._dict.save_orders()
-
-    def do_enable(self):
-        logger.info('enable')
-        # Request the initial surrounding-text when enabled as documented.
-        self.get_surrounding_text()
 
     def do_disable(self):
         logger.info('disable')
@@ -906,7 +1079,7 @@ class EngineHiragana(IBus.Engine):
             dialog.set_logo_icon_name(package.get_name())
             dialog.set_default_icon_name(package.get_name())
             dialog.set_version(package.get_version())
-            # To close the dialog when "close" is clicked, e.g. on RPi,
+            # To close the dialog when "close" is clicked on Raspberry Pi OS,
             # we connect the "response" signal to about_response_callback
             dialog.connect("response", self.about_response_callback)
             self._about_dialog = dialog
@@ -925,26 +1098,6 @@ class EngineHiragana(IBus.Engine):
     def about_response_callback(self, dialog, response):
         dialog.destroy()
         self._about_dialog = None
-
-    def set_surrounding_text_cb(self, engine, text, cursor_pos, anchor_pos):
-        self._surrounding = SURROUNDING_SUPPORTED
-        self._previous_text = ''
-        text = self.get_plain_text(text.get_text())
-        logger.debug(f'set_surrounding_text_cb("{text}", {cursor_pos}, {anchor_pos})')
-
-    def get_plain_text(self, text):
-        plain = ''
-        in_ruby = False
-        for c in text:
-            if c == IAA:
-                in_ruby = False
-            elif c == IAS:
-                in_ruby = True
-            elif c == IAT:
-                in_ruby = False
-            elif not in_ruby:
-                plain += c
-        return plain
 
     def set_cursor_location_cb(self, engine, x, y, w, h):
         # On Raspbian, at least till Buster, the candidate window does not
