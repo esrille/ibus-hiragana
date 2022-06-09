@@ -337,7 +337,7 @@ class Event:
         if c:
             if self._modifiers & ALT_R_BIT:
                 # AltGr
-                graph = self._engine.handle_alt_graph(keyval, keycode, state, self._modifiers)
+                graph = self._engine.process_alt_graph(keyval, keycode, state, self._modifiers)
                 if graph:
                     self._engine.commit_text(IBus.Text.new_from_string(graph))
                 return True
@@ -373,7 +373,7 @@ class Event:
 
     def handle_key_event(self, keyval, keycode, state):
         keyval = self.update_key_event(keyval, keycode, state)
-        processed = self._engine.handle_key_event(keyval, keycode, state, self._modifiers)
+        processed = self._engine.process_key_event(keyval, keycode, state, self._modifiers)
         if state & IBus.ModifierType.RELEASE_MASK:
             self._modifiers &= ~PREFIX_BIT
         if keyval == keysyms.Alt_R and self._capture_alt_r:
