@@ -25,6 +25,7 @@ SUBDIRS = \
 
 EXTRA_DIST = \
 	debian/changelog \
+	debian/changelog.in \
 	debian/compat \
 	debian/control \
 	debian/copyright \
@@ -46,6 +47,16 @@ noinst_DIST = \
 DISTCLEANFILES = \
 	po/stamp-it \
 	$(NULL)
+
+.PHONY: debian/changelog
+debian/changelog:
+	$(AM_V_GEN) \
+	( \
+		date=`date -R`; \
+		version=@VERSION@; \
+		s=`cat debian/changelog.in`; \
+		eval "echo \"$${s}\""; \
+	) > $@
 
 uninstall-hook:
 	-rmdir $(pkgdatadir)
