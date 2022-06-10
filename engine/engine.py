@@ -156,9 +156,9 @@ def to_zenkaku(asc):
 
 
 # EngineModeless provides an ideal variant of get_surrounding_text().
-# It also support applications that do not support surrounding text API.
+# It also supports applications that do not support surrounding text API.
 # Note IBus.Engine.get_surrounding_text() can be used only once in
-# do_process_key_event(). For modeless IMEs, this is to restrictive.
+# do_process_key_event(). For modeless IMEs, this is too restrictive.
 class EngineModeless(IBus.Engine):
     def __init__(self):
         super().__init__()
