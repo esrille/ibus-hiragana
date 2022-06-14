@@ -229,6 +229,8 @@ class EngineModeless(IBus.Engine):
         return text
 
     def commit_string(self, text):
+        if not text:
+            return text
         self._preedit_text = self._preedit_text[:self._preedit_pos] + text + self._preedit_text[self._preedit_pos:]
         self._preedit_pos += len(text)
         if self.should_draw_preedit():
@@ -265,7 +267,6 @@ class EngineModeless(IBus.Engine):
     def get_surrounding_string(self):
         if not (self.client_capabilities & IBus.Capabilite.SURROUNDING_TEXT):
             self._surrounding = SURROUNDING_NOT_SUPPORTED
-
         if self._surrounding != SURROUNDING_SUPPORTED:
             # Call get_surrounding_text() anyway to see if the surrounding
             # text is supported in the current client.
