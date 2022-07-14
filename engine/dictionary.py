@@ -48,15 +48,27 @@ KATUYOU = {
     '3': (None, "る", "れば", None, None, None, None, None, None, None, None, None, None),  # くる
     '5': (None, None, None, "い", "よう", None, None, "な", None, None, "ず", "させ", "られ"),  # こい
 }
-
-
-def conj_max(x):
-    if x is None:
-        return 0
-    return len(x)
+DAKUON = "がぎぐげござじずぜぞだぢづでどばびぶべぼ"
+SEION = "かきくけこさしすせそたちつてとはひふへほ"
 
 
 class Dictionary:
+
+    @staticmethod
+    def opt_len(x):
+        return 0 if x is None else len(x)
+
+    # Compare okuri and yomi ignoring the Dakuten of the last character
+    @staticmethod
+    def strdcmp(okuri, yomi):
+        assert 0 < len(yomi)
+        last = len(yomi) - 1
+        pos = DAKUON.find(okuri[last])
+        if 0 <= pos:
+            okuri = okuri[:last] + SEION[pos]
+            if okuri == yomi:
+                return True
+        return False
 
     def __init__(self, path, user, clear_history=False):
         logger.info(f'Dictionary("{path}", "{user}")')
@@ -214,8 +226,10 @@ class Dictionary:
                     return 0
             elif len(okuri) < len(yomi):
                 return -1
-            else:
+            elif self.strdcmp(okuri, yomi):
                 return 0
+            else:
+                return -1
 
         # Check conjugations
         assert suffix
@@ -226,26 +240,26 @@ class Dictionary:
         katuyou = KATUYOU.get(suffix, None)
         if katuyou is None:
             return -1
-        conj_len = len(max(katuyou, key=conj_max))
+        conj_len = len(max(katuyou, key=self.opt_len))
         for i in range(min(len(yomi), conj_len), 0, -1):
+            for k in katuyou:
+                if k is None or len(k) <= i:
+                    continue
+                if len(yomi) < len(k) and (k[:i] == yomi[:i] or self.strdcmp(k[:i], yomi[:i])):
+                    return 0
             for k in katuyou:
                 if k is None or len(k) != i:
                     continue
-                if yomi[:i] == k:
+                if k == yomi[:i]:
                     return 1 if i < len(yomi) else 0
-
-            for k in katuyou:
-                if k is None or len(k) < i + 1:
-                    continue
-                if yomi[:i] == k[:i]:
-                    return 0 if len(yomi) <= len(k) else -1
+                elif len(yomi) == len(k) and self.strdcmp(k, yomi[:i]):
+                    return 0
 
         # cf. 食べ
         if "" in katuyou:
             return 1 if 0 < len(yomi) else 0
 
-        # cf. 掲げる
-        return -1 if 1 < len(yomi) else 0
+        return -1
 
     def lookup(self, yomi, pos):
         logger.debug(f'lookup({yomi}, {pos})')
