@@ -559,15 +559,15 @@ class EngineHiragana(EngineModeless):
         logger.info(f'nn_as_jis_x_4063 mode: {mode}')
         return mode
 
-    def _lookup_dictionary(self, yomi, pos):
-        if self.roman_text == 'n':
+    def _lookup_dictionary(self, yomi, pos, process_n=True):
+        if process_n and self.roman_text == 'n':
             yomi = yomi[:pos] + 'ん'
             pos += 1
         self._lookup_table.clear()
         cand = self._dict.lookup(yomi, pos)
         size = len(self._dict.reading())
         if 0 < size:
-            if self.roman_text == 'n':
+            if process_n and self.roman_text == 'n':
                 # For FuriganaPad, yomi has to be committed anyway.
                 self.clear_roman()
                 self.commit_string('ん')
@@ -639,7 +639,7 @@ class EngineHiragana(EngineModeless):
         text = text[pos_yougen:pos]
         pos = len(text)
         logger.debug(f"_process_okurigana: '{text}', '{self.roman_text}'")
-        cand, size = self._lookup_dictionary(text, pos)
+        cand, size = self._lookup_dictionary(text, pos, False)
         if not self._dict.current():
             self._dict.create_pseudo_candidate(text)
             cand = text
@@ -678,9 +678,8 @@ class EngineHiragana(EngineModeless):
             return True
         text, pos = self.get_surrounding_string()
         (cand, size) = self._lookup_dictionary(yomi[1:] + text[pos:], len(yomi) - 1)
-        kana = yomi
         if 0 < size:
-            kana = kana[:-size]
+            kana = yomi[:-size]
             self._shrunk.append(kana)
             self.commit_string(kana)
         else:
@@ -693,18 +692,16 @@ class EngineHiragana(EngineModeless):
         pos_yougen = -1
         to_revert = False
         current = self._dict.current()
-        logger.debug(f"_process_text: '{text}', current: '{current}'")
         if current:
             # commit the current candidate
             yomi = self._dict.reading()
             completed = self._dict.is_complete()
             self._confirm_candidate()
-            if completed:
-                self.flush(current)
-            elif current[-1] == '―':
+            logger.debug(f"_process_text: '{text}', current: '{current}', yomi: '{yomi}', completed:'{completed}'")
+            if current[-1] == '―':
                 pos_yougen = pos
                 self.commit_string(current)
-            elif current[-1] in OKURIGANA or self.roman_text:
+            elif self._dict.not_selected() and (current[-1] in OKURIGANA or yomi[-1] == '―' or self.roman_text):
                 pos_yougen = pos
                 to_revert = True
                 self.commit_string(current)
@@ -764,15 +761,22 @@ class EngineHiragana(EngineModeless):
             self._update_preedit()
             return False
 
-        if to_revert and (yomi and yomi in OKURIGANA or self.roman_text):
+        logger.debug(f"to_revert: '{to_revert}', yomi: '{yomi}'")
+        if to_revert and (yomi and yomi[-1] in OKURIGANA or self.roman_text):
             text, pos = self.get_surrounding_string()
             self.delete_surrounding_string(pos - pos_yougen)
             self.commit_string(current)
         yomi = self._process_dakuten(yomi)
         self.commit_string(yomi)
         self._update_preedit()
-        if 0 <= pos_yougen and (yomi and yomi in OKURIGANA or self.roman_text):
-            return self._process_okurigana(pos_yougen)
+        if 0 <= pos_yougen and (yomi and yomi[-1] in OKURIGANA or self.roman_text):
+            self._process_okurigana(pos_yougen)
+            current = self._dict.current()
+            if current and self._dict.is_complete():
+                self._confirm_candidate()
+                self.flush(current)
+                self._update_preedit()
+            return True
         return True
 
     def _reset(self, full=True):

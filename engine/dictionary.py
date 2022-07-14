@@ -27,21 +27,33 @@ NON_YOMIGANA = re.compile(r'[^ぁ-ゖァ-ー―]')
 YOMIGANA = re.compile(r'^[ぁ-ゖァ-ー―]+[、。，．]?$')
 HIRAGANA = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっぱぴぷぺぽゔ"
 TYOUON = "あいうえおあいうえおあいうえおあいうえおあいうえおあいうえおあいうえおあうおあいうえおあおんあいうえおあいうえおあいうえおあいうえおあいうえおあうおうあいうえおう"
-OKURIGANA = re.compile(r'[ぁ-ゖiIkKgsStnbmrw]+$')
-GODAN = {
-    'k': "かきくけこい",
-    'K': "かきくけこっ",  # 「いく」のみ
-    'g': "がぎぐげごい",
-    's': "さしすせそ",
-    'S': "しすせ",  # サ行変格活用
-    # see http://ci.nii.ac.jp/naid/40005174758, http://ci.nii.ac.jp/naid/40016557492
-    't': "たちつてとっ",
-    'n': "なにぬねのん",
-    'b': "ばびぶべぼん",
-    'm': "まみむめもん",
-    'r': "らりるれろっ",
-    'w': "わいうえおっ"
+OKURIGANA = re.compile(r'[ぁ-ゖ1iIkKgsStnbmrwW235]+$')
+KATUYOU = {
+    '1': ("", "る", "れば", "ろ", "よう", "て", "た", "な", "た", "ま", "ず", None, None),
+    'i': ("く", "い", "ければ", None, "かろう", "くて", "かった", None, None, None, None, None, None, ""),
+    'I': ("く", "い", "ければ", None, "かろう", "くて", "かった", None, None, None, None, None, None, "", "な"),   # 小さい, 大きい
+    'k': ("き", "く", "けば", "け", "こう", "いて", "いた", "かな", "きた", "きま", "かず", "かせ", "かれ"),
+    'K': ("き", "く", "けば", "け", "こう", "って", "った", "かな", "きた", "きま", "かず", "かせ", "かれ"),  # 行く
+    'g': ("ぎ", "ぐ", "げば", "げ", "ごう", "いで", "いだ", "がな", "ぎた", "ぎま", "がず", "がせ", "がれ"),
+    's': ("し", "す", "せば", "せ", "そう", "して", "した", "さな", "した", "しま", "さず", "させ", "され"),
+    'S': ("し", "する", "すれば", "しろ", "しよう", "して", "した", "しな", "した", "しま", "せず", "させ", "され"),  # 欲S
+    't': ("ち", "つ", "てば", "て", "とう", "って", "った", "たな", "ちた", "ちま", "たず", "たせ", "たれ"),
+    'n': ("に", "ぬ", "ねば", "ね", "のう", "んで", "んだ", "なな", "にた", "にま", "なず", "なせ", "なれ"),
+    'b': ("び", "ぶ", "べば", "べ", "ぼう", "んで", "んだ", "ばな", "びた", "びま", "ばず", "ばせ", "ばれ"),
+    'm': ("み", "む", "めば", "め", "もう", "んで", "んだ", "まな", "みた", "みま", "まず", "ませ", "まれ"),
+    'r': ("り", "る", "れば", "れ", "ろう", "って", "った", "らな", "りた", "りま", "らず", "らせ", "られ"),
+    'w': ("い", "う", "えば", "え", "おう", "って", "った", "わな", "いた", "いま", "わず", "わせ", "われ"),
+    'W': ("い", "う", "えば", "え", "おう", "うて", "うた", "わな", "いた", "いま", "わず", "わせ", "われ"),  # 問う, 請う, 乞う, etc.
+    '2': ("", None, None, None, None, "て", "た", None, "た", "ま", None, None, None),  # きて
+    '3': (None, "る", "れば", None, None, None, None, None, None, None, None, None, None),  # くる
+    '5': (None, None, None, "い", "よう", None, None, "な", None, None, "ず", "させ", "られ"),  # こい
 }
+
+
+def conj_max(x):
+    if x is None:
+        return 0
+    return len(x)
 
 
 class Dictionary:
@@ -55,6 +67,8 @@ class Dictionary:
         self._yomi = ''
         self._no = 0
         self._cand = []
+        self._order = []
+        self._completed = []
         self._numeric = ''
         self._dirty = False
 
@@ -148,6 +162,9 @@ class Dictionary:
     def reset(self):
         self._yomi = ''
 
+    def not_selected(self):
+        return self._no == 0
+
     def next(self):
         if self._no + 1 < len(self._cand):
             self._no += 1
@@ -180,37 +197,55 @@ class Dictionary:
     # 0: yomi can be valid; still missing a few letters
     # 1: yomi is valid
     def _match(self, okuri, yomi):
-        if okuri and 0 <= "iIkKgsStnbmrw".find(okuri[-1]):
+        if okuri and 0 <= "1iIkKgsStnbmrwW235".find(okuri[-1]):
             suffix = okuri[-1]
             okuri = okuri[:-1]
         else:
             suffix = ''
         pos = min(len(okuri), len(yomi))
 
-        # おくりがなの固定部分をしらべる
+        # Check the fixed part of Okurigana
         if okuri:
-            if pos == 0:
-                return 0
-            if not yomi.startswith(okuri[:pos]):
+            if yomi[:pos] == okuri[:pos]:
+                if pos == len(okuri):
+                    if not suffix:
+                        return 1 if len(okuri) < len(yomi) else 0
+                else:
+                    return 0
+            elif len(okuri) < len(yomi):
                 return -1
-            if pos < len(okuri):
+            else:
                 return 0
-            if not suffix:
-                return 1
 
-        # 活用をチェックする
+        # Check conjugations
+        assert suffix
         assert pos == len(okuri)
-        if not suffix:
-            return 1
-        if suffix == 'i' or suffix == 'I':
-            return 1
         yomi = yomi[pos:]
         if not yomi:
             return 0
-        godan = GODAN.get(suffix, '')
-        if godan and 0 <= godan.find(yomi[0]):
-            return 1
-        return -1
+        katuyou = KATUYOU.get(suffix, None)
+        if katuyou is None:
+            return -1
+        conj_len = len(max(katuyou, key=conj_max))
+        for i in range(min(len(yomi), conj_len), 0, -1):
+            for k in katuyou:
+                if k is None or len(k) != i:
+                    continue
+                if yomi[:i] == k:
+                    return 1 if i < len(yomi) else 0
+
+            for k in katuyou:
+                if k is None or len(k) < i + 1:
+                    continue
+                if yomi[:i] == k[:i]:
+                    return 0 if len(yomi) <= len(k) else -1
+
+        # cf. 食べ
+        if "" in katuyou:
+            return 1 if 0 < len(yomi) else 0
+
+        # cf. 掲げる
+        return -1 if 1 < len(yomi) else 0
 
     def lookup(self, yomi, pos):
         logger.debug(f'lookup({yomi}, {pos})')
@@ -239,6 +274,7 @@ class Dictionary:
                         self._cand = self._dict[y]
                         self._no = 0
                         self._order = []
+                        self._completed = []
                         self._numeric = ''
                 else:
                     yy = y.replace(numeric, '#')
@@ -250,6 +286,7 @@ class Dictionary:
                         self._cand = cand
                         self._no = 0
                         self._order = []
+                        self._completed = []
                         self._numeric = numeric
             return self.current()
 
@@ -266,6 +303,7 @@ class Dictionary:
             if y[i:size] in self._dict:
                 cand = []
                 order = []
+                completed = []
                 n = 0
                 for c in self._dict[y[i:size]]:
                     pattern = OKURIGANA.search(c)
@@ -280,12 +318,14 @@ class Dictionary:
                     if 0 <= p and c not in cand:
                         cand.append(c)
                         order.append(n)
+                        completed.append(p)
                     n += 1
                 if cand:
                     self._yomi = yomi[i:pos]
                     self._cand = cand
                     self._no = 0
                     self._order = order
+                    self._completed = completed
                     self._numeric = ''
         return self.current()
 
@@ -296,22 +336,13 @@ class Dictionary:
             return True
         if '―' in current[-1]:
             return False
-
         pos_suffix = self._yomi.rfind('―')
         if pos_suffix <= 0:
             return True
         size = pos_suffix + 1
         if size == len(self._yomi):
             return False
-
-        current = self._dict[self._yomi[0:size]][0]
-        pattern = OKURIGANA.search(current)
-        if pattern:
-            pos_okuri = pattern.start()
-        else:
-            pos_okuri = len(current)
-        okuri = current[pos_okuri:]
-        return self._match(okuri, self._yomi[size:]) == 1
+        return 0 if 0 in self._completed else 1
 
     def confirm(self, shrunk):
         if not self._yomi:
@@ -358,6 +389,7 @@ class Dictionary:
     def create_pseudo_candidate(self, text):
         self._yomi = text
         self._cand = [text]
+        self._completed = [-1]
         self._no = 0
         self._numeric = ''
 
