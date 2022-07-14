@@ -539,10 +539,13 @@ class EngineHiragana(EngineModeless):
                 logger.error(error)
         if layout.get('Type') == 'Kana':
             self._to_kana = self._handle_kana_layout
+            self._dict.use_romazi(False)
         elif 'Roomazi' in layout:
             self._to_kana = self._handle_roomazi_layout
+            self._dict.use_romazi(True)
         else:
             self._to_kana = self._handle_default_layout
+            self._dict.use_romazi(True)
         return layout
 
     def _load_logging_level(self, settings):

@@ -70,6 +70,10 @@ class Dictionary:
                 return True
         return False
 
+    @staticmethod
+    def strcmp(okuri, yomi):
+        return okuri == yomi
+
     def __init__(self, path, user, clear_history=False):
         logger.info(f'Dictionary("{path}", "{user}")')
 
@@ -83,6 +87,7 @@ class Dictionary:
         self._completed = []
         self._numeric = ''
         self._dirty = False
+        self._strdcmp = self.strcmp
 
         self._orders_path = ''
 
@@ -226,7 +231,7 @@ class Dictionary:
                     return 0
             elif len(okuri) < len(yomi):
                 return -1
-            elif self.strdcmp(okuri, yomi):
+            elif self._strdcmp(okuri, yomi):
                 return 0
             else:
                 return -1
@@ -245,14 +250,14 @@ class Dictionary:
             for k in katuyou:
                 if k is None or len(k) <= i:
                     continue
-                if len(yomi) < len(k) and (k[:i] == yomi[:i] or self.strdcmp(k[:i], yomi[:i])):
+                if len(yomi) < len(k) and (k[:i] == yomi[:i] or self._strdcmp(k[:i], yomi[:i])):
                     return 0
             for k in katuyou:
                 if k is None or len(k) != i:
                     continue
                 if k == yomi[:i]:
                     return 1 if i < len(yomi) else 0
-                elif len(yomi) == len(k) and self.strdcmp(k, yomi[:i]):
+                elif len(yomi) == len(k) and self._strdcmp(k, yomi[:i]):
                     return 0
 
         # cf. 食べ
@@ -416,6 +421,12 @@ class Dictionary:
                 if yomi not in self._dict_base or cand != self._dict_base[yomi]:
                     file.write(yomi + " /" + '/'.join(cand) + "/\n")
         self._dirty = False
+
+    def use_romazi(self, romazi):
+        if romazi:
+            self._strdcmp = self.strcmp
+        else:
+            self._strdcmp = self.strdcmp
 
     def dump(self):
         print('\'', self._yomi, '\' ', self._no, ' ', self._cand, sep='')
