@@ -61,6 +61,7 @@ def load(path):
         s.remove('アアダプター')
         s.remove('フアン')
         s.remove('ガサ')
+        s.remove('テカ')
         # any word that begins 'を' makes the normal Japanese language hard to parse.
         s.remove('ヲコト')
         s.remove('ヲタ')
