@@ -96,8 +96,8 @@ SURROUNDING_NOT_SUPPORTED = -1
 SURROUNDING_BROKEN = -2
 
 # Web applications running on web browsers sometimes need a short delay
-# between delete_surrounding_text() and commit_text(), and between
-# multiple forward_key_event().
+# between delete_surrounding_text() and commit_text(), between multiple
+# forward_key_event(), and before updating the preedit text.
 # Gmail running on Firefox 91.0.2 is an example of such an application.
 EVENT_DELAY = 0.02
 
@@ -165,6 +165,8 @@ class EngineModeless(IBus.Engine):
         self._surrounding = SURROUNDING_RESET
         self._preedit_text = ''
         self._preedit_pos = 0
+        self._preedit_pos_orig = 0
+        self._preedit_pos_min = 0
         self.roman_text = ''
         self.connect('set-surrounding-text', self._set_surrounding_text_cb)
 
@@ -185,11 +187,10 @@ class EngineModeless(IBus.Engine):
         if self.roman_text:
             self.roman_text = self.roman_text[:-1]
             return True
-        if 0 < self._preedit_pos:
+        if self.should_draw_preedit() and 0 < self._preedit_pos:
             self._preedit_text = self._preedit_text[:self._preedit_pos - 1] + self._preedit_text[self._preedit_pos:]
             self._preedit_pos -= 1
-            if self.should_draw_preedit():
-                return True
+            return True
         return False
 
     def check_surrounding_support(self):
@@ -231,16 +232,11 @@ class EngineModeless(IBus.Engine):
     def commit_string(self, text):
         if not text:
             return text
+        logger.debug(f'commit_string("{text}"): "{self._preedit_text}"')
         self._preedit_text = self._preedit_text[:self._preedit_pos] + text + self._preedit_text[self._preedit_pos:]
         self._preedit_pos += len(text)
-        if self.should_draw_preedit():
-            logger.debug(f'commit_string("{text}"): legacy ({self._preedit_text})')
-        else:
-            if self._surrounding != SURROUNDING_SUPPORTED:
-                self._surrounding = SURROUNDING_COMMITTED
-            # Commit text anyway to notify the client application of the change
-            self.commit_text(IBus.Text.new_from_string(text))
-            logger.debug(f'commit_string("{text}"): modeless')
+        if self._surrounding == SURROUNDING_RESET:
+            self._surrounding = SURROUNDING_COMMITTED
         return text
 
     def delete_surrounding_string(self, size):
@@ -248,20 +244,42 @@ class EngineModeless(IBus.Engine):
         assert size <= self._preedit_pos
         self._preedit_text = self._preedit_text[:self._preedit_pos - size] + self._preedit_text[self._preedit_pos:]
         self._preedit_pos -= size
-        if self._surrounding == SURROUNDING_SUPPORTED:
-            self.delete_surrounding_text(-size, size)
-            time.sleep(EVENT_DELAY)
+        if self._preedit_pos < self._preedit_pos_min:
+            self._preedit_pos_min = self._preedit_pos
 
     # Note _roman_text is not flushed; use commit_roman() first.
     def flush(self, text=''):
-        logger.debug(f'flush("{text}")')
-        if self.should_draw_preedit():
-            text = self._preedit_text + text
+        if text:
+            self.commit_string(text)
+
+        if self._surrounding == SURROUNDING_COMMITTED:
+            logger.debug(f'flush("{self._preedit_text}"): committed')
+            if self._preedit_text:
+                self.commit_text(IBus.Text.new_from_string(self._preedit_text))
+            return self._preedit_text
+        elif self.should_draw_preedit():
+            logger.debug(f'flush("{self._preedit_text}"): preedit')
+            if self._preedit_text:
+                self.commit_text(IBus.Text.new_from_string(self._preedit_text))
+        else:
+            logger.debug(f'flush("{self._preedit_text}"): {self._preedit_pos_min}:{self._preedit_pos_orig}:{self._preedit_pos}')
+            delete_size = self._preedit_pos_orig - self._preedit_pos_min
+            if 0 < delete_size:
+                delete_size = self._preedit_pos_orig - self._preedit_pos_min
+                logger.debug(f'flush: delete: {delete_size}')
+                self.delete_surrounding_text(-delete_size, delete_size)
+            if self._preedit_pos_min < self._preedit_pos:
+                size = self._preedit_pos - self._preedit_pos_min
+                logger.debug(f'flush: insert: "{self._preedit_text[self._preedit_pos - size:self._preedit_pos]}"')
+                if 0 < delete_size:
+                    time.sleep(EVENT_DELAY)
+                self.commit_text(IBus.Text.new_from_string(self._preedit_text[self._preedit_pos - size:self._preedit_pos]))
+
+        text = self._preedit_text
         self._preedit_text = ''
         self._preedit_pos = 0
-        if text:
-            logger.debug(f'commit_text("{text}")')
-            self.commit_text(IBus.Text.new_from_string(text))
+        self._preedit_pos_min = 0
+        self._preedit_pos_orig = 0
         return text
 
     def get_surrounding_string(self):
@@ -279,9 +297,9 @@ class EngineModeless(IBus.Engine):
             return self._preedit_text, self._preedit_pos
 
         # Cache the current surrounding text in _preedit_text and _preedit_pos
-        tuple = super().get_surrounding_text()
-        text = tuple[0].get_text()
-        pos = tuple[1]
+        surrounding_text = super().get_surrounding_text()
+        text: str = surrounding_text[0].get_text()
+        pos = surrounding_text[1]
 
         # Qt reports pos as if text is in UTF-16 while GTK reports pos in sane manner.
         # If you're using primarily Qt, use the following code to amend the issue
@@ -297,13 +315,15 @@ class EngineModeless(IBus.Engine):
         # Several applications insert the preedit text to the surrounding text.
         # GTK IBus generally expects that preedit texts are not included in the surrounding text.
         # We mimic GTK IBus's behavior here.
-        preedit_len = len(self.roman_text)
-        if 0 < preedit_len and preedit_len <= pos and text[pos - preedit_len:pos] == self.roman_text:
-            text = text[:-preedit_len]
-            pos -= preedit_len
+        roman_len = len(self.roman_text)
+        if 0 < roman_len and text[:pos].endswith(self.roman_text):
+            text = text[:-roman_len] + text[pos:]
+            pos -= roman_len
 
         self._preedit_text = text
         self._preedit_pos = pos
+        self._preedit_pos_min = pos
+        self._preedit_pos_orig = pos
         logger.debug(f'surrounding text: "{self._preedit_text}", {self._preedit_pos}')
         return self._preedit_text, self._preedit_pos
 
@@ -615,7 +635,6 @@ class EngineHiragana(EngineModeless):
         assert 0 < size
         self.delete_surrounding_string(len(kana))
         self._shrunk.pop(-1)
-        self._update_preedit(cand)
         return True
 
     def _process_katakana(self):
@@ -632,7 +651,6 @@ class EngineHiragana(EngineModeless):
             if 0 <= found:
                 self.delete_surrounding_string(pos - i)
                 self.commit_string(KATAKANA[found] + text[i + 1:pos])
-                self._update_preedit()
             break
         return True
 
@@ -650,7 +668,6 @@ class EngineHiragana(EngineModeless):
         if self._dict.current():
             self._shrunk = []
             self.delete_surrounding_string(size)
-            self._update_preedit(cand)
         return True
 
     def _process_replace(self):
@@ -670,7 +687,6 @@ class EngineHiragana(EngineModeless):
         if self._dict.current():
             self._shrunk = []
             self.delete_surrounding_string(size)
-            self._update_preedit(cand)
         return True
 
     def _process_shrink(self):
@@ -687,20 +703,45 @@ class EngineHiragana(EngineModeless):
             self.commit_string(kana)
         else:
             (cand, size) = self._lookup_dictionary(yomi + text[pos:], len(yomi))
-        self._update_preedit(cand)
         return True
 
-    def _process_text(self, keyval, keycode, state, modifiers):
+    def _process_surrounding_text(self, keyval, keycode, state, modifiers):
+        if self._dict.current():
+            if keyval == keysyms.Tab:
+                if not self._event.is_shift():
+                    return self._process_shrink()
+                else:
+                    return self._process_expand()
+            if keyval == keysyms.Escape:
+                self._process_escape()
+                return True
+            if keyval == keysyms.Return:
+                current = self._confirm_candidate()
+                self.commit_string(current)
+                if current[-1] == '―':
+                    return self._process_replace()
+                else:
+                    self.commit_roman()
+                    self.flush()
+                    return True
+
+        if keyval == keysyms.Return and self.commit_roman():
+            return True
+        if keyval == keysyms.Escape and self.clear_roman():
+            return True
+
+        if (self._event.is_henkan() or self._event.is_muhenkan()) and not(modifiers & event.ALT_R_BIT):
+            return self._process_replace()
+
         text, pos = self.get_surrounding_string()
         pos_yougen = -1
         to_revert = False
         current = self._dict.current()
         if current:
-            # commit the current candidate
+            # Commit the current candidate
             yomi = self._dict.reading()
-            completed = self._dict.is_complete()
             self._confirm_candidate()
-            logger.debug(f"_process_text: '{text}', current: '{current}', yomi: '{yomi}', completed:'{completed}'")
+            logger.debug(f"_process_text: '{text}', current: '{current}', yomi: '{yomi}'")
             if current[-1] == '―':
                 pos_yougen = pos
                 self.commit_string(current)
@@ -727,7 +768,6 @@ class EngineHiragana(EngineModeless):
                 self.commit_string(current)
                 return self._process_okurigana(pos_yougen)
             if self.backspace():
-                self._update_preedit()
                 return True
             return False
 
@@ -756,29 +796,28 @@ class EngineHiragana(EngineModeless):
             else:
                 self.clear_roman()
                 self.flush()
-            self._update_preedit()
             return True
         else:
-            # let the client process the key
+            # Let the IBus client process the key
             self.clear_roman()
-            self._update_preedit()
             return False
 
-        logger.debug(f"to_revert: '{to_revert}', yomi: '{yomi}'")
         if to_revert and (yomi and yomi[-1] in OKURIGANA or self.roman_text):
             text, pos = self.get_surrounding_string()
             self.delete_surrounding_string(pos - pos_yougen)
             self.commit_string(current)
         yomi = self._process_dakuten(yomi)
         self.commit_string(yomi)
-        self._update_preedit()
         if 0 <= pos_yougen and (yomi and yomi[-1] in OKURIGANA or self.roman_text):
             self._process_okurigana(pos_yougen)
             current = self._dict.current()
             if current and self._dict.is_complete():
                 self._confirm_candidate()
-                self.flush(current)
-                self._update_preedit()
+                if 1 < len(current):
+                    self.flush(current[:-1])
+                    self.commit_string(current[-1])
+                else:
+                    self.flush(current)
             return True
         return True
 
@@ -835,6 +874,11 @@ class EngineHiragana(EngineModeless):
             pos += preedit_len
         if attrs:
             text.set_attributes(attrs)
+
+        # A delay is necessary for textareas of Firefox 102.0.1.
+        if text:
+            time.sleep(EVENT_DELAY)
+
         # Note self.hide_preedit_text() does not seem to work as expected with Kate.
         # cf. "Qt5 IBus input context does not implement hide_preedit_text()",
         #     https://bugreports.qt.io/browse/QTBUG-48412
@@ -994,43 +1038,17 @@ class EngineHiragana(EngineModeless):
             elif keyval == keysyms.Down or self._event.is_henkan():
                 return self.do_cursor_down()
 
-        # Cache the current surrounding text
+        # Cache the current surrounding text into the EngineModless's local buffer.
         self.get_surrounding_string()
-
-        if self._dict.current():
-            if keyval == keysyms.Tab:
-                if not self._event.is_shift():
-                    return self._process_shrink()
-                else:
-                    return self._process_expand()
-            if keyval == keysyms.Escape:
-                self._process_escape()
-                self._update_preedit()
-                return True
-            if keyval == keysyms.Return:
-                current = self._confirm_candidate()
-                self.commit_string(current)
-                if current[-1] == '―':
-                    return self._process_replace()
-                else:
-                    self.commit_roman()
-                    self.flush()
-                    self._update_preedit()
-                    return True
-
-        if keyval == keysyms.Return and self.commit_roman():
-            self._update_preedit()
-            return True
-        if keyval == keysyms.Escape and self.clear_roman():
-            self._update_preedit()
-            return True
-
-        if (self._event.is_henkan() or self._event.is_muhenkan()) and not(modifiers & event.ALT_R_BIT):
-            return self._process_replace()
-
-        result = self._process_text(keyval, keycode, state, modifiers)
-        if self._surrounding == SURROUNDING_SUPPORTED:
+        # Edit the local surrounding text buffer as we need.
+        result = self._process_surrounding_text(keyval, keycode, state, modifiers)
+        # Flush the local surrounding text buffer into the IBus client.
+        if self._surrounding in (SURROUNDING_COMMITTED, SURROUNDING_SUPPORTED):
             self.flush()
+        # Lastly, update the preedit text. To support LibreOffice, the
+        # surrounding text needs to be updated before updating the preedit text.
+        current = self._dict.current()
+        self._update_preedit(current)
         return result
 
     def set_mode(self, mode, override=False):
