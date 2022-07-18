@@ -143,22 +143,17 @@ class Dictionary:
             logger.info(f'Loaded {path}')
 
     def _merge_entry(self, dict, yomi, cand, reorder_only):
-        if reorder_only:
-            if yomi in dict:
-                update = list(dict[yomi])
-                for i in reversed(cand):
-                    if i in update:
-                        update.remove(i)
-                        update.insert(0, i)
-                dict[yomi] = update
-        elif yomi not in dict:
-            dict[yomi] = cand
+        if yomi not in dict:
+            if not reorder_only:
+                dict[yomi] = cand
         else:
             update = list(dict[yomi])
             for i in reversed(cand):
                 if i in update:
                     update.remove(i)
-                update.insert(0, i)
+                    update.insert(0, i)
+                elif not reorder_only or i[0] in HIRAGANA:
+                    update.insert(0, i)
             dict[yomi] = update
 
     def _to_99(self, s):
