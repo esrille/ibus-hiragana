@@ -681,9 +681,13 @@ class EngineHiragana(EngineModeless):
             assert self._event.is_muhenkan()
             suffix = text[:pos].rfind('―')
             if 0 < suffix:
-                cand, size = self._lookup_dictionary(text[suffix - 1:], pos - suffix + 1)
+                cand, size = self._lookup_dictionary(text, pos)
             else:
-                cand, size = self._lookup_dictionary(text[pos - 1], 1)
+                self.commit_string('―')
+                text, pos = self.get_surrounding_string()
+                cand, size = self._lookup_dictionary(text, pos)
+                if not cand:
+                    self.delete_surrounding_string(1)
         if self._dict.current():
             self._shrunk = []
             self.delete_surrounding_string(size)
