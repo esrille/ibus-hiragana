@@ -141,6 +141,13 @@ class Event:
     def is_modifier(self):
         return self._keyval in MODIFIERS
 
+    def is_prefix(self):
+        return self._Prefix and self._keyval == keysyms.space and (self._state & IBus.ModifierType.RELEASE_MASK)
+
+    def is_prefixed(self):
+        if self._Prefix and (self._modifiers & PREFIX_BIT):
+            return True
+
     def is_shift(self):
         mask = SHIFT_BITS
         if self._SandS and (self._modifiers & SPACE_BIT):
@@ -315,7 +322,6 @@ class Event:
                     return True
                 if self._modifiers & DUAL_SPACE_BIT:
                     self._modifiers ^= PREFIX_BIT
-                    return True
 
         # Ignore normal key release events
         if not is_press and not (self._modifiers & self._DualBits):
@@ -374,7 +380,7 @@ class Event:
     def handle_key_event(self, keyval, keycode, state):
         keyval = self.update_key_event(keyval, keycode, state)
         processed = self._engine.process_key_event(keyval, keycode, state, self._modifiers)
-        if state & IBus.ModifierType.RELEASE_MASK:
+        if (state & IBus.ModifierType.RELEASE_MASK) and not (self._modifiers & self._DualBits):
             self._modifiers &= ~PREFIX_BIT
         if keyval == keysyms.Alt_R and self._capture_alt_r:
             return True

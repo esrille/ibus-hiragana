@@ -758,6 +758,8 @@ class EngineHiragana(EngineModeless):
                 self.flush(current)
             self._update_preedit()
 
+        if self._event.is_prefix():
+            return True
         if self._event.is_katakana():
             self._process_katakana()
             return True
@@ -845,7 +847,7 @@ class EngineHiragana(EngineModeless):
     def _update_candidate(self):
         index = self._lookup_table.get_cursor_pos()
         self._dict.set_current(index)
-        self._update_preedit(self._dict.current())
+        self._update_preedit()
 
     def _update_input_mode(self):
         self._input_mode_prop.set_symbol(IBus.Text.new_from_string(self._mode))
@@ -857,13 +859,15 @@ class EngineHiragana(EngineModeless):
             visible = 0 < self._lookup_table.get_number_of_candidates()
             self.update_lookup_table(self._lookup_table, visible)
 
-    def _update_preedit(self, cand=''):
+    def _update_preedit(self, locked=''):
+        cand = self._dict.current()
         preedit_text = self._preedit_text if self.should_draw_preedit() else ''
-        text = IBus.Text.new_from_string(preedit_text + cand + self.roman_text)
+        text = IBus.Text.new_from_string(preedit_text + cand + self.roman_text + locked)
         preedit_len = len(preedit_text)
         cand_len = len(cand)
         roman_len = len(self.roman_text)
-        text_len = preedit_len + cand_len + roman_len
+        locked_len = len(locked)
+        text_len = preedit_len + cand_len + roman_len + locked_len
         attrs = IBus.AttrList() if 0 < text_len else None
         pos = 0
         if 0 < preedit_len:
@@ -875,6 +879,10 @@ class EngineHiragana(EngineModeless):
             pos += cand_len
         if 0 < roman_len:
             attrs.append(IBus.Attribute.new(IBus.AttrType.UNDERLINE, IBus.AttrUnderline.SINGLE, pos, pos + roman_len))
+            pos += preedit_len
+        if 0 < locked_len:
+            attrs.append(IBus.Attribute.new(IBus.AttrType.FOREGROUND, CANDIDATE_FOREGROUND_COLOR, pos, pos + locked_len))
+            attrs.append(IBus.Attribute.new(IBus.AttrType.BACKGROUND, CANDIDATE_BACKGROUND_COLOR, pos, pos + locked_len))
             pos += preedit_len
         if attrs:
             text.set_attributes(attrs)
@@ -1049,10 +1057,13 @@ class EngineHiragana(EngineModeless):
         # Flush the local surrounding text buffer into the IBus client.
         if self._surrounding in (SURROUNDING_COMMITTED, SURROUNDING_SUPPORTED):
             self.flush()
+
         # Lastly, update the preedit text. To support LibreOffice, the
         # surrounding text needs to be updated before updating the preedit text.
-        current = self._dict.current()
-        self._update_preedit(current)
+        if self._event.is_prefix():
+            self._update_preedit('　' if self._event.is_prefixed() else '')
+        else:
+            self._update_preedit()
         return result
 
     def set_mode(self, mode, override=False):
