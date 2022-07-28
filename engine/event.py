@@ -128,15 +128,17 @@ class Event:
     def is_space(self):
         if self.is_key(self._Space):
             return True
-        return self._keyval == keysyms.space
+        if self._keyval == keysyms.space and not self._Prefix:
+            return True
+        return False
 
     def is_backspace(self):
         return self._keyval == keysyms.BackSpace
 
     def is_ascii(self):
         # keysyms.yen is treated as '¥' for Japanese 109 keyboard.
-        return keysyms.exclam <= self._keyval and self._keyval <= keysyms.asciitilde or \
-               self._keyval == keysyms.yen or self.is_space()
+        return (keysyms.exclam <= self._keyval and self._keyval <= keysyms.asciitilde or
+                self._keyval == keysyms.yen or self.is_space())
 
     def is_modifier(self):
         return self._keyval in MODIFIERS

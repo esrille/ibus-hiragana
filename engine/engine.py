@@ -745,21 +745,17 @@ class EngineHiragana(EngineModeless):
             # Commit the current candidate
             yomi = self._dict.reading()
             self._confirm_candidate()
+            self.commit_string(current)
             logger.debug(f"_process_text: '{text}', current: '{current}', yomi: '{yomi}'")
             if current[-1] == '―':
                 pos_yougen = pos
-                self.commit_string(current)
             elif self._dict.not_selected() and (current[-1] in OKURIGANA or yomi[-1] == '―' or self.roman_text):
                 pos_yougen = pos
                 to_revert = True
-                self.commit_string(current)
                 current = yomi
-            else:
-                self.flush(current)
-            self._update_preedit()
+            elif self.should_draw_preedit():
+                self.flush()
 
-        if self._event.is_prefix():
-            return True
         if self._event.is_katakana():
             self._process_katakana()
             return True
@@ -796,6 +792,8 @@ class EngineHiragana(EngineModeless):
                         yomi = to_hankaku(to_katakana(yomi))
         elif keyval == keysyms.hyphen:
             yomi = '―'
+        elif self._event.is_prefix():
+            pass
         elif self.has_preedit() and self.should_draw_preedit():
             if keyval == keysyms.Escape:
                 self.clear_preedit()
@@ -808,23 +806,18 @@ class EngineHiragana(EngineModeless):
             self.clear_roman()
             return False
 
-        if to_revert and (yomi and yomi[-1] in OKURIGANA or self.roman_text):
+        if to_revert and (not yomi or yomi[-1] in OKURIGANA or self.roman_text):
             text, pos = self.get_surrounding_string()
             self.delete_surrounding_string(pos - pos_yougen)
             self.commit_string(current)
         yomi = self._process_dakuten(yomi)
         self.commit_string(yomi)
-        if 0 <= pos_yougen and (yomi and yomi[-1] in OKURIGANA or self.roman_text):
+        if 0 <= pos_yougen and (not yomi or yomi[-1] in OKURIGANA or self.roman_text):
             self._process_okurigana(pos_yougen)
             current = self._dict.current()
             if current and self._dict.is_complete():
                 self._confirm_candidate()
-                if 1 < len(current):
-                    self.flush(current[:-1])
-                    self.commit_string(current[-1])
-                else:
-                    self.flush(current)
-            return True
+                self.commit_string(current)
         return True
 
     def _reset(self, full=True):
@@ -1061,7 +1054,7 @@ class EngineHiragana(EngineModeless):
         # Lastly, update the preedit text. To support LibreOffice, the
         # surrounding text needs to be updated before updating the preedit text.
         if self._event.is_prefix():
-            self._update_preedit('　' if self._event.is_prefixed() else '')
+            self._update_preedit('＿' if self._event.is_prefixed() else '')
         else:
             self._update_preedit()
         return result
