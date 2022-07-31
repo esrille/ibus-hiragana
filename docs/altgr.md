@@ -77,7 +77,7 @@ IMEの￹入力￺にゅうりょく￻モードは、「￹英数￺えいす�
 <br>
 <div class='k175'></div><div>â</div><div>§</div><div>°</div><div></div><div></div><div></div><div>←</div><div>↓</div><div>→</div><div>“</div><div>”</div><div class='k225'></div>
 <br>
-<div class='k225'></div><div></div><div>Ω</div><div>©</div><div>ゝ</div><div>々</div><div>ヶ</div><div>µ</div><div>，</div><div>．</div><div>÷</div><div class='k275'></div>
+<div class='k225'></div><div></div><div>Ω</div><div>©</div><div>ゝ</div><div>々</div><div>ヶ</div><div>µ</div><div>，</div><div>．</div><div>／</div><div class='k275'></div>
 <br>
 <div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'><span></span></div><div class='k125'><span></span></div><div class='k125'></div><div class='k125'></div><div class='k125'><span></span></div>
 </div>
@@ -89,7 +89,7 @@ IMEの￹入力￺にゅうりょく￻モードは、「￹英数￺えいす�
 <br>
 <div class='k175'></div><div>Â</div><div>※</div><div>℃</div><div></div><div></div><div></div><div></div><div>↑</div><div></div><div>《</div><div>》</div><div class='k225'></div>
 <br>
-<div class='k225'></div><div></div><div></div><div>✓</div><div>ゞ</div><div>〻</div><div></div><div></div><div>〈</div><div>〉</div><div></div><div class='k275'></div>
+<div class='k225'></div><div></div><div></div><div>✓</div><div>ゞ</div><div>〻</div><div></div><div></div><div>〈</div><div>〉</div><div>÷</div><div class='k275'></div>
 <br>
 <div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
 </div>
@@ -141,7 +141,7 @@ IMEの￹入力￺にゅうりょく￻モードは、「￹英数￺えいす�
 <br>
 <div class='k175'></div><div>â</div><div>§</div><div>°</div><div></div><div></div><div></div><div>←</div><div>↓</div><div>→</div><div>“</div><div>”</div><div>❳</div><div class='k125'></div>
 <br>
-<div class='k225'></div><div></div><div>Ω</div><div>©</div><div>ゝ</div><div>々</div><div>ヶ</div><div>µ</div><div>，</div><div>．</div><div>÷</div><div></div><div class='k175'></div>
+<div class='k225'></div><div></div><div>Ω</div><div>©</div><div>ゝ</div><div>々</div><div>ヶ</div><div>µ</div><div>，</div><div>．</div><div>／</div><div>《</div><div class='k175'></div>
 <br>
 <div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150'></div><div class='k250'></div><div class='k150'></div><div class='k125'></div><div></div><div></div><div></div><div class='k125'></div>
 </div>
@@ -153,7 +153,7 @@ IMEの￹入力￺にゅうりょく￻モードは、「￹英数￺えいす�
 <br>
 <div class='k175'></div><div>Â</div><div>※</div><div>℃</div><div></div><div></div><div></div><div></div><div>↑</div><div></div><div>±</div><div>×</div><div>｠</div><div class='k125'></div>
 <br>
-<div class='k225'></div><div></div><div></div><div>✓</div><div>ゞ</div><div>〻</div><div></div><div></div><div>〈</div><div>〉</div><div>《</div><div>》</div><div class='k175'></div>
+<div class='k225'></div><div></div><div></div><div>✓</div><div>ゞ</div><div>〻</div><div></div><div></div><div>〈</div><div>〉</div><div>÷</div><div>》</div><div class='k175'></div>
 <br>
 <div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150'></div><div class='k250'></div><div class='k150'></div><div class='k125'></div><div></div><div></div><div></div><div class='k125'></div>
 </div>
