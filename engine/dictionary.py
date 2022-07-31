@@ -329,10 +329,19 @@ class Dictionary:
                     p = self._match(okuri, y[size:])
                     logger.debug(f'lookup: {c} {y[size:]} => {p}')
                     c = c[:pos_okuri] + yomi[size:pos]
-                    if 0 <= p and c not in cand:
-                        cand.append(c)
-                        order.append(n)
-                        completed.append(p)
+                    if 0 <= p:
+                        # Select the first lowest one
+                        #   痛i ま => 1
+                        # * 痛m ま => 0
+                        #   痛ましi ま => 0
+                        if c not in cand:
+                            cand.append(c)
+                            order.append(n)
+                            completed.append(p)
+                        else:
+                            i = cand.index(c)
+                            if p < completed[i]:
+                                completed[i] = p
                     n += 1
                 if cand:
                     self._yomi = yomi[i:pos]
@@ -356,7 +365,7 @@ class Dictionary:
         size = pos_suffix + 1
         if size == len(self._yomi):
             return False
-        return 0 if 0 in self._completed else 1
+        return False if 0 in self._completed else True
 
     def confirm(self, shrunk):
         if not self._yomi:
