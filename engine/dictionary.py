@@ -339,9 +339,9 @@ class Dictionary:
                             order.append(n)
                             completed.append(p)
                         else:
-                            i = cand.index(c)
-                            if p < completed[i]:
-                                completed[i] = p
+                            first = cand.index(c)
+                            if p < completed[first]:
+                                completed[first] = p
                     n += 1
                 if cand:
                     self._yomi = yomi[i:pos]
