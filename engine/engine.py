@@ -1043,6 +1043,11 @@ class EngineHiragana(EngineModeless):
             elif keyval == keysyms.Down or self._event.is_henkan():
                 return self.do_cursor_down()
 
+        if self._event.is_backspace() and self._event.is_prefixed():
+            # Clear the indication of the prefixed lock.
+            self._update_preedit()
+            return True
+
         # Cache the current surrounding text into the EngineModless's local buffer.
         self.get_surrounding_string()
         # Edit the local surrounding text buffer as we need.
