@@ -618,10 +618,11 @@ class EngineHiragana(EngineModeless):
         return c
 
     def _process_escape(self):
-        self.clear_roman()
         assert self._dict.current()
+        self.clear_roman()
         yomi = self._dict.reading()
         self._reset(False)
+        yomi = yomi.replace('―', '')
         self.commit_string(yomi)
 
     def _process_expand(self):
@@ -790,8 +791,6 @@ class EngineHiragana(EngineModeless):
                         yomi = to_katakana(yomi)
                     elif self.get_mode() == 'ｱ':
                         yomi = to_hankaku(to_katakana(yomi))
-        elif keyval == keysyms.hyphen:
-            yomi = '―'
         elif self._event.is_prefix():
             pass
         elif self.has_preedit() and self.should_draw_preedit():

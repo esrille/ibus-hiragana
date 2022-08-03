@@ -67,7 +67,7 @@ class Event:
         self._Space = keysyms.VoidSymbol       # Extra space key
         self._Prefix = False                   # True if Shift is to be prefixed
         self._HasYen = False
-        self._DualBits = DUAL_SHIFT_L_BIT
+        self._DualBits = 0
 
         if layout.get("Keyboard") == "109":
             self._Kana = keysyms.Hiragana_Katakana
@@ -178,9 +178,6 @@ class Event:
         if self.is_key(self._Henkan) or self.is_key(keysyms.Henkan) or self.is_key(keysyms.Hangul):
             return self.is_shift()
         return False
-
-    def is_suffix(self):
-        return self._modifiers & DUAL_SHIFT_L_BIT
 
     def is_dual_role(self):
         return self._modifiers & DUAL_BITS
@@ -372,8 +369,6 @@ class Event:
         if keyval == keysyms.backslash and keycode == 0x7c:
             # Treat Yen key separately for Japanese 109 keyboard.
             keyval = keysyms.yen
-        elif self.is_suffix():
-            keyval = keysyms.hyphen
         self._keyval = keyval
         self._keycode = keycode
         self._state = state
