@@ -665,9 +665,9 @@ class EngineHiragana(EngineModeless):
             self._dict.create_pseudo_candidate(text)
             cand = text
             size = len(text)
-        if self._dict.current():
-            self._shrunk = []
-            self.delete_surrounding_string(size)
+        assert self._dict.current()
+        self._shrunk = []
+        self.delete_surrounding_string(size)
         return True
 
     def _process_replace(self):

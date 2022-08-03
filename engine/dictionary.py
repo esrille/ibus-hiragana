@@ -357,14 +357,9 @@ class Dictionary:
         current = self.current()
         if not current:
             return True
-        if '―' in current[-1]:
+        if '―' in current:
             return False
-        pos_suffix = self._yomi.rfind('―')
-        if pos_suffix <= 0:
-            return True
-        size = pos_suffix + 1
-        if size == len(self._yomi):
-            return False
+        assert '―' in self._yomi
         return False if 0 in self._completed else True
 
     def confirm(self, shrunk):
@@ -412,7 +407,7 @@ class Dictionary:
     def create_pseudo_candidate(self, text):
         self._yomi = text
         self._cand = [text]
-        self._completed = [-1]
+        self._completed = [0]
         self._no = 0
         self._numeric = ''
 
