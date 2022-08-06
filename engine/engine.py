@@ -661,7 +661,8 @@ class EngineHiragana(EngineModeless):
         text = text[pos_yougen:pos]
         pos = len(text)
         logger.debug(f"_process_okurigana: '{text}', '{self.roman_text}'")
-        cand, size = self._lookup_dictionary(text, pos, False)
+        if text[-1] != '―':
+            cand, size = self._lookup_dictionary(text, pos, False)
         if not self._dict.current():
             self._dict.create_pseudo_candidate(text)
             cand = text
