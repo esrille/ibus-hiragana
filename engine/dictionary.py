@@ -315,9 +315,8 @@ class Dictionary:
             if NON_YOMIGANA.match(y[i]):
                 break
             if y[i:size] in self._dict:
-                cand = []
-                order = []
-                completed = []
+                cand = ([], [])
+                order = ([], [])
                 n = 0
                 for c in self._dict[y[i:size]]:
                     pattern = OKURIGANA.search(c)
@@ -330,25 +329,23 @@ class Dictionary:
                     logger.debug(f'lookup: {c} {y[size:]} => {p}')
                     c = c[:pos_okuri] + yomi[size:pos]
                     if 0 <= p:
-                        # Select the first lowest one
-                        #   痛i ま => 1
-                        # * 痛m ま => 0
-                        #   痛ましi ま => 0
-                        if c not in cand:
-                            cand.append(c)
-                            order.append(n)
-                            completed.append(p)
-                        else:
-                            first = cand.index(c)
-                            if p < completed[first]:
-                                completed[first] = p
+                        assert p in (0, 1)
+                        if c not in cand[p]:
+                            cand[p].append(c)
+                            order[p].append(n)
                     n += 1
-                if cand:
+                if cand[0] or cand[1]:
+                    for c in cand[0]:
+                        if c in cand[1]:
+                            at = cand[1].index(c)
+                            del cand[1][at]
+                            del order[1][at]
                     self._yomi = yomi[i:pos]
-                    self._cand = cand
+                    self._cand = cand[0] + cand[1]
                     self._no = 0
-                    self._order = order
-                    self._completed = completed
+                    self._order = order[0] + order[1]
+                    self._completed = [0] * len(cand[0]) + [1] * len(cand[1])
+                    logger.debug(f'{self._cand}, {self._order}, {self._completed}')
                     self._numeric = ''
         return self.current()
 
