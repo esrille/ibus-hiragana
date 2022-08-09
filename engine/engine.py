@@ -65,6 +65,9 @@ DAKU = ('ぁぃぅぇぉがぎぐげござじずぜぞだぢづでどばびぶ�
 NON_HANDAKU = 'はひふへほハヒフヘホぱぴぷぺぽパピプペポ'
 HANDAKU = 'ぱぴぷぺぽパピプペポはひふへほハヒフヘホ'
 
+NON_TINY = 'あいうえおつやゆよわアイウエオツヤユヨワぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮ。「」、・｡｢｣､･'
+TINY = 'ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮあいうえおつやゆよわアイウエオツヤユヨワ｡｢｣､･。「」、・'
+
 OKURIGANA = ('あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん'
              'ゔがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっゎぱぴぷぺぽゎゐゑ゛゜')
 
@@ -368,6 +371,7 @@ class EngineHiragana(EngineModeless):
         self._override = False
         self._layout = dict()
         self._to_kana = self._handle_default_layout
+        self._to_tiny = None
         self._shrunk = []
         self._lookup_table = IBus.LookupTable.new(10, 0, True, False)
         self._lookup_table.set_orientation(IBus.Orientation.VERTICAL)
@@ -533,6 +537,9 @@ class EngineHiragana(EngineModeless):
             sub_props=None)
         self._prop_list.append(prop)
 
+    def _is_tiny(self, c):
+        return c == self._to_tiny
+
     def _load_delay(self, settings):
         delay = settings.get_int('delay')
         logger.info(f'delay: {delay}')
@@ -577,6 +584,7 @@ class EngineHiragana(EngineModeless):
         else:
             self._to_kana = self._handle_default_layout
             self._dict.use_romazi(True)
+        self._to_tiny = layout.get("Tiny")
         return layout
 
     def _load_logging_level(self, settings):
@@ -611,8 +619,6 @@ class EngineHiragana(EngineModeless):
         return cand, size
 
     def _process_dakuten(self, c):
-        if c not in '゛゜':
-            return c
         text, pos = self.get_surrounding_string()
         if pos <= 0:
             return c
@@ -626,6 +632,12 @@ class EngineHiragana(EngineModeless):
             if 0 <= found:
                 self.delete_surrounding_string(1)
                 c = HANDAKU[found]
+        elif self._is_tiny(self.roman_text):
+            found = NON_TINY.find(text[pos - 1])
+            if 0 <= found:
+                self.roman_text = ''
+                self.delete_surrounding_string(1)
+                c = TINY[found]
         return c
 
     def _process_escape(self):
