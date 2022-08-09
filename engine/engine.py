@@ -74,7 +74,7 @@ HANKAKU = ''.join(chr(i) for i in range(0x21, 0x7f)) + ' ❲❳[]¥?'
 TO_HANKAKU = str.maketrans(ZENKAKU, HANKAKU)
 TO_ZENKAKU = str.maketrans(HANKAKU, ZENKAKU)
 
-RE_SOKUON = re.compile(r'[kstnhmyrwgzdbpfjv]')
+SOKUON = 'ksthmyrwgzdbpfjv'
 
 NAME_TO_LOGGING_LEVEL = {
     'DEBUG': logging.DEBUG,
@@ -430,7 +430,7 @@ class EngineHiragana(EngineModeless):
         if preedit in self._layout['Roomazi']:
             yomi += self._layout['Roomazi'][preedit]
             preedit = ''
-        elif 2 <= len(preedit) and preedit[0] == preedit[1] and RE_SOKUON.search(preedit[1]):
+        elif 2 <= len(preedit) and preedit[0] == preedit[1] and preedit[1] in SOKUON:
             yomi += 'っ'
             preedit = preedit[1:]
         return yomi, preedit
