@@ -234,14 +234,12 @@ class Dictionary:
                 return -1
 
         # Check conjugations
-        assert suffix
+        assert suffix and suffix in KATUYOU
         assert pos == len(okuri)
         yomi = yomi[pos:]
         if not yomi:
             return 0
-        katuyou = KATUYOU.get(suffix, None)
-        if katuyou is None:
-            return -1
+        katuyou = KATUYOU[suffix]
         conj_len = len(max(katuyou, key=self.opt_len))
         for i in range(min(len(yomi), conj_len), 0, -1):
             for k in katuyou:
