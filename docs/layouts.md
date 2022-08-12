@@ -276,9 +276,9 @@
 <br>
 <div class='k150 kana'>よみ短縮</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>「</div><div>」</div><div class='k150'>￥</div>
 <br>
-<div class='k175 kana'>あ/A</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k225'></div>
+<div class='k175 kana'>あ/A</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='kana'>大⬄小</div><div></div><div></div><div class='k225'></div>
 <br>
-<div class='k225 kana'></div><div></div><div></div><div></div><div></div><div></div><div><span></span></div><div></div><div>、</div><div>。</div><div>⬚</div><div class='k275'></div>
+<div class='k225 kana'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>、</div><div>。</div><div>⬚</div><div class='k275'></div>
 <br>
 <div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'><span class='kana'>変換</span></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'><span class='kana'>カタカナ</span></div>
 </div>
@@ -342,7 +342,7 @@
 <br>
 <div class='k150 kana'>よみ短縮</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>「</div><div class='k150'></div>
 <br>
-<div class='k175 kana'>あ/A</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>」</div><div class='k125'></div>
+<div class='k175 kana'>あ/A</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='kana'>大⬄小</div><div></div><div></div><div>」</div><div class='k125'></div>
 <br>
 <div class='k225 kana'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>、</div><div>。</div><div>・</div><div></div><div class='k175'></div>
 <br>
@@ -363,7 +363,11 @@
 </div>
 
 - ￹変換￺へんかん￻には、❲変換❳キーをつかいます。￹空白￺くうはく￻を￹入力￺にゅうりょく￻したいときは、❲スペース❳キーをおします。
-- _（アンダースコア）を、❲Shift❳+❲0❳でも￹入力￺にゅうりょく￻できるようになります。
+
+※ ちいさな「ぁぃぅぇぉっゃゅょ」は、あとから￹小書￺こが￻きキー〔<span class='kana'>大⬄小</span>〕をおして￹入力￺にゅうりょく￻することもできます。
+これは、「ひらがなIME」の￹拡張￺かくちょう￻￹機能￺きのう￻です。
+ふつうは、ローマ￹字￺じ￻のつづりかたにしたがって￹入力￺にゅうりょく￻します。
+<br>　たとえば: あ〔<span class='kana'>大⬄小</span>〕→ ぁ
 
 ## New Stickney ￹配列￺はいれつ￻ ‐ ￹第￺だい￻16￹案￺あん￻ {#new_stickney}
 
@@ -509,7 +513,7 @@ New Stickney ￹配列￺はいれつ￻は、そうした￹日本語￺にほ�
 <br>
 <div class='k175 kana'>あ/A</div><div class='h'>は</div><div class='k'>か</div><div class='s'>し</div><div class='t'>た</div><div class='t'>て</div><div class='r'>ら</div><div class='a'>う</div><div class='a'>い</div><div><span class='small'>゛</span></div><div class='n'>な</div><div><span class='kana'>変換</span></div><div>」</div><div class='k125'></div>
 <br>
-<div class='k225 kana'></div><div class='y'>よ</div><div class='k'>き</div><div class='k'>こ</div><div class='t'>と</div><div class='t'>ち</div><div><span class='small x'>っ</span></div><div class='x'>ん</div><div>、</div><div>。</div><div class='sp'>⬚</div><div><span></span></div><div class='k175'></div>
+<div class='k225 kana'></div><div class='y'>よ</div><div class='k'>き</div><div class='k'>こ</div><div class='t'>と</div><div class='t'>ち</div><div><span class='small x'>っ</span></div><div class='x'>ん</div><div>、</div><div>。</div><div class='sp'>⬚</div><div></div><div class='k175'></div>
 <br>
 <div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150 kana'>A</div><div class='k250 kana'>前置・連続シフト</div><div class='k150 kana'>あ</div><div class='k125 kana'>空白</div><div></div><div></div><div></div><div class='k125 kana'>カタカナ</div>
 </div>
