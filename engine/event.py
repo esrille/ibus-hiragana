@@ -141,14 +141,14 @@ class Event:
                 self._keyval == keysyms.yen or self.is_space())
 
     def is_modifier(self):
-        return self._keyval in MODIFIERS
+        return bool(self._keyval in MODIFIERS)
 
     def is_prefix(self):
-        return self._Prefix and self._keyval == keysyms.space and (self._state & IBus.ModifierType.RELEASE_MASK)
+        return (self._Prefix and self._keyval == keysyms.space and
+                (self._state & IBus.ModifierType.RELEASE_MASK))
 
     def is_prefixed(self):
-        if self._Prefix and (self._modifiers & PREFIX_BIT):
-            return True
+        return self._Prefix and (self._modifiers & PREFIX_BIT)
 
     def is_shift(self):
         mask = SHIFT_BITS
@@ -180,7 +180,7 @@ class Event:
         return False
 
     def is_dual_role(self):
-        return self._modifiers & DUAL_BITS
+        return bool(self._modifiers & DUAL_BITS)
 
     def process_key_event(self, keyval, keycode, state):
         logger.debug(f'process_key_event("{IBus.keyval_name(keyval)}", {keyval:#04x}, {keycode:#04x}, {state:#010x}) {self._modifiers:#07x}')
