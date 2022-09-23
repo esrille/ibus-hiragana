@@ -128,8 +128,8 @@ class Event:
     def is_space(self):
         if self.is_key(self._Space):
             return True
-        if self._keyval == keysyms.space and not self._Prefix:
-            return True
+        if self._keyval == keysyms.space:
+            return not (self._Prefix and self._state & IBus.ModifierType.RELEASE_MASK)
         return False
 
     def is_backspace(self):
@@ -144,7 +144,7 @@ class Event:
         return bool(self._keyval in MODIFIERS)
 
     def is_prefix(self):
-        return (self._Prefix and self._keyval == keysyms.space and
+        return (self._Prefix and self._keyval == keysyms.space and (self._modifiers & PREFIX_BIT) and
                 (self._state & IBus.ModifierType.RELEASE_MASK))
 
     def is_prefixed(self):
@@ -313,14 +313,18 @@ class Event:
                 self._modifiers &= ~ALT_R_BIT
 
         if self._engine.is_enabled():
-            if self._SandS:
-                if (self._modifiers & SPACE_BIT) and keyval == keysyms.space:
+            if keyval == keysyms.space:
+                if self._SandS and is_press:
                     return True
-            elif self._Prefix:
-                if (self._modifiers & SPACE_BIT) and keyval == keysyms.space:
-                    return True
-                if self._modifiers & DUAL_SPACE_BIT:
-                    self._modifiers ^= PREFIX_BIT
+                elif self._Prefix:
+                    if is_press:
+                        if not (self._modifiers & PREFIX_BIT):
+                            return True
+                    else:
+                        if self._modifiers & DUAL_SPACE_BIT:
+                            self._modifiers ^= PREFIX_BIT
+                        else:
+                            return True
 
         # Ignore normal key release events
         if not is_press and not (self._modifiers & self._DualBits):
