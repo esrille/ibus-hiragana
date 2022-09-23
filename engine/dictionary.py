@@ -390,11 +390,12 @@ class Dictionary:
             self._dirty = True
 
         # Personalize the dictionary if the candidate has been selected by shrinking the reading.
-        if shrunk and not self._order and not self._numeric:
+        if shrunk and not self._numeric:
             yomi = shrunk + yomi
-            if self.lookup(yomi, len(yomi)):
+            cand = self._dict.get(yomi)
+            if cand:
                 first = shrunk + first
-                cand = self._cand[:]
+                cand = cand[:]
                 try:
                     cand.remove(first)
                 except ValueError:

@@ -700,7 +700,6 @@ class EngineHiragana(EngineModeless):
             cand = text
             size = len(text)
         assert self._dict.current()
-        self._shrunk = []
         self.delete_surrounding_string(size)
         return True
 
