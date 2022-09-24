@@ -383,6 +383,7 @@ class EngineHiragana(EngineModeless):
         self._to_kana = self._handle_default_layout
         self._to_tiny = None
         self._shrunk = []
+        self._completed = ""
         self._lookup_table = IBus.LookupTable.new(10, 0, True, False)
         self._lookup_table.set_orientation(IBus.Orientation.VERTICAL)
 
@@ -724,6 +725,18 @@ class EngineHiragana(EngineModeless):
         if self._dict.current():
             self._shrunk = []
             self.delete_surrounding_string(size)
+            if self._completed:
+                completed_pos = text[:pos].rfind(self._completed)
+                if 0 <= completed_pos:
+                    completed_pos += len(self._completed)
+                    while pos - size < completed_pos:
+                        self._process_shrink()
+                        current = self._dict.current()
+                        if cand == current:
+                            break
+                        logger.debug(f"auto shrink: from '{cand}' to '{current}'")
+                        cand = current
+                        size = len(cand)
         return True
 
     def _process_shrink(self):
@@ -758,7 +771,8 @@ class EngineHiragana(EngineModeless):
                 if current[-1] == '―':
                     return self._process_replace()
                 else:
-                    self.commit_roman()
+                    if not self.commit_roman():
+                        self._set_completed(current)
                     self.flush()
                     return True
 
@@ -849,17 +863,27 @@ class EngineHiragana(EngineModeless):
             if current and self._dict.is_complete():
                 self._confirm_candidate()
                 self.commit_string(current)
+                if current[-1] in HIRAGANA:
+                    self._set_completed(current[:-1])
         return True
 
     def _reset(self, full=True):
         self._dict.reset()
         self._lookup_table.clear()
         self._update_lookup_table()
+        self._completed = ""
         if full:
             self.clear()
         self._update_preedit()
         assert not self._dict.current()
         self._setup_sync()
+
+    def _set_completed(self, cand):
+        if cand[-1] in HIRAGANA:
+            self._completed = cand
+            logger.debug(f'_set_completed("{cand}")')
+        else:
+            self._completed = ""
 
     def _set_x4063_mode(self, on):
         if on:
