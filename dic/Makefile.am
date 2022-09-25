@@ -24,5 +24,5 @@ EXTRA_DIST = \
 	restrained.7.dic \
 	restrained.9.dic \
 	katakana.dic \
-	COPYING
+	COPYING \
 	$(NULL)
