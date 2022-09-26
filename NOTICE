@@ -50,16 +50,16 @@ The original software is available from,
     https://github.com/ibus/ibus-tmpl
 
 
-'restrained.dic' is generated from dictionaries for SKK system.
-Dictionaries for SKK system is released under GNU General Public License
-v2.0. The original software is available from,
+Dictionaries for Hiragana IME for IBus are generated from dictionaries for
+SKK system. Dictionaries for SKK system are released under GNU General
+Public License v2.0. The original software is available from,
     http://openlab.ring.gr.jp/skk/
 
 
 'katakana.dic' is generated from EDICT2 Japanese-English Electronic
 Dictionary Files. EDICT2 is released under a Ceative Commons Attribution-
 ShareAlike Licence (V3.0). The original file is available from,
-    http://www.edrdg.org/jmdict/edict.html
+    https://www.edrdg.org/jmdict/edict.html
 
 
 'tc2.compat.dic' is assembled from mazegaki.dic generated in tc2.

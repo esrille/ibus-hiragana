@@ -1,10 +1,10 @@
 ;; Hiragana IME for IBus
-;; Copyright (c) 2017-2021 Esrille Inc.
+;; Copyright (c) 2017-2022 Esrille Inc.
 ;;
 ;;   https://github.com/esrille/ibus-hiragana
 ;;
 ;; この辞書は、
-;;   /usr/share/skk/SKK-JISYO.ML
+;;   SKK-JISYO.ML
 ;; をもとに、ひらがなIME用にプログラムで自動生成した辞書です。
 ;;
 ;;

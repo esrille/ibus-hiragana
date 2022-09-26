@@ -40,10 +40,18 @@ AC_DEFINE_UNQUOTED(
 # see https://developer.gnome.org/gio/stable/GSettings.html
 GLIB_GSETTINGS
 
+AC_ARG_ENABLE([dic],
+[  --enable-dic            Enable regeneration of dictionaries],
+[case "${enableval}" in
+  yes) dic=true ;;
+  no)  dic=false ;;
+  *) AC_MSG_ERROR([bad value ${enableval} for --enable-dic]) ;;
+esac],[dic=false])
+AM_CONDITIONAL([ENABLE_DIC], [test x$dic = xtrue])
+
 # OUTPUT files
 AC_CONFIG_FILES(
 dic/Makefile
-dic_tools/Makefile
 docs/Makefile
 engine/hiragana.xml.in
 engine/ibus-engine-hiragana

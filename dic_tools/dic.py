@@ -1,4 +1,4 @@
-# Copyright (c) 2017-2021 Esrille Inc.
+# Copyright (c) 2017-2022 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,6 +16,9 @@ import codecs
 import itertools
 import re
 import sys
+
+from toolpath import toolpath
+
 
 re_kana = re.compile(r"[ぁ-ゖか゚き゚く゚け゚こ゚ァ-ヶーカ゚キ゚ク゚ケ゚コ゚セ゚ツ゚ト゚ㇰ-ㇹㇷ゚ㇺ-ㇿヷヸヹヺ]")
 
@@ -66,7 +69,7 @@ def output(dict):
 # 常用漢字表から辞書をつくります。
 def zyouyou(grade = 10):
     dict = {}
-    with open("zyouyou-kanji.csv", 'r') as zyouyou:
+    with open(toolpath('zyouyou-kanji.csv'), 'r') as zyouyou:
         for row in zyouyou:
             row = row.strip(" \n").split(",")
             kanji = row[0]
@@ -103,7 +106,7 @@ def zyouyou(grade = 10):
 # 常用漢字表から漢字の学習年度辞書をつくります。
 def zyouyou_grades():
     grades = {}
-    with open('zyouyou-kanji.csv', 'r') as zyouyou:
+    with open(toolpath('zyouyou-kanji.csv'), 'r') as zyouyou:
         for row in zyouyou:
             grade = 10
             row = row.strip(' \n').split(',')
@@ -393,7 +396,7 @@ def _is_hyounai_yomi(zyouyou, yomi, kanji):
 # 表外のよみかたをつかっている熟語をとりだします。
 def hyougai_yomi(dict, grade = 10):
     zyouyou = {}
-    with open("zyouyou-kanji.csv", 'r') as file:
+    with open(toolpath('zyouyou-kanji.csv'), 'r') as file:
         for row in file:
             row = row.strip(" \n").split(",")
             kanji = row[0]
@@ -426,7 +429,7 @@ def hyougai_yomi(dict, grade = 10):
 # 和語の熟語をとりだします。
 def wago(dict, grade = 10):
     zyouyou = {}
-    with open("zyouyou-kanji.csv", 'r') as file:
+    with open(toolpath('zyouyou-kanji.csv'), 'r') as file:
         for row in file:
             row = row.strip(" \n").split(",")
             kanji = row[0]

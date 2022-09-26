@@ -14,7 +14,6 @@
 
 SUBDIRS = \
 	dic \
-	dic_tools \
 	docs \
 	engine \
 	icons \
