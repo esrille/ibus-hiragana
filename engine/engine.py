@@ -726,10 +726,11 @@ class EngineHiragana(EngineModeless):
             self._shrunk = []
             self.delete_surrounding_string(size)
             if self._completed:
-                completed_pos = text[:pos].rfind(self._completed)
+                plain = get_plain_text(text[:pos])
+                completed_pos = plain.rfind(self._completed)
                 if 0 <= completed_pos:
-                    completed_pos += len(self._completed)
-                    while pos - size < completed_pos:
+                    max_size = len(plain) - completed_pos - len(self._completed)
+                    while max_size < size:
                         self._process_shrink()
                         current = self._dict.current()
                         if cand == current:
