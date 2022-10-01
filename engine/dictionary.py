@@ -411,14 +411,29 @@ class Dictionary:
         self._no = 0
         self._numeric = ''
 
+    def _write_orders(self, filename):
+        with open(filename, 'w') as file:
+            file.write('; ' + DICTIONARY_VERSION + '\n')
+            for yomi, cand in self._dict.items():
+                if yomi not in self._dict_base or cand != self._dict_base[yomi]:
+                    file.write(yomi + ' /' + '/'.join(cand) + '/\n')
+
     def save_orders(self):
         if not self._dirty:
             return
-        with open(self._orders_path, 'w') as file:
-            file.write("; " + DICTIONARY_VERSION + "\n")
-            for yomi, cand in self._dict.items():
-                if yomi not in self._dict_base or cand != self._dict_base[yomi]:
-                    file.write(yomi + " /" + '/'.join(cand) + "/\n")
+        try:
+            if not os.path.exists(self._orders_path):
+                self._write_orders(self._orders_path)
+            else:
+                bakfile = self._orders_path + '.bak'
+                tmpfile = self._orders_path + '.tmp'
+                self._write_orders(tmpfile)
+                if os.path.exists(bakfile):
+                    os.remove(bakfile)
+                os.rename(self._orders_path, bakfile)
+                os.rename(tmpfile, self._orders_path)
+        except Exception:
+            logger.exception('save_orders')
         self._dirty = False
 
     def use_romazi(self, romazi):
