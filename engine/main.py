@@ -31,6 +31,8 @@ import gi
 gi.require_version('IBus', '1.0')
 from gi.repository import GLib, GObject, IBus
 
+
+logger = logging.getLogger(__name__)
 _ = lambda a: gettext.dgettext(package.get_name(), a)
 
 
@@ -126,7 +128,10 @@ def main():
 if __name__ == "__main__":
     try:
         locale.bindtextdomain(package.get_name(), package.get_localedir())
-    except Exception:
-        pass
+    except:
+        logger.exception('crashed')
     gettext.bindtextdomain(package.get_name(), package.get_localedir())
-    main()
+    try:
+        main()
+    except:
+        logger.exception('main crashed')
