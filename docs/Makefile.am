@@ -1,4 +1,4 @@
-# Copyright (c) 2019-2021 Esrille Inc.
+# Copyright (c) 2019-2022 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ dist_help_DATA = \
 	template.html \
 	usage.html \
 	icon.png \
-	screenshot.mp4 \
+	screenshot.webm \
 	screenshot.png \
 	ibus-setup-hiragana_1.png \
 	ibus-setup-hiragana_2.png \

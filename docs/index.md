@@ -11,7 +11,7 @@
 　「ひらがなIME」は、Fedora, Ubuntu, Raspberry Pi OSなど、[IBus](https://github.com/ibus/ibus/wiki)に￹対応￺たいおう￻したオペレーティング システム（￹OS￺オーエス￻）で￹利用￺りよう￻できます。
 
 <video controls autoplay muted playsinline>
-<source src='screenshot.mp4' type='video/mp4'>
+<source src='screenshot.webm' type='video/webm'>
 スクリーンショット
 </video>
 
