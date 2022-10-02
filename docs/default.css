@@ -289,12 +289,12 @@ main {
 }
 
 body:lang(ja), a:lang(ja) {
-  font-family: "游ゴシック Medium","Yu Gothic Medium", 游ゴシック体, "Yu Gothic", YuGothic, sans-serif;
+  font-family: "Noto Sans CJK JP", "IPA Pゴシック", "游ゴシック Medium","Yu Gothic Medium", 游ゴシック体, "Yu Gothic", YuGothic, sans-serif;
 }
 em:lang(ja), h1:lang(ja), h2:lang(ja), h3:lang(ja), h4:lang(ja), h5:lang(ja), h6:lang(ja), strong:lang(ja), th:lang(ja) {
+  font-family: "Noto Sans CJK JP", "IPA Pゴシック", "游ゴシック Medium","Yu Gothic Medium", 游ゴシック体, "Yu Gothic", YuGothic, sans-serif;
   font-style: normal;
-  font-weight: bold;
-  font-family: "游ゴシック Medium","Yu Gothic Medium", 游ゴシック体, "Yu Gothic", YuGothic, sans-serif;
+  font-weight: 500;
 }
 
 .kbd {
