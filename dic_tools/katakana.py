@@ -26,6 +26,7 @@ re_katakana = re.compile(r"[ァ-ー]{2,}")
 
 copyright = ''
 
+
 def load(path):
     global copyright
     s = set()
@@ -72,6 +73,7 @@ def load(path):
 
     return s
 
+
 # EDICT2 ファイルからカタカナ辞書を生成して出力します。
 def main():
     global copyright
@@ -102,6 +104,7 @@ def main():
 
     for i in sorted(gairaigo):
         print(dic.to_hirakana(i), ' /', i, '/', sep='')
+
 
 if __name__ == '__main__':
     signal(SIGPIPE, SIG_DFL)

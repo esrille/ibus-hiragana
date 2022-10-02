@@ -15,7 +15,6 @@
 import codecs
 import itertools
 import re
-import sys
 
 from toolpath import toolpath
 
@@ -38,6 +37,7 @@ re_kigou = re.compile(r"[Α-Ωα-ως⓪①-⑳㉑-㉟㊱-㊿ⓐ-ⓩ⓵-⓾⓿�
 
 re_zinmei = re.compile(r"[丑丞乃之乎也云亘些亦亥亨亮仔伊伍伽佃佑伶侃侑俄俠俣俐倭俱倦倖偲傭儲允兎兜其冴凌凜凧凪凰凱函劉劫勁勺勿匁匡廿卜卯卿厨厩叉叡叢叶只吾吞吻哉哨啄哩喬喧喰喋嘩嘉嘗噌噂圃圭坐尭坦埴堰堺堵塙壕壬夷奄奎套娃姪姥娩嬉孟宏宋宕宥寅寓寵尖尤屑峨峻崚嵯嵩嶺巌巫已巳巴巷巽帖幌幡庄庇庚庵廟廻弘弛彗彦彪彬徠忽怜恢恰恕悌惟惚悉惇惹惺惣慧憐戊或戟托按挺挽掬捲捷捺捧掠揃摑摺撒撰撞播撫擢孜敦斐斡斧斯於旭昂昊昏昌昴晏晃晒晋晟晦晨智暉暢曙曝曳朋朔杏杖杜李杭杵杷枇柑柴柘柊柏柾柚桧栞桔桂栖桐栗梧梓梢梛梯桶梶椛梁棲椋椀楯楚楕椿楠楓椰楢楊榎樺榊榛槙槍槌樫槻樟樋橘樽橙檎檀櫂櫛櫓欣欽歎此殆毅毘毬汀汝汐汲沌沓沫洸洲洵洛浩浬淵淳渚淀淋渥湘湊湛溢滉溜漱漕漣澪濡瀕灘灸灼烏焰焚煌煤煉熙燕燎燦燭燿爾牒牟牡牽犀狼猪獅玖珂珈珊珀玲琢琉瑛琥琶琵琳瑚瑞瑶瑳瓜瓢甥甫畠畢疋疏皐皓眸瞥矩砦砥砧硯碓碗碩碧磐磯祇祢祐祷禄禎禽禾秦秤稀稔稟稜穣穹穿窄窪窺竣竪竺竿笈笹笙笠筈筑箕箔篇篠簞簾籾粥粟糊紘紗紐絃紬絆絢綺綜綴緋綾綸縞徽繫繡纂纏羚翔翠耀而耶耽聡肇肋肴胤胡脩腔脹膏臥舜舵芥芹芭芙芦苑茄苔苺茅茉茸茜莞荻莫莉菅菫菖萄菩萌萊菱葦葵萱葺萩董葡蓑蒔蒐蒼蒲蒙蓉蓮蔭蔣蔦蓬蔓蕎蕨蕉蕃蕪薙蕾蕗藁薩蘇蘭蝦蝶螺蟬蟹蠟衿袈袴裡裟裳襖訊訣註詢詫誼諏諄諒謂諺讃豹貰賑赳跨蹄蹟輔輯輿轟辰辻迂迄辿迪迦這逞逗逢遥遁遼邑祁郁鄭酉醇醐醍醬釉釘釧銑鋒鋸錘錐錆錫鍬鎧閃閏閤阿陀隈隼雀雁雛雫霞靖鞄鞍鞘鞠鞭頁頌頗顚颯饗馨馴馳駕駿驍魁魯鮎鯉鯛鰯鱒鱗鳩鳶鳳鴨鴻鵜鵬鷗鷲鷺鷹麒麟麿黎黛鼎亞惡爲逸榮衞謁圓緣薗應櫻奧橫溫價禍悔海壞懷樂渴卷陷寬漢氣祈器僞戲虛峽狹響曉勤謹駈勳薰惠揭鷄藝擊縣儉劍險圈檢顯驗嚴廣恆黃國黑穀碎雜祉視兒濕實社者煮壽收臭從澁獸縱祝暑署緖諸敍將祥涉燒奬條狀乘淨剩疊孃讓釀神眞寢愼盡粹醉穗瀨齊靜攝節專戰纖禪祖壯爭莊搜巢曾裝僧層瘦騷增憎藏贈臟卽帶滯瀧單嘆團彈晝鑄著廳徵聽懲鎭轉傳都嶋燈盜稻德突難拜盃賣梅髮拔繁晚卑祕碑賓敏冨侮福拂佛勉步峯墨飜每萬默埜彌藥與搖樣謠來賴覽欄龍虜凉綠淚壘類禮曆歷練鍊郞朗廊錄]")
 
+
 def to_hirakana(s):
     katakana = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンガギグゲゴザジズゼゾダヂヅデドバビブベボァィゥェォャュョッパピプペポヴ"
     hirakana = "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっぱぴぷぺぽゔ"
@@ -50,9 +50,10 @@ def to_hirakana(s):
             t += hirakana[i]
     return t
 
+
 def to_seion(s):
     dakuon = "がぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽぁぃぅぇぉゃゅょっゔ"
-    seion  = "かきくけこさしすせそたちつてとはひふへほはひふへほあいうえおやゆよつう"
+    seion = "かきくけこさしすせそたちつてとはひふへほはひふへほあいうえおやゆよつう"
     t = ''
     for c in s:
         i = dakuon.find(c)
@@ -62,12 +63,14 @@ def to_seion(s):
             t += seion[i]
     return t
 
+
 def output(dict):
     for yomi, kanji in sorted(dict.items()):
         print(yomi, ' /', '/'.join(kanji), '/', sep='')
 
+
 # 常用漢字表から辞書をつくります。
-def zyouyou(grade = 10):
+def zyouyou(grade=10):
     dict = {}
     with open(toolpath('zyouyou-kanji.csv'), 'r') as zyouyou:
         for row in zyouyou:
@@ -88,20 +91,21 @@ def zyouyou(grade = 10):
                     k += yomi[pos + 1:]
                     yomi = yomi[:pos + 1]
                 k += g
-                if not yomi in dict:
-                    dict[yomi] = list()
+                if yomi not in dict:
+                    dict[yomi] = []
                     dict[yomi].append(k)
-                elif not k in dict[yomi]:
+                elif k not in dict[yomi]:
                     dict[yomi].append(k)
     for yomi, kanji in dict.items():
-        l = list()
+        cand = []
         for i in range(1, 10):
             for k in kanji:
                 if int(k[-1]) == i:
-                    if not k[:-2] in l:
-                        l.append(k[:-2])
-        dict[yomi] = l
+                    if not k[:-2] in cand:
+                        cand.append(k[:-2])
+        dict[yomi] = cand
     return dict
+
 
 # 常用漢字表から漢字の学習年度辞書をつくります。
 def zyouyou_grades():
@@ -118,12 +122,14 @@ def zyouyou_grades():
             grades[kanji] = grade
     return grades
 
+
 def _get_encoding(path):
     if 0 <= path.find('SKK-JISYO'):     # SKKの辞書
         return 'euc_jp'
     if 0 <= path.find('mazegaki.dic'):  # tc2の辞書
         return 'euc_jp'
     return 'utf-8'
+
 
 # SKK辞書をよみこみます。用言は、よみの末尾に'―'をつけた形に変換します。
 # ※ annotationはとりのぞきます。
@@ -147,22 +153,23 @@ def load(path):
                 # SKK辞書のおくりありのよみ
                 yomi = yomi[:-1] + '―'
             kanji = row[1].strip(" \n/").split("/")
-            s = list()
+            s = []
             for i in kanji:
                 pos = i.find(';')
                 if 0 == pos:
                     continue
                 if 0 < pos:
                     i = i[:pos]
-                if not i in s:
+                if i not in s:
                     s.append(i)
             if s:
-                if not yomi in dict:
+                if yomi not in dict:
                     dict[yomi] = s
                 else:
                     dict[yomi].extend([x for x in s if x not in dict[yomi]])
         file.close()
     return dict
+
 
 def _get_grade(cand, grades):
     grade = 1
@@ -172,8 +179,9 @@ def _get_grade(cand, grades):
             grade = g
     return grade
 
+
 # 付表をよみこみます。
-def load_huhyou(path, grade = 10):
+def load_huhyou(path, grade=10):
     grades = zyouyou_grades()
     dict = {}
     with open(path, 'r') as file:
@@ -195,16 +203,17 @@ def load_huhyou(path, grade = 10):
             if 1 < level:
                 s = cand
             else:
-                s = list()
+                s = []
                 for i in cand:
                     if _get_grade(i, grades) <= grade:
                         s.append(i)
             if s:
-                if not yomi in dict:
+                if yomi not in dict:
                     dict[yomi] = s
                 else:
                     dict[yomi].extend([x for x in s if x not in dict[yomi]])
     return dict
+
 
 # SKK辞書のヘッダー部分を出力します。
 def copy_header(path):
@@ -223,12 +232,13 @@ def copy_header(path):
             print(row)
         file.close()
 
+
 # 2つの辞書の共通部分をとりだした辞書をかえします。
 def intersection(a, b):
     dict = {}
     keys = set(a.keys()).intersection(set(b.keys()))
     for yomi in keys:
-        if not yomi in a or not yomi in b:
+        if yomi not in a or yomi not in b:
             continue
         kanji = [x for x in a[yomi] if x in b[yomi]]
         if not kanji:
@@ -236,15 +246,17 @@ def intersection(a, b):
         dict[yomi] = kanji
     return dict
 
+
 # 2つの辞書の和集合をとりだした辞書をかえします。
 def union(a, b):
     c = a.copy()
     for yomi, kanji in b.items():
-        if not yomi in c:
+        if yomi not in c:
             c[yomi] = kanji
         else:
             c[yomi].extend([x for x in kanji if x not in c[yomi]])
     return c
+
 
 # 2つの辞書の差集合をとりだした辞書をかえします。
 def difference(a, b):
@@ -255,6 +267,7 @@ def difference(a, b):
             if not c[yomi]:
                 del c[yomi]
     return c
+
 
 # 2つの辞書のよみの共通部分をとりだした辞書をかえします。
 def intersection_yomi(a, b):
@@ -271,11 +284,12 @@ def intersection_yomi(a, b):
         dict[yomi] = kanji
     return dict
 
+
 # 記号をつかっている語をとりだします。
 def kigou(dict):
     d = {}
     for yomi, kanji in dict.items():
-        s = list()
+        s = []
         for i in kanji:
             if i not in s and re_kigou.search(i):
                 s.append(i)
@@ -283,11 +297,12 @@ def kigou(dict):
             d[yomi] = s
     return d
 
+
 # 表外漢字をつかっている熟語をとりだします。
 def hyougai(dict):
     d = {}
     for yomi, kanji in dict.items():
-        s = list()
+        s = []
         for i in kanji:
             if i not in s and re_hyogai.search(i):
                 s.append(i)
@@ -295,11 +310,12 @@ def hyougai(dict):
             d[yomi] = s
     return d
 
+
 # 人名漢字をつかっている熟語をとりだします。
 def zinmei(dict):
     d = {}
     for yomi, kanji in dict.items():
-        s = list()
+        s = []
         for i in kanji:
             if i not in s and re_zinmei.search(i):
                 s.append(i)
@@ -307,11 +323,12 @@ def zinmei(dict):
             d[yomi] = s
     return d
 
+
 # おくりがなのある語をとりだします。
 def okuri(dict):
     d = {}
     for yomi, kanji in dict.items():
-        s = list()
+        s = []
         for i in kanji:
             if i not in s and re_kana.search(i):
                 s.append(i)
@@ -319,17 +336,19 @@ def okuri(dict):
             d[yomi] = s
     return d
 
+
 # 最後におくりがなのある語をとりだします。
 def okuri_end(dict):
     d = {}
     for yomi, kanji in dict.items():
-        s = list()
+        s = []
         for i in kanji:
             if re_kana.search(i[-1]):
                 s.append(i)
         if s:
             d[yomi] = s
     return d
+
 
 # 用言をリストアップします。
 def yougen(dict):
@@ -339,6 +358,7 @@ def yougen(dict):
             d[yomi] = kanji
     return d
 
+
 # 用言と体言をまとめた辞書をつくります。
 def mix_yougen(dict):
     d = dict.copy()
@@ -346,16 +366,17 @@ def mix_yougen(dict):
         if yomi[-1] != '―':
             continue
         yomi = yomi[:-1]
-        if not yomi in d:
-            s = list()
+        if yomi not in d:
+            s = []
             for i in kanji:
                 s.append(i + '―')
             d[yomi] = s
             continue
         for i in kanji:
-            if not i in d[yomi]:
+            if i not in d[yomi]:
                 d[yomi].append(i + '―')
     return d
+
 
 def _is_hyounai_yomi(zyouyou, yomi, kanji):
     # ― と # をとりのぞく。
@@ -363,11 +384,11 @@ def _is_hyounai_yomi(zyouyou, yomi, kanji):
     yomi = yomi.replace('#', '')
     kanji = kanji.replace('#', '')
     if len(kanji) == 1:
-        if not kanji in zyouyou:
+        if kanji not in zyouyou:
             return False
         return yomi in zyouyou[kanji]
     c = kanji[0]
-    if not c in zyouyou:
+    if c not in zyouyou:
         return False
     s = zyouyou[c]
     b = c
@@ -379,7 +400,7 @@ def _is_hyounai_yomi(zyouyou, yomi, kanji):
             t = set(itertools.product(s, zyouyou[b]))
         elif re_kana.match(c):
             t = set(itertools.product(s, set(c)))
-        elif not c in zyouyou:
+        elif c not in zyouyou:
             return False
         else:
             t = set(itertools.product(s, zyouyou[c]))
@@ -388,13 +409,16 @@ def _is_hyounai_yomi(zyouyou, yomi, kanji):
             s.add(to_seion(''.join(y)))
             if 2 <= len(y[0]):
                 # 促音化の許容
-                if 0 <= "きくキク".find(y[0][-1]) and 0 <= "かきくけこカキクケコ".find(y[1][0]) or 0 <= "ちつチツ".find(y[0][-1]) and 0 <= "かきくけこカキクケコさしすせそサシスセソたちつてとタチツテトはひふへほハヒフヘホ".find(y[1][0]):
+                if (0 <= "きくキク".find(y[0][-1]) and 0 <= "かきくけこカキクケコ".find(y[1][0]) or
+                        0 <= "ちつチツ".find(y[0][-1]) and
+                        0 <= "かきくけこカキクケコさしすせそサシスセソたちつてとタチツテトはひふへほハヒフヘホ".find(y[1][0])):
                     s.add(to_seion(y[0][0:-1] + "つ" + y[1]))
         b = c
     return to_seion(yomi) in s
 
+
 # 表外のよみかたをつかっている熟語をとりだします。
-def hyougai_yomi(dict, grade = 10):
+def hyougai_yomi(dict, grade=10):
     zyouyou = {}
     with open(toolpath('zyouyou-kanji.csv'), 'r') as file:
         for row in file:
@@ -418,7 +442,7 @@ def hyougai_yomi(dict, grade = 10):
                 zyouyou[kanji] = s
     d = {}
     for yomi, kanji in dict.items():
-        s = list()
+        s = []
         for i in kanji:
             if not _is_hyounai_yomi(zyouyou, yomi, i):
                 s.append(i)
@@ -426,8 +450,9 @@ def hyougai_yomi(dict, grade = 10):
             d[yomi] = s
     return d
 
+
 # 和語の熟語をとりだします。
-def wago(dict, grade = 10):
+def wago(dict, grade=10):
     zyouyou = {}
     with open(toolpath('zyouyou-kanji.csv'), 'r') as file:
         for row in file:
@@ -453,7 +478,7 @@ def wago(dict, grade = 10):
                 zyouyou[kanji] = s
     d = {}
     for yomi, kanji in dict.items():
-        s = list()
+        s = []
         for i in kanji:
             if _is_hyounai_yomi(zyouyou, yomi, i):
                 s.append(i)
