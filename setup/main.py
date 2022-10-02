@@ -1,6 +1,6 @@
 # ibus-hiragana - Hiragana IME for IBus
 #
-# Copyright (c) 2020, 2021 Esrille Inc.
+# Copyright (c) 2020-2022 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -146,6 +146,13 @@ class SetupEngineHiragana:
         layout += self._keyboard_types.get_model()[i][1]
         layout = os.path.join(package.get_datadir(), 'layouts/' + layout + '.json')
         self._settings.set_string('layout', layout)
+
+        # altgr
+        altgr = 'altgr'
+        i = self._keyboard_types.get_active()
+        altgr += self._keyboard_types.get_model()[i][1]
+        altgr = os.path.join(package.get_datadir(), 'layouts/' + altgr + '.json')
+        self._settings.set_string('altgr', altgr)
 
         # nn-as-jis-x-4063
         nn_as_x4063 = self._nn_as_x4063.get_active()

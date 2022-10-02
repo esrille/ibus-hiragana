@@ -1,4 +1,4 @@
-# Copyright (c) 2017-2021 Esrille Inc.
+# Copyright (c) 2017-2022 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,12 +13,14 @@
 # limitations under the License.
 
 dist_layouts_DATA = \
+	altgr.json \
+	altgr.109.json \
 	jis.json \
 	jis.109.json \
-	roomazi.json \
-	roomazi.109.json \
 	new_stickney.json \
 	new_stickney.109.json \
+	roomazi.json \
+	roomazi.109.json \
 	$(NULL)
 
 layoutsdir = $(pkgdatadir)/layouts

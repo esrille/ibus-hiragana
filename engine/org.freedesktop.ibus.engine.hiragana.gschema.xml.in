@@ -45,6 +45,13 @@
         The pathname to the keyboard layout design file.
       </description>
     </key>
+    <key name='altgr' type='s'>
+      <default>\"${pkgdatadir}/layouts/altgr.json\"</default>
+      <summary>AltGr Layout File</summary>
+      <description>
+        The pathname to the AltGr layout design file.
+      </description>
+    </key>
     <key name='nn-as-jis-x-4063' type='b'>
       <default>false</default>
       <summary>Convert 'nn' to 'ん'</summary>

@@ -569,23 +569,27 @@ class EngineHiragana(EngineModeless):
         logger.info(f'input mode: {mode}')
         return mode
 
+    def _load_json(self, pathname):
+        logger.info(f'_load_json("{pathname}")')
+        layout = dict()
+        try:
+            with open(pathname) as f:
+                layout = json.load(f)
+        except:
+            logger.exception(f'could not load "{pathname}"')
+        return layout
+
     def _load_layout(self, settings):
         default_layout = os.path.join(package.get_datadir(), 'layouts')
         default_layout = os.path.join(default_layout, 'roomazi.json')
         path = settings.get_string('layout')
-        logger.info(f'layout: {path}')
-        layout = dict()
-        try:
-            with open(path) as f:
-                layout = json.load(f)
-        except Exception as error:
-            logger.error(error)
+        layout = self._load_json(path)
         if not layout:
-            try:
-                with open(default_layout) as f:
-                    layout = json.load(f)
-            except Exception as error:
-                logger.error(error)
+            layout = self._load_json(default_layout)
+        path = settings.get_string('altgr')
+        altgr = self._load_json(path)
+        if altgr:
+            layout.update(altgr)
         if layout.get('Type') == 'Kana':
             self._to_kana = self._handle_kana_layout
             self._dict.use_romazi(False)
@@ -1001,7 +1005,7 @@ class EngineHiragana(EngineModeless):
             self._reset()
             self._delay = self._load_delay(settings)
             self._event = Event(self, self._delay, self._layout)
-        elif key == 'layout':
+        elif key == 'layout' or key == 'altgr':
             self._reset()
             self._layout = self._load_layout(settings)
             self._event = Event(self, self._delay, self._layout)
