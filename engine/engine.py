@@ -1077,7 +1077,8 @@ class EngineHiragana(EngineModeless):
             return self._layout['\\ShiftR'].get(c, '')
 
     def process_key_event(self, keyval, keycode, state, modifiers):
-        logger.debug(f'process_key_event("{IBus.keyval_name(keyval)}", {keyval:#04x}, {keycode:#04x}, {state:#010x}, {modifiers:#07x})')
+        logger.debug(f'process_key_event({keyval:#04x}({IBus.keyval_name(keyval)}), '
+                     f'{keycode:#04x}, {state:#010x}, {modifiers:#07x})')
 
         if self._event.is_dual_role():
             pass
