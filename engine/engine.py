@@ -798,13 +798,18 @@ class EngineHiragana(EngineModeless):
             yomi = self._dict.reading()
             self._confirm_candidate()
             self.commit_string(current)
-            logger.debug(f"_process_text: '{text}', current: '{current}', yomi: '{yomi}'")
+            logger.debug(f"current: '{current}', yomi: '{yomi}', roman: '{self.roman_text}'")
             if current[-1] == '―':
                 pos_yougen = pos
-            elif self._dict.not_selected() and (current[-1] in OKURIGANA or yomi[-1] == '―' or self.roman_text):
-                pos_yougen = pos
-                to_revert = True
-                current = yomi
+            elif current[-1] in OKURIGANA or yomi[-1] == '―' or self.roman_text:
+                if self._dict.not_selected():
+                    pos_yougen = pos
+                    to_revert = True
+                    current = yomi
+                else:
+                    self._set_completed(current)
+                    if self.should_draw_preedit():
+                        self.flush()
             elif self.should_draw_preedit():
                 self.flush()
 
