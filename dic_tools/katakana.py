@@ -14,12 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import codecs
 import re
 import sys
 import dic
 
-re_katakana = re.compile(r"[ァ-ー]{2,}")
+RE_KATAKANA = re.compile(r'[ァ-ー]{2,}')
 
 copyright = ''
 
@@ -27,46 +26,38 @@ copyright = ''
 def load(path):
     global copyright
     s = set()
-    try:
-        file = codecs.open(path, "r", "euc_jp")
-    except:
-        pass
-    else:
-        for row in file:
-            row = row.strip(" \n")
+    with open(path, encoding='euc_jp') as f:
+        for row in f:
+            row = row.strip(' \n')
             if not row:
                 continue
             if not copyright:
                 pos = row.find('EDICT2')
                 if 0 < pos:
-                    copyright = row[pos:].strip(" \n/").split('/')
-            if not re_katakana.match(row):
+                    copyright = row[pos:].strip(' \n/').split('/')
+            if not RE_KATAKANA.match(row):
                 continue
-            row = row.split(" ", 1)
+            row = row.split(' ', 1)
             yomi = row[0]
-            yomi = yomi.strip(" \n/")
+            yomi = yomi.strip(' \n/')
             yomi = re.split(r'[;・]', yomi)
             for i in yomi:
-                found = re_katakana.match(i)
+                found = RE_KATAKANA.match(i)
                 if found:
                     s.add(found.group())
-        file.close()
 
     # Remove typos and so on in the original file.
-    try:
-        s.remove('アイウエオ')
-        s.remove('アアダプタ')
-        s.remove('アアダプター')
-        s.remove('フアン')
-        s.remove('ガサ')
-        s.remove('テカ')
-        # any word that begins 'を' makes the normal Japanese language hard to parse.
-        s.remove('ヲコト')
-        s.remove('ヲタ')
-        s.remove('ヲタク')
-        s.remove('ヲッカ')
-    except:
-        pass
+    s.discard('アイウエオ')
+    s.discard('アアダプタ')
+    s.discard('アアダプター')
+    s.discard('フアン')
+    s.discard('ガサ')
+    s.discard('テカ')
+    # any word that begins 'を' makes the normal Japanese language hard to parse.
+    s.discard('ヲコト')
+    s.discard('ヲタ')
+    s.discard('ヲタク')
+    s.discard('ヲッカ')
 
     return s
 
@@ -75,7 +66,7 @@ def load(path):
 def main():
     global copyright
 
-    path = "edict2"
+    path = 'edict2'
     if 2 <= len(sys.argv):
         path = sys.argv[1]
     gairaigo = load(path)
