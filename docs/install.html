@@ -49,15 +49,17 @@ aside a:hover {
 <h3>Waylandを<ruby>使用<rp>(</rp><rt>しよう</rt><rp>)</rp></ruby>するばあい</h3>
 <p>&#x3000;Ubuntu 21.04<ruby>以降<rp>(</rp><rt>いこう</rt><rp>)</rp></ruby>やFedora 25<ruby>以降<rp>(</rp><rt>いこう</rt><rp>)</rp></ruby>では、デフォルトで<ruby>画面<rp>(</rp><rt>がめん</rt><rp>)</rp></ruby>の<ruby>描画<rp>(</rp><rt>びょうが</rt><rp>)</rp></ruby>にWaylandをつかうようになっています。Waylandは、ながくつかわれてきたXサーバーをおきかえるものです。Waylandはまだまだあたらしく、きちんと<ruby>対応<rp>(</rp><rt>たいおう</rt><rp>)</rp></ruby>できていないソフトウェアものこっています。</p>
 <p>&#x3000;IBusをWaylandで使用するばあいは、<ruby>環境<rp>(</rp><rt>かんきょう</rt><rp>)</rp></ruby><ruby>変数<rp>(</rp><rt>へんすう</rt><rp>)</rp></ruby>GTK_IM_MODULEにibusを<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>してください。そうしないと、ただしい<ruby>周辺<rp>(</rp><rt>しゅうへん</rt><rp>)</rp></ruby>テキストの<ruby>情報<rp>(</rp><rt>じょうほう</rt><rp>)</rp></ruby>がIBusからIMEにおくられてきません。そのためには、つぎの行を ~/.bash_profile (Fedoraなど)か ~/.profile (Ubuntuなど)に追加してください。</p>
-<pre><code>export GTK_IM_MODULE=ibus
+<pre><code>$ export GTK_IM_MODULE=ibus
 </code></pre>
-<h3><ruby>参考<rp>(</rp><rt>さんこう</rt><rp>)</rp></ruby>: じぶんでビルドしたいばあい</h3>
+<h3><ruby>参考<rp>(</rp><rt>さんこう</rt><rp>)</rp></ruby>: じぶんでビルドしたいとき</h3>
 <p>&#x3000;「ひらがなIME」をじぶんでビルドしてインストールしたいときは、つぎの<ruby>手順<rp>(</rp><rt>てじゅん</rt><rp>)</rp></ruby>でできます。</p>
-<pre><code>git clone https://github.com/esrille/ibus-hiragana.git
-./autogen.sh
-make
-sudo make install
+<pre><code>$ git clone https://github.com/esrille/ibus-hiragana.git
+$ ./autogen.sh  --prefix=/usr [--enable-dic]
+$ make
+$ sudo make install
 </code></pre>
+<p>&#x3000;autogen.shは、autotoolsの<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>をおこない、configureスクリプトよびだします。--enable-dicを<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>すると、<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby><ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>もメイクしなおすことができます。</p>
+<p>&#x3000;ビルドするときに<ruby>必要<rp>(</rp><rt>ひつよう</rt><rp>)</rp></ruby>なパッケージについては、debian/controlのBuild-Depends、あるいは、ibus-hiragana.spec.inのBuildRequiresを<ruby>参考<rp>(</rp><rt>さんこう</rt><rp>)</rp></ruby>にしてください。</p>
 <h2><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby><ruby>環境<rp>(</rp><rt>かんきょう</rt><rp>)</rp></ruby>のセットアップ</h2>
 <p>&#x3000;パッケージのインストールができたら、<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby><ruby>環境<rp>(</rp><rt>かんきょう</rt><rp>)</rp></ruby>に「ひらがなIME」をセットアップしていきます。<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby><ruby>環境<rp>(</rp><rt>かんきょう</rt><rp>)</rp></ruby>のセットアップ<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby>は、デスクトップ<ruby>環境<rp>(</rp><rt>かんきょう</rt><rp>)</rp></ruby>によってすこし<ruby>異<rp>(</rp><rt>こと</rt><rp>)</rp></ruby>なります。</p>
 <h3>GNOMEのばあい</h3>

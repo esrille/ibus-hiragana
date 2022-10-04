@@ -16,19 +16,23 @@ Waylandはまだまだあたらしく、きちんと￹対応￺たいおう￻�
 そのためには、つぎの行を ~/.bash_profile (Fedoraなど)か ~/.profile (Ubuntuなど)に追加してください。
 
 ```
-export GTK_IM_MODULE=ibus
+$ export GTK_IM_MODULE=ibus
 ```
 
-### ￹参考￺さんこう￻: じぶんでビルドしたいばあい
+### ￹参考￺さんこう￻: じぶんでビルドしたいとき
 
 　「ひらがなIME」をじぶんでビルドしてインストールしたいときは、つぎの￹手順￺てじゅん￻でできます。
 
 ```
-git clone https://github.com/esrille/ibus-hiragana.git
-./autogen.sh
-make
-sudo make install
+$ git clone https://github.com/esrille/ibus-hiragana.git
+$ ./autogen.sh  --prefix=/usr [--enable-dic]
+$ make
+$ sudo make install
 ```
+
+　autogen.shは、autotoolsの￹設定￺せってい￻をおこない、configureスクリプトよびだします。
+--enable-dicを￹指定￺してい￻すると、￹漢字￺かんじ￻￹辞書￺じしょ￻もメイクしなおすことができます。
+　ビルドするときに￹必要￺ひつよう￻なパッケージについては、debian/controlのBuild-Depends、あるいは、ibus-hiragana.spec.inのBuildRequiresを￹参考￺さんこう￻にしてください。
 
 ## ￹入力￺にゅうりょく￻￹環境￺かんきょう￻のセットアップ
 
