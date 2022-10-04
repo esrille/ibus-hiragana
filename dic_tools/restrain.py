@@ -16,16 +16,11 @@
 
 import os
 import sys
-
-from signal import signal, SIGPIPE, SIG_DFL
-
 import dic
 from toolpath import toolpath
 
 
-if __name__ == '__main__':
-    signal(SIGPIPE, SIG_DFL)
-
+def main():
     path = toolpath('third_party/skk/SKK-JISYO.ML')
     if 2 <= len(sys.argv):
         path = sys.argv[1]
@@ -86,3 +81,7 @@ if __name__ == '__main__':
     print(';;')
     dic.copy_header(path)
     dic.output(dict)
+
+
+if __name__ == '__main__':
+    main()

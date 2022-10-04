@@ -17,9 +17,6 @@
 import codecs
 import re
 import sys
-
-from signal import signal, SIGPIPE, SIG_DFL
-
 import dic
 
 re_katakana = re.compile(r"[ァ-ー]{2,}")
@@ -107,5 +104,4 @@ def main():
 
 
 if __name__ == '__main__':
-    signal(SIGPIPE, SIG_DFL)
     main()
