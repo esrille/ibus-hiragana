@@ -27,22 +27,22 @@ import json
 import logging
 import os
 import queue
-import re
 import subprocess
 import threading
 import time
-
 import gi
 gi.require_version('IBus', '1.0')
 gi.require_version('Gdk', '3.0')
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gdk, Gio, Gtk, IBus
 
+
+def _(text):
+    return gettext.dgettext(package.get_name(), text)
+
+
 keysyms = IBus
-
 logger = logging.getLogger(__name__)
-
-_ = lambda a: gettext.dgettext(package.get_name(), a)
 
 HIRAGANA = ('あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん'
             'ゔがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっゎぱぴぷぺぽゎゐゑ・ーゝゞ')
@@ -286,7 +286,8 @@ class EngineModeless(IBus.Engine):
             if self._preedit_text:
                 self.commit_text(IBus.Text.new_from_string(self._preedit_text))
         else:
-            logger.debug(f'flush("{self._preedit_text}"): {self._preedit_pos_min}:{self._preedit_pos_orig}:{self._preedit_pos}')
+            logger.debug(f'flush("{self._preedit_text}"): '
+                         f'{self._preedit_pos_min}:{self._preedit_pos_orig}:{self._preedit_pos}')
             delete_size = self._preedit_pos_orig - self._preedit_pos_min
             if 0 < delete_size:
                 delete_size = self._preedit_pos_orig - self._preedit_pos_min
@@ -297,7 +298,8 @@ class EngineModeless(IBus.Engine):
                 logger.debug(f'flush: insert: "{self._preedit_text[self._preedit_pos - size:self._preedit_pos]}"')
                 if 0 < delete_size:
                     time.sleep(EVENT_DELAY)
-                self.commit_text(IBus.Text.new_from_string(self._preedit_text[self._preedit_pos - size:self._preedit_pos]))
+                self.commit_text(IBus.Text.new_from_string(
+                    self._preedit_text[self._preedit_pos - size:self._preedit_pos]))
 
         text = self._preedit_text
         self._preedit_text = ''
@@ -703,7 +705,7 @@ class EngineHiragana(EngineModeless):
         if not self._dict.current():
             self._dict.create_pseudo_candidate(text)
             cand = text
-            size = len(text)
+            size = len(cand)
         assert self._dict.current()
         self.delete_surrounding_string(size)
         return True
@@ -786,7 +788,7 @@ class EngineHiragana(EngineModeless):
         if keyval == keysyms.Escape and self.clear_roman():
             return True
 
-        if (self._event.is_henkan() or self._event.is_muhenkan()) and not(modifiers & event.ALT_R_BIT):
+        if (self._event.is_henkan() or self._event.is_muhenkan()) and not (modifiers & event.ALT_R_BIT):
             return self._process_replace()
 
         text, pos = self.get_surrounding_string()
@@ -939,8 +941,10 @@ class EngineHiragana(EngineModeless):
             attrs.append(IBus.Attribute.new(IBus.AttrType.UNDERLINE, IBus.AttrUnderline.SINGLE, pos, pos + roman_len))
             pos += preedit_len
         if 0 < locked_len:
-            attrs.append(IBus.Attribute.new(IBus.AttrType.FOREGROUND, CANDIDATE_FOREGROUND_COLOR, pos, pos + locked_len))
-            attrs.append(IBus.Attribute.new(IBus.AttrType.BACKGROUND, CANDIDATE_BACKGROUND_COLOR, pos, pos + locked_len))
+            attrs.append(IBus.Attribute.new(IBus.AttrType.FOREGROUND, CANDIDATE_FOREGROUND_COLOR,
+                                            pos, pos + locked_len))
+            attrs.append(IBus.Attribute.new(IBus.AttrType.BACKGROUND, CANDIDATE_BACKGROUND_COLOR,
+                                            pos, pos + locked_len))
             pos += preedit_len
         if attrs:
             text.set_attributes(attrs)

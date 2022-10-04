@@ -26,14 +26,16 @@ import os
 import locale
 import logging
 import sys
-
 import gi
 gi.require_version('IBus', '1.0')
 from gi.repository import GLib, GObject, IBus
 
 
+def _(text):
+    return gettext.dgettext(package.get_name(), text)
+
+
 logger = logging.getLogger(__name__)
-_ = lambda a: gettext.dgettext(package.get_name(), a)
 
 
 class IMApp:
@@ -104,7 +106,7 @@ def main():
 
     try:
         opts, args = getopt.getopt(sys.argv[1:], shortopt, longopt)
-    except getopt.GetoptError as err:
+    except getopt.GetoptError:
         print_help(1)
 
     for o, a in opts:
