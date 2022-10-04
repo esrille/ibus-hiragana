@@ -31,9 +31,9 @@ dicdir = $(pkgdatadir)
 
 EXTRA_DIST = $(dic_DATA) COPYING
 
-MAINTAINERCLEANFILES = $(dic_DATA)
-
 if ENABLE_DIC
+
+CLEANFILES = $(dic_DATA)
 
 katakana.dic : $(TOOLS_DIR)/third_party/edrdg/edict2
 	$(TOOLS_DIR)/katakana.py $< > $@
