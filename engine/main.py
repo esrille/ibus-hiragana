@@ -31,10 +31,6 @@ gi.require_version('IBus', '1.0')
 from gi.repository import GLib, GObject, IBus
 
 
-def _(text):
-    return gettext.dgettext(package.get_name(), text)
-
-
 logger = logging.getLogger(__name__)
 
 

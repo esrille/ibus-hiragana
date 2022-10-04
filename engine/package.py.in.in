@@ -1,6 +1,6 @@
 # ibus-hiragana - Hiragana IME for IBus
 #
-# Copyright (c) 2020 Esrille Inc.
+# Copyright (c) 2020-2022 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 # This file is a template file processed by the configure script.
 # The file name is listed in AC_CONFIG_FILES of configure.ac.
 
+import gettext
 import os
 import gi
 from gi.repository import GLib
@@ -48,3 +49,7 @@ def get_libexecdir():
 
 def get_localedir():
     return '${localedir}'
+
+
+def _(text):
+    return gettext.dgettext(get_name(), text)

@@ -21,6 +21,7 @@ from dictionary import Dictionary
 import event
 from event import Event
 import package
+from package import _
 
 import gettext
 import json
@@ -35,10 +36,6 @@ gi.require_version('IBus', '1.0')
 gi.require_version('Gdk', '3.0')
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gdk, Gio, Gtk, IBus
-
-
-def _(text):
-    return gettext.dgettext(package.get_name(), text)
 
 
 keysyms = IBus
