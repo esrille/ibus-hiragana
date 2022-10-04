@@ -22,38 +22,38 @@ import re
 
 logger = logging.getLogger(__name__)
 
-DICTIONARY_VERSION = "v0.4.0"
+DICTIONARY_VERSION = 'v0.4.0'
 NON_YOMIGANA = re.compile(r'[^ぁ-ゖァ-ー―]')
 YOMIGANA = re.compile(r'^[ぁ-ゖァ-ー―]+[、。，．]?$')
-HIRAGANA = ("あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん"
-            "がぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっぱぴぷぺぽゔ")
-TYOUON = ("あいうえおあいうえおあいうえおあいうえおあいうえおあいうえおあいうえおあうおあいうえおあおん"
-          "あいうえおあいうえおあいうえおあいうえおあいうえおあうおうあいうえおう")
+HIRAGANA = ('あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん'
+            'がぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっぱぴぷぺぽゔ')
+TYOUON = ('あいうえおあいうえおあいうえおあいうえおあいうえおあいうえおあいうえおあうおあいうえおあおん'
+          'あいうえおあいうえおあいうえおあいうえおあいうえおあうおうあいうえおう')
 OKURIGANA = re.compile(r'[ぁ-ゖ1iIkKgsStnbmrwW235]+$')
 KATUYOU = {
-    '1': ("", "る", "れば", "ろ", "よう", "て", "た", "な", "た", "ま", "ず", None, None),
-    'i': ("く", "い", "ければ", None, "かろう", "くて", "かった", None, None, None, None, None, None, "",
-          "さ", "み", "げ", "そう"),
-    'I': ("く", "い", "ければ", None, "かろう", "くて", "かった", None, None, None, None, None, None, "",
-          "さ", "み", "げ", "そう", "な"),   # 小さい, 大きい
-    'k': ("き", "く", "けば", "け", "こう", "いて", "いた", "かな", "きた", "きま", "かず", "かせ", "かれ"),
-    'K': ("き", "く", "けば", "け", "こう", "って", "った", "かな", "きた", "きま", "かず", "かせ", "かれ"),  # 行く
-    'g': ("ぎ", "ぐ", "げば", "げ", "ごう", "いで", "いだ", "がな", "ぎた", "ぎま", "がず", "がせ", "がれ"),
-    's': ("し", "す", "せば", "せ", "そう", "して", "した", "さな", "した", "しま", "さず", "させ", "され"),
-    'S': ("し", "する", "すれば", "しろ", "しよう", "して", "した", "しな", "した", "しま", "せず", "させ", "され"),  # 欲S
-    't': ("ち", "つ", "てば", "て", "とう", "って", "った", "たな", "ちた", "ちま", "たず", "たせ", "たれ"),
-    'n': ("に", "ぬ", "ねば", "ね", "のう", "んで", "んだ", "なな", "にた", "にま", "なず", "なせ", "なれ"),
-    'b': ("び", "ぶ", "べば", "べ", "ぼう", "んで", "んだ", "ばな", "びた", "びま", "ばず", "ばせ", "ばれ"),
-    'm': ("み", "む", "めば", "め", "もう", "んで", "んだ", "まな", "みた", "みま", "まず", "ませ", "まれ"),
-    'r': ("り", "る", "れば", "れ", "ろう", "って", "った", "らな", "りた", "りま", "らず", "らせ", "られ"),
-    'w': ("い", "う", "えば", "え", "おう", "って", "った", "わな", "いた", "いま", "わず", "わせ", "われ"),
-    'W': ("い", "う", "えば", "え", "おう", "うて", "うた", "わな", "いた", "いま", "わず", "わせ", "われ"),  # 問う, 請う, 乞う, etc.
-    '2': ("", None, None, None, None, "て", "た", None, "た", "ま", None, None, None),  # きて
-    '3': (None, "る", "れば", None, None, None, None, None, None, None, None, None, None),  # くる
-    '5': (None, None, None, "い", "よう", None, None, "な", None, None, "ず", "させ", "られ"),  # こい
+    '1': ('', 'る', 'れば', 'ろ', 'よう', 'て', 'た', 'な', 'た', 'ま', 'ず', None, None),
+    'i': ('く', 'い', 'ければ', None, 'かろう', 'くて', 'かった', None, None, None, None, None, None, '',
+          'さ', 'み', 'げ', 'そう'),
+    'I': ('く', 'い', 'ければ', None, 'かろう', 'くて', 'かった', None, None, None, None, None, None, '',
+          'さ', 'み', 'げ', 'そう', 'な'),   # 小さい, 大きい
+    'k': ('き', 'く', 'けば', 'け', 'こう', 'いて', 'いた', 'かな', 'きた', 'きま', 'かず', 'かせ', 'かれ'),
+    'K': ('き', 'く', 'けば', 'け', 'こう', 'って', 'った', 'かな', 'きた', 'きま', 'かず', 'かせ', 'かれ'),  # 行く
+    'g': ('ぎ', 'ぐ', 'げば', 'げ', 'ごう', 'いで', 'いだ', 'がな', 'ぎた', 'ぎま', 'がず', 'がせ', 'がれ'),
+    's': ('し', 'す', 'せば', 'せ', 'そう', 'して', 'した', 'さな', 'した', 'しま', 'さず', 'させ', 'され'),
+    'S': ('し', 'する', 'すれば', 'しろ', 'しよう', 'して', 'した', 'しな', 'した', 'しま', 'せず', 'させ', 'され'),  # 欲S
+    't': ('ち', 'つ', 'てば', 'て', 'とう', 'って', 'った', 'たな', 'ちた', 'ちま', 'たず', 'たせ', 'たれ'),
+    'n': ('に', 'ぬ', 'ねば', 'ね', 'のう', 'んで', 'んだ', 'なな', 'にた', 'にま', 'なず', 'なせ', 'なれ'),
+    'b': ('び', 'ぶ', 'べば', 'べ', 'ぼう', 'んで', 'んだ', 'ばな', 'びた', 'びま', 'ばず', 'ばせ', 'ばれ'),
+    'm': ('み', 'む', 'めば', 'め', 'もう', 'んで', 'んだ', 'まな', 'みた', 'みま', 'まず', 'ませ', 'まれ'),
+    'r': ('り', 'る', 'れば', 'れ', 'ろう', 'って', 'った', 'らな', 'りた', 'りま', 'らず', 'らせ', 'られ'),
+    'w': ('い', 'う', 'えば', 'え', 'おう', 'って', 'った', 'わな', 'いた', 'いま', 'わず', 'わせ', 'われ'),
+    'W': ('い', 'う', 'えば', 'え', 'おう', 'うて', 'うた', 'わな', 'いた', 'いま', 'わず', 'わせ', 'われ'),  # 問う, 請う, 乞う, etc.
+    '2': ('', None, None, None, None, 'て', 'た', None, 'た', 'ま', None, None, None),  # きて
+    '3': (None, 'る', 'れば', None, None, None, None, None, None, None, None, None, None),  # くる
+    '5': (None, None, None, 'い', 'よう', None, None, 'な', None, None, 'ず', 'させ', 'られ'),  # こい
 }
-DAKUON = "がぎぐげござじずぜぞだぢづでどばびぶべぼ"
-SEION = "かきくけこさしすせそたちつてとはひふへほ"
+DAKUON = 'がぎぐげござじずぜぞだぢづでどばびぶべぼ'
+SEION = 'かきくけこさしすせそたちつてとはひふへほ'
 
 
 class Dictionary:
@@ -115,20 +115,20 @@ class Dictionary:
             self._orders_path = os.path.join(package.get_user_datadir(), base)
             if clear_history:
                 logger.info('clear_history')
-                with open(self._orders_path, 'w') as file:
-                    file.write("; " + DICTIONARY_VERSION + "\n")
+                with open(self._orders_path, 'w') as f:
+                    f.write('; ' + DICTIONARY_VERSION + '\n')
             self._load_dict(self._dict, self._orders_path, 'a+', version_checked=False)
 
     def _load_dict(self, dict, path, mode='r', version_checked=True):
         reorder_only = not version_checked
-        with open(path, mode) as file:
-            file.seek(0, 0)   # in case opened in the 'a+' mode
-            for line in file:
+        with open(path, mode) as f:
+            f.seek(0, 0)   # in case opened in the 'a+' mode
+            for line in f:
                 line = line.strip(' \n/')
                 if not line:
                     continue
                 if line[0] == ';':
-                    if line == "; " + DICTIONARY_VERSION:
+                    if line == '; ' + DICTIONARY_VERSION:
                         version_checked = True
                     continue
                 if not version_checked:
@@ -213,7 +213,7 @@ class Dictionary:
     # 0: yomi can be valid; still missing a few letters
     # 1: yomi is valid
     def _match(self, okuri, yomi):
-        if okuri and 0 <= "1iIkKgsStnbmrwW235".find(okuri[-1]):
+        if okuri and 0 <= '1iIkKgsStnbmrwW235'.find(okuri[-1]):
             suffix = okuri[-1]
             okuri = okuri[:-1]
         else:
@@ -412,11 +412,11 @@ class Dictionary:
         self._numeric = ''
 
     def _write_orders(self, filename):
-        with open(filename, 'w') as file:
-            file.write('; ' + DICTIONARY_VERSION + '\n')
+        with open(filename, 'w') as f:
+            f.write('; ' + DICTIONARY_VERSION + '\n')
             for yomi, cand in self._dict.items():
                 if yomi not in self._dict_base or cand != self._dict_base[yomi]:
-                    file.write(yomi + ' /' + '/'.join(cand) + '/\n')
+                    f.write(yomi + ' /' + '/'.join(cand) + '/\n')
 
     def save_orders(self):
         if not self._dirty:

@@ -69,29 +69,29 @@ class Event:
         self._HasYen = False
         self._DualBits = 0
 
-        if layout.get("Keyboard") == "109":
+        if layout.get('Keyboard') == '109':
             self._Kana = keysyms.Hiragana_Katakana
             self._Eisuu = keysyms.Eisu_toggle
 
-        self._OnOffByCaps = layout.get("OnOffByCaps", self._OnOffByCaps)
-        self._HasYen = layout.get("HasYen", self._HasYen)
+        self._OnOffByCaps = layout.get('OnOffByCaps', self._OnOffByCaps)
+        self._HasYen = layout.get('HasYen', self._HasYen)
 
-        self._SandS = layout.get("SandS", False)
+        self._SandS = layout.get('SandS', False)
         if self._SandS:
             self._DualBits |= DUAL_SPACE_BIT
         else:
-            self._Prefix = layout.get("Prefix", False)
+            self._Prefix = layout.get('Prefix', False)
             if self._Prefix:
                 self._DualBits |= DUAL_SPACE_BIT
 
-        if "Space" in layout:
-            self._Space = IBus.keyval_from_name(layout["Space"])
-        if "Henkan" in layout:
-            self._Henkan = IBus.keyval_from_name(layout["Henkan"])
-        if "Muhenkan" in layout:
-            self._Muhenkan = IBus.keyval_from_name(layout["Muhenkan"])
-        if "Katakana" in layout:
-            self._Kana = IBus.keyval_from_name(layout["Katakana"])
+        if 'Space' in layout:
+            self._Space = IBus.keyval_from_name(layout['Space'])
+        if 'Henkan' in layout:
+            self._Henkan = IBus.keyval_from_name(layout['Henkan'])
+        if 'Muhenkan' in layout:
+            self._Muhenkan = IBus.keyval_from_name(layout['Muhenkan'])
+        if 'Katakana' in layout:
+            self._Kana = IBus.keyval_from_name(layout['Katakana'])
 
         # Check dual role modifiers
         self._capture_alt_r = False
@@ -137,15 +137,18 @@ class Event:
 
     def is_ascii(self):
         # keysyms.yen is treated as '¥' for Japanese 109 keyboard.
-        return (keysyms.exclam <= self._keyval and self._keyval <= keysyms.asciitilde or
-                self._keyval == keysyms.yen or self.is_space())
+        return (keysyms.exclam <= self._keyval and self._keyval <= keysyms.asciitilde
+                or self._keyval == keysyms.yen
+                or self.is_space())
 
     def is_modifier(self):
         return bool(self._keyval in MODIFIERS)
 
     def is_prefix(self):
-        return (self._Prefix and self._keyval == keysyms.space and (self._modifiers & PREFIX_BIT) and
-                (self._state & IBus.ModifierType.RELEASE_MASK))
+        return (self._Prefix
+                and self._keyval == keysyms.space
+                and (self._modifiers & PREFIX_BIT)
+                and (self._state & IBus.ModifierType.RELEASE_MASK))
 
     def is_prefixed(self):
         return self._Prefix and (self._modifiers & PREFIX_BIT)

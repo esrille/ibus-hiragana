@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+#
 # ibus-hiragana - Hiragana IME for IBus
 #
 # Using source code derived from
@@ -19,7 +21,6 @@
 
 from engine import EngineHiragana
 import package
-
 import getopt
 import gettext
 import os
@@ -38,32 +39,32 @@ class IMApp:
     def __init__(self, exec_by_ibus):
         self._mainloop = GLib.MainLoop()
         self._bus = IBus.Bus()
-        self._bus.connect("disconnected", self._bus_disconnected_cb)
+        self._bus.connect('disconnected', self._bus_disconnected_cb)
         self._factory = IBus.Factory(self._bus)
-        self._factory.add_engine("hiragana", GObject.type_from_name("EngineHiragana"))
+        self._factory.add_engine('hiragana', GObject.type_from_name(EngineHiragana.__gtype_name__))
         if exec_by_ibus:
-            self._bus.request_name("org.freedesktop.IBus.Hiragana", 0)
+            self._bus.request_name('org.freedesktop.IBus.Hiragana', 0)
         else:
             self._component = IBus.Component(
-                name="org.freedesktop.IBus.Hiragana",
-                description="Hiragana IME",
+                name='org.freedesktop.IBus.Hiragana',
+                description='Hiragana IME',
                 version=package.get_version(),
-                license="Apache",
-                author="Esrille Inc. <info@esrille.com>",
-                homepage="https://github.com/esrille/" + package.get_name(),
+                license='Apache',
+                author='Esrille Inc. <info@esrille.com>',
+                homepage='https://github.com/esrille/' + package.get_name(),
                 textdomain=package.get_name())
             engine = IBus.EngineDesc(
-                name="hiragana",
-                longname="Hiragana IME",
-                description="Hiragana IME",
-                language="ja",
-                license="Apache",
-                author="Esrille Inc. <info@esrille.com>",
+                name='hiragana',
+                longname='Hiragana IME',
+                description='Hiragana IME',
+                language='ja',
+                license='Apache',
+                author='Esrille Inc. <info@esrille.com>',
                 icon=package.get_name(),
-                layout="default")
+                layout='default')
             self._component.add_engine(engine)
             self._bus.register_component(self._component)
-            self._bus.set_global_engine_async("hiragana", -1, None, None, None)
+            self._bus.set_global_engine_async('hiragana', -1, None, None, None)
 
     def run(self):
         self._mainloop.run()
@@ -73,9 +74,9 @@ class IMApp:
 
 
 def print_help(v=0):
-    print("-i, --ibus             executed by IBus.")
-    print("-h, --help             show this message.")
-    print("-d, --daemonize        daemonize ibus")
+    print('-i, --ibus             executed by IBus.')
+    print('-h, --help             show this message.')
+    print('-d, --daemonize        daemonize ibus')
     sys.exit(v)
 
 
@@ -97,8 +98,8 @@ def main():
     exec_by_ibus = False
     daemonize = False
 
-    shortopt = "ihd"
-    longopt = ["ibus", "help", "daemonize"]
+    shortopt = 'ihd'
+    longopt = ['ibus', 'help', 'daemonize']
 
     try:
         opts, args = getopt.getopt(sys.argv[1:], shortopt, longopt)
@@ -106,15 +107,12 @@ def main():
         print_help(1)
 
     for o, a in opts:
-        if o in ("-h", "--help"):
+        if o in ('-h', '--help'):
             print_help(0)
-        elif o in ("-d", "--daemonize"):
+        elif o in ('-d', '--daemonize'):
             daemonize = True
-        elif o in ("-i", "--ibus"):
+        elif o in ('-i', '--ibus'):
             exec_by_ibus = True
-        else:
-            sys.stderr.write("Unknown argument: %s\n" % o)
-            print_help(1)
 
     if daemonize:
         if os.fork():
@@ -123,13 +121,13 @@ def main():
     IMApp(exec_by_ibus).run()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     try:
         locale.bindtextdomain(package.get_name(), package.get_localedir())
-    except:
+    except Exception:
         logger.exception('crashed')
     gettext.bindtextdomain(package.get_name(), package.get_localedir())
     try:
         main()
-    except:
+    except Exception:
         logger.exception('main crashed')

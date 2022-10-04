@@ -23,7 +23,6 @@ from event import Event
 import package
 from package import _
 
-import gettext
 import json
 import logging
 import os
@@ -382,7 +381,7 @@ class EngineHiragana(EngineModeless):
         self._to_kana = self._handle_default_layout
         self._to_tiny = None
         self._shrunk = []
-        self._completed = ""
+        self._completed = ''
         self._lookup_table = IBus.LookupTable.new(10, 0, True, False)
         self._lookup_table.set_orientation(IBus.Orientation.VERTICAL)
 
@@ -574,7 +573,7 @@ class EngineHiragana(EngineModeless):
         try:
             with open(pathname) as f:
                 layout = json.load(f)
-        except:
+        except Exception:
             logger.exception(f'could not load "{pathname}"')
         return layout
 
@@ -598,7 +597,7 @@ class EngineHiragana(EngineModeless):
         else:
             self._to_kana = self._handle_default_layout
             self._dict.use_romazi(True)
-        self._to_tiny = layout.get("Tiny")
+        self._to_tiny = layout.get('Tiny')
         return layout
 
     def _load_logging_level(self, settings):
@@ -696,7 +695,7 @@ class EngineHiragana(EngineModeless):
         assert pos_yougen < pos
         text = text[pos_yougen:pos]
         pos = len(text)
-        logger.debug(f"_process_okurigana: '{text}', '{self.roman_text}'")
+        logger.debug(f'_process_okurigana: "{text}", "{self.roman_text}"')
         if text[-1] != '―':
             cand, size = self._lookup_dictionary(text, pos, False)
         if not self._dict.current():
@@ -738,7 +737,7 @@ class EngineHiragana(EngineModeless):
                         current = self._dict.current()
                         if cand == current:
                             break
-                        logger.debug(f"auto shrink: from '{cand}' to '{current}'")
+                        logger.debug(f'auto shrink: from "{cand}" to "{current}"')
                         cand = current
                         size = len(cand)
         return True
@@ -797,7 +796,7 @@ class EngineHiragana(EngineModeless):
             yomi = self._dict.reading()
             self._confirm_candidate()
             self.commit_string(current)
-            logger.debug(f"current: '{current}', yomi: '{yomi}', roman: '{self.roman_text}'")
+            logger.debug(f'current: "{current}", yomi: "{yomi}", roman: "{self.roman_text}"')
             if current[-1] == '―':
                 pos_yougen = pos
             elif current[-1] in OKURIGANA or yomi[-1] == '―' or self.roman_text:
@@ -880,7 +879,7 @@ class EngineHiragana(EngineModeless):
         self._dict.reset()
         self._lookup_table.clear()
         self._update_lookup_table()
-        self._completed = ""
+        self._completed = ''
         if full:
             self.clear()
         self._update_preedit()
@@ -892,7 +891,7 @@ class EngineHiragana(EngineModeless):
             self._completed = cand
             logger.debug(f'_set_completed("{cand}")')
         else:
-            self._completed = ""
+            self._completed = ''
 
     def _set_x4063_mode(self, on):
         if on:
@@ -1208,17 +1207,17 @@ class EngineHiragana(EngineModeless):
                 return
             dialog = Gtk.AboutDialog()
             dialog.set_program_name(_("Hiragana IME"))
-            dialog.set_copyright("Copyright 2017-2022 Esrille Inc.")
-            dialog.set_authors(["Esrille Inc."])
-            dialog.set_documenters(["Esrille Inc."])
-            dialog.set_website("https://www.esrille.com/")
-            dialog.set_website_label("Esrille Inc.")
+            dialog.set_copyright('Copyright 2017-2022 Esrille Inc.')
+            dialog.set_authors(['Esrille Inc.'])
+            dialog.set_documenters(['Esrille Inc.'])
+            dialog.set_website('https://www.esrille.com/')
+            dialog.set_website_label('Esrille Inc.')
             dialog.set_logo_icon_name(package.get_name())
             dialog.set_default_icon_name(package.get_name())
             dialog.set_version(package.get_version())
             # To close the dialog when "close" is clicked on Raspberry Pi OS,
             # we connect the "response" signal to _about_response_cb
-            dialog.connect("response", self._about_response_cb)
+            dialog.connect('response', self._about_response_cb)
             self._about_dialog = dialog
             dialog.show()
         elif prop_name.startswith('InputMode.'):
