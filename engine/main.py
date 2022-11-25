@@ -121,13 +121,13 @@ def main():
     IMApp(exec_by_ibus).run()
 
 
+# Catch exceptions from GLib.MainLoop
+def handle_exception(exception_type, value, traceback):
+    logger.error("crashed:", exc_info=(exception_type, value, traceback))
+
+
 if __name__ == '__main__':
-    try:
-        locale.bindtextdomain(package.get_name(), package.get_localedir())
-    except Exception:
-        logger.exception('crashed')
+    sys.excepthook = handle_exception
+    locale.bindtextdomain(package.get_name(), package.get_localedir())
     gettext.bindtextdomain(package.get_name(), package.get_localedir())
-    try:
-        main()
-    except Exception:
-        logger.exception('main crashed')
+    main()
