@@ -147,6 +147,9 @@ class Dictionary:
             logger.info(f'Loaded {path}')
 
     def _merge_entry(self, dict, yomi, cand, reorder_only):
+        if yomi in cand:
+            logger.warning(f'unexpected candidate for "{yomi}": {cand}')
+            cand.remove(yomi)
         if yomi not in dict:
             if not reorder_only:
                 dict[yomi] = cand
@@ -235,8 +238,10 @@ class Dictionary:
             else:
                 return -1
 
+        if not suffix or suffix not in KATUYOU:
+            return -1
+
         # Check conjugations
-        assert suffix and suffix in KATUYOU
         assert pos == len(okuri)
         yomi = yomi[pos:]
         if not yomi:
@@ -383,6 +388,9 @@ class Dictionary:
 
         # Update the order of the candidates.
         first = cand[no]
+        if first == yomi:
+            # Ignore pseudo candidates
+            return
         if 0 < no:
             cand.remove(first)
             cand.insert(0, first)
