@@ -91,6 +91,7 @@ IAT = '\uFFFB'  # IAT (INTERLINEAR ANNOTATION TERMINATOR)
 
 CANDIDATE_FOREGROUND_COLOR = 0x000000
 CANDIDATE_BACKGROUND_COLOR = 0xd1eaff
+PREFIX_LOCK_COLOR = 0x3399ff
 
 # There are several applications that claim to support
 # IBus.Capabilite.SURROUNDING_TEXT but actually don't;
@@ -938,10 +939,7 @@ class EngineHiragana(EngineModeless):
             attrs.append(IBus.Attribute.new(IBus.AttrType.UNDERLINE, IBus.AttrUnderline.SINGLE, pos, pos + roman_len))
             pos += preedit_len
         if 0 < locked_len:
-            attrs.append(IBus.Attribute.new(IBus.AttrType.FOREGROUND, CANDIDATE_FOREGROUND_COLOR,
-                                            pos, pos + locked_len))
-            attrs.append(IBus.Attribute.new(IBus.AttrType.BACKGROUND, CANDIDATE_BACKGROUND_COLOR,
-                                            pos, pos + locked_len))
+            attrs.append(IBus.Attribute.new(IBus.AttrType.FOREGROUND, PREFIX_LOCK_COLOR, pos, pos + locked_len))
             pos += preedit_len
         if attrs:
             text.set_attributes(attrs)
