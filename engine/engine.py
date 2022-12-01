@@ -253,11 +253,11 @@ class EngineModeless(IBus.Engine):
 
     def commit_n(self):
         assert self.roman_text == 'n'
-        assert self._preedit_pos_min == self._preedit_pos_orig
-        assert self._preedit_pos == self._preedit_pos_orig
         self.clear_roman()
         self.commit_string('ん')
-        self.commit_text(IBus.Text.new_from_string('ん'))
+        if self._surrounding not in (SURROUNDING_NOT_SUPPORTED, SURROUNDING_BROKEN):
+            # For FuriganaPad, 'ん' needs to be committed.
+            self.commit_text(IBus.Text.new_from_string('ん'))
         self._preedit_pos_min += 1
         self._preedit_pos_orig += 1
 
@@ -616,20 +616,13 @@ class EngineHiragana(EngineModeless):
         logger.info(f'nn_as_jis_x_4063 mode: {mode}')
         return mode
 
-    def _lookup_dictionary(self, yomi, pos, process_n=True):
-        if process_n and self.roman_text == 'n':
-            yomi = yomi[:pos] + 'ん'
-            pos += 1
+    def _lookup_dictionary(self, yomi, pos):
         self._lookup_table.clear()
         cand = self._dict.lookup(yomi, pos)
         size = len(self._dict.reading())
-        if 0 < size:
-            if process_n and self.roman_text == 'n':
-                # For FuriganaPad, yomi has to be committed anyway.
-                self.commit_n()
-            if 1 < len(self._dict.cand()):
-                for c in self._dict.cand():
-                    self._lookup_table.append_candidate(IBus.Text.new_from_string(c))
+        if 0 < size and 1 < len(self._dict.cand()):
+            for c in self._dict.cand():
+                self._lookup_table.append_candidate(IBus.Text.new_from_string(c))
         return cand, size
 
     def _process_dakuten(self, c):
@@ -669,7 +662,7 @@ class EngineHiragana(EngineModeless):
         kana = self._shrunk[-1]
         yomi = self._dict.reading()
         text, pos = self.get_surrounding_string()
-        (cand, size) = self._lookup_dictionary(kana + yomi + text[pos:], len(kana + yomi), False)
+        (cand, size) = self._lookup_dictionary(kana + yomi + text[pos:], len(kana + yomi))
         assert 0 < size
         self.delete_surrounding_string(len(kana))
         self._shrunk.pop(-1)
@@ -699,7 +692,7 @@ class EngineHiragana(EngineModeless):
         pos = len(text)
         logger.debug(f'_process_okurigana: "{text}", "{self.roman_text}"')
         if text[-1] != '―':
-            cand, size = self._lookup_dictionary(text, pos, False)
+            cand, size = self._lookup_dictionary(text, pos)
         if not self._dict.current():
             self._dict.create_pseudo_candidate(text)
             cand = text
@@ -711,6 +704,9 @@ class EngineHiragana(EngineModeless):
     def _process_replace(self):
         if self._dict.current():
             return True
+        # Check 'n'
+        if self.roman_text == 'n':
+            self.commit_n()
         text, pos = self.get_surrounding_string()
         # Check Return for yôgen conversion
         if self._event.is_henkan() or self._event.is_key(keysyms.Return):
@@ -751,13 +747,13 @@ class EngineHiragana(EngineModeless):
         if len(yomi) <= 1 or yomi[1] == '―':
             return True
         text, pos = self.get_surrounding_string()
-        (cand, size) = self._lookup_dictionary(yomi[1:] + text[pos:], len(yomi) - 1, False)
+        (cand, size) = self._lookup_dictionary(yomi[1:] + text[pos:], len(yomi) - 1)
         if 0 < size:
             kana = yomi[:-size]
             self._shrunk.append(kana)
             self.commit_string(kana)
         else:
-            (cand, size) = self._lookup_dictionary(yomi + text[pos:], len(yomi), False)
+            (cand, size) = self._lookup_dictionary(yomi + text[pos:], len(yomi))
         return True
 
     def _process_surrounding_text(self, keyval, keycode, state, modifiers):
