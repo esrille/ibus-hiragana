@@ -17,12 +17,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from dictionary import Dictionary
-import event
-from event import Event
-import package
-from package import _
-
 import json
 import logging
 import os
@@ -35,6 +29,12 @@ gi.require_version('IBus', '1.0')
 gi.require_version('Gdk', '3.0')
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gdk, Gio, Gtk, IBus
+
+from dictionary import Dictionary
+import event
+from event import Event
+import package
+from package import _
 
 
 keysyms = IBus
@@ -170,6 +170,7 @@ def to_zenkaku(asc):
 # Note IBus.Engine.get_surrounding_text() can be used only once in
 # do_process_key_event(). For modeless IMEs, this is too restrictive.
 class EngineModeless(IBus.Engine):
+
     def __init__(self):
         super().__init__()
         self._surrounding = SURROUNDING_RESET
@@ -377,7 +378,7 @@ class EngineHiragana(EngineModeless):
         super().__init__()
         self._mode = 'A'  # _mode must be one of _input_mode_names
         self._override = False
-        self._layout = dict()
+        self._layout = {}
         self._to_kana = self._handle_default_layout
         self._to_tiny = None
         self._shrunk = []
@@ -569,7 +570,7 @@ class EngineHiragana(EngineModeless):
 
     def _load_json(self, pathname):
         logger.info(f'_load_json("{pathname}")')
-        layout = dict()
+        layout = {}
         try:
             with open(pathname) as f:
                 layout = json.load(f)
