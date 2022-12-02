@@ -706,7 +706,10 @@ class EngineHiragana(EngineModeless):
             return True
         # Check 'n'
         if self.roman_text == 'n':
+            committed_n = True
             self.commit_n()
+        else:
+            committed_n = False
         text, pos = self.get_surrounding_string()
         # Check Return for yôgen conversion
         if self._event.is_henkan() or self._event.is_key(keysyms.Return):
@@ -738,6 +741,9 @@ class EngineHiragana(EngineModeless):
                         logger.debug(f'auto shrink: from "{cand}" to "{current}"')
                         cand = current
                         size = len(cand)
+        elif not committed_n:
+            # Commit a white space
+            self.commit_string(' ' if self._event.is_muhenkan() else '　')
         return True
 
     def _process_shrink(self):
