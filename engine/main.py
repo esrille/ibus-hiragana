@@ -31,6 +31,7 @@ import gi
 gi.require_version('IBus', '1.0')
 from gi.repository import GLib, GObject, IBus
 
+FORMAT = "%(asctime)s:%(levelname)s:%(name)s:%(message)s"
 
 logger = logging.getLogger(__name__)
 
@@ -89,11 +90,11 @@ def main():
     os.chmod(user_datadir, 0o700)   # For logfile created by v0.2.0 or earlier
 
     if __debug__:
-        logging.basicConfig(level=logging.DEBUG)
+        logging.basicConfig(level=logging.DEBUG, format=FORMAT)
     else:
         # Create a debug log file
         logfile = os.path.join(user_datadir, package.get_name() + '.log')
-        logging.basicConfig(filename=logfile, filemode='w', level=logging.WARNING)
+        logging.basicConfig(filename=logfile, filemode='w', level=logging.WARNING, format=FORMAT)
 
     exec_by_ibus = False
     daemonize = False
