@@ -84,6 +84,7 @@ NAME_TO_LOGGING_LEVEL = {
 }
 
 INPUT_MODE_NAMES = ('A', 'あ', 'ア', 'Ａ', 'ｱ')
+INPUT_MODE_COUNT = len(INPUT_MODE_NAMES)
 
 IAA = '\uFFF9'  # IAA (INTERLINEAR ANNOTATION ANCHOR)
 IAS = '\uFFFA'  # IAS (INTERLINEAR ANNOTATION SEPARATOR)
@@ -914,6 +915,23 @@ class EngineHiragana(EngineModeless):
         self._input_mode_prop.set_label(IBus.Text.new_from_string(_("Input mode (%s)") % self._mode))
         self.update_property(self._input_mode_prop)
 
+    def _update_input_mode_list(self):
+        key = {
+            'A': 'InputMode.Alphanumeric',
+            'あ': 'InputMode.Hiragana',
+            'ア': 'InputMode.Katakana',
+            'Ａ': 'InputMode.WideAlphanumeric',
+            'ｱ': 'InputMode.HalfWidthKatakana'
+        }.get(self._mode, 'InputMode.Alphanumeric')
+        prop_list = self._input_mode_prop.get_sub_props()
+        for i in range(INPUT_MODE_COUNT):
+            prop = prop_list.get(i)
+            if prop.get_key() == key:
+                prop.set_state(IBus.PropState.CHECKED)
+            else:
+                prop.set_state(IBus.PropState.UNCHECKED)
+            self.update_property(prop)
+
     def _update_lookup_table(self):
         if self.is_enabled():
             visible = 0 < self._lookup_table.get_number_of_candidates()
@@ -1136,7 +1154,7 @@ class EngineHiragana(EngineModeless):
             self._update_preedit()
         return result
 
-    def set_mode(self, mode, override=False):
+    def set_mode(self, mode, override=False, update_list=True):
         self._override = override
         if self._mode == mode:
             return False
@@ -1147,6 +1165,8 @@ class EngineHiragana(EngineModeless):
         self._mode = mode
         self._update_lookup_table()
         self._update_input_mode()
+        if update_list:
+            self._update_input_mode_list()
         return True
 
     #
@@ -1230,7 +1250,7 @@ class EngineHiragana(EngineModeless):
                     'InputMode.WideAlphanumeric': 'Ａ',
                     'InputMode.HalfWidthKatakana': 'ｱ',
                 }.get(prop_name, 'A')
-                self.set_mode(mode, True)
+                self.set_mode(mode, override=True, update_list=False)
 
     def do_reset(self):
         logger.info(f'reset: {self._surrounding}')
