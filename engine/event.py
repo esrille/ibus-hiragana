@@ -322,7 +322,7 @@ class Event:
                     return True
                 elif self._Prefix:
                     if is_press:
-                        if not (self._modifiers & PREFIX_BIT):
+                        if not (self._modifiers & (NOT_DUAL_SPACE_BIT | PREFIX_BIT)):
                             return True
                     else:
                         if self._modifiers & DUAL_SPACE_BIT:
