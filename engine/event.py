@@ -36,6 +36,7 @@ ALT_R_BIT = 0x20
 SPACE_BIT = 0x40
 PREFIX_BIT = 0x80
 SHIFT_BITS = SHIFT_L_BIT | SHIFT_R_BIT
+CONTROL_BITS = CONTROL_L_BIT | CONTROL_R_BIT
 MODIFIER_BITS = SHIFT_BITS | CONTROL_L_BIT | CONTROL_R_BIT | ALT_L_BIT | ALT_R_BIT | SPACE_BIT
 
 DUAL_SHIFT_L_BIT = SHIFT_L_BIT << 8
@@ -153,6 +154,12 @@ class Event:
     def is_prefixed(self):
         return self._Prefix and (self._modifiers & PREFIX_BIT)
 
+    def is_control(self):
+        mask = CONTROL_BITS
+        if self._keyval == keysyms.Control_R and (self._modifiers & DUAL_CONTROL_R_BIT):
+            mask &= ~CONTROL_R_BIT
+        return bool(self._modifiers & mask)
+
     def is_shift(self):
         mask = SHIFT_BITS
         if self._SandS and (self._modifiers & SPACE_BIT):
@@ -163,23 +170,21 @@ class Event:
             mask &= ~SHIFT_R_BIT
         if self._keyval == keysyms.Shift_L and (self._modifiers & DUAL_SHIFT_L_BIT):
             mask &= ~SHIFT_L_BIT
-        if self._modifiers & mask:
-            return True
-        return False
+        return bool(self._modifiers & mask)
 
     def is_katakana(self):
-        return self.is_key(self._Kana)
+        return self.is_key(self._Kana) or self.is_key(keysyms.Hiragana_Katakana)
 
     def is_henkan(self):
         if self.is_key(self._Henkan) or self.is_key(keysyms.Henkan) or self.is_key(keysyms.Hangul):
-            return not self.is_shift()
+            return not (self.is_control() or self.is_shift())
         return False
 
     def is_muhenkan(self):
         if self.is_key(self._Muhenkan):
             return True
         if self.is_key(self._Henkan) or self.is_key(keysyms.Henkan) or self.is_key(keysyms.Hangul):
-            return self.is_shift()
+            return self.is_shift() and not self.is_control()
         return False
 
     def is_dual_role(self):

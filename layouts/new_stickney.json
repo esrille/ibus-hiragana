@@ -3,7 +3,7 @@
     "Prefix": true,
     "Henkan": "apostrophe",
     "Muhenkan": "quotedbl",
-    "Katakana": "Control_R",
+    "Katakana": "Shift_R",
     "Normal": {
         " ": "　",
         "`": "…", "~": "…",
