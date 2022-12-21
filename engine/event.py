@@ -210,7 +210,7 @@ class Event:
         is_press = ((state & IBus.ModifierType.RELEASE_MASK) == 0)
         if is_press:
             if keyval == keysyms.space:
-                if self._modifiers & MODIFIER_BITS:
+                if self._modifiers & (MODIFIER_BITS & ~SPACE_BIT):
                     self._modifiers |= NOT_DUAL_SPACE_BIT
                 else:
                     self._modifiers &= ~NOT_DUAL_SPACE_BIT
