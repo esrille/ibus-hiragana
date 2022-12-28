@@ -377,7 +377,9 @@ class EngineHiragana(EngineModeless):
     __gtype_name__ = 'EngineHiragana'
 
     def __init__(self):
+        logging.info('EngineHiragana.__init__')
         super().__init__()
+
         self._mode = 'A'  # _mode must be one of _input_mode_names
         self._override = False
         self._layout = {}
@@ -391,7 +393,9 @@ class EngineHiragana(EngineModeless):
         self._init_props()
 
         self._settings = Gio.Settings.new('org.freedesktop.ibus.engine.hiragana')
-        self._settings.connect('changed', self._config_value_changed_cb)
+        self._settings_handler = 0
+        self._keymap = Gdk.Keymap.get_for_display(Gdk.Display.get_default())
+        self._keymap_handler = 0
 
         self._logging_level = self._load_logging_level(self._settings)
         self._dict = self._load_dictionary(self._settings)
@@ -402,14 +406,23 @@ class EngineHiragana(EngineModeless):
         self.set_mode(self._load_input_mode(self._settings))
         self._set_x4063_mode(self._load_x4063_mode(self._settings))
 
-        self._keymap = Gdk.Keymap.get_for_display(Gdk.Display.get_default())
-        self._keymap.connect('state-changed', self._keymap_state_changed_cb)
-
         self.connect('set-cursor-location', self._set_cursor_location_cb)
 
         self._about_dialog = None
         self._setup_proc = None
         self._q = queue.Queue()
+
+    def __del__(self):
+        logging.info('EngineHiragana.__del__')
+        self._disconnect_handlers()
+
+    def _disconnect_handlers(self):
+        if 0 < self._settings_handler:
+            self._settings.disconnect(self._settings_handler)
+            self._settings_handler = 0
+        if 0 < self._keymap_handler:
+            self._keymap.disconnect(self._keymap_handler)
+            self._keymap_handler = 0
 
     def _confirm_candidate(self):
         current = self._dict.current()
@@ -581,13 +594,35 @@ class EngineHiragana(EngineModeless):
         return layout
 
     def _load_layout(self, settings):
-        default_layout = os.path.join(package.get_datadir(), 'layouts')
-        default_layout = os.path.join(default_layout, 'roomazi.json')
-        path = settings.get_string('layout')
+        input_sources = Gio.Settings.new('org.gnome.desktop.input-sources')
+        mru_sources = input_sources.get_value('mru-sources')
+        xkb_layout = 'us'
+        for i in range(mru_sources.n_children()):
+            v = mru_sources.get_child_value(i)
+            assert v.n_children() == 2
+            source_type = v.get_child_value(0).get_string()
+            source_name = v.get_child_value(1).get_string()
+            if source_type == 'xkb':
+                xkb_layout = source_name
+                break
+        logger.info(f'xkb layout: {xkb_layout}')
+
+        default_path = os.path.join(package.get_datadir(), 'layouts')
+        default_layout = os.path.join(default_path, 'roomazi.us.json')
+
+        path: str = settings.get_string('layout')
+        if path.endswith('.json'):
+            path = path[path.rfind('/') + 1:len(path) - 5]
+        path = os.path.join(default_path, path + '.' + xkb_layout + '.json')
+        logger.info(f'keyboard layout: {path}')
         layout = self._load_json(path)
         if not layout:
             layout = self._load_json(default_layout)
+
         path = settings.get_string('altgr')
+        if path.endswith('.json'):
+            path = path[path.rfind('/') + 1:len(path) - 5]
+        path = os.path.join(default_path, path + '.' + xkb_layout + '.json')
         altgr = self._load_json(path)
         if altgr:
             layout.update(altgr)
@@ -903,7 +938,7 @@ class EngineHiragana(EngineModeless):
             self.character_after_n = "aiueo'wyn"
         else:
             self.character_after_n = "aiueo'wy"
-        logger.debug(f'set_x4063_mode({on})')
+        logger.info(f'set_x4063_mode({on})')
 
     def _update_candidate(self):
         index = self._lookup_table.get_cursor_pos()
@@ -1043,7 +1078,7 @@ class EngineHiragana(EngineModeless):
 
     def _keymap_state_changed_cb(self, keymap):
         if self._event.is_onoff_by_caps():
-            logger.debug(f'caps lock: {keymap.get_caps_lock_state()}')
+            logger.info(f'caps lock: {keymap.get_caps_lock_state()}')
             if keymap.get_caps_lock_state():
                 self.enable_ime()
             else:
@@ -1187,6 +1222,13 @@ class EngineHiragana(EngineModeless):
         self._reset()
         self._mode = 'A'
         self._dict.save_orders()
+        self._disconnect_handlers()
+
+    def do_enable(self):
+        super().do_enable()
+        self._keymap_state_changed_cb(self._keymap)
+        self._keymap_handler = self._keymap.connect('state-changed', self._keymap_state_changed_cb)
+        self._settings_handler = self._settings.connect('changed', self._config_value_changed_cb)
 
     def do_focus_in(self):
         logger.info(f'focus_in: {self._surrounding}')
@@ -1212,7 +1254,7 @@ class EngineHiragana(EngineModeless):
         return True
 
     def do_process_key_event(self, keyval, keycode, state):
-        return self._event.process_key_event(keyval, keycode, state)
+        return self._event.process_key_event(self, keyval, keycode, state)
 
     def do_property_activate(self, prop_name, state):
         logger.info(f'property_activate({prop_name}, {state})')

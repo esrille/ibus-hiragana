@@ -13,14 +13,14 @@
 # limitations under the License.
 
 dist_layouts_DATA = \
-	altgr.json \
-	altgr.109.json \
-	jis.json \
-	jis.109.json \
-	new_stickney.json \
-	new_stickney.109.json \
-	roomazi.json \
-	roomazi.109.json \
+	altgr.us.json \
+	altgr.jp.json \
+	jis.us.json \
+	jis.jp.json \
+	new_stickney.us.json \
+	new_stickney.jp.json \
+	roomazi.us.json \
+	roomazi.jp.json \
 	$(NULL)
 
 layoutsdir = $(pkgdatadir)/layouts

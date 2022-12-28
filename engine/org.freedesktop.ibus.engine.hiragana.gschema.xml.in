@@ -39,17 +39,17 @@
       </description>
     </key>
     <key name='layout' type='s'>
-      <default>\"${pkgdatadir}/layouts/roomazi.json\"</default>
-      <summary>Keyboard Layout File</summary>
+      <default>\"roomazi\"</default>
+      <summary>Keyboard Layout</summary>
       <description>
-        The pathname to the keyboard layout design file.
+        The keyboard layout name.
       </description>
     </key>
     <key name='altgr' type='s'>
-      <default>\"${pkgdatadir}/layouts/altgr.json\"</default>
-      <summary>AltGr Layout File</summary>
+      <default>\"altgr\"</default>
+      <summary>AltGr Layout</summary>
       <description>
-        The pathname to the AltGr layout design file.
+        The AltGr layout name.
       </description>
     </key>
     <key name='nn-as-jis-x-4063' type='b'>

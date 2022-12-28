@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: ibus-hiragana 0.14.5\n"
+"Project-Id-Version: ibus-hiragana 0.14.6\n"
 "Report-Msgid-Bugs-To: https://github.com/esrille/ibus-hiragana/issues\n"
-"POT-Creation-Date: 2022-12-21 21:21+0900\n"
+"POT-Creation-Date: 2022-12-28 22:39+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,100 +17,92 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: engine/engine.py:458
+#: engine/engine.py:471
 msgid "Alphanumeric (A)"
 msgstr ""
 
-#: engine/engine.py:467
+#: engine/engine.py:480
 msgid "Hiragana (あ)"
 msgstr ""
 
-#: engine/engine.py:476
+#: engine/engine.py:489
 msgid "Katakana (ア)"
 msgstr ""
 
-#: engine/engine.py:485
+#: engine/engine.py:498
 msgid "Wide Alphanumeric (Ａ)"
 msgstr ""
 
-#: engine/engine.py:494
+#: engine/engine.py:507
 msgid "Halfwidth Katakana (ｱ)"
 msgstr ""
 
-#: engine/engine.py:509 engine/engine.py:915
+#: engine/engine.py:522 engine/engine.py:950
 #, python-format
 msgid "Input mode (%s)"
 msgstr ""
 
-#: engine/engine.py:521
+#: engine/engine.py:534
 msgid "Setup"
 msgstr ""
 
-#: engine/engine.py:532
+#: engine/engine.py:545
 msgid "Help"
 msgstr ""
 
-#: engine/engine.py:543
+#: engine/engine.py:556
 msgid "About Hiragana IME..."
 msgstr ""
 
-#: engine/engine.py:1230
+#: engine/engine.py:1272
 msgid "Hiragana IME"
 msgstr ""
 
-#: setup/main.py:59
+#: setup/main.py:58
 msgid "Rōmaji"
 msgstr ""
 
-#: setup/main.py:60
+#: setup/main.py:59
 msgid "Kana (JIS Layout)"
 msgstr ""
 
-#: setup/main.py:61
+#: setup/main.py:60
 msgid "Kana (New Stickney Layout)"
 msgstr ""
 
-#: setup/main.py:70
-msgid "Japanese Keyboard"
-msgstr ""
-
-#: setup/main.py:71
-msgid "US Keyboard"
-msgstr ""
-
-#: setup/main.py:104
+#: setup/main.py:79
 msgid "1st grade"
 msgstr ""
 
-#: setup/main.py:105
+#: setup/main.py:80
 msgid "2nd grade"
 msgstr ""
 
-#: setup/main.py:106
+#: setup/main.py:81
 msgid "3rd grade"
 msgstr ""
 
-#: setup/main.py:107
+#: setup/main.py:82
 msgid "4th grade"
 msgstr ""
 
-#: setup/main.py:108
+#: setup/main.py:83
 msgid "5th grade"
 msgstr ""
 
-#: setup/main.py:109
+#: setup/main.py:84
 msgid "6th grade"
 msgstr ""
 
-#: setup/main.py:110
+#: setup/main.py:85
 msgid "7-9th grade"
 msgstr ""
 
-#: setup/main.py:111
+#: setup/main.py:86
 msgid "10th+ grade (Okurigana: general)"
 msgstr ""
 
-#: setup/main.py:112
+#: setup/main.py:87
 msgid "10th+ grade (Okurigana: general + permissible)"
 msgstr ""
 
@@ -126,42 +118,38 @@ msgstr ""
 msgid "Typing"
 msgstr ""
 
-#: setup/setup.glade:96
-msgid "Type"
-msgstr ""
-
-#: setup/setup.glade:160
+#: setup/setup.glade:127
 msgid "<b>Rōmaji</b>"
 msgstr ""
 
-#: setup/setup.glade:185
+#: setup/setup.glade:152
 msgid "Always convert 'nn' to 'ん'"
 msgstr ""
 
-#: setup/setup.glade:225
+#: setup/setup.glade:192
 msgid "Keyboard"
 msgstr ""
 
-#: setup/setup.glade:252
+#: setup/setup.glade:219
 msgid "<b>Dictionary</b>"
 msgstr ""
 
-#: setup/setup.glade:293
+#: setup/setup.glade:260
 msgid "Kanji Dictionary"
 msgstr ""
 
-#: setup/setup.glade:315
+#: setup/setup.glade:282
 msgid "User Dictionary Name"
 msgstr ""
 
-#: setup/setup.glade:382
+#: setup/setup.glade:349
 msgid "Reload dictionaries"
 msgstr ""
 
-#: setup/setup.glade:417
+#: setup/setup.glade:384
 msgid "Clear input history"
 msgstr ""
 
-#: setup/setup.glade:460
+#: setup/setup.glade:427
 msgid "Dictionary"
 msgstr ""

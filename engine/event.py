@@ -55,7 +55,6 @@ NOT_DUAL_SPACE_BIT = SPACE_BIT << 16
 
 class Event:
     def __init__(self, engine, delay, layout):
-        self._engine = engine
         self._delay = delay    # Delay for non-shift keys in milliseconds (mainly for Nicola layout)
 
         # Set to the default values
@@ -138,7 +137,7 @@ class Event:
 
     def is_ascii(self):
         # keysyms.yen is treated as '¥' for Japanese 109 keyboard.
-        return (keysyms.exclam <= self._keyval and self._keyval <= keysyms.asciitilde
+        return (keysyms.exclam <= self._keyval <= keysyms.asciitilde
                 or self._keyval == keysyms.yen
                 or self.is_space())
 
@@ -190,7 +189,7 @@ class Event:
     def is_dual_role(self):
         return bool(self._modifiers & DUAL_BITS)
 
-    def process_key_event(self, keyval, keycode, state):
+    def process_key_event(self, engine, keyval, keycode, state):
         logger.debug(f'process_key_event({keyval:#04x}({IBus.keyval_name(keyval)}), '
                      f'{keycode:#04x}, {state:#010x}) {self._modifiers:#07x}')
         alt_gr = False
@@ -258,15 +257,15 @@ class Event:
                 if keyval == keysyms.Caps_Lock:
                     # Note CAPS LOCK LED is turned off after the key release event.
                     if state & IBus.ModifierType.LOCK_MASK:
-                        self._engine.disable_ime()
+                        engine.disable_ime()
                     else:
-                        self._engine.enable_ime()
+                        engine.enable_ime()
                     return True
-                elif not self._engine.is_overridden():
+                elif not engine.is_overridden():
                     if state & IBus.ModifierType.LOCK_MASK:
-                        self._engine.enable_ime()
+                        engine.enable_ime()
                     else:
-                        self._engine.disable_ime()
+                        engine.disable_ime()
 
             if keyval in (keysyms.Muhenkan, keysyms.Hangul_Hanja):
                 # [無変換], [A]
@@ -277,23 +276,23 @@ class Event:
                         'ア': 'ｱ',
                         'ｱ': 'あ',
                         'あ': 'ア'
-                    }.get(self._engine.get_mode(), 'あ')
+                    }.get(engine.get_mode(), 'あ')
                 else:
                     mode = 'A'
-                if self._engine.set_mode(mode, True):
+                if engine.set_mode(mode, True):
                     return True
             elif keyval in (keysyms.Henkan, keysyms.Hangul, keysyms.Hiragana_Katakana):
                 # [変換], [あ], [ひらがな]
-                if not self._engine.is_lookup_table_visible():
+                if not engine.is_lookup_table_visible():
                     mode = 'あ'
                     if keyval == keysyms.Hiragana_Katakana and (self._modifiers & SHIFT_BITS):
                         mode = 'ア'
-                    if self._engine.set_mode(mode, True):
+                    if engine.set_mode(mode, True):
                         return True
             elif keyval in (self._Eisuu, keysyms.Zenkaku_Hankaku):
                 # [英数], [全角/半角]
-                mode = 'A' if self._engine.get_mode() != 'A' else 'あ'
-                self._engine.set_mode(mode)
+                mode = 'A' if engine.get_mode() != 'A' else 'あ'
+                engine.set_mode(mode)
                 return True
 
         else:
@@ -321,7 +320,7 @@ class Event:
                     self._modifiers |= DUAL_ALT_R_BIT
                 self._modifiers &= ~ALT_R_BIT
 
-        if self._engine.is_enabled():
+        if engine.is_enabled():
             if keyval == keysyms.space:
                 if self._SandS and is_press:
                     return True
@@ -340,11 +339,11 @@ class Event:
             self._modifiers &= ~PREFIX_BIT
             return False
 
-        if self._engine.is_enabled():
+        if engine.is_enabled():
             if 0 < self._delay:
-                GLib.timeout_add(self._delay, self.handle_key_event_timeout, keyval, keycode, state)
+                GLib.timeout_add(self._delay, self.handle_key_event_timeout, engine, keyval, keycode, state)
                 return True
-            return self.handle_key_event(keyval, keycode, state)
+            return self.handle_key_event(engine, keyval, keycode, state)
 
         if self.is_dual_role() and alt_gr:
             pass
@@ -355,26 +354,26 @@ class Event:
         if c:
             if self._modifiers & ALT_R_BIT:
                 # AltGr
-                graph = self._engine.process_alt_graph(keyval, keycode, state, self._modifiers)
+                graph = engine.process_alt_graph(keyval, keycode, state, self._modifiers)
                 if graph:
-                    self._engine.commit_text(IBus.Text.new_from_string(graph))
+                    engine.commit_text(IBus.Text.new_from_string(graph))
                 return True
             # Commit a remapped character
             if c == '¥':
                 if not self._HasYen:
                     c = '\\'
                 else:
-                    self._engine.commit_text(IBus.Text.new_from_string('¥'))
+                    engine.commit_text(IBus.Text.new_from_string('¥'))
                     return True
             if c != chr(self._keyval):
-                # Note self._engine.forward_key_event does not seem to work with Qt applications.
-                self._engine.commit_text(IBus.Text.new_from_string(c))
+                # Note engine.forward_key_event does not seem to work with Qt applications.
+                engine.commit_text(IBus.Text.new_from_string(c))
                 return True
         return False
 
-    def handle_key_event_timeout(self, keyval, keycode, state):
-        if not self.handle_key_event(keyval, keycode, state):
-            self._engine.forward_key_event(keyval, keycode, state)
+    def handle_key_event_timeout(self, engine, keyval, keycode, state):
+        if not self.handle_key_event(engine, keyval, keycode, state):
+            engine.forward_key_event(keyval, keycode, state)
         # Stop timer by returning False
         return False
 
@@ -387,9 +386,9 @@ class Event:
         self._state = state
         return self._keyval
 
-    def handle_key_event(self, keyval, keycode, state):
+    def handle_key_event(self, engine, keyval, keycode, state):
         keyval = self.update_key_event(keyval, keycode, state)
-        processed = self._engine.process_key_event(keyval, keycode, state, self._modifiers)
+        processed = engine.process_key_event(keyval, keycode, state, self._modifiers)
         if (state & IBus.ModifierType.RELEASE_MASK) and not (self._modifiers & self._DualBits):
             self._modifiers &= ~PREFIX_BIT
         if keyval == keysyms.Alt_R and self._capture_alt_r:
@@ -415,4 +414,5 @@ class Event:
         return c
 
     def is_onoff_by_caps(self):
+        logger.info(f'is_onoff_by_caps: {self._OnOffByCaps}')
         return self._OnOffByCaps

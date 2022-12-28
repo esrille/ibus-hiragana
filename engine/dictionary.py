@@ -201,7 +201,7 @@ class Dictionary:
 
     def set_current(self, index):
         index = int(index)
-        if self._yomi and 0 <= index and index < len(self._cand):
+        if self._yomi and 0 <= index < len(self._cand):
             self._no = index
 
     def reading(self):

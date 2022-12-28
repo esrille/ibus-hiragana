@@ -45,7 +45,6 @@ class SetupEngineHiragana:
         self._builder.add_from_file(os.path.join(os.path.dirname(__file__), 'setup.glade'))
         self._builder.connect_signals(self)
         self._init_keyboard_layout()
-        self._init_keyboard_type()
         self._init_dictionary()
         self._init_nn_as_x4063()
         self._set_current_keyboard(self._settings.get_string('layout'))
@@ -64,34 +63,10 @@ class SetupEngineHiragana:
         self._keyboard_layouts.pack_start(renderer, True)
         self._keyboard_layouts.add_attribute(renderer, 'text', 0)
 
-    def _init_keyboard_type(self):
-        self._keyboard_types = self._builder.get_object('KeyboardType')
-        model = Gtk.ListStore(str, str, int)
-        model.append([_('Japanese Keyboard'), '.109', 0])
-        model.append([_('US Keyboard'), '', 1])
-        self._keyboard_types.set_model(model)
-        renderer = Gtk.CellRendererText()
-        self._keyboard_types.pack_start(renderer, True)
-        self._keyboard_types.add_attribute(renderer, 'text', 0)
-
     def _set_current_keyboard(self, layout: str):
-        layout = os.path.basename(layout)
-        # types
-        if layout.endswith('.109.json'):
-            type = '.109'
-        else:
-            type = ''
-        model = self._keyboard_types.get_model()
-        for i in model:
-            if i[1] == type:
-                self._keyboard_types.set_active(i[2])
-                break
         # layouts
-        pos = layout.find('.')
-        if pos == -1:
-            layout = 'roomazi'
-        else:
-            layout = layout[:pos]
+        if layout.endswith('.json'):
+            layout = layout[layout.rfind('/') + 1:len(layout) - 4]
         model = self._keyboard_layouts.get_model()
         for i in model:
             if i[1] == layout:
@@ -142,17 +117,10 @@ class SetupEngineHiragana:
         # layout
         i = self._keyboard_layouts.get_active()
         layout = self._keyboard_layouts.get_model()[i][1]
-        i = self._keyboard_types.get_active()
-        layout += self._keyboard_types.get_model()[i][1]
-        layout = os.path.join(package.get_datadir(), 'layouts/' + layout + '.json')
         self._settings.set_string('layout', layout)
 
         # altgr
-        altgr = 'altgr'
-        i = self._keyboard_types.get_active()
-        altgr += self._keyboard_types.get_model()[i][1]
-        altgr = os.path.join(package.get_datadir(), 'layouts/' + altgr + '.json')
-        self._settings.set_string('altgr', altgr)
+        self._settings.set_string('altgr', 'altgr')
 
         # nn-as-jis-x-4063
         nn_as_x4063 = self._nn_as_x4063.get_active()
