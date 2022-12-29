@@ -16,8 +16,10 @@ dist_layouts_DATA = \
 	altgr.us.json \
 	altgr.jp.json \
 	jis.us.json \
+	jis.us+dvorak.json \
 	jis.jp.json \
 	new_stickney.us.json \
+	new_stickney.us+dvorak.json \
 	new_stickney.jp.json \
 	roomazi.us.json \
 	roomazi.jp.json \
