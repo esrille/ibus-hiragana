@@ -31,7 +31,6 @@ from gi.repository import IBus
 import gettext
 import locale
 import os
-import sys
 
 _ = lambda a : gettext.dgettext(package.get_name(), a)
 
@@ -47,6 +46,7 @@ class SetupEngineHiragana:
         self._init_keyboard_layout()
         self._init_dictionary()
         self._init_nn_as_x4063()
+        self._init_long_vowels_in_99_siki()
         self._set_current_keyboard(self._settings.get_string('layout'))
         self._window = self._builder.get_object('SetupDialog')
         self._window.set_default_icon_name('ibus-setup-hiragana')
@@ -102,13 +102,17 @@ class SetupEngineHiragana:
         self._user_dictionary.set_text(current)
         self._default_user_dictionary = self._settings.get_default_value('user-dictionary').get_string()
 
-        self._reload_dictionaries = self._builder.get_object('ReloadDictionaries')
         self._clear_input_history = self._builder.get_object('ClearInputHistory')
 
     def _init_nn_as_x4063(self):
         self._nn_as_x4063 = self._builder.get_object('NnAsX4063')
         current = self._settings.get_value('nn-as-jis-x-4063')
         self._nn_as_x4063.set_active(current)
+
+    def _init_long_vowels_in_99_siki(self):
+        self._long_vowels_in_99_siki = self._builder.get_object('LongVowelsIn99')
+        current = self._settings.get_value('long-vowels-in-99-siki')
+        self._long_vowels_in_99_siki.set_active(current)
 
     def run(self):
         Gtk.main()
@@ -126,6 +130,10 @@ class SetupEngineHiragana:
         nn_as_x4063 = self._nn_as_x4063.get_active()
         self._settings.set_boolean('nn-as-jis-x-4063', nn_as_x4063)
 
+        # long-vowels-in-99-siki
+        long_vowels_in_99_siki = self._long_vowels_in_99_siki.get_active()
+        self._settings.set_boolean('long-vowels-in-99-siki', long_vowels_in_99_siki)
+
         # dictionary
         i = self._kanzi_dictionaries.get_active()
         dictionary = self._kanzi_dictionaries.get_model()[i][1]
@@ -142,7 +150,7 @@ class SetupEngineHiragana:
         if self._clear_input_history.get_active():
             # clear_input_history also reloads dictionaries
             print('clear_input_history', flush=True)
-        elif self._reload_dictionaries.get_active():
+        else:
             print('reload_dictionaries', flush=True)
 
     def on_value_changed(self, settings, key):
@@ -152,6 +160,9 @@ class SetupEngineHiragana:
         elif key == 'nn-as-jis-x-4063':
             t = value.get_boolean()
             self._nn_as_x4063.set_active(value.get_boolean())
+        elif key == 'long-vowels-in-99-siki':
+            t = value.get_boolean()
+            self._long_vowels_in_99_siki.set_active(value.get_boolean())
         elif key == 'dictionary':
             current = value.get_string()
             current = os.path.basename(current)

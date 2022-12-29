@@ -57,7 +57,15 @@
       <summary>Convert 'nn' to 'ん'</summary>
       <description>
         If enabled, 'nn' is converted to 'ん' following deprecated JIS X 4063.
-        If disabled, 'nn' will be processed following ISO 3602.
+        If disabled, 'nn' is processed following ISO 3602.
+      </description>
+    </key>
+    <key name='long-vowels-in-99-siki' type='b'>
+      <default>true</default>
+      <summary>Accept 99 siki-roomazi representation of 'ー'</summary>
+      <description>
+        If enabled, 'ラーメン' can be converted from 'raamen'.
+        If disabled, 'ラーメン' can be converted only from 'ra-men'.
       </description>
     </key>
     <key name='logging-level' type='s'>

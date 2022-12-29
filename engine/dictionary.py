@@ -78,7 +78,7 @@ class Dictionary:
     def strcmp(okuri, yomi):
         return okuri == yomi
 
-    def __init__(self, path, user, clear_history=False):
+    def __init__(self, path, user, clear_history=False, long_vowels_in_99_siki=False):
         logger.info(f'Dictionary("{path}", "{user}")')
 
         self._dict_base = {}
@@ -98,9 +98,9 @@ class Dictionary:
         try:
             # Load Katakana dictionary first so that Katakana words come after Kanji words.
             katakana_path = os.path.join(package.get_datadir(), 'katakana.dic')
-            self._load_dict(self._dict_base, katakana_path)
+            self._load_dict(self._dict_base, katakana_path, long_vowels_in_99_siki=long_vowels_in_99_siki)
             # Load system dictionary
-            self._load_dict(self._dict_base, path)
+            self._load_dict(self._dict_base, path, long_vowels_in_99_siki=long_vowels_in_99_siki)
         except Exception as error:
             logger.error(error)
 
@@ -119,7 +119,7 @@ class Dictionary:
                     f.write('; ' + DICTIONARY_VERSION + '\n')
             self._load_dict(self._dict, self._orders_path, 'a+', version_checked=False)
 
-    def _load_dict(self, dict, path, mode='r', version_checked=True):
+    def _load_dict(self, dict, path, mode='r', version_checked=True, long_vowels_in_99_siki=False):
         reorder_only = not version_checked
         with open(path, mode) as f:
             f.seek(0, 0)   # in case opened in the 'a+' mode
@@ -139,11 +139,12 @@ class Dictionary:
                 self._merge_entry(dict, yomi, cand, reorder_only)
                 if yomi.endswith('―'):
                     self._merge_entry(dict, yomi[:-1], [yomi], reorder_only)
-                yomi99 = self._to_99(yomi)
-                if yomi99 != yomi:
-                    self._merge_entry(dict, yomi99, cand, reorder_only)
-                    if yomi.endswith('―'):
-                        self._merge_entry(dict, yomi99[:-1], [yomi], reorder_only)
+                if long_vowels_in_99_siki:
+                    yomi99 = self._to_99(yomi)
+                    if yomi99 != yomi:
+                        self._merge_entry(dict, yomi99, cand, reorder_only)
+                        if yomi.endswith('―'):
+                            self._merge_entry(dict, yomi99[:-1], [yomi], reorder_only)
             logger.info(f'Loaded {path}')
 
     def _merge_entry(self, dict, yomi, cand, reorder_only):

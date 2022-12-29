@@ -573,7 +573,8 @@ class EngineHiragana(EngineModeless):
     def _load_dictionary(self, settings, clear_history=False):
         path = settings.get_string('dictionary')
         user = settings.get_string('user-dictionary')
-        return Dictionary(path, user, clear_history)
+        long_vowels_in_99_siki = settings.get_boolean('long-vowels-in-99-siki')
+        return Dictionary(path, user, clear_history, long_vowels_in_99_siki)
 
     def _load_input_mode(self, settings):
         mode = settings.get_string('mode')
@@ -1028,10 +1029,10 @@ class EngineHiragana(EngineModeless):
             self._setup_proc = subprocess.Popen([filename], text=True, stdout=subprocess.PIPE)
             t = threading.Thread(target=self._setup_readline, args=(self._setup_proc,), daemon=True)
             t.start()
-        except OSError as e:
-            logger.error(e)
+        except OSError:
+            logger.exception(f'_setup_start')
         except ValueError as e:
-            logger.error(e)
+            logger.exception(f'_setup_start')
 
     def _setup_sync(self):
         last = ''

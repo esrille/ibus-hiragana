@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ibus-hiragana 0.14.5\n"
 "Report-Msgid-Bugs-To: https://github.com/esrille/ibus-hiragana/issues\n"
-"POT-Creation-Date: 2022-12-28 22:39+0900\n"
+"POT-Creation-Date: 2022-12-30 14:19+0900\n"
 "PO-Revision-Date: 2020-09-24 11:59+0900\n"
 "Last-Translator: Esrille Inc. <info@esrille.com>\n"
 "Language-Team: Japanese <info@esrille.com>\n"
@@ -34,7 +34,7 @@ msgstr "全角英数 (Ａ)"
 msgid "Halfwidth Katakana (ｱ)"
 msgstr "半角カタカナ (ｱ)"
 
-#: engine/engine.py:522 engine/engine.py:950
+#: engine/engine.py:522 engine/engine.py:951
 #, python-format
 msgid "Input mode (%s)"
 msgstr "入力モード (%s)"
@@ -51,7 +51,7 @@ msgstr "ヘルプ"
 msgid "About Hiragana IME..."
 msgstr "ひらがなIMEについて..."
 
-#: engine/engine.py:1272
+#: engine/engine.py:1276
 msgid "Hiragana IME"
 msgstr "ひらがなIME"
 
@@ -123,30 +123,30 @@ msgstr "<b>ローマ字</b>"
 msgid "Always convert 'nn' to 'ん'"
 msgstr "'nn'をかならず「ん」に変換する"
 
-#: setup/setup.glade:192
+#: setup/setup.glade:188
+msgid "Convert 'raamen' to 'ラーメン'"
+msgstr "'raamen'で'ラーメン'に変換する"
+
+#: setup/setup.glade:228
 msgid "Keyboard"
 msgstr "キーボード"
 
-#: setup/setup.glade:219
+#: setup/setup.glade:255
 msgid "<b>Dictionary</b>"
 msgstr "<b>辞書</b>"
 
-#: setup/setup.glade:260
+#: setup/setup.glade:296
 msgid "Kanji Dictionary"
 msgstr "漢字辞書"
 
-#: setup/setup.glade:282
+#: setup/setup.glade:318
 msgid "User Dictionary Name"
 msgstr "個人用辞書名"
 
-#: setup/setup.glade:349
-msgid "Reload dictionaries"
-msgstr "辞書を読みなおす"
-
-#: setup/setup.glade:384
+#: setup/setup.glade:385
 msgid "Clear input history"
 msgstr "入力履歴をクリアする"
 
-#: setup/setup.glade:427
+#: setup/setup.glade:428
 msgid "Dictionary"
 msgstr "辞書"
