@@ -19,6 +19,7 @@ dist_help_DATA = \
 	install.html \
 	key_assign.html \
 	layouts.html \
+	roomazi.html \
 	settings.html \
 	template.html \
 	usage.html \
@@ -27,6 +28,9 @@ dist_help_DATA = \
 	screenshot.png \
 	ibus-setup-hiragana_1.png \
 	ibus-setup-hiragana_2.png \
+	keyboard-menu.png \
+	settings-altgr.png \
+	settings-keyboard.png \
 	$(NULL)
 
 helpdir = $(pkgdatadir)/help
@@ -40,9 +44,34 @@ EXTRA_DIST = \
 	install.md \
 	key_assign.md \
 	layouts.md \
+	roomazi.md \
 	settings.md \
 	usage.md \
 	$(NULL)
 
 uninstall-hook:
 	-rmdir $(helpdir)
+
+index.html: index.md altgr.md install.md
+	./md2html.py $^
+
+install.html: install.md index.md usage.md
+	./md2html.py $^
+
+usage.html: usage.md install.md key_assign.md
+	./md2html.py $^
+
+key_assign.html: key_assign.md usage.md settings.md
+	./md2html.py $^
+
+settings.html: settings.md key_assign.md layouts.md
+	./md2html.py $^
+
+layouts.html: layouts.md settings.md roomazi.md
+	./md2html.py $^
+
+roomazi.html: roomazi.md layouts.md altgr.md
+	./md2html.py $^
+
+altgr.html: altgr.md roomazi.md index.md
+	./md2html.py $^

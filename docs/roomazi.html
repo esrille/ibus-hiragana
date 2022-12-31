@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang='ja'>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, maximum-scale=1.0, user-scalable=yes'>
+<title>ローマ字入力 ― ひらがなIME</title>
+<link href='icon.png' rel='icon'>
+<link rel='stylesheet' type='text/css' href='default.css'>
+<meta content='ローマ字入力' name='description'>
+<meta content='https://esrille.github.io/ibus-hiragana/roomazi.html' property='og:url'>
+<meta content='ローマ字入力 ― ひらがなIME' property='og:title'>
+<meta content='ローマ字入力' property='og:description'>
+<meta content='https://esrille.github.io/ibus-hiragana/screenshot.png' property='og:image'>
+<meta content='product' property='og:type'>
+<meta content='summary_large_image' name='twitter:card'>
+<meta content='@esrille' name='twitter:creator'>
+<style>
+aside a:hover {
+  text-decoration: none;
+}
+.title {
+  font-size: 20pt;
+}
+</style>
+</head>
+<body>
+<div id='sidebar'>
+<aside>
+<a class='title' href='https://github.com/esrille/ibus-hiragana'><img alt="アイコン" src="icon.png"> ひらがなIME</a>
+<hr>
+<ul>
+<li><a href='index.html'>はじめに</a>
+<li><a href='install.html'>インストール<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby></a>
+<li><a href='usage.html'>つかいかた</a>
+<li><a href='key_assign.html'>キーのわりあて</a>
+<li><a href='settings.html'><ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp>のかえかた</ruby></a>
+<li><a href='layouts.html'>かな<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></a>
+<li><a href='roomazi.html'>ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></a>
+<li><a href='altgr.html'><ruby>特殊<rp>(</rp><rt>とくしゅ</rt><rp>)</rp></ruby><ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>の<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></a>
+</ul>
+<footer>
+</footer>
+</aside>
+</div>
+<main>
+<h1>ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></h1>
+<p>※ ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>を<ruby>使用<rp>(</rp><rt>しよう</rt><rp>)</rp></ruby>するように<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>する<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby>については、「<a href="settings.html#layout"><ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>のかえかた ― [キーボード] タブ</a>」をみてください。</p>
+<h2>ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>のつづりかた</h2>
+<p>&#x3000;ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>のときにつかうローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>のつづりかたは、<ruby>国語<rp>(</rp><rt>こくご</rt><rp>)</rp></ruby>や<ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>でならうかきかたと、すこしちがいます。ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>をつかうとき、<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>やカタカナのことばは、ひらがなでつけたふりがなのほうを<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>します。「を」は、<ruby>表音<rp>(</rp><rt>ひょうおん</rt><rp>)</rp></ruby><ruby>的<rp>(</rp><rt>てき</rt><rp>)</rp></ruby>な'o'ではなく、<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>をしめす'wo'を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>します。この<ruby>点<rp>(</rp><rt>てん</rt><rp>)</rp></ruby>をのぞけば、ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>のつづりかたは、<ruby>国語<rp>(</rp><rt>こくご</rt><rp>)</rp></ruby>や<ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>でならうつづりかたとおなじです。</p>
+<table>
+<thead>
+<tr>
+<th><ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>かなまじり文</th>
+<th>ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></th>
+<th><ruby>国語<rp>(</rp><rt>こくご</rt><rp>)</rp></ruby>（<ruby>訓令<rp>(</rp><rt>くんれい</rt><rp>)</rp></ruby><ruby>式<rp>(</rp><rt>しき</rt><rp>)</rp></ruby>）</th>
+<th><ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>（<ruby>修正<rp>(</rp><rt>しゅうせい</rt><rp>)</rp></ruby>ヘボン<ruby>式<rp>(</rp><rt>しき</rt><rp>)</rp></ruby>）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><ruby>東京<rp>(</rp><rt>とうきょう</rt><rp>)</rp></ruby></td>
+<td>toukyou</td>
+<td>Tôkyô</td>
+<td>Tōkyō</td>
+</tr>
+<tr>
+<td><ruby>京都<rp>(</rp><rt>きょうと</rt><rp>)</rp></ruby></td>
+<td>kyouto</td>
+<td>Kyôto</td>
+<td>Kyōtō</td>
+</tr>
+<tr>
+<td><ruby>コンピューター<rp>(</rp><rt>こんぴゅうたあ</rt><rp>)</rp></ruby></td>
+<td>konpyuutaa<br>konpyu-ta- (※)</td>
+<td>konpyûtâ</td>
+<td>computer</td>
+</tr>
+<tr>
+<td>を</td>
+<td>wo</td>
+<td>o</td>
+<td>o</td>
+</tr>
+</tbody>
+</table>
+<p>※ <ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>をローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>でかくときに、<ruby>'-'<rp>(</rp><rt>マイナス</rt><rp>)</rp></ruby>を<ruby>長音<rp>(</rp><rt>ちょうおん</rt><rp>)</rp></ruby><ruby>符号<rp>(</rp><rt>ふごう</rt><rp>)</rp></ruby>のかわりにつかうことはありません。けれども、ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>では、<ruby>便宜<rp>(</rp><rt>べんぎ</rt><rp>)</rp></ruby><ruby>的<rp>(</rp><rt>てき</rt><rp>)</rp></ruby>に<ruby>〔-〕<rp>(</rp><rt>マイナス</rt><rp>)</rp></ruby>をつかって<ruby>長音<rp>(</rp><rt>ちょうおん</rt><rp>)</rp></ruby><ruby>符号<rp>(</rp><rt>ふごう</rt><rp>)</rp></ruby>(ー)を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できるようにしています。</p>
+<p>&#x3000;じっさいに<ruby>文章<rp>(</rp><rt>ぶんしょう</rt><rp>)</rp></ruby>をかいてみると、ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>といってもいろいろな<ruby>用途<rp>(</rp><rt>ようと</rt><rp>)</rp></ruby>があることがわかります。ヘボン<ruby>式<rp>(</rp><rt>しき</rt><rp>)</rp></ruby>は<ruby>英文<rp>(</rp><rt>えいぶん</rt><rp>)</rp></ruby>のなかで<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>の<ruby>単語<rp>(</rp><rt>たんご</rt><rp>)</rp></ruby>をかくときにつかいます。<ruby>訓令<rp>(</rp><rt>くんれい</rt><rp>)</rp></ruby><ruby>式<rp>(</rp><rt>しき</rt><rp>)</rp></ruby>は<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>の<ruby>文章<rp>(</rp><rt>ぶんしょう</rt><rp>)</rp></ruby>をローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>でかくときにつかいます。</p>
+<table>
+<thead>
+<tr>
+<th><ruby>表記<rp>(</rp><rt>ひょうき</rt><rp>)</rp></ruby><ruby>法<rp>(</rp><rt>ほう</rt><rp>)</rp></ruby></th>
+<th><ruby>例<rp>(</rp><rt>れい</rt><rp>)</rp></ruby></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>かなまじり</td>
+<td><ruby>東京<rp>(</rp><rt>とうきょう</rt><rp>)</rp></ruby>でコンピューターを<ruby>買<rp>(</rp><rt>か</rt><rp>)</rp></ruby>いました。</td>
+</tr>
+<tr>
+<td>ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></td>
+<td>toukyou〔<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>〕dekonpyuutaa〔<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>〕woka〔<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>〕imasita.</td>
+</tr>
+<tr>
+<td><ruby>国語<rp>(</rp><rt>こくご</rt><rp>)</rp></ruby>（<ruby>訓令<rp>(</rp><rt>くんれい</rt><rp>)</rp></ruby><ruby>式<rp>(</rp><rt>しき</rt><rp>)</rp></ruby>）</td>
+<td>Tôkyô de konpyûtâ o kaimasita.</td>
+</tr>
+<tr>
+<td><ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>（ヘボン<ruby>式<rp>(</rp><rt>しき</rt><rp>)</rp></ruby>）</td>
+<td>I bought a computer in Tōkyō.</td>
+</tr>
+</tbody>
+</table>
+<p>※ パスポートでなまえの<ruby>表記<rp>(</rp><rt>ひょうき</rt><rp>)</rp></ruby>につかうローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>は<ruby>旧<rp>(</rp><rt>きゅう</rt><rp>)</rp></ruby>ヘボン<ruby>式<rp>(</rp><rt>しき</rt><rp>)</rp></ruby>に<ruby>順<rp>(</rp><rt>じゅん</rt><rp>)</rp></ruby>じたもので、<ruby>修正<rp>(</rp><rt>しゅうせい</rt><rp>)</rp></ruby>ヘボン<ruby>式<rp>(</rp><rt>しき</rt><rp>)</rp></ruby>ともすこしことなります。マクロン(¯)はつかいません。</p>
+<h2>ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby><ruby>表<rp>(</rp><rt>ひょう</rt><rp>)</rp></ruby></h2>
+<p>&#x3000;したの<ruby>表<rp>(</rp><rt>ひょう</rt><rp>)</rp></ruby>は<ruby>国語<rp>(</rp><rt>こくご</rt><rp>)</rp></ruby>でならうローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>のかきかたをもとにしています。<ruby>国語<rp>(</rp><rt>こくご</rt><rp>)</rp></ruby>でならう<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby>は<ruby>規則<rp>(</rp><rt>きそく</rt><rp>)</rp></ruby><ruby>的<rp>(</rp><rt>てき</rt><rp>)</rp></ruby>でおぼえやすくなっています。ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>のときは、<ruby>太<rp>(</rp><rt>ふと</rt><rp>)</rp></ruby><ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>でしめした「<em>を wo</em>」と「<em>づ du</em>」もつかいます。</p>
+<table>
+<thead>
+<tr>
+<th>&#x3000;</th>
+<th>A</th>
+<th>I</th>
+<th>U</th>
+<th>E</th>
+<th>O</th>
+<th>YA</th>
+<th>KY</th>
+<th>YO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>あ a</td>
+<td>い i</td>
+<td>う u</td>
+<td>え e</td>
+<td>お o</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>K</td>
+<td>か ka</td>
+<td>き ki</td>
+<td>く ku</td>
+<td>け ke</td>
+<td>こ ko</td>
+<td>きゃ kya</td>
+<td>きゅ kyu</td>
+<td>きょ kyo</td>
+</tr>
+<tr>
+<td>S</td>
+<td>さ sa</td>
+<td>し si</td>
+<td>す su</td>
+<td>せ se</td>
+<td>そ so</td>
+<td>しゃ sya</td>
+<td>しゅ syu</td>
+<td>しょ syo</td>
+</tr>
+<tr>
+<td>T</td>
+<td>た ta</td>
+<td>ち ti</td>
+<td>つ tu</td>
+<td>て te</td>
+<td>と to</td>
+<td>ちゃ tya</td>
+<td>ちゅ tyu</td>
+<td>ちょ tyo</td>
+</tr>
+<tr>
+<td>N</td>
+<td>な na</td>
+<td>に ni</td>
+<td>ぬ nu</td>
+<td>ね ne</td>
+<td>の no</td>
+<td>にゃ nya</td>
+<td>にゅ nyu</td>
+<td>にょ nyo</td>
+</tr>
+<tr>
+<td>H</td>
+<td>は ha</td>
+<td>ひ hi</td>
+<td>ふ hu</td>
+<td>へ he</td>
+<td>ほ ho</td>
+<td>ひゃ hya</td>
+<td>ひゅ hyu</td>
+<td>ひょ hyo</td>
+</tr>
+<tr>
+<td>M</td>
+<td>ま ma</td>
+<td>み mi</td>
+<td>む mu</td>
+<td>め me</td>
+<td>も mo</td>
+<td>みゃ mya</td>
+<td>みゅ myu</td>
+<td>みょ myo</td>
+</tr>
+<tr>
+<td>Y</td>
+<td>や ya</td>
+<td></td>
+<td>ゆ yu</td>
+<td></td>
+<td>よ yo</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>R</td>
+<td>ら ra</td>
+<td>り ri</td>
+<td>る ru</td>
+<td>れ re</td>
+<td>ろ ro</td>
+<td>りゃ rya</td>
+<td>りゅ ryu</td>
+<td>りょ ryo</td>
+</tr>
+<tr>
+<td>W</td>
+<td>わ wa</td>
+<td></td>
+<td></td>
+<td></td>
+<td><em>を wo</em></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>G</td>
+<td>が ga</td>
+<td>ぎ gi</td>
+<td>ぐ gu</td>
+<td>げ ge</td>
+<td>ご go</td>
+<td>ぎゃ gya</td>
+<td>ぎゅ gyu</td>
+<td>ぎょ gyo</td>
+</tr>
+<tr>
+<td>Z</td>
+<td>ざ za</td>
+<td>じ zi</td>
+<td>ず zu</td>
+<td>ぜ ze</td>
+<td>ぞ zo</td>
+<td>じゃ zya</td>
+<td>じゅ zyu</td>
+<td>じょ zyo</td>
+</tr>
+<tr>
+<td>D</td>
+<td>だ da</td>
+<td></td>
+<td><em>づ du</em></td>
+<td>で de</td>
+<td>ど do</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>B</td>
+<td>ば ba</td>
+<td>び bi</td>
+<td>ぶ bu</td>
+<td>べ be</td>
+<td>ぼ bo</td>
+<td>びゃ bya</td>
+<td>びゅ byu</td>
+<td>びょ byo</td>
+</tr>
+<tr>
+<td>P</td>
+<td>ぱ pa</td>
+<td>ぴ pi</td>
+<td>ぷ pu</td>
+<td>ぺ pe</td>
+<td>ぽ po</td>
+<td>ぴゃ pya</td>
+<td>ぴゅ pyu</td>
+<td>ぴょ pyo</td>
+</tr>
+</tbody>
+</table>
+<p>※ 「ひらがなIME」では、この<ruby>表<rp>(</rp><rt>ひょう</rt><rp>)</rp></ruby>にあるつづりかた<ruby>以外<rp>(</rp><rt>いがい</rt><rp>)</rp></ruby>にも、<ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>でならうつづりかたや「<a href="http://www.hokkajda-esp-ligo.jp/jp/ATruby/99siki-Roomazi.htm">99<ruby>式<rp>(</rp><rt>しき</rt><rp>)</rp></ruby>ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby></a>」をつかって<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>することもできます。</p>
+<table>
+<thead>
+<tr>
+<th>&#x3000;</th>
+<th><ruby>原則<rp>(</rp><rt>げんそく</rt><rp>)</rp></ruby></th>
+<th>「ん」のあとに「あいうえお」あるいは<br>「やゆよ」がつづくとき</th>
+<th>ワープロ<ruby>式<rp>(</rp><rt>しき</rt><rp>)</rp></ruby> (※)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ん</td>
+<td>n</td>
+<td>n'</td>
+<td>nn</td>
+</tr>
+</tbody>
+</table>
+<p>※ ワープロ<ruby>式<rp>(</rp><rt>しき</rt><rp>)</rp></ruby>をつかうときは、<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>の『<a href="settings.html#nn">'nn'をかならず「ん」に<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>する</a>』を<ruby>有効<rp>(</rp><rt>ゆうこう</rt><rp>)</rp></ruby>にします。</p>
+<table>
+<thead>
+<tr>
+<th>&#x3000;</th>
+<th>つづりかた</th>
+<th><ruby>例<rp>(</rp><rt>れい</rt><rp>)</rp></ruby></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ちいさい「っ」</td>
+<td><ruby>最初<rp>(</rp><rt>さいしょ</rt><rp>)</rp></ruby>の<ruby>子音<rp>(</rp><rt>しいん</rt><rp>)</rp></ruby><ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>をかさねてかく</td>
+<td>って tte</td>
+</tr>
+</tbody>
+</table>
+<h2>キーボードのつかいかた</h2>
+<p>※ ちいさな「ぁぃぅぇぉっゃゅょ」は、あとから<ruby>小書<rp>(</rp><rt>こが</rt><rp>)</rp></ruby>きキー<span class='key kana'>大⬄小</span>をおして<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>することもできます。これは、「ひらがなIME」の<ruby>拡張<rp>(</rp><rt>かくちょう</rt><rp>)</rp></ruby><ruby>機能<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>です。ふつうは、ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>のつづりかたにしたがって<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>します。<br><br>&#x3000;たとえば: あ<span class='key kana'>大⬄小</span>→ ぁ</p>
+<h3><ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>キーボード<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby></h3>
+<div class='kbd'>
+<div class='layer L0'>
+<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'>Backspace</div>
+<br>
+<div class='k150'>Tab</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k150'></div>
+<br>
+<div class='k175'>Caps Lock</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k225'>Enter</div>
+<br>
+<div class='k225'>Shift</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k275'>Shift</div>
+<br>
+<div class='k125'>Ctrl</div><div class='k125'>❖</div><div class='k125'>Alt</div><div class='k625'></div><div class='k125'>Alt</div><div class='k125'>❖</div><div class='k125'>☰</div><div class='k125'>Ctrl</div>
+</div>
+
+<div class='layer L1'>
+<div>`</div><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>0</div><div>-</div><div>=</div><div class='k200'></div>
+<br>
+<div class='k150'></div><div>Q</div><div>W</div><div>E</div><div>R</div><div>T</div><div>Y</div><div>U</div><div>I</div><div>O</div><div>P</div><div>[</div><div>]</div><div class='k150'>\</div>
+<br>
+<div class='k175'></div><div>A</div><div>S</div><div>D</div><div>F</div><div>G</div><div>H</div><div>J</div><div>K</div><div>L</div><div>;</div><div>'</div><div class='k225'></div>
+<br>
+<div class='k225'></div><div>Z</div><div>X</div><div>C</div><div>V</div><div>B</div><div>N</div><div>M</div><div>,</div><div>.</div><div>/</div><div class='k275'></div>
+<br>
+<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
+</div>
+
+<div class='layer L2'>
+<div>~</div><div>!</div><div>@</div><div>#</div><div>$</div><div>%</div><div>^</div><div>&amp;</div><div>*</div><div>(</div><div>)</div><div>_</div><div>+</div><div class='k200'></div>
+<br>
+<div class='k150'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>{</div><div>}</div><div class='k150'>|</div>
+<br>
+<div class='k175'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>:</div><div>"</div><div class='k225'></div>
+<br>
+<div class='k225'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>&lt;</div><div>&gt;</div><div>?</div><div class='k275'></div>
+<br>
+<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
+</div>
+
+<div class='layer L3'>
+<div>…</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>ー</div><div></div><div class='k200'></div>
+<br>
+<div class='k150 kana'>よみ短縮</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>「</div><div>」</div><div class='k150'>￥</div>
+<br>
+<div class='k175 kana'>あ/A</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='kana'>大⬄小</div><div></div><div></div><div class='k225'></div>
+<br>
+<div class='k225 kana'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>、</div><div>。</div><div><span class='small'>・</span></div><div class='k275 kana'>カタカナ</div>
+<br>
+<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'><span class='kana'>変換</span></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
+</div>
+
+<div class='layer L4'>
+<div>〜</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'></div>
+<br>
+<div class='k150'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>『</div><div>』</div><div class='k150'></div>
+<br>
+<div class='k175'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k225'></div>
+<br>
+<div class='k225'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>？</div><div class='k275'></div>
+<br>
+<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
+</div>
+</div>
+
+<ul>
+<li><span class='key'>スペース</span>キーは<span class='key kana'>変換</span>キーになります。</li>
+<li><ruby>空白<rp>(</rp><rt>くうはく</rt><rp>)</rp></ruby>を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>したいときは、<ruby>行頭<rp>(</rp><rt>ぎょうとう</rt><rp>)</rp></ruby>など<ruby>直前<rp>(</rp><rt>ちょくぜん</rt><rp>)</rp></ruby>に<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>できる<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>がないときに<span class='key kana'>変換</span>キーをおせば<ruby>空白<rp>(</rp><rt>くうはく</rt><rp>)</rp></ruby>を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できます。</li>
+</ul>
+<h3><ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>キーボード<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby></h3>
+<div class='kbd'>
+<div class='layer109 L0'>
+<div style='line-height: 1em;'>半角/<br>全角&nbsp</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>⌫</div>
+<br>
+<div class='k150'>Tab</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k150 enter-top'>Enter</div>
+<br>
+<div class='k175'>英数</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k125 enter-bottom'><div class='enter-middle'></div></div>
+<br>
+<div class='k225'>Shift</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k175'>Shift</div>
+<br>
+<div class='k150'>Ctrl</div><div class='k125'>❖</div><div class='k125'>Alt</div><div class='k150'>無変換</div><div class='k250'></div><div class='k150'>変換</div><div class='k125'>カタカナ</div><div>Alt</div><div>❖</div><div>☰</div><div class='k125'>Ctrl</div>
+</div>
+
+<div class='layer109 L1'>
+<div></div><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>0</div><div>-</div><div>^</div><div>\</div><div></div>
+<br>
+<div class='k150'></div><div>Q</div><div>W</div><div>E</div><div>R</div><div>T</div><div>Y</div><div>U</div><div>I</div><div>O</div><div>P</div><div>@</div><div>[</div><div class='k150'></div>
+<br>
+<div class='k175'></div><div>A</div><div>S</div><div>D</div><div>F</div><div>G</div><div>H</div><div>J</div><div>K</div><div>L</div><div>;</div><div>:</div><div>]</div><div class='k125'></div>
+<br>
+<div class='k225'></div><div>Z</div><div>X</div><div>C</div><div>V</div><div>B</div><div>N</div><div>M</div><div>,</div><div>.</div><div>/</div><div></div><div class='k175'></div>
+<br>
+<div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150'></div><div class='k250'></div><div class='k150'></div><div class='k125'></div><div></div><div></div><div></div><div class='k125'></div>
+</div>
+
+<div class='layer109 L2'>
+<div></div><div>!</div><div>"</div><div>#</div><div>$</div><div>%</div><div>&amp;</div><div>'</div><div>(</div><div>)</div><div>_</div><div>=</div><div>~</div><div>|</div><div></div>
+<br>
+<div class='k150'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>`</div><div>{</div><div class='k150'></div>
+<br>
+<div class='k175'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>+</div><div>*</div><div>}</div><div class='k125'></div>
+<br>
+<div class='k225'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>&lt;</div><div>&gt;</div><div>?</div><div>_</div><div class='k175'></div>
+<br>
+<div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150'></div><div class='k250'></div><div class='k150'></div><div class='k125'></div><div></div><div></div><div></div><div class='k125'></div>
+</div>
+
+<div class='layer109 L3'>
+<div class='kana'>あ/A</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>ー</div><div></div><div>￥</div><div></div>
+<br>
+<div class='k150 kana'>よみ短縮</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>「</div><div class='k150'></div>
+<br>
+<div class='k175 kana'>あ/A</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='kana'>大⬄小</div><div></div><div></div><div>」</div><div class='k125'></div>
+<br>
+<div class='k225 kana'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>、</div><div>。</div><div><span class='small'>・</span></div><div></div><div class='k175 kana'>カタカナ</div>
+<br>
+<div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150 kana'>A</div><div class='k250'></div><div class='k150 kana'>あ</div><div class='k125'></div><div></div><div></div><div></div><div class='k125'></div>
+</div>
+
+<div class='layer109 L4'>
+<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>～</div><div></div><div></div>
+<br>
+<div class='k150'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>…</div><div>『</div><div class='k150'></div>
+<br>
+<div class='k175'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>』</div><div class='k125'></div>
+<br>
+<div class='k225'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>？</div><div></div><div class='k175'></div>
+<br>
+<div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150'></div><div class='k250'></div><div class='k150'></div><div class='k125'></div><div class='k125'></div><div></div><div></div><div></div>
+</div>
+</div>
+
+<ul>
+<li><ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>には、<span class='key'>変換</span>キーをつかいます。<ruby>空白<rp>(</rp><rt>くうはく</rt><rp>)</rp></ruby>を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>したいときは、<span class='key'>スペース</span>キーをおします。</li>
+</ul>
+</main>
+<nav>
+<a href=layouts.html id='nav-prev'><div>&lt;</div></a>
+<a href=altgr.html id='nav-next'><div>&gt;</div></a>
+</nav>
+</body>
+</html>
