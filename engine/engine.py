@@ -3,7 +3,7 @@
 # Using source code derived from
 #   ibus-tmpl - The Input Bus template project
 #
-# Copyright (c) 2017-2022 Esrille Inc.
+# Copyright (c) 2017-2023 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -112,6 +112,28 @@ SURROUNDING_BROKEN = -2
 # forward_key_event(), and before updating the preedit text.
 # Gmail running on Firefox 91.0.2 is an example of such an application.
 EVENT_DELAY = 0.02
+
+
+def dead_key(keyval):
+    return {
+        keysyms.dead_grave: '\u0300',
+        keysyms.dead_acute: '\u0301',
+        keysyms.dead_circumflex: '\u0302',
+        keysyms.dead_tilde: '\u0303',
+        keysyms.dead_macron: '\u0304',
+        keysyms.dead_breve: '\u0306',
+        keysyms.dead_abovedot: '\u0307',
+        keysyms.dead_diaeresis: '\u0308',
+        keysyms.dead_abovering: '\u030a',
+        keysyms.dead_doubleacute: '\u030b',
+        keysyms.dead_caron: '\u030c',
+        keysyms.dead_cedilla: '\u0327',
+        keysyms.dead_ogonek: '\u0328',
+        keysyms.dead_iota: '\u0345',
+        keysyms.dead_voiced_sound: '\u3099',
+        keysyms.dead_semivoiced_sound: '\u309a',
+        keysyms.dead_belowdot: '\u0323',
+    }.get(keyval, '')
 
 
 def get_plain_text(text):
@@ -1121,12 +1143,14 @@ class EngineHiragana(EngineModeless):
         return self._override
 
     def process_alt_graph(self, keyval, keycode, state, modifiers):
-        logger.debug(f'process_alt_graph("{self._event.chr()}")')
-        c = self._event.chr().lower()
-        if c == '_' and self._event._keycode == 0x0b:
-            c = '0'
+        c = dead_key(keyval)
+        if not c:
+            c = self._event.chr().lower()
+            if c == '_' and keycode == 0x0b:
+                c = '0'
         if not c:
             return c
+        logger.debug(f"process_alt_graph: '{c}' {hex(ord(c))}")
         if not self._event.is_shift():
             if '\\Normal' in self._layout:
                 return self._layout['\\Normal'].get(c, '')
@@ -1274,7 +1298,7 @@ class EngineHiragana(EngineModeless):
                 return
             dialog = Gtk.AboutDialog()
             dialog.set_program_name(_("Hiragana IME"))
-            dialog.set_copyright('Copyright 2017-2022 Esrille Inc.')
+            dialog.set_copyright('Copyright 2017-2023 Esrille Inc.')
             dialog.set_authors(['Esrille Inc.'])
             dialog.set_documenters(['Esrille Inc.'])
             dialog.set_website('https://www.esrille.com/')

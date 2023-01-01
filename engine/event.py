@@ -1,6 +1,6 @@
 # ibus-hiragana - Hiragana IME for IBus
 #
-# Copyright (c) 2017-2022 Esrille Inc.
+# Copyright (c) 2017-2023 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -139,6 +139,7 @@ class Event:
         # keysyms.yen is treated as '¥' for Japanese 109 keyboard.
         return (keysyms.exclam <= self._keyval <= keysyms.asciitilde
                 or self._keyval == keysyms.yen
+                or self._keyval == keysyms.periodcentered
                 or self.is_space())
 
     def is_modifier(self):
@@ -350,14 +351,16 @@ class Event:
         elif state & (IBus.ModifierType.CONTROL_MASK | IBus.ModifierType.MOD1_MASK):
             return False
         self.update_key_event(keyval, keycode, state)
+
+        if self._modifiers & ALT_R_BIT:   # AltGr
+            graph = engine.process_alt_graph(keyval, keycode, state, self._modifiers)
+            if graph:
+                engine.commit_text(IBus.Text.new_from_string(graph))
+                return True
+            return False
+
         c = self.chr()
         if c:
-            if self._modifiers & ALT_R_BIT:
-                # AltGr
-                graph = engine.process_alt_graph(keyval, keycode, state, self._modifiers)
-                if graph:
-                    engine.commit_text(IBus.Text.new_from_string(graph))
-                return True
             # Commit a remapped character
             if c == '¥':
                 if not self._HasYen:
