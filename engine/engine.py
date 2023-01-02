@@ -73,6 +73,8 @@ HANKAKU = ''.join(chr(i) for i in range(0x21, 0x7f)) + ' ❲❳[]¥?'
 TO_HANKAKU = str.maketrans(ZENKAKU, HANKAKU)
 TO_ZENKAKU = str.maketrans(HANKAKU, ZENKAKU)
 
+TO_AIUEO = str.maketrans('âîûêôāīūēō', 'aiueoaiueo')
+
 SOKUON = 'ksthmyrwgzdbpfjv'
 
 NAME_TO_LOGGING_LEVEL = {
@@ -454,12 +456,12 @@ class EngineHiragana(EngineModeless):
             self._lookup_table.clear()
         return current
 
-    def _handle_default_layout(self, preedit, keyval, state=0, modifiers=0):
-        return self._event.chr(), ''
+    def _handle_default_layout(self, preedit, c, modifiers):
+        return c, ''
 
-    def _handle_kana_layout(self, preedit, keyval, state=0, modifiers=0):
+    def _handle_kana_layout(self, preedit, c, modifiers):
         yomi = ''
-        c = self._event.chr().lower()
+        c = c.lower()
         if self._event.is_shift():
             if 'Shift' in self._layout:
                 yomi = self._layout['Shift'].get(c, '')
@@ -471,19 +473,26 @@ class EngineHiragana(EngineModeless):
             yomi = self._layout['Normal'].get(c, '')
         return yomi, preedit
 
-    def _handle_roomazi_layout(self, preedit, keyval, state=0, modifiers=0):
+    def _handle_roomazi_layout(self, preedit, c, modifiers):
         yomi = ''
-        c = self._event.chr().lower()
+        post = ''
+        c = c.lower()
+        if c in 'âîûêôāīūēō':
+            c = c.translate(TO_AIUEO)
+            post = 'ー'
         if preedit == 'n' and self.character_after_n.find(c) < 0:
             yomi = 'ん'
             preedit = preedit[1:]
         preedit += c
         if preedit in self._layout['Roomazi']:
-            yomi += self._layout['Roomazi'][preedit]
+            yomi += self._layout['Roomazi'][preedit] + post
             preedit = ''
         elif 2 <= len(preedit) and preedit[0] == preedit[1] and preedit[1] in SOKUON:
             yomi += 'っ'
             preedit = preedit[1:]
+        elif preedit == c and c not in 'abcdefghijklmnopqrstuvwxyz':
+            yomi += c
+            preedit = ''
         return yomi, preedit
 
     def _init_input_mode_props(self):
@@ -892,17 +901,15 @@ class EngineHiragana(EngineModeless):
             return False
 
         yomi = ''
-        if self._event.is_ascii():
-            if modifiers & event.ALT_R_BIT:
-                yomi = self.process_alt_graph(keyval, keycode, state, modifiers)
-                if yomi:
-                    if self.get_mode() != 'ｱ':
-                        yomi = to_zenkaku(yomi)
-                    self.clear_roman()
-            elif self.get_mode() == 'Ａ':
-                yomi = to_zenkaku(self._event.chr())
+        if modifiers & event.ALT_R_BIT:
+            c = self.process_alt_graph(keyval, keycode, state, modifiers)
+        else:
+            c = self._event.chr()
+        if c:
+            if self.get_mode() == 'Ａ':
+                yomi = to_zenkaku(c)
             else:
-                yomi, self.roman_text = self._to_kana(self.roman_text, keyval, state, modifiers)
+                yomi, self.roman_text = self._to_kana(self.roman_text, c, modifiers)
                 if yomi:
                     if self.get_mode() == 'ア':
                         yomi = to_katakana(yomi)
