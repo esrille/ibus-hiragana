@@ -40,6 +40,14 @@ from package import _
 keysyms = IBus
 logger = logging.getLogger(__name__)
 
+INPUT_MODES = (
+    ('InputMode.Alphanumeric', _("Alphanumeric (A)")),
+    ('InputMode.Hiragana', _("Hiragana (あ)")),
+    ('InputMode.Katakana', _("Katakana (ア)")),
+    ('InputMode.WideAlphanumeric', _("Wide Alphanumeric (Ａ)")),
+    ('InputMode.HalfWidthKatakana', _("Halfwidth Katakana (ｱ)"))
+)
+
 HIRAGANA = ('あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん'
             'ゔがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっゎぱぴぷぺぽゎゐゑ・ーゝゞ')
 KATAKANA = ('アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン'
@@ -497,51 +505,9 @@ class EngineHiragana(EngineModeless):
 
     def _init_input_mode_props(self):
         props = IBus.PropList()
-        props.append(IBus.Property(key='InputMode.Alphanumeric',
-                                   prop_type=IBus.PropType.RADIO,
-                                   label=IBus.Text.new_from_string(_("Alphanumeric (A)")),
-                                   icon=None,
-                                   tooltip=None,
-                                   sensitive=True,
-                                   visible=True,
-                                   state=IBus.PropState.CHECKED,
-                                   sub_props=None))
-        props.append(IBus.Property(key='InputMode.Hiragana',
-                                   prop_type=IBus.PropType.RADIO,
-                                   label=IBus.Text.new_from_string(_("Hiragana (あ)")),
-                                   icon=None,
-                                   tooltip=None,
-                                   sensitive=True,
-                                   visible=True,
-                                   state=IBus.PropState.UNCHECKED,
-                                   sub_props=None))
-        props.append(IBus.Property(key='InputMode.Katakana',
-                                   prop_type=IBus.PropType.RADIO,
-                                   label=IBus.Text.new_from_string(_("Katakana (ア)")),
-                                   icon=None,
-                                   tooltip=None,
-                                   sensitive=True,
-                                   visible=True,
-                                   state=IBus.PropState.UNCHECKED,
-                                   sub_props=None))
-        props.append(IBus.Property(key='InputMode.WideAlphanumeric',
-                                   prop_type=IBus.PropType.RADIO,
-                                   label=IBus.Text.new_from_string(_("Wide Alphanumeric (Ａ)")),
-                                   icon=None,
-                                   tooltip=None,
-                                   sensitive=True,
-                                   visible=True,
-                                   state=IBus.PropState.UNCHECKED,
-                                   sub_props=None))
-        props.append(IBus.Property(key='InputMode.HalfWidthKatakana',
-                                   prop_type=IBus.PropType.RADIO,
-                                   label=IBus.Text.new_from_string(_("Halfwidth Katakana (ｱ)")),
-                                   icon=None,
-                                   tooltip=None,
-                                   sensitive=True,
-                                   visible=True,
-                                   state=IBus.PropState.UNCHECKED,
-                                   sub_props=None))
+        for key, label in INPUT_MODES:
+            prop = IBus.Property(key=key, prop_type=IBus.PropType.RADIO, label=IBus.Text.new_from_string(label))
+            props.append(prop)
         return props
 
     def _init_props(self):
@@ -550,47 +516,14 @@ class EngineHiragana(EngineModeless):
             key='InputMode',
             prop_type=IBus.PropType.MENU,
             symbol=IBus.Text.new_from_string(self._mode),
-            label=IBus.Text.new_from_string(_("Input mode (%s)") % self._mode),
-            icon=None,
-            tooltip=None,
-            sensitive=True,
-            visible=True,
-            state=IBus.PropState.UNCHECKED,
-            sub_props=None)
+            label=IBus.Text.new_from_string(_("Input mode (%s)") % self._mode))
         self._input_mode_prop.set_sub_props(self._init_input_mode_props())
         self._prop_list.append(self._input_mode_prop)
-        prop = IBus.Property(
-            key='Setup',
-            prop_type=IBus.PropType.NORMAL,
-            label=IBus.Text.new_from_string(_("Setup")),
-            icon=None,
-            tooltip=None,
-            sensitive=True,
-            visible=True,
-            state=IBus.PropState.UNCHECKED,
-            sub_props=None)
+        prop = IBus.Property(key='Setup', label=IBus.Text.new_from_string(_("Setup")))
         self._prop_list.append(prop)
-        prop = IBus.Property(
-            key='Help',
-            prop_type=IBus.PropType.NORMAL,
-            label=IBus.Text.new_from_string(_("Help")),
-            icon=None,
-            tooltip=None,
-            sensitive=True,
-            visible=True,
-            state=IBus.PropState.UNCHECKED,
-            sub_props=None)
+        prop = IBus.Property(key='Help', label=IBus.Text.new_from_string(_("Help")))
         self._prop_list.append(prop)
-        prop = IBus.Property(
-            key='About',
-            prop_type=IBus.PropType.NORMAL,
-            label=IBus.Text.new_from_string(_("About Hiragana IME...")),
-            icon=None,
-            tooltip=None,
-            sensitive=True,
-            visible=True,
-            state=IBus.PropState.UNCHECKED,
-            sub_props=None)
+        prop = IBus.Property(key='About', label=IBus.Text.new_from_string(_("About Hiragana IME...")))
         self._prop_list.append(prop)
 
     def _is_tiny(self, c):
