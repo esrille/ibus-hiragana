@@ -910,6 +910,11 @@ class EngineHiragana(EngineModeless):
                 yomi = to_zenkaku(c)
             else:
                 yomi, self.roman_text = self._to_kana(self.roman_text, c, modifiers)
+                if yomi == 'ー':
+                    if pos <= 0:
+                        yomi = '－'
+                    elif text[pos-1] not in HIRAGANA and text[pos-1] not in KATAKANA:
+                        yomi = '－'
                 if yomi:
                     if self.get_mode() == 'ア':
                         yomi = to_katakana(yomi)
