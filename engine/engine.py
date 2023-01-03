@@ -1046,11 +1046,14 @@ class EngineHiragana(EngineModeless):
 
     def _keymap_state_changed_cb(self, keymap):
         if self._event.is_onoff_by_caps():
-            logger.info(f'caps lock: {keymap.get_caps_lock_state()}')
-            if keymap.get_caps_lock_state():
-                self.enable_ime()
-            else:
-                self.disable_ime()
+            lock = keymap.get_caps_lock_state()
+            if self._caps_lock_state != lock:
+                logger.info(f'_keymap_state_changed_cb: {keymap.get_caps_lock_state()}')
+                self._caps_lock_state = lock
+                if lock:
+                    self.enable_ime()
+                else:
+                    self.disable_ime()
         return True
 
     def _set_cursor_location_cb(self, engine, x, y, w, h):
@@ -1199,6 +1202,7 @@ class EngineHiragana(EngineModeless):
 
     def do_enable(self):
         super().do_enable()
+        self._caps_lock_state = None
         self._keymap_state_changed_cb(self._keymap)
         self._keymap_handler = self._keymap.connect('state-changed', self._keymap_state_changed_cb)
         self._settings_handler = self._settings.connect('changed', self._config_value_changed_cb)
