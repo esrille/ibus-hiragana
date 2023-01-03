@@ -321,7 +321,7 @@ class Event:
                     self._modifiers |= DUAL_ALT_R_BIT
                 self._modifiers &= ~ALT_R_BIT
 
-        if engine.is_enabled():
+        if engine.get_mode() in ('あ', 'ア', 'ｱ'):
             if keyval == keysyms.space:
                 if self._SandS and is_press:
                     return True
@@ -340,39 +340,10 @@ class Event:
             self._modifiers &= ~PREFIX_BIT
             return False
 
-        if engine.is_enabled():
-            if 0 < self._delay:
-                GLib.timeout_add(self._delay, self.handle_key_event_timeout, engine, keyval, keycode, state)
-                return True
-            return self.handle_key_event(engine, keyval, keycode, state)
-
-        if self.is_dual_role() and alt_gr:
-            pass
-        elif state & (IBus.ModifierType.CONTROL_MASK | IBus.ModifierType.MOD1_MASK):
-            return False
-        self.update_key_event(keyval, keycode, state)
-
-        if self._modifiers & ALT_R_BIT:   # AltGr
-            graph = engine.process_alt_graph(keyval, keycode, state, self._modifiers)
-            if graph:
-                engine.commit_text(IBus.Text.new_from_string(graph))
-                return True
-            return False
-
-        c = self.chr()
-        if c:
-            # Commit a remapped character
-            if c == '¥':
-                if not self._HasYen:
-                    c = '\\'
-                else:
-                    engine.commit_text(IBus.Text.new_from_string('¥'))
-                    return True
-            if c != chr(self._keyval):
-                # Note engine.forward_key_event does not seem to work with Qt applications.
-                engine.commit_text(IBus.Text.new_from_string(c))
-                return True
-        return False
+        if 0 < self._delay:
+            GLib.timeout_add(self._delay, self.handle_key_event_timeout, engine, keyval, keycode, state)
+            return True
+        return self.handle_key_event(engine, keyval, keycode, state)
 
     def handle_key_event_timeout(self, engine, keyval, keycode, state):
         if not self.handle_key_event(engine, keyval, keycode, state):

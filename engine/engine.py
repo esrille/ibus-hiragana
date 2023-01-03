@@ -208,7 +208,7 @@ class EngineModeless(IBus.Engine):
     def __init__(self):
         super().__init__()
         self._surrounding = SURROUNDING_RESET
-        self._preedit_text = ''
+        self._preedit_text = None
         self._preedit_pos = 0
         self._preedit_pos_orig = 0
         self._preedit_pos_min = 0
@@ -224,7 +224,7 @@ class EngineModeless(IBus.Engine):
 
     def _set_surrounding_text_cb(self, engine, text, cursor_pos, anchor_pos):
         self._surrounding = SURROUNDING_SUPPORTED
-        self._preedit_text = ''
+        self._preedit_text = None
         text = get_plain_text(text.get_text())
         logger.debug(f'_set_surrounding_text_cb("{text}", {cursor_pos}, {anchor_pos})')
 
@@ -246,11 +246,12 @@ class EngineModeless(IBus.Engine):
             # process the backspace keys.
             self.update_preedit_text(IBus.Text.new_from_string(''), 0, 0)
             # Note delete_surrounding_text() doesn't work here.
-            self._forward_backspaces(len(self._preedit_text))
+            if self.has_non_empty_preedit():
+                self._forward_backspaces(len(self._preedit_text))
 
     def clear(self):
         self._surrounding = SURROUNDING_RESET
-        self._preedit_text = ''
+        self._preedit_text = None
         self._preedit_pos = 0
         self.roman_text = ''
 
@@ -275,6 +276,7 @@ class EngineModeless(IBus.Engine):
         return text
 
     def commit_string(self, text):
+        assert self.has_preedit()
         if not text:
             return text
         logger.debug(f'commit_string("{text}"): "{self._preedit_text}"')
@@ -288,7 +290,7 @@ class EngineModeless(IBus.Engine):
         assert self.roman_text == 'n'
         self.clear_roman()
         self.commit_string('ん')
-        if self._surrounding not in (SURROUNDING_NOT_SUPPORTED, SURROUNDING_BROKEN):
+        if not self.should_draw_preedit():
             # For FuriganaPad, 'ん' needs to be committed.
             self.commit_text(IBus.Text.new_from_string('ん'))
         self._preedit_pos_min += 1
@@ -303,15 +305,15 @@ class EngineModeless(IBus.Engine):
             self._preedit_pos_min = self._preedit_pos
 
     # Note _roman_text is not flushed; use commit_roman() first.
-    def flush(self, text=''):
+    def flush(self, text='', force=False):
         if text:
             self.commit_string(text)
-
         if self._surrounding == SURROUNDING_COMMITTED:
             logger.debug(f'flush("{self._preedit_text}"): committed')
             if self._preedit_text:
                 self.commit_text(IBus.Text.new_from_string(self._preedit_text))
-            return self._preedit_text
+            if not force:
+                return self._preedit_text
         elif self.should_draw_preedit():
             logger.debug(f'flush("{self._preedit_text}"): preedit')
             if self._preedit_text:
@@ -333,7 +335,7 @@ class EngineModeless(IBus.Engine):
                     self._preedit_text[self._preedit_pos - size:self._preedit_pos]))
 
         text = self._preedit_text
-        self._preedit_text = ''
+        self._preedit_text = None
         self._preedit_pos = 0
         self._preedit_pos_min = 0
         self._preedit_pos_orig = 0
@@ -342,15 +344,18 @@ class EngineModeless(IBus.Engine):
     def get_surrounding_string(self):
         if not (self.client_capabilities & IBus.Capabilite.SURROUNDING_TEXT):
             self._surrounding = SURROUNDING_NOT_SUPPORTED
+
         if self._surrounding != SURROUNDING_SUPPORTED:
             # Call get_surrounding_text() anyway to see if the surrounding
             # text is supported in the current client.
             super().get_surrounding_text()
-            logger.debug(f'surrounding text: "{self._preedit_text}"')
+            if not self.has_preedit():
+                self.clear_preedit()
+            logger.debug(f'get_surrounding_string: "{self._preedit_text}"')
             assert len(self._preedit_text) == self._preedit_pos
             return self._preedit_text, self._preedit_pos
 
-        if self._preedit_text:
+        if self._preedit_text is not None:
             return self._preedit_text, self._preedit_pos
 
         # Cache the current surrounding text in _preedit_text and _preedit_pos
@@ -381,11 +386,14 @@ class EngineModeless(IBus.Engine):
         self._preedit_pos = pos
         self._preedit_pos_min = pos
         self._preedit_pos_orig = pos
-        logger.debug(f'surrounding text: "{self._preedit_text}", {self._preedit_pos}')
+        logger.debug(f'get_surrounding_string: "{self._preedit_text}", {self._preedit_pos}')
         return self._preedit_text, self._preedit_pos
 
     def has_preedit(self):
-        return self._preedit_text
+        return self._preedit_text is not None
+
+    def has_non_empty_preedit(self):
+        return self.has_preedit() and 0 < len(self._preedit_text)
 
     def should_draw_preedit(self):
         return self._surrounding in (SURROUNDING_NOT_SUPPORTED, SURROUNDING_BROKEN)
@@ -400,8 +408,8 @@ class EngineModeless(IBus.Engine):
 
     def do_focus_in(self):
         # Request the initial surrounding-text in addition to the "enable" handler.
-        if not self._preedit_text:
-            self._surrounding = SURROUNDING_RESET
+        if not self.has_preedit():
+            self.clear()
         super().get_surrounding_text()
 
 
@@ -789,7 +797,9 @@ class EngineHiragana(EngineModeless):
         if keyval == keysyms.Escape and self.clear_roman():
             return True
 
-        if (self._event.is_henkan() or self._event.is_muhenkan()) and not (modifiers & event.ALT_R_BIT):
+        if (self.get_mode() == 'あ' and
+                (self._event.is_henkan() or self._event.is_muhenkan()) and
+                not (modifiers & event.ALT_R_BIT)):
             return self._process_replace()
 
         text, pos = self.get_surrounding_string()
@@ -839,7 +849,9 @@ class EngineHiragana(EngineModeless):
         else:
             c = self._event.chr()
         if c:
-            if self.get_mode() == 'Ａ':
+            if self.get_mode() == 'A':
+                yomi = c
+            elif self.get_mode() == 'Ａ':
                 yomi = to_zenkaku(c)
             else:
                 yomi, self.roman_text = self._to_kana(self.roman_text, c, modifiers)
@@ -855,7 +867,7 @@ class EngineHiragana(EngineModeless):
                         yomi = to_hankaku(to_katakana(yomi))
         elif self._event.is_prefix():
             pass
-        elif self.has_preedit() and self.should_draw_preedit():
+        elif self.has_non_empty_preedit() and self.should_draw_preedit():
             if keyval == keysyms.Escape:
                 self.clear_preedit()
             else:
@@ -942,7 +954,10 @@ class EngineHiragana(EngineModeless):
 
     def _update_preedit(self, locked=''):
         cand = self._dict.current()
-        preedit_text = self._preedit_text if self.should_draw_preedit() else ''
+        if self.has_non_empty_preedit() and self.should_draw_preedit():
+            preedit_text = self._preedit_text
+        else:
+            preedit_text = ''
         text = IBus.Text.new_from_string(preedit_text + cand + self.roman_text + locked)
         preedit_len = len(preedit_text)
         cand_len = len(cand)
@@ -1154,7 +1169,9 @@ class EngineHiragana(EngineModeless):
         # Edit the local surrounding text buffer as we need.
         result = self._process_surrounding_text(keyval, keycode, state, modifiers)
         # Flush the local surrounding text buffer into the IBus client.
-        if self._surrounding in (SURROUNDING_COMMITTED, SURROUNDING_SUPPORTED):
+        if self.get_mode() != 'あ':
+            self.flush(force=True)
+        elif self._surrounding in (SURROUNDING_COMMITTED, SURROUNDING_SUPPORTED):
             self.flush()
 
         # Lastly, update the preedit text. To support LibreOffice, the
