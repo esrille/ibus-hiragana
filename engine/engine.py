@@ -744,7 +744,7 @@ class EngineHiragana(EngineModeless):
                         size = len(cand)
         elif not committed_n:
             # Commit a white space
-            self.commit_string(' ' if self._event.is_muhenkan() else '　')
+            self.commit_string(' ' if self._event.is_muhenkan() or self.get_mode() == 'ｱ' else '　')
         return True
 
     def _process_shrink(self):
