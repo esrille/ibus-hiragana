@@ -66,7 +66,7 @@ class SetupEngineHiragana:
     def _set_current_keyboard(self, layout: str):
         # layouts
         if layout.endswith('.json'):
-            layout = layout[layout.rfind('/') + 1:len(layout) - 4]
+            layout = layout[layout.rfind('/') + 1:len(layout) - 5]
         model = self._keyboard_layouts.get_model()
         for i in model:
             if i[1] == layout:
