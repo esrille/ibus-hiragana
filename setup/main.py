@@ -46,7 +46,7 @@ class SetupEngineHiragana:
         self._init_keyboard_layout()
         self._init_dictionary()
         self._init_nn_as_x4063()
-        self._init_long_vowels_in_99_siki()
+        self._init_combining_circumflex()
         self._set_current_keyboard(self._settings.get_string('layout'))
         self._window = self._builder.get_object('SetupDialog')
         self._window.set_default_icon_name('ibus-setup-hiragana')
@@ -109,10 +109,10 @@ class SetupEngineHiragana:
         current = self._settings.get_value('nn-as-jis-x-4063')
         self._nn_as_x4063.set_active(current)
 
-    def _init_long_vowels_in_99_siki(self):
-        self._long_vowels_in_99_siki = self._builder.get_object('LongVowelsIn99')
-        current = self._settings.get_value('long-vowels-in-99-siki')
-        self._long_vowels_in_99_siki.set_active(current)
+    def _init_combining_circumflex(self):
+        self._combining_circumflex = self._builder.get_object('CombiningCircumflex')
+        current = self._settings.get_value('combining-circumflex')
+        self._combining_circumflex.set_active(current)
 
     def run(self):
         Gtk.main()
@@ -130,9 +130,9 @@ class SetupEngineHiragana:
         nn_as_x4063 = self._nn_as_x4063.get_active()
         self._settings.set_boolean('nn-as-jis-x-4063', nn_as_x4063)
 
-        # long-vowels-in-99-siki
-        long_vowels_in_99_siki = self._long_vowels_in_99_siki.get_active()
-        self._settings.set_boolean('long-vowels-in-99-siki', long_vowels_in_99_siki)
+        # combining-circumflex
+        combining_circumflex = self._combining_circumflex.get_active()
+        self._settings.set_boolean('combining-circumflex', combining_circumflex)
 
         # dictionary
         i = self._kanzi_dictionaries.get_active()
@@ -160,9 +160,9 @@ class SetupEngineHiragana:
         elif key == 'nn-as-jis-x-4063':
             t = value.get_boolean()
             self._nn_as_x4063.set_active(value.get_boolean())
-        elif key == 'long-vowels-in-99-siki':
+        elif key == 'combining-circumflex':
             t = value.get_boolean()
-            self._long_vowels_in_99_siki.set_active(value.get_boolean())
+            self._combining_circumflex.set_active(value.get_boolean())
         elif key == 'dictionary':
             current = value.get_string()
             current = os.path.basename(current)

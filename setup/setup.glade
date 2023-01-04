@@ -185,7 +185,7 @@
                           <object class="GtkLabel">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">Convert 'raamen' to 'ラーメン'</property>
+                            <property name="label" translatable="yes">Combine '^' to the previous vowel character</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -194,7 +194,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkSwitch" id="LongVowelsIn99">
+                          <object class="GtkSwitch" id="CombiningCircumflex">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                           </object>

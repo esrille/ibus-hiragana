@@ -81,7 +81,8 @@ HANKAKU = ''.join(chr(i) for i in range(0x21, 0x7f)) + ' ❲❳[]¥?'
 TO_HANKAKU = str.maketrans(ZENKAKU, HANKAKU)
 TO_ZENKAKU = str.maketrans(HANKAKU, ZENKAKU)
 
-TO_AIUEO = str.maketrans('âîûêôāīūēō', 'aiueoaiueo')
+TO_AIUEO = str.maketrans('âîûêôÂÎÛÊÔ', 'aiueoAIUEO')
+TO_CIRCUMFLEX = str.maketrans('aiueoAIUEO', 'âîûêôÂÎÛÊÔ')
 
 SOKUON = 'ksthmyrwgzdbpfjv'
 
@@ -445,6 +446,7 @@ class EngineHiragana(EngineModeless):
 
         self.set_mode(self._load_input_mode(self._settings))
         self._set_x4063_mode(self._load_x4063_mode(self._settings))
+        self._set_combining_circumflex(self._load_combining_circumflex(self._settings))
 
         self.connect('set-cursor-location', self._set_cursor_location_cb)
 
@@ -493,7 +495,7 @@ class EngineHiragana(EngineModeless):
         yomi = ''
         post = ''
         c = c.lower()
-        if c in 'âîûêôāīūēō':
+        if c in 'âîûêôÂÎÛÊÔ':
             c = c.translate(TO_AIUEO)
             post = 'ー'
         if preedit == 'n' and self.character_after_n.find(c) < 0:
@@ -536,6 +538,11 @@ class EngineHiragana(EngineModeless):
 
     def _is_tiny(self, c):
         return c == self._to_tiny
+
+    def _load_combining_circumflex(self, settings):
+        mode = settings.get_boolean('combining-circumflex')
+        logger.info(f'combining-circumflex: {mode}')
+        return mode
 
     def _load_delay(self, settings):
         delay = settings.get_int('delay')
@@ -622,7 +629,7 @@ class EngineHiragana(EngineModeless):
 
     def _load_x4063_mode(self, settings):
         mode = settings.get_boolean('nn-as-jis-x-4063')
-        logger.info(f'nn_as_jis_x_4063 mode: {mode}')
+        logger.info(f'nn-as-jis-x-4063: {mode}')
         return mode
 
     def _lookup_dictionary(self, yomi, pos):
@@ -850,7 +857,18 @@ class EngineHiragana(EngineModeless):
             c = self._event.chr()
         if c:
             if self.get_mode() == 'A':
-                yomi = c
+                text, pos = self.get_surrounding_string()
+                if self.combining_circumflex and 0 < pos and c == '^':
+                    if text[pos-1] in 'aiueoAIUEO':
+                        yomi = text[pos-1].translate(TO_CIRCUMFLEX)
+                        self.delete_surrounding_string(1)
+                    elif text[pos - 1] in 'âîûêôÂÎÛÊÔ':
+                        yomi = text[pos - 1].translate(TO_AIUEO) + c
+                        self.delete_surrounding_string(1)
+                    else:
+                        yomi = c
+                else:
+                    yomi = c
             elif self.get_mode() == 'Ａ':
                 yomi = to_zenkaku(c)
             else:
@@ -906,6 +924,10 @@ class EngineHiragana(EngineModeless):
         assert not self._dict.current()
         self._setup_sync()
 
+    def _set_combining_circumflex(self, mode):
+        self.combining_circumflex = mode
+        logger.info(f'_set_combining_circumflex({mode})')
+
     def _set_completed(self, cand):
         if cand[-1] in HIRAGANA:
             self._completed = cand
@@ -918,7 +940,7 @@ class EngineHiragana(EngineModeless):
             self.character_after_n = "aiueo'wyn"
         else:
             self.character_after_n = "aiueo'wy"
-        logger.info(f'set_x4063_mode({on})')
+        logger.info(f'_set_x4063_mode({on})')
 
     def _update_candidate(self):
         index = self._lookup_table.get_cursor_pos()
@@ -1058,6 +1080,8 @@ class EngineHiragana(EngineModeless):
             self.set_mode(self._load_input_mode(settings), True)
         elif key == 'nn-as-jis-x-4063':
             self._set_x4063_mode(self._load_x4063_mode(settings))
+        elif key == 'combining-circumflex':
+            self._set_combining_circumflex(self._load_combining_circumflex(settings))
 
     def _keymap_state_changed_cb(self, keymap):
         if self._event.is_onoff_by_caps():

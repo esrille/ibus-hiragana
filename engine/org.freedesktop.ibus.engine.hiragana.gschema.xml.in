@@ -68,6 +68,14 @@
         If disabled, 'ラーメン' can be converted only from 'ra-men'.
       </description>
     </key>
+    <key name='combining-circumflex' type='b'>
+      <default>false</default>
+      <summary>Combine '^' to the previous vowel character</summary>
+      <description>
+        If enabled, '^' is combined to the previous character if it is one of 'aiueoAIUEO'.
+        If disabled, '^' does not modify the previous character.
+      </description>
+    </key>
     <key name='logging-level' type='s'>
       <choices>
         <choice value='CRITICAL'/>
