@@ -5,29 +5,24 @@
 ## ローマ￹字￺じ￻のつづりかた
 
 　ローマ￹字￺じ￻￹入力￺にゅうりょく￻のときにつかうローマ￹字￺じ￻のつづりかたは、￹国語￺こくご￻や￹英語￺えいご￻でならうかきかたと、すこしちがいます。
-ローマ￹字￺じ￻￹入力￺にゅうりょく￻をつかうとき、￹漢字￺かんじ￻やカタカナのことばは、ひらがなでつけたふりがなのほうを￹入力￺にゅうりょく￻します。
+ローマ￹字￺じ￻￹入力￺にゅうりょく￻をつかうとき、￹漢字￺かんじ￻のことばは、ひらがなでつけたふりがなのほうを￹入力￺にゅうりょく￻します。
 「を」は、￹表音￺ひょうおん￻￹的￺てき￻な'o'ではなく、￹文字￺もじ￻をしめす'wo'を￹入力￺にゅうりょく￻します。
 この￹点￺てん￻をのぞけば、ローマ￹字￺じ￻のつづりかたは、￹国語￺こくご￻や￹英語￺えいご￻でならうつづりかたとおなじです。
 
 ￹漢字￺かんじ￻かなまじり文 | ローマ￹字￺じ￻￹入力￺にゅうりょく￻ | ￹国語￺こくご￻（￹訓令￺くんれい￻￹式￺しき￻） | ￹英語￺えいご￻（￹修正￺しゅうせい￻ヘボン￹式￺しき￻）
 ---|---|---|---
 ￹東京￺とうきょう￻ | toukyou | Tôkyô | Tōkyō
-￹京都￺きょうと￻ | kyouto | Kyôto | Kyōtō
-￹コンピューター￺こんぴゅうたあ￻ | konpyuutaa<br>konpyu-ta- (※) | konpyûtâ | computer
+￹島根￺しまね￻ | simane | Simane | Shimane
 を | wo | o | o
 
-※ ￹日本語￺にほんご￻をローマ￹字￺じ￻でかくときに、￹'-'￺マイナス￻を￹長音￺ちょうおん￻￹符号￺ふごう￻のかわりにつかうことはありません。
-けれども、ローマ￹字￺じ￻￹入力￺にゅうりょく￻では、￹便宜￺べんぎ￻￹的￺てき￻に￹〔-〕￺マイナス￻をつかって￹長音￺ちょうおん￻￹符号￺ふごう￻(ー)を￹入力￺にゅうりょく￻できるようにしています。
-
-　ひとことでローマ￹字￺じ￻といっても、じっさいには、いろいろな￹方式￺ほうしき￻があります。
-ヘボン￹式￺しき￻は￹英文￺えいぶん￻のなかで￹日本語￺にほんご￻の￹単語￺たんご￻をかくときにつかいます。
+　ひとことでローマ￹字￺じ￻といっても、かきかたがいろいろとあります。
+￹修正￺しゅうせい￻ヘボン￹式￺しき￻は￹英文￺えいぶん￻のなかで￹日本語￺にほんご￻の￹単語￺たんご￻をかくときにつかいます。
 ￹訓令￺くんれい￻￹式￺しき￻は￹日本語￺にほんご￻の￹文章￺ぶんしょう￻をローマ￹字￺じ￻でかくときにつかいます。
 パスポートのなまえの￹表記￺ひょうき￻には、￹旧￺きゅう￻ヘボン￹式￺しき￻から￹長音￺ちょうおん￻￹記号￺きごう￻￹（¯）￺マクロン￻を￹省略￺しょうりゃく￻した￹方式￺ほうしき￻がつかわれています。
 
 ￹表記￺ひょうき￻￹法￺ほう￻ | ￹例￺れい￻
 ---|---
 ￹漢字￺かんじ￻かなまじり | ￹東京￺とうきょう￻でコンピューターを￹買￺か￻いました。
-ローマ￹字￺じ￻￹入力￺にゅうりょく￻ | toukyou〔￹変換￺へんかん￻〕dekonpyuutaa〔￹変換￺へんかん￻〕woka〔￹変換￺へんかん￻〕imasita.
 ￹国語￺こくご￻（￹訓令￺くんれい￻￹式￺しき￻） | Tôkyô de konpyûtâ o kaimasita.
 ￹英語￺えいご￻（ヘボン￹式￺しき￻） | I bought a computer in Tōkyō.
 
@@ -57,16 +52,17 @@ P | ぱ pa | ぴ pi | ぷ pu | ぺ pe | ぽ po | ぴゃ pya | ぴゅ pyu | ぴ�
 
 ### はねる￹音￺おん￻・つまる￹音￺おん￻・のばす￹音￺おん￻
 
-<nobr>かな</nobr>| つづりかた | ￹例￺れい￻ | <nobr>ワープロ￹式￺しき￻</nobr>
+<nobr>かな</nobr>| つづりかた | <nobr>ワープロ￹式￺しき￻</nobr> | <nobr>うちかたの￹例￺れい￻</nobr>
 --|--|--|--
-ん | n<br>n' （「ん」のあとに「あいうえおやゆよ」のなかの￹一￺いち￻￹文字￺もじ￻がつづくとき）| かんじ<br>kanzi<br>ほんや <br>hon'ya | nn
-っ | ￹最初￺さいしょ￻の￹子音￺しいん￻￹字￺じ￻をかさねる | <nobr>がっこう</nobr><br>gakkou
-ー | ￹直前￺ちょくぜん￻の￹母音￺ぼいん￻￹字￺じ￻をくりかえす（99￹式￺しき￻）| raamen<br>ラーメン | ￹-￺ マイナス￻
+ん | n<br>n' （「ん」のあとに「あいうえおやゆよ」のなかの￹一￺いち￻￹文字￺もじ￻がつづくとき）| nn (※1) | かんじ<br>kanzi<br>ほんや <br>hon'ya 
+っ | ￹最初￺さいしょ￻の￹子音￺しいん￻￹字￺じ￻をかさねる | | <nobr>がっこう</nobr><br>gakkou
+ー | ￹母音￺ぼいん￻￹字￺じ￻に^をつける。 | ￹母音￺ぼいん￻のあとに^か-をうつ | ra^men<br><nobr>ra-men (※2)</nobr><br>ラーメン
 
-- ワープロ￹式￺しき￻の「nn」をつかうときは、￹設定￺せってい￻の『['nn'をかならず「ん」に￹変換￺へんかん￻する](settings.html#nn)』を￹有効￺ゆうこう￻にします。
-- 99￹式￺しき￻をつかうときは、￹設定￺せってい￻の『['raamen'で'ラーメン'に￹変換￺へんかん￻する](settings.html#long-symbol)』を￹有効￺ゆうこう￻にします。
+- (※1) ワープロ￹式￺しき￻の「nn」をつかうときは、￹設定￺せってい￻の『['nn'をかならず「ん」に￹変換￺へんかん￻する](settings.html#nn)』を￹有効￺ゆうこう￻にします。
+- (※2) ￹日本語￺にほんご￻をローマ￹字￺じ￻でかきあらわすとき、￹'-'￺マイナス￻を￹長音￺ちょうおん￻￹符号￺ふごう￻のかわりにつかうことはありません。
+けれども、ローマ￹字￺じ￻￹入力￺にゅうりょく￻では、￹便宜￺べんぎ￻￹的￺てき￻に￹〔-〕￺マイナス￻キーをつかって￹長音￺ちょうおん￻￹符号￺ふごう￻(ー)を￹入力￺にゅうりょく￻できるようにしています。
 
-※ 「ひらがなIME」では、うえの￹表￺ひょう￻にあるつづりかた￹以外￺いがい￻にも、￹英語￺えいご￻でならうつづりかたや「[99￹式￺しき￻ローマ￹字￺じ￻](http://www.hokkajda-esp-ligo.jp/jp/ATruby/99siki-Roomazi.htm)」をつかって￹日本語￺にほんご￻を￹入力￺にゅうりょく￻することもできます。
+　「ひらがなIME」では、うえの￹表￺ひょう￻にあるつづりかた￹以外￺いがい￻にも、￹英語￺えいご￻でならうつづりかたや「[99￹式￺しき￻ローマ￹字￺じ￻](http://www.hokkajda-esp-ligo.jp/jp/ATruby/99siki-Roomazi.htm)」をつかって￹日本語￺にほんご￻を￹入力￺にゅうりょく￻することもできます。
 
 ## キーボードのつかいかた
 
@@ -115,7 +111,7 @@ P | ぱ pa | ぴ pi | ぷ pu | ぺ pe | ぽ po | ぴゃ pya | ぴゅ pyu | ぴ�
 </div>
 
 <div class='layer L3'>
-<div>…</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>ー</div><div></div><div class='k200'></div>
+<div>…</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='x'>ー</div><div></div><div class='k200'></div>
 <br>
 <div class='k150 kana'>よみ短縮</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>「</div><div>」</div><div class='k150'>￥</div>
 <br>
@@ -127,7 +123,7 @@ P | ぱ pa | ぴ pi | ぷ pu | ぺ pe | ぽ po | ぴゃ pya | ぴゅ pyu | ぴ�
 </div>
 
 <div class='layer L4'>
-<div>〜</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'></div>
+<div>〜</div><div></div><div></div><div></div><div></div><div></div><div class='x'>ー</div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'></div>
 <br>
 <div class='k150'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>『</div><div>』</div><div class='k150'></div>
 <br>
@@ -182,7 +178,7 @@ P | ぱ pa | ぴ pi | ぷ pu | ぺ pe | ぽ po | ぴゃ pya | ぴゅ pyu | ぴ�
 </div>
 
 <div class='layer109 L3'>
-<div class='kana'>あ/A</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>ー</div><div></div><div>￥</div><div></div>
+<div class='kana'>あ/A</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='x'>ー</div><div class='x'>ー</div><div>￥</div><div></div>
 <br>
 <div class='k150 kana'>よみ短縮</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>「</div><div class='k150'></div>
 <br>
