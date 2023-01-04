@@ -214,7 +214,6 @@ class EngineModeless(IBus.Engine):
         self._preedit_pos_orig = 0
         self._preedit_pos_min = 0
         self.roman_text = ''
-        self.connect('set-surrounding-text', self._set_surrounding_text_cb)
 
     def _forward_backspaces(self, size):
         logger.debug(f'_forward_backspaces({size})')
@@ -222,12 +221,6 @@ class EngineModeless(IBus.Engine):
             self.forward_key_event(IBus.BackSpace, 14, 0)
             time.sleep(EVENT_DELAY)
             self.forward_key_event(IBus.BackSpace, 14, IBus.ModifierType.RELEASE_MASK)
-
-    def _set_surrounding_text_cb(self, engine, text, cursor_pos, anchor_pos):
-        self._surrounding = SURROUNDING_SUPPORTED
-        self._preedit_text = None
-        text = get_plain_text(text.get_text())
-        logger.debug(f'_set_surrounding_text_cb("{text}", {cursor_pos}, {anchor_pos})')
 
     def backspace(self):
         if self.roman_text:
@@ -413,6 +406,13 @@ class EngineModeless(IBus.Engine):
             self.clear()
         super().get_surrounding_text()
 
+    def do_set_surrounding_text(self, text, cursor_pos, anchor_pos):
+        self._surrounding = SURROUNDING_SUPPORTED
+        self._preedit_text = None
+        plain = get_plain_text(text.get_text())
+        logger.debug(f'do_set_surrounding_text("{plain}", {cursor_pos}, {anchor_pos})')
+        IBus.Engine.do_set_surrounding_text(self, text, cursor_pos, anchor_pos)
+
 
 class EngineHiragana(EngineModeless):
     __gtype_name__ = 'EngineHiragana'
@@ -423,6 +423,7 @@ class EngineHiragana(EngineModeless):
 
         self._mode = 'A'  # _mode must be one of _input_mode_names
         self._override = False
+        self._caps_lock_state = None
         self._layout = {}
         self._to_kana = self._handle_default_layout
         self._to_tiny = None
@@ -447,8 +448,6 @@ class EngineHiragana(EngineModeless):
         self.set_mode(self._load_input_mode(self._settings))
         self._set_x4063_mode(self._load_x4063_mode(self._settings))
         self._set_combining_circumflex(self._load_combining_circumflex(self._settings))
-
-        self.connect('set-cursor-location', self._set_cursor_location_cb)
 
         self._about_dialog = None
         self._setup_proc = None
@@ -1035,7 +1034,7 @@ class EngineHiragana(EngineModeless):
             t.start()
         except OSError:
             logger.exception(f'_setup_start')
-        except ValueError as e:
+        except ValueError:
             logger.exception(f'_setup_start')
 
     def _setup_sync(self):
@@ -1094,13 +1093,6 @@ class EngineHiragana(EngineModeless):
                 else:
                     self.disable_ime()
         return True
-
-    def _set_cursor_location_cb(self, engine, x, y, w, h):
-        # On Raspbian, at least till Buster, the candidate window does not
-        # always follow the cursor position. The following code is not
-        # necessary on Ubuntu 18.04 or Fedora 30.
-        logger.debug(f'_set_cursor_location_cb({x}, {y}, {w}, {h})')
-        self._update_lookup_table()
 
     #
     # public methods
@@ -1318,3 +1310,11 @@ class EngineHiragana(EngineModeless):
             self._reset()
         else:
             self._update_preedit()
+
+    def do_set_cursor_location(self, x, y, w, h):
+        # On Raspbian, at least till Buster, the candidate window does not
+        # always follow the cursor position. The following code is not
+        # necessary on Ubuntu 18.04 or Fedora 30.
+        logger.debug(f'do_set_cursor_location({x}, {y}, {w}, {h})')
+        self._update_lookup_table()
+        EngineModeless.do_set_cursor_location(self, x, y, w, h)
