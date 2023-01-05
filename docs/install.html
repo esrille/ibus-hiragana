@@ -52,6 +52,7 @@ aside a:hover {
 <p>&#x3000;IBusをWaylandで使用するばあいは、<ruby>環境<rp>(</rp><rt>かんきょう</rt><rp>)</rp></ruby><ruby>変数<rp>(</rp><rt>へんすう</rt><rp>)</rp></ruby>GTK_IM_MODULEにibusを<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>してください。そうしないと、ただしい<ruby>周辺<rp>(</rp><rt>しゅうへん</rt><rp>)</rp></ruby>テキストの<ruby>情報<rp>(</rp><rt>じょうほう</rt><rp>)</rp></ruby>がIBusからIMEにおくられてきません。そのためには、つぎの行を ~/.bash_profile (Fedoraなど)か ~/.profile (Ubuntuなど)に追加してください。</p>
 <pre><code>$ export GTK_IM_MODULE=ibus
 </code></pre>
+
 <h2><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソースのセットアップ</h2>
 <p>&#x3000;パッケージのインストールができたら、<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソース(※)に「ひらがなIME」をセットアップしていきます。<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソースのセットアップ<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby>は、デスクトップ<ruby>環境<rp>(</rp><rt>かんきょう</rt><rp>)</rp></ruby>によってすこし<ruby>異<rp>(</rp><rt>こと</rt><rp>)</rp></ruby>なります。</p>
 <p><br>※ キーボード<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>やインプット メソッドのことをまとめて「<a href="https://wiki.gnome.org/Design/OS/LanguageInput"><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソース</a>」とよんでいます。</p>
@@ -84,6 +85,7 @@ $ ./autogen.sh  --prefix=/usr [--enable-dic]
 $ make
 $ sudo make install
 </code></pre>
+
 <p>&#x3000;autogen.shは、autotoolsの<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>をおこない、configureスクリプトよびだします。--enable-dicを<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>すると、<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby><ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>もメイクしなおすことができます。</p>
 <p>&#x3000;ビルドするときに<ruby>必要<rp>(</rp><rt>ひつよう</rt><rp>)</rp></ruby>なパッケージについては、debian/controlのBuild-Depends、あるいは、ibus-hiragana.spec.inのBuildRequiresを<ruby>参考<rp>(</rp><rt>さんこう</rt><rp>)</rp></ruby>にしてください。</p>
 </main>

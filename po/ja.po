@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ibus-hiragana 0.14.5\n"
 "Report-Msgid-Bugs-To: https://github.com/esrille/ibus-hiragana/issues\n"
-"POT-Creation-Date: 2023-01-04 05:26+0900\n"
+"POT-Creation-Date: 2023-01-05 10:22+0900\n"
 "PO-Revision-Date: 2020-09-24 11:59+0900\n"
 "Last-Translator: Esrille Inc. <info@esrille.com>\n"
 "Language-Team: Japanese <info@esrille.com>\n"
@@ -34,24 +34,24 @@ msgstr "全角英数 (Ａ)"
 msgid "Halfwidth Katakana (ｱ)"
 msgstr "半角カタカナ (ｱ)"
 
-#: engine/engine.py:529 engine/engine.py:952
+#: engine/engine.py:528 engine/engine.py:951
 #, python-format
 msgid "Input mode (%s)"
 msgstr "入力モード (%s)"
 
-#: engine/engine.py:532
+#: engine/engine.py:531
 msgid "Setup"
 msgstr "設定"
 
-#: engine/engine.py:534
+#: engine/engine.py:533
 msgid "Help"
 msgstr "ヘルプ"
 
-#: engine/engine.py:536
+#: engine/engine.py:535
 msgid "About Hiragana IME..."
 msgstr "ひらがなIMEについて..."
 
-#: engine/engine.py:1290
+#: engine/engine.py:1282
 msgid "Hiragana IME"
 msgstr "ひらがなIME"
 
