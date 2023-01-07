@@ -479,7 +479,7 @@ JIS￹配列￺はいれつ￻よりもさらにおぼえにくい￹配列￺�
 <div class='layer109 L3'>
 <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
 <br>
-<div class='k150'></div><div class='s'>そ</div><div class='k'>け</div><div class='s'>せ</div><div class='t'>て</div><div class='y'><span class='small'>ょ</span></div><div class='t'>つ</div><div class='x'>ん</div><div class='n'>の</div><div class='x'>を</div><div class='r'>り</div><div class='t'>ち</div><div></div><div class='k150'></div>
+<div class='k150'></div><div class='s'>そ</div><div class='k'>け</div><div class='s'>せ</div><div class='t'>て</div><div class='y'><span class='small'>ょ</span></div><div class='t'>つ</div><div class='x'>ん</div><div class='n'>の</div><div class='w'>を</div><div class='r'>り</div><div class='t'>ち</div><div></div><div class='k150'></div>
 <br>
 <div class='k175'></div><div class='h'>は</div><div class='k'>か</div><div class='s'>し</div><div class='t'>と</div><div class='t'>た</div><div class='k'>く</div><div class='a'>う</div><div class='a'>い</div><div><span class='small'>゛</span></div><div class='k'>き</div><div><span class='n'>な</span></div><div></div><div class='k125'></div>
 <br>
