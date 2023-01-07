@@ -223,7 +223,7 @@ main > p {
   margin-bottom: 0;
   max-width: 720px;
 }
-main > ul, main > ol {
+main > ul, main > ol, main > pre, main > table {
   max-width: calc(720px - 2em);
 }
 footer {
