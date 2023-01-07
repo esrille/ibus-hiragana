@@ -23,12 +23,14 @@ dist_help_DATA = \
 	settings.html \
 	template.html \
 	usage.html \
-	icon.png \
 	screenshot.webm \
-	screenshot.png \
+	undo.webm \
 	ibus-setup-hiragana_1.png \
 	ibus-setup-hiragana_2.png \
+	icon.png \
+	input-mode.png \
 	keyboard-menu.png \
+	screenshot.png \
 	settings-altgr.png \
 	settings-keyboard.png \
 	$(NULL)

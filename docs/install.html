@@ -52,7 +52,6 @@ aside a:hover {
 <p>&#x3000;IBusをWaylandで使用するばあいは、<ruby>環境<rp>(</rp><rt>かんきょう</rt><rp>)</rp></ruby><ruby>変数<rp>(</rp><rt>へんすう</rt><rp>)</rp></ruby>GTK_IM_MODULEにibusを<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>してください。そうしないと、ただしい<ruby>周辺<rp>(</rp><rt>しゅうへん</rt><rp>)</rp></ruby>テキストの<ruby>情報<rp>(</rp><rt>じょうほう</rt><rp>)</rp></ruby>がIBusからIMEにおくられてきません。そのためには、つぎの行を ~/.bash_profile (Fedoraなど)か ~/.profile (Ubuntuなど)に追加してください。</p>
 <pre><code>$ export GTK_IM_MODULE=ibus
 </code></pre>
-
 <h2><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソースのセットアップ</h2>
 <p>&#x3000;パッケージのインストールができたら、<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソース(※)に「ひらがなIME」をセットアップしていきます。<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソースのセットアップ<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby>は、デスクトップ<ruby>環境<rp>(</rp><rt>かんきょう</rt><rp>)</rp></ruby>によってすこし<ruby>異<rp>(</rp><rt>こと</rt><rp>)</rp></ruby>なります。</p>
 <p><br>※ キーボード<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>やインプット メソッドのことをまとめて「<a href="https://wiki.gnome.org/Design/OS/LanguageInput"><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソース</a>」とよんでいます。</p>
@@ -68,8 +67,7 @@ aside a:hover {
 <h2>「ひらがなIME」を<ruby>有効<rp>(</rp><rt>ゆうこう</rt><rp>)</rp></ruby>にする</h2>
 <p>&#x3000;IBusでは、<ruby>複数<rp>(</rp><rt>ふくすう</rt><rp>)</rp></ruby>のインプットメソッドエンジンをつかうことができるようになっています。</p>
 <p>&#x3000;「ひらがなIME」を<ruby>有効<rp>(</rp><rt>ゆうこう</rt><rp>)</rp></ruby>するには、デスクトップ シェルの「キーボード メニュー」をひらいて、「日本語 (Hiragana IME)」をえらびます。</p>
-<p><br>
-<img alt="キーボード メニュー" src="keyboard-menu.png"></p>
+<p><img alt="キーボード メニュー" src="keyboard-menu.png"></p>
 <p>&#x3000;キーボード メニューは、トップバーの<ruby>現在<rp>(</rp><rt>げんざい</rt><rp>)</rp></ruby>の<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>メソッドを<ruby>表示<rp>(</rp><rt>ひょうじ</rt><rp>)</rp></ruby>している<ruby>部分<rp>(</rp><rt>ぶぶん</rt><rp>)</rp></ruby>（「<nobr>ja</nobr>｣，｢<nobr>あ</nobr>」など）をクリックしてひらきます。</p>
 <p>&#x3000;「ひらがなIME」の<ruby>基本的<rp>(</rp><rt>きほんてき</rt><rp>)</rp></ruby>なセットアップはこれで<ruby>完了<rp>(</rp><rt>かんりょう</rt><rp>)</rp></ruby>です。さらにこまかな<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>は、「<a href="settings.html">ひらがなIMEの<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby></a>」ウィンドウでおこなえます。</p>
 <h3>パソコンにつなげるキーボードの<ruby>種類<rp>(</rp><rt>しゅるい</rt><rp>)</rp></ruby>を<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>する<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby></h3>
@@ -85,7 +83,6 @@ $ ./autogen.sh  --prefix=/usr [--enable-dic]
 $ make
 $ sudo make install
 </code></pre>
-
 <p>&#x3000;autogen.shは、autotoolsの<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>をおこない、configureスクリプトよびだします。--enable-dicを<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>すると、<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby><ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>もメイクしなおすことができます。</p>
 <p>&#x3000;ビルドするときに<ruby>必要<rp>(</rp><rt>ひつよう</rt><rp>)</rp></ruby>なパッケージについては、debian/controlのBuild-Depends、あるいは、ibus-hiragana.spec.inのBuildRequiresを<ruby>参考<rp>(</rp><rt>さんこう</rt><rp>)</rp></ruby>にしてください。</p>
 </main>

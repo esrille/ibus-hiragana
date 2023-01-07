@@ -34,6 +34,10 @@ h3, h4, h5, h6 {
 img {
   border-style: none;
   max-width: 100%;
+  margin-top: 1em;
+}
+video {
+  margin: 1em 0 1em;
 }
 code, tt, kbd, pre {
   font-family: monospace;
@@ -229,21 +233,6 @@ footer {
   color: dimgray;
   font-size: 90%;
 }
-.card {
-  background-color: whitesmoke;
-  padding: 12px;
-  border: solid 2px silver;
-  border-radius: 8px;
-}
-.card > h2 {
-  margin: 0.5em 0;
-}
-.card table tr {
-  background-color: #fff;
-}
-.card table th {
-  background-color: #fff;
-}
 
 @media only screen and (max-width: 1050px) {
 
@@ -369,7 +358,7 @@ em:lang(ja), h1:lang(ja), h2:lang(ja), h3:lang(ja), h4:lang(ja), h5:lang(ja), h6
   width: 120px;
 }
 .layer109>.k275 {
-  width: 133px;
+  width: 129px;
 }
 .layer109>.k350 {
   width: 167px;
