@@ -477,17 +477,14 @@ class EngineHiragana(EngineModeless):
         return c, ''
 
     def _handle_kana_layout(self, preedit, c, modifiers):
-        yomi = ''
+        yomi = c
         c = c.lower()
-        if self._event.is_shift():
+        if not self._event.is_shift():
+            if 'Normal' in self._layout:
+                yomi = self._layout['Normal'].get(c, c)
+        else:
             if 'Shift' in self._layout:
-                yomi = self._layout['Shift'].get(c, '')
-            elif modifiers & event.SHIFT_L_BIT:
-                yomi = self._layout['ShiftL'].get(c, '')
-            elif modifiers & event.SHIFT_R_BIT:
-                yomi = self._layout['ShiftR'].get(c, '')
-        elif 'Normal' in self._layout:
-            yomi = self._layout['Normal'].get(c, '')
+                yomi = self._layout['Shift'].get(c, c)
         return yomi, preedit
 
     def _handle_roomazi_layout(self, preedit, c, modifiers):
@@ -1133,13 +1130,9 @@ class EngineHiragana(EngineModeless):
         if not self._event.is_shift():
             if '\\Normal' in self._layout:
                 return self._layout['\\Normal'].get(c, '')
-            return ''
-        if '\\Shift' in self._layout:
-            return self._layout['\\Shift'].get(c, '')
-        if modifiers & event.SHIFT_L_BIT:
-            return self._layout['\\ShiftL'].get(c, '')
-        if modifiers & event.SHIFT_R_BIT:
-            return self._layout['\\ShiftR'].get(c, '')
+        else:
+            if '\\Shift' in self._layout:
+                return self._layout['\\Shift'].get(c, '')
         return ''
 
     def process_key_event(self, keyval, keycode, state, modifiers):
