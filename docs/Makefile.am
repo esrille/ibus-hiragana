@@ -21,7 +21,6 @@ dist_help_DATA = \
 	layouts.html \
 	roomazi.html \
 	settings.html \
-	template.html \
 	usage.html \
 	screenshot.webm \
 	undo.webm \
@@ -40,6 +39,7 @@ helpdir = $(pkgdatadir)/help
 EXTRA_DIST = \
 	update \
 	Makefile.am \
+	template.html \
 	md2html.py \
 	altgr.md \
 	index.md \
@@ -51,29 +51,40 @@ EXTRA_DIST = \
 	usage.md \
 	$(NULL)
 
+CLEANFILES = \
+	altgr.html \
+	index.html \
+	install.html \
+	key_assign.html \
+	layouts.html \
+	roomazi.html \
+	settings.html \
+	usage.html \
+	$(NULL)
+
 uninstall-hook:
 	-rmdir $(helpdir)
 
-index.html: index.md altgr.md install.md
+index.html: index.md altgr.md install.md template.html
 	./md2html.py $^
 
-install.html: install.md index.md usage.md
+install.html: install.md index.md usage.md template.html
 	./md2html.py $^
 
-usage.html: usage.md install.md key_assign.md
+usage.html: usage.md install.md key_assign.md template.html
 	./md2html.py $^
 
-key_assign.html: key_assign.md usage.md settings.md
+key_assign.html: key_assign.md usage.md settings.md template.html
 	./md2html.py $^
 
-settings.html: settings.md key_assign.md layouts.md
+settings.html: settings.md key_assign.md layouts.md template.html
 	./md2html.py $^
 
-layouts.html: layouts.md settings.md roomazi.md
+layouts.html: layouts.md settings.md roomazi.md template.html
 	./md2html.py $^
 
-roomazi.html: roomazi.md layouts.md altgr.md
+roomazi.html: roomazi.md layouts.md altgr.md template.html
 	./md2html.py $^
 
-altgr.html: altgr.md roomazi.md index.md
+altgr.html: altgr.md roomazi.md index.md template.html
 	./md2html.py $^

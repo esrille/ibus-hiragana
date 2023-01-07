@@ -38,6 +38,7 @@ img {
 }
 video {
   margin: 1em 0 1em;
+  max-width: 100%;
 }
 code, tt, kbd, pre {
   font-family: monospace;
@@ -179,12 +180,12 @@ aside > ul {
   background-color: #eee;
 }
 nav a {
-  height: 10em;
-  width: 1.5em;
+  height: 6em;
+  width: 28px;
+  line-height: 6em;
   text-align: center;
-  background-color: #3af;
+  background-color: #3af3;
   color: white;
-  line-height: 10em;
 }
 nav a:hover {
   text-decoration: none;
@@ -193,18 +194,21 @@ nav a:hover {
   position: fixed;
   top: 40%;
   left: 0;
+  border-top-right-radius: 2em 2em;
+  border-bottom-right-radius: 2em 2em;
 }
 #nav-next {
   position: fixed;
   top: 40%;
   right: 0;
+  border-top-left-radius: 2em 2em;
+  border-bottom-left-radius: 2em 2em;
 }
 main {
   display: block;
   overflow-x: hidden;
   -webkit-text-size-adjust: 100%;
   margin-left: 24%;
-  max-width: 720px;
   text-align: justify;
   padding: 10px 30px;
 }
@@ -217,6 +221,10 @@ main > *:last-child {
 main > p {
   margin-top: 0;
   margin-bottom: 0;
+  max-width: 720px;
+}
+main > ul, main > ol {
+  max-width: calc(720px - 2em);
 }
 footer {
   text-align: right;
@@ -247,16 +255,18 @@ footer {
 
 main {
   margin-left: 0;
-  max-width: 720px;
   text-align: justify;
   padding: 10px 30px;
 }
 
 } /* @media only screen and (max-width: 1024px) */
 
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 400px) {
   body {
     font-size: 10.5pt;
+  }
+  main {
+    padding: 10px 10px;
   }
 }
 
@@ -280,10 +290,11 @@ em:lang(ja), h1:lang(ja), h2:lang(ja), h3:lang(ja), h4:lang(ja), h5:lang(ja), h6
 
 .kbd {
   position: relative;
-  height: 260px;
+  height: 275px;
   white-space: nowrap;
   font-family: sans-serif;
   font-size: 14px;
+  overflow: auto;
 }
 .kbd + p > em {
   display: block;
