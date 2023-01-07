@@ -270,10 +270,11 @@ class EngineModeless(IBus.Engine):
         return text
 
     def commit_string(self, text):
-        assert self.has_preedit()
+        logger.debug(f'commit_string("{text}"): "{self._preedit_text}"')
         if not text:
             return text
-        logger.debug(f'commit_string("{text}"): "{self._preedit_text}"')
+        if not self.has_preedit():
+            self.get_surrounding_string()
         self._preedit_text = self._preedit_text[:self._preedit_pos] + text + self._preedit_text[self._preedit_pos:]
         self._preedit_pos += len(text)
         if self._surrounding == SURROUNDING_RESET:
