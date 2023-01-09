@@ -505,4 +505,6 @@ em:lang(ja), h1:lang(ja), h2:lang(ja), h3:lang(ja), h4:lang(ja), h5:lang(ja), h6
   line-height: 14px;
   font-size: 14px;
   height: 16px;
+  min-width: 14px;
+  text-align: center;
 }
