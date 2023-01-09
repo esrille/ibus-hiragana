@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ibus-hiragana 0.14.5\n"
 "Report-Msgid-Bugs-To: https://github.com/esrille/ibus-hiragana/issues\n"
-"POT-Creation-Date: 2023-01-05 10:22+0900\n"
+"POT-Creation-Date: 2023-01-09 11:30+0900\n"
 "PO-Revision-Date: 2020-09-24 11:59+0900\n"
 "Last-Translator: Esrille Inc. <info@esrille.com>\n"
 "Language-Team: Japanese <info@esrille.com>\n"
@@ -34,24 +34,24 @@ msgstr "全角英数 (Ａ)"
 msgid "Halfwidth Katakana (ｱ)"
 msgstr "半角カタカナ (ｱ)"
 
-#: engine/engine.py:528 engine/engine.py:951
+#: engine/engine.py:526 engine/engine.py:949
 #, python-format
 msgid "Input mode (%s)"
 msgstr "入力モード (%s)"
 
-#: engine/engine.py:531
+#: engine/engine.py:529
 msgid "Setup"
 msgstr "設定"
 
-#: engine/engine.py:533
+#: engine/engine.py:531
 msgid "Help"
 msgstr "ヘルプ"
 
-#: engine/engine.py:535
+#: engine/engine.py:533
 msgid "About Hiragana IME..."
 msgstr "ひらがなIMEについて..."
 
-#: engine/engine.py:1282
+#: engine/engine.py:1276
 msgid "Hiragana IME"
 msgstr "ひらがなIME"
 
@@ -124,8 +124,8 @@ msgid "Always convert 'nn' to 'ん'"
 msgstr "'nn'をかならず「ん」に変換する"
 
 #: setup/setup.glade:188
-msgid "Combine '^' to the previous vowel character"
-msgstr "'^'を直前の母音字に結合する"
+msgid "Combine '^' to the previous vowel character in alphanumeric mode"
+msgstr "英数モードで、'^'を直前の母音字に結合する"
 
 #: setup/setup.glade:228
 msgid "Keyboard"

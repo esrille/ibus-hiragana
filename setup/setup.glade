@@ -185,7 +185,7 @@
                           <object class="GtkLabel">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">Combine '^' to the previous vowel character</property>
+                            <property name="label" translatable="yes">Combine '^' to the previous vowel character in alphanumeric mode</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>

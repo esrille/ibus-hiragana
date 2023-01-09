@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: ibus-hiragana 0.14.6\n"
+"Project-Id-Version: ibus-hiragana 0.14.7\n"
 "Report-Msgid-Bugs-To: https://github.com/esrille/ibus-hiragana/issues\n"
-"POT-Creation-Date: 2023-01-05 10:22+0900\n"
+"POT-Creation-Date: 2023-01-09 11:30+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,24 +37,24 @@ msgstr ""
 msgid "Halfwidth Katakana (ｱ)"
 msgstr ""
 
-#: engine/engine.py:528 engine/engine.py:951
+#: engine/engine.py:526 engine/engine.py:949
 #, python-format
 msgid "Input mode (%s)"
 msgstr ""
 
-#: engine/engine.py:531
+#: engine/engine.py:529
 msgid "Setup"
 msgstr ""
 
-#: engine/engine.py:533
+#: engine/engine.py:531
 msgid "Help"
 msgstr ""
 
-#: engine/engine.py:535
+#: engine/engine.py:533
 msgid "About Hiragana IME..."
 msgstr ""
 
-#: engine/engine.py:1282
+#: engine/engine.py:1276
 msgid "Hiragana IME"
 msgstr ""
 
@@ -127,7 +127,7 @@ msgid "Always convert 'nn' to 'ん'"
 msgstr ""
 
 #: setup/setup.glade:188
-msgid "Combine '^' to the previous vowel character"
+msgid "Combine '^' to the previous vowel character in alphanumeric mode"
 msgstr ""
 
 #: setup/setup.glade:228
