@@ -150,6 +150,7 @@ img + em {
   font-family: sans-serif;
   font-size: smaller;
   font-style: normal;
+  max-width: 720px;
 }
 h1, h2, h3, h4, h5, h6, strong, th {
   font-family: sans-serif;
@@ -296,13 +297,14 @@ em:lang(ja), h1:lang(ja), h2:lang(ja), h3:lang(ja), h4:lang(ja), h5:lang(ja), h6
   font-size: 14px;
   overflow: auto;
 }
-.kbd + p > em {
+.kbd + p > em, .kbd + em {
   display: block;
   text-align: center;
   font-family: sans-serif;
   font-size: 11pt;
   line-height: 11pt;
   margin-bottom: 11pt;
+  max-width: 720px;
 }
 .layer {
   position: absolute;
