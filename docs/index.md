@@ -33,4 +33,4 @@
 そうしたソフトでは、「ひらがなIME」も、￹従来￺じゅうらい￻のIMEとおなじように「よみの￹入力￺にゅうりょく￻モード」をつかって￹文字￺もじ￻を￹入力￺にゅうりょく￻します。
 
 <hr>
-<br><small>Copyright 2017-2023 Esrille Inc. </small>
+<br><small>Copyright 2017-2023 Esrille Inc.</small>
