@@ -1212,7 +1212,7 @@ class EngineHiragana(EngineModeless):
     #
     def do_candidate_clicked(self, index, button, state):
         logger.info(f'do_candidate_clicked({index}, {button}, {state})')
-        if button != 1:
+        if button != 1 or not self._dict.current():
             return
         cursor_pos = self._lookup_table.get_cursor_pos()
         page_size = self._lookup_table.get_page_size()
