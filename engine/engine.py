@@ -926,9 +926,9 @@ class EngineHiragana(EngineModeless):
         logger.info(f'_set_combining_circumflex({mode})')
 
     def _set_completed(self, cand):
+        logger.info(f'_set_completed("{cand}")')
         if cand[-1] in HIRAGANA:
             self._completed = cand
-            logger.debug(f'_set_completed("{cand}")')
         else:
             self._completed = ''
 
@@ -1210,6 +1210,32 @@ class EngineHiragana(EngineModeless):
     #
     # virtual methods of IBus.Engine
     #
+    def do_candidate_clicked(self, index, button, state):
+        logger.info(f'do_candidate_clicked({index}, {button}, {state})')
+        if button != 1:
+            return
+        cursor_pos = self._lookup_table.get_cursor_pos()
+        page_size = self._lookup_table.get_page_size()
+        base = cursor_pos - (cursor_pos % page_size)
+        if page_size <= index:
+            cursor_pos = index
+        else:
+            cursor_pos = base + index
+        self._lookup_table.set_cursor_pos(cursor_pos)
+        self._dict.set_current(cursor_pos)
+
+        current = self._confirm_candidate()
+        self.commit_string(current)
+        if current[-1] == '―':
+            self._process_replace()
+            if self._surrounding in (SURROUNDING_COMMITTED, SURROUNDING_SUPPORTED):
+                self.flush()
+        else:
+            if not self.commit_roman():
+                self._set_completed(current)
+            self.flush()
+        self._update_preedit()
+
     def do_cursor_down(self):
         if self._lookup_table.cursor_down():
             self._update_candidate()
