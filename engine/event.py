@@ -191,8 +191,8 @@ class Event:
         return bool(self._modifiers & DUAL_BITS)
 
     def process_key_event(self, engine, keyval, keycode, state):
-        logger.debug(f'process_key_event({keyval:#04x}({IBus.keyval_name(keyval)}), '
-                     f'{keycode:#04x}, {state:#010x}) {self._modifiers:#07x}')
+        logger.info(f'process_key_event({keyval:#04x}({IBus.keyval_name(keyval)}), '
+                    f'{keycode}, {state:#010x}) {self._modifiers:#07x}')
         alt_gr = False
 
         # Ignore XFree86 anomaly.

@@ -474,21 +474,27 @@ class EngineHiragana(EngineModeless):
             self._lookup_table.clear()
         return current
 
-    def _handle_default_layout(self, preedit, c, modifiers):
+    def _handle_default_layout(self, preedit, c, keycode, modifiers):
         return c, ''
 
-    def _handle_kana_layout(self, preedit, c, modifiers):
+    def _handle_kana_layout(self, preedit, c, keycode, modifiers):
         yomi = c
-        c = c.lower()
-        if not self._event.is_shift():
-            if 'Normal' in self._layout:
-                yomi = self._layout['Normal'].get(c, c)
+        if 'Key' in self._layout:
+            if keycode < len(self._layout['Key']):
+                a = self._layout['Key'][keycode]
+                yomi = a[3] if self._event.is_shift() else a[2]
+                logger.debug(f'_handle_kana_layout: {yomi}')
         else:
-            if 'Shift' in self._layout:
-                yomi = self._layout['Shift'].get(c, c)
+            c = c.lower()
+            if not self._event.is_shift():
+                if 'Normal' in self._layout:
+                    yomi = self._layout['Normal'].get(c, c)
+            else:
+                if 'Shift' in self._layout:
+                    yomi = self._layout['Shift'].get(c, c)
         return yomi, preedit
 
-    def _handle_roomazi_layout(self, preedit, c, modifiers):
+    def _handle_roomazi_layout(self, preedit, c, keycode, modifiers):
         yomi = ''
         post = ''
         c = c.lower()
@@ -850,10 +856,17 @@ class EngineHiragana(EngineModeless):
         yomi = ''
         if modifiers & event.ALT_R_BIT:
             c = self.process_alt_graph(keyval, keycode, state, modifiers)
+            if not c:
+                self.clear_roman()
+                return True
+            if c not in 'âîûêôÂÎÛÊÔ':
+                yomi = c
         else:
             c = self._event.chr()
         if c:
-            if self.get_mode() == 'A':
+            if yomi:
+                pass
+            elif self.get_mode() == 'A':
                 text, pos = self.get_surrounding_string()
                 if self.combining_circumflex and 0 < pos and c == '^':
                     if text[pos-1] in 'aiueoAIUEO':
@@ -869,7 +882,7 @@ class EngineHiragana(EngineModeless):
             elif self.get_mode() == 'Ａ':
                 yomi = to_zenkaku(c)
             else:
-                yomi, self.roman_text = self._to_kana(self.roman_text, c, modifiers)
+                yomi, self.roman_text = self._to_kana(self.roman_text, c, keycode, modifiers)
                 if yomi == 'ー' and 'Roomazi' in self._layout:
                     if pos <= 0:
                         yomi = '－'
@@ -1120,6 +1133,14 @@ class EngineHiragana(EngineModeless):
         return self._override
 
     def process_alt_graph(self, keyval, keycode, state, modifiers):
+        if 'AltGr' in self._layout:
+            if keycode < len(self._layout['AltGr']):
+                a = self._layout['AltGr'][keycode]
+                c = a[3] if self._event.is_shift() else a[2]
+                logger.debug(f'process_alt_graph: {c}')
+                return c
+            return ''
+
         c = dead_key(keyval)
         if not c:
             c = self._event.chr().lower()
@@ -1137,8 +1158,8 @@ class EngineHiragana(EngineModeless):
         return ''
 
     def process_key_event(self, keyval, keycode, state, modifiers):
-        logger.debug(f'process_key_event({keyval:#04x}({IBus.keyval_name(keyval)}), '
-                     f'{keycode:#04x}, {state:#010x}, {modifiers:#07x})')
+        logger.info(f'process_key_event({keyval:#04x}({IBus.keyval_name(keyval)}), '
+                    f'{keycode}, {state:#010x}, {modifiers:#07x})')
 
         if self._event.is_dual_role():
             pass
@@ -1284,6 +1305,8 @@ class EngineHiragana(EngineModeless):
         return True
 
     def do_process_key_event(self, keyval, keycode, state):
+        logger.info(f'do_process_key_event({keyval:#04x}({IBus.keyval_name(keyval)}), '
+                    f'{keycode}, {state:#010x})')
         return self._event.process_key_event(self, keyval, keycode, state)
 
     def do_property_activate(self, prop_name, state):
