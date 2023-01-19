@@ -640,8 +640,11 @@ class EngineHiragana(EngineModeless):
         cand = self._dict.lookup(yomi, pos)
         size = len(self._dict.reading())
         if 0 < size and 1 < len(self._dict.cand()):
+            i = 0
             for c in self._dict.cand():
                 self._lookup_table.append_candidate(IBus.Text.new_from_string(c))
+                self._lookup_table.set_label(i, IBus.Text.new_from_string(' '))
+                i += 1
         return cand, size
 
     def _process_dakuten(self, c):
