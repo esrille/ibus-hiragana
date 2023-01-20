@@ -216,7 +216,7 @@ class EngineModeless(IBus.Engine):
         self.roman_text = ''
 
     def _forward_backspaces(self, size):
-        logger.debug(f'_forward_backspaces({size})')
+        logger.info(f'_forward_backspaces({size})')
         for i in range(size):
             self.forward_key_event(IBus.BackSpace, 14, 0)
             time.sleep(EVENT_DELAY)
@@ -234,7 +234,7 @@ class EngineModeless(IBus.Engine):
 
     def check_surrounding_support(self):
         if self._surrounding == SURROUNDING_COMMITTED:
-            logger.debug(f'check_surrounding_support(): "{self._preedit_text}"')
+            logger.info(f'check_surrounding_support(): "{self._preedit_text}"')
             self._surrounding = SURROUNDING_BROKEN
             # Hide preedit text for a moment so that the current client can
             # process the backspace keys.
@@ -270,7 +270,7 @@ class EngineModeless(IBus.Engine):
         return text
 
     def commit_string(self, text):
-        logger.debug(f'commit_string("{text}"): "{self._preedit_text}"')
+        logger.info(f'commit_string("{text}"): "{self._preedit_text}"')
         if not text:
             return text
         if not self.has_preedit():
@@ -292,7 +292,7 @@ class EngineModeless(IBus.Engine):
         self._preedit_pos_orig += 1
 
     def delete_surrounding_string(self, size):
-        logger.debug(f'delete_surrounding_string({size})')
+        logger.info(f'delete_surrounding_string({size})')
         assert size <= self._preedit_pos
         self._preedit_text = self._preedit_text[:self._preedit_pos - size] + self._preedit_text[self._preedit_pos:]
         self._preedit_pos -= size
@@ -304,18 +304,18 @@ class EngineModeless(IBus.Engine):
         if text:
             self.commit_string(text)
         if self._surrounding == SURROUNDING_COMMITTED:
-            logger.debug(f'flush("{self._preedit_text}"): committed')
+            logger.info(f'flush("{self._preedit_text}"): committed')
             if self._preedit_text:
                 self.commit_text(IBus.Text.new_from_string(self._preedit_text))
             if not force:
                 return self._preedit_text
         elif self.should_draw_preedit():
-            logger.debug(f'flush("{self._preedit_text}"): preedit')
+            logger.info(f'flush("{self._preedit_text}"): preedit')
             if self._preedit_text:
                 self.commit_text(IBus.Text.new_from_string(self._preedit_text))
         else:
-            logger.debug(f'flush("{self._preedit_text}"): '
-                         f'{self._preedit_pos_min}:{self._preedit_pos_orig}:{self._preedit_pos}')
+            logger.info(f'flush("{self._preedit_text}"): '
+                        f'{self._preedit_pos_min}:{self._preedit_pos_orig}:{self._preedit_pos}')
             delete_size = self._preedit_pos_orig - self._preedit_pos_min
             if 0 < delete_size:
                 delete_size = self._preedit_pos_orig - self._preedit_pos_min
@@ -397,7 +397,7 @@ class EngineModeless(IBus.Engine):
     # virtual methods of IBus.Engine
     #
     def do_enable(self):
-        logger.info('enable')
+        logger.info('do_enable()')
         # Request the initial surrounding-text when enabled as documented.
         super().get_surrounding_text()
 
@@ -440,15 +440,15 @@ class EngineHiragana(EngineModeless):
         self._keymap = Gdk.Keymap.get_for_display(Gdk.Display.get_default())
         self._keymap_handler = 0
 
-        self._logging_level = self._load_logging_level(self._settings)
-        self._dict = self._load_dictionary(self._settings)
-        self._layout = self._load_layout(self._settings)
-        self._delay = self._load_delay(self._settings)
+        self._logging_level = self._load_logging_level()
+        self._dict = self._load_dictionary()
+        self._layout = self._load_layout()
+        self._delay = self._load_delay()
         self._event = Event(self, self._delay, self._layout)
 
-        self.set_mode(self._load_input_mode(self._settings))
-        self._set_x4063_mode(self._load_x4063_mode(self._settings))
-        self._set_combining_circumflex(self._load_combining_circumflex(self._settings))
+        self.set_mode(self._load_input_mode())
+        self._set_x4063_mode(self._load_x4063_mode())
+        self._set_combining_circumflex(self._load_combining_circumflex())
 
         self._about_dialog = None
         self._setup_proc = None
@@ -542,27 +542,27 @@ class EngineHiragana(EngineModeless):
     def _is_tiny(self, c):
         return c == self._to_tiny
 
-    def _load_combining_circumflex(self, settings):
-        mode = settings.get_boolean('combining-circumflex')
+    def _load_combining_circumflex(self):
+        mode = self._settings.get_boolean('combining-circumflex')
         logger.info(f'combining-circumflex: {mode}')
         return mode
 
-    def _load_delay(self, settings):
-        delay = settings.get_int('delay')
+    def _load_delay(self):
+        delay = self._settings.get_int('delay')
         logger.info(f'delay: {delay}')
         return delay
 
-    def _load_dictionary(self, settings, clear_history=False):
-        path = settings.get_string('dictionary')
-        user = settings.get_string('user-dictionary')
-        long_vowels_in_99_siki = settings.get_boolean('long-vowels-in-99-siki')
+    def _load_dictionary(self, clear_history=False):
+        path = self._settings.get_string('dictionary')
+        user = self._settings.get_string('user-dictionary')
+        long_vowels_in_99_siki = self._settings.get_boolean('long-vowels-in-99-siki')
         return Dictionary(path, user, clear_history, long_vowels_in_99_siki)
 
-    def _load_input_mode(self, settings):
-        mode = settings.get_string('mode')
+    def _load_input_mode(self):
+        mode = self._settings.get_string('mode')
         if mode not in INPUT_MODE_NAMES:
             mode = 'A'
-            settings.reset('mode')
+            self._settings.reset('mode')
         logger.info(f'input mode: {mode}')
         return mode
 
@@ -576,7 +576,7 @@ class EngineHiragana(EngineModeless):
             logger.exception(f'could not load "{pathname}"')
         return layout
 
-    def _load_layout(self, settings):
+    def _load_layout(self):
         input_sources = Gio.Settings.new('org.gnome.desktop.input-sources')
         mru_sources = input_sources.get_value('mru-sources')
         xkb_layout = 'us'
@@ -593,7 +593,7 @@ class EngineHiragana(EngineModeless):
         default_path = os.path.join(package.get_datadir(), 'layouts')
         default_layout = os.path.join(default_path, 'roomazi.us.json')
 
-        path: str = settings.get_string('layout')
+        path: str = self._settings.get_string('layout')
         if path.endswith('.json'):
             path = path[path.rfind('/') + 1:len(path) - 5]
         path = os.path.join(default_path, path + '.' + xkb_layout + '.json')
@@ -602,7 +602,7 @@ class EngineHiragana(EngineModeless):
         if not layout:
             layout = self._load_json(default_layout)
 
-        path = settings.get_string('altgr')
+        path = self._settings.get_string('altgr')
         if path.endswith('.json'):
             path = path[path.rfind('/') + 1:len(path) - 5]
         path = os.path.join(default_path, path + '.' + xkb_layout + '.json')
@@ -621,17 +621,17 @@ class EngineHiragana(EngineModeless):
         self._to_tiny = layout.get('Tiny')
         return layout
 
-    def _load_logging_level(self, settings):
-        level = settings.get_string('logging-level')
+    def _load_logging_level(self):
+        level = self._settings.get_string('logging-level')
         if level not in NAME_TO_LOGGING_LEVEL:
             level = 'WARNING'
-            settings.reset('logging-level')
+            self._settings.reset('logging-level')
         logger.info(f'logging_level: {level}')
         logging.getLogger().setLevel(NAME_TO_LOGGING_LEVEL[level])
         return level
 
-    def _load_x4063_mode(self, settings):
-        mode = settings.get_boolean('nn-as-jis-x-4063')
+    def _load_x4063_mode(self):
+        mode = self._settings.get_boolean('nn-as-jis-x-4063')
         logger.info(f'nn-as-jis-x-4063: {mode}')
         return mode
 
@@ -1061,9 +1061,9 @@ class EngineHiragana(EngineModeless):
                 last = line
                 logger.info(line)
                 if line == 'reload_dictionaries':
-                    self._dict = self._load_dictionary(self._settings)
+                    self._dict = self._load_dictionary()
                 elif line == 'clear_input_history':
-                    self._dict = self._load_dictionary(self._settings, clear_history=True)
+                    self._dict = self._load_dictionary(clear_history=True)
             except queue.Empty:
                 break
 
@@ -1077,24 +1077,24 @@ class EngineHiragana(EngineModeless):
     def _config_value_changed_cb(self, settings, key):
         logger.debug(f'config_value_changed("{key}")')
         if key == 'logging-level':
-            self._logging_level = self._load_logging_level(settings)
+            self._logging_level = self._load_logging_level()
         elif key == 'delay':
             self._reset()
-            self._delay = self._load_delay(settings)
+            self._delay = self._load_delay()
             self._event = Event(self, self._delay, self._layout)
         elif key == 'layout' or key == 'altgr':
             self._reset()
-            self._layout = self._load_layout(settings)
+            self._layout = self._load_layout()
             self._event = Event(self, self._delay, self._layout)
         elif key == 'dictionary' or key == 'user-dictionary':
             self._reset()
-            self._dict = self._load_dictionary(settings)
+            self._dict = self._load_dictionary()
         elif key == 'mode':
-            self.set_mode(self._load_input_mode(settings), True)
+            self.set_mode(self._load_input_mode(), True)
         elif key == 'nn-as-jis-x-4063':
-            self._set_x4063_mode(self._load_x4063_mode(settings))
+            self._set_x4063_mode(self._load_x4063_mode())
         elif key == 'combining-circumflex':
-            self._set_combining_circumflex(self._load_combining_circumflex(settings))
+            self._set_combining_circumflex(self._load_combining_circumflex())
 
     def _keymap_state_changed_cb(self, keymap):
         if self._event.is_onoff_by_caps():
@@ -1271,7 +1271,7 @@ class EngineHiragana(EngineModeless):
         return True
 
     def do_disable(self):
-        logger.info('disable')
+        logger.info('do_disable()')
         self._reset()
         self._mode = 'A'
         self._dict.save_orders()
@@ -1285,14 +1285,14 @@ class EngineHiragana(EngineModeless):
         self._settings_handler = self._settings.connect('changed', self._config_value_changed_cb)
 
     def do_focus_in(self):
-        logger.info(f'focus_in: {self._surrounding}')
+        logger.info(f'do_focus_in(): {self._surrounding}')
         self._event.reset()
         self.register_properties(self._prop_list)
         self._update_preedit()
         super().do_focus_in()
 
     def do_focus_out(self):
-        logger.info(f'focus_out: {self._surrounding}')
+        logger.info(f'do_focus_out(): {self._surrounding}')
         if self._surrounding != SURROUNDING_BROKEN:
             self._reset()
             self._dict.save_orders()
