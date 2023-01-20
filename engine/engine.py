@@ -484,14 +484,6 @@ class EngineHiragana(EngineModeless):
                 a = self._layout['Key'][keycode]
                 yomi = a[3] if self._event.is_shift() else a[2]
                 logger.debug(f'_handle_kana_layout: {yomi}')
-        else:
-            c = c.lower()
-            if not self._event.is_shift():
-                if 'Normal' in self._layout:
-                    yomi = self._layout['Normal'].get(c, c)
-            else:
-                if 'Shift' in self._layout:
-                    yomi = self._layout['Shift'].get(c, c)
         return yomi, preedit
 
     def _handle_roomazi_layout(self, preedit, c, keycode, modifiers):
@@ -1142,22 +1134,6 @@ class EngineHiragana(EngineModeless):
                 c = a[3] if self._event.is_shift() else a[2]
                 logger.debug(f'process_alt_graph: {c}')
                 return c
-            return ''
-
-        c = dead_key(keyval)
-        if not c:
-            c = self._event.chr().lower()
-            if c == '_' and keycode == 0x0b:
-                c = '0'
-        if not c:
-            return c
-        logger.debug(f"process_alt_graph: '{c}' {hex(ord(c))}")
-        if not self._event.is_shift():
-            if '\\Normal' in self._layout:
-                return self._layout['\\Normal'].get(c, '')
-        else:
-            if '\\Shift' in self._layout:
-                return self._layout['\\Shift'].get(c, '')
         return ''
 
     def process_key_event(self, keyval, keycode, state, modifiers):
