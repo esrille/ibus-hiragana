@@ -125,28 +125,6 @@ SURROUNDING_BROKEN = -2
 EVENT_DELAY = 0.02
 
 
-def dead_key(keyval):
-    return {
-        keysyms.dead_grave: '\u0300',
-        keysyms.dead_acute: '\u0301',
-        keysyms.dead_circumflex: '\u0302',
-        keysyms.dead_tilde: '\u0303',
-        keysyms.dead_macron: '\u0304',
-        keysyms.dead_breve: '\u0306',
-        keysyms.dead_abovedot: '\u0307',
-        keysyms.dead_diaeresis: '\u0308',
-        keysyms.dead_abovering: '\u030a',
-        keysyms.dead_doubleacute: '\u030b',
-        keysyms.dead_caron: '\u030c',
-        keysyms.dead_cedilla: '\u0327',
-        keysyms.dead_ogonek: '\u0328',
-        keysyms.dead_iota: '\u0345',
-        keysyms.dead_voiced_sound: '\u3099',
-        keysyms.dead_semivoiced_sound: '\u309a',
-        keysyms.dead_belowdot: '\u0323',
-    }.get(keyval, '')
-
-
 def get_plain_text(text):
     plain = ''
     in_ruby = False
