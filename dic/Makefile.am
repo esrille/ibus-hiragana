@@ -14,7 +14,7 @@
 
 TOOLS_DIR = ../dic_tools
 
-dic_DATA = \
+dist_dic_DATA = \
 	restrained.dic \
 	restrained.1.dic \
 	restrained.2.dic \
@@ -29,7 +29,7 @@ dic_DATA = \
 
 dicdir = $(pkgdatadir)
 
-EXTRA_DIST = $(dic_DATA) COPYING
+EXTRA_DIST = COPYING
 
 if ENABLE_DIC
 

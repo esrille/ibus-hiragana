@@ -49,6 +49,15 @@ AC_ARG_ENABLE([dic],
 esac],[dic=false])
 AM_CONDITIONAL([ENABLE_DIC], [test x$dic = xtrue])
 
+AC_ARG_ENABLE([html],
+[  --enable-html           Enable regeneration of html files from markdown files],
+[case "${enableval}" in
+  yes) html=true ;;
+  no)  html=false ;;
+  *) AC_MSG_ERROR([bad value ${enableval} for --enable-html]) ;;
+esac],[html=false])
+AM_CONDITIONAL([ENABLE_HTML], [test x$html = xtrue])
+
 # OUTPUT files
 AC_CONFIG_FILES(
 dic/Makefile

@@ -51,6 +51,11 @@ EXTRA_DIST = \
 	usage.md \
 	$(NULL)
 
+uninstall-hook:
+	-rmdir $(helpdir)
+
+if ENABLE_HTML
+
 CLEANFILES = \
 	altgr.html \
 	index.html \
@@ -61,9 +66,6 @@ CLEANFILES = \
 	settings.html \
 	usage.html \
 	$(NULL)
-
-uninstall-hook:
-	-rmdir $(helpdir)
 
 index.html: index.md altgr.md install.md template.html
 	./md2html.py $^
@@ -88,3 +90,5 @@ roomazi.html: roomazi.md layouts.md altgr.md template.html
 
 altgr.html: altgr.md roomazi.md index.md template.html
 	./md2html.py $^
+
+endif
