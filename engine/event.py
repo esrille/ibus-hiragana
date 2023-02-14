@@ -209,6 +209,13 @@ class Event:
         self._modifiers &= ~DUAL_BITS
         is_press = ((state & IBus.ModifierType.RELEASE_MASK) == 0)
         if is_press:
+            # Test state first to support On-Screen Keyboard since it may
+            # not generate key events for shift keys.
+            if state & IBus.ModifierType.SHIFT_MASK:
+                self._modifiers |= SHIFT_L_BIT
+            elif self._modifiers & SHIFT_L_BIT:
+                self._modifiers &= ~SHIFT_L_BIT
+
             if keyval == keysyms.space:
                 if self._modifiers & (MODIFIER_BITS & ~SPACE_BIT):
                     self._modifiers |= NOT_DUAL_SPACE_BIT
