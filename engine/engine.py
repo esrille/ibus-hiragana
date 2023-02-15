@@ -1181,6 +1181,7 @@ class EngineHiragana(EngineModeless):
         self._mode = mode
         self._update_lookup_table()
         self._update_input_mode()
+        self._settings.set_string('mode', mode)
         if update_list:
             self._update_input_mode_list()
         return True
