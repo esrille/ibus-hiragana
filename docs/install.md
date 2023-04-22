@@ -16,7 +16,7 @@ Waylandはまだまだあたらしく、きちんと￹対応￺たいおう￻�
 そのためには、つぎの行を ~/.bash_profile (Fedoraなど)か ~/.profile (Ubuntuなど)に追加してください。
 
 ```
-$ export GTK_IM_MODULE=ibus
+export GTK_IM_MODULE=ibus
 ```
 
 ## ￹入力￺にゅうりょく￻ソースのセットアップ
