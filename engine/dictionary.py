@@ -301,10 +301,16 @@ class Dictionary:
                 else:
                     yy = y.replace(numeric, '#')
                     if yy in self._dict:
-                        self._yomi = yy[1:]
-                        cand = []
-                        for c in self._dict[yy]:
-                            cand.append(c[1:])
+                        if yy[1:] == self._yomi:
+                            cand = self._cand[:]
+                        else:
+                            self._yomi = yy[1:]
+                            cand = []
+                        for c in reversed(self._dict[yy]):
+                            item = c[1:]
+                            if item in cand:
+                                cand.remove(item)
+                            cand.insert(0, item)
                         self._cand = cand
                         self._no = 0
                         self._order = []
@@ -381,9 +387,10 @@ class Dictionary:
             cand = self._dict[yomi][:]
         elif self._numeric:
             yomi = '#' + yomi
-            cand = []
-            for c in self._cand:
-                cand.append('#' + c)
+            cand = self._dict[yomi][:]
+            if len(cand) <= no:
+                cand.append('#' + self._cand[no])
+                no = len(cand) - 1
         else:
             cand = self._cand[:]
 
