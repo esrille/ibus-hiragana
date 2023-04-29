@@ -1,6 +1,6 @@
 # ibus-hiragana - Hiragana IME for IBus
 #
-# Copyright (c) 2017-2022 Esrille Inc.
+# Copyright (c) 2017-2023 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -78,7 +78,7 @@ class Dictionary:
     def strcmp(okuri, yomi):
         return okuri == yomi
 
-    def __init__(self, path, user, clear_history=False, long_vowels_in_99_siki=False):
+    def __init__(self, path, user, clear_history=False):
         logger.info(f'Dictionary("{path}", "{user}")')
 
         self._dict_base = {}
@@ -98,9 +98,9 @@ class Dictionary:
         try:
             # Load Katakana dictionary first so that Katakana words come after Kanji words.
             katakana_path = os.path.join(package.get_datadir(), 'katakana.dic')
-            self._load_dict(self._dict_base, katakana_path, long_vowels_in_99_siki=long_vowels_in_99_siki)
+            self._load_dict(self._dict_base, katakana_path)
             # Load system dictionary
-            self._load_dict(self._dict_base, path, long_vowels_in_99_siki=long_vowels_in_99_siki)
+            self._load_dict(self._dict_base, path)
         except Exception:
             logger.exception("Could not load 'katakana.dic'")
 
@@ -119,7 +119,7 @@ class Dictionary:
                     f.write('; ' + DICTIONARY_VERSION + '\n')
             self._load_dict(self._dict, self._orders_path, 'a+', version_checked=False)
 
-    def _load_dict(self, dict, path, mode='r', version_checked=True, long_vowels_in_99_siki=False):
+    def _load_dict(self, dict, path, mode='r', version_checked=True):
         reorder_only = not version_checked
         with open(path, mode) as f:
             f.seek(0, 0)   # in case opened in the 'a+' mode
@@ -139,12 +139,6 @@ class Dictionary:
                 self._merge_entry(dict, yomi, cand, reorder_only)
                 if yomi.endswith('―'):
                     self._merge_entry(dict, yomi[:-1], [yomi], reorder_only)
-                if long_vowels_in_99_siki:
-                    yomi99 = self._to_99(yomi)
-                    if yomi99 != yomi:
-                        self._merge_entry(dict, yomi99, cand, reorder_only)
-                        if yomi.endswith('―'):
-                            self._merge_entry(dict, yomi99[:-1], [yomi], reorder_only)
             logger.info(f'Loaded {path}')
 
     def _merge_entry(self, dict, yomi, cand, reorder_only):
@@ -163,21 +157,6 @@ class Dictionary:
                 elif not reorder_only or i[0] in HIRAGANA:
                     update.insert(0, i)
             dict[yomi] = update
-
-    def _to_99(self, s):
-        t = ''
-        b = ''
-        for c in s:
-            if c == 'ー' and b:
-                i = HIRAGANA.find(b)
-                if i == -1:
-                    t += c
-                else:
-                    t += TYOUON[i]
-            else:
-                t += c
-            b = c
-        return t
 
     def reset(self):
         self._yomi = ''

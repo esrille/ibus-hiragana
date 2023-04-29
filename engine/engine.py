@@ -525,8 +525,7 @@ class EngineHiragana(EngineModeless):
     def _load_dictionary(self, clear_history=False):
         path = self._settings.get_string('dictionary')
         user = self._settings.get_string('user-dictionary')
-        long_vowels_in_99_siki = self._settings.get_boolean('long-vowels-in-99-siki')
-        return Dictionary(path, user, clear_history, long_vowels_in_99_siki)
+        return Dictionary(path, user, clear_history)
 
     def _load_input_mode(self):
         mode = self._settings.get_string('mode')
