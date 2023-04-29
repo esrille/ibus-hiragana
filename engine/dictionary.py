@@ -101,8 +101,8 @@ class Dictionary:
             self._load_dict(self._dict_base, katakana_path, long_vowels_in_99_siki=long_vowels_in_99_siki)
             # Load system dictionary
             self._load_dict(self._dict_base, path, long_vowels_in_99_siki=long_vowels_in_99_siki)
-        except Exception as error:
-            logger.error(error)
+        except Exception:
+            logger.exception("Could not load 'katakana.dic'")
 
         # Load private dictionary
         self._dict = self._dict_base.copy()
