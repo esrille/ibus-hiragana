@@ -524,6 +524,7 @@ class EngineHiragana(EngineModeless):
 
     def _load_dictionary(self, clear_history=False):
         path = self._settings.get_string('dictionary')
+        path = path[path.rfind('/') + 1:]   # for v0.15.0 or earlier
         user = self._settings.get_string('user-dictionary')
         return Dictionary(path, user, clear_history)
 

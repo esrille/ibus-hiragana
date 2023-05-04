@@ -78,8 +78,8 @@ class Dictionary:
     def strcmp(okuri, yomi):
         return okuri == yomi
 
-    def __init__(self, path, user, clear_history=False):
-        logger.info(f'Dictionary("{path}", "{user}")')
+    def __init__(self, system, user, clear_history=False):
+        logger.info(f'Dictionary("{system}", "{user}")')
 
         self._dict_base = {}
         self._dict = {}
@@ -97,34 +97,37 @@ class Dictionary:
 
         try:
             # Load Katakana dictionary first so that Katakana words come after Kanji words.
-            katakana_path = os.path.join(package.get_datadir(), 'katakana.dic')
-            self._load_dict(self._dict_base, katakana_path)
+            path = os.path.join(package.get_datadir(), 'katakana.dic')
+            self._load_dict(self._dict_base, path)
         except OSError:
             logger.exception('Could not load "katakana.dic"')
 
         try:
             # Load system dictionary
+            path = os.path.join(package.get_datadir(), system)
             self._load_dict(self._dict_base, path)
         except OSError:
             logger.exception(f'Could not load "{path}"')
 
-        # Load private dictionary
+        # Load user dictionary
         self._dict = self._dict_base.copy()
         if user:
-            my_path = os.path.join(package.get_user_datadir(), user)
+            path = os.path.join(package.get_user_datadir(), user)
             try:
-                self._load_dict(self._dict, my_path, 'a+')
+                self._load_dict(self._dict, path, 'a+')
             except OSError:
-                logger.exception(f'Could not load "{my_path}"')
+                logger.exception(f'Could not load "{path}"')
 
-        base = os.path.basename(path)
-        if base:
-            self._orders_path = os.path.join(package.get_user_datadir(), base)
+        # Load input history
+        self._orders_path = os.path.join(package.get_user_datadir(), system)
+        try:
             if clear_history:
                 logger.info('clear_history')
                 with open(self._orders_path, 'w') as f:
                     f.write('; ' + DICTIONARY_VERSION + '\n')
             self._load_dict(self._dict, self._orders_path, 'a+', version_checked=False)
+        except OSError:
+            logger.exception(f'Could not load "{self._orders_path}"')
 
     def _load_dict(self, dict, path, mode='r', version_checked=True):
         reorder_only = not version_checked
