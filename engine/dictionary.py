@@ -155,14 +155,18 @@ class Dictionary:
         if yomi not in dict:
             if not reorder_only:
                 dict[yomi] = cand
+            else:
+                self._dirty = True
         else:
             update = list(dict[yomi])
             for i in reversed(cand):
                 if i in update:
                     update.remove(i)
                     update.insert(0, i)
-                elif not reorder_only or i[0] in HIRAGANA:
+                elif not reorder_only or i[0] in HIRAGANA or i[0] == '#':
                     update.insert(0, i)
+                else:
+                    self._dirty = True
             dict[yomi] = update
 
     def reset(self):
