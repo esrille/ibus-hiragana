@@ -99,16 +99,23 @@ class Dictionary:
             # Load Katakana dictionary first so that Katakana words come after Kanji words.
             katakana_path = os.path.join(package.get_datadir(), 'katakana.dic')
             self._load_dict(self._dict_base, katakana_path)
+        except OSError:
+            logger.exception('Could not load "katakana.dic"')
+
+        try:
             # Load system dictionary
             self._load_dict(self._dict_base, path)
-        except Exception:
-            logger.exception("Could not load 'katakana.dic'")
+        except OSError:
+            logger.exception(f'Could not load "{path}"')
 
         # Load private dictionary
         self._dict = self._dict_base.copy()
         if user:
             my_path = os.path.join(package.get_user_datadir(), user)
-            self._load_dict(self._dict, my_path, 'a+')
+            try:
+                self._load_dict(self._dict, my_path, 'a+')
+            except OSError:
+                logger.exception(f'Could not load "{my_path}"')
 
         base = os.path.basename(path)
         if base:
