@@ -1,6 +1,6 @@
 # ibus-hiragana - Hiragana IME for IBus
 #
-# Copyright (c) 2020-2022 Esrille Inc.
+# Copyright (c) 2020-2023 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -83,7 +83,7 @@ class SetupEngineHiragana:
         model.append([_('5th grade'), 'restrained.5.dic', 4])
         model.append([_('6th grade'), 'restrained.6.dic', 5])
         model.append([_('7-9th grade'), 'restrained.7.dic', 6])
-        model.append([_('10th+ grade (Okurigana: general)'), 'restrained.dic', 7])
+        model.append([_('10th+ grade (Okurigana: general)'), 'restrained.8.dic', 7])
         model.append([_('10th+ grade (Okurigana: general + permissible)'), 'restrained.9.dic', 8])
         self._kanzi_dictionaries.set_model(model)
         renderer = Gtk.CellRendererText()
@@ -137,7 +137,6 @@ class SetupEngineHiragana:
         # dictionary
         i = self._kanzi_dictionaries.get_active()
         dictionary = self._kanzi_dictionaries.get_model()[i][1]
-        dictionary = os.path.join(package.get_datadir(), dictionary)
         self._settings.set_string('dictionary', dictionary)
 
         # user-dictionary

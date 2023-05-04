@@ -25,7 +25,7 @@
       </description>
     </key>
     <key name='dictionary' type='s'>
-      <default>\"${pkgdatadir}/restrained.dic\"</default>
+      <default>\"restrained.9.dic\"</default>
       <summary>Kanji Dictionary File</summary>
       <description>
         The pathname to the Kanji dictionary file.

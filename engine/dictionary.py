@@ -119,13 +119,18 @@ class Dictionary:
                 logger.exception(f'Could not load "{path}"')
 
         # Load input history
-        self._orders_path = os.path.join(package.get_user_datadir(), system)
+        self._orders_path = path = os.path.join(package.get_user_datadir(), system)
+        if system == 'restrained.8.dic':
+            if not os.path.exists(path):
+                # if upgraded from v0.15.0 or earlier, 'restrained.8.dic' does not exist.
+                path = os.path.join(package.get_user_datadir(), 'restrained.dic')
+                self._dirty = True
         try:
             if clear_history:
                 logger.info('clear_history')
                 with open(self._orders_path, 'w') as f:
                     f.write('; ' + DICTIONARY_VERSION + '\n')
-            self._load_dict(self._dict, self._orders_path, 'a+', version_checked=False)
+            self._load_dict(self._dict, path, 'a+', version_checked=False)
         except OSError:
             logger.exception(f'Could not load "{self._orders_path}"')
 

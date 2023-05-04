@@ -523,10 +523,15 @@ class EngineHiragana(EngineModeless):
         return delay
 
     def _load_dictionary(self, clear_history=False):
-        path = self._settings.get_string('dictionary')
-        path = path[path.rfind('/') + 1:]   # for v0.15.0 or earlier
+        system = self._settings.get_string('dictionary')
+        slash = system.rfind('/')
+        if 0 <= slash:
+            # for v0.15.0 or earlier
+            system = system[slash + 1:]
+            if system == 'restrained.dic':
+                system = 'restrained.8.dic'
         user = self._settings.get_string('user-dictionary')
-        return Dictionary(path, user, clear_history)
+        return Dictionary(system, user, clear_history)
 
     def _load_input_mode(self):
         mode = self._settings.get_string('mode')

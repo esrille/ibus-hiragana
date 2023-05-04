@@ -1,4 +1,4 @@
-# Copyright (c) 2017-2022 Esrille Inc.
+# Copyright (c) 2017-2023 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
 TOOLS_DIR = ../dic_tools
 
 dist_dic_DATA = \
-	restrained.dic \
 	restrained.1.dic \
 	restrained.2.dic \
 	restrained.3.dic \
@@ -23,6 +22,7 @@ dist_dic_DATA = \
 	restrained.5.dic \
 	restrained.6.dic \
 	restrained.7.dic \
+	restrained.8.dic \
 	restrained.9.dic \
 	katakana.dic \
 	$(NULL)
@@ -59,7 +59,7 @@ restrained.6.dic : $(TOOLS_DIR)/third_party/skk/SKK-JISYO.ML
 restrained.7.dic : $(TOOLS_DIR)/third_party/skk/SKK-JISYO.ML
 	$(TOOLS_DIR)/restrain.py $< 7 > $@
 
-restrained.dic : $(TOOLS_DIR)/third_party/skk/SKK-JISYO.ML
+restrained.8.dic : $(TOOLS_DIR)/third_party/skk/SKK-JISYO.ML
 	$(TOOLS_DIR)/restrain.py $< 8 > $@
 
 restrained.9.dic : $(TOOLS_DIR)/third_party/skk/SKK-JISYO.ML
