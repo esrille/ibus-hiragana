@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 #
-# Copyright (c) 2017-2022 Esrille Inc.
+# Copyright (c) 2017-2023 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -45,20 +45,6 @@ def load(path):
                 found = RE_KATAKANA.match(i)
                 if found:
                     s.add(found.group())
-
-    # Remove typos and so on in the original file.
-    s.discard('アイウエオ')
-    s.discard('アアダプタ')
-    s.discard('アアダプター')
-    s.discard('フアン')
-    s.discard('ガサ')
-    s.discard('テカ')
-    # any word that begins 'を' makes the normal Japanese language hard to parse.
-    s.discard('ヲコト')
-    s.discard('ヲタ')
-    s.discard('ヲタク')
-    s.discard('ヲッカ')
-
     return s
 
 
@@ -71,8 +57,15 @@ def main():
         path = sys.argv[1]
     gairaigo = load(path)
 
+    if 3 <= len(sys.argv):
+        with open(sys.argv[2]) as f:
+            for line in f:
+                if line[0] == ';':
+                    continue
+                gairaigo.discard(line.strip())
+
     print(';; Hiragana IME for IBus')
-    print(';; Copyright (c) 2017-2022 Esrille Inc.')
+    print(';; Copyright (c) 2017-2023 Esrille Inc.')
     print(';;')
     print(';;   https://github.com/esrille/ibus-hiragana')
     print(';;')

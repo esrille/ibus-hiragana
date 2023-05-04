@@ -1,0 +1,13 @@
+; Remove typos and so on in the original file.
+アイウエオ
+アアダプタ
+アアダプター
+フアン
+ガサ
+テカ
+デミ
+; any word that begins 'を' makes the normal Japanese language hard to parse.
+ヲコト
+ヲタ
+ヲタク
+ヲッカ
