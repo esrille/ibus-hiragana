@@ -1,6 +1,6 @@
 # ibus-hiragana - Hiragana IME for IBus
 #
-# Copyright (c) 2020-2022 Esrille Inc.
+# Copyright (c) 2020-2023 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -48,6 +48,15 @@ def get_libexecdir():
 
 def get_localedir():
     return '${localedir}'
+
+
+def load_from_data_dirs(file):
+    data_dirs = [get_user_datadir(), get_datadir()]
+    for dir in data_dirs:
+        path = os.path.join(dir, file)
+        if os.path.exists(path):
+            return path
+    return None
 
 
 def _(text):

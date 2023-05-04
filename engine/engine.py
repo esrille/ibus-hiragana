@@ -558,23 +558,18 @@ class EngineHiragana(EngineModeless):
                 xkb_layout = source_name
                 break
         logger.info(f'xkb layout: {xkb_layout}')
-
-        default_path = os.path.join(package.get_datadir(), 'layouts')
-        default_layout = os.path.join(default_path, 'roomazi.us.json')
-
-        path: str = self._settings.get_string('layout')
-        if path.endswith('.json'):
-            path = path[path.rfind('/') + 1:len(path) - 5]
-        path = os.path.join(default_path, path + '.' + xkb_layout + '.json')
+        if xkb_layout in ('us', 'jp'):
+            default_layout = os.path.join(package.get_datadir(), 'layouts', 'roomazi.' + xkb_layout + '.json')
+        else:
+            default_layout = os.path.join(package.get_datadir(), 'layouts', 'roomazi.' + 'us' + '.json')
+        path = package.load_from_data_dirs(
+            os.path.join('layouts', self._settings.get_string('layout') + '.' + xkb_layout + '.json'))
         logger.info(f'keyboard layout: {path}')
         layout = self._load_json(path)
         if not layout:
             layout = self._load_json(default_layout)
-
-        path = self._settings.get_string('altgr')
-        if path.endswith('.json'):
-            path = path[path.rfind('/') + 1:len(path) - 5]
-        path = os.path.join(default_path, path + '.' + xkb_layout + '.json')
+        path = package.load_from_data_dirs(
+            os.path.join('layouts', self._settings.get_string('altgr') + '.' + xkb_layout + '.json'))
         altgr = self._load_json(path)
         if altgr:
             layout.update(altgr)
