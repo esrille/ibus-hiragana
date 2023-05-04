@@ -22,7 +22,7 @@ import re
 
 logger = logging.getLogger(__name__)
 
-DICTIONARY_VERSION = 'v0.4.0'
+DICTIONARY_VERSION = 'v1.0.0'
 NON_YOMIGANA = re.compile(r'[^ぁ-ゖァ-ー―]')
 YOMIGANA = re.compile(r'^[ぁ-ゖァ-ー―]+[、。，．]?$')
 HIRAGANA = ('あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん'
