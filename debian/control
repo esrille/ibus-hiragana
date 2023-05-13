@@ -2,7 +2,14 @@ Source: ibus-hiragana
 Section: utils
 Priority: optional
 Maintainer: Esrille Inc. <info@esrille.com>
-Build-Depends: debhelper (>=11),autopoint,dh-python,python3-dev,pkg-config,libibus-1.0-dev (>= 1.5.11),python3-markdown
+Build-Depends:
+ autopoint,
+ debhelper (>=11),
+ dh-python,
+ libibus-1.0-dev (>= 1.5.11),
+ pkg-config,
+ python3,
+ python3-markdown
 Standards-Version: 3.9.6
 Homepage: https://github.com/esrille/ibus-hiragana
 Vcs-Git: https://github.com/esrille/ibus-hiragana.git
@@ -10,7 +17,10 @@ Vcs-Browser: https://github.com/esrille/ibus-hiragana
 
 Package: ibus-hiragana
 Architecture: all
-Depends: ${python3:Depends}, ${misc:Depends}, ibus (>= 1.5.11), yelp
-Recommends: ibus-gtk, ibus-gtk3
+Depends:
+ ${misc:Depends},
+ ${python3:Depends},
+ ibus (>= 1.5.11),
+ yelp
 Description: Hiragana IME for IBus
  IBus-Hiragana is a Japanese input method engine for IBus.
