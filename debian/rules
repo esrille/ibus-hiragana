@@ -9,8 +9,3 @@
 # use the default libexec path.
 override_dh_auto_configure:
 	dh_auto_configure -- --libexecdir=\$${prefix}/libexec
-
-# See dpkg-deb(1)
-# zstd is not supported in older distributions.
-override_dh_builddeb:
-	dh_builddeb -- -Zxz
