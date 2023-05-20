@@ -1,4 +1,4 @@
-# Copyright (c) 2017-2020 Esrille Inc.
+# Copyright (c) 2017-2023 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ EXTRA_DIST = \
 	debian/source/format \
 	autogen.sh \
 	@PACKAGE_NAME@.spec \
-	@PACKAGE_NAME@.spec.in \
+	@PACKAGE_NAME@.spec.in.in \
 	CONTRIBUTING.md \
 	LICENSE \
 	NOTICE\
@@ -54,6 +54,15 @@ debian/changelog:
 		date=`date -R`; \
 		version=@VERSION@; \
 		s=`cat debian/changelog.in`; \
+		eval "echo \"$${s}\""; \
+	) > $@
+
+.PHONY: @PACKAGE_NAME@.spec
+@PACKAGE_NAME@.spec:
+	$(AM_V_GEN) \
+	( \
+		date=`date +%a\ %b\ %d\ %Y`; \
+		s=`cat @PACKAGE_NAME@.spec.in`; \
 		eval "echo \"$${s}\""; \
 	) > $@
 

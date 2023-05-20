@@ -73,7 +73,7 @@ setup/Makefile
 setup/package.py.in
 setup/ibus-setup-hiragana.in
 Makefile
-ibus-hiragana.spec
+ibus-hiragana.spec.in
 )
 
 AC_OUTPUT
