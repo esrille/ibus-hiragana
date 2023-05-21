@@ -23,7 +23,7 @@ Hiragana IME for IBus.
 %global __python %{__python3}
 
 %prep
-%setup -q
+%autosetup
 
 %build
 %configure
