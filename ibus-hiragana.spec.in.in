@@ -2,7 +2,7 @@ Name:       @PACKAGE_NAME@
 Version:    @PACKAGE_VERSION@
 Release:    1%{?dist}
 Summary:    Hiragana IME for IBus
-License:    ASL 2.0
+License:    Apache-2.0 AND GPL-2.0-or-later AND CC-BY-SA-3.0
 URL:        https://github.com/esrille/%{name}
 Source0:    https://github.com/esrille/%{name}/releases/download/v%{version}/%{name}-%{version}.tar.gz
 Requires:   ibus >= 1.5.11
