@@ -1,4 +1,4 @@
-# Copyright (c) 2017-2020 Esrille Inc.
+# Copyright (c) 2017-2023 Esrille Inc.
 #
 # Using source code derived from
 #   ibus-tmpl - The Input Bus template project
@@ -28,7 +28,7 @@ engine_hiraganadir = $(pkgdatadir)
 libexec_SCRIPTS= ibus-engine-hiragana
 
 component_DATA = hiragana.xml
-componentdir = @IBUS_DATADIR@/ibus/component
+componentdir = $(datadir)/ibus/component
 
 gsettings_SCHEMAS = org.freedesktop.ibus.engine.hiragana.gschema.xml
 

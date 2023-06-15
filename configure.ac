@@ -23,7 +23,6 @@ AM_GNU_GETTEXT([external])
 #   Note hiragana.xml uses icon_prop_key and
 #   ibus 1.5.11 or later is required
 PKG_CHECK_MODULES([IBUS], [ibus-1.0 >= 1.5.11])
-AC_SUBST([IBUS_DATADIR], [$($PKG_CONFIG --variable=datadir ibus-1.0)])
 
 # Check Python
 AM_PATH_PYTHON([3.7])
