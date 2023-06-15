@@ -47,7 +47,6 @@ DISTCLEANFILES = \
 	po/stamp-it \
 	$(NULL)
 
-.PHONY: debian/changelog
 debian/changelog:
 	$(AM_V_GEN) \
 	( \
@@ -57,7 +56,6 @@ debian/changelog:
 		eval "echo \"$${s}\""; \
 	) > $@
 
-.PHONY: @PACKAGE_NAME@.spec
 @PACKAGE_NAME@.spec:
 	$(AM_V_GEN) \
 	( \

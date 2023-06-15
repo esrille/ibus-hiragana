@@ -2,6 +2,5 @@ engine/dictionary.py
 engine/engine.py
 engine/event.py
 engine/main.py
-engine/package.py
 setup/main.py
 setup/setup.glade
