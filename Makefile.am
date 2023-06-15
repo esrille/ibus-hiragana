@@ -40,9 +40,6 @@ EXTRA_DIST = \
 	README.txt \
 	$(NULL)
 
-noinst_DIST = \
-	$(NULL)
-
 DISTCLEANFILES = \
 	po/stamp-it \
 	$(NULL)
