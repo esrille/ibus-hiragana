@@ -27,7 +27,11 @@ h2 {
   margin: 2em 0 1em;
   font-size: 16pt;
 }
-h3, h4, h5, h6 {
+h3 {
+  margin: 2em 0 1em;
+  font-size: 14pt;
+}
+h4, h5, h6 {
   margin: 1.5em 0 0.5em;
   font-size: 12pt;
 }
@@ -210,6 +214,7 @@ main {
   overflow-x: hidden;
   -webkit-text-size-adjust: 100%;
   margin-left: 24%;
+  margin-bottom: 4em;
   text-align: justify;
   padding: 10px 30px;
 }

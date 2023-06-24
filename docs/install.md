@@ -1,27 +1,66 @@
 # インストール￹方法￺ほうほう￻
 
-## ソフトウェア パッケージのインストール
+　「ひらがなIME」を￹利用￺りよう￻するには、つぎの￹手順￺てじゅん￻でセットアップをすすめていきます。
 
-　つかっているOSが、FedoraかUbuntuであれば、インストール￹用￺よう￻のソフトウェア パッケージを「[Releases](https://github.com/esrille/ibus-hiragana/releases)」ページからダウンロードできます。
-　ダウンロードができたら、「Releases」ページの￹記載￺きさい￻にしたがって、パッケージをインストールしてください。
-インストールが￹完了￺かんりょう￻したら、いちどコンピューターを￹再￺さい￻￹起動￺きどう￻してください。
+1. [ソフトウェア パッケージをインストールする](#install)
+2. [OSの入力ソースを￹設定￺せってい￻する](#input-source)
+3. [「ひらがなIME」を￹有効￺ゆうこう￻にする](#enable)
+4. [Waylandを￹使用￺しよう￻するばあいの￹設定￺せってい￻](#wayland)
 
-### Waylandを￹使用￺しよう￻するばあい
+## ソフトウェア パッケージのインストール {: #install}
 
-　Ubuntu 21.04￹以降￺いこう￻やFedora 25￹以降￺いこう￻では、デフォルトで￹画面￺がめん￻の￹描画￺びょうが￻にWaylandをつかうようになっています。
-Waylandは、ながくつかわれてきたXサーバーをおきかえるものです。
-Waylandはまだまだあたらしく、きちんと￹対応￺たいおう￻できていないソフトウェアものこっています。
-　IBusをWaylandで使用するばあいは、￹環境￺かんきょう￻￹変数￺へんすう￻GTK_IM_MODULEにibusを￹指定￺してい￻してください。
-そうしないと、ただしい￹周辺￺しゅうへん￻テキストの￹情報￺じょうほう￻がIBusからIMEにおくられてきません。
-そのためには、つぎの行を ~/.bash_profile (Fedoraなど)か ~/.profile (Ubuntuなど)に追加してください。
+　つかっているOSがFedoraかUbuntuであれば、かんたんに「ひらがなIME」をインストールすることができます。
+
+### Fedoraのばあい
+
+　Fedora￹用￺よう￻のソフトウェア パッケージはCoprプロジェクト「[@esrille/releases](https://copr.fedorainfracloud.org/coprs/g/esrille/releases/)」から￹提供￺ていきょう￻しています。
+このCoprプロジェクトを￹有効￺ゆうこう￻にするには、いちど、コマンドラインからつぎのように￹実行￺じっこう￻します。
 
 ```
-export GTK_IM_MODULE=ibus
+sudo dnf copr enable @esrille/releases
 ```
 
-## ￹入力￺にゅうりょく￻ソースのセットアップ
+　あとは、dnfコマンドで「ひらがなIME」をインストールできます。
 
-　パッケージのインストールができたら、￹入力￺にゅうりょく￻ソース(※)に「ひらがなIME」をセットアップしていきます。
+```
+sudo dnf install ibus-hiragan
+```
+
+### Ubuntuのばあい
+
+　Ubuntu￹用￺よう￻のソフトウェア パッケージはPPAレポジトリ「[esrille/releases](https://launchpad.net/~esrille/+archive/ubuntu/releases)」から￹提供￺ていきょう￻しています。
+このPPAレポジトリを￹有効￺ゆうこう￻にするには、いちど、コマンドラインからつぎのように￹実行￺じっこう￻します。
+
+```
+sudo add-apt-repository ppa:esrille/releases
+sudo apt update
+```
+
+　あとは、aptコマンドで「ひらがなIME」をインストールできます。
+
+```
+sudo apt install ibus-hiragana
+```
+
+### ソースコードからインストールする￹方法￺ほうほう￻
+
+　「ひらがなIME」をソースコードからインストールしたいときは、つぎの￹手順￺てじゅん￻でできます。
+
+```
+$ git clone https://github.com/esrille/ibus-hiragana.git
+$ ./autogen.sh  --prefix=/usr [--enable-dic]
+$ make
+$ sudo make install
+```
+
+　autogen.shは、autotoolsの￹設定￺せってい￻をおこない、configureスクリプトよびだします。
+--enable-dicを￹指定￺してい￻すると、￹漢字￺かんじ￻￹辞書￺じしょ￻もメイクしなおすことができます。
+　ビルドするときに￹必要￺ひつよう￻なパッケージについては、debian/controlのBuild-Depends、あるいは、ibus-hiragana.specのBuildRequiresを￹参考￺さんこう￻にしてください。
+
+## OSの￹入力￺にゅうりょく￻ソースの￹設定￺せってい￻ {: #input-source}
+
+　ソフトウェア パッケージのインストールができたら、いちどコンピューターを￹再￺さい￻￹起動￺きどう￻してください。
+　つづいて、OSの「￹入力￺にゅうりょく￻ソース(※)」の￹設定￺せってい￻をおこないます。
 ￹入力￺にゅうりょく￻ソースのセットアップ￹方法￺ほうほう￻は、デスクトップ￹環境￺かんきょう￻によってすこし￹異￺こと￻なります。
 
 <br>※ キーボード￹配列￺はいれつ￻やインプット メソッドのことをまとめて「[￹入力￺にゅうりょく￻ソース](https://wiki.gnome.org/Design/OS/LanguageInput)」とよんでいます。
@@ -40,7 +79,7 @@ export GTK_IM_MODULE=ibus
 <br><br>
 を￹追加￺ついか￻します。
 
-## 「ひらがなIME」を￹有効￺ゆうこう￻にする
+## 「ひらがなIME」を￹有効￺ゆうこう￻にする {: #enable}
 
 　IBusでは、￹複数￺ふくすう￻のインプットメソッドエンジンをつかうことができるようになっています。
 　「ひらがなIME」を￹有効￺ゆうこう￻するには、デスクトップ シェルの「キーボード メニュー」をひらいて、「日本語 (Hiragana IME)」をえらびます。
@@ -63,19 +102,18 @@ USはUnited States (of America)の￹略￺りゃく￻です。
 　「ひらがなIME」は￹直前￺ちょくぜん￻に￹指定￺してい￻されていたキーボード レイアウトにあわせて￹動作￺どうさ￻するようになっています。
 ￹使用￺しよう￻するキーボードのレイアウトがみつからないときは、GNOMEの「￹設定￺せってい￻」をひらいて、「キーボード」の「￹入力￺にゅうりょく￻ソース」に￹追加￺ついか￻してください。
 
-<br>※ 「ひらがなIME」は、￹現在￺げんざい￻、「￹日本語￺にほんご￻」,「￹英語￺えいご￻(US)」,「￹英語￺えいご￻(Dvorak)」の３つのキーボード レイアウトをサポートしています。
+<br>※ 「ひらがなIME」は、いまのところ、「￹日本語￺にほんご￻」,「￹英語￺えいご￻(US)」,「￹英語￺えいご￻(Dvorak)」の３つのキーボード レイアウトをサポートしています。
 
-## じぶんでビルドしてインストールする￹方法￺ほうほう￻
+## Waylandを￹使用￺しよう￻するばあいの￹設定￺せってい￻ {: #wayland}
 
-　「ひらがなIME」をじぶんでビルドしてインストールしたいときは、つぎの￹手順￺てじゅん￻でできます。
+　Ubuntu 21.04￹以降￺いこう￻やFedora 25￹以降￺いこう￻では、デフォルトで￹画面￺がめん￻の￹描画￺びょうが￻にWaylandをつかうようになっています。
+Waylandは、ながくつかわれてきたXサーバーをおきかえるものです。
+Waylandはまだまだあたらしく、きちんと￹対応￺たいおう￻できていないソフトウェアものこっています。
+　IBusをWaylandで使用するばあいは、￹環境￺かんきょう￻￹変数￺へんすう￻GTK_IM_MODULEにibusを￹指定￺してい￻してください。
+そうしないと、ただしい￹周辺￺しゅうへん￻テキストの￹情報￺じょうほう￻がIBusからIMEにおくられてきません。
+そのためには、つぎの行を ~/.bash_profile (Fedoraなど)か ~/.profile (Ubuntuなど)に追加して、ログインしなおしてください。
 
 ```
-$ git clone https://github.com/esrille/ibus-hiragana.git
-$ ./autogen.sh  --prefix=/usr [--enable-dic]
-$ make
-$ sudo make install
+export GTK_IM_MODULE=ibus
 ```
 
-　autogen.shは、autotoolsの￹設定￺せってい￻をおこない、configureスクリプトよびだします。
---enable-dicを￹指定￺してい￻すると、￹漢字￺かんじ￻￹辞書￺じしょ￻もメイクしなおすことができます。
-　ビルドするときに￹必要￺ひつよう￻なパッケージについては、debian/controlのBuild-Depends、あるいは、ibus-hiragana.spec.inのBuildRequiresを￹参考￺さんこう￻にしてください。

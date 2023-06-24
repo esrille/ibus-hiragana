@@ -44,16 +44,42 @@ aside a:hover {
 </div>
 <main>
 <h1>インストール<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby></h1>
-<h2>ソフトウェア パッケージのインストール</h2>
-<p>&#x3000;つかっているOSが、FedoraかUbuntuであれば、インストール<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>のソフトウェア パッケージを「<a href="https://github.com/esrille/ibus-hiragana/releases">Releases</a>」ページからダウンロードできます。</p>
-<p>&#x3000;ダウンロードができたら、「Releases」ページの<ruby>記載<rp>(</rp><rt>きさい</rt><rp>)</rp></ruby>にしたがって、パッケージをインストールしてください。インストールが<ruby>完了<rp>(</rp><rt>かんりょう</rt><rp>)</rp></ruby>したら、いちどコンピューターを<ruby>再<rp>(</rp><rt>さい</rt><rp>)</rp></ruby><ruby>起動<rp>(</rp><rt>きどう</rt><rp>)</rp></ruby>してください。</p>
-<h3>Waylandを<ruby>使用<rp>(</rp><rt>しよう</rt><rp>)</rp></ruby>するばあい</h3>
-<p>&#x3000;Ubuntu 21.04<ruby>以降<rp>(</rp><rt>いこう</rt><rp>)</rp></ruby>やFedora 25<ruby>以降<rp>(</rp><rt>いこう</rt><rp>)</rp></ruby>では、デフォルトで<ruby>画面<rp>(</rp><rt>がめん</rt><rp>)</rp></ruby>の<ruby>描画<rp>(</rp><rt>びょうが</rt><rp>)</rp></ruby>にWaylandをつかうようになっています。Waylandは、ながくつかわれてきたXサーバーをおきかえるものです。Waylandはまだまだあたらしく、きちんと<ruby>対応<rp>(</rp><rt>たいおう</rt><rp>)</rp></ruby>できていないソフトウェアものこっています。</p>
-<p>&#x3000;IBusをWaylandで使用するばあいは、<ruby>環境<rp>(</rp><rt>かんきょう</rt><rp>)</rp></ruby><ruby>変数<rp>(</rp><rt>へんすう</rt><rp>)</rp></ruby>GTK_IM_MODULEにibusを<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>してください。そうしないと、ただしい<ruby>周辺<rp>(</rp><rt>しゅうへん</rt><rp>)</rp></ruby>テキストの<ruby>情報<rp>(</rp><rt>じょうほう</rt><rp>)</rp></ruby>がIBusからIMEにおくられてきません。そのためには、つぎの行を ~/.bash_profile (Fedoraなど)か ~/.profile (Ubuntuなど)に追加してください。</p>
-<pre><code>export GTK_IM_MODULE=ibus
+<p>&#x3000;「ひらがなIME」を<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>するには、つぎの<ruby>手順<rp>(</rp><rt>てじゅん</rt><rp>)</rp></ruby>でセットアップをすすめていきます。</p>
+<ol>
+<li><a href="#install">ソフトウェア パッケージをインストールする</a></li>
+<li><a href="#input-source">OSの入力ソースを<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>する</a></li>
+<li><a href="#enable">「ひらがなIME」を<ruby>有効<rp>(</rp><rt>ゆうこう</rt><rp>)</rp></ruby>にする</a></li>
+<li><a href="#wayland">Waylandを<ruby>使用<rp>(</rp><rt>しよう</rt><rp>)</rp></ruby>するばあいの<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby></a></li>
+</ol>
+<h2 id="install">ソフトウェア パッケージのインストール</h2>
+<p>&#x3000;つかっているOSがFedoraかUbuntuであれば、かんたんに「ひらがなIME」をインストールすることができます。</p>
+<h3>Fedoraのばあい</h3>
+<p>&#x3000;Fedora<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>のソフトウェア パッケージはCoprプロジェクト「<a href="https://copr.fedorainfracloud.org/coprs/g/esrille/releases/">@esrille/releases</a>」から<ruby>提供<rp>(</rp><rt>ていきょう</rt><rp>)</rp></ruby>しています。このCoprプロジェクトを<ruby>有効<rp>(</rp><rt>ゆうこう</rt><rp>)</rp></ruby>にするには、いちど、コマンドラインからつぎのように<ruby>実行<rp>(</rp><rt>じっこう</rt><rp>)</rp></ruby>します。</p>
+<pre><code>sudo dnf copr enable @esrille/releases
 </code></pre>
-<h2><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソースのセットアップ</h2>
-<p>&#x3000;パッケージのインストールができたら、<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソース(※)に「ひらがなIME」をセットアップしていきます。<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソースのセットアップ<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby>は、デスクトップ<ruby>環境<rp>(</rp><rt>かんきょう</rt><rp>)</rp></ruby>によってすこし<ruby>異<rp>(</rp><rt>こと</rt><rp>)</rp></ruby>なります。</p>
+<p>&#x3000;あとは、dnfコマンドで「ひらがなIME」をインストールできます。</p>
+<pre><code>sudo dnf install ibus-hiragan
+</code></pre>
+<h3>Ubuntuのばあい</h3>
+<p>&#x3000;Ubuntu<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>のソフトウェア パッケージはPPAレポジトリ「<a href="https://launchpad.net/~esrille/+archive/ubuntu/releases">esrille/releases</a>」から<ruby>提供<rp>(</rp><rt>ていきょう</rt><rp>)</rp></ruby>しています。このPPAレポジトリを<ruby>有効<rp>(</rp><rt>ゆうこう</rt><rp>)</rp></ruby>にするには、いちど、コマンドラインからつぎのように<ruby>実行<rp>(</rp><rt>じっこう</rt><rp>)</rp></ruby>します。</p>
+<pre><code>sudo add-apt-repository ppa:esrille/releases
+sudo apt update
+</code></pre>
+<p>&#x3000;あとは、aptコマンドで「ひらがなIME」をインストールできます。</p>
+<pre><code>sudo apt install ibus-hiragana
+</code></pre>
+<h3>ソースコードからインストールする<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby></h3>
+<p>&#x3000;「ひらがなIME」をソースコードからインストールしたいときは、つぎの<ruby>手順<rp>(</rp><rt>てじゅん</rt><rp>)</rp></ruby>でできます。</p>
+<pre><code>$ git clone https://github.com/esrille/ibus-hiragana.git
+$ ./autogen.sh  --prefix=/usr [--enable-dic]
+$ make
+$ sudo make install
+</code></pre>
+<p>&#x3000;autogen.shは、autotoolsの<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>をおこない、configureスクリプトよびだします。--enable-dicを<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>すると、<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby><ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>もメイクしなおすことができます。</p>
+<p>&#x3000;ビルドするときに<ruby>必要<rp>(</rp><rt>ひつよう</rt><rp>)</rp></ruby>なパッケージについては、debian/controlのBuild-Depends、あるいは、ibus-hiragana.specのBuildRequiresを<ruby>参考<rp>(</rp><rt>さんこう</rt><rp>)</rp></ruby>にしてください。</p>
+<h2 id="input-source">OSの<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソースの<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby></h2>
+<p>&#x3000;ソフトウェア パッケージのインストールができたら、いちどコンピューターを<ruby>再<rp>(</rp><rt>さい</rt><rp>)</rp></ruby><ruby>起動<rp>(</rp><rt>きどう</rt><rp>)</rp></ruby>してください。</p>
+<p>&#x3000;つづいて、OSの「<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソース(※)」の<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>をおこないます。<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソースのセットアップ<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby>は、デスクトップ<ruby>環境<rp>(</rp><rt>かんきょう</rt><rp>)</rp></ruby>によってすこし<ruby>異<rp>(</rp><rt>こと</rt><rp>)</rp></ruby>なります。</p>
 <p><br>※ キーボード<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>やインプット メソッドのことをまとめて「<a href="https://wiki.gnome.org/Design/OS/LanguageInput"><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソース</a>」とよんでいます。</p>
 <h3>GNOMEを<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>しているとき</h3>
 <p>&#x3000;FedoraやUbuntuでは、GNOMEが<ruby>標準<rp>(</rp><rt>ひょうじゅん</rt><rp>)</rp></ruby>のデスクトップ<ruby>環境<rp>(</rp><rt>かんきょう</rt><rp>)</rp></ruby>になっています。GNOMEを<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>しているときは、GNOMEの「<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>」をひらいて、「キーボード」の「<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソース」に、「<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby> (Hiragana IME)」を<ruby>追加<rp>(</rp><rt>ついか</rt><rp>)</rp></ruby>します。</p>
@@ -64,7 +90,7 @@ aside a:hover {
 <p>&#x3000;&#x3000;<img alt="アイコン" src="icon.png"> <ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby> - Hiragana IME
 <br><br>
 を<ruby>追加<rp>(</rp><rt>ついか</rt><rp>)</rp></ruby>します。</p>
-<h2>「ひらがなIME」を<ruby>有効<rp>(</rp><rt>ゆうこう</rt><rp>)</rp></ruby>にする</h2>
+<h2 id="enable">「ひらがなIME」を<ruby>有効<rp>(</rp><rt>ゆうこう</rt><rp>)</rp></ruby>にする</h2>
 <p>&#x3000;IBusでは、<ruby>複数<rp>(</rp><rt>ふくすう</rt><rp>)</rp></ruby>のインプットメソッドエンジンをつかうことができるようになっています。</p>
 <p>&#x3000;「ひらがなIME」を<ruby>有効<rp>(</rp><rt>ゆうこう</rt><rp>)</rp></ruby>するには、デスクトップ シェルの「キーボード メニュー」をひらいて、「日本語 (Hiragana IME)」をえらびます。</p>
 <p><img alt="キーボード メニュー" src="keyboard-menu.png"></p>
@@ -75,16 +101,12 @@ aside a:hover {
 <p>&#x3000;「ひらがなIME」で<ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>(US)キーボードを<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>したいときは、まず、<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソースから「<ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>(US)」を<ruby>選択<rp>(</rp><rt>せんたく</rt><rp>)</rp></ruby>します。そのあとで、<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソースから「<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>(Hiragana IME)」を<ruby>選択<rp>(</rp><rt>せんたく</rt><rp>)</rp></ruby>します。</p>
 <p>&#x3000;「ひらがなIME」で<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>キーボードを<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>したいときは、まず、<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソースから「<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>」を<ruby>選択<rp>(</rp><rt>せんたく</rt><rp>)</rp></ruby>します。そのあとで、<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソースから「<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>(Hiragana IME)」を<ruby>選択<rp>(</rp><rt>せんたく</rt><rp>)</rp></ruby>します。</p>
 <p>&#x3000;「ひらがなIME」は<ruby>直前<rp>(</rp><rt>ちょくぜん</rt><rp>)</rp></ruby>に<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>されていたキーボード レイアウトにあわせて<ruby>動作<rp>(</rp><rt>どうさ</rt><rp>)</rp></ruby>するようになっています。<ruby>使用<rp>(</rp><rt>しよう</rt><rp>)</rp></ruby>するキーボードのレイアウトがみつからないときは、GNOMEの「<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>」をひらいて、「キーボード」の「<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソース」に<ruby>追加<rp>(</rp><rt>ついか</rt><rp>)</rp></ruby>してください。</p>
-<p><br>※ 「ひらがなIME」は、<ruby>現在<rp>(</rp><rt>げんざい</rt><rp>)</rp></ruby>、「<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>」,「<ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>(US)」,「<ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>(Dvorak)」の３つのキーボード レイアウトをサポートしています。</p>
-<h2>じぶんでビルドしてインストールする<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby></h2>
-<p>&#x3000;「ひらがなIME」をじぶんでビルドしてインストールしたいときは、つぎの<ruby>手順<rp>(</rp><rt>てじゅん</rt><rp>)</rp></ruby>でできます。</p>
-<pre><code>$ git clone https://github.com/esrille/ibus-hiragana.git
-$ ./autogen.sh  --prefix=/usr [--enable-dic]
-$ make
-$ sudo make install
+<p><br>※ 「ひらがなIME」は、いまのところ、「<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>」,「<ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>(US)」,「<ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>(Dvorak)」の３つのキーボード レイアウトをサポートしています。</p>
+<h2 id="wayland">Waylandを<ruby>使用<rp>(</rp><rt>しよう</rt><rp>)</rp></ruby>するばあいの<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby></h2>
+<p>&#x3000;Ubuntu 21.04<ruby>以降<rp>(</rp><rt>いこう</rt><rp>)</rp></ruby>やFedora 25<ruby>以降<rp>(</rp><rt>いこう</rt><rp>)</rp></ruby>では、デフォルトで<ruby>画面<rp>(</rp><rt>がめん</rt><rp>)</rp></ruby>の<ruby>描画<rp>(</rp><rt>びょうが</rt><rp>)</rp></ruby>にWaylandをつかうようになっています。Waylandは、ながくつかわれてきたXサーバーをおきかえるものです。Waylandはまだまだあたらしく、きちんと<ruby>対応<rp>(</rp><rt>たいおう</rt><rp>)</rp></ruby>できていないソフトウェアものこっています。</p>
+<p>&#x3000;IBusをWaylandで使用するばあいは、<ruby>環境<rp>(</rp><rt>かんきょう</rt><rp>)</rp></ruby><ruby>変数<rp>(</rp><rt>へんすう</rt><rp>)</rp></ruby>GTK_IM_MODULEにibusを<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>してください。そうしないと、ただしい<ruby>周辺<rp>(</rp><rt>しゅうへん</rt><rp>)</rp></ruby>テキストの<ruby>情報<rp>(</rp><rt>じょうほう</rt><rp>)</rp></ruby>がIBusからIMEにおくられてきません。そのためには、つぎの行を ~/.bash_profile (Fedoraなど)か ~/.profile (Ubuntuなど)に追加して、ログインしなおしてください。</p>
+<pre><code>export GTK_IM_MODULE=ibus
 </code></pre>
-<p>&#x3000;autogen.shは、autotoolsの<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>をおこない、configureスクリプトよびだします。--enable-dicを<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>すると、<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby><ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>もメイクしなおすことができます。</p>
-<p>&#x3000;ビルドするときに<ruby>必要<rp>(</rp><rt>ひつよう</rt><rp>)</rp></ruby>なパッケージについては、debian/controlのBuild-Depends、あるいは、ibus-hiragana.spec.inのBuildRequiresを<ruby>参考<rp>(</rp><rt>さんこう</rt><rp>)</rp></ruby>にしてください。</p>
 </main>
 <nav>
 <a href=index.html id='nav-prev'><div>&lt;</div></a>
