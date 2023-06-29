@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-AC_INIT([ibus-hiragana], [0.15.1], [https://github.com/esrille/ibus-hiragana/issues])
+AC_INIT([ibus-hiragana], [0.15.2], [https://github.com/esrille/ibus-hiragana/issues])
 AC_CONFIG_AUX_DIR([.])
 AM_INIT_AUTOMAKE([foreign tar-ustar])
 
