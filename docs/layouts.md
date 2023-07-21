@@ -153,7 +153,7 @@
 - <span class='key'>スペース</span>キーは<span class='key kana'>変換</span>キーになります。
 - ￹空白￺くうはく￻を￹入力￺にゅうりょく￻したいときは、￹行頭￺ぎょうとう￻など￹直前￺ちょくぜん￻に￹変換￺へんかん￻できる￹文字￺もじ￻がないときに<span class='key kana'>変換</span>キーをおせば￹空白￺くうはく￻を￹入力￺にゅうりょく￻できます。
 
-## New Stickney ￹配列￺はいれつ￻（￹第￺だい￻16￹案￺あん￻） {#new_stickney}
+## New Stickney ￹配列￺はいれつ￻（￹第￺だい￻17￹案￺あん￻） {#new_stickney}
 
 　New Stickney ￹配列￺はいれつ￻は、あたらしい￹研究￺けんきゅう￻￹中￺ちゅう￻のかな￹配列￺はいれつ￻です。
 うちやすい３￹段￺だん￻10￹列￺れつ￻のキーのなかに、かな￹文字￺もじ￻をおさめています。
@@ -222,7 +222,7 @@ New Stickney ￹配列￺はいれつ￻は、そうした￹日本語￺にほ�
 <div class='layer L3'>
 <div>…</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'></div>
 <br>
-<div class='k150 kana'>よみ短縮</div><div class='k'>け</div><div class='k'>く</div><div class='s'>す</div><div class='s'>さ</div><div class='t'>つ</div><div class='n'>ぬ</div><div class='n'>に</div><div class='n'>の</div><div class='a'>お</div><div class='n'>ね</div><div>「</div><div>」</div><div class='k150'>￥</div>
+<div class='k150 kana'>よみ短縮</div><div class='k'>け</div><div class='k'>く</div><div class='s'>す</div><div class='s'>さ</div><div class='t'>つ</div><div class='n'>ぬ</div><div class='a'>お</div><div class='n'>の</div><div class='n'>に</div><div class='n'>ね</div><div>「</div><div>」</div><div class='k150'>￥</div>
 <br>
 <div class='k175 kana'>あ/A</div><div class='h'>は</div><div class='k'>か</div><div class='s'>し</div><div class='t'>た</div><div class='t'>て</div><div class='r'>ら</div><div class='a'>う</div><div class='a'>い</div><div><span class='small'>゛</span></div><div class='n'>な</div><div><span class='kana'>変換</span></div><div class='k225'></div>
 <br>
@@ -234,7 +234,7 @@ New Stickney ￹配列￺はいれつ￻は、そうした￹日本語￺にほ�
 <div class='layer L4'>
 <div>～</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'></div>
 <br>
-<div class='k150'></div><div></div><div class='h'><span class='small h'>゜</span></div><div class='h'>ひ</div><div class='h'>ふ</div><div></div><div class='m'>む</div><div class='m'>み</div><div class='m'>も</div><div class='a'>え</div><div class='m'>め</div><div>『</div><div>』</div><div class='k150'></div>
+<div class='k150'></div><div></div><div class='h'><span class='small h'>゜</span></div><div class='h'>ひ</div><div class='h'>ふ</div><div></div><div class='m'>む</div><div class='a'>え</div><div class='m'>も</div><div class='m'>み</div><div class='m'>め</div><div>『</div><div>』</div><div class='k150'></div>
 <br>
 <div class='k175'></div><div class='y'>や</div><div class='s'>そ</div><div class='s'>せ</div><div class='h'>へ</div><div class='h'>ほ</div><div class='r'>れ</div><div class='r'>る</div><div class='r'>り</div><div class='a'>あ</div><div class='m'>ま</div><div></div><div class='k225'></div>
 <br>
@@ -286,7 +286,7 @@ New Stickney ￹配列￺はいれつ￻は、そうした￹日本語￺にほ�
 <div class='layer109 L3'>
 <div class='kana'>あ/A</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>￥</div><div></div>
 <br>
-<div class='k150 kana'>よみ短縮</div><div class='k'>け</div><div class='k'>く</div><div class='s'>す</div><div class='s'>さ</div><div class='t'>つ</div><div class='n'>ぬ</div><div class='n'>に</div><div class='n'>の</div><div class='a'>お</div><div class='n'>ね</div><div></div><div>「</div><div class='k150'></div>
+<div class='k150 kana'>よみ短縮</div><div class='k'>け</div><div class='k'>く</div><div class='s'>す</div><div class='s'>さ</div><div class='t'>つ</div><div class='n'>ぬ</div><div class='a'>お</div><div class='n'>の</div><div class='n'>に</div><div class='n'>ね</div><div></div><div>「</div><div class='k150'></div>
 <br>
 <div class='k175 kana'>あ/A</div><div class='h'>は</div><div class='k'>か</div><div class='s'>し</div><div class='t'>た</div><div class='t'>て</div><div class='r'>ら</div><div class='a'>う</div><div class='a'>い</div><div><span class='small'>゛</span></div><div class='n'>な</div><div><span class='kana'>変換</span></div><div>」</div><div class='k125'></div>
 <br>
@@ -298,7 +298,7 @@ New Stickney ￹配列￺はいれつ￻は、そうした￹日本語￺にほ�
 <div class='layer109 L4'>
 <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>～</div><div></div><div></div>
 <br>
-<div class='k150'></div><div></div><div><span class='small h'>゜</span></div><div class='h'>ひ</div><div class='h'>ふ</div><div></div><div class='m'>む</div><div class='m'>み</div><div class='m'>も</div><div class='a'>え</div><div class='m'>め</div><div>…</div><div>『</div><div class='k150'></div>
+<div class='k150'></div><div></div><div><span class='small h'>゜</span></div><div class='h'>ひ</div><div class='h'>ふ</div><div></div><div class='m'>む</div><div class='a'>え</div><div class='m'>も</div><div class='m'>み</div><div class='m'>め</div><div>…</div><div>『</div><div class='k150'></div>
 <br>
 <div class='k175'></div><div class='y'>や</div><div class='s'>そ</div><div class='s'>せ</div><div class='h'>へ</div><div class='h'>ほ</div><div class='r'>れ</div><div class='r'>る</div><div class='r'>り</div><div class='a'>あ</div><div class='m'>ま</div><div></div><div>』</div><div class='k125'></div>
 <br>
