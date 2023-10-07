@@ -26,6 +26,7 @@ Hiragana IME for IBus.
 %autosetup
 
 %build
+autoreconf -fi -v
 %configure
 %make_build
 
