@@ -296,16 +296,14 @@ class EngineModeless(IBus.Engine):
                         f'{self._preedit_pos_min}:{self._preedit_pos_orig}:{self._preedit_pos}')
             delete_size = self._preedit_pos_orig - self._preedit_pos_min
             if 0 < delete_size:
-                delete_size = self._preedit_pos_orig - self._preedit_pos_min
                 logger.debug(f'flush: delete: {delete_size}')
                 self.delete_surrounding_text(-delete_size, delete_size)
             if self._preedit_pos_min < self._preedit_pos:
-                size = self._preedit_pos - self._preedit_pos_min
-                logger.debug(f'flush: insert: "{self._preedit_text[self._preedit_pos - size:self._preedit_pos]}"')
+                text = self._preedit_text[self._preedit_pos_min:self._preedit_pos]
+                logger.debug(f'flush: insert: "{text}"')
                 if 0 < delete_size:
                     time.sleep(EVENT_DELAY)
-                self.commit_text(IBus.Text.new_from_string(
-                    self._preedit_text[self._preedit_pos - size:self._preedit_pos]))
+                self.commit_text(IBus.Text.new_from_string(text))
 
         text = self._preedit_text
         self._preedit_text = None
