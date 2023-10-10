@@ -35,6 +35,12 @@ AC_DEFINE_UNQUOTED(
     [Define to the read-only architecture-independent data directory.]
 )
 
+# For ibus-hiragana.spec
+m4_define(ibus_hiragana_datespec,
+    m4_esyscmd(date '+%a %b %d %Y' | tr -d '\n\r'))
+DATE_SPEC="ibus_hiragana_datespec"
+AC_SUBST(DATE_SPEC)
+
 # GSettings
 # see https://developer.gnome.org/gio/stable/GSettings.html
 GLIB_GSETTINGS
@@ -72,7 +78,7 @@ setup/Makefile
 setup/package.py.in
 setup/ibus-setup-hiragana.in
 Makefile
-ibus-hiragana.spec.in
+ibus-hiragana.spec
 )
 
 AC_OUTPUT
