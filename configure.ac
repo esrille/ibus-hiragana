@@ -38,8 +38,8 @@ AC_DEFINE_UNQUOTED(
 # For ibus-hiragana.spec
 m4_define(ibus_hiragana_datespec,
   [m4_esyscmd(date '+%a %b %d %Y' | tr -d '\n\r')])
-DATE_SPEC="ibus_hiragana_datespec"
-AC_SUBST(DATE_SPEC)
+DATE_RPM="ibus_hiragana_datespec"
+AC_SUBST(DATE_RPM)
 
 # For debian/changelog
 m4_define(ibus_hiragana_datedeb,
