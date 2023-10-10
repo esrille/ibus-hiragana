@@ -37,9 +37,15 @@ AC_DEFINE_UNQUOTED(
 
 # For ibus-hiragana.spec
 m4_define(ibus_hiragana_datespec,
-    m4_esyscmd(date '+%a %b %d %Y' | tr -d '\n\r'))
+  [m4_esyscmd(date '+%a %b %d %Y' | tr -d '\n\r')])
 DATE_SPEC="ibus_hiragana_datespec"
 AC_SUBST(DATE_SPEC)
+
+# For debian/changelog
+m4_define(ibus_hiragana_datedeb,
+  [m4_esyscmd(date --rfc-email | tr -d '\n\r')])
+DATE_DEB="ibus_hiragana_datedeb"
+AC_SUBST(DATE_DEB)
 
 # GSettings
 # see https://developer.gnome.org/gio/stable/GSettings.html
@@ -65,6 +71,7 @@ AM_CONDITIONAL([ENABLE_HTML], [test x$html = xtrue])
 
 # OUTPUT files
 AC_CONFIG_FILES(
+debian/changelog
 dic/Makefile
 docs/Makefile
 engine/hiragana.xml.in

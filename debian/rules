@@ -3,9 +3,12 @@
 # output every command that modifies files on the build system.
 #export DH_VERBOSE = 1
 
-%:
-	dh $@  --with python3
+override_dh_auto_clean:
+	# Don't remove debian/changelog
 
 # use the default libexec path.
 override_dh_auto_configure:
 	dh_auto_configure -- --libexecdir=\$${prefix}/libexec
+
+%:
+	dh $@  --with python3
