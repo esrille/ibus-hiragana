@@ -44,5 +44,14 @@ DISTCLEANFILES = \
 	po/stamp-it \
 	$(NULL)
 
+debian/changelog:
+	$(AM_V_GEN) \
+	( \
+		date=`date -R`; \
+		version=@VERSION@; \
+		s=`cat debian/changelog.in`; \
+		eval "echo \"$${s}\""; \
+	) > $@
+
 uninstall-hook:
 	-rmdir $(pkgdatadir)

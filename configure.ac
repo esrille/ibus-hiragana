@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-AC_INIT([ibus-hiragana], [0.15.2~rc1], [https://github.com/esrille/ibus-hiragana/issues])
+AC_INIT([ibus-hiragana], [0.15.2~rc2], [https://github.com/esrille/ibus-hiragana/issues])
 AC_CONFIG_AUX_DIR([.])
 AM_INIT_AUTOMAKE([foreign tar-ustar])
 
@@ -41,12 +41,6 @@ m4_define(ibus_hiragana_datespec,
 DATE_RPM="ibus_hiragana_datespec"
 AC_SUBST(DATE_RPM)
 
-# For debian/changelog
-m4_define(ibus_hiragana_datedeb,
-  [m4_esyscmd(date --rfc-email | tr -d '\n\r')])
-DATE_DEB="ibus_hiragana_datedeb"
-AC_SUBST(DATE_DEB)
-
 # GSettings
 # see https://developer.gnome.org/gio/stable/GSettings.html
 GLIB_GSETTINGS
@@ -71,7 +65,6 @@ AM_CONDITIONAL([ENABLE_HTML], [test x$html = xtrue])
 
 # OUTPUT files
 AC_CONFIG_FILES(
-debian/changelog
 dic/Makefile
 docs/Makefile
 engine/hiragana.xml.in
