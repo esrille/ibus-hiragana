@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 #
-# Copyright (c) 2017-2022 Esrille Inc.
+# Copyright (c) 2017-2023 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -70,7 +70,7 @@ def main():
 
     # ヘッダーを出力します。
     print(';; Hiragana IME for IBus')
-    print(';; Copyright (c) 2017-2022 Esrille Inc.')
+    print(';; Copyright (c) 2017-2023 Esrille Inc.')
     print(';;')
     print(';;   https://github.com/esrille/ibus-hiragana')
     print(';;')
