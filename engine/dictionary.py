@@ -151,9 +151,13 @@ class Dictionary:
                 p = line.split(' ', 1)
                 yomi = p[0]
                 cand = p[1].strip(' \n/').split('/')
-                self._merge_entry(dict, yomi, cand, reorder_only)
-                if yomi.endswith('―'):
-                    self._merge_entry(dict, yomi[:-1], [yomi], reorder_only)
+                # TODO: Check yomi is valid
+                if yomi.startswith('-'):
+                    self._remove_entry(dict, yomi[1:], cand)
+                else:
+                    self._merge_entry(dict, yomi, cand, reorder_only)
+                    if yomi.endswith('―'):
+                        self._merge_entry(dict, yomi[:-1], [yomi], reorder_only)
             logger.info(f'Loaded {path}')
 
     def _merge_entry(self, dict, yomi, cand, reorder_only):
@@ -176,6 +180,16 @@ class Dictionary:
                 else:
                     self._dirty = True
             dict[yomi] = update
+
+    def _remove_entry(self, dict, yomi, cand):
+        if yomi not in dict:
+            return
+        update = [x for x in dict[yomi] if x not in cand]
+        logger.debug(f'_remove_entry: {dict[yomi]}→{update}')
+        if update:
+            dict[yomi] = update
+        else:
+            del dict[yomi]
 
     def reset(self):
         self._yomi = ''
