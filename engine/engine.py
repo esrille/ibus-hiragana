@@ -847,8 +847,12 @@ class EngineHiragana(EngineModeless):
                         yomi = text[pos - 1].translate(TO_AIUEO) + c
                         self.delete_surrounding_string(1)
                     else:
+                        if chr(keyval) == c:
+                            return False
                         yomi = c
                 else:
+                    if chr(keyval) == c:
+                        return False
                     yomi = c
             elif self.get_mode() == 'Ａ':
                 yomi = to_zenkaku(c)
@@ -1104,6 +1108,9 @@ class EngineHiragana(EngineModeless):
         return self._override
 
     def process_alt_graph(self, keyval, keycode, state, modifiers):
+        logger.info(f'process_alt_graph({keyval:#04x}({IBus.keyval_name(keyval)}), '
+                    f'{keycode}, {state:#010x}, {modifiers:#07x})')
+
         if 'AltGr' in self._layout:
             if keycode < len(self._layout['AltGr']):
                 a = self._layout['AltGr'][keycode]
