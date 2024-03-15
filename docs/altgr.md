@@ -26,10 +26,10 @@ IMEの￹入力￺にゅうりょく￻モードは、「￹英数￺えいす�
 
 キー コンビネーション | ￹入力￺にゅうりょく￻される￹文字￺もじ￻
 ---|---
-<span class='key'>Alt Gr</span>+<span class='key'>1</span>| ￹一￺いち￻
-<span class='key'>Alt Gr</span>+<span class='key'>2</span>| ￹二￺に￻
-<span class='key'>Alt Gr</span>+<span class='key'>a</span>| â
-<span class='key'>Alt Gr</span>+<span class='key'>Shift</span>+<span class='key'>a</span>| Â
+<span class='key'>Alt Gr</span>+<span class='key'>1</span>| 一
+<span class='key'>Alt Gr</span>+<span class='key'>2</span>| 二
+<span class='key'>Alt Gr</span>+<span class='key'>p</span>| π
+<span class='key'>Alt Gr</span>+<span class='key'>Shift</span>+<span class='key'>d</span>| ℃
 
 　<span class='key'>AltGr</span>￹面￺めん￻の￹文字￺もじ￻の￹配置￺はいち￻はつぎの￹図￺ず￻のとおりです。￹英語￺えいご￻キーボードと￹日本語￺にほんご￻キーボードでは、￹文字￺もじ￻の￹配置￺はいち￻されている￹位置￺いち￻がいちぶ￹異￺こと￻なります。
 
@@ -73,25 +73,89 @@ IMEの￹入力￺にゅうりょく￻モードは、「￹英数￺えいす�
 </div>
 
 <div class='layer L3'>
-<div></div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div><div>七</div><div>八</div><div>九</div><div>〇</div><div>—</div><div>≠</div><div class='k200'></div>
+<div>々</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div><div>七</div><div>八</div><div>九</div><div>〇</div><div>—</div><div>≠</div><div class='k200'></div>
 <br>
-<div class='k150'></div><div></div><div></div><div>ê</div><div>®</div><div>〒</div><div></div><div>û</div><div>î</div><div>ô</div><div>π</div><div>❲</div><div>❳</div><div class='k150'>¥</div>
+<div class='k150'></div><div>ヶ</div><div></div><div></div><div>®</div><div>〒</div><div></div><div></div><div>↑</div><div></div><div>π</div><div>‘</div><div>’</div><div class='k150'>¥</div>
 <br>
-<div class='k175'></div><div>â</div><div>§</div><div>°</div><div></div><div></div><div></div><div>←</div><div>↓</div><div>→</div><div>‘</div><div>’</div><div class='k225'></div>
+<div class='k175'></div><div></div><div>§</div><div>°</div><div></div><div></div><div></div><div>←</div><div>↓</div><div>→</div><div></div><div></div><div class='k225'></div>
 <br>
-<div class='k225'></div><div></div><div>Ω</div><div>©</div><div>ゝ</div><div>々</div><div>ヶ</div><div>µ</div><div>，</div><div>．</div><div>／</div><div class='k275'></div>
+<div class='k225'></div><div>Ω</div><div>×</div><div>©</div><div>ゝ</div><div></div><div></div><div>µ</div><div>，</div><div>．</div><div>／</div><div class='k275'></div>
 <br>
-<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'>空白</div><div class='k125'><span></span></div><div class='k125'></div><div class='k125'></div><div class='k125'><span></span></div>
+<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'>空白</div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
 </div>
 
 <div class='layer L4'>
-<div></div><div>十</div><div>²</div><div>³</div><div>£</div><div>€</div><div>△</div><div>○</div><div>×</div><div>【</div><div>】</div><div>≒</div><div>±</div><div class='k200'></div>
+<div>≒</div><div></div><div>²</div><div>³</div><div></div><div></div><div></div><div></div><div>※</div><div>【</div><div>】</div><div></div><div>±</div><div class='k200'></div>
 <br>
-<div class='k150'></div><div></div><div></div><div>Ê</div><div></div><div>™</div><div></div><div>Û</div><div>Î</div><div>Ô</div><div></div><div>《</div><div>》</div><div class='k150'></div>
+<div class='k150'></div><div></div><div></div><div></div><div></div><div>™</div><div></div><div></div><div></div><div></div><div></div><div>“</div><div>”</div><div class='k150'></div>
 <br>
-<div class='k175'></div><div>Â</div><div>※</div><div>℃</div><div></div><div></div><div></div><div></div><div>↑</div><div></div><div>“</div><div>”</div><div class='k225'></div>
+<div class='k175'></div><div></div><div></div><div>℃</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k225'></div>
 <br>
-<div class='k225'></div><div></div><div></div><div>✓</div><div>ゞ</div><div>〻</div><div></div><div></div><div>〈</div><div>〉</div><div>÷</div><div class='k275'></div>
+<div class='k225'></div><div></div><div>✓</div><div></div><div>ゞ</div><div></div><div></div><div></div><div>≦</div><div>≧</div><div>÷</div><div class='k275'></div>
+<br>
+<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
+</div>
+</div>
+
+### ￹英語￺えいご￻Dvorakキーボード
+
+<div class='kbd'>
+<div class='layer L0'>
+<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'>Backspace</div>
+<br>
+<div class='k150'>Tab</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k150'></div>
+<br>
+<div class='k175'>Caps Lock</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k225'>Enter</div>
+<br>
+<div class='k225'>Shift</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k275'>Shift</div>
+<br>
+<div class='k125'>Ctrl</div><div class='k125'>❖</div><div class='k125'>Alt</div><div class='k625'></div><div class='k125'>Alt Gr</div><div class='k125'>❖</div><div class='k125'>☰</div><div class='k125'>Ctrl</div>
+</div>
+
+<div class='layer L1'>
+<div>`</div><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>0</div><div>[</div><div>]</div><div class='k200'></div>
+<br>
+<div class='k150'></div><div>'</div><div>,</div><div>.</div><div>P</div><div>Y</div><div>F</div><div>G</div><div>C</div><div>R</div><div>L</div><div>/</div><div>=</div><div class='k150'>\</div>
+<br>
+<div class='k175'></div><div>A</div><div>O</div><div>E</div><div>U</div><div>I</div><div>D</div><div>H</div><div>T</div><div>N</div><div>S</div><div>-</div><div class='k225'></div>
+<br>
+<div class='k225'></div><div>;</div><div>Q</div><div>J</div><div>K</div><div>X</div><div>B</div><div>M</div><div>W</div><div>V</div><div>Z</div><div class='k275'></div>
+<br>
+<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
+</div>
+
+<div class='layer L2'>
+<div>~</div><div>!</div><div>@</div><div>#</div><div>$</div><div>%</div><div>^</div><div>&amp;</div><div>*</div><div>(</div><div>)</div><div>{</div><div>}</div><div class='k200'></div>
+<br>
+<div class='k150'></div><div>"</div><div>&lt;</div><div>&gt;</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>?</div><div>+</div><div class='k150'>|</div>
+<br>
+<div class='k175'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>_</div><div class='k225'></div>
+<br>
+<div class='k225'></div><div>:</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k275'></div>
+<br>
+<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
+</div>
+
+<div class='layer L3'>
+<div>々</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div><div>七</div><div>八</div><div>九</div><div>〇</div><div>‘</div><div>’</div><div class='k200'></div>
+<br>
+<div class='k150'></div><div>ヶ</div><div>，</div><div>．</div><div>π</div><div></div><div></div><div></div><div>↑</div><div>®</div><div></div><div>／</div><div>≠</div><div class='k150'>¥</div>
+<br>
+<div class='k175'></div><div></div><div></div><div></div><div></div><div></div><div>°</div><div>←</div><div>↓</div><div>→</div><div>§</div><div>—</div><div class='k225'></div>
+<br>
+<div class='k225'></div><div></div><div></div><div></div><div>ゝ</div><div>×</div><div></div><div>µ</div><div></div><div></div><div>Ω</div><div class='k275'></div>
+<br>
+<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'>空白</div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
+</div>
+
+<div class='layer L4'>
+<div>≒</div><div></div><div>²</div><div>³</div><div></div><div></div><div></div><div></div><div>※</div><div>【</div><div>】</div><div>“</div><div>”</div><div class='k200'></div>
+<br>
+<div class='k150'></div><div></div><div>≦</div><div>≧</div><div></div><div></div><div></div><div></div><div>©</div><div>™</div><div></div><div>÷</div><div>±</div><div class='k150'></div>
+<br>
+<div class='k175'></div><div></div><div></div><div></div><div></div><div></div><div>℃</div><div></div><div>〒</div><div></div><div></div><div></div><div class='k225'></div>
+<br>
+<div class='k225'></div><div></div><div></div><div></div><div>ゞ</div><div>✓</div><div></div><div></div><div></div><div></div><div></div><div class='k275'></div>
 <br>
 <div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
 </div>
@@ -137,25 +201,25 @@ IMEの￹入力￺にゅうりょく￻モードは、「￹英数￺えいす�
 </div>
 
 <div class='layer109 L3'>
-<div></div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div><div>七</div><div>八</div><div>九</div><div>〇</div><div>—</div><div></div><div>￥</div><div></div>
+<div></div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div><div>七</div><div>八</div><div>九</div><div>〇</div><div>—</div><div>々</div><div>￥</div><div></div>
 <br>
-<div class='k150'></div><div></div><div></div><div>ê</div><div>®</div><div>〒</div><div></div><div>û</div><div>î</div><div>ô</div><div>π</div><div></div><div>❲</div><div class='k150'></div>
+<div class='k150'></div><div>ヶ</div><div></div><div></div><div>®</div><div>〒</div><div></div><div></div><div>↑</div><div></div><div>π</div><div></div><div>‘</div><div class='k150'></div>
 <br>
-<div class='k175'></div><div>â</div><div>§</div><div>°</div><div></div><div></div><div></div><div>←</div><div>↓</div><div>→</div><div>“</div><div>”</div><div>❳</div><div class='k125'></div>
+<div class='k175'></div><div></div><div>§</div><div>°</div><div></div><div></div><div></div><div>←</div><div>↓</div><div>→</div><div></div><div></div><div>’</div><div class='k125'></div>
 <br>
-<div class='k225'></div><div></div><div>Ω</div><div>©</div><div>ゝ</div><div>々</div><div>ヶ</div><div>µ</div><div>，</div><div>．</div><div>／</div><div></div><div class='k175'></div>
+<div class='k225'></div><div>Ω</div><div>×</div><div>©</div><div>ゝ</div><div></div><div></div><div>µ</div><div>，</div><div>．</div><div>／</div><div></div><div class='k175'></div>
 <br>
 <div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150'></div><div class='k250'>空白</div><div class='k150'></div><div class='k125'></div><div></div><div></div><div></div><div class='k125'></div>
 </div>
 
 <div class='layer109 L4'>
-<div></div><div>十</div><div>²</div><div>³</div><div>£</div><div>€</div><div>‘</div><div>’</div><div>【</div><div>】</div><div>≒</div><div>≠</div><div>△</div><div></div><div></div>
+<div></div><div></div><div>²</div><div>³</div><div></div><div></div><div></div><div></div><div>【</div><div>】</div><div></div><div>≠</div>≒<div></div><div></div><div></div>
 <br>
-<div class='k150'></div><div></div><div></div><div>Ê</div><div></div><div>™</div><div></div><div>Û</div><div>Î</div><div>Ô</div><div></div><div>○</div><div>《</div><div class='k150'></div>
+<div class='k150'></div><div></div><div></div><div></div><div></div><div>™</div><div></div><div></div><div></div><div></div><div></div><div></div><div>“</div><div class='k150'></div>
 <br>
-<div class='k175'></div><div>Â</div><div>※</div><div>℃</div><div></div><div></div><div></div><div></div><div>↑</div><div></div><div>±</div><div>×</div><div>》</div><div class='k125'></div>
+<div class='k175'></div><div></div><div></div><div>℃</div><div></div><div></div><div></div><div></div><div></div><div></div><div>±</div><div>※</div><div>”</div><div class='k125'></div>
 <br>
-<div class='k225'></div><div></div><div></div><div>✓</div><div>ゞ</div><div>〻</div><div></div><div></div><div>〈</div><div>〉</div><div>÷</div><div></div><div class='k175'></div>
+<div class='k225'></div><div></div><div>✓</div><div></div><div>ゞ</div><div></div><div></div><div></div><div>≦</div><div>≧</div><div>÷</div><div></div><div class='k175'></div>
 <br>
 <div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150'></div><div class='k250'></div><div class='k150'></div><div class='k125'></div><div></div><div></div><div></div><div class='k125'></div>
 </div>
