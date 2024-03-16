@@ -1,8 +1,6 @@
 [Desktop Entry]
 Name=Hiragana IME Setup
-Name[ja]=ひらがなIMEの設定
 Comment=Set up Hiragana IME
-Comment[ja]=ひらがなIMEの設定を変更できます。
 Exec=${libexecdir}/ibus-setup-hiragana
 Icon=ibus-setup-hiragana
 NoDisplay=true

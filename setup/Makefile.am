@@ -57,13 +57,7 @@ ibus-setup-hiragana: ibus-setup-hiragana.in
 	) > $@
 
 ibus-setup-hiragana.desktop: ibus-setup-hiragana.desktop.in
-	$(AM_V_GEN) \
-	( \
-		libexecdir=${libexecdir}; \
-		pkgdatadir=${pkgdatadir}; \
-		s=`cat $<`; \
-		eval "echo \"$${s}\""; \
-	) > $@
+	$(AM_V_GEN)$(MSGFMT) --desktop --template $< -d $(top_srcdir)/po -o $@
 
 uninstall-hook:
 	-rmdir $(setup_hiraganadir)/__pycache__

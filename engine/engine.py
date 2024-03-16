@@ -1286,7 +1286,7 @@ class EngineHiragana(EngineModeless):
                 return
             dialog = Gtk.AboutDialog()
             dialog.set_program_name(_("Hiragana IME"))
-            dialog.set_copyright('Copyright 2017-2023 Esrille Inc.')
+            dialog.set_copyright('Copyright 2017-2024 Esrille Inc.')
             dialog.set_authors(['Esrille Inc.'])
             dialog.set_documenters(['Esrille Inc.'])
             dialog.set_website('https://www.esrille.com/')

@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: ibus-hiragana 0.15.2\n"
+"Project-Id-Version: ibus-hiragana 0.15.3~rc1\n"
 "Report-Msgid-Bugs-To: https://github.com/esrille/ibus-hiragana/issues\n"
-"POT-Creation-Date: 2023-10-11 21:18+0900\n"
+"POT-Creation-Date: 2024-03-17 02:13+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,7 +37,7 @@ msgstr ""
 msgid "Halfwidth Katakana (ｱ)"
 msgstr ""
 
-#: engine/engine.py:500 engine/engine.py:933
+#: engine/engine.py:500 engine/engine.py:937
 #, python-format
 msgid "Input mode (%s)"
 msgstr ""
@@ -54,7 +54,7 @@ msgstr ""
 msgid "About Hiragana IME..."
 msgstr ""
 
-#: engine/engine.py:1281
+#: engine/engine.py:1288
 msgid "Hiragana IME"
 msgstr ""
 
@@ -106,7 +106,7 @@ msgstr ""
 msgid "10th+ grade (Okurigana: general + permissible)"
 msgstr ""
 
-#: setup/setup.glade:8
+#: setup/setup.glade:8 setup/ibus-setup-hiragana.desktop.in:3
 msgid "Hiragana IME Setup"
 msgstr ""
 
@@ -152,4 +152,8 @@ msgstr ""
 
 #: setup/setup.glade:428
 msgid "Dictionary"
+msgstr ""
+
+#: setup/ibus-setup-hiragana.desktop.in:4
+msgid "Set up Hiragana IME"
 msgstr ""

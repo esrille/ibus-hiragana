@@ -1,6 +1,6 @@
 ibus-hiragana (${version}) unstable; urgency=low
 
-  * See https://github.com/esrille/ibus-hiragana/releases/tag/v${version}
+  * See https://github.com/esrille/ibus-hiragana/releases/tag/v${source_version}
 
  -- Esrille Inc. <info@esrille.com>  ${date}
 

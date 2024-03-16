@@ -4,3 +4,4 @@ engine/event.py
 engine/main.py
 setup/main.py
 setup/setup.glade
+setup/ibus-setup-hiragana.desktop.in

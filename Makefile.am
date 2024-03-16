@@ -1,4 +1,4 @@
-# Copyright (c) 2017-2023 Esrille Inc.
+# Copyright (c) 2017-2024 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,14 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# po must be after the directories that contain .desktop files
 SUBDIRS = \
 	dic \
 	docs \
 	engine \
 	icons \
 	layouts \
-	po \
 	setup \
+	po \
 	$(NULL)
 
 EXTRA_DIST = \
@@ -40,6 +41,11 @@ EXTRA_DIST = \
 	README.txt \
 	$(NULL)
 
+CLEANFILES = \
+	debian/changelog \
+	@PACKAGE_NAME@.spec \
+	$(NULL)
+
 DISTCLEANFILES = \
 	po/stamp-it \
 	$(NULL)
@@ -49,7 +55,18 @@ debian/changelog:
 	( \
 		date=`date -R`; \
 		version=@VERSION@; \
+		source_version=@SOURCE_VERSION@; \
 		s=`cat debian/changelog.in`; \
+		eval "echo \"$${s}\""; \
+	) > $@
+
+@PACKAGE_NAME@.spec:
+	$(AM_V_GEN) \
+	( \
+		date=`date '+%a %b %d %Y'`; \
+		version=@VERSION@; \
+		source_version=@SOURCE_VERSION@; \
+		s=`cat @PACKAGE_NAME@.spec.in`; \
 		eval "echo \"$${s}\""; \
 	) > $@
 

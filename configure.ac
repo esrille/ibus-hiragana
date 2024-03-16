@@ -1,4 +1,4 @@
-# Copyright (c) 2017-2023 Esrille Inc.
+# Copyright (c) 2017-2024 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-AC_INIT([ibus-hiragana], [0.15.2], [https://github.com/esrille/ibus-hiragana/issues])
+m4_define([ibus_hiragana_version], [0.15.3~rc1])
+AC_INIT([ibus-hiragana], [ibus_hiragana_version], [https://github.com/esrille/ibus-hiragana/issues])
 AC_CONFIG_AUX_DIR([.])
 AM_INIT_AUTOMAKE([foreign tar-ustar])
 
@@ -35,11 +36,11 @@ AC_DEFINE_UNQUOTED(
     [Define to the read-only architecture-independent data directory.]
 )
 
-# For ibus-hiragana.spec
-m4_define(ibus_hiragana_datespec,
-  [m4_esyscmd(date '+%a %b %d %Y' | tr -d '\n\r')])
-DATE_RPM="ibus_hiragana_datespec"
-AC_SUBST(DATE_RPM)
+# For GitHub
+m4_define(ibus_hiragana_source_version,
+  [m4_esyscmd(echo -n ibus_hiragana_version | tr '~' '-')])
+SOURCE_VERSION="ibus_hiragana_source_version"
+AC_SUBST(SOURCE_VERSION)
 
 # GSettings
 # see https://developer.gnome.org/gio/stable/GSettings.html
@@ -78,7 +79,6 @@ setup/Makefile
 setup/package.py.in
 setup/ibus-setup-hiragana.in
 Makefile
-ibus-hiragana.spec
 )
 
 AC_OUTPUT
