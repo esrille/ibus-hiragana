@@ -41,11 +41,6 @@ EXTRA_DIST = \
 	README.txt \
 	$(NULL)
 
-CLEANFILES = \
-	debian/changelog \
-	@PACKAGE_NAME@.spec \
-	$(NULL)
-
 DISTCLEANFILES = \
 	po/stamp-it \
 	$(NULL)
