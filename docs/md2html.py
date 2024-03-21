@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Copyright (c) 2017-2020 Esrille Inc.
+# Copyright (c) 2017-2024 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -130,6 +130,13 @@ def main():
         og_image = md.Meta['og_image'][0]
 
     path = path[:-2] + 'html'
+
+    toc = ''
+    with open('toc.txt') as file:
+        toc = file.read()
+        toc = toc.replace(f"<details><summary><a href='{path}'>",
+                          f"<details open><summary><a href='{path}'>")
+
     content = textwrap.dedent(
         template.format(body=body,
                         title=html.escape(title),
@@ -137,7 +144,8 @@ def main():
                         next_url=next_url,
                         description=html.escape(description),
                         og_image=html.escape(og_image),
-                        path=path))
+                        path=path,
+                        toc=toc))
 
     content = content.replace("。\n", "。")
     content = content.replace("↲", "\n")

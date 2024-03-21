@@ -1,4 +1,5 @@
 #!/bin/sh
+./toc.py index.md install.md usage.md key_assign.md settings.md layouts.md roomazi.md altgr.md > toc.txt
 ./md2html.py index.md altgr.md install.md
 ./md2html.py install.md index.md usage.md
 ./md2html.py usage.md install.md key_assign.md

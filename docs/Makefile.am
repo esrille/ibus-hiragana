@@ -41,6 +41,7 @@ EXTRA_DIST = \
 	Makefile.am \
 	template.html \
 	md2html.py \
+	toc.py \
 	altgr.md \
 	index.md \
 	install.md \

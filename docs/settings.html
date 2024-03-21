@@ -14,33 +14,95 @@
 <meta content='product' property='og:type'>
 <meta content='summary_large_image' name='twitter:card'>
 <meta content='@esrille' name='twitter:creator'>
-<style>
-aside a:hover {
-  text-decoration: none;
+<script>
+function expandToc() {
+  document.getElementById('toc').querySelectorAll('details').forEach((e) => {
+    e.setAttribute('open', 'open')
+  })
 }
-.title {
-  font-size: 20pt;
+function shrinkToc() {
+  document.getElementById('toc').querySelectorAll('details').forEach((e) => {
+    e.removeAttribute('open')
+  })
 }
-</style>
+</script>
 </head>
 <body>
+<div id='wrapper'>
 <div id='sidebar'>
-<aside>
-<a class='title' href='https://github.com/esrille/ibus-hiragana'><img alt="アイコン" src="icon.png"> ひらがなIME</a>
+<header id='title'>
+<a href='https://github.com/esrille/ibus-hiragana'><img alt='アイコン' src='icon.png'> ひらがなIME</a>
+<div style='float: right; font-size: 10px;'>
+<div style='position: relative; top: 10px;'>
+<button onclick='shrinkToc()'>▲</button>
+<button onclick='expandToc()'>▼</button>
+</div>
+</div>
 <hr>
+</header>
+<div id='toc'>
 <ul>
-<li><a href='index.html'>はじめに</a>
-<li><a href='install.html'>インストール<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby></a>
-<li><a href='usage.html'>つかいかた</a>
-<li><a href='key_assign.html'>キーのわりあて</a>
-<li><a href='settings.html'><ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp>のかえかた</ruby></a>
-<li><a href='layouts.html'>かな<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></a>
-<li><a href='roomazi.html'>ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></a>
-<li><a href='altgr.html'><ruby>特殊<rp>(</rp><rt>とくしゅ</rt><rp>)</rp></ruby><ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>の<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></a>
+<li><details><summary><a href='index.html'>はじめに</a></summary>
+<ul>
+  <li><a href='index.html#modeless'>モードレス<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby><ruby>方式<rp>(</rp><rt>ほうしき</rt><rp>)</rp></ruby></a>
 </ul>
-<footer>
-</footer>
-</aside>
+</details>
+<li><details><summary><a href='install.html'>インストール<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby></a></summary>
+<ul>
+  <li><a href='install.html#install'>ソフトウェア パッケージのインストール</a>
+  <li><a href='install.html#input-source'>OSの<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソースの<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby></a>
+  <li><a href='install.html#enable'>「ひらがなIME」を<ruby>有効<rp>(</rp><rt>ゆうこう</rt><rp>)</rp></ruby>にする</a>
+  <li><a href='install.html#wayland'>Waylandを<ruby>使用<rp>(</rp><rt>しよう</rt><rp>)</rp></ruby>するばあいの<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>（GNOME 46よりまえのばあい）</a>
+</ul>
+</details>
+<li><details><summary><a href='usage.html'>つかいかた</a></summary>
+<ul>
+  <li><a href='usage.html#input-mode'><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>モード</a>
+  <li><a href='usage.html#input-kanji'><ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>やカタカナの<ruby>単語<rp>(</rp><rt>たんご</rt><rp>)</rp></ruby>の<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></a>
+  <li><a href='usage.html#input-okurigana'>おくりがなのある<ruby>単語<rp>(</rp><rt>たんご</rt><rp>)</rp></ruby>の<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></a>
+  <li><a href='usage.html#input-shrink'>よみのながさの<ruby>変<rp>(</rp><rt>か</rt><rp>)</rp></ruby>えかた</a>
+</ul>
+</details>
+<li><details><summary><a href='key_assign.html'>キーのわりあて</a></summary>
+<ul>
+  <li><a href='key_assign.html#input-mode'><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>モードをかえるキー<ruby>操作<rp>(</rp><rt>そうさ</rt><rp>)</rp></ruby></a>
+  <li><a href='key_assign.html#input-hiragana-mode'>ひらがなモード<ruby>中<rp>(</rp><rt>ちゅう</rt><rp>)</rp></ruby>のキー<ruby>操作<rp>(</rp><rt>そうさ</rt><rp>)</rp></ruby></a>
+  <li><a href='key_assign.html#input-conversion'><ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby><ruby>中<rp>(</rp><rt>ちゅう</rt><rp>)</rp></ruby>のキー<ruby>操作<rp>(</rp><rt>そうさ</rt><rp>)</rp></ruby></a>
+  <li><a href='key_assign.html#input-selection'><ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby><ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>ウィンドウが<ruby>表示<rp>(</rp><rt>ひょうじ</rt><rp>)</rp></ruby>されているあいだのキー<ruby>操作<rp>(</rp><rt>そうさ</rt><rp>)</rp></ruby></a>
+  <li><a href='key_assign.html#input-reading'>「よみの<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>モード」<ruby>中<rp>(</rp><rt>ちゅう</rt><rp>)</rp></ruby>のキー<ruby>操作<rp>(</rp><rt>そうさ</rt><rp>)</rp></ruby></a>
+</ul>
+</details>
+<li><details open><summary><a href='settings.html'><ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>のかえかた</a></summary>
+<ul>
+  <li><a href='settings.html#ibus-setup-hiragana'>「ひらがなIMEの<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>」ウィンドウ</a>
+  <li><a href='settings.html#layout'>[キーボード] タブ</a>
+  <li><a href='settings.html#dictionary'>[<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>] タブ</a>
+</ul>
+</details>
+<li><details><summary><a href='layouts.html'>かな<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></a></summary>
+<ul>
+  <li><a href='layouts.html#jis'>JISかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby></a>
+  <li><a href='layouts.html#new_stickney'>New Stickney <ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>（<ruby>第<rp>(</rp><rt>だい</rt><rp>)</rp></ruby>17<ruby>案<rp>(</rp><rt>あん</rt><rp>)</rp></ruby>）</a>
+  <li><a href='layouts.html#history'>いまのJISかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>がつかいにくいものになった<ruby>経緯<rp>(</rp><rt>けいい</rt><rp>)</rp></ruby></a>
+</ul>
+</details>
+<li><details><summary><a href='roomazi.html'>ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></a></summary>
+<ul>
+  <li><a href='roomazi.html#tuzuri'>ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>のつづりかた</a>
+  <li><a href='roomazi.html#hyo'>ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby><ruby>表<rp>(</rp><rt>ひょう</rt><rp>)</rp></ruby></a>
+  <li><a href='roomazi.html#keyboard'>キーボードのつかいかた</a>
+</ul>
+</details>
+<li><details><summary><a href='altgr.html'><ruby>特殊<rp>(</rp><rt>とくしゅ</rt><rp>)</rp></ruby><ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>の<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></a></summary>
+<ul>
+  <li><a href='altgr.html#altgr'><span class='key'>AltGr</span>キーとは</a>
+  <li><a href='altgr.html#altgr-settings'><ruby>右<rp>(</rp><rt>みぎ</rt><rp>)</rp></ruby><span class='key'>Alt</span>キーを<span class='key'>AltGr</span>キーに<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>する<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby></a>
+  <li><a href='altgr.html#altgr-characters'><span class='key'>AltGr</span>キーをつかって<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できる<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>や<ruby>記号<rp>(</rp><rt>きごう</rt><rp>)</rp></ruby></a>
+</ul>
+</details>
+
+</ul>
+</div>
 </div>
 <main>
 <h1><ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>のかえかた</h1>
@@ -111,7 +173,7 @@ aside a:hover {
 <li><ruby>例<rp>(</rp><rt>れい</rt><rp>)</rp></ruby>: â<span class='key'>^</span> → a^</li>
 </ul>
 <!--
-### 'raamen'で'ラーメン'に<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>する {#long-symbol}
+### 'raamen'で'ラーメン'に<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>する {: #long-symbol}
 
 
 &#x3000;ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>では、<span class='key'>-</span>をつかって<ruby>長音<rp>(</rp><rt>ちょうおん</rt><rp>)</rp></ruby><ruby>符号<rp>(</rp><rt>ふごう</rt><rp>)</rp></ruby>(ー)を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>する<ruby>便法<rp>(</rp><rt>べんぽう</rt><rp>)</rp></ruby>が<ruby>使<rp>(</rp><rt>つか</rt><rp>)</rp></ruby>われてきました。これは、<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>キーボードでは「âîûêô」のように<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>するのがむずかしいためです。
@@ -293,6 +355,8 @@ aside a:hover {
 <h3><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby><ruby>履歴<rp>(</rp><rt>りれき</rt><rp>)</rp></ruby>のクリア</h3>
 <p>&#x3000;<ruby>同音<rp>(</rp><rt>どうおん</rt><rp>)</rp></ruby><ruby>異義<rp>(</rp><rt>いぎ</rt><rp>)</rp></ruby><ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>やよみを<ruby>短縮<rp>(</rp><rt>たんしゅく</rt><rp>)</rp></ruby>したことばの<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby><ruby>中<rp>(</rp><rt>ちゅう</rt><rp>)</rp></ruby>は、よくつかうものが<ruby>一覧<rp>(</rp><rt>いちらん</rt><rp>)</rp></ruby>のはじめのほうにきます。これを<ruby>初期<rp>(</rp><rt>しょき</rt><rp>)</rp></ruby><ruby>状態<rp>(</rp><rt>じょうたい</rt><rp>)</rp></ruby>にもどしたいときは、「<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby><ruby>履歴<rp>(</rp><rt>りれき</rt><rp>)</rp></ruby>をクリアする」スイッチをオンにして[<ruby>適用<rp>(</rp><rt>てきよう</rt><rp>)</rp></ruby>]ボタンをおします。</p>
 </main>
+</div>
+
 <nav>
 <a href=key_assign.html id='nav-prev'><div>&lt;</div></a>
 <a href=layouts.html id='nav-next'><div>&gt;</div></a>
