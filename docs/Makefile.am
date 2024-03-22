@@ -37,7 +37,6 @@ dist_help_DATA = \
 helpdir = $(pkgdatadir)/help
 
 EXTRA_DIST = \
-	update \
 	Makefile.am \
 	template.html \
 	md2html.py \
@@ -58,6 +57,7 @@ uninstall-hook:
 if ENABLE_HTML
 
 CLEANFILES = \
+	toc.txt \
 	altgr.html \
 	index.html \
 	install.html \
@@ -68,28 +68,31 @@ CLEANFILES = \
 	usage.html \
 	$(NULL)
 
-index.html: index.md altgr.md install.md template.html
-	./md2html.py $^
+toc.txt : index.md install.md usage.md key_assign.md settings.md layouts.md roomazi.md altgr.md toc.py
+	./toc.py $(wordlist 1,8,$^) > $@
 
-install.html: install.md index.md usage.md template.html
-	./md2html.py $^
+index.html: index.md altgr.md install.md template.html toc.txt md2html.py
+	./md2html.py $(wordlist 1,4,$^)
 
-usage.html: usage.md install.md key_assign.md template.html
-	./md2html.py $^
+install.html: install.md index.md usage.md template.html toc.txt md2html.py
+	./md2html.py $(wordlist 1,4,$^)
 
-key_assign.html: key_assign.md usage.md settings.md template.html
-	./md2html.py $^
+usage.html: usage.md install.md key_assign.md template.html toc.txt md2html.py
+	./md2html.py $(wordlist 1,4,$^)
 
-settings.html: settings.md key_assign.md layouts.md template.html
-	./md2html.py $^
+key_assign.html: key_assign.md usage.md settings.md template.html toc.txt md2html.py
+	./md2html.py $(wordlist 1,4,$^)
 
-layouts.html: layouts.md settings.md roomazi.md template.html
-	./md2html.py $^
+settings.html: settings.md key_assign.md layouts.md template.html toc.txt md2html.py
+	./md2html.py $(wordlist 1,4,$^)
 
-roomazi.html: roomazi.md layouts.md altgr.md template.html
-	./md2html.py $^
+layouts.html: layouts.md settings.md roomazi.md template.html toc.txt md2html.py
+	./md2html.py $(wordlist 1,4,$^)
 
-altgr.html: altgr.md roomazi.md index.md template.html
-	./md2html.py $^
+roomazi.html: roomazi.md layouts.md altgr.md template.html toc.txt md2html.py
+	./md2html.py $(wordlist 1,4,$^)
+
+altgr.html: altgr.md roomazi.md index.md template.html toc.txt md2html.py
+	./md2html.py $(wordlist 1,4,$^)
 
 endif
