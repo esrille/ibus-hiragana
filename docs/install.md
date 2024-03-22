@@ -9,7 +9,7 @@
 
 ## ソフトウェア パッケージのインストール {: #install}
 
-　つかっているOSがFedoraかUbuntuであれば、かんたんに「ひらがなIME」をインストールすることができます。
+　FedoraかUbuntuをつかっているときは、かんたんなコマンドで「ひらがなIME」をインストールすることができます。
 
 ### Fedoraのばあい
 
@@ -20,7 +20,7 @@
 sudo dnf copr enable @esrille/releases
 ```
 
-　あとは、dnfコマンドで「ひらがなIME」をインストールできます。
+　そのあとは、いつものように、dnfコマンドで「ひらがなIME」をインストールできます。
 
 ```
 sudo dnf install ibus-hiragana
@@ -33,29 +33,41 @@ sudo dnf install ibus-hiragana
 
 ```
 sudo add-apt-repository ppa:esrille/releases
+```
+
+　そのあとは、いつものように、aptコマンドで「ひらがなIME」をインストールできます。
+sudo
+```
 sudo apt update
-```
-
-　あとは、aptコマンドで「ひらがなIME」をインストールできます。
-
-```
 sudo apt install ibus-hiragana
 ```
 
 ### ソースコードからインストールする￹方法￺ほうほう￻
 
-　「ひらがなIME」をソースコードからインストールしたいときは、つぎの￹手順￺てじゅん￻でできます。
+　「ひらがなIME」をソースコードからビルドしてインストールするには、つぎのようにします。
 
 ```
-$ git clone https://github.com/esrille/ibus-hiragana.git
-$ ./autogen.sh  --prefix=/usr [--enable-dic]
-$ make
-$ sudo make install
+git clone https://github.com/esrille/ibus-hiragana.git
+cd ibus-hiragana
+./autogen.sh  --prefix=/usr [--enable-dic] [--enable-html]
+make
+sudo make install
 ```
 
 　autogen.shは、autotoolsの￹設定￺せってい￻をおこない、configureスクリプトよびだします。
---enable-dicを￹指定￺してい￻すると、￹漢字￺かんじ￻￹辞書￺じしょ￻もメイクしなおすことができます。
+--enable-dicを￹指定￺してい￻すると、￹漢字￺かんじ￻￹辞書￺じしょ￻もビルドすることができます。
+--enable-htmlを￹指定￺してい￻すると、ヘルプ用のhtmlファイルをビルドすることができます。
 　ビルドするときに￹必要￺ひつよう￻なパッケージについては、debian/controlのBuild-Depends、あるいは、ibus-hiragana.specのBuildRequiresを￹参考￺さんこう￻にしてください。
+　Fedoraであれば、つぎのコマンドでビルドに必要なパッケージをインストールできます。
+
+```
+sudo yum-builddep ibus-hiragana.spec
+```
+
+　Ubuntuであれば、つぎのコマンドでビルドに必要なパッケージをインストールできます。
+```
+sudo apt build-dep .
+```
 
 ## OSの￹入力￺にゅうりょく￻ソースの￹設定￺せってい￻ {: #input-source}
 
