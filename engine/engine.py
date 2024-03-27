@@ -266,7 +266,12 @@ class EngineModeless(IBus.Engine):
         if not self.should_draw_preedit():
             # For FuriganaPad, 'ん' needs to be committed.
             self.commit_text(IBus.Text.new_from_string('ん'))
-            # A delay is necessary for the Wayland IM module on GNOME 46
+            # The following two steps are necessary to support Wayland IM module on GNOME 46.
+            # 1) For LibreOffice, IBus preedit text needs to be cleared before
+            # the forthcoming delete_surrounding_string().
+            text = IBus.Text.new_from_string('')
+            self.update_preedit_text(text, 0, False)
+            # 2) A delay is necessary to process surrounding text.
             time.sleep(EVENT_DELAY)
         self._preedit_pos_min += 1
         self._preedit_pos_orig += 1
