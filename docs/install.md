@@ -23,6 +23,7 @@ sudo dnf copr enable @esrille/releases
 　そのあとは、いつものように、dnfコマンドで「ひらがなIME」をインストールできます。
 
 ```
+sudo dnf update
 sudo dnf install ibus-hiragana
 ```
 
