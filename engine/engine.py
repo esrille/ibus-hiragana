@@ -266,6 +266,8 @@ class EngineModeless(IBus.Engine):
         if not self.should_draw_preedit():
             # For FuriganaPad, 'ん' needs to be committed.
             self.commit_text(IBus.Text.new_from_string('ん'))
+            # A delay is necessary for the Wayland IM module on GNOME 46
+            time.sleep(EVENT_DELAY)
         self._preedit_pos_min += 1
         self._preedit_pos_orig += 1
 
