@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-m4_define([ibus_hiragana_version], [0.15.3~rc3])
+m4_define([ibus_hiragana_version], [0.15.3])
 AC_INIT([ibus-hiragana], [ibus_hiragana_version], [https://github.com/esrille/ibus-hiragana/issues])
 AC_CONFIG_AUX_DIR([.])
 AM_INIT_AUTOMAKE([foreign tar-ustar])
