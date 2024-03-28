@@ -53,6 +53,9 @@ autoreconf -fi -v
 * ${date} Esrille Inc. <info@esrille.com> - ${version}-1
 - See https://github.com/esrille/ibus-hiragana/releases/tag/v${source_version}
 
+* Thu Mar 28 2024 Esrille Inc. <info@esrille.com> - 0.15.3-1
+- See https://github.com/esrille/ibus-hiragana/releases/tag/v0.15.3
+
 * Wed Oct 11 2023 Esrille Inc. <info@esrille.com> - 0.15.2-1
 - See https://github.com/esrille/ibus-hiragana/releases/tag/v0.15.2
 
