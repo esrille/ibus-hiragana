@@ -29,6 +29,7 @@ EXTRA_DIST = \
 	debian/compat \
 	debian/control \
 	debian/copyright \
+	debian/ibus-hiragana.docs \
 	debian/rules \
 	debian/source/format \
 	autogen.sh \
