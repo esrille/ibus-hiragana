@@ -17,8 +17,9 @@ AC_INIT([ibus-hiragana], [ibus_hiragana_version], [https://github.com/esrille/ib
 AC_CONFIG_AUX_DIR([.])
 AM_INIT_AUTOMAKE([foreign tar-ustar])
 
-AM_GNU_GETTEXT_REQUIRE_VERSION([0.19.8])
 AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_REQUIRE_VERSION([0.19.8])
+AM_GNU_GETTEXT_VERSION([0.19.8])
 
 # Check IBus
 #   Note hiragana.xml uses icon_prop_key and
