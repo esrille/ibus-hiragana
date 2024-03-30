@@ -39,7 +39,6 @@ autoreconf -fi -v
 %doc README.md
 %license LICENSE NOTICE
 %{_datadir}/%{name}
-%{_datadir}/applications
 %{_datadir}/ibus/component/*
 %{_datadir}/glib-2.0/schemas/org.freedesktop.ibus.engine.hiragana.gschema.xml
 %{_datadir}/icons/hicolor/64x64/apps/ibus-hiragana.png

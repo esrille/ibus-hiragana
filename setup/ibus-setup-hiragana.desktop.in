@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=Hiragana IME Setup
-Comment=Set up Hiragana IME
-Exec=${libexecdir}/ibus-setup-hiragana
-Icon=ibus-setup-hiragana
-NoDisplay=true
-Terminal=false
-Type=Application
-StartupNotify=true

@@ -3,9 +3,9 @@
 # This file is distributed under the same license as the ibus-hiragana package.
 msgid ""
 msgstr ""
-"Project-Id-Version: ibus-hiragana 0.15.3\n"
+"Project-Id-Version: ibus-hiragana 0.15.4\n"
 "Report-Msgid-Bugs-To: https://github.com/esrille/ibus-hiragana/issues\n"
-"POT-Creation-Date: 2024-03-28 15:49+0900\n"
+"POT-Creation-Date: 2024-03-30 22:19+0900\n"
 "PO-Revision-Date: 2020-09-24 11:59+0900\n"
 "Last-Translator: Esrille Inc. <info@esrille.com>\n"
 "Language-Team: Japanese <info@esrille.com>\n"
@@ -103,7 +103,7 @@ msgstr "おとな用(おくりがな: 本則)"
 msgid "10th+ grade (Okurigana: general + permissible)"
 msgstr "おとな用(おくりがな: 本則+許容)"
 
-#: setup/setup.glade:8 setup/ibus-setup-hiragana.desktop.in:3
+#: setup/setup.glade:8
 msgid "Hiragana IME Setup"
 msgstr "ひらがなIMEの設定"
 
@@ -150,7 +150,3 @@ msgstr "入力履歴をクリアする"
 #: setup/setup.glade:428
 msgid "Dictionary"
 msgstr "辞書"
-
-#: setup/ibus-setup-hiragana.desktop.in:4
-msgid "Set up Hiragana IME"
-msgstr "ひらがなIMEの設定を変更できます。"

@@ -22,19 +22,14 @@ setup_hiraganadir = $(pkgdatadir)/setup
 
 libexec_SCRIPTS = ibus-setup-hiragana
 
-desktop_DATA = ibus-setup-hiragana.desktop
-desktopdir = $(datadir)/applications
-
 CLEANFILES = \
 	ibus-setup-hiragana \
-	ibus-setup-hiragana.desktop \
 	ibus-setup-hiragana.in \
 	package.py \
 	package.py.in \
 	$(NULL)
 
 EXTRA_DIST = \
-	ibus-setup-hiragana.desktop.in \
 	ibus-setup-hiragana.in.in \
 	package.py.in.in \
 	$(NULL)
@@ -55,9 +50,6 @@ ibus-setup-hiragana: ibus-setup-hiragana.in
 		s=`cat $<`; \
 		eval "echo \"$${s}\""; \
 	) > $@
-
-ibus-setup-hiragana.desktop: ibus-setup-hiragana.desktop.in
-	$(AM_V_GEN)$(MSGFMT) --desktop --template $< -d $(top_srcdir)/po -o $@
 
 uninstall-hook:
 	-rmdir $(setup_hiraganadir)/__pycache__

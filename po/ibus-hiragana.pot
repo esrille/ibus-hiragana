@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: ibus-hiragana 0.15.3\n"
+"Project-Id-Version: ibus-hiragana 0.15.4~rc1\n"
 "Report-Msgid-Bugs-To: https://github.com/esrille/ibus-hiragana/issues\n"
-"POT-Creation-Date: 2024-03-28 15:49+0900\n"
+"POT-Creation-Date: 2024-03-30 22:19+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -106,7 +106,7 @@ msgstr ""
 msgid "10th+ grade (Okurigana: general + permissible)"
 msgstr ""
 
-#: setup/setup.glade:8 setup/ibus-setup-hiragana.desktop.in:3
+#: setup/setup.glade:8
 msgid "Hiragana IME Setup"
 msgstr ""
 
@@ -152,8 +152,4 @@ msgstr ""
 
 #: setup/setup.glade:428
 msgid "Dictionary"
-msgstr ""
-
-#: setup/ibus-setup-hiragana.desktop.in:4
-msgid "Set up Hiragana IME"
 msgstr ""
