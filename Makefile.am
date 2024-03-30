@@ -68,3 +68,34 @@ debian/changelog:
 
 uninstall-hook:
 	-rmdir $(pkgdatadir)
+
+# Remove extra files not in the git repository except
+# ibus-hiragana.spec and debian/changelog.
+dist-hook:
+	rm -f $(distdir)/ABOUT-NLS
+	rm -f $(distdir)/Makefile.in
+	rm -f $(distdir)/aclocal.m4
+	rm -f $(distdir)/compile
+	rm -f $(distdir)/config.guess
+	rm -f $(distdir)/config.rpath
+	rm -f $(distdir)/config.sub
+	rm -f $(distdir)/configure
+	rm -f $(distdir)/dic/Makefile.in
+	rm -f $(distdir)/docs/Makefile.in
+	rm -f $(distdir)/engine/Makefile.in
+	rm -f $(distdir)/icons/Makefile.in
+	rm -f $(distdir)/install-sh
+	rm -f $(distdir)/layouts/Makefile.in
+	rm -f $(distdir)/missing
+	rm -f $(distdir)/po/Makefile.in.in
+	rm -f $(distdir)/po/Rules-quot
+	rm -f $(distdir)/po/boldquot.sed
+	rm -f $(distdir)/po/en@boldquot.header
+	rm -f $(distdir)/po/en@quot.header
+	rm -f $(distdir)/po/insert-header.sin
+	rm -f $(distdir)/po/ja.gmo
+	rm -f $(distdir)/po/quot.sed
+	rm -f $(distdir)/po/remove-potcdate.sin
+	rm -f $(distdir)/po/stamp-po
+	rm -f $(distdir)/py-compile
+	rm -f $(distdir)/setup/Makefile.in
