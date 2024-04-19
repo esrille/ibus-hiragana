@@ -117,6 +117,7 @@ def main():
         if os.fork():
             sys.exit()
 
+    IBus.init()
     IMApp(exec_by_ibus).run()
 
 
