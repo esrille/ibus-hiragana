@@ -996,10 +996,6 @@ class EngineHiragana(EngineModeless):
         if attrs:
             text.set_attributes(attrs)
 
-        # A delay is necessary for textareas of Firefox 102.0.1.
-        if text:
-            time.sleep(EVENT_DELAY)
-
         # Note self.hide_preedit_text() does not seem to work as expected with Kate.
         # cf. "Qt5 IBus input context does not implement hide_preedit_text()",
         #     https://bugreports.qt.io/browse/QTBUG-48412
