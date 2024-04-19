@@ -17,30 +17,38 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from engine import EngineHiragana
-import package
 import getopt
 import gettext
-import os
 import locale
 import logging
+import os
 import sys
-import gi
-gi.require_version('IBus', '1.0')
-from gi.repository import GLib, GObject, IBus
 
-FORMAT = "%(asctime)s:%(levelname)s:%(name)s:%(message)s"
+import gi
+gi.require_version('GLib', '2.0')
+gi.require_version('IBus', '1.0')
+from gi.repository import GLib
+from gi.repository import GObject
+from gi.repository import IBus
+
+import package
+from engine import EngineHiragana
+
+FORMAT = '%(asctime)s:%(levelname)s:%(name)s:%(message)s'
 
 logger = logging.getLogger(__name__)
 
 
 class IMApp:
+
     def __init__(self, exec_by_ibus):
         self._mainloop = GLib.MainLoop()
         self._bus = IBus.Bus()
         self._bus.connect('disconnected', self._bus_disconnected_cb)
         self._factory = IBus.Factory(self._bus)
-        self._factory.add_engine('hiragana', GObject.type_from_name(EngineHiragana.__gtype_name__))
+        self._factory.add_engine(
+            'hiragana',
+            GObject.type_from_name(EngineHiragana.__gtype_name__))
         if exec_by_ibus:
             self._bus.request_name('org.freedesktop.IBus.Hiragana', 0)
         else:
@@ -92,7 +100,10 @@ def main():
     else:
         # Create a debug log file
         logfile = os.path.join(user_datadir, package.get_name() + '.log')
-        logging.basicConfig(filename=logfile, filemode='w', level=logging.WARNING, format=FORMAT)
+        logging.basicConfig(filename=logfile,
+                            filemode='w',
+                            level=logging.WARNING,
+                            format=FORMAT)
 
     exec_by_ibus = False
     daemonize = False
@@ -123,7 +134,7 @@ def main():
 
 # Catch exceptions from GLib.MainLoop
 def handle_exception(exception_type, value, traceback):
-    logger.error("crashed:", exc_info=(exception_type, value, traceback))
+    logger.error('crashed:', exc_info=(exception_type, value, traceback))
 
 
 if __name__ == '__main__':
