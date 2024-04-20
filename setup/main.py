@@ -1,6 +1,6 @@
 # ibus-hiragana - Hiragana IME for IBus
 #
-# Copyright (c) 2020-2023 Esrille Inc.
+# Copyright (c) 2020-2024 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,28 +14,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import package
-
-import gi
-from gi.repository import Gio
-from gi.repository import GLib
-
-GLib.set_prgname('ibus-setup-hiragana')
-
-gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk
-from gi.repository import Gdk
-gi.require_version('IBus', '1.0')
-from gi.repository import IBus
-
 import gettext
 import locale
+import logging
 import os
 
-_ = lambda a : gettext.dgettext(package.get_name(), a)
+import gi
+gi.require_version('GLib', '2.0')
+gi.require_version('Gdk', '3.0')
+gi.require_version('Gio', '2.0')
+gi.require_version('Gtk', '3.0')
+from gi.repository import GLib
+# set_prgname before importing other modules to show the name in warning messages
+GLib.set_prgname('ibus-setup-hiragana')
+from gi.repository import Gdk
+from gi.repository import Gio
+from gi.repository import Gtk
+
+import package
+
+
+_ = lambda a: gettext.dgettext(package.get_name(), a)
 
 
 class SetupEngineHiragana:
+
     def __init__(self):
         self._settings = Gio.Settings.new('org.freedesktop.ibus.engine.hiragana')
         self._settings.connect('changed', self.on_value_changed)
@@ -157,10 +160,8 @@ class SetupEngineHiragana:
         if key == 'layout':
             self._set_current_keyboard(value.get_string())
         elif key == 'nn-as-jis-x-4063':
-            t = value.get_boolean()
             self._nn_as_x4063.set_active(value.get_boolean())
         elif key == 'combining-circumflex':
-            t = value.get_boolean()
             self._combining_circumflex.set_active(value.get_boolean())
         elif key == 'dictionary':
             current = value.get_string()
@@ -207,9 +208,6 @@ def main():
 
 
 if __name__ == '__main__':
-    try:
-        locale.bindtextdomain(package.get_name(), package.get_localedir())
-    except Exception:
-        pass
+    locale.bindtextdomain(package.get_name(), package.get_localedir())
     gettext.bindtextdomain(package.get_name(), package.get_localedir())
     main()
