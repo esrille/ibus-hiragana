@@ -24,18 +24,21 @@ import queue
 import subprocess
 import threading
 import time
+
 import gi
 gi.require_version('IBus', '1.0')
 gi.require_version('Gdk', '3.0')
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gdk, Gio, Gtk, IBus
+from gi.repository import Gdk
+from gi.repository import Gio
+from gi.repository import Gtk
+from gi.repository import IBus
 
-from dictionary import Dictionary
 import event
-from event import Event
 import package
+from dictionary import Dictionary
+from event import Event
 from package import _
-
 
 keysyms = IBus
 logger = logging.getLogger(__name__)
@@ -785,9 +788,9 @@ class EngineHiragana(EngineModeless):
         if keyval == keysyms.Escape and self.clear_roman():
             return True
 
-        if (self.get_mode() == 'あ' and
-                (self._event.is_henkan() or self._event.is_muhenkan()) and
-                not (modifiers & event.ALT_R_BIT)):
+        if (self.get_mode() == 'あ'
+                and (self._event.is_henkan() or self._event.is_muhenkan())
+                and not (modifiers & event.ALT_R_BIT)):
             return self._process_replace()
 
         text, pos = self.get_surrounding_string()
@@ -847,8 +850,8 @@ class EngineHiragana(EngineModeless):
             elif self.get_mode() == 'A':
                 text, pos = self.get_surrounding_string()
                 if self.combining_circumflex and 0 < pos and c == '^':
-                    if text[pos-1] in 'aiueoAIUEO':
-                        yomi = text[pos-1].translate(TO_CIRCUMFLEX)
+                    if text[pos - 1] in 'aiueoAIUEO':
+                        yomi = text[pos - 1].translate(TO_CIRCUMFLEX)
                         self.delete_surrounding_string(1)
                     elif text[pos - 1] in 'âîûêôÂÎÛÊÔ':
                         yomi = text[pos - 1].translate(TO_AIUEO) + c
@@ -866,9 +869,7 @@ class EngineHiragana(EngineModeless):
             else:
                 yomi, self.roman_text = self._to_kana(self.roman_text, c, keycode, modifiers)
                 if yomi == 'ー' and 'Roomazi' in self._layout:
-                    if pos <= 0:
-                        yomi = '－'
-                    elif text[pos-1] not in HIRAGANA and text[pos-1] not in KATAKANA:
+                    if pos <= 0 or text[pos - 1] not in (HIRAGANA + KATAKANA):
                         yomi = '－'
                 if yomi:
                     if self.get_mode() == 'ア':
@@ -1022,9 +1023,9 @@ class EngineHiragana(EngineModeless):
             t = threading.Thread(target=self._setup_readline, args=(self._setup_proc,), daemon=True)
             t.start()
         except OSError:
-            logger.exception(f'_setup_start')
+            logger.exception('_setup_start')
         except ValueError:
-            logger.exception(f'_setup_start')
+            logger.exception('_setup_start')
 
     def _setup_sync(self):
         last = ''
