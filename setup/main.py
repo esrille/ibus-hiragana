@@ -191,12 +191,25 @@ class SetupEngineHiragana:
     def on_edit(self, *args):
         path = self._user_dictionary.get_text().strip()
         path = os.path.join(package.get_user_datadir(), path)
-        with open(path, 'a+') as f:
-            pass
+        logging.info(f'on_edit: {path}')
         try:
+            if os.path.abspath(path) != path:
+                raise PermissionError(_('Invalid characters in User Dictionary Name'))
+            with open(path, 'a+'):
+                pass
             Gtk.show_uri_on_window(None, 'file://' + path, Gdk.CURRENT_TIME)
-        except Exception:
-            pass
+        except (OSError, GLib.Error) as e:
+            logging.exception(f'Could not open "{path}"')
+            dialog = Gtk.MessageDialog(
+                transient_for=self._window,
+                flags=0,
+                message_type=Gtk.MessageType.WARNING,
+                buttons=Gtk.ButtonsType.OK,
+                text=_('Could not open file'),
+            )
+            dialog.format_secondary_text(_('Error opening file "{path}": {message}').format(path=path, message=str(e)))
+            dialog.run()
+            dialog.destroy()
 
     def on_destroy(self, *args):
         Gtk.main_quit()
@@ -210,4 +223,6 @@ def main():
 if __name__ == '__main__':
     locale.bindtextdomain(package.get_name(), package.get_localedir())
     gettext.bindtextdomain(package.get_name(), package.get_localedir())
+    if __debug__:
+        logging.basicConfig(level=logging.DEBUG)
     main()

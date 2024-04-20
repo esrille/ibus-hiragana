@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ibus-hiragana 0.15.4~rc1\n"
 "Report-Msgid-Bugs-To: https://github.com/esrille/ibus-hiragana/issues\n"
-"POT-Creation-Date: 2024-03-30 22:19+0900\n"
+"POT-Creation-Date: 2024-04-21 02:36+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,93 +17,106 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: engine/engine.py:44
+#: engine/engine.py:47
 msgid "Alphanumeric (A)"
 msgstr ""
 
-#: engine/engine.py:45
+#: engine/engine.py:48
 msgid "Hiragana (あ)"
 msgstr ""
 
-#: engine/engine.py:46
+#: engine/engine.py:49
 msgid "Katakana (ア)"
 msgstr ""
 
-#: engine/engine.py:47
+#: engine/engine.py:50
 msgid "Wide Alphanumeric (Ａ)"
 msgstr ""
 
-#: engine/engine.py:48
+#: engine/engine.py:51
 msgid "Halfwidth Katakana (ｱ)"
 msgstr ""
 
-#: engine/engine.py:507 engine/engine.py:944
+#: engine/engine.py:510 engine/engine.py:945
 #, python-format
 msgid "Input mode (%s)"
 msgstr ""
 
-#: engine/engine.py:510
+#: engine/engine.py:513
 msgid "Setup"
 msgstr ""
 
-#: engine/engine.py:512
+#: engine/engine.py:515
 msgid "Help"
 msgstr ""
 
-#: engine/engine.py:514
+#: engine/engine.py:517
 msgid "About Hiragana IME..."
 msgstr ""
 
-#: engine/engine.py:1295
+#: engine/engine.py:1292
 msgid "Hiragana IME"
 msgstr ""
 
-#: setup/main.py:58
+#: setup/main.py:61
 msgid "Rōmaji"
 msgstr ""
 
-#: setup/main.py:59
+#: setup/main.py:62
 msgid "Kana (JIS Layout)"
 msgstr ""
 
-#: setup/main.py:60
+#: setup/main.py:63
 msgid "Kana (New Stickney Layout)"
 msgstr ""
 
-#: setup/main.py:79
+#: setup/main.py:82
 msgid "1st grade"
 msgstr ""
 
-#: setup/main.py:80
+#: setup/main.py:83
 msgid "2nd grade"
 msgstr ""
 
-#: setup/main.py:81
+#: setup/main.py:84
 msgid "3rd grade"
 msgstr ""
 
-#: setup/main.py:82
+#: setup/main.py:85
 msgid "4th grade"
 msgstr ""
 
-#: setup/main.py:83
+#: setup/main.py:86
 msgid "5th grade"
 msgstr ""
 
-#: setup/main.py:84
+#: setup/main.py:87
 msgid "6th grade"
 msgstr ""
 
-#: setup/main.py:85
+#: setup/main.py:88
 msgid "7-9th grade"
 msgstr ""
 
-#: setup/main.py:86
+#: setup/main.py:89
 msgid "10th+ grade (Okurigana: general)"
 msgstr ""
 
-#: setup/main.py:87
+#: setup/main.py:90
 msgid "10th+ grade (Okurigana: general + permissible)"
+msgstr ""
+
+#: setup/main.py:197
+msgid "Invalid characters in User Dictionary Name"
+msgstr ""
+
+#: setup/main.py:208
+msgid "Could not open file"
+msgstr ""
+
+#: setup/main.py:210
+#, python-brace-format
+msgid "Error opening file \"{path}\": {message}"
 msgstr ""
 
 #: setup/setup.glade:8

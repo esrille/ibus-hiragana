@@ -113,10 +113,11 @@ class Dictionary:
         self._dict = self._dict_base.copy()
         if user:
             path = os.path.join(package.get_user_datadir(), user)
-            try:
-                self._load_dict(self._dict, path, 'a+')
-            except OSError:
-                logger.exception(f'Could not load "{path}"')
+            if os.path.abspath(path) == path:
+                try:
+                    self._load_dict(self._dict, path, 'a+')
+                except OSError:
+                    logger.exception(f'Could not load "{path}"')
 
         # Load input history
         self._orders_path = path = os.path.join(package.get_user_datadir(), system)
