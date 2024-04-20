@@ -460,8 +460,8 @@ class Dictionary:
                     os.remove(bakfile)
                 os.rename(self._orders_path, bakfile)
                 os.rename(tmpfile, self._orders_path)
-        except Exception:
-            logger.exception('save_orders')
+        except OSError:
+            logger.exception(f'could not save the orders in "{self._orders_path}"')
         self._dirty = False
 
     def use_romazi(self, romazi):

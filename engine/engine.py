@@ -555,7 +555,7 @@ class EngineHiragana(EngineModeless):
         try:
             with open(pathname) as f:
                 layout = json.load(f)
-        except Exception:
+        except OSError:
             logger.exception(f'could not load "{pathname}"')
         return layout
 
