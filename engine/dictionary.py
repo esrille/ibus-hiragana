@@ -1,6 +1,6 @@
 # ibus-hiragana - Hiragana IME for IBus
 #
-# Copyright (c) 2017-2023 Esrille Inc.
+# Copyright (c) 2017-2024 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,11 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import package
-
-import os
 import logging
+import os
 import re
+
+import package
 
 logger = logging.getLogger(__name__)
 
@@ -276,7 +276,7 @@ class Dictionary:
                     return 0
 
         # cf. 食べ
-        if "" in katuyou:
+        if '' in katuyou:
             return 1 if 0 < len(yomi) else 0
 
         return -1
@@ -471,4 +471,4 @@ class Dictionary:
             self._strdcmp = self.strdcmp
 
     def dump(self):
-        print('\'', self._yomi, '\' ', self._no, ' ', self._cand, sep='')
+        print("'", self._yomi, "' ", self._no, ' ', self._cand, sep='')
