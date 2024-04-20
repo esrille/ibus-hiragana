@@ -1,6 +1,6 @@
 # ibus-hiragana - Hiragana IME for IBus
 #
-# Copyright (c) 2017-2023 Esrille Inc.
+# Copyright (c) 2017-2024 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,10 +16,11 @@
 
 import logging
 
-from gi import require_version
-require_version('IBus', '1.0')
-from gi.repository import IBus
+import gi
+gi.require_version('GLib', '2.0')
+gi.require_version('IBus', '1.0')
 from gi.repository import GLib
+from gi.repository import IBus
 
 logger = logging.getLogger(__name__)
 
@@ -54,6 +55,7 @@ NOT_DUAL_SPACE_BIT = SPACE_BIT << 16
 
 
 class Event:
+
     def __init__(self, engine, delay, layout):
         self._delay = delay    # Delay for non-shift keys in milliseconds (mainly for Nicola layout)
 
@@ -193,7 +195,6 @@ class Event:
     def process_key_event(self, engine, keyval, keycode, state):
         logger.info(f'process_key_event({keyval:#04x}({IBus.keyval_name(keyval)}), '
                     f'{keycode}, {state:#010x}) {self._modifiers:#07x}')
-        alt_gr = False
 
         # Ignore XFree86 anomaly.
         if keyval == keysyms.ISO_Left_Tab:
@@ -203,7 +204,6 @@ class Event:
             keyval = keysyms.Alt_L
         elif keyval in (keysyms.Meta_R, keysyms.ISO_Level3_Shift):
             # [Shift]-[Alt_R] or [AltGr]
-            alt_gr = True
             keyval = keysyms.Alt_R
 
         self._modifiers &= ~DUAL_BITS
