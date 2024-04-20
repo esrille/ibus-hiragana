@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ibus-hiragana 0.15.4~rc1\n"
 "Report-Msgid-Bugs-To: https://github.com/esrille/ibus-hiragana/issues\n"
-"POT-Creation-Date: 2024-04-21 02:36+0900\n"
+"POT-Creation-Date: 2024-04-21 03:20+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,63 +58,63 @@ msgstr ""
 msgid "Hiragana IME"
 msgstr ""
 
-#: setup/main.py:61
+#: setup/main.py:59
 msgid "Rōmaji"
 msgstr ""
 
-#: setup/main.py:62
+#: setup/main.py:60
 msgid "Kana (JIS Layout)"
 msgstr ""
 
-#: setup/main.py:63
+#: setup/main.py:61
 msgid "Kana (New Stickney Layout)"
 msgstr ""
 
-#: setup/main.py:82
+#: setup/main.py:80
 msgid "1st grade"
 msgstr ""
 
-#: setup/main.py:83
+#: setup/main.py:81
 msgid "2nd grade"
 msgstr ""
 
-#: setup/main.py:84
+#: setup/main.py:82
 msgid "3rd grade"
 msgstr ""
 
-#: setup/main.py:85
+#: setup/main.py:83
 msgid "4th grade"
 msgstr ""
 
-#: setup/main.py:86
+#: setup/main.py:84
 msgid "5th grade"
 msgstr ""
 
-#: setup/main.py:87
+#: setup/main.py:85
 msgid "6th grade"
 msgstr ""
 
-#: setup/main.py:88
+#: setup/main.py:86
 msgid "7-9th grade"
 msgstr ""
 
-#: setup/main.py:89
+#: setup/main.py:87
 msgid "10th+ grade (Okurigana: general)"
 msgstr ""
 
-#: setup/main.py:90
+#: setup/main.py:88
 msgid "10th+ grade (Okurigana: general + permissible)"
 msgstr ""
 
-#: setup/main.py:197
+#: setup/main.py:195
 msgid "Invalid characters in User Dictionary Name"
 msgstr ""
 
-#: setup/main.py:208
+#: setup/main.py:206
 msgid "Could not open file"
 msgstr ""
 
-#: setup/main.py:210
+#: setup/main.py:208
 #, python-brace-format
 msgid "Error opening file \"{path}\": {message}"
 msgstr ""

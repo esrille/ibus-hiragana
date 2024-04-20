@@ -32,9 +32,7 @@ from gi.repository import Gio
 from gi.repository import Gtk
 
 import package
-
-
-_ = lambda a: gettext.dgettext(package.get_name(), a)
+from package import _
 
 
 class SetupEngineHiragana:
