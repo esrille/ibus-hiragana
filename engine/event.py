@@ -24,9 +24,7 @@ from gi.repository import IBus
 
 LOGGER = logging.getLogger(__name__)
 
-keysyms = IBus
-
-MODIFIERS = (keysyms.Shift_L, keysyms.Shift_R, keysyms.Control_L, keysyms.Control_R, keysyms.Alt_L, keysyms.Alt_R)
+MODIFIERS = (IBus.Shift_L, IBus.Shift_R, IBus.Control_L, IBus.Control_R, IBus.Alt_L, IBus.Alt_R)
 
 SHIFT_L_BIT = 0x01
 SHIFT_R_BIT = 0x02
@@ -60,20 +58,20 @@ class Event:
         self._delay = delay    # Delay for non-shift keys in milliseconds (mainly for Nicola layout)
 
         # Set to the default values
-        self._OnOffByCaps = True               # or False
-        self._SandS = False                    # True if SandS is used
-        self._Henkan = keysyms.VoidSymbol      # or keysyms.Henkan, keysyms.space
-        self._Muhenkan = keysyms.VoidSymbol    # or keysyms.Muhenkan
-        self._Eisuu = keysyms.VoidSymbol       # or keysyms.Eisu_toggle
-        self._Kana = keysyms.VoidSymbol        # or keysyms.Hiragana_Katakana, keysyms.Control_R
-        self._Space = keysyms.VoidSymbol       # Extra space key
-        self._Prefix = False                   # True if Shift is to be prefixed
+        self._OnOffByCaps = True            # or False
+        self._SandS = False                 # True if SandS is used
+        self._Henkan = IBus.VoidSymbol      # or IBus.Henkan, IBus.space
+        self._Muhenkan = IBus.VoidSymbol    # or IBus.Muhenkan
+        self._Eisuu = IBus.VoidSymbol       # or IBus.Eisu_toggle
+        self._Kana = IBus.VoidSymbol        # or IBus.Hiragana_Katakana, IBus.Control_R
+        self._Space = IBus.VoidSymbol       # Extra space key
+        self._Prefix = False                # True if Shift is to be prefixed
         self._HasYen = False
         self._DualBits = 0
 
         if layout.get('Keyboard') == '109':
-            self._Kana = keysyms.Hiragana_Katakana
-            self._Eisuu = keysyms.Eisu_toggle
+            self._Kana = IBus.Hiragana_Katakana
+            self._Eisuu = IBus.Eisu_toggle
 
         self._OnOffByCaps = layout.get('OnOffByCaps', self._OnOffByCaps)
         self._HasYen = layout.get('HasYen', self._HasYen)
@@ -100,11 +98,11 @@ class Event:
         for k in (self._Henkan, self._Muhenkan, self._Kana, self._Space):
             if k in MODIFIERS:
                 self._DualBits |= DUAL_SHIFT_L_BIT << MODIFIERS.index(k)
-            if k == keysyms.Alt_R:
+            if k == IBus.Alt_R:
                 self._capture_alt_r = True
 
         # Current event
-        self._keyval = keysyms.VoidSymbol
+        self._keyval = IBus.VoidSymbol
         self._keycode = 0
         self.reset()
 
@@ -113,35 +111,35 @@ class Event:
         self._modifiers = 0
 
     def is_key(self, keyval):
-        if keyval == keysyms.VoidSymbol:
+        if keyval == IBus.VoidSymbol:
             return False
         if not self.is_modifier() and keyval == self._keyval:
             return True
-        if keyval == keysyms.Shift_L and (self._modifiers & DUAL_SHIFT_L_BIT):
+        if keyval == IBus.Shift_L and (self._modifiers & DUAL_SHIFT_L_BIT):
             return True
-        if keyval == keysyms.Shift_R and (self._modifiers & DUAL_SHIFT_R_BIT):
+        if keyval == IBus.Shift_R and (self._modifiers & DUAL_SHIFT_R_BIT):
             return True
-        if keyval == keysyms.Control_R and (self._modifiers & DUAL_CONTROL_R_BIT):
+        if keyval == IBus.Control_R and (self._modifiers & DUAL_CONTROL_R_BIT):
             return True
-        if keyval == keysyms.Alt_R and (self._modifiers & DUAL_ALT_R_BIT):
+        if keyval == IBus.Alt_R and (self._modifiers & DUAL_ALT_R_BIT):
             return True
         return False
 
     def is_space(self):
         if self.is_key(self._Space):
             return True
-        if self._keyval == keysyms.space:
+        if self._keyval == IBus.space:
             return not (self._Prefix and self._state & IBus.ModifierType.RELEASE_MASK)
         return False
 
     def is_backspace(self):
-        return self._keyval == keysyms.BackSpace
+        return self._keyval == IBus.BackSpace
 
     def is_ascii(self):
-        # keysyms.yen is treated as '¥' for Japanese 109 keyboard.
-        return (keysyms.exclam <= self._keyval <= keysyms.asciitilde
-                or self._keyval == keysyms.yen
-                or self._keyval == keysyms.periodcentered
+        # IBus.yen is treated as '¥' for Japanese 109 keyboard.
+        return (IBus.exclam <= self._keyval <= IBus.asciitilde
+                or self._keyval == IBus.yen
+                or self._keyval == IBus.periodcentered
                 or self.is_space())
 
     def is_modifier(self):
@@ -149,7 +147,7 @@ class Event:
 
     def is_prefix(self):
         return (self._Prefix
-                and self._keyval == keysyms.space
+                and self._keyval == IBus.space
                 and (self._modifiers & PREFIX_BIT)
                 and (self._state & IBus.ModifierType.RELEASE_MASK))
 
@@ -158,7 +156,7 @@ class Event:
 
     def is_control(self):
         mask = CONTROL_BITS
-        if self._keyval == keysyms.Control_R and (self._modifiers & DUAL_CONTROL_R_BIT):
+        if self._keyval == IBus.Control_R and (self._modifiers & DUAL_CONTROL_R_BIT):
             mask &= ~CONTROL_R_BIT
         return bool(self._modifiers & mask)
 
@@ -168,24 +166,24 @@ class Event:
             return True
         if self._Prefix and (self._modifiers & (SPACE_BIT | PREFIX_BIT)):
             return True
-        if self._keyval == keysyms.Shift_R and (self._modifiers & DUAL_SHIFT_R_BIT):
+        if self._keyval == IBus.Shift_R and (self._modifiers & DUAL_SHIFT_R_BIT):
             mask &= ~SHIFT_R_BIT
-        if self._keyval == keysyms.Shift_L and (self._modifiers & DUAL_SHIFT_L_BIT):
+        if self._keyval == IBus.Shift_L and (self._modifiers & DUAL_SHIFT_L_BIT):
             mask &= ~SHIFT_L_BIT
         return bool(self._modifiers & mask)
 
     def is_katakana(self):
-        return self.is_key(self._Kana) or self.is_key(keysyms.Hiragana_Katakana)
+        return self.is_key(self._Kana) or self.is_key(IBus.Hiragana_Katakana)
 
     def is_henkan(self):
-        if self.is_key(self._Henkan) or self.is_key(keysyms.Henkan) or self.is_key(keysyms.Hangul):
+        if self.is_key(self._Henkan) or self.is_key(IBus.Henkan) or self.is_key(IBus.Hangul):
             return not (self.is_control() or self.is_shift())
         return False
 
     def is_muhenkan(self):
         if self.is_key(self._Muhenkan):
             return True
-        if self.is_key(self._Henkan) or self.is_key(keysyms.Henkan) or self.is_key(keysyms.Hangul):
+        if self.is_key(self._Henkan) or self.is_key(IBus.Henkan) or self.is_key(IBus.Hangul):
             return self.is_shift() and not self.is_control()
         return False
 
@@ -197,14 +195,14 @@ class Event:
                     f'{keycode}, {state:#010x}) {self._modifiers:#07x}')
 
         # Ignore XFree86 anomaly.
-        if keyval == keysyms.ISO_Left_Tab:
-            keyval = keysyms.Tab
-        elif keyval == keysyms.Meta_L:
+        if keyval == IBus.ISO_Left_Tab:
+            keyval = IBus.Tab
+        elif keyval == IBus.Meta_L:
             # [Shift]-[Alt_L]
-            keyval = keysyms.Alt_L
-        elif keyval in (keysyms.Meta_R, keysyms.ISO_Level3_Shift):
+            keyval = IBus.Alt_L
+        elif keyval in (IBus.Meta_R, IBus.ISO_Level3_Shift):
             # [Shift]-[Alt_R] or [AltGr]
-            keyval = keysyms.Alt_R
+            keyval = IBus.Alt_R
 
         self._modifiers &= ~DUAL_BITS
         is_press = ((state & IBus.ModifierType.RELEASE_MASK) == 0)
@@ -216,53 +214,53 @@ class Event:
             elif self._modifiers & SHIFT_L_BIT:
                 self._modifiers &= ~SHIFT_L_BIT
 
-            if keyval == keysyms.space:
+            if keyval == IBus.space:
                 if self._modifiers & (MODIFIER_BITS & ~SPACE_BIT):
                     self._modifiers |= NOT_DUAL_SPACE_BIT
                 else:
                     self._modifiers &= ~NOT_DUAL_SPACE_BIT
                 self._modifiers |= SPACE_BIT
-            elif keyval == keysyms.Shift_L:
+            elif keyval == IBus.Shift_L:
                 if self._modifiers & MODIFIER_BITS:
                     self._modifiers |= NOT_DUAL_SHIFT_L_BIT
                 else:
                     self._modifiers &= ~NOT_DUAL_SHIFT_L_BIT
                 self._modifiers |= SHIFT_L_BIT
-            elif keyval == keysyms.Shift_R:
+            elif keyval == IBus.Shift_R:
                 if self._modifiers & MODIFIER_BITS:
                     self._modifiers |= NOT_DUAL_SHIFT_R_BIT
                 else:
                     self._modifiers &= ~NOT_DUAL_SHIFT_R_BIT
                 self._modifiers |= SHIFT_R_BIT
-            elif keyval == keysyms.Control_L:
+            elif keyval == IBus.Control_L:
                 self._modifiers |= CONTROL_L_BIT
-            elif keyval == keysyms.Control_R:
+            elif keyval == IBus.Control_R:
                 if self._modifiers & MODIFIER_BITS:
                     self._modifiers |= NOT_DUAL_CONTROL_R_BIT
                 else:
                     self._modifiers &= ~NOT_DUAL_CONTROL_R_BIT
                 self._modifiers |= CONTROL_R_BIT
-            elif keyval == keysyms.Alt_R:
+            elif keyval == IBus.Alt_R:
                 if self._modifiers & MODIFIER_BITS:
                     self._modifiers |= NOT_DUAL_ALT_R_BIT
                 else:
                     self._modifiers &= ~NOT_DUAL_ALT_R_BIT
                 self._modifiers |= ALT_R_BIT
 
-            if (self._modifiers & SPACE_BIT) and keyval != keysyms.space:
+            if (self._modifiers & SPACE_BIT) and keyval != IBus.space:
                 self._modifiers |= NOT_DUAL_SPACE_BIT
-            if (self._modifiers & SHIFT_L_BIT) and keyval != keysyms.Shift_L:
+            if (self._modifiers & SHIFT_L_BIT) and keyval != IBus.Shift_L:
                 self._modifiers |= NOT_DUAL_SHIFT_L_BIT
-            if (self._modifiers & SHIFT_R_BIT) and keyval != keysyms.Shift_R:
+            if (self._modifiers & SHIFT_R_BIT) and keyval != IBus.Shift_R:
                 self._modifiers |= NOT_DUAL_SHIFT_R_BIT
-            if (self._modifiers & CONTROL_R_BIT) and keyval != keysyms.Control_R:
+            if (self._modifiers & CONTROL_R_BIT) and keyval != IBus.Control_R:
                 self._modifiers |= NOT_DUAL_CONTROL_R_BIT
-            if (self._modifiers & ALT_R_BIT) and keyval != keysyms.Alt_R:
+            if (self._modifiers & ALT_R_BIT) and keyval != IBus.Alt_R:
                 self._modifiers |= NOT_DUAL_ALT_R_BIT
 
             # Check CAPS LOCK for IME on/off
             if self._OnOffByCaps:
-                if keyval == keysyms.Caps_Lock:
+                if keyval == IBus.Caps_Lock:
                     # Note CAPS LOCK LED is turned off after the key release event.
                     if state & IBus.ModifierType.LOCK_MASK:
                         engine.disable_ime()
@@ -275,7 +273,7 @@ class Event:
                     else:
                         engine.disable_ime()
 
-            if keyval in (keysyms.Muhenkan, keysyms.Hangul_Hanja):
+            if keyval in (IBus.Muhenkan, IBus.Hangul_Hanja):
                 # [無変換], [A]
                 if self._modifiers & SHIFT_BITS:
                     mode = 'Ａ'
@@ -289,15 +287,15 @@ class Event:
                     mode = 'A'
                 if engine.set_mode(mode, True):
                     return True
-            elif keyval in (keysyms.Henkan, keysyms.Hangul, keysyms.Hiragana_Katakana):
+            elif keyval in (IBus.Henkan, IBus.Hangul, IBus.Hiragana_Katakana):
                 # [変換], [あ], [ひらがな]
                 if not engine.is_lookup_table_visible():
                     mode = 'あ'
-                    if keyval == keysyms.Hiragana_Katakana and (self._modifiers & SHIFT_BITS):
+                    if keyval == IBus.Hiragana_Katakana and (self._modifiers & SHIFT_BITS):
                         mode = 'ア'
                     if engine.set_mode(mode, True):
                         return True
-            elif keyval in (self._Eisuu, keysyms.Zenkaku_Hankaku):
+            elif keyval in (self._Eisuu, IBus.Zenkaku_Hankaku):
                 # [英数], [全角/半角]
                 mode = 'A' if engine.get_mode() != 'A' else 'あ'
                 engine.set_mode(mode)
@@ -305,31 +303,31 @@ class Event:
 
         else:
 
-            if keyval == keysyms.space:
+            if keyval == IBus.space:
                 if not (self._modifiers & NOT_DUAL_SPACE_BIT):
                     self._modifiers |= DUAL_SPACE_BIT
                 self._modifiers &= ~SPACE_BIT
-            elif keyval == keysyms.Shift_L:
+            elif keyval == IBus.Shift_L:
                 if not (self._modifiers & NOT_DUAL_SHIFT_L_BIT):
                     self._modifiers |= DUAL_SHIFT_L_BIT
                 self._modifiers &= ~SHIFT_L_BIT
-            elif keyval == keysyms.Shift_R:
+            elif keyval == IBus.Shift_R:
                 if not (self._modifiers & NOT_DUAL_SHIFT_R_BIT):
                     self._modifiers |= DUAL_SHIFT_R_BIT
                 self._modifiers &= ~SHIFT_R_BIT
-            elif keyval == keysyms.Control_L:
+            elif keyval == IBus.Control_L:
                 self._modifiers &= ~CONTROL_L_BIT
-            elif keyval == keysyms.Control_R:
+            elif keyval == IBus.Control_R:
                 if not (self._modifiers & NOT_DUAL_CONTROL_R_BIT):
                     self._modifiers |= DUAL_CONTROL_R_BIT
                 self._modifiers &= ~CONTROL_R_BIT
-            elif keyval == keysyms.Alt_R:
+            elif keyval == IBus.Alt_R:
                 if not (self._modifiers & NOT_DUAL_ALT_R_BIT):
                     self._modifiers |= DUAL_ALT_R_BIT
                 self._modifiers &= ~ALT_R_BIT
 
         if engine.get_mode() in ('あ', 'ア', 'ｱ'):
-            if keyval == keysyms.space:
+            if keyval == IBus.space:
                 if self._SandS and is_press:
                     return True
                 elif self._Prefix:
@@ -359,9 +357,9 @@ class Event:
         return False
 
     def update_key_event(self, keyval, keycode, state):
-        if keyval == keysyms.backslash and keycode == 0x7c:
+        if keyval == IBus.backslash and keycode == 0x7c:
             # Treat Yen key separately for Japanese 109 keyboard.
-            keyval = keysyms.yen
+            keyval = IBus.yen
         self._keyval = keyval
         self._keycode = keycode
         self._state = state
@@ -372,7 +370,7 @@ class Event:
         processed = engine.process_key_event(keyval, keycode, state, self._modifiers)
         if (state & IBus.ModifierType.RELEASE_MASK) and not (self._modifiers & self._DualBits):
             self._modifiers &= ~PREFIX_BIT
-        if keyval == keysyms.Alt_R and self._capture_alt_r:
+        if keyval == IBus.Alt_R and self._capture_alt_r:
             return True
         if self.is_dual_role():
             # Modifiers have to be further processed.
@@ -383,12 +381,12 @@ class Event:
         c = ''
         if self.is_ascii():
             if self.is_space():
-                keyval = keysyms.space
+                keyval = IBus.space
             else:
                 keyval = self._keyval
-            if keyval == keysyms.yen:
+            if keyval == IBus.yen:
                 c = '¥'
-            elif keyval == keysyms.asciitilde and self._keycode == 0x0b:
+            elif keyval == IBus.asciitilde and self._keycode == 0x0b:
                 c = '_'
             else:
                 c = chr(keyval)

@@ -40,7 +40,6 @@ from dictionary import Dictionary
 from event import Event
 from package import _
 
-keysyms = IBus
 LOGGER = logging.getLogger(__name__)
 
 INPUT_MODES = (
@@ -712,7 +711,7 @@ class EngineHiragana(EngineModeless):
             committed_n = False
         text, pos = self.get_surrounding_string()
         # Check Return for yôgen conversion
-        if self._event.is_henkan() or self._event.is_key(keysyms.Return):
+        if self._event.is_henkan() or self._event.is_key(IBus.Return):
             cand, size = self._lookup_dictionary(text, pos)
         elif 1 <= pos:
             assert self._event.is_muhenkan()
@@ -764,15 +763,15 @@ class EngineHiragana(EngineModeless):
 
     def _process_surrounding_text(self, keyval, keycode, state, modifiers):
         if self._dict.current():
-            if keyval == keysyms.Tab:
+            if keyval == IBus.Tab:
                 if not self._event.is_shift():
                     return self._process_shrink()
                 else:
                     return self._process_expand()
-            if keyval == keysyms.Escape:
+            if keyval == IBus.Escape:
                 self._process_escape()
                 return True
-            if keyval == keysyms.Return:
+            if keyval == IBus.Return:
                 current = self._confirm_candidate()
                 self.commit_string(current)
                 if current[-1] == '―':
@@ -783,9 +782,9 @@ class EngineHiragana(EngineModeless):
                     self.flush()
                     return True
 
-        if keyval == keysyms.Return and self.commit_roman():
+        if keyval == IBus.Return and self.commit_roman():
             return True
-        if keyval == keysyms.Escape and self.clear_roman():
+        if keyval == IBus.Escape and self.clear_roman():
             return True
 
         if (self.get_mode() == 'あ'
@@ -879,7 +878,7 @@ class EngineHiragana(EngineModeless):
         elif self._event.is_prefix():
             pass
         elif self.has_non_empty_preedit() and self.should_draw_preedit():
-            if keyval == keysyms.Escape:
+            if keyval == IBus.Escape:
                 self.clear_preedit()
             else:
                 self.clear_roman()
@@ -1142,13 +1141,13 @@ class EngineHiragana(EngineModeless):
 
         # Handle candidate window
         if 0 < self._lookup_table.get_number_of_candidates():
-            if keyval in (keysyms.Page_Up, keysyms.KP_Page_Up):
+            if keyval in (IBus.Page_Up, IBus.KP_Page_Up):
                 return self.do_page_up()
-            elif keyval in (keysyms.Page_Down, keysyms.KP_Page_Down):
+            elif keyval in (IBus.Page_Down, IBus.KP_Page_Down):
                 return self.do_page_down()
-            elif keyval == keysyms.Up or self._event.is_muhenkan():
+            elif keyval == IBus.Up or self._event.is_muhenkan():
                 return self.do_cursor_up()
-            elif keyval == keysyms.Down or self._event.is_henkan():
+            elif keyval == IBus.Down or self._event.is_henkan():
                 return self.do_cursor_down()
 
         if self._event.is_backspace():
