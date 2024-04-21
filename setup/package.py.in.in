@@ -17,6 +17,7 @@
 # This file is a template file processed by the configure script.
 # The file name is listed in AC_CONFIG_FILES of configure.ac.
 
+import gettext
 import os
 
 import gi
