@@ -15,15 +15,6 @@
         The current input mode.
       </description>
     </key>
-    <key name='delay' type='i'>
-      <range min='0' max='50'/>
-      <default>0</default>
-      <summary>Delay for Non-modifier Keys</summary>
-      <description>
-        The amount of time in milliseconds to delay before processing non-modifier keys;
-        this setting should be changed only with Nicola layouts and their variants.
-      </description>
-    </key>
     <key name='dictionary' type='s'>
       <default>\"restrained.9.dic\"</default>
       <summary>Kanji Dictionary File</summary>

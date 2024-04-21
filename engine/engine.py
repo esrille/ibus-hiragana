@@ -428,7 +428,6 @@ class EngineHiragana(EngineModeless):
         self._logging_level = self._load_logging_level()
         self._dict = self._load_dictionary()
         self._layout = self._load_layout()
-        self._delay = self._load_delay()
         self._controller = KeyboardController(self._layout)
 
         self.set_mode(self._load_input_mode())
@@ -523,11 +522,6 @@ class EngineHiragana(EngineModeless):
         mode = self._settings.get_boolean('combining-circumflex')
         LOGGER.info(f'combining-circumflex: {mode}')
         return mode
-
-    def _load_delay(self):
-        delay = self._settings.get_int('delay')
-        LOGGER.info(f'delay: {delay}')
-        return delay
 
     def _load_dictionary(self, clear_history=False):
         system = self._settings.get_string('dictionary')
@@ -1053,10 +1047,6 @@ class EngineHiragana(EngineModeless):
         LOGGER.debug(f'config_value_changed("{key}")')
         if key == 'logging-level':
             self._logging_level = self._load_logging_level()
-        elif key == 'delay':
-            self._reset()
-            self._delay = self._load_delay()
-            self._controller = KeyboardController(self._layout)
         elif key == 'layout' or key == 'altgr':
             self._reset()
             self._layout = self._load_layout()
