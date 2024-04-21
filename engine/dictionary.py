@@ -95,16 +95,18 @@ class Dictionary:
 
         self._orders_path = ''
 
+        dic_dir = os.path.join(package.get_datadir(), 'dic')
+
         try:
             # Load Katakana dictionary first so that Katakana words come after Kanji words.
-            path = os.path.join(package.get_datadir(), 'katakana.dic')
+            path = os.path.join(dic_dir, 'katakana.dic')
             self._load_dict(self._dict_base, path)
         except OSError:
             logger.exception('Could not load "katakana.dic"')
 
         try:
             # Load system dictionary
-            path = os.path.join(package.get_datadir(), system)
+            path = os.path.join(dic_dir, system)
             self._load_dict(self._dict_base, path)
         except OSError:
             logger.exception(f'Could not load "{path}"')

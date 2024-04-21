@@ -1,4 +1,4 @@
-# Copyright (c) 2017-2023 Esrille Inc.
+# Copyright (c) 2017-2024 Esrille Inc.
 #
 # Using source code derived from
 #   ibus-tmpl - The Input Bus template project
@@ -23,7 +23,7 @@ engine_hiragana_PYTHON = \
 	$(NULL)
 BUILT_SOURCES = package.py
 nodist_engine_hiragana_PYTHON = package.py
-engine_hiraganadir = $(pkgdatadir)
+engine_hiraganadir = $(pkgdatadir)/engine
 
 libexec_SCRIPTS= ibus-engine-hiragana
 

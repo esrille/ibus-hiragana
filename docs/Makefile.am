@@ -1,4 +1,4 @@
-# Copyright (c) 2019-2022 Esrille Inc.
+# Copyright (c) 2019-2024 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ dist_help_DATA = \
 	settings-keyboard.png \
 	$(NULL)
 
-helpdir = $(pkgdatadir)/help
+helpdir = $(pkgdatadir)/docs
 
 EXTRA_DIST = \
 	Makefile.am \

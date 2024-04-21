@@ -9,7 +9,6 @@
 	<license>Apache</license>
 	<homepage>https://github.com/esrille/@PACKAGE_NAME@</homepage>
 	<textdomain>@PACKAGE_NAME@</textdomain>
-
 	<engines>
 		<engine>
 			<name>hiragana</name>
@@ -24,5 +23,4 @@
 			<rank>0</rank>
 		</engine>
 	</engines>
-
 </component>

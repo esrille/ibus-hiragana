@@ -16,4 +16,4 @@
 
 PYTHON=@PYTHON@
 prefix=@prefix@
-exec ${PYTHON} -O @prefix@/share/ibus-hiragana/main.py $@
+exec ${PYTHON} -O @prefix@/share/ibus-hiragana/engine/main.py $@
