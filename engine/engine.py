@@ -28,16 +28,16 @@ import time
 import gi
 gi.require_version('IBus', '1.0')
 gi.require_version('Gdk', '3.0')
+gi.require_version('Gio', '2.0')
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gdk
 from gi.repository import Gio
 from gi.repository import Gtk
 from gi.repository import IBus
 
-import event
 import package
 from dictionary import Dictionary
-from event import Event
+from event import Event, KeyboardController
 from package import _
 
 LOGGER = logging.getLogger(__name__)
@@ -429,7 +429,7 @@ class EngineHiragana(EngineModeless):
         self._dict = self._load_dictionary()
         self._layout = self._load_layout()
         self._delay = self._load_delay()
-        self._event = Event(self, self._delay, self._layout)
+        self._controller = KeyboardController(self._layout)
 
         self.set_mode(self._load_input_mode())
         self._set_x4063_mode(self._load_x4063_mode())
@@ -459,19 +459,19 @@ class EngineHiragana(EngineModeless):
             self._lookup_table.clear()
         return current
 
-    def _handle_default_layout(self, preedit, c, keycode, modifiers):
+    def _handle_default_layout(self, preedit, c, e: Event):
         return c, ''
 
-    def _handle_kana_layout(self, preedit, c, keycode, modifiers):
+    def _handle_kana_layout(self, preedit, c, e: Event):
         yomi = c
         if 'Key' in self._layout:
-            if keycode < len(self._layout['Key']):
-                a = self._layout['Key'][keycode]
-                yomi = a[3] if self._event.is_shift() else a[2]
+            if e.keycode < len(self._layout['Key']):
+                a = self._layout['Key'][e.keycode]
+                yomi = a[3] if e.is_shift() else a[2]
                 LOGGER.debug(f'_handle_kana_layout: {yomi}')
         return yomi, preedit
 
-    def _handle_roomazi_layout(self, preedit, c, keycode, modifiers):
+    def _handle_roomazi_layout(self, preedit, c, e: Event):
         yomi = ''
         post = ''
         c = c.lower()
@@ -700,7 +700,7 @@ class EngineHiragana(EngineModeless):
         self.delete_surrounding_string(size)
         return True
 
-    def _process_replace(self):
+    def _process_replace(self, e: Event) -> bool:
         if self._dict.current():
             return True
         # Check 'n'
@@ -711,10 +711,10 @@ class EngineHiragana(EngineModeless):
             committed_n = False
         text, pos = self.get_surrounding_string()
         # Check Return for yôgen conversion
-        if self._event.is_henkan() or self._event.is_key(IBus.Return):
+        if e.is_henkan() or e.is_key(IBus.Return):
             cand, size = self._lookup_dictionary(text, pos)
         elif 1 <= pos:
-            assert self._event.is_muhenkan()
+            assert e.is_muhenkan()
             suffix = text[:pos].rfind('―')
             if 0 < suffix:
                 cand, size = self._lookup_dictionary(text, pos)
@@ -742,7 +742,7 @@ class EngineHiragana(EngineModeless):
                         size = len(cand)
         elif not committed_n:
             # Commit a white space
-            self.commit_string(' ' if self._event.is_muhenkan() or self.get_mode() == 'ｱ' else '　')
+            self.commit_string(' ' if e.is_muhenkan() or self.get_mode() == 'ｱ' else '　')
         return True
 
     def _process_shrink(self):
@@ -761,36 +761,36 @@ class EngineHiragana(EngineModeless):
             (cand, size) = self._lookup_dictionary(yomi + text[pos:], len(yomi))
         return True
 
-    def _process_surrounding_text(self, keyval, keycode, state, modifiers):
+    def _process_surrounding_text(self, e: Event) -> bool:
         if self._dict.current():
-            if keyval == IBus.Tab:
-                if not self._event.is_shift():
+            if e.keyval == IBus.Tab:
+                if not e.is_shift():
                     return self._process_shrink()
                 else:
                     return self._process_expand()
-            if keyval == IBus.Escape:
+            if e.keyval == IBus.Escape:
                 self._process_escape()
                 return True
-            if keyval == IBus.Return:
+            if e.keyval == IBus.Return:
                 current = self._confirm_candidate()
                 self.commit_string(current)
                 if current[-1] == '―':
-                    return self._process_replace()
+                    return self._process_replace(e)
                 else:
                     if not self.commit_roman():
                         self._set_completed(current)
                     self.flush()
                     return True
 
-        if keyval == IBus.Return and self.commit_roman():
+        if e.keyval == IBus.Return and self.commit_roman():
             return True
-        if keyval == IBus.Escape and self.clear_roman():
+        if e.keyval == IBus.Escape and self.clear_roman():
             return True
 
         if (self.get_mode() == 'あ'
-                and (self._event.is_henkan() or self._event.is_muhenkan())
-                and not (modifiers & event.ALT_R_BIT)):
-            return self._process_replace()
+                and (e.is_henkan() or e.is_muhenkan())
+                and not e.with_altgr()):
+            return self._process_replace(e)
 
         text, pos = self.get_surrounding_string()
         pos_yougen = -1
@@ -816,10 +816,10 @@ class EngineHiragana(EngineModeless):
             elif self.should_draw_preedit():
                 self.flush()
 
-        if self._event.is_katakana():
+        if e.is_katakana():
             self._process_katakana()
             return True
-        if self._event.is_backspace():
+        if e.is_backspace():
             if to_revert:
                 if self.roman_text:
                     self.roman_text = self.roman_text[:-1]
@@ -834,15 +834,15 @@ class EngineHiragana(EngineModeless):
             return False
 
         yomi = ''
-        if modifiers & event.ALT_R_BIT:
-            c = self.process_alt_graph(keyval, keycode, state, modifiers)
+        if e.with_altgr():
+            c = self.process_alt_graph(e)
             if not c:
                 self.clear_roman()
                 return True
             if c not in 'âîûêôÂÎÛÊÔ':
                 yomi = c
         else:
-            c = self._event.chr()
+            c = e.chr()
         if c:
             if yomi:
                 pass
@@ -856,17 +856,17 @@ class EngineHiragana(EngineModeless):
                         yomi = text[pos - 1].translate(TO_AIUEO) + c
                         self.delete_surrounding_string(1)
                     else:
-                        if chr(keyval) == c:
+                        if chr(e.keyval) == c:
                             return False
                         yomi = c
                 else:
-                    if chr(keyval) == c:
+                    if chr(e.keyval) == c:
                         return False
                     yomi = c
             elif self.get_mode() == 'Ａ':
                 yomi = to_zenkaku(c)
             else:
-                yomi, self.roman_text = self._to_kana(self.roman_text, c, keycode, modifiers)
+                yomi, self.roman_text = self._to_kana(self.roman_text, c, e)
                 if yomi == 'ー' and 'Roomazi' in self._layout:
                     if pos <= 0 or text[pos - 1] not in (HIRAGANA + KATAKANA):
                         yomi = '－'
@@ -875,10 +875,10 @@ class EngineHiragana(EngineModeless):
                         yomi = to_katakana(yomi)
                     elif self.get_mode() == 'ｱ':
                         yomi = to_hankaku(to_katakana(yomi))
-        elif self._event.is_prefix():
+        elif e.is_prefix():
             pass
         elif self.has_non_empty_preedit() and self.should_draw_preedit():
-            if keyval == IBus.Escape:
+            if e.keyval == IBus.Escape:
                 self.clear_preedit()
             else:
                 self.clear_roman()
@@ -1056,11 +1056,11 @@ class EngineHiragana(EngineModeless):
         elif key == 'delay':
             self._reset()
             self._delay = self._load_delay()
-            self._event = Event(self, self._delay, self._layout)
+            self._controller = KeyboardController(self._layout)
         elif key == 'layout' or key == 'altgr':
             self._reset()
             self._layout = self._load_layout()
-            self._event = Event(self, self._delay, self._layout)
+            self._controller = KeyboardController(self._layout)
         elif key == 'dictionary' or key == 'user-dictionary':
             self._reset()
             self._dict = self._load_dictionary()
@@ -1072,7 +1072,7 @@ class EngineHiragana(EngineModeless):
             self._set_combining_circumflex(self._load_combining_circumflex())
 
     def _keymap_state_changed_cb(self, keymap):
-        if self._event.is_onoff_by_caps():
+        if self._controller.is_onoff_by_caps():
             lock = keymap.get_caps_lock_state()
             if self._caps_lock_state != lock:
                 LOGGER.info(f'_keymap_state_changed_cb: {keymap.get_caps_lock_state()}')
@@ -1110,28 +1110,22 @@ class EngineHiragana(EngineModeless):
     def is_overridden(self):
         return self._override
 
-    def process_alt_graph(self, keyval, keycode, state, modifiers):
-        LOGGER.info(f'process_alt_graph({keyval:#04x}({IBus.keyval_name(keyval)}), '
-                    f'{keycode}, {state:#010x}, {modifiers:#07x})')
-
+    def process_alt_graph(self, e: Event) -> str:
         if 'AltGr' in self._layout:
-            if keycode < len(self._layout['AltGr']):
-                a = self._layout['AltGr'][keycode]
-                c = a[3] if self._event.is_shift() else a[2]
+            if e.keycode < len(self._layout['AltGr']):
+                a = self._layout['AltGr'][e.keycode]
+                c = a[3] if e.is_shift() else a[2]
                 LOGGER.debug(f'process_alt_graph: {c}')
                 return c
         return ''
 
-    def process_key_event(self, keyval, keycode, state, modifiers):
-        LOGGER.info(f'process_key_event({keyval:#04x}({IBus.keyval_name(keyval)}), '
-                    f'{keycode}, {state:#010x}, {modifiers:#07x})')
-
-        if self._event.is_dual_role():
+    def process_key_event(self, e: Event) -> bool:
+        if e.is_dual_role():
             pass
-        elif self._event.is_modifier():
+        elif e.is_modifier():
             # Ignore modifier keys
             return False
-        elif state & (IBus.ModifierType.CONTROL_MASK | IBus.ModifierType.MOD1_MASK):
+        elif e.state & (IBus.ModifierType.CONTROL_MASK | IBus.ModifierType.MOD1_MASK):
             self.clear_roman()
             self.flush(self._confirm_candidate())
             self._update_preedit()
@@ -1141,17 +1135,17 @@ class EngineHiragana(EngineModeless):
 
         # Handle candidate window
         if 0 < self._lookup_table.get_number_of_candidates():
-            if keyval in (IBus.Page_Up, IBus.KP_Page_Up):
+            if e.keyval in (IBus.Page_Up, IBus.KP_Page_Up):
                 return self.do_page_up()
-            elif keyval in (IBus.Page_Down, IBus.KP_Page_Down):
+            elif e.keyval in (IBus.Page_Down, IBus.KP_Page_Down):
                 return self.do_page_down()
-            elif keyval == IBus.Up or self._event.is_muhenkan():
+            elif e.keyval == IBus.Up or e.is_muhenkan():
                 return self.do_cursor_up()
-            elif keyval == IBus.Down or self._event.is_henkan():
+            elif e.keyval == IBus.Down or e.is_henkan():
                 return self.do_cursor_down()
 
-        if self._event.is_backspace():
-            if self._event.is_prefixed():
+        if e.is_backspace():
+            if e.is_prefixed():
                 # Clear the indication of the prefixed lock.
                 self._update_preedit()
                 return True
@@ -1163,7 +1157,7 @@ class EngineHiragana(EngineModeless):
         # Cache the current surrounding text into the EngineModless's local buffer.
         self.get_surrounding_string()
         # Edit the local surrounding text buffer as we need.
-        result = self._process_surrounding_text(keyval, keycode, state, modifiers)
+        result = self._process_surrounding_text(e)
         # Flush the local surrounding text buffer into the IBus client.
         if self.get_mode() != 'あ':
             self.flush(force=True)
@@ -1172,8 +1166,8 @@ class EngineHiragana(EngineModeless):
 
         # Lastly, update the preedit text. To support LibreOffice, the
         # surrounding text needs to be updated before updating the preedit text.
-        if self._event.is_prefix():
-            self._update_preedit('＿' if self._event.is_prefixed() else '')
+        if e.is_prefix():
+            self._update_preedit('＿' if e.is_prefixed() else '')
         else:
             self._update_preedit()
         return result
@@ -1214,7 +1208,7 @@ class EngineHiragana(EngineModeless):
         current = self._confirm_candidate()
         self.commit_string(current)
         if current[-1] == '―':
-            self._process_replace()
+            self._process_replace(self._controller.create_event(IBus.VoidSymbol, 0, 0, 0))
             if self._surrounding in (SURROUNDING_COMMITTED, SURROUNDING_SUPPORTED):
                 self.flush()
         else:
@@ -1249,7 +1243,7 @@ class EngineHiragana(EngineModeless):
 
     def do_focus_in(self):
         LOGGER.info(f'do_focus_in(): {self._surrounding}')
-        self._event.reset()
+        self._controller.reset()
         self.register_properties(self._prop_list)
         self._update_preedit()
         super().do_focus_in()
@@ -1270,10 +1264,10 @@ class EngineHiragana(EngineModeless):
             self._update_candidate()
         return True
 
-    def do_process_key_event(self, keyval, keycode, state):
+    def do_process_key_event(self, keyval, keycode, state) -> bool:
         LOGGER.info(f'do_process_key_event({keyval:#04x}({IBus.keyval_name(keyval)}), '
                     f'{keycode}, {state:#010x})')
-        return self._event.process_key_event(self, keyval, keycode, state)
+        return self._controller.process_key_event(self, keyval, keycode, state)
 
     def do_property_activate(self, prop_name, state):
         LOGGER.info(f'property_activate({prop_name}, {state})')

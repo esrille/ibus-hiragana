@@ -17,9 +17,7 @@
 import logging
 
 import gi
-gi.require_version('GLib', '2.0')
 gi.require_version('IBus', '1.0')
-from gi.repository import GLib
 from gi.repository import IBus
 
 LOGGER = logging.getLogger(__name__)
@@ -54,8 +52,119 @@ NOT_DUAL_SPACE_BIT = SPACE_BIT << 16
 
 class Event:
 
-    def __init__(self, engine, delay, layout):
-        self._delay = delay    # Delay for non-shift keys in milliseconds (mainly for Nicola layout)
+    def __init__(self, controller: 'KeyboardController', keyval, keycode, state, modifiers):
+        self._controller = controller
+        self.keyval = keyval
+        self.keycode = keycode
+        self.state = state
+        self.modifiers = modifiers
+
+    def with_altgr(self) -> bool:
+        return bool(self.modifiers & ALT_R_BIT)
+
+    def is_release(self) -> bool:
+        return bool(self.state & IBus.ModifierType.RELEASE_MASK)
+
+    def is_press(self) -> bool:
+        return not self.is_release()
+
+    def is_key(self, keyval) -> bool:
+        if keyval == IBus.VoidSymbol:
+            return False
+        if not self.is_modifier() and keyval == self.keyval:
+            return True
+        if keyval == IBus.Shift_L and (self.modifiers & DUAL_SHIFT_L_BIT):
+            return True
+        if keyval == IBus.Shift_R and (self.modifiers & DUAL_SHIFT_R_BIT):
+            return True
+        if keyval == IBus.Control_R and (self.modifiers & DUAL_CONTROL_R_BIT):
+            return True
+        if keyval == IBus.Alt_R and (self.modifiers & DUAL_ALT_R_BIT):
+            return True
+        return False
+
+    def is_space(self) -> bool:
+        if self.is_key(self._controller._Space):
+            return True
+        if self.keyval == IBus.space:
+            return not (self._controller._Prefix and self.is_release())
+        return False
+
+    def is_backspace(self) -> bool:
+        return self.keyval == IBus.BackSpace
+
+    def is_ascii(self) -> bool:
+        # IBus.yen is treated as '¥' for Japanese 109 keyboard.
+        return (IBus.exclam <= self.keyval <= IBus.asciitilde
+                or self.keyval == IBus.yen
+                or self.keyval == IBus.periodcentered
+                or self.is_space())
+
+    def is_modifier(self) -> bool:
+        return bool(self.keyval in MODIFIERS)
+
+    def is_prefix(self) -> bool:
+        return (self._controller._Prefix
+                and self.keyval == IBus.space
+                and (self.modifiers & PREFIX_BIT)
+                and self.is_release())
+
+    def is_prefixed(self) -> bool:
+        return self._controller._Prefix and (self.modifiers & PREFIX_BIT)
+
+    def is_control(self) -> bool:
+        mask = CONTROL_BITS
+        if self.keyval == IBus.Control_R and (self.modifiers & DUAL_CONTROL_R_BIT):
+            mask &= ~CONTROL_R_BIT
+        return bool(self.modifiers & mask)
+
+    def is_shift(self) -> bool:
+        mask = SHIFT_BITS
+        if self._controller._SandS and (self.modifiers & SPACE_BIT):
+            return True
+        if self._controller._Prefix and (self.modifiers & (SPACE_BIT | PREFIX_BIT)):
+            return True
+        if self.keyval == IBus.Shift_R and (self.modifiers & DUAL_SHIFT_R_BIT):
+            mask &= ~SHIFT_R_BIT
+        if self.keyval == IBus.Shift_L and (self.modifiers & DUAL_SHIFT_L_BIT):
+            mask &= ~SHIFT_L_BIT
+        return bool(self.modifiers & mask)
+
+    def is_katakana(self) -> bool:
+        return self.is_key(self._controller._Kana) or self.is_key(IBus.Hiragana_Katakana)
+
+    def is_henkan(self) -> bool:
+        if self.is_key(self._controller._Henkan) or self.is_key(IBus.Henkan) or self.is_key(IBus.Hangul):
+            return not (self.is_control() or self.is_shift())
+        return False
+
+    def is_muhenkan(self) -> bool:
+        if self.is_key(self._controller._Muhenkan):
+            return True
+        if self.is_key(self._controller._Henkan) or self.is_key(IBus.Henkan) or self.is_key(IBus.Hangul):
+            return self.is_shift() and not self.is_control()
+        return False
+
+    def is_dual_role(self) -> bool:
+        return bool(self.modifiers & DUAL_BITS)
+
+    def chr(self) -> str:
+        c = ''
+        if self.is_ascii():
+            keyval = IBus.space if self.is_space() else self.keyval
+            if keyval == IBus.yen:
+                c = '¥'
+            elif keyval == IBus.asciitilde and self.keycode == 0x0b:
+                c = '_'
+            else:
+                c = chr(keyval)
+        return c
+
+
+class KeyboardController:
+
+    def __init__(self, layout):
+        self._modifiers = 0
 
         # Set to the default values
         self._OnOffByCaps = True            # or False
@@ -101,100 +210,13 @@ class Event:
             if k == IBus.Alt_R:
                 self._capture_alt_r = True
 
-        # Current event
-        self._keyval = IBus.VoidSymbol
-        self._keycode = 0
-        self.reset()
-
     def reset(self):
-        self._state = 0
         self._modifiers = 0
 
-    def is_key(self, keyval):
-        if keyval == IBus.VoidSymbol:
-            return False
-        if not self.is_modifier() and keyval == self._keyval:
-            return True
-        if keyval == IBus.Shift_L and (self._modifiers & DUAL_SHIFT_L_BIT):
-            return True
-        if keyval == IBus.Shift_R and (self._modifiers & DUAL_SHIFT_R_BIT):
-            return True
-        if keyval == IBus.Control_R and (self._modifiers & DUAL_CONTROL_R_BIT):
-            return True
-        if keyval == IBus.Alt_R and (self._modifiers & DUAL_ALT_R_BIT):
-            return True
-        return False
+    def process_key_event(self, engine: IBus.Engine, keyval, keycode, state) -> bool:
+        LOGGER.info(f'process_event: {self._modifiers:#07x}')
 
-    def is_space(self):
-        if self.is_key(self._Space):
-            return True
-        if self._keyval == IBus.space:
-            return not (self._Prefix and self._state & IBus.ModifierType.RELEASE_MASK)
-        return False
-
-    def is_backspace(self):
-        return self._keyval == IBus.BackSpace
-
-    def is_ascii(self):
-        # IBus.yen is treated as '¥' for Japanese 109 keyboard.
-        return (IBus.exclam <= self._keyval <= IBus.asciitilde
-                or self._keyval == IBus.yen
-                or self._keyval == IBus.periodcentered
-                or self.is_space())
-
-    def is_modifier(self):
-        return bool(self._keyval in MODIFIERS)
-
-    def is_prefix(self):
-        return (self._Prefix
-                and self._keyval == IBus.space
-                and (self._modifiers & PREFIX_BIT)
-                and (self._state & IBus.ModifierType.RELEASE_MASK))
-
-    def is_prefixed(self):
-        return self._Prefix and (self._modifiers & PREFIX_BIT)
-
-    def is_control(self):
-        mask = CONTROL_BITS
-        if self._keyval == IBus.Control_R and (self._modifiers & DUAL_CONTROL_R_BIT):
-            mask &= ~CONTROL_R_BIT
-        return bool(self._modifiers & mask)
-
-    def is_shift(self):
-        mask = SHIFT_BITS
-        if self._SandS and (self._modifiers & SPACE_BIT):
-            return True
-        if self._Prefix and (self._modifiers & (SPACE_BIT | PREFIX_BIT)):
-            return True
-        if self._keyval == IBus.Shift_R and (self._modifiers & DUAL_SHIFT_R_BIT):
-            mask &= ~SHIFT_R_BIT
-        if self._keyval == IBus.Shift_L and (self._modifiers & DUAL_SHIFT_L_BIT):
-            mask &= ~SHIFT_L_BIT
-        return bool(self._modifiers & mask)
-
-    def is_katakana(self):
-        return self.is_key(self._Kana) or self.is_key(IBus.Hiragana_Katakana)
-
-    def is_henkan(self):
-        if self.is_key(self._Henkan) or self.is_key(IBus.Henkan) or self.is_key(IBus.Hangul):
-            return not (self.is_control() or self.is_shift())
-        return False
-
-    def is_muhenkan(self):
-        if self.is_key(self._Muhenkan):
-            return True
-        if self.is_key(self._Henkan) or self.is_key(IBus.Henkan) or self.is_key(IBus.Hangul):
-            return self.is_shift() and not self.is_control()
-        return False
-
-    def is_dual_role(self):
-        return bool(self._modifiers & DUAL_BITS)
-
-    def process_key_event(self, engine, keyval, keycode, state):
-        LOGGER.info(f'process_key_event({keyval:#04x}({IBus.keyval_name(keyval)}), '
-                    f'{keycode}, {state:#010x}) {self._modifiers:#07x}')
-
-        # Ignore XFree86 anomaly.
+        # Ignore XFree86 anomaly
         if keyval == IBus.ISO_Left_Tab:
             keyval = IBus.Tab
         elif keyval == IBus.Meta_L:
@@ -205,7 +227,7 @@ class Event:
             keyval = IBus.Alt_R
 
         self._modifiers &= ~DUAL_BITS
-        is_press = ((state & IBus.ModifierType.RELEASE_MASK) == 0)
+        is_press = not (state & IBus.ModifierType.RELEASE_MASK)
         if is_press:
             # Test state first to support On-Screen Keyboard since it may
             # not generate key events for shift keys.
@@ -345,53 +367,24 @@ class Event:
             self._modifiers &= ~PREFIX_BIT
             return False
 
-        if 0 < self._delay:
-            GLib.timeout_add(self._delay, self.handle_key_event_timeout, engine, keyval, keycode, state)
-            return True
-        return self.handle_key_event(engine, keyval, keycode, state)
-
-    def handle_key_event_timeout(self, engine, keyval, keycode, state):
-        if not self.handle_key_event(engine, keyval, keycode, state):
-            engine.forward_key_event(keyval, keycode, state)
-        # Stop timer by returning False
-        return False
-
-    def update_key_event(self, keyval, keycode, state):
+        # Treat Yen key separately for Japanese 109 keyboard.
         if keyval == IBus.backslash and keycode == 0x7c:
-            # Treat Yen key separately for Japanese 109 keyboard.
             keyval = IBus.yen
-        self._keyval = keyval
-        self._keycode = keycode
-        self._state = state
-        return self._keyval
 
-    def handle_key_event(self, engine, keyval, keycode, state):
-        keyval = self.update_key_event(keyval, keycode, state)
-        processed = engine.process_key_event(keyval, keycode, state, self._modifiers)
-        if (state & IBus.ModifierType.RELEASE_MASK) and not (self._modifiers & self._DualBits):
-            self._modifiers &= ~PREFIX_BIT
+        # Call back the engine with an event
+        event = self.create_event(keyval, keycode, state)
+        processed = engine.process_key_event(event)
+
         if keyval == IBus.Alt_R and self._capture_alt_r:
             return True
-        if self.is_dual_role():
+        if event.is_dual_role():
             # Modifiers have to be further processed.
             return False
         return processed
 
-    def chr(self):
-        c = ''
-        if self.is_ascii():
-            if self.is_space():
-                keyval = IBus.space
-            else:
-                keyval = self._keyval
-            if keyval == IBus.yen:
-                c = '¥'
-            elif keyval == IBus.asciitilde and self._keycode == 0x0b:
-                c = '_'
-            else:
-                c = chr(keyval)
-        return c
-
     def is_onoff_by_caps(self):
         LOGGER.info(f'is_onoff_by_caps: {self._OnOffByCaps}')
         return self._OnOffByCaps
+
+    def create_event(self, keyval, keycode, state) -> Event:
+        return Event(self, keyval, keycode, state, self._modifiers)
