@@ -35,6 +35,15 @@ import package
 from engine import EngineHiragana
 
 FORMAT = '%(asctime)s:%(levelname)s:%(name)s:%(message)s'
+DICT_NAMES = ('restrained.1.dic',
+              'restrained.2.dic',
+              'restrained.3.dic',
+              'restrained.4.dic',
+              'restrained.5.dic',
+              'restrained.6.dic',
+              'restrained.7.dic',
+              'restrained.8.dic',
+              'restrained.9.dic')
 
 logger = logging.getLogger(__name__)
 
@@ -87,19 +96,55 @@ def print_help(v=0):
     sys.exit(v)
 
 
-def main():
-    os.umask(0o077)
-
-    # Create user specific data directory
+def initialize():
     user_datadir = package.get_user_datadir()
-    os.makedirs(user_datadir, 0o700, True)
-    os.chmod(user_datadir, 0o700)   # For logfile created by v0.2.0 or earlier
+    user_dic_datadir = os.path.join(user_datadir, 'dic')
+
+    try:
+        os.umask(0o077)
+
+        # Create user specific data directory
+        os.makedirs(user_datadir, 0o700, True)
+
+        # For v0.2.0 or earlier
+        os.chmod(user_datadir, 0o700)
+
+        if not os.path.isdir(user_dic_datadir):
+            # Create user specific dictionary directory
+            if os.path.exists(user_dic_datadir):
+                bak = user_dic_datadir + '~'
+                if os.path.exists(bak):
+                    os.remove(bak)
+                os.rename(user_dic_datadir, bak)
+            os.makedirs(user_dic_datadir, 0o700, True)
+
+            # For v0.15.0 or earlier, 'restrained.8.dic' does not exist.
+            old = os.path.join(user_datadir, 'restrained.dic')
+            new = os.path.join(user_datadir, 'restrained.8.dic')
+            if os.path.exists(old) and not os.path.exists(new):
+                os.rename(old, new)
+
+            # For v0.15.3 or earlier, move orders files
+            # from ~/.local/share/ibus-hiragana/
+            # to ~/.local/share/ibus-hiragana/dic.
+            for name in DICT_NAMES:
+                old = os.path.join(user_datadir, name)
+                new = os.path.join(user_dic_datadir, name)
+                if os.path.exists(old):
+                    os.rename(old, new)
+
+    except OSError:
+        logger.exception('initialize')
+
+
+def main():
+    initialize()
 
     if __debug__:
         logging.basicConfig(level=logging.DEBUG, format=FORMAT)
     else:
         # Create a debug log file
-        logfile = os.path.join(user_datadir, package.get_name() + '.log')
+        logfile = os.path.join(package.get_user_datadir(), package.get_name() + '.log')
         logging.basicConfig(filename=logfile,
                             filemode='w',
                             level=logging.WARNING,
