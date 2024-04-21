@@ -59,7 +59,7 @@ debian/changelog:
 @PACKAGE_NAME@.spec:
 	$(AM_V_GEN) \
 	( \
-		date=`date '+%a %b %d %Y'`; \
+		date=`LC_TIME=C date '+%a %b %d %Y'`; \
 		version=@VERSION@; \
 		source_version=@SOURCE_VERSION@; \
 		s=`cat @PACKAGE_NAME@.spec.in`; \
