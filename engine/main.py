@@ -45,7 +45,7 @@ DICT_NAMES = ('restrained.1.dic',
               'restrained.8.dic',
               'restrained.9.dic')
 
-logger = logging.getLogger(__name__)
+LOGGER = logging.getLogger(__name__)
 
 
 class IMApp:
@@ -134,7 +134,7 @@ def initialize():
                     os.rename(old, new)
 
     except OSError:
-        logger.exception('initialize')
+        LOGGER.exception('initialize')
 
 
 def main():
@@ -179,7 +179,7 @@ def main():
 
 # Catch exceptions from GLib.MainLoop
 def handle_exception(exception_type, value, traceback):
-    logger.error('crashed:', exc_info=(exception_type, value, traceback))
+    LOGGER.error('crashed:', exc_info=(exception_type, value, traceback))
 
 
 if __name__ == '__main__':

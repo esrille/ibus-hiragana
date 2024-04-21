@@ -22,7 +22,7 @@ gi.require_version('IBus', '1.0')
 from gi.repository import GLib
 from gi.repository import IBus
 
-logger = logging.getLogger(__name__)
+LOGGER = logging.getLogger(__name__)
 
 keysyms = IBus
 
@@ -193,7 +193,7 @@ class Event:
         return bool(self._modifiers & DUAL_BITS)
 
     def process_key_event(self, engine, keyval, keycode, state):
-        logger.info(f'process_key_event({keyval:#04x}({IBus.keyval_name(keyval)}), '
+        LOGGER.info(f'process_key_event({keyval:#04x}({IBus.keyval_name(keyval)}), '
                     f'{keycode}, {state:#010x}) {self._modifiers:#07x}')
 
         # Ignore XFree86 anomaly.
@@ -395,5 +395,5 @@ class Event:
         return c
 
     def is_onoff_by_caps(self):
-        logger.info(f'is_onoff_by_caps: {self._OnOffByCaps}')
+        LOGGER.info(f'is_onoff_by_caps: {self._OnOffByCaps}')
         return self._OnOffByCaps

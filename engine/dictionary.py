@@ -20,7 +20,7 @@ import re
 
 import package
 
-logger = logging.getLogger(__name__)
+LOGGER = logging.getLogger(__name__)
 
 DICTIONARY_VERSION = 'v1.0.0'
 NON_YOMIGANA = re.compile(r'[^ぁ-ゖァ-ー―]')
@@ -79,7 +79,7 @@ class Dictionary:
         return okuri == yomi
 
     def __init__(self, system, user, clear_history=False):
-        logger.info(f'Dictionary("{system}", "{user}")')
+        LOGGER.info(f'Dictionary("{system}", "{user}")')
 
         self._dict_base = {}
         self._dict = {}
@@ -102,14 +102,14 @@ class Dictionary:
             path = os.path.join(dic_dir, 'katakana.dic')
             self._load_dict(self._dict_base, path)
         except OSError:
-            logger.exception('Could not load "katakana.dic"')
+            LOGGER.exception('Could not load "katakana.dic"')
 
         try:
             # Load system dictionary
             path = os.path.join(dic_dir, system)
             self._load_dict(self._dict_base, path)
         except OSError:
-            logger.exception(f'Could not load "{path}"')
+            LOGGER.exception(f'Could not load "{path}"')
 
         # Load user dictionary
         self._dict = self._dict_base.copy()
@@ -119,19 +119,19 @@ class Dictionary:
                 try:
                     self._load_dict(self._dict, path, 'a+')
                 except OSError:
-                    logger.exception(f'Could not load "{path}"')
+                    LOGGER.exception(f'Could not load "{path}"')
 
         # Load input history
         self._orders_path = os.path.join(package.get_user_datadir(), 'dic', system)
         try:
             if clear_history:
-                logger.info('clear_history')
+                LOGGER.info('clear_history')
                 with open(self._orders_path, 'w') as f:
                     f.write('; ' + DICTIONARY_VERSION + '\n')
             else:
                 self._load_dict(self._dict, self._orders_path, 'a+', version_checked=False)
         except OSError:
-            logger.exception(f'Could not load "{self._orders_path}"')
+            LOGGER.exception(f'Could not load "{self._orders_path}"')
 
     def _load_dict(self, dict, path, mode='r', version_checked=True):
         reorder_only = not version_checked
@@ -157,11 +157,11 @@ class Dictionary:
                     self._merge_entry(dict, yomi, cand, reorder_only)
                     if yomi.endswith('―'):
                         self._merge_entry(dict, yomi[:-1], [yomi], reorder_only)
-            logger.info(f'Loaded {path}')
+            LOGGER.info(f'Loaded {path}')
 
     def _merge_entry(self, dict, yomi, cand, reorder_only):
         if yomi in cand:
-            logger.warning(f'unexpected candidate for "{yomi}": {cand}')
+            LOGGER.warning(f'unexpected candidate for "{yomi}": {cand}')
             cand.remove(yomi)
         if yomi not in dict:
             if not reorder_only:
@@ -184,7 +184,7 @@ class Dictionary:
         if yomi not in dict:
             return
         update = [x for x in dict[yomi] if x not in cand]
-        logger.debug(f'_remove_entry: {dict[yomi]}→{update}')
+        LOGGER.debug(f'_remove_entry: {dict[yomi]}→{update}')
         if update:
             dict[yomi] = update
         else:
@@ -281,7 +281,7 @@ class Dictionary:
         return -1
 
     def lookup(self, yomi, pos):
-        logger.debug(f'lookup({yomi}, {pos})')
+        LOGGER.debug(f'lookup({yomi}, {pos})')
 
         self.reset()
         # Look for the nearest hyphen.
@@ -351,7 +351,7 @@ class Dictionary:
                         pos_okuri = len(c)
                     okuri = c[pos_okuri:]
                     p = self._match(okuri, y[size:])
-                    logger.debug(f'lookup: {c} {y[size:]} => {p}')
+                    LOGGER.debug(f'lookup: {c} {y[size:]} => {p}')
                     c = c[:pos_okuri] + yomi[size:pos]
                     if 0 <= p:
                         assert p in (0, 1)
@@ -370,7 +370,7 @@ class Dictionary:
                     self._no = 0
                     self._order = order[0] + order[1]
                     self._completed = [0] * len(cand[0]) + [1] * len(cand[1])
-                    logger.debug(f'{self._cand}, {self._order}, {self._completed}')
+                    LOGGER.debug(f'{self._cand}, {self._order}, {self._completed}')
                     self._numeric = ''
         return self.current()
 
@@ -460,7 +460,7 @@ class Dictionary:
                 os.rename(self._orders_path, bakfile)
                 os.rename(tmpfile, self._orders_path)
         except OSError:
-            logger.exception(f'could not save the orders in "{self._orders_path}"')
+            LOGGER.exception(f'could not save the orders in "{self._orders_path}"')
         self._dirty = False
 
     def use_romazi(self, romazi):
