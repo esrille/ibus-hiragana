@@ -1281,7 +1281,7 @@ class EngineHiragana(EngineModeless):
         if prop_name == 'Setup':
             self._setup_start()
         elif prop_name == 'Help':
-            url = 'file://' + os.path.join(package.get_datadir(), 'docs/index.html')
+            url = 'file://' + os.path.join(package.get_datadir(), 'docs', 'index.html')
             # Use yelp to open local HTML help files.
             subprocess.Popen(['yelp', url])
         elif prop_name == 'About':
