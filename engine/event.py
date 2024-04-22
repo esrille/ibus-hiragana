@@ -59,7 +59,7 @@ class Event:
         self.state = state
         self.modifiers = modifiers
 
-    def with_altgr(self) -> bool:
+    def has_altgr(self) -> bool:
         return bool(self.modifiers & ALT_R_BIT)
 
     def is_release(self) -> bool:

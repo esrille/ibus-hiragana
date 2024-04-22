@@ -783,7 +783,7 @@ class EngineHiragana(EngineModeless):
 
         if (self.get_mode() == 'あ'
                 and (e.is_henkan() or e.is_muhenkan())
-                and not e.with_altgr()):
+                and not e.has_altgr()):
             return self._process_replace(e)
 
         text, pos = self.get_surrounding_string()
@@ -828,7 +828,7 @@ class EngineHiragana(EngineModeless):
             return False
 
         yomi = ''
-        if e.with_altgr():
+        if e.has_altgr():
             c = self.process_alt_graph(e)
             if not c:
                 self.clear_roman()
