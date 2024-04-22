@@ -381,18 +381,18 @@ class EngineModeless(IBus.Engine):
     #
     # virtual methods of IBus.Engine
     #
-    def do_enable(self):
+    def do_enable(self) -> None:
         LOGGER.info('do_enable()')
         # Request the initial surrounding-text when enabled as documented.
         super().get_surrounding_text()
 
-    def do_focus_in(self):
+    def do_focus_in(self) -> None:
         # Request the initial surrounding-text in addition to the "enable" handler.
         if not self.has_preedit():
             self.clear()
         super().get_surrounding_text()
 
-    def do_set_surrounding_text(self, text, cursor_pos, anchor_pos):
+    def do_set_surrounding_text(self, text: IBus.Text, cursor_pos: int, anchor_pos: int) -> None:
         self._surrounding = SURROUNDING_SUPPORTED
         self._preedit_text = None
         plain = get_plain_text(text.get_text())
@@ -1165,7 +1165,7 @@ class EngineHiragana(EngineModeless):
     #
     # virtual methods of IBus.Engine
     #
-    def do_candidate_clicked(self, index, button, state):
+    def do_candidate_clicked(self, index: int, button: int, state: int) -> None:
         LOGGER.info(f'do_candidate_clicked({index}, {button}, {state})')
         if button != 1 or not self._dict.current():
             return
@@ -1191,59 +1191,59 @@ class EngineHiragana(EngineModeless):
             self.flush()
         self._update_preedit()
 
-    def do_cursor_down(self):
+    def do_cursor_down(self) -> bool:
         if self._lookup_table.cursor_down():
             self._update_candidate()
         return True
 
-    def do_cursor_up(self):
+    def do_cursor_up(self) -> bool:
         if self._lookup_table.cursor_up():
             self._update_candidate()
         return True
 
-    def do_disable(self):
+    def do_disable(self) -> None:
         LOGGER.info('do_disable()')
         self._reset()
         self._mode = 'A'
         self._dict.save_orders()
         self._disconnect_handlers()
 
-    def do_enable(self):
+    def do_enable(self) -> None:
         super().do_enable()
         self._caps_lock_state = None
         self._keymap_state_changed_cb(self._keymap)
         self._keymap_handler = self._keymap.connect('state-changed', self._keymap_state_changed_cb)
         self._settings_handler = self._settings.connect('changed', self._config_value_changed_cb)
 
-    def do_focus_in(self):
+    def do_focus_in(self) -> None:
         LOGGER.info(f'do_focus_in(): {self._surrounding}')
         self._controller.reset()
         self.register_properties(self._prop_list)
         self._update_preedit()
         super().do_focus_in()
 
-    def do_focus_out(self):
+    def do_focus_out(self) -> None:
         LOGGER.info(f'do_focus_out(): {self._surrounding}')
         if self._surrounding != SURROUNDING_BROKEN:
             self._reset()
             self._dict.save_orders()
 
-    def do_page_down(self):
+    def do_page_down(self) -> bool:
         if self._lookup_table.page_down():
             self._update_candidate()
         return True
 
-    def do_page_up(self):
+    def do_page_up(self) -> bool:
         if self._lookup_table.page_up():
             self._update_candidate()
         return True
 
-    def do_process_key_event(self, keyval, keycode, state) -> bool:
+    def do_process_key_event(self, keyval: int, keycode: int, state: int) -> bool:
         LOGGER.info(f'do_process_key_event({keyval:#04x}({IBus.keyval_name(keyval)}), '
                     f'{keycode}, {state:#010x})')
         return self._controller.process_key_event(self, keyval, keycode, state)
 
-    def do_property_activate(self, prop_name, state):
+    def do_property_activate(self, prop_name: str, state: int) -> None:
         LOGGER.info(f'property_activate({prop_name}, {state})')
         if prop_name == 'Setup':
             self._setup_start()
@@ -1281,14 +1281,14 @@ class EngineHiragana(EngineModeless):
                 }.get(prop_name, 'A')
                 self.set_mode(mode, override=True, update_list=False)
 
-    def do_reset(self):
+    def do_reset(self) -> None:
         LOGGER.info(f'reset: {self._surrounding}')
         if self._surrounding != SURROUNDING_BROKEN:
             self._reset()
         else:
             self._update_preedit()
 
-    def do_set_cursor_location(self, x, y, w, h):
+    def do_set_cursor_location(self, x: int, y: int, w: int, h: int) -> None:
         # On Raspbian, at least till Buster, the candidate window does not
         # always follow the cursor position. The following code is not
         # necessary on Ubuntu 18.04 or Fedora 30.
