@@ -55,8 +55,8 @@ def get_localedir():
 
 def load_from_data_dirs(file):
     data_dirs = [get_user_datadir(), get_datadir()]
-    for dir in data_dirs:
-        path = os.path.join(dir, file)
+    for dir_path in data_dirs:
+        path = os.path.join(dir_path, file)
         if os.path.exists(path):
             return path
     return None
