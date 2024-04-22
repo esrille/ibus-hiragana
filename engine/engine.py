@@ -43,11 +43,11 @@ from package import _
 LOGGER = logging.getLogger(__name__)
 
 INPUT_MODES = (
-    ('InputMode.Alphanumeric', _("Alphanumeric (A)")),
-    ('InputMode.Hiragana', _("Hiragana (あ)")),
-    ('InputMode.Katakana', _("Katakana (ア)")),
-    ('InputMode.WideAlphanumeric', _("Wide Alphanumeric (Ａ)")),
-    ('InputMode.HalfWidthKatakana', _("Halfwidth Katakana (ｱ)"))
+    ('InputMode.Alphanumeric', _('Alphanumeric (A)')),
+    ('InputMode.Hiragana', _('Hiragana (あ)')),
+    ('InputMode.Katakana', _('Katakana (ア)')),
+    ('InputMode.WideAlphanumeric', _('Wide Alphanumeric (Ａ)')),
+    ('InputMode.HalfWidthKatakana', _('Halfwidth Katakana (ｱ)'))
 )
 
 HIRAGANA = ('あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん'
@@ -504,14 +504,14 @@ class EngineHiragana(EngineModeless):
             key='InputMode',
             prop_type=IBus.PropType.MENU,
             symbol=IBus.Text.new_from_string(self._mode),
-            label=IBus.Text.new_from_string(_("Input mode (%s)") % self._mode))
+            label=IBus.Text.new_from_string(_('Input mode (%s)') % self._mode))
         self._input_mode_prop.set_sub_props(self._init_input_mode_props())
         self._prop_list.append(self._input_mode_prop)
-        prop = IBus.Property(key='Setup', label=IBus.Text.new_from_string(_("Setup")))
+        prop = IBus.Property(key='Setup', label=IBus.Text.new_from_string(_('Setup')))
         self._prop_list.append(prop)
-        prop = IBus.Property(key='Help', label=IBus.Text.new_from_string(_("Help")))
+        prop = IBus.Property(key='Help', label=IBus.Text.new_from_string(_('Help')))
         self._prop_list.append(prop)
-        prop = IBus.Property(key='About', label=IBus.Text.new_from_string(_("About Hiragana IME...")))
+        prop = IBus.Property(key='About', label=IBus.Text.new_from_string(_('About Hiragana IME...')))
         self._prop_list.append(prop)
 
     def _is_tiny(self, c):
@@ -929,7 +929,7 @@ class EngineHiragana(EngineModeless):
 
     def _update_input_mode(self):
         self._input_mode_prop.set_symbol(IBus.Text.new_from_string(self._mode))
-        self._input_mode_prop.set_label(IBus.Text.new_from_string(_("Input mode (%s)") % self._mode))
+        self._input_mode_prop.set_label(IBus.Text.new_from_string(_('Input mode (%s)') % self._mode))
         self.update_property(self._input_mode_prop)
 
     def _update_input_mode_list(self):
@@ -1256,7 +1256,7 @@ class EngineHiragana(EngineModeless):
                 self._about_dialog.present()
                 return
             dialog = Gtk.AboutDialog()
-            dialog.set_program_name(_("Hiragana IME"))
+            dialog.set_program_name(_('Hiragana IME'))
             dialog.set_copyright('Copyright 2017-2024 Esrille Inc.')
             dialog.set_authors(['Esrille Inc.'])
             dialog.set_documenters(['Esrille Inc.'])
