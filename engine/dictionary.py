@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import annotations
+
 import logging
 import os
 import re
@@ -78,7 +80,7 @@ class Dictionary:
     def strcmp(okuri, yomi):
         return okuri == yomi
 
-    def __init__(self, system, user, clear_history=False):
+    def __init__(self, system: str, user: str, clear_history=False):
         LOGGER.info(f'Dictionary("{system}", "{user}")')
 
         self._dict_base = {}
@@ -95,18 +97,18 @@ class Dictionary:
 
         self._orders_path = ''
 
-        dic_dir = os.path.join(package.get_datadir(), 'dic')
+        dir_path = os.path.join(package.get_datadir(), 'dic')
 
         try:
             # Load Katakana dictionary first so that Katakana words come after Kanji words.
-            path = os.path.join(dic_dir, 'katakana.dic')
+            path = os.path.join(dir_path, 'katakana.dic')
             self._load_dict(self._dict_base, path)
         except OSError:
             LOGGER.exception('Could not load "katakana.dic"')
 
         try:
             # Load system dictionary
-            path = os.path.join(dic_dir, system)
+            path = os.path.join(dir_path, system)
             self._load_dict(self._dict_base, path)
         except OSError:
             LOGGER.exception(f'Could not load "{path}"')
@@ -133,7 +135,7 @@ class Dictionary:
         except OSError:
             LOGGER.exception(f'Could not load "{self._orders_path}"')
 
-    def _load_dict(self, dict, path, mode='r', version_checked=True):
+    def _load_dict(self, dic: dict[str, list[str]], path: str, mode='r', version_checked=True):
         reorder_only = not version_checked
         with open(path, mode) as f:
             f.seek(0, 0)   # in case opened in the 'a+' mode
@@ -152,24 +154,24 @@ class Dictionary:
                 cand = p[1].strip(' \n/').split('/')
                 # TODO: Check yomi is valid
                 if yomi.startswith('-'):
-                    self._remove_entry(dict, yomi[1:], cand)
+                    self._remove_entry(dic, yomi[1:], cand)
                 else:
-                    self._merge_entry(dict, yomi, cand, reorder_only)
+                    self._merge_entry(dic, yomi, cand, reorder_only)
                     if yomi.endswith('―'):
-                        self._merge_entry(dict, yomi[:-1], [yomi], reorder_only)
+                        self._merge_entry(dic, yomi[:-1], [yomi], reorder_only)
             LOGGER.info(f'Loaded {path}')
 
-    def _merge_entry(self, dict, yomi, cand, reorder_only):
+    def _merge_entry(self, dic: dict[str, list[str]], yomi: str, cand: list[str], reorder_only: bool):
         if yomi in cand:
             LOGGER.warning(f'unexpected candidate for "{yomi}": {cand}')
             cand.remove(yomi)
-        if yomi not in dict:
+        if yomi not in dic:
             if not reorder_only:
-                dict[yomi] = cand
+                dic[yomi] = cand
             else:
                 self._dirty = True
         else:
-            update = list(dict[yomi])
+            update = list(dic[yomi])
             for i in reversed(cand):
                 if i in update:
                     update.remove(i)
@@ -178,17 +180,17 @@ class Dictionary:
                     update.insert(0, i)
                 else:
                     self._dirty = True
-            dict[yomi] = update
+            dic[yomi] = update
 
-    def _remove_entry(self, dict, yomi, cand):
-        if yomi not in dict:
+    def _remove_entry(self, dic: dict[str, list[str]], yomi: str, cand: list[str]):
+        if yomi not in dic:
             return
-        update = [x for x in dict[yomi] if x not in cand]
-        LOGGER.debug(f'_remove_entry: {dict[yomi]}→{update}')
+        update = [x for x in dic[yomi] if x not in cand]
+        LOGGER.debug(f'_remove_entry: {dic[yomi]}→{update}')
         if update:
-            dict[yomi] = update
+            dic[yomi] = update
         else:
-            del dict[yomi]
+            del dic[yomi]
 
     def reset(self):
         self._yomi = ''
@@ -196,12 +198,12 @@ class Dictionary:
     def not_selected(self):
         return self._no == 0
 
-    def next(self):
+    def set_current_to_next(self):
         if self._no + 1 < len(self._cand):
             self._no += 1
         return self._cand[self._no]
 
-    def previous(self):
+    def set_current_to_previous(self):
         if 0 < self._no:
             self._no -= 1
         return self._cand[self._no]
