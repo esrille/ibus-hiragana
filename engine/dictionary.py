@@ -137,29 +137,32 @@ class Dictionary:
 
     def _load_dict(self, dic: dict[str, list[str]], path: str, mode='r', version_checked=True):
         reorder_only = not version_checked
-        with open(path, mode) as f:
-            f.seek(0, 0)   # in case opened in the 'a+' mode
-            for line in f:
-                line = line.strip(' \n/')
-                if not line:
-                    continue
-                if line[0] == ';':
-                    if line == '; ' + DICTIONARY_VERSION:
-                        version_checked = True
-                    continue
-                if not version_checked:
-                    continue
-                p = line.split(' ', 1)
-                yomi = p[0]
-                cand = p[1].strip(' \n/').split('/')
-                # TODO: Check yomi is valid
-                if yomi.startswith('-'):
-                    self._remove_entry(dic, yomi[1:], cand)
-                else:
-                    self._merge_entry(dic, yomi, cand, reorder_only)
-                    if yomi.endswith('―'):
-                        self._merge_entry(dic, yomi[:-1], [yomi], reorder_only)
-            LOGGER.info(f'Loaded {path}')
+        try:
+            with open(path, mode) as f:
+                f.seek(0, 0)   # in case opened in the 'a+' mode
+                for line in f:
+                    line = line.strip(' \n/')
+                    if not line:
+                        continue
+                    if line[0] == ';':
+                        if line == '; ' + DICTIONARY_VERSION:
+                            version_checked = True
+                        continue
+                    if not version_checked:
+                        continue
+                    p = line.split(' ', 1)
+                    yomi = p[0]
+                    cand = p[1].strip(' \n/').split('/')
+                    # TODO: Check yomi is valid
+                    if yomi.startswith('-'):
+                        self._remove_entry(dic, yomi[1:], cand)
+                    else:
+                        self._merge_entry(dic, yomi, cand, reorder_only)
+                        if yomi.endswith('―'):
+                            self._merge_entry(dic, yomi[:-1], [yomi], reorder_only)
+                LOGGER.info(f'Loaded {path}')
+        except OSError:
+            LOGGER.exception(f'could not load "{path}"')
 
     def _merge_entry(self, dic: dict[str, list[str]], yomi: str, cand: list[str], reorder_only: bool):
         if yomi in cand:
