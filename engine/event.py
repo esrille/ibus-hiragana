@@ -148,22 +148,14 @@ class Event:
     def is_dual_role(self) -> bool:
         return bool(self.modifiers & DUAL_BITS)
 
-    def chr(self) -> str:
-        c = ''
-        if self.is_ascii():
-            keyval = IBus.space if self.is_space() else self.keyval
-            if keyval == IBus.yen:
-                c = '¥'
-            elif keyval == IBus.asciitilde and self.keycode == 0x0b:
-                c = '_'
-            else:
-                c = chr(keyval)
-        return c
+    def get_string(self) -> str:
+        return self._controller.get_string(self)
 
 
 class KeyboardController:
 
     def __init__(self, layout):
+        self._layout = layout
         self._modifiers = 0
 
         # Set to the default values
@@ -388,3 +380,32 @@ class KeyboardController:
 
     def create_event(self, keyval, keycode, state) -> Event:
         return Event(self, keyval, keycode, state, self._modifiers)
+
+    def get_string(self, e: Event) -> str:
+        c = ''
+        if e.has_altgr() and 'AltGr' in self._layout:
+            if e.keycode < len(self._layout['AltGr']):
+                a = self._layout['AltGr'][e.keycode]
+                c = a[3] if e.is_shift() else a[2]
+        elif e.is_ascii():
+            keyval = IBus.space if e.is_space() else e.keyval
+            if keyval == IBus.yen:
+                c = '¥'
+            elif keyval == IBus.asciitilde and e.keycode == 0x0b:
+                c = '_'
+            else:
+                c = chr(keyval)
+        return c
+
+    def kana(self, e: Event) -> str:
+        c = ''
+        if 'Key' in self._layout and e.keycode < len(self._layout['Key']):
+            a = self._layout['Key'][e.keycode]
+            c = a[3] if e.is_shift() else a[2]
+            LOGGER.debug(f'kana: {c}')
+        return c
+
+    def transliterate_back(self, roman: str) -> str:
+        if roman in self._layout['Roomazi']:
+            return self._layout['Roomazi'][roman]
+        return ''

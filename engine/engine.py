@@ -410,7 +410,6 @@ class EngineHiragana(EngineModeless):
         self._mode = 'A'  # _mode must be one of _input_mode_names
         self._override = False
         self._caps_lock_state = None
-        self._layout = {}
         self._to_kana = self._handle_default_layout
         self._to_tiny = None
         self._shrunk = []
@@ -427,8 +426,7 @@ class EngineHiragana(EngineModeless):
 
         self._logging_level = self._load_logging_level()
         self._dict = self._load_dictionary()
-        self._layout = self._load_layout()
-        self._controller = KeyboardController(self._layout)
+        self._controller = KeyboardController(self._load_layout())
 
         self.set_mode(self._load_input_mode())
         self._set_x4063_mode(self._load_x4063_mode())
@@ -462,12 +460,8 @@ class EngineHiragana(EngineModeless):
         return c, ''
 
     def _handle_kana_layout(self, preedit, c, e: Event):
-        yomi = c
-        if 'Key' in self._layout:
-            if e.keycode < len(self._layout['Key']):
-                a = self._layout['Key'][e.keycode]
-                yomi = a[3] if e.is_shift() else a[2]
-                LOGGER.debug(f'_handle_kana_layout: {yomi}')
+        kana = self._controller.kana(e)
+        yomi = kana if kana else c
         return yomi, preedit
 
     def _handle_roomazi_layout(self, preedit, c, e: Event):
@@ -481,8 +475,13 @@ class EngineHiragana(EngineModeless):
             yomi = 'ん'
             preedit = preedit[1:]
         preedit += c
-        if preedit in self._layout['Roomazi']:
-            yomi += self._layout['Roomazi'][preedit] + post
+        kana = self._controller.transliterate_back(preedit)
+        if kana:
+            yomi += kana + post
+            if yomi == 'ー':
+                text, pos = self.get_surrounding_string()
+                if pos <= 0 or text[pos - 1] not in (HIRAGANA + KATAKANA):
+                    yomi = '－'
             preedit = ''
         elif 2 <= len(preedit) and preedit[0] == preedit[1] and preedit[1] in SOKUON:
             yomi += 'っ'
@@ -828,15 +827,13 @@ class EngineHiragana(EngineModeless):
             return False
 
         yomi = ''
+        c = e.get_string()
         if e.has_altgr():
-            c = self.process_alt_graph(e)
             if not c:
                 self.clear_roman()
                 return True
             if c not in 'âîûêôÂÎÛÊÔ':
                 yomi = c
-        else:
-            c = e.chr()
         if c:
             if yomi:
                 pass
@@ -861,9 +858,6 @@ class EngineHiragana(EngineModeless):
                 yomi = to_zenkaku(c)
             else:
                 yomi, self.roman_text = self._to_kana(self.roman_text, c, e)
-                if yomi == 'ー' and 'Roomazi' in self._layout:
-                    if pos <= 0 or text[pos - 1] not in (HIRAGANA + KATAKANA):
-                        yomi = '－'
                 if yomi:
                     if self.get_mode() == 'ア':
                         yomi = to_katakana(yomi)
@@ -1049,8 +1043,7 @@ class EngineHiragana(EngineModeless):
             self._logging_level = self._load_logging_level()
         elif key == 'layout' or key == 'altgr':
             self._reset()
-            self._layout = self._load_layout()
-            self._controller = KeyboardController(self._layout)
+            self._controller = KeyboardController(self._load_layout())
         elif key == 'dictionary' or key == 'user-dictionary':
             self._reset()
             self._dict = self._load_dictionary()
@@ -1099,15 +1092,6 @@ class EngineHiragana(EngineModeless):
 
     def is_overridden(self):
         return self._override
-
-    def process_alt_graph(self, e: Event) -> str:
-        if 'AltGr' in self._layout:
-            if e.keycode < len(self._layout['AltGr']):
-                a = self._layout['AltGr'][e.keycode]
-                c = a[3] if e.is_shift() else a[2]
-                LOGGER.debug(f'process_alt_graph: {c}')
-                return c
-        return ''
 
     def process_key_event(self, e: Event) -> bool:
         if e.is_dual_role():
