@@ -27,7 +27,7 @@ dist_help_DATA = \
 	ibus-setup-hiragana_1.png \
 	ibus-setup-hiragana_2.png \
 	icon.png \
-	input-mode.png \
+	input-modes.gif \
 	keyboard-menu.png \
 	screenshot.png \
 	settings-altgr.png \
