@@ -30,7 +30,6 @@ dist_help_DATA = \
 	input-modes.gif \
 	keyboard-menu.png \
 	screenshot.png \
-	settings-altgr.png \
 	settings-keyboard.png \
 	$(NULL)
 
