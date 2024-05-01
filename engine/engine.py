@@ -387,7 +387,7 @@ class EngineModeless(IBus.Engine):
         # Request the initial surrounding-text when enabled as documented.
         super().get_surrounding_text()
 
-    def do_focus_in(self) -> None:
+    def do_focus_in_id(self, object_path: str, client: str) -> None:
         # Request the initial surrounding-text in addition to the "enable" handler.
         if not self.has_preedit():
             self.clear()
@@ -412,6 +412,8 @@ class EngineHiragana(EngineModeless):
         }
         if hasattr(IBus.Engine.props, 'active_surrounding_text'):
             props['active_surrounding_text'] = True
+        if hasattr(IBus.Engine.props, 'has_focus_id'):
+            props['has_focus_id'] = True
         super().__init__(**props)
 
         self._mode = 'A'  # _mode must be one of _input_mode_names
@@ -1223,14 +1225,20 @@ class EngineHiragana(EngineModeless):
         self._settings_handler = self._settings.connect('changed', self._config_value_changed_cb)
 
     def do_focus_in(self) -> None:
-        LOGGER.info(f'do_focus_in(): {self._surrounding}')
+        self.do_focus_in_id('', '')
+
+    def do_focus_in_id(self, object_path: str, client: str) -> None:
+        LOGGER.info(f'do_focus_in_id("{object_path}", "{client}"): {self._surrounding}')
         self._controller.reset()
         self.register_properties(self._prop_list)
         self._update_preedit()
-        super().do_focus_in()
+        super().do_focus_in_id(object_path, client)
 
     def do_focus_out(self) -> None:
-        LOGGER.info(f'do_focus_out(): {self._surrounding}')
+        self.do_focus_out_id('')
+
+    def do_focus_out_id(self, object_path: str):
+        LOGGER.info(f'do_focus_out_id("{object_path}"): {self._surrounding}')
         if self._surrounding != SURROUNDING_BROKEN:
             self._reset()
             self._dict.save_orders()
