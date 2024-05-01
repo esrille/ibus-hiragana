@@ -186,8 +186,9 @@ def to_zenkaku(asc):
 # do_process_key_event(). For modeless IMEs, this is too restrictive.
 class EngineModeless(IBus.Engine):
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        LOGGER.debug(f'EngineModeless.init({kwargs})')
+        super().__init__(**kwargs)
         self._surrounding = SURROUNDING_RESET
         self._preedit_text = None
         self._preedit_pos = 0
@@ -403,9 +404,15 @@ class EngineModeless(IBus.Engine):
 class EngineHiragana(EngineModeless):
     __gtype_name__ = 'EngineHiragana'
 
-    def __init__(self):
+    def __init__(self, bus: IBus.Bus, object_path: str):
         logging.info('EngineHiragana.__init__')
-        super().__init__()
+        props = {
+            'connection': bus.get_connection(),
+            'object_path': object_path
+        }
+        if hasattr(IBus.Engine.props, 'active_surrounding_text'):
+            props['active_surrounding_text'] = True
+        super().__init__(**props)
 
         self._mode = 'A'  # _mode must be one of _input_mode_names
         self._override = False

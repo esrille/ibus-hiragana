@@ -19,6 +19,7 @@ engine_hiragana_PYTHON = \
 	dictionary.py \
 	engine.py \
 	event.py \
+	factory.py \
 	main.py \
 	$(NULL)
 BUILT_SOURCES = package.py

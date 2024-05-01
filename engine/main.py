@@ -28,11 +28,10 @@ import gi
 gi.require_version('GLib', '2.0')
 gi.require_version('IBus', '1.0')
 from gi.repository import GLib
-from gi.repository import GObject
 from gi.repository import IBus
 
 import package
-from engine import EngineHiragana
+from factory import EngineFactory
 
 FORMAT = '%(asctime)s:%(levelname)s:%(name)s:%(message)s'
 DICT_NAMES = ('restrained.1.dic',
@@ -54,10 +53,7 @@ class IMApp:
         self._mainloop = GLib.MainLoop()
         self._bus = IBus.Bus()
         self._bus.connect('disconnected', self._bus_disconnected_cb)
-        self._factory = IBus.Factory(self._bus)
-        self._factory.add_engine(
-            'hiragana',
-            GObject.type_from_name(EngineHiragana.__gtype_name__))
+        self._factory = self._factory = EngineFactory(self._bus)
         if exec_by_ibus:
             self._bus.request_name('org.freedesktop.IBus.Hiragana', 0)
         else:
