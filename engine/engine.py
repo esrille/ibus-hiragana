@@ -293,7 +293,7 @@ class EngineModeless(IBus.Engine):
             self.commit_string(text)
         if self._surrounding == SURROUNDING_COMMITTED:
             LOGGER.info(f'flush("{self._preedit_text}"): committed')
-            if self._preedit_text:
+            if self.has_non_empty_preedit():
                 self.commit_text(IBus.Text.new_from_string(self._preedit_text))
             if not force:
                 return self._preedit_text
@@ -1116,8 +1116,6 @@ class EngineHiragana(EngineModeless):
             self._update_preedit()
             return False
 
-        self.check_surrounding_support()
-
         # Handle candidate window
         if 0 < self._lookup_table.get_number_of_candidates():
             if e.keyval in (IBus.Page_Up, IBus.KP_Page_Up):
@@ -1258,6 +1256,8 @@ class EngineHiragana(EngineModeless):
     def do_process_key_event(self, keyval: int, keycode: int, state: int) -> bool:
         LOGGER.info(f'do_process_key_event({keyval:#04x}({IBus.keyval_name(keyval)}), '
                     f'{keycode}, {state:#010x})')
+        if not(state & IBus.ModifierType.RELEASE_MASK):
+            self.check_surrounding_support()
         return self._controller.process_key_event(self, keyval, keycode, state)
 
     def do_property_activate(self, prop_name: str, state: int) -> None:
