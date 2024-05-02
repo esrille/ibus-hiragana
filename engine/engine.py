@@ -1079,12 +1079,14 @@ class EngineHiragana(EngineModeless):
     # public methods
     #
     def disable_ime(self, override=False):
+        LOGGER.debug(f'disable_ime({override})')
         if self.is_enabled():
             self.set_mode('A', override)
             return True
         return False
 
     def enable_ime(self, override=False):
+        LOGGER.debug(f'enable_ime({override})')
         if not self.is_enabled():
             self.set_mode('あ', override)
             return True
