@@ -436,8 +436,9 @@ class EngineModeless(IBus.Engine):
         elif self.get_mode() != 'あ':
             pass
         elif original_len < cursor_pos or original_len < anchor_pos:
-            # Some applications, including GNOME 46 mutter, still notifies
-            # cursor_pos and anchor_pos in byte offsets, and basically broken.
+            # Some applications, including GNOME 46 mutter, still report
+            # cursor_pos and anchor_pos in byte offsets, and are basically
+            # broken.
             # See https://gitlab.gnome.org/GNOME/mutter/-/issues/3440
             if self._surrounding == SURROUNDING_SUPPORTED:
                 self._surrounding = SURROUNDING_BROKEN
