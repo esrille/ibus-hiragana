@@ -29,9 +29,11 @@ import gi
 gi.require_version('IBus', '1.0')
 gi.require_version('Gdk', '3.0')
 gi.require_version('Gio', '2.0')
+gi.require_version('GnomeDesktop', '3.0')
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gdk
 from gi.repository import Gio
+from gi.repository import GnomeDesktop
 from gi.repository import Gtk
 from gi.repository import IBus
 
@@ -180,6 +182,17 @@ def to_zenkaku(asc):
     return asc.translate(TO_ZENKAKU)
 
 
+def prettify_state(state: int):
+    s = ''
+    s += 'U' if state & IBus.ModifierType.RELEASE_MASK else 'D'
+    s += 'U' if state & IBus.ModifierType.LOCK_MASK else 'L'
+    s += 'G' if state & IBus.ModifierType.MOD5_MASK else '_'
+    s += 'A' if state & IBus.ModifierType.MOD1_MASK else '_'
+    s += 'C' if state & IBus.ModifierType.CONTROL_MASK else '_'
+    s += 'S' if state & IBus.ModifierType.SHIFT_MASK else '_'
+    return s
+
+
 # EngineModeless provides an ideal variant of get_surrounding_text().
 # It also supports applications that do not support surrounding text API.
 # Note IBus.Engine.get_surrounding_text() can be used only once in
@@ -189,6 +202,16 @@ class EngineModeless(IBus.Engine):
     def __init__(self, **kwargs):
         LOGGER.debug(f'EngineModeless.init({kwargs})')
         super().__init__(**kwargs)
+
+        self._platform_version = 42
+        if hasattr(GnomeDesktop, 'get_platform_version'):
+            self._platform_version = GnomeDesktop.get_platform_version()
+
+        display = Gdk.Display.get_default()
+        self._is_wayland = 'Wayland' in type(display).__name__
+
+        LOGGER.info(f'platform_version: {self._platform_version} / {"Wayland" if self._is_wayland else "X11"}')
+
         self._surrounding = SURROUNDING_RESET
         self._preedit_text = None
         self._preedit_pos = 0
@@ -301,6 +324,7 @@ class EngineModeless(IBus.Engine):
             LOGGER.info(f'flush("{self._preedit_text}"): preedit')
             if self._preedit_text:
                 self.commit_text(IBus.Text.new_from_string(self._preedit_text))
+                self._surrounding = SURROUNDING_RESET
         else:
             LOGGER.info(f'flush("{self._preedit_text}"): '
                         f'{self._preedit_pos_min}:{self._preedit_pos_orig}:{self._preedit_pos}')
@@ -322,6 +346,9 @@ class EngineModeless(IBus.Engine):
         self._preedit_pos_orig = 0
         return text
 
+    def get_platform_version(self):
+        return self._platform_version
+
     def get_surrounding_string(self):
         if not (self.client_capabilities & IBus.Capabilite.SURROUNDING_TEXT):
             self._surrounding = SURROUNDING_NOT_SUPPORTED
@@ -332,7 +359,6 @@ class EngineModeless(IBus.Engine):
             super().get_surrounding_text()
             if not self.has_preedit():
                 self.clear_preedit()
-            LOGGER.debug(f'get_surrounding_string: "{self._preedit_text}"')
             assert len(self._preedit_text) == self._preedit_pos
             return self._preedit_text, self._preedit_pos
 
@@ -376,6 +402,9 @@ class EngineModeless(IBus.Engine):
     def has_non_empty_preedit(self):
         return self.has_preedit() and 0 < len(self._preedit_text)
 
+    def is_wayland(self):
+        return self._is_wayland
+
     def should_draw_preedit(self):
         return self._surrounding in (SURROUNDING_NOT_SUPPORTED, SURROUNDING_BROKEN)
 
@@ -394,10 +423,28 @@ class EngineModeless(IBus.Engine):
         super().get_surrounding_text()
 
     def do_set_surrounding_text(self, text: IBus.Text, cursor_pos: int, anchor_pos: int) -> None:
-        self._surrounding = SURROUNDING_SUPPORTED
-        self._preedit_text = None
-        plain = get_plain_text(text.get_text())
-        LOGGER.debug(f'do_set_surrounding_text("{plain}", {cursor_pos}, {anchor_pos})')
+        original = text.get_text()
+        original_len = len(original)
+        LOGGER.debug(f'do_set_surrounding_text("{get_plain_text(original)}", {cursor_pos}, {anchor_pos})'
+                     f': {self._surrounding} "{self._preedit_text}"')
+        if self._surrounding == SURROUNDING_BROKEN:
+            # flush() will reset the self._surrounding value.
+            pass
+        elif self._surrounding == SURROUNDING_RESET and original_len == 0:
+            # We cannot tell yet if the application implements the surrounding text correctly.
+            pass
+        elif self.get_mode() != 'あ':
+            pass
+        elif original_len < cursor_pos or original_len < anchor_pos:
+            # Some applications, including GNOME 46 mutter, still notifies
+            # cursor_pos and anchor_pos in byte offsets, and basically broken.
+            # See https://gitlab.gnome.org/GNOME/mutter/-/issues/3440
+            if self._surrounding == SURROUNDING_SUPPORTED:
+                self._surrounding = SURROUNDING_BROKEN
+            pass
+        else:
+            self._surrounding = SURROUNDING_SUPPORTED
+            self._preedit_text = None
         IBus.Engine.do_set_surrounding_text(self, text, cursor_pos, anchor_pos)
 
 
@@ -430,6 +477,8 @@ class EngineHiragana(EngineModeless):
 
         self._settings = Gio.Settings.new('org.freedesktop.ibus.engine.hiragana')
         self._settings_handler = 0
+
+        # Note Gdk.Keymap does *not* work as expected in Wayland.
         self._keymap = Gdk.Keymap.get_for_display(Gdk.Display.get_default())
         self._keymap_handler = 0
 
@@ -444,6 +493,8 @@ class EngineHiragana(EngineModeless):
         self._about_dialog = None
         self._setup_proc = None
         self._q = queue.Queue()
+
+        self._focus_id = ''
 
     def __del__(self):
         logging.info('EngineHiragana.__del__')
@@ -1057,7 +1108,9 @@ class EngineHiragana(EngineModeless):
             self._reset()
             self._dict = self._load_dictionary()
         elif key == 'mode':
-            self.set_mode(self._load_input_mode(), True)
+            mode = self._load_input_mode()
+            if mode != self.get_mode():
+                self.set_mode(mode, True)
         elif key == 'nn-as-jis-x-4063':
             self._set_x4063_mode(self._load_x4063_mode())
         elif key == 'combining-circumflex':
@@ -1155,21 +1208,19 @@ class EngineHiragana(EngineModeless):
             self._update_preedit()
         return result
 
-    def set_mode(self, mode, override=False, update_list=True):
+    def set_mode(self, mode, override=False, update_list=True) -> None:
+        LOGGER.debug(f'set_mode({mode}, {override}, {update_list}): {self._mode}')
         self._override = override
-        if self._mode == mode:
-            return False
-        LOGGER.debug(f'set_mode({mode})')
-        self.clear_roman()
-        self.flush(self._confirm_candidate())
-        self._update_preedit()
-        self._mode = mode
-        self._update_lookup_table()
-        self._update_input_mode()
-        self._settings.set_string('mode', mode)
-        if update_list:
-            self._update_input_mode_list()
-        return True
+        if self._mode != mode:
+            self.clear_roman()
+            self.flush(self._confirm_candidate())
+            self._update_preedit()
+            self._mode = mode
+            self._update_lookup_table()
+            self._update_input_mode()
+            self._settings.set_string('mode', mode)
+            if update_list:
+                self._update_input_mode_list()
 
     #
     # virtual methods of IBus.Engine
@@ -1229,6 +1280,13 @@ class EngineHiragana(EngineModeless):
 
     def do_focus_in_id(self, object_path: str, client: str) -> None:
         LOGGER.info(f'do_focus_in_id("{object_path}", "{client}"): {self._surrounding}')
+        if client == 'fake':
+            return
+        if self._focus_id != object_path:
+            if self._surrounding == SURROUNDING_BROKEN:
+                self._reset()
+                self._dict.save_orders()
+        self._focus_id = object_path
         self._controller.reset()
         self.register_properties(self._prop_list)
         self._update_preedit()
@@ -1253,9 +1311,11 @@ class EngineHiragana(EngineModeless):
             self._update_candidate()
         return True
 
+    # Note IBus.ModifierType.LOCK_MASK bit is always off with the text boxes
+    # inside GNOME Shell on X11. This issue is fixed with Wayland.
     def do_process_key_event(self, keyval: int, keycode: int, state: int) -> bool:
         LOGGER.info(f'do_process_key_event({keyval:#04x}({IBus.keyval_name(keyval)}), '
-                    f'{keycode}, {state:#010x})')
+                    f'{keycode}, {state:#010x}({prettify_state(state)}))')
         if not(state & IBus.ModifierType.RELEASE_MASK):
             self.check_surrounding_support()
         return self._controller.process_key_event(self, keyval, keycode, state)

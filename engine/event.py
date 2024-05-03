@@ -281,7 +281,9 @@ class KeyboardController:
                     else:
                         engine.enable_ime()
                     return True
-                elif not engine.is_overridden():
+                elif not engine.is_overridden() and engine.is_wayland():
+                    # Do not run the following block on X11 due to the reason
+                    # commented in EngineHiragana.do_process_key_event.
                     if state & IBus.ModifierType.LOCK_MASK:
                         engine.enable_ime()
                     else:
@@ -312,7 +314,7 @@ class KeyboardController:
             elif keyval in (self._Eisuu, IBus.Zenkaku_Hankaku):
                 # [英数], [全角/半角]
                 mode = 'A' if engine.get_mode() != 'A' else 'あ'
-                engine.set_mode(mode)
+                engine.set_mode(mode, True)
                 return True
 
         else:
