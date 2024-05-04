@@ -442,7 +442,6 @@ class EngineModeless(IBus.Engine):
             # See https://gitlab.gnome.org/GNOME/mutter/-/issues/3440
             if self._surrounding == SURROUNDING_SUPPORTED:
                 self._surrounding = SURROUNDING_BROKEN
-            pass
         else:
             self._surrounding = SURROUNDING_SUPPORTED
             self._preedit_text = None
