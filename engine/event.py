@@ -280,7 +280,7 @@ class KeyboardController:
                         engine.disable_ime()
                     else:
                         engine.enable_ime()
-                    return True
+                    return False
                 elif not engine.is_overridden() and engine.is_wayland():
                     # Do not run the following block on X11 due to the reason
                     # commented in EngineHiragana.do_process_key_event.
