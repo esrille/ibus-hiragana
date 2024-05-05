@@ -187,6 +187,7 @@ def prettify_state(state: int):
     s += 'U' if state & IBus.ModifierType.RELEASE_MASK else 'D'
     s += 'U' if state & IBus.ModifierType.LOCK_MASK else 'L'
     s += 'G' if state & IBus.ModifierType.MOD5_MASK else '_'
+    s += 'S' if state & IBus.ModifierType.MOD4_MASK else '_'
     s += 'A' if state & IBus.ModifierType.MOD1_MASK else '_'
     s += 'C' if state & IBus.ModifierType.CONTROL_MASK else '_'
     s += 'S' if state & IBus.ModifierType.SHIFT_MASK else '_'
@@ -1316,6 +1317,8 @@ class EngineHiragana(EngineModeless):
     def do_process_key_event(self, keyval: int, keycode: int, state: int) -> bool:
         LOGGER.info(f'do_process_key_event({keyval:#04x}({IBus.keyval_name(keyval)}), '
                     f'{keycode}, {state:#010x}({prettify_state(state)}))')
+        if keyval == IBus.Super_L or (state & IBus.ModifierType.MOD4_MASK):
+            return False
         if not(state & IBus.ModifierType.RELEASE_MASK):
             self.check_surrounding_support()
         return self._controller.process_key_event(self, keyval, keycode, state)
