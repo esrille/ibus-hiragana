@@ -56,15 +56,15 @@ sudo make install
 
 　autogen.shは、autotoolsの￹設定￺せってい￻をおこない、configureスクリプトよびだします。
 --enable-dicを￹指定￺してい￻すると、￹漢字￺かんじ￻￹辞書￺じしょ￻もビルドすることができます。
---enable-htmlを￹指定￺してい￻すると、ヘルプ用のhtmlファイルをビルドすることができます。
+--enable-htmlを￹指定￺してい￻すると、ヘルプ￹用￺よう￻のhtmlファイルをビルドすることができます。
 　ビルドするときに￹必要￺ひつよう￻なパッケージについては、debian/controlのBuild-Depends、あるいは、ibus-hiragana.specのBuildRequiresを￹参考￺さんこう￻にしてください。
-　Fedoraであれば、つぎのコマンドでビルドに必要なパッケージをインストールできます。
+　Fedoraであれば、つぎのコマンドでビルドに￹必要￺ひつよう￻なパッケージをインストールできます。
 
 ```
 sudo yum-builddep ibus-hiragana.spec
 ```
 
-　Ubuntuであれば、つぎのコマンドでビルドに必要なパッケージをインストールできます。
+　Ubuntuであれば、つぎのコマンドでビルドに￹必要￺ひつよう￻なパッケージをインストールできます。
 ```
 sudo apt build-dep .
 ```
