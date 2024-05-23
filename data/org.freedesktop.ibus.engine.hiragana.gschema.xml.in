@@ -1,4 +1,4 @@
-<?xml version=\"1.0\" encoding=\"utf-8\"?>
+<?xml version="1.0" encoding="utf-8"?>
 <schemalist>
   <schema id='org.freedesktop.ibus.engine.hiragana' path='/org/freedesktop/ibus/engine/hiragana/'>
     <key name='mode' type='s'>
@@ -9,35 +9,35 @@
         <choice value='Ａ'/>
         <choice value='ｱ'/>
       </choices>
-      <default>\"A\"</default>
+      <default>"A"</default>
       <summary>Input Mode</summary>
       <description>
         The current input mode.
       </description>
     </key>
     <key name='dictionary' type='s'>
-      <default>\"restrained.9.dic\"</default>
+      <default>"restrained.9.dic"</default>
       <summary>Kanji Dictionary File</summary>
       <description>
         The pathname to the Kanji dictionary file.
       </description>
     </key>
     <key name='user-dictionary' type='s'>
-      <default>\"my.dic\"</default>
+      <default>"my.dic"</default>
       <summary>User Kanji Dictionary File</summary>
       <description>
         The filename of the user Kanji dictionary file.
       </description>
     </key>
     <key name='layout' type='s'>
-      <default>\"roomazi\"</default>
+      <default>"roomazi"</default>
       <summary>Keyboard Layout</summary>
       <description>
         The keyboard layout name.
       </description>
     </key>
     <key name='altgr' type='s'>
-      <default>\"altgr\"</default>
+      <default>"altgr"</default>
       <summary>AltGr Layout</summary>
       <description>
         The AltGr layout name.
@@ -68,10 +68,10 @@
         <choice value='DEBUG'/>
         <choice value='NOTSET'/>
       </choices>
-      <default>\"WARNING\"</default>
+      <default>"WARNING"</default>
       <summary>Logging Level</summary>
       <description>
-        The logging level for the logfile '~/.local/share/${PACKAGE}/${PACKAGE}.log'.
+        The logging level for the logfile '~/.local/share/@PACKAGE@/@PACKAGE@.log'.
       </description>
     </key>
   </schema>

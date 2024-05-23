@@ -1,0 +1,2 @@
+option('enable-dic', type : 'boolean', value : false)
+option('enable-html', type : 'boolean', value : false)

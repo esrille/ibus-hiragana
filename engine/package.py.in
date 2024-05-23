@@ -14,9 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# This file is a template file processed by the configure script.
-# The file name is listed in AC_CONFIG_FILES of configure.ac.
-
 import gettext
 import os
 
@@ -38,7 +35,7 @@ def get_prefix():
 
 
 def get_datadir():
-    return '${pkgdatadir}'
+    return '@pkgdatadir@'
 
 
 def get_user_datadir():
@@ -46,11 +43,11 @@ def get_user_datadir():
 
 
 def get_libexecdir():
-    return '${libexecdir}'
+    return '@libexecdir@'
 
 
 def get_localedir():
-    return '${localedir}'
+    return '@localedir@'
 
 
 def load_from_data_dirs(file):

@@ -16,6 +16,7 @@
 
 import html
 import markdown
+import os
 import re
 import sys
 import textwrap
@@ -86,17 +87,15 @@ class MyExtension(Extension):
 def main():
     global title
 
-    if len(sys.argv) < 2:
-        print('Usage: md2html path/to/file prev next [template]',
+    if len(sys.argv) < 7:
+        print('Usage: md2html input prev next template toc output',
               file=sys.stderr)
         sys.exit(1)
 
-    prev_url = sys.argv[2][:-2] + 'html'
-    next_url = sys.argv[3][:-2] + 'html'
+    prev_url = os.path.basename(sys.argv[2][:-2] + 'html')
+    next_url = os.path.basename(sys.argv[3][:-2] + 'html')
 
-    path = 'template.html'
-    if 5 <= len(sys.argv):
-        path = sys.argv[4]
+    path = sys.argv[4]
     template = ''
     with open(path) as file:
         for line in file:
@@ -129,13 +128,13 @@ def main():
     if 'og_image' in md.Meta:
         og_image = md.Meta['og_image'][0]
 
-    path = path[:-2] + 'html'
+    url = os.path.basename(path[:-2] + 'html')
 
     toc = ''
-    with open('toc.txt') as file:
+    with open(sys.argv[5]) as file:
         toc = file.read()
-        toc = toc.replace(f"<details><summary><a href='{path}'>",
-                          f"<details open><summary><a href='{path}'>")
+        toc = toc.replace(f"<details><summary><a href='{url}'>",
+                          f"<details open><summary><a href='{url}'>")
 
     content = textwrap.dedent(
         template.format(body=body,
@@ -144,14 +143,14 @@ def main():
                         next_url=next_url,
                         description=html.escape(description),
                         og_image=html.escape(og_image),
-                        path=path,
+                        path=url,
                         toc=toc))
 
     content = content.replace("。\n", "。")
     content = content.replace("↲", "\n")
     content = content.replace("\n</code></pre>", "</code></pre>")
 
-    with open(path, 'w') as file:
+    with open(sys.argv[6], 'w') as file:
         file.write(content)
 
 

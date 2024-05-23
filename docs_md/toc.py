@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os
 import sys
 
 
@@ -32,7 +33,7 @@ def main():
     level = 0
     for path in sys.argv[1:]:
         with open(path) as file:
-            url = path[:-2] + 'html'
+            url = os.path.basename(path[:-2] + 'html')
             for line in file:
                 line = line.translate(tr)
                 if line.startswith('# '):

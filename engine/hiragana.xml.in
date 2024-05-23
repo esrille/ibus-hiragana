@@ -3,7 +3,7 @@
 <component>
 	<name>org.freedesktop.IBus.Hiragana</name>
 	<description>Hiragana IME</description>
-	<exec>${libexecdir}/ibus-engine-hiragana --ibus</exec>
+	<exec>@libexecdir@/ibus-engine-hiragana --ibus</exec>
 	<version>@VERSION@</version>
 	<author>Esrille Inc. &lt;info@esrille.com&gt;</author>
 	<license>Apache</license>
