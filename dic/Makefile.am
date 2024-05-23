@@ -38,31 +38,31 @@ CLEANFILES = $(dist_dic_DATA)
 katakana.dic : $(TOOLS_DIR)/third_party/edrdg/edict2 $(TOOLS_DIR)/drop.katakana.dic
 	$(TOOLS_DIR)/katakana.py $^ > $@
 
-restrained.1.dic : $(TOOLS_DIR)/third_party/skk/SKK-JISYO.ML
+restrained.1.dic : $(TOOLS_DIR)/third_party/skk/SKK-JISYO.ML $(TOOLS_DIR)/drop.dic
 	$(TOOLS_DIR)/restrain.py $< 1 > $@
 
-restrained.2.dic : $(TOOLS_DIR)/third_party/skk/SKK-JISYO.ML
+restrained.2.dic : $(TOOLS_DIR)/third_party/skk/SKK-JISYO.ML $(TOOLS_DIR)/drop.dic
 	$(TOOLS_DIR)/restrain.py $< 2 > $@
 
-restrained.3.dic : $(TOOLS_DIR)/third_party/skk/SKK-JISYO.ML
+restrained.3.dic : $(TOOLS_DIR)/third_party/skk/SKK-JISYO.ML $(TOOLS_DIR)/drop.dic
 	$(TOOLS_DIR)/restrain.py $< 3 > $@
 
-restrained.4.dic : $(TOOLS_DIR)/third_party/skk/SKK-JISYO.ML
+restrained.4.dic : $(TOOLS_DIR)/third_party/skk/SKK-JISYO.ML $(TOOLS_DIR)/drop.dic
 	$(TOOLS_DIR)/restrain.py $< 4 > $@
 
-restrained.5.dic : $(TOOLS_DIR)/third_party/skk/SKK-JISYO.ML
+restrained.5.dic : $(TOOLS_DIR)/third_party/skk/SKK-JISYO.ML $(TOOLS_DIR)/drop.dic
 	$(TOOLS_DIR)/restrain.py $< 5 > $@
 
-restrained.6.dic : $(TOOLS_DIR)/third_party/skk/SKK-JISYO.ML
+restrained.6.dic : $(TOOLS_DIR)/third_party/skk/SKK-JISYO.ML $(TOOLS_DIR)/drop.dic
 	$(TOOLS_DIR)/restrain.py $< 6 > $@
 
-restrained.7.dic : $(TOOLS_DIR)/third_party/skk/SKK-JISYO.ML
+restrained.7.dic : $(TOOLS_DIR)/third_party/skk/SKK-JISYO.ML $(TOOLS_DIR)/drop.dic
 	$(TOOLS_DIR)/restrain.py $< 7 > $@
 
-restrained.8.dic : $(TOOLS_DIR)/third_party/skk/SKK-JISYO.ML
+restrained.8.dic : $(TOOLS_DIR)/third_party/skk/SKK-JISYO.ML $(TOOLS_DIR)/drop.dic
 	$(TOOLS_DIR)/restrain.py $< 8 > $@
 
-restrained.9.dic : $(TOOLS_DIR)/third_party/skk/SKK-JISYO.ML
+restrained.9.dic : $(TOOLS_DIR)/third_party/skk/SKK-JISYO.ML $(TOOLS_DIR)/drop.dic
 	$(TOOLS_DIR)/restrain.py $< 9 > $@
 
 endif
