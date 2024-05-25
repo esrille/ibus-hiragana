@@ -6,7 +6,9 @@ Build-Depends:
  autopoint,
  debhelper (>=11),
  dh-python,
+ gtk-update-icon-cache,
  libibus-1.0-dev (>= 1.5.11),
+ meson (>=0.53),
  pkg-config,
  python3,
  python3-markdown
