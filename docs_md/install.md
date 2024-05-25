@@ -49,14 +49,14 @@ sudo apt install ibus-hiragana
 ```
 git clone https://github.com/esrille/ibus-hiragana.git
 cd ibus-hiragana
-./autogen.sh  --prefix=/usr [--enable-dic] [--enable-html]
-make
-sudo make install
+meson setup --prefix /usr _build [-Denable-dic=true] [-Denable-html=true]
+ninja -C _build
+ninja -C _build  install
 ```
 
-　autogen.shは、autotoolsの￹設定￺せってい￻をおこない、configureスクリプトよびだします。
---enable-dicを￹指定￺してい￻すると、￹漢字￺かんじ￻￹辞書￺じしょ￻もビルドすることができます。
---enable-htmlを￹指定￺してい￻すると、ヘルプ￹用￺よう￻のhtmlファイルをビルドすることができます。
+- -Denable-dic=trueを￹指定￺してい￻すると、￹漢字￺かんじ￻￹辞書￺じしょ￻とカタカナ￹辞書￺じしょ￻をビルドすることができます。
+- -Denable-html=trueを￹指定￺してい￻すると、マークダウン ファイルからヘルプ￹用￺よう￻のhtmlファイルをビルドすることができます。
+
 　ビルドするときに￹必要￺ひつよう￻なパッケージについては、debian/controlのBuild-Depends、あるいは、ibus-hiragana.specのBuildRequiresを￹参考￺さんこう￻にしてください。
 　Fedoraであれば、つぎのコマンドでビルドに￹必要￺ひつよう￻なパッケージをインストールできます。
 

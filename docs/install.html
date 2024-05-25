@@ -133,11 +133,14 @@ sudo apt install ibus-hiragana
 <p>&#x3000;「ひらがなIME」をソースコードからビルドしてインストールするには、つぎのようにします。</p>
 <pre><code>git clone https://github.com/esrille/ibus-hiragana.git
 cd ibus-hiragana
-./autogen.sh  --prefix=/usr [--enable-dic] [--enable-html]
-make
-sudo make install
+meson setup --prefix /usr _build [-Denable-dic=true] [-Denable-html=true]
+ninja -C _build
+ninja -C _build  install
 </code></pre>
-<p>&#x3000;autogen.shは、autotoolsの<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>をおこない、configureスクリプトよびだします。--enable-dicを<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>すると、<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby><ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>もビルドすることができます。--enable-htmlを<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>すると、ヘルプ<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>のhtmlファイルをビルドすることができます。</p>
+<ul>
+<li>-Denable-dic=trueを<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>すると、<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby><ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>とカタカナ<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>をビルドすることができます。</li>
+<li>-Denable-html=trueを<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>すると、マークダウン ファイルからヘルプ<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>のhtmlファイルをビルドすることができます。</li>
+</ul>
 <p>&#x3000;ビルドするときに<ruby>必要<rp>(</rp><rt>ひつよう</rt><rp>)</rp></ruby>なパッケージについては、debian/controlのBuild-Depends、あるいは、ibus-hiragana.specのBuildRequiresを<ruby>参考<rp>(</rp><rt>さんこう</rt><rp>)</rp></ruby>にしてください。</p>
 <p>&#x3000;Fedoraであれば、つぎのコマンドでビルドに<ruby>必要<rp>(</rp><rt>ひつよう</rt><rp>)</rp></ruby>なパッケージをインストールできます。</p>
 <pre><code>sudo yum-builddep ibus-hiragana.spec
