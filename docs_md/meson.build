@@ -22,21 +22,21 @@ toc = custom_target(
 )
 
 contents = [
-  ['index.md', 'altgr.md', 'install.md'],
-  ['install.md', 'index.md', 'usage.md'],
-  ['usage.md', 'install.md', 'key_assign.md'],
-  ['key_assign.md', 'usage.md', 'settings.md'],
-  ['settings.md', 'key_assign.md', 'layouts.md'],
-  ['layouts.md', 'settings.md', 'roomazi.md'],
-  ['roomazi.md', 'layouts.md', 'altgr.md'],
-  ['altgr.md', 'roomazi.md', 'index.md'],
+  ['index.md', 'altgr.md', 'install.md', 'index.html'],
+  ['install.md', 'index.md', 'usage.md', 'install.html'],
+  ['usage.md', 'install.md', 'key_assign.md', 'usage.html'],
+  ['key_assign.md', 'usage.md', 'settings.md', 'key_assign.html'],
+  ['settings.md', 'key_assign.md', 'layouts.md', 'settings.html'],
+  ['layouts.md', 'settings.md', 'roomazi.md', 'layouts.html'],
+  ['roomazi.md', 'layouts.md', 'altgr.md', 'roomazi.html'],
+  ['altgr.md', 'roomazi.md', 'index.md', 'altgr.html'],
 ]
 
 foreach content : contents
   html = custom_target(
-    'generate_' + content[0].replace('.md', '.html'),
+    'generate_' + content[3],
     input: [files('md2html.py', content[0], content[1], content[2], 'template.html'), toc],
-    output: content[0].replace('.md', '.html'),
+    output: content[3],
     command: [python_prog, '@INPUT@', '@OUTPUT@'],
     install: true,
     install_dir: moduledir,
