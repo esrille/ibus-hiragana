@@ -347,8 +347,7 @@ class Dictionary:
             if y[i:size] in self._dict:
                 cand = ([], [])
                 order = ([], [])
-                n = 0
-                for c in self._dict[y[i:size]]:
+                for n, c in enumerate(self._dict[y[i:size]]):
                     pattern = OKURIGANA.search(c)
                     if pattern:
                         pos_okuri = pattern.start()
@@ -363,7 +362,6 @@ class Dictionary:
                         if c not in cand[p]:
                             cand[p].append(c)
                             order[p].append(n)
-                    n += 1
                 if cand[0] or cand[1]:
                     for c in cand[0]:
                         if c in cand[1]:
