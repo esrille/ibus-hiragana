@@ -1,4 +1,4 @@
-# Copyright (c) 2017-2022 Esrille Inc.
+# Copyright (c) 2017-2024 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -171,6 +171,7 @@ ZINMEI = ('丑丞乃之乎也云亘些亦亥亨亮仔伊伍伽佃佑伶侃侑俄
           '淚壘類禮曆歷練鍊郞朗廊錄')
 
 RE_KANA = re.compile('[' + HIRAGANA + KATAKANA + ']')
+RE_HIRAGANA = re.compile('[' + HIRAGANA + ']')
 RE_SKK_YOMI = re.compile(r'^[ぁ-ゖー#]+[a-z―]?$')
 RE_ALPHA = re.compile(r'[a-zA-Z]')
 RE_ONYOMI = re.compile(r'[^ぁ-ゖー]')
@@ -197,6 +198,24 @@ def to_seion(s):
 def output(dict):
     for yomi, kanji in sorted(dict.items()):
         print(yomi, ' /', '/'.join(kanji), '/', sep='')
+
+
+def lookup_words(dict, path):
+    rm = {}
+    with open(path) as f:
+        for word in f:
+            word = word.strip(' \n')
+            if not word or word[0] in '#;':
+                continue
+            if len(word) == 1:
+                continue
+            for yomi, kanji in dict.items():
+                if word in kanji:
+                    if yomi in rm:
+                        rm[yomi].add(word)
+                    else:
+                        rm[yomi] = set([word])
+    output(rm)
 
 
 # 常用漢字表から辞書をつくります。
@@ -411,7 +430,7 @@ def kigou(dict):
     for yomi, kanji in dict.items():
         s = []
         for i in kanji:
-            if i not in s and RE_KIGOU.search(i):
+            if i not in s and RE_KIGOU.search(i) is not None:
                 s.append(i)
         if s:
             d[yomi] = s
@@ -424,7 +443,7 @@ def hyougai(dict):
     for yomi, kanji in dict.items():
         s = []
         for i in kanji:
-            if i not in s and RE_HYOUGAI.search(i):
+            if i not in s and RE_HYOUGAI.search(i) is not None:
                 s.append(i)
         if s:
             d[yomi] = s
@@ -437,7 +456,7 @@ def okuri(dict):
     for yomi, kanji in dict.items():
         s = []
         for i in kanji:
-            if i not in s and RE_KANA.search(i):
+            if i not in s and RE_HIRAGANA.search(i) is not None:
                 s.append(i)
         if s:
             d[yomi] = s
@@ -450,7 +469,7 @@ def okuri_end(dict):
     for yomi, kanji in dict.items():
         s = []
         for i in kanji:
-            if RE_KANA.search(i[-1]):
+            if RE_HIRAGANAu(i[-1]) is not None:
                 s.append(i)
         if s:
             d[yomi] = s
@@ -578,7 +597,7 @@ def wago(dict, grade=10):
                     yomi = yomi[:pos]
                 if not yomi:
                     continue
-                if RE_ONYOMI.search(yomi):
+                if RE_ONYOMI.search(yomi) is not None:
                     continue
                 s.add(yomi)
             if s:

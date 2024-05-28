@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 #
-# Copyright (c) 2017-2023 Esrille Inc.
+# Copyright (c) 2017-2024 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -43,6 +43,7 @@ def main():
     reigai = dic.union(reigai_zinmei, reigai_geo)
     reigai = dic.union(reigai, reigai_station)
     reigai = dic.union(reigai, reigai_kigou)
+    reigai = dic.union(reigai, dic.load(toolpath('reigai.dic')))      # 独自に追加したい熟語を追加。
     dict = dic.difference(dict, reigai)                               # 例外辞書の内容を削除
     if grade <= 6:
         reigai = dic.difference(reigai, dic.hyougai(reigai))
@@ -60,8 +61,11 @@ def main():
     dict = dic.union(dic.zyouyou(grade), dict)                        # 常用漢字を追加
     dict = dic.union(zyosuusi, dict)                                  # 助数詞を先頭に追加
     dict = dic.union(dict, reigai)                                    # 例外を追加
+
     if 8 <= grade:
-        dict = dic.union(dict, dic.load(toolpath('tc2.compat.dic')))  # tc2のmazegaki.dic辞書から選択した単語を追加。
+        tc2 = dic.load(toolpath('tc2.compat.dic'))
+        tc2 = dic.difference(tc2, dic.okuri(tc2))
+        dict = dic.union(dict, tc2)                                   # tc2のmazegaki.dic辞書から選択した単語を追加。
     if 6 < grade:
         dict = dic.union(dict, dic.load(toolpath('greek.dic')))       # ギリシア文字辞書を追加。
 
@@ -70,7 +74,7 @@ def main():
 
     # ヘッダーを出力します。
     print(';; Hiragana IME for IBus')
-    print(';; Copyright (c) 2017-2023 Esrille Inc.')
+    print(';; Copyright (c) 2017-2024 Esrille Inc.')
     print(';;')
     print(';;   https://github.com/esrille/ibus-hiragana')
     print(';;')

@@ -14,7 +14,7 @@ foreach grade : grades
     capture: true,
     install: true,
     install_dir: dicdir,
-    depend_files: [files('drop.dic')],
+    depend_files: [files('drop.dic', 'my.dic', 'reigai.dic')],
   )
 endforeach
 

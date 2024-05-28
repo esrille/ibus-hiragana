@@ -1,5 +1,5 @@
 ;; Hiragana IME for IBus
-;; Copyright (c) 2017-2023 Esrille Inc.
+;; Copyright (c) 2017-2024 Esrille Inc.
 ;;
 ;;   https://github.com/esrille/ibus-hiragana
 ;;
@@ -12408,6 +12408,7 @@
 はたて /旗手/
 はたなか /畑中/
 はたの /波多野/
+はたのだい /旗の台/
 はたもと /旗本/
 はたやま /畑山/
 はたら― /働k/
