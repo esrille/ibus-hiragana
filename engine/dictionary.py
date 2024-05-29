@@ -285,19 +285,19 @@ class Dictionary:
 
         return -1
 
-    def lookup(self, yomi, pos):
-        LOGGER.debug(f'lookup({yomi}, {pos})')
+    def lookup(self, yomi, pos, anchor=0):
+        LOGGER.debug(f'lookup({yomi}, {pos}, {anchor})')
 
         self.reset()
         # Look for the nearest hyphen.
-        suffix = yomi[:pos].rfind('―')
+        suffix = anchor + yomi[anchor:pos].rfind('―')
         if 0 <= suffix and not YOMIGANA.match(yomi[suffix:pos]):
             suffix = -1
         if suffix <= 0:
             numeric = ''
             has_numeric = False
             size = pos
-            for i in range(size - 1, -1, -1):
+            for i in range(size - 1, anchor - 1, -1):
                 if not has_numeric and yomi[i].isnumeric():
                     numeric = yomi[i] + numeric
                     if 0 < i and yomi[i - 1].isnumeric():
@@ -341,7 +341,7 @@ class Dictionary:
             if NON_YOMIGANA.match(yomi[size + i]):
                 y = y[:size + i]
                 break
-        for i in range(size - 2, -1, -1):
+        for i in range(size - 2, anchor - 1, -1):
             if NON_YOMIGANA.match(y[i]):
                 break
             if y[i:size] in self._dict:

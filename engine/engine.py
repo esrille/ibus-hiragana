@@ -666,9 +666,9 @@ class EngineHiragana(EngineModeless):
         LOGGER.info(f'nn-as-jis-x-4063: {mode}')
         return mode
 
-    def _lookup_dictionary(self, yomi, pos):
+    def _lookup_dictionary(self, yomi, pos, anchor=0):
         self._lookup_table.clear()
-        cand = self._dict.lookup(yomi, pos)
+        cand = self._dict.lookup(yomi, pos, anchor)
         size = len(self._dict.reading())
         if 0 < size and 1 < len(self._dict.cand()):
             for i, c in enumerate(self._dict.cand()):
@@ -739,15 +739,13 @@ class EngineHiragana(EngineModeless):
     def _process_okurigana(self, pos_yougen):
         text, pos = self.get_surrounding_string()
         assert pos_yougen < pos
-        text = text[pos_yougen:pos]
-        pos = len(text)
-        LOGGER.debug(f'_process_okurigana: "{text}", "{self.roman_text}"')
+        LOGGER.debug(f'_process_okurigana: "{text[:pos_yougen]}:{text[pos_yougen:pos]}", "{self.roman_text}"')
         if text[-1] != '―':
-            cand, size = self._lookup_dictionary(text, pos)
+            cand, size = self._lookup_dictionary(text, pos, pos_yougen)
         if not self._dict.current():
-            self._dict.create_pseudo_candidate(text)
-            cand = text
+            cand = text[pos_yougen:pos]
             size = len(cand)
+            self._dict.create_pseudo_candidate(cand)
         assert self._dict.current()
         self.delete_surrounding_string(size)
         return True
