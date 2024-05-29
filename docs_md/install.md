@@ -81,7 +81,7 @@ sudo apt build-dep .
 
 　FedoraやUbuntuでは、GNOMEが￹標準￺ひょうじゅん￻のデスクトップ￹環境￺かんきょう￻になっています。GNOMEを￹利用￺りよう￻しているときは、GNOMEの「￹設定￺せってい￻」をひらいて、「キーボード」の「￹入力￺にゅうりょく￻ソース」に、「￹日本語￺にほんご￻ (Hiragana IME)」を￹追加￺ついか￻します。
 
-![￹設定￺せってい￻—キーボード](settings-keyboard.png)
+![設定—キーボード](settings-keyboard.png)
 
 ### GNOME￹以外￺いがい￻を￹利用￺りよう￻しているとき
 
