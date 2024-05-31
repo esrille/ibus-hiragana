@@ -4,6 +4,8 @@ project('ibus-hiragana',
   default_options: [ 'warning_level=2', 'werror=false', ],
 )
 
+pkgdatadir = get_option('prefix') / get_option('datadir') / meson.project_name()
+
 i18n = import('i18n')
 gnome = import('gnome')
 
@@ -23,6 +25,12 @@ endif
 if get_option('enable-html') == true
   subdir('docs_md')
 endif
+
+install_data([
+    'requirements.txt'
+  ],
+  install_dir: pkgdatadir,
+)
 
 meson.add_dist_script('meson/update-changelog.sh', meson.project_version())
 

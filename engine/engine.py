@@ -37,6 +37,7 @@ from gi.repository import GnomeDesktop
 from gi.repository import Gtk
 from gi.repository import IBus
 
+import llm
 import package
 from dictionary import Dictionary
 from event import Event, KeyboardController
@@ -491,6 +492,8 @@ class EngineHiragana(EngineModeless):
         self._set_x4063_mode(self._load_x4063_mode())
         self._set_combining_circumflex(self._load_combining_circumflex())
 
+        self._use_llm = self._load_use_llm()
+
         self._about_dialog = None
         self._setup_proc = None
         self._q = queue.Queue()
@@ -666,6 +669,29 @@ class EngineHiragana(EngineModeless):
         LOGGER.info(f'nn-as-jis-x-4063: {mode}')
         return mode
 
+    def _load_use_llm(self):
+        enabled = self._settings.get_boolean('use-llm')
+        LOGGER.info(f'use-llm: {enabled}')
+        llm.load(enabled)
+        return enabled
+
+    def _assist(self, yomi, pos):
+        LOGGER.debug(f'_assist : {self._use_llm}')
+        if not self._use_llm:
+            return 0
+        cand = self._dict.cand()
+        if len(cand) <= 1:
+            return 0
+        if cand[0][-1] == '―':
+            return 0
+        inputs = []
+        prefix = get_plain_text(yomi[:pos - len(self._dict.reading())])
+        if prefix == '':
+            return 0
+        for c in cand:
+            inputs.append(prefix + c)
+        return llm.pick(inputs)
+
     def _lookup_dictionary(self, yomi, pos, anchor=0):
         self._lookup_table.clear()
         cand = self._dict.lookup(yomi, pos, anchor)
@@ -674,6 +700,10 @@ class EngineHiragana(EngineModeless):
             for i, c in enumerate(self._dict.cand()):
                 self._lookup_table.append_candidate(IBus.Text.new_from_string(c))
                 self._lookup_table.set_label(i, IBus.Text.new_from_string(' '))
+            cursor_pos = self._assist(yomi, pos)
+            if 0 < cursor_pos and cursor_pos < self._lookup_table.get_page_size():
+                self._lookup_table.set_cursor_pos(cursor_pos)
+                self._update_candidate()
         return cand, size
 
     def _process_dakuten(self, c):
@@ -1112,6 +1142,8 @@ class EngineHiragana(EngineModeless):
             self._set_x4063_mode(self._load_x4063_mode())
         elif key == 'combining-circumflex':
             self._set_combining_circumflex(self._load_combining_circumflex())
+        elif key == 'use-llm':
+            self._use_llm = self._load_use_llm()
 
     def _keymap_state_changed_cb(self, keymap):
         if self._controller.is_onoff_by_caps():

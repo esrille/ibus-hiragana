@@ -1,0 +1,3 @@
+fugashi == 1.3.2
+transformers[torch] == 4.41.2
+unidic_lite == 1.0.8

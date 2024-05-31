@@ -29,6 +29,13 @@
         The filename of the user Kanji dictionary file.
       </description>
     </key>
+    <key name='use-llm' type='b'>
+      <default>false</default>
+      <summary>Use LLM for candidate selection</summary>
+      <description>
+        If enabled, the most probable word is preselected in the candidate popup.
+      </description>
+    </key>
     <key name='layout' type='s'>
       <default>"roomazi"</default>
       <summary>Keyboard Layout</summary>

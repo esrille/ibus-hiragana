@@ -46,6 +46,7 @@ ibus_hiragana_sources = [
   'engine.py',
   'event.py',
   'factory.py',
+  'llm.py',
   'main.py',
 ]
 
