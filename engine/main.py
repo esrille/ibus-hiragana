@@ -22,6 +22,7 @@ import gettext
 import locale
 import logging
 import os
+import signal
 import sys
 
 import gi
@@ -81,7 +82,11 @@ class IMApp:
     def run(self):
         self._mainloop.run()
 
-    def _bus_disconnected_cb(self, bus):
+    def quit(self):
+        LOGGER.debug('quit()')
+        self._bus_disconnected_cb()
+
+    def _bus_disconnected_cb(self, bus=None):
         self._mainloop.quit()
 
 
@@ -133,6 +138,10 @@ def initialize():
         LOGGER.exception('initialize')
 
 
+def cleanup(app: IMApp):
+    app.quit()
+
+
 def main():
     initialize()
 
@@ -170,7 +179,10 @@ def main():
             sys.exit()
 
     IBus.init()
-    IMApp(exec_by_ibus).run()
+    app = IMApp(exec_by_ibus)
+    signal.signal(signal.SIGTERM, lambda signum, frame: cleanup(app))
+    signal.signal(signal.SIGINT, lambda signum, frame: cleanup(app))
+    app.run()
 
 
 # Catch exceptions from GLib.MainLoop
