@@ -7,6 +7,7 @@ static_files = [
   'undo.webm',
   'ibus-setup-hiragana_1.png',
   'ibus-setup-hiragana_2.png',
+  'ibus-setup-hiragana_3.png',
   'icon.png',
   'input-modes.gif',
   'keyboard-menu.png',
