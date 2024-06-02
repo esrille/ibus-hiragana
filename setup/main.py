@@ -48,6 +48,7 @@ class SetupEngineHiragana:
         self._init_dictionary()
         self._init_nn_as_x4063()
         self._init_combining_circumflex()
+        self._init_use_llm()
         self._set_current_keyboard(self._settings.get_string('layout'))
         self._window = self._builder.get_object('SetupDialog')
         self._window.set_default_icon_name('ibus-setup-hiragana')
@@ -115,6 +116,11 @@ class SetupEngineHiragana:
         current = self._settings.get_value('combining-circumflex')
         self._combining_circumflex.set_active(current)
 
+    def _init_use_llm(self):
+        self._use_llm = self._builder.get_object('UseLLM')
+        current = self._settings.get_value('use-llm')
+        self._use_llm.set_active(current)
+
     def run(self):
         Gtk.main()
 
@@ -147,6 +153,10 @@ class SetupEngineHiragana:
         else:
             self._settings.set_string('user-dictionary', user)
 
+        # use-llm
+        use_llm = self._use_llm.get_active()
+        self._settings.set_boolean('use-llm', use_llm)
+
         if self._clear_input_history.get_active():
             # clear_input_history also reloads dictionaries
             print('clear_input_history', flush=True)
@@ -172,6 +182,8 @@ class SetupEngineHiragana:
         elif key == 'user-dictionary':
             current = value.get_string()
             self._user_dictionary.set_text(current)
+        elif key == 'use-llm':
+            self._use_llm.set_active(value.get_boolean())
 
     #
     # Glade signal handlers. The signal names are declared in Glade
