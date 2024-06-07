@@ -1,5 +1,5 @@
 pkgdatadir = get_option('prefix') / get_option('datadir') / meson.project_name()
-moduledir = pkgdatadir / 'docs'
+moduledir = pkgdatadir / 'docs' / 'en'
 
 python_prog = find_program('python3')
 
@@ -43,5 +43,3 @@ foreach content : contents
     depends: toc,
   )
 endforeach
-
-subdir('en')

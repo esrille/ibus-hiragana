@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, maximum-scale=1.0, user-scalable=yes'>
+<title>{title} — Hiragana IME</title>
+<link href='icon.png' rel='icon'>
+<link rel='stylesheet' type='text/css' href='default.css'>
+<meta content='{description}' name='description'>
+<meta content='https://esrille.github.io/ibus-hiragana/{path}' property='og:url'>
+<meta content='{title} — Hiragana IME' property='og:title'>
+<meta content='{description}' property='og:description'>
+<meta content='{og_image}' property='og:image'>
+<meta content='product' property='og:type'>
+<meta content='summary_large_image' name='twitter:card'>
+<meta content='@esrille' name='twitter:creator'>
+<script>
+function expandToc() {{
+  document.getElementById('toc').querySelectorAll('details').forEach((e) => {{
+    e.setAttribute('open', 'open')
+  }})
+}}
+function shrinkToc() {{
+  document.getElementById('toc').querySelectorAll('details').forEach((e) => {{
+    e.removeAttribute('open')
+  }})
+}}
+</script>
+</head>
+<body>
+<div id='wrapper'>
+<div id='sidebar'>
+<header id='title'>
+<a href='https://github.com/esrille/ibus-hiragana'><img alt='icon' src='../icon.png'> Hiragana IME</a>
+<div style='float: right; font-size: 10px;'>
+<div style='position: relative; top: 18px;'>
+<button onclick='shrinkToc()'>▲</button>
+<button onclick='expandToc()'>▼</button>
+</div>
+</div>
+</header>
+<div id='toc'>
+<ul>
+{toc}
+</ul>
+</div>
+</div>
+<main>
+{body}
+</main>
+</div>
+
+<nav>
+<a href={prev_url} id='nav-prev'><div>&lt;</div></a>
+<a href={next_url} id='nav-next'><div>&gt;</div></a>
+</nav>
+</body>
+</html>

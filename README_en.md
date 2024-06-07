@@ -8,4 +8,4 @@ In **Hiragana IME**, the steps for inputting characters and converting them to k
 
 ![screenshot](docs/screenshot.png)
 
-Additionally, when using the [FuriganaPad](https://github.com/esrille/furiganapad) with **Hiragana IME**, you can automatically add Furigana, or readings, to the inputted kanji. Not everyone can easily read kanji due to dyslexia and other reasons. Digital Japanese textbooks now include Furigana for Japanese schoolchildren. Looking ahead, it is crucial to transform our society into one where the inability to read kanji doesn't prevent anyone from being happy.
+Additionally, when using the [FuriganaPad](https://github.com/esrille/furiganapad) with **Hiragana IME**, you can automatically add Furigana, or readings, to the inputted kanji. Not everyone can easily read kanji due to dyslexia and other reasons. Digital Japanese textbooks now include Furigana for Japanese schoolchildren. It is crucial to reshape our society so that no one is left behind just because they cannot read kanji.

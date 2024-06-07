@@ -12,7 +12,7 @@ static_files = [
   'input-modes.gif',
   'keyboard-menu.png',
   'screenshot.png',
-  'settings-keyboard.png'
+  'settings-keyboard.png',
 ]
 
 install_data(static_files, install_dir: moduledir)
@@ -33,3 +33,5 @@ if get_option('enable-html') == false
 install_data(html_files, install_dir: moduledir)
 
 endif
+
+subdir('en')
