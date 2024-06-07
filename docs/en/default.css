@@ -200,7 +200,10 @@ a {
   width: calc(100% - 5px);
   padding: 5px;
 }
-#toc a {
+#toc hr {
+  border-bottom: 2px solid #ddd;
+}
+#toc ul a {
   color: #333;
 }
 #toc ul {
@@ -211,6 +214,12 @@ a {
 #toc ul ul {
   list-style-type: disc;
   padding-left: 40px;
+}
+#toc-lang {
+  display: block;
+  text-align: right;
+  font-size: 15px;
+  line-height: 17px;
 }
 
 nav a {
