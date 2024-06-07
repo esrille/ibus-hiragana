@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, maximum-scale=1.0, user-scalable=yes'>
+<title>Usage — Hiragana IME</title>
+<link href='icon.png' rel='icon'>
+<link rel='stylesheet' type='text/css' href='default.css'>
+<meta content='Usage' name='description'>
+<meta content='https://esrille.github.io/ibus-hiragana/usage.html' property='og:url'>
+<meta content='Usage — Hiragana IME' property='og:title'>
+<meta content='Usage' property='og:description'>
+<meta content='https://esrille.github.io/ibus-hiragana/screenshot.png' property='og:image'>
+<meta content='product' property='og:type'>
+<meta content='summary_large_image' name='twitter:card'>
+<meta content='@esrille' name='twitter:creator'>
+<script>
+function expandToc() {
+  document.getElementById('toc').querySelectorAll('details').forEach((e) => {
+    e.setAttribute('open', 'open')
+  })
+}
+function shrinkToc() {
+  document.getElementById('toc').querySelectorAll('details').forEach((e) => {
+    e.removeAttribute('open')
+  })
+}
+</script>
+</head>
+<body>
+<div id='wrapper'>
+<div id='sidebar'>
+<header id='title'>
+<a href='https://github.com/esrille/ibus-hiragana'><img alt='icon' src='../icon.png'> Hiragana IME</a>
+<div style='float: right; font-size: 10px;'>
+<div style='position: relative; top: 18px;'>
+<button onclick='shrinkToc()'>▲</button>
+<button onclick='expandToc()'>▼</button>
+</div>
+</div>
+</header>
+<div id='toc'>
+<ul>
+<li><details><summary><a href='index.html'>Hiragana IME for IBus</a></summary>
+<ul>
+  <li><a href='index.html#introduction'>Introduction</a>
+  <li><a href='index.html#modeless'>Modeless input methods</a>
+</ul>
+</details>
+<li><details><summary><a href='install.html'>Installation</a></summary>
+<ul>
+  <li><a href='install.html#install'>Install the Hiragana IME software package</a>
+  <li><a href='install.html#input-source'>Add the Hiragana IME to the input sources</a>
+  <li><a href='install.html#enable'>Enable the Hiragana IME</a>
+  <li><a href='install.html#wayland'>Change the Configuration for Wayland</a>
+</ul>
+</details>
+<li><details open><summary><a href='usage.html'>Usage</a></summary>
+<ul>
+  <li><a href='usage.html#input-mode'>Changing Input Modes</a>
+  <li><a href='usage.html#input-kanji'>Inputting Kanji and Katakana Words</a>
+  <li><a href='usage.html#input-okurigana'>Entering Words with Okurigana</a>
+  <li><a href='usage.html#input-shrink'>Changing the Length of the Reading</a>
+</ul>
+</details>
+<li><details><summary><a href='key_assign.html'>Key Bindings</a></summary>
+<ul>
+  <li><a href='key_assign.html#input-mode'>Key Bindings for Changing Input Mode</a>
+  <li><a href='key_assign.html#input-hiragana-mode'>Key bindings in Hiragana Mode</a>
+  <li><a href='key_assign.html#input-conversion'>Key Bindings during Conversion</a>
+</ul>
+</details>
+<li><details><summary><a href='settings.html'>Settings</a></summary>
+<ul>
+  <li><a href='settings.html#ibus-setup-hiragana'>Hiragana IME Setup Window</a>
+  <li><a href='settings.html#layout'>Keyboard Tab</a>
+  <li><a href='settings.html#dictionary'>Dictionary Tab</a>
+  <li><a href='settings.html#option'>Option Tab</a>
+</ul>
+</details>
+<li><details><summary><a href='layouts.html'>Kana Input</a></summary>
+<ul>
+  <li><a href='layouts.html#jis'>Kana (JIS Layout)</a>
+  <li><a href='layouts.html#new_stickney'>Kana (New Stickney Layout)</a>
+  <li><a href='layouts.html#history'>Why the current JIS Kana layout is hard to use?</a>
+</ul>
+</details>
+<li><details><summary><a href='roomazi.html'>Rōmaji Input</a></summary>
+<ul>
+  <li><a href='roomazi.html#tuzuri'>Inputting Japanese in Rōmaji</a>
+  <li><a href='roomazi.html#hyo'>Romanization Charts</a>
+  <li><a href='roomazi.html#keyboard'>Key Bindings</a>
+</ul>
+</details>
+<li><details><summary><a href='altgr.html'>AltGr Key</a></summary>
+<ul>
+  <li><a href='altgr.html#altgr'>What is <span class='key'>AltGr</span> key?</a>
+  <li><a href='altgr.html#altgr-settings'>Switching the right <span class='key'>Alt</span> key to the <span class='key'>AltGr</span> key</a>
+  <li><a href='altgr.html#altgr-characters'>Entering Characters and Symbols on the <span class='key'>AltGr</span> Layers</a>
+</ul>
+</details>
+
+</ul>
+<hr>
+<a href='../index.html' id='toc-lang'>日本語 🌎</a>
+</div>
+</div>
+<main>
+<h1>Usage</h1>
+<p><strong>Note</strong>: For instructions on switching between Romaji input and Kana input, refer to <strong>Settings</strong> - <a href="settings.html#layout">Keyboard Tab</a>.</p>
+<h2 id="input-mode">Changing Input Modes</h2>
+<p>Hiragana IME has five input modes, as shown in the table below:</p>
+<table>
+<thead>
+<tr>
+<th align="center">Symbol</th>
+<th>Input Mode</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">あ</td>
+<td>Hiragana Mode</td>
+<td>A mode for entering kanji and kana mixed text</td>
+</tr>
+<tr>
+<td align="center">A</td>
+<td>Alphanumeric Mode</td>
+<td>A mode for entering Latin alphabets and numbers</td>
+</tr>
+<tr>
+<td align="center">ア</td>
+<td>Katakana Mode</td>
+<td>A mode for entering katakana</td>
+</tr>
+<tr>
+<td align="center">Ａ</td>
+<td>Full-width <nobr>Alphanumeric Mode</nobr></td>
+<td>A mode for entering Latin alphabets and numbers using full-width characters</td>
+</tr>
+<tr>
+<td align="center">ｱ</td>
+<td>Half-width <nobr>Katakana Mode</nobr></td>
+<td>A mode for entering katakana using half-width characters</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note</strong>: You would switch between Hiragana and Alphanumeric modes frequently; the other input modes are rarely used.</p>
+<p>The current input mode is displayed in the right corner of the desktop top bar.</p>
+<p><img alt="Input modes" src="../input-modes.gif"></p>
+<ul>
+<li>With Japanese keyboards, you can switch between Hiragana and Alphanumeric modes by pressing <span class='key'>変換</span> and <span class='key'>無変換</span> keys, respectively.</li>
+<li>With English keyboards, you can toggle between Hiragana and Alphanumeric modes by pressing the <span class='key'>Caps Lock</span> key. Hiragana IME is in Hiragana mode when the Caps Lock LED is turned on.</li>
+</ul>
+<h2 id="input-kanji">Inputting Kanji and Katakana Words</h2>
+<p>To enter a Kanji or Katana word, type the word in Hiragana first, then press the <span class='key'>変換</span> key to convert the word into Kanji or Katakana.
+The text cursor should be at the end of the word before you convert it.
+For example, to enter the sentence “しろうとむけのワープロの登場を期待したいですね。”, type as follows in Hiragana mode:</p>
+<pre><code>siroutomukenowa-puro<span class='key'>変換</span>notouzyou<span class='key'>変換</span>wokitai<span class='key'>変換</span>sitaidesune.</code></pre>
+
+<p>Or as follows using Kana input:</p>
+<pre><code>しろうとむけのわーぷろ<span class='key'>変換</span>のとうじょう<span class='key'>変換</span>をきたい<span class='key'>変換</span>したいですね。</code></pre>
+
+<p><br><strong>Homonyms</strong>: With Kanji, there are words with the same reading but different meanings, like “衛星” (satellite) and “衛生” (hygiene). These words are called homonyms. When you encounter homonyms, use the <span class='key'>変換</span> key to select the right word from the candidate list. You can also use the up and down arrow keys to select the candidate.</p>
+<p>Later, when you convert the same homonym again, the last selected word will appear first in the candidate list. Less frequently used homonyms will move towards the end of the list.
+So you won't have to keep selecting between homonyms over time.</p>
+<h2 id="input-okurigana">Entering Words with Okurigana</h2>
+<p>To enter a word with okurigana, press the <span class='key'>変換</span> key right after the part written in kanji. For example, to enter the sentence “赤いチューリップの花が咲きました。”, you will type as follows:</p>
+<pre><code>aka<span class='key'>変換</span>ityu-rippu<span class='key'>変換</span>nohana<span class='key'>変換</span>gasa<span class='key'>変換</span>kimasita.</code></pre>
+
+<p>Or like below using Kana input:</p>
+<pre><code>あか<span class='key'>変換</span>いちゅーりっぷ<span class='key'>変換</span>のはな<span class='key'>変換</span>がさ<span class='key'>変換</span>きました。</code></pre>
+
+<p>When you type the first okurigana for a word, the word appears in kanji.
+If you press the <span class='key'>変換</span> key instead of typing okurigana, all candidates will appear.</p>
+<p>Here are some examples:</p>
+<ul>
+<li>おく<span class='key'>変換</span>→ <span style="background-color:#d1eaff">おく―</span><span class='key'>Enter</span> → 後，遅，送，贈</li>
+<li>おく<span class='key'>変換</span>→ <span style="background-color:#d1eaff">おく―</span><span class='key'>る</span> → 送る，贈る</li>
+</ul>
+<p>As you type okurigana, the candidate list becomes shorter.</p>
+<p>When there are multiple conversion candidates, select the one that ends with a “―” (horizontal bar). For example, when you want to convert “咲き”, select the candidate “<span style="background-color:#d1eaff">さ―</span>”.
+Initially, the conversion candidate ending with a “―” may be at the bottom of the list. However, after using the word, it will move to the top of the list. In this way, you can save the keystrokes.</p>
+<h2 id="input-shrink">Changing the Length of the Reading</h2>
+<p>When you want to enter "生きがい論", you will type as below:</p>
+<pre><code>生きがいろん<span class='key'>変換</span></code></pre>
+
+<p>When converting a word into Kanji or Katakana, Hiragana IME selects words with the longest reading. Therefore, Hiragana IME initially selects "概論" (がいろん) instead of "論" (ろん). The screen will be changed like below:</p>
+<pre><code>生き<span style="background-color:#d1eaff">概論</span></code></pre>
+
+<p>Press the <span class='key'>Tab</span> key to shorten the reading. The reading will be shortened to ‘いろん’, and the screen will change to:</p>
+<pre><code>生きが<span style="background-color:#d1eaff">異論</span></code></pre>
+
+<p>Press the <span class='key'>Tab</span> key to shorten the reading again to 'ろん'. The screen will change to '生きがい論' as intended, like below:</p>
+<pre><code>生きがい<span style="background-color:#d1eaff">論</span></code></pre>
+
+<p>When using a shortened word next time, it will appear at the beginning of the candidate list, just like homonyms do.</p>
+</main>
+</div>
+
+<nav>
+<a href=install.html id='nav-prev'><div>&lt;</div></a>
+<a href=key_assign.html id='nav-next'><div>&gt;</div></a>
+</nav>
+</body>
+</html>

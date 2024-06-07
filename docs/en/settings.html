@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, maximum-scale=1.0, user-scalable=yes'>
+<title>Settings — Hiragana IME</title>
+<link href='icon.png' rel='icon'>
+<link rel='stylesheet' type='text/css' href='default.css'>
+<meta content='Settings' name='description'>
+<meta content='https://esrille.github.io/ibus-hiragana/settings.html' property='og:url'>
+<meta content='Settings — Hiragana IME' property='og:title'>
+<meta content='Settings' property='og:description'>
+<meta content='https://esrille.github.io/ibus-hiragana/screenshot.png' property='og:image'>
+<meta content='product' property='og:type'>
+<meta content='summary_large_image' name='twitter:card'>
+<meta content='@esrille' name='twitter:creator'>
+<script>
+function expandToc() {
+  document.getElementById('toc').querySelectorAll('details').forEach((e) => {
+    e.setAttribute('open', 'open')
+  })
+}
+function shrinkToc() {
+  document.getElementById('toc').querySelectorAll('details').forEach((e) => {
+    e.removeAttribute('open')
+  })
+}
+</script>
+</head>
+<body>
+<div id='wrapper'>
+<div id='sidebar'>
+<header id='title'>
+<a href='https://github.com/esrille/ibus-hiragana'><img alt='icon' src='../icon.png'> Hiragana IME</a>
+<div style='float: right; font-size: 10px;'>
+<div style='position: relative; top: 18px;'>
+<button onclick='shrinkToc()'>▲</button>
+<button onclick='expandToc()'>▼</button>
+</div>
+</div>
+</header>
+<div id='toc'>
+<ul>
+<li><details><summary><a href='index.html'>Hiragana IME for IBus</a></summary>
+<ul>
+  <li><a href='index.html#introduction'>Introduction</a>
+  <li><a href='index.html#modeless'>Modeless input methods</a>
+</ul>
+</details>
+<li><details><summary><a href='install.html'>Installation</a></summary>
+<ul>
+  <li><a href='install.html#install'>Install the Hiragana IME software package</a>
+  <li><a href='install.html#input-source'>Add the Hiragana IME to the input sources</a>
+  <li><a href='install.html#enable'>Enable the Hiragana IME</a>
+  <li><a href='install.html#wayland'>Change the Configuration for Wayland</a>
+</ul>
+</details>
+<li><details><summary><a href='usage.html'>Usage</a></summary>
+<ul>
+  <li><a href='usage.html#input-mode'>Changing Input Modes</a>
+  <li><a href='usage.html#input-kanji'>Inputting Kanji and Katakana Words</a>
+  <li><a href='usage.html#input-okurigana'>Entering Words with Okurigana</a>
+  <li><a href='usage.html#input-shrink'>Changing the Length of the Reading</a>
+</ul>
+</details>
+<li><details><summary><a href='key_assign.html'>Key Bindings</a></summary>
+<ul>
+  <li><a href='key_assign.html#input-mode'>Key Bindings for Changing Input Mode</a>
+  <li><a href='key_assign.html#input-hiragana-mode'>Key bindings in Hiragana Mode</a>
+  <li><a href='key_assign.html#input-conversion'>Key Bindings during Conversion</a>
+</ul>
+</details>
+<li><details open><summary><a href='settings.html'>Settings</a></summary>
+<ul>
+  <li><a href='settings.html#ibus-setup-hiragana'>Hiragana IME Setup Window</a>
+  <li><a href='settings.html#layout'>Keyboard Tab</a>
+  <li><a href='settings.html#dictionary'>Dictionary Tab</a>
+  <li><a href='settings.html#option'>Option Tab</a>
+</ul>
+</details>
+<li><details><summary><a href='layouts.html'>Kana Input</a></summary>
+<ul>
+  <li><a href='layouts.html#jis'>Kana (JIS Layout)</a>
+  <li><a href='layouts.html#new_stickney'>Kana (New Stickney Layout)</a>
+  <li><a href='layouts.html#history'>Why the current JIS Kana layout is hard to use?</a>
+</ul>
+</details>
+<li><details><summary><a href='roomazi.html'>Rōmaji Input</a></summary>
+<ul>
+  <li><a href='roomazi.html#tuzuri'>Inputting Japanese in Rōmaji</a>
+  <li><a href='roomazi.html#hyo'>Romanization Charts</a>
+  <li><a href='roomazi.html#keyboard'>Key Bindings</a>
+</ul>
+</details>
+<li><details><summary><a href='altgr.html'>AltGr Key</a></summary>
+<ul>
+  <li><a href='altgr.html#altgr'>What is <span class='key'>AltGr</span> key?</a>
+  <li><a href='altgr.html#altgr-settings'>Switching the right <span class='key'>Alt</span> key to the <span class='key'>AltGr</span> key</a>
+  <li><a href='altgr.html#altgr-characters'>Entering Characters and Symbols on the <span class='key'>AltGr</span> Layers</a>
+</ul>
+</details>
+
+</ul>
+<hr>
+<a href='../index.html' id='toc-lang'>日本語 🌎</a>
+</div>
+</div>
+<main>
+<h1>Settings</h1>
+<h2 id="ibus-setup-hiragana">Hiragana IME Setup Window</h2>
+<p>You can customize the Hiragana IME in the <strong>Hiragana IME Setup</strong> window.
+To open the <strong>Hiragana IME Setup</strong> window, select <strong>Setup</strong> from the keyboard menu in the desktop top bar.</p>
+<p><img alt="Keyboard menu" src="keyboard-menu.png"></p>
+<p><img alt="Hiragana IME Setup Window" src="ibus-setup-hiragana_1.png"></p>
+<p>The <strong>Hiragana IME Setup</strong> window has the following three tabs:</p>
+<table>
+<thead>
+<tr>
+<th><nobr>Tab</nobr></th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#layout">Keyboard</a></td>
+<td>Switch between Kana input and Rōmaji input.</td>
+</tr>
+<tr>
+<td><a href="#dictionary">Dictionary</a></td>
+<td>Select the kanji dictionary.</td>
+</tr>
+<tr>
+<td><a href="#option">Option</a></td>
+<td>Choose the optional settings.</td>
+</tr>
+</tbody>
+</table>
+<!--Click **OK** or **Accept** to confirm the settings immediately.-->
+
+<h2 id="layout">Keyboard Tab</h2>
+<p>In the <strong>Keyboard</strong> tab, you can select the Japanese input method using the keyboard.</p>
+<p><img alt="Hiragana IME Setup Window" src="ibus-setup-hiragana_1.png"></p>
+<p>Choose the Japanese input method you like from the <strong>Input</strong> drop-down list:</p>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="roomazi.html#roomazi">Rōmaji</a></td>
+<td>Use Rōmaji.</td>
+</tr>
+<tr>
+<td><a href="layouts.html#jis">Kana (JIS Layout)</a></td>
+<td>Use the standard JIS Kana layout.</td>
+</tr>
+<tr>
+<td><a href="layouts.html#new_stickney"><nobr>Kana (New Stickney Layout)</nobr></a></td>
+<td>Use New Stickney Kana layout.</td>
+</tr>
+</tbody>
+</table>
+<p>Rōmaji input and Kana input are commonly used when entering Japanese sentences using the keyboard.
+Rōmaji input is taught in the third grade at school.
+You can use Kana input even if you are unfamiliar with Rōmaji.
+Using Kana input, you can enter Japanese sentences with fewer keystrokes than using Rōmaji input.</p>
+<h3 id="nn">Always convert ‘nn’ to ‘ん’</h3>
+<p>If you want to enter ‘ん’ by typing <kbd>n</kbd><kbd>n</kbd>, enable <strong>Always convert ‘nn’ to ‘ん’</strong> option.</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Input</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enabled</td>
+<td>konnnitiha</td>
+<td>こんにちは</td>
+</tr>
+<tr>
+<td>Disabled</td>
+<td>konnitiha</td>
+<td>こんにちは</td>
+</tr>
+</tbody>
+</table>
+<p>If you have been using word processors for a long time, you would be familiar with this behavior.
+However, this <kbd>n</kbd><kbd>n</kbd> method was deprecated in 2009 at JIS, and currently, no standard validates this convention.
+The correct Rōmaji spelling for 'ん' is <kbd>n</kbd>, or <kbd>n</kbd><kbd>'</kbd> if 'n' is followed by one of 'aiueoy'.</p>
+<p><strong>Hint</strong>: You can also enter 'ん' by pressing the <kbd>Enter</kbd> key after 'n'.</p>
+<h2 id="dictionary">Dictionary Tab</h2>
+<p>Choose the dictionary for kana-kanji conversion from the the <strong>Kanji Dictionary</strong> combo box.
+The Hiragana IME offers dictionaries for each school grade level and an edition assembled for grown up.</p>
+<p><img alt="Hiragana IME Setup Window" src="ibus-setup-hiragana_2.png"></p>
+<p>The dictionaries for students in 10th grade and above are composed using kanji from the <em>List of Chinese Characters in Common Use</em>, known as the <em><a href="https://www.bunka.go.jp/kokugo_nihongo/sisaku/joho/joho/kijun/naikaku/kanji/">Jōyō Kanji Table</a></em>, and kanji characters for use in personal names, known as the <em><a href="http://www.moj.go.jp/MINJI/minji86.html">Jinmeiyō Kanji Table</a></em>. The grade-specific dictionary is structured according to the table provided by <a href="http://www.mext.go.jp/a_menu/shotou/new-cs/1385768.htm">MEXT</a>.</p>
+<p><em>Okurigana</em> are hiragana suffixes attached to words written with kanji characters. Guidelines on using <em>okurigana</em> have been issued as a public notice through the Prime Minister in Japan. Children learn these rules at school. In practice, there are variations in okurigana. The Hiragana IME provides two types of dictionaries for convenience.</p>
+<table>
+<thead>
+<tr>
+<th>Dictionary</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Okurigana: strict</td>
+<td>Follow the main rules strictly.</td>
+</tr>
+<tr>
+<td>Okurigana: permissive</td>
+<td>Permit the use of widely used variations.</td>
+</tr>
+</tbody>
+</table>
+<p>For example, the ‘10th+ grade (Okurigana: general + permissible)’ dictionary allows conversions like ‘<ruby>落<rp>(</rp><rt>おと</rt><rp>)</rp></ruby>す’.</p>
+<table>
+<thead>
+<tr>
+<th>Main rules</th>
+<th>Permissible rules</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>お<span class='key'>変換</span>とす → 落とす</td>
+<td>おと<span class='key'>変換</span>す → 落す</td>
+</tr>
+<tr>
+<td>おこな<span class='key'>変換</span>って → 行って</td>
+<td>おこ<span class='key'>変換</span>なって → 行なって</td>
+</tr>
+</tbody>
+</table>
+<p>Understanding <em>okurigana</em> can be quite challenging.
+Without furigana, ‘<ruby>行<rp>(</rp><rt>おこな</rt><rp>)</rp></ruby>って’ and ‘<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>って’ cannot be distinguished by the main rule alone. On the other hand, people who are knowledgeable about kanji do not struggle with reading  ‘<ruby>落<rp>(</rp><rt>おと</rt><rp>)</rp></ruby>す.’</p>
+<p>The public notice does not mandate using kanji; it simply provides guidelines on how to add okurigana when using kanji. In the Japanese version of this guide, most Japanese words are written only in hiragana.</p>
+<h3>User dictionary</h3>
+<p>You can add words to your personal dictionary if you can not find a word in the default Hiragana IME dictionaries.</p>
+<p>You may switch among multiple user dictionaries.
+Your dictionaries are stored in the directory ~/.local/share/ibus-hiragana/.
+Enter the preferred user dictionary file name in the <strong>User Dictionary Name</strong> textbox.
+By default, 'my.dic' is used.</p>
+<p>Click <strong>Edit</strong> to edit your dictionary.
+The personal dictionary files are text files using the following format.</p>
+<pre><code>; Lines starting with a semicolon (;) are comments.
+; To add a word, write the reading, followed by a space, and then the word
+; enclosed by slashes (/).
+きれい /綺麗/
+; When you prefix the reading with a minus sign (-), you can revoke words
+; in the system dictionary.
+-きれい /奇麗/
+; Words with the same reading can be added together in one line.
+かいざん /改竄/改ざん/
+; The reading section of a word with okurigana contains only the hiragana
+; part to be replaced with kanji and terminated with a horizontal bar (―).
+ささや― /囁k/
+あお― /碧i/
+</code></pre>
+<p>Press the <strong>OK</strong> or <strong>Apply</strong> button to use the edited personal dictionary. You don't have to restart your PC.</p>
+<h3 id="okurigana">Adding words with okurigana (<em>for Advanced Users Only</em>)</h3>
+<p>In user dictionaries, the reading section of a word with okurigana contains only the hiragana part to be replaced with kanji and terminated with a horizontal bar (―).</p>
+<p>The format of the word section changes based on its grammatical part of speech and conjugation type, as described below.</p>
+<h4>For verbs with Godan conjugation:</h4>
+<p>In the word section, write kanji, okurigana up to (if any) the conjugative suffix, and one of the conjugative suffix symbols: <em>kgstnbmrw</em>.</p>
+<table>
+<thead>
+<tr>
+<th>Gyō</th>
+<th>Reading Section</th>
+<th>Word Section</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>か (ka) gyō</td>
+<td>か―</td>
+<td>書k</td>
+</tr>
+<tr>
+<td>が (ga) gyō</td>
+<td>およ―</td>
+<td>泳g</td>
+</tr>
+<tr>
+<td>さ (sa) gyō</td>
+<td>ち―</td>
+<td>散らs</td>
+</tr>
+<tr>
+<td>た (ta) gyō</td>
+<td>う―</td>
+<td>打t</td>
+</tr>
+<tr>
+<td>な (na) gyō</td>
+<td>し―</td>
+<td>死n</td>
+</tr>
+<tr>
+<td>ば (ba) gyō</td>
+<td>あそ―</td>
+<td>遊b</td>
+</tr>
+<tr>
+<td>ま (ma) gyō</td>
+<td>あか―</td>
+<td>赤らm</td>
+</tr>
+<tr>
+<td>ら (ra) gyō</td>
+<td>あず―</td>
+<td>預かr</td>
+</tr>
+<tr>
+<td>わ (wa) gyō</td>
+<td>あ―</td>
+<td>会w</td>
+</tr>
+</tbody>
+</table>
+<h4>For verbs with Kami-ichiidan or Shimo-ichidan conjugation:</h4>
+<p>In the word section, write kanji, the first letter of the okurigana, which is one of the letters in イ (i)-dan or エ (e)-dan, and the conjugative suffix symbol: <em>1</em>.</p>
+<table>
+<thead>
+<tr>
+<th>Conjugation Type</th>
+<th>Reading Section</th>
+<th>Word Section</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kami-ichiidan</td>
+<td>お―</td>
+<td>起き1</td>
+</tr>
+<tr>
+<td>Shimo-ichidan</td>
+<td>み―</td>
+<td>見え1</td>
+</tr>
+</tbody>
+</table>
+<h4>For イ (i)-adjectives</h4>
+<p>In the ‘word’ section, write the kanji, the okurigana up to (if any) the conjugative suffix, and the conjugative suffix symbol: <em>i</em>.</p>
+<table>
+<thead>
+<tr>
+<th>Reading section</th>
+<th>Word section</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>あか―</td>
+<td>赤i</td>
+</tr>
+<tr>
+<td>つめ―</td>
+<td>冷たi</td>
+</tr>
+</tbody>
+</table>
+<h4>For ナ (na)-adjectives</h4>
+<p>In the word section, write kanji and then stem in hiragana.</p>
+<table>
+<thead>
+<tr>
+<th>Reading section</th>
+<th>Word section</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>あき―</td>
+<td>明らか</td>
+</tr>
+<tr>
+<td>しず―</td>
+<td>静か</td>
+</tr>
+</tbody>
+</table>
+<h4>The other types of <em>okurigana</em></h4>
+<p>In the word section, write kanji and okurigana as they are.</p>
+<table>
+<thead>
+<tr>
+<th>Reading section</th>
+<th>Word section</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ひと―</td>
+<td>独り</td>
+</tr>
+<tr>
+<td>すこ―</td>
+<td>少し</td>
+</tr>
+</tbody>
+</table>
+<h3>Clearing the input history</h3>
+<p>During the conversion of homonyms and words with shortened readings, the frequently used ones will appear at the beginning of the candidate list. If you want to reset the orders to the initial state, turn on the <strong>Clear input history</strong> switch and click <strong>Apply</strong>.</p>
+<h2 id="option">Option Tab</h2>
+<p>You can customize the input assistance feature.</p>
+<p><img alt="「Hiragana IME Setup」Window" src="ibus-setup-hiragana_3.png"></p>
+<h3 id="llm">Use LLM for candidate selection</h3>
+<p>This feature utilizes so-called <em>AI</em>. LLM stands for Large Language Model.
+When enabled, the Hiragana IME calculates the probabilities of each candidate's occurrence in its surrounding text and pre-selects the most probable candidate in the candidate window..</p>
+<p>For example, when converting ‘のぼる’, the pre-selected candidate changes as below depending on the surrounding text:</p>
+<ul>
+<li>山に<span style="background-color:#d1eaff">登る</span></li>
+<li>日が<span style="background-color:#d1eaff">昇る</span></li>
+</ul>
+<p><strong>Note</strong>: Since this is merely based on a probability calculation, the desired candidate may not always be chosen. This feature is disabled by default because it requires a relatively large amount of computational power.</p>
+<h3 id="combining-circumflex">Combine '^' to the previous vowel character in alphanumeric mode</h3>
+<p>Enable this option if you want to write Japanese in Rōmaji.
+When you type <span class='key'>^</span> after a vowel character in Alphanumeric mode, it is combined into a single character.</p>
+<ul>
+<li>Example: a<span class='key'>^</span> → â</li>
+</ul>
+<p>When you type <span class='key'>^</span> after a vowel character combined with a circumflex, it is separated back into two characters.</p>
+<ul>
+<li>Example: â<span class='key'>^</span> → a^</li>
+</ul>
+</main>
+</div>
+
+<nav>
+<a href=key_assign.html id='nav-prev'><div>&lt;</div></a>
+<a href=layouts.html id='nav-next'><div>&gt;</div></a>
+</nav>
+</body>
+</html>

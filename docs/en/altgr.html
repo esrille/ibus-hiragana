@@ -1,15 +1,15 @@
 <!doctype html>
-<html lang='ja'>
+<html lang='en'>
 <head>
 <meta charset='UTF-8'>
 <meta name='viewport' content='width=device-width, maximum-scale=1.0, user-scalable=yes'>
-<title>特殊文字の入力 ― ひらがなIME</title>
+<title>AltGr Key — Hiragana IME</title>
 <link href='icon.png' rel='icon'>
 <link rel='stylesheet' type='text/css' href='default.css'>
-<meta content='特殊文字の入力' name='description'>
+<meta content='AltGr Key' name='description'>
 <meta content='https://esrille.github.io/ibus-hiragana/altgr.html' property='og:url'>
-<meta content='特殊文字の入力 ― ひらがなIME' property='og:title'>
-<meta content='特殊文字の入力' property='og:description'>
+<meta content='AltGr Key — Hiragana IME' property='og:title'>
+<meta content='AltGr Key' property='og:description'>
 <meta content='https://esrille.github.io/ibus-hiragana/screenshot.png' property='og:image'>
 <meta content='product' property='og:type'>
 <meta content='summary_large_image' name='twitter:card'>
@@ -31,7 +31,7 @@ function shrinkToc() {
 <div id='wrapper'>
 <div id='sidebar'>
 <header id='title'>
-<a href='https://github.com/esrille/ibus-hiragana'><img alt='アイコン' src='icon.png'> ひらがなIME</a>
+<a href='https://github.com/esrille/ibus-hiragana'><img alt='icon' src='../icon.png'> Hiragana IME</a>
 <div style='float: right; font-size: 10px;'>
 <div style='position: relative; top: 18px;'>
 <button onclick='shrinkToc()'>▲</button>
@@ -41,87 +41,87 @@ function shrinkToc() {
 </header>
 <div id='toc'>
 <ul>
-<li><details><summary><a href='index.html'>ひらがなIMEの<ruby>手<rp>(</rp><rt>て</rt><rp>)</rp></ruby>びき</a></summary>
+<li><details><summary><a href='index.html'>Hiragana IME for IBus</a></summary>
 <ul>
-  <li><a href='index.html#introduction'>はじめに</a>
-  <li><a href='index.html#modeless'>モードレス<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby><ruby>方式<rp>(</rp><rt>ほうしき</rt><rp>)</rp></ruby></a>
+  <li><a href='index.html#introduction'>Introduction</a>
+  <li><a href='index.html#modeless'>Modeless input methods</a>
 </ul>
 </details>
-<li><details><summary><a href='install.html'>インストール<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby></a></summary>
+<li><details><summary><a href='install.html'>Installation</a></summary>
 <ul>
-  <li><a href='install.html#install'>ソフトウェア パッケージをインストールする</a>
-  <li><a href='install.html#input-source'>OSの<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソースに<ruby>追加<rp>(</rp><rt>ついか</rt><rp>)</rp></ruby>する</a>
-  <li><a href='install.html#enable'>「ひらがなIME」を<ruby>有効<rp>(</rp><rt>ゆうこう</rt><rp>)</rp></ruby>にする</a>
-  <li><a href='install.html#wayland'>Wayland<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>の<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>をする</a>
+  <li><a href='install.html#install'>Install the Hiragana IME software package</a>
+  <li><a href='install.html#input-source'>Add the Hiragana IME to the input sources</a>
+  <li><a href='install.html#enable'>Enable the Hiragana IME</a>
+  <li><a href='install.html#wayland'>Change the Configuration for Wayland</a>
 </ul>
 </details>
-<li><details><summary><a href='usage.html'>つかいかた</a></summary>
+<li><details><summary><a href='usage.html'>Usage</a></summary>
 <ul>
-  <li><a href='usage.html#input-mode'><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>モードのかえかた</a>
-  <li><a href='usage.html#input-kanji'><ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>やカタカナの<ruby>単語<rp>(</rp><rt>たんご</rt><rp>)</rp></ruby>の<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></a>
-  <li><a href='usage.html#input-okurigana'>おくりがなのある<ruby>単語<rp>(</rp><rt>たんご</rt><rp>)</rp></ruby>の<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></a>
-  <li><a href='usage.html#input-shrink'>よみのながさのかえかた</a>
+  <li><a href='usage.html#input-mode'>Changing Input Modes</a>
+  <li><a href='usage.html#input-kanji'>Inputting Kanji and Katakana Words</a>
+  <li><a href='usage.html#input-okurigana'>Entering Words with Okurigana</a>
+  <li><a href='usage.html#input-shrink'>Changing the Length of the Reading</a>
 </ul>
 </details>
-<li><details><summary><a href='key_assign.html'>キーのわりあて</a></summary>
+<li><details><summary><a href='key_assign.html'>Key Bindings</a></summary>
 <ul>
-  <li><a href='key_assign.html#input-mode'><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>モードをかえるキー<ruby>操作<rp>(</rp><rt>そうさ</rt><rp>)</rp></ruby></a>
-  <li><a href='key_assign.html#input-hiragana-mode'>ひらがなモードでのキー<ruby>操作<rp>(</rp><rt>そうさ</rt><rp>)</rp></ruby></a>
-  <li><a href='key_assign.html#input-conversion'><ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby><ruby>中<rp>(</rp><rt>ちゅう</rt><rp>)</rp></ruby>のキー<ruby>操作<rp>(</rp><rt>そうさ</rt><rp>)</rp></ruby></a>
+  <li><a href='key_assign.html#input-mode'>Key Bindings for Changing Input Mode</a>
+  <li><a href='key_assign.html#input-hiragana-mode'>Key bindings in Hiragana Mode</a>
+  <li><a href='key_assign.html#input-conversion'>Key Bindings during Conversion</a>
 </ul>
 </details>
-<li><details><summary><a href='settings.html'><ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>のかえかた</a></summary>
+<li><details><summary><a href='settings.html'>Settings</a></summary>
 <ul>
-  <li><a href='settings.html#ibus-setup-hiragana'>「ひらがなIMEの<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>」ウィンドウ</a>
-  <li><a href='settings.html#layout'>[キーボード] タブ</a>
-  <li><a href='settings.html#dictionary'>[<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>] タブ</a>
-  <li><a href='settings.html#option'>[オプション] タブ</a>
+  <li><a href='settings.html#ibus-setup-hiragana'>Hiragana IME Setup Window</a>
+  <li><a href='settings.html#layout'>Keyboard Tab</a>
+  <li><a href='settings.html#dictionary'>Dictionary Tab</a>
+  <li><a href='settings.html#option'>Option Tab</a>
 </ul>
 </details>
-<li><details><summary><a href='layouts.html'>かな<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></a></summary>
+<li><details><summary><a href='layouts.html'>Kana Input</a></summary>
 <ul>
-  <li><a href='layouts.html#jis'>JISかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby></a>
-  <li><a href='layouts.html#new_stickney'>New Stickney <ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>（<ruby>第<rp>(</rp><rt>だい</rt><rp>)</rp></ruby>17<ruby>案<rp>(</rp><rt>あん</rt><rp>)</rp></ruby>）</a>
-  <li><a href='layouts.html#history'>いまのJISかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>がつかいにくいものになった<ruby>経緯<rp>(</rp><rt>けいい</rt><rp>)</rp></ruby></a>
+  <li><a href='layouts.html#jis'>Kana (JIS Layout)</a>
+  <li><a href='layouts.html#new_stickney'>Kana (New Stickney Layout)</a>
+  <li><a href='layouts.html#history'>Why the current JIS Kana layout is hard to use?</a>
 </ul>
 </details>
-<li><details><summary><a href='roomazi.html'>ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></a></summary>
+<li><details><summary><a href='roomazi.html'>Rōmaji Input</a></summary>
 <ul>
-  <li><a href='roomazi.html#tuzuri'>ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>のつづりかた</a>
-  <li><a href='roomazi.html#hyo'>ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby><ruby>表<rp>(</rp><rt>ひょう</rt><rp>)</rp></ruby></a>
-  <li><a href='roomazi.html#keyboard'>キーのわりあて</a>
+  <li><a href='roomazi.html#tuzuri'>Inputting Japanese in Rōmaji</a>
+  <li><a href='roomazi.html#hyo'>Romanization Charts</a>
+  <li><a href='roomazi.html#keyboard'>Key Bindings</a>
 </ul>
 </details>
-<li><details open><summary><a href='altgr.html'><ruby>特殊<rp>(</rp><rt>とくしゅ</rt><rp>)</rp></ruby><ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>の<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></a></summary>
+<li><details open><summary><a href='altgr.html'>AltGr Key</a></summary>
 <ul>
-  <li><a href='altgr.html#altgr'><span class='key'>AltGr</span>キーとは</a>
-  <li><a href='altgr.html#altgr-settings'><ruby>右<rp>(</rp><rt>みぎ</rt><rp>)</rp></ruby><span class='key'>Alt</span>キーを<span class='key'>AltGr</span>キーに<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>する<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby></a>
-  <li><a href='altgr.html#altgr-characters'><span class='key'>AltGr</span>キーをつかって<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できる<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>や<ruby>記号<rp>(</rp><rt>きごう</rt><rp>)</rp></ruby></a>
+  <li><a href='altgr.html#altgr'>What is <span class='key'>AltGr</span> key?</a>
+  <li><a href='altgr.html#altgr-settings'>Switching the right <span class='key'>Alt</span> key to the <span class='key'>AltGr</span> key</a>
+  <li><a href='altgr.html#altgr-characters'>Entering Characters and Symbols on the <span class='key'>AltGr</span> Layers</a>
 </ul>
 </details>
 
 </ul>
 <hr>
-<a href='en/index.html' id='toc-lang'>English 🌎</a>
+<a href='../index.html' id='toc-lang'>日本語 🌎</a>
 </div>
 </div>
 <main>
-<h1><ruby>特殊<rp>(</rp><rt>とくしゅ</rt><rp>)</rp></ruby><ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>の<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></h1>
-<p>&#x3000;<ruby>右<rp>(</rp><rt>みぎ</rt><rp>)</rp></ruby><span class='key'>Alt</span>キーを<span class='key'>AltGr</span>キーに<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>すると、キーボードで<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できる<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>や<ruby>記号<rp>(</rp><rt>きごう</rt><rp>)</rp></ruby>をふやせます。IMEの<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>モードは、「<ruby>英数<rp>(</rp><rt>えいすう</rt><rp>)</rp></ruby>モード」でも「ひらがなモード」でもどちらでもかまいません。</p>
-<h2 id="altgr"><span class='key'>AltGr</span>キーとは</h2>
-<p>&#x3000;AltGrは、“alternate graphic”の<ruby>略<rp>(</rp><rt>りゃく</rt><rp>)</rp></ruby>です。<ruby>国<rp>(</rp><rt>くに</rt><rp>)</rp></ruby>によっては、キーボードのノーマル<ruby>面<rp>(</rp><rt>めん</rt><rp>)</rp></ruby>とシフト<ruby>面<rp>(</rp><rt>めん</rt><rp>)</rp></ruby>だけでは<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>が、はいりきらないことがあります。そうした<ruby>国<rp>(</rp><rt>くに</rt><rp>)</rp></ruby>では、<span class='key'>AltGr</span>キーをつかって、さらに<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby><ruby>面<rp>(</rp><rt>めん</rt><rp>)</rp></ruby>を<ruby>追加<rp>(</rp><rt>ついか</rt><rp>)</rp></ruby>しています。</p>
-<p>&#x3000;<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>にも、よくつかう<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>で、キーボードからちょくせつ<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できない<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>があります。たとえば、<ruby>郵便<rp>(</rp><rt>ゆうびん</rt><rp>)</rp></ruby><ruby>番号<rp>(</rp><rt>ばんごう</rt><rp>)</rp></ruby>の「〒」や、<ruby>温度<rp>(</rp><rt>おんど</rt><rp>)</rp></ruby>の「℃」といった<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>です。「ひらがなIME」では、そうした<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>を<span class='key'>AltGr</span>キーをつかって<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>することができます。</p>
-<h2 id="altgr-settings"><ruby>右<rp>(</rp><rt>みぎ</rt><rp>)</rp></ruby><span class='key'>Alt</span>キーを<span class='key'>AltGr</span>キーに<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>する<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby></h2>
-<p>&#x3000;GNOME<ruby>環境<rp>(</rp><rt>かんきょう</rt><rp>)</rp></ruby>を<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>しているばあいは、GNOMEの「<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>」をひらいて、「キーボード」を<ruby>選択<rp>(</rp><rt>せんたく</rt><rp>)</rp></ruby>します。このなかの「<ruby>特殊<rp>(</rp><rt>とくしゅ</rt><rp>)</rp></ruby><ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>の<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>」にある「<ruby>代替<rp>(</rp><rt>だいたい</rt><rp>)</rp></ruby><ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>キー」を「<ruby>右<rp>(</rp><rt>みぎ</rt><rp>)</rp></ruby>Alt」に<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>します。</p>
-<p><img alt="設定—キーボード" src="settings-keyboard.png"></p>
-<h2 id="altgr-characters"><span class='key'>AltGr</span>キーをつかって<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できる<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>や<ruby>記号<rp>(</rp><rt>きごう</rt><rp>)</rp></ruby></h2>
-<p>&#x3000;<span class='key'>AltGr</span><ruby>面<rp>(</rp><rt>めん</rt><rp>)</rp></ruby>の<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>するときは、<span class='key'>AltGr</span>キーをおさえながら、<ruby>目的<rp>(</rp><rt>もくてき</rt><rp>)</rp></ruby>の<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>のキーをおします。</p>
-<h3><ruby>例<rp>(</rp><rt>れい</rt><rp>)</rp></ruby></h3>
+<h1>AltGr Key</h1>
+<p>You can increase the number of characters and symbols you can enter on the keyboard by setting the right <span class='key'>Alt</span> key as the <span class='key'>AltGr</span> key. Using the <span class='key'>AltGr</span> key combination, you can enter more characters in any input mode.</p>
+<h2 id="altgr">What is <span class='key'>AltGr</span> key?</h2>
+<p><span class='key'>AltGr</span>  stands for “alternate graphic” and is used to input additional characters not found on the standard keyboard layers. It is particularly useful with languages that require one or two extra keyboard layers.</p>
+<p>In Japan, <span class='key'>AltGr</span>  layers are not widely used because the number of characters increased by using them is still too small to accommodate over a thousand Kanji characters. However, there are also commonly used characters and symbols in Japan aside from kanji, such as the postal code symbol “〒” or the degree Celsius “℃.” You can enter these characters using the keyboard with the <span class='key'>AltGr</span>  key combination in the Hiragana IME.</p>
+<h2 id="altgr-settings">Switching the right <span class='key'>Alt</span> key to the <span class='key'>AltGr</span> key</h2>
+<p>In GNOME desktop, open <strong>GNOME Settings</strong>, then select <strong>Keyboard</strong> from the side bar. In the <strong>Keyboard</strong> pane, look for <strong>Special Character Entry</strong> and set the <strong>Alternate Character Key</strong> to <strong>Right Alt</strong>.</p>
+<p><img alt="Settings - Keyboard" src="settings-keyboard.png"></p>
+<h2 id="altgr-characters">Entering Characters and Symbols on the <span class='key'>AltGr</span> Layers</h2>
+<p>Press the desired key while holding down the <span class='key'>AltGr</span> key to enter a character or a symbol on the <span class='key'>AltGr</span> layers.</p>
+<h3>Examples</h3>
 <table>
 <thead>
 <tr>
-<th>キー コンビネーション</th>
-<th><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>される<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby></th>
+<th>Key combination</th>
+<th>Character to be entered</th>
 </tr>
 </thead>
 <tbody>
@@ -143,8 +143,10 @@ function shrinkToc() {
 </tr>
 </tbody>
 </table>
-<p>&#x3000;<span class='key'>AltGr</span><ruby>面<rp>(</rp><rt>めん</rt><rp>)</rp></ruby>の<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>の<ruby>配置<rp>(</rp><rt>はいち</rt><rp>)</rp></ruby>はつぎの<ruby>図<rp>(</rp><rt>ず</rt><rp>)</rp></ruby>のとおりです。<ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>キーボードと<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>キーボードでは、<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>の<ruby>配置<rp>(</rp><rt>はいち</rt><rp>)</rp></ruby>されている<ruby>位置<rp>(</rp><rt>いち</rt><rp>)</rp></ruby>がいちぶ<ruby>異<rp>(</rp><rt>こと</rt><rp>)</rp></ruby>なります。</p>
-<h3><ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>キーボード</h3>
+<p>The following figures show the character arrangement on the <span class='key'>AltGr</span>
+layers.
+Note that slightly different character placements are used among US and Japanese keyboards.</p>
+<h3>US Keyboard</h3>
 <div class='kbd'>
 <div class='layer L0'>
 <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'>Backspace</div>
@@ -191,7 +193,7 @@ function shrinkToc() {
 <br>
 <div class='k225'></div><div>Ω</div><div>×</div><div>©</div><div>ゝ</div><div></div><div></div><div>µ</div><div>，</div><div>．</div><div>／</div><div class='k275'></div>
 <br>
-<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'>空白</div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
+<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'>Space</div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
 </div>
 
 <div class='layer L4'>
@@ -207,7 +209,7 @@ function shrinkToc() {
 </div>
 </div>
 
-<h3><ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>Dvorakキーボード</h3>
+<h3>US Keyboard (Dvorak)</h3>
 <div class='kbd'>
 <div class='layer L0'>
 <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'>Backspace</div>
@@ -254,7 +256,7 @@ function shrinkToc() {
 <br>
 <div class='k225'></div><div></div><div></div><div></div><div>ゝ</div><div>×</div><div></div><div>µ</div><div></div><div></div><div>Ω</div><div class='k275'></div>
 <br>
-<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'>空白</div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
+<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'>Space</div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
 </div>
 
 <div class='layer L4'>
@@ -270,7 +272,7 @@ function shrinkToc() {
 </div>
 </div>
 
-<h3><ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>キーボード</h3>
+<h3>Japanese Keyboard</h3>
 <div class='kbd'>
 <div class='layer109 L0'>
 <div style='line-height: 1em;'>半角/<br>全角&nbsp</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>⌫</div>
@@ -317,7 +319,7 @@ function shrinkToc() {
 <br>
 <div class='k225'></div><div>Ω</div><div>×</div><div>©</div><div>ゝ</div><div></div><div></div><div>µ</div><div>，</div><div>．</div><div>／</div><div></div><div class='k175'></div>
 <br>
-<div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150'></div><div class='k250'>空白</div><div class='k150'></div><div class='k125'></div><div></div><div></div><div></div><div class='k125'></div>
+<div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150'></div><div class='k250'>Space</div><div class='k150'></div><div class='k125'></div><div></div><div></div><div></div><div class='k125'></div>
 </div>
 
 <div class='layer109 L4'>

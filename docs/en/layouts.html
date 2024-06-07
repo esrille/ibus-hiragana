@@ -1,15 +1,15 @@
 <!doctype html>
-<html lang='ja'>
+<html lang='en'>
 <head>
 <meta charset='UTF-8'>
 <meta name='viewport' content='width=device-width, maximum-scale=1.0, user-scalable=yes'>
-<title>かな入力 ― ひらがなIME</title>
+<title>Kana Input — Hiragana IME</title>
 <link href='icon.png' rel='icon'>
 <link rel='stylesheet' type='text/css' href='default.css'>
-<meta content='かな入力' name='description'>
+<meta content='Kana Input' name='description'>
 <meta content='https://esrille.github.io/ibus-hiragana/layouts.html' property='og:url'>
-<meta content='かな入力 ― ひらがなIME' property='og:title'>
-<meta content='かな入力' property='og:description'>
+<meta content='Kana Input — Hiragana IME' property='og:title'>
+<meta content='Kana Input' property='og:description'>
 <meta content='https://esrille.github.io/ibus-hiragana/screenshot.png' property='og:image'>
 <meta content='product' property='og:type'>
 <meta content='summary_large_image' name='twitter:card'>
@@ -31,7 +31,7 @@ function shrinkToc() {
 <div id='wrapper'>
 <div id='sidebar'>
 <header id='title'>
-<a href='https://github.com/esrille/ibus-hiragana'><img alt='アイコン' src='icon.png'> ひらがなIME</a>
+<a href='https://github.com/esrille/ibus-hiragana'><img alt='icon' src='../icon.png'> Hiragana IME</a>
 <div style='float: right; font-size: 10px;'>
 <div style='position: relative; top: 18px;'>
 <button onclick='shrinkToc()'>▲</button>
@@ -41,95 +41,95 @@ function shrinkToc() {
 </header>
 <div id='toc'>
 <ul>
-<li><details><summary><a href='index.html'>ひらがなIMEの<ruby>手<rp>(</rp><rt>て</rt><rp>)</rp></ruby>びき</a></summary>
+<li><details><summary><a href='index.html'>Hiragana IME for IBus</a></summary>
 <ul>
-  <li><a href='index.html#introduction'>はじめに</a>
-  <li><a href='index.html#modeless'>モードレス<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby><ruby>方式<rp>(</rp><rt>ほうしき</rt><rp>)</rp></ruby></a>
+  <li><a href='index.html#introduction'>Introduction</a>
+  <li><a href='index.html#modeless'>Modeless input methods</a>
 </ul>
 </details>
-<li><details><summary><a href='install.html'>インストール<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby></a></summary>
+<li><details><summary><a href='install.html'>Installation</a></summary>
 <ul>
-  <li><a href='install.html#install'>ソフトウェア パッケージをインストールする</a>
-  <li><a href='install.html#input-source'>OSの<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソースに<ruby>追加<rp>(</rp><rt>ついか</rt><rp>)</rp></ruby>する</a>
-  <li><a href='install.html#enable'>「ひらがなIME」を<ruby>有効<rp>(</rp><rt>ゆうこう</rt><rp>)</rp></ruby>にする</a>
-  <li><a href='install.html#wayland'>Wayland<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>の<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>をする</a>
+  <li><a href='install.html#install'>Install the Hiragana IME software package</a>
+  <li><a href='install.html#input-source'>Add the Hiragana IME to the input sources</a>
+  <li><a href='install.html#enable'>Enable the Hiragana IME</a>
+  <li><a href='install.html#wayland'>Change the Configuration for Wayland</a>
 </ul>
 </details>
-<li><details><summary><a href='usage.html'>つかいかた</a></summary>
+<li><details><summary><a href='usage.html'>Usage</a></summary>
 <ul>
-  <li><a href='usage.html#input-mode'><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>モードのかえかた</a>
-  <li><a href='usage.html#input-kanji'><ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>やカタカナの<ruby>単語<rp>(</rp><rt>たんご</rt><rp>)</rp></ruby>の<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></a>
-  <li><a href='usage.html#input-okurigana'>おくりがなのある<ruby>単語<rp>(</rp><rt>たんご</rt><rp>)</rp></ruby>の<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></a>
-  <li><a href='usage.html#input-shrink'>よみのながさのかえかた</a>
+  <li><a href='usage.html#input-mode'>Changing Input Modes</a>
+  <li><a href='usage.html#input-kanji'>Inputting Kanji and Katakana Words</a>
+  <li><a href='usage.html#input-okurigana'>Entering Words with Okurigana</a>
+  <li><a href='usage.html#input-shrink'>Changing the Length of the Reading</a>
 </ul>
 </details>
-<li><details><summary><a href='key_assign.html'>キーのわりあて</a></summary>
+<li><details><summary><a href='key_assign.html'>Key Bindings</a></summary>
 <ul>
-  <li><a href='key_assign.html#input-mode'><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>モードをかえるキー<ruby>操作<rp>(</rp><rt>そうさ</rt><rp>)</rp></ruby></a>
-  <li><a href='key_assign.html#input-hiragana-mode'>ひらがなモードでのキー<ruby>操作<rp>(</rp><rt>そうさ</rt><rp>)</rp></ruby></a>
-  <li><a href='key_assign.html#input-conversion'><ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby><ruby>中<rp>(</rp><rt>ちゅう</rt><rp>)</rp></ruby>のキー<ruby>操作<rp>(</rp><rt>そうさ</rt><rp>)</rp></ruby></a>
+  <li><a href='key_assign.html#input-mode'>Key Bindings for Changing Input Mode</a>
+  <li><a href='key_assign.html#input-hiragana-mode'>Key bindings in Hiragana Mode</a>
+  <li><a href='key_assign.html#input-conversion'>Key Bindings during Conversion</a>
 </ul>
 </details>
-<li><details><summary><a href='settings.html'><ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>のかえかた</a></summary>
+<li><details><summary><a href='settings.html'>Settings</a></summary>
 <ul>
-  <li><a href='settings.html#ibus-setup-hiragana'>「ひらがなIMEの<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>」ウィンドウ</a>
-  <li><a href='settings.html#layout'>[キーボード] タブ</a>
-  <li><a href='settings.html#dictionary'>[<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>] タブ</a>
-  <li><a href='settings.html#option'>[オプション] タブ</a>
+  <li><a href='settings.html#ibus-setup-hiragana'>Hiragana IME Setup Window</a>
+  <li><a href='settings.html#layout'>Keyboard Tab</a>
+  <li><a href='settings.html#dictionary'>Dictionary Tab</a>
+  <li><a href='settings.html#option'>Option Tab</a>
 </ul>
 </details>
-<li><details open><summary><a href='layouts.html'>かな<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></a></summary>
+<li><details open><summary><a href='layouts.html'>Kana Input</a></summary>
 <ul>
-  <li><a href='layouts.html#jis'>JISかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby></a>
-  <li><a href='layouts.html#new_stickney'>New Stickney <ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>（<ruby>第<rp>(</rp><rt>だい</rt><rp>)</rp></ruby>17<ruby>案<rp>(</rp><rt>あん</rt><rp>)</rp></ruby>）</a>
-  <li><a href='layouts.html#history'>いまのJISかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>がつかいにくいものになった<ruby>経緯<rp>(</rp><rt>けいい</rt><rp>)</rp></ruby></a>
+  <li><a href='layouts.html#jis'>Kana (JIS Layout)</a>
+  <li><a href='layouts.html#new_stickney'>Kana (New Stickney Layout)</a>
+  <li><a href='layouts.html#history'>Why the current JIS Kana layout is hard to use?</a>
 </ul>
 </details>
-<li><details><summary><a href='roomazi.html'>ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></a></summary>
+<li><details><summary><a href='roomazi.html'>Rōmaji Input</a></summary>
 <ul>
-  <li><a href='roomazi.html#tuzuri'>ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>のつづりかた</a>
-  <li><a href='roomazi.html#hyo'>ローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby><ruby>表<rp>(</rp><rt>ひょう</rt><rp>)</rp></ruby></a>
-  <li><a href='roomazi.html#keyboard'>キーのわりあて</a>
+  <li><a href='roomazi.html#tuzuri'>Inputting Japanese in Rōmaji</a>
+  <li><a href='roomazi.html#hyo'>Romanization Charts</a>
+  <li><a href='roomazi.html#keyboard'>Key Bindings</a>
 </ul>
 </details>
-<li><details><summary><a href='altgr.html'><ruby>特殊<rp>(</rp><rt>とくしゅ</rt><rp>)</rp></ruby><ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>の<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></a></summary>
+<li><details><summary><a href='altgr.html'>AltGr Key</a></summary>
 <ul>
-  <li><a href='altgr.html#altgr'><span class='key'>AltGr</span>キーとは</a>
-  <li><a href='altgr.html#altgr-settings'><ruby>右<rp>(</rp><rt>みぎ</rt><rp>)</rp></ruby><span class='key'>Alt</span>キーを<span class='key'>AltGr</span>キーに<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>する<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby></a>
-  <li><a href='altgr.html#altgr-characters'><span class='key'>AltGr</span>キーをつかって<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できる<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>や<ruby>記号<rp>(</rp><rt>きごう</rt><rp>)</rp></ruby></a>
+  <li><a href='altgr.html#altgr'>What is <span class='key'>AltGr</span> key?</a>
+  <li><a href='altgr.html#altgr-settings'>Switching the right <span class='key'>Alt</span> key to the <span class='key'>AltGr</span> key</a>
+  <li><a href='altgr.html#altgr-characters'>Entering Characters and Symbols on the <span class='key'>AltGr</span> Layers</a>
 </ul>
 </details>
 
 </ul>
 <hr>
-<a href='en/index.html' id='toc-lang'>English 🌎</a>
+<a href='../index.html' id='toc-lang'>日本語 🌎</a>
 </div>
 </div>
 <main>
-<h1>かな<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby></h1>
-<p>&#x3000;かな<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>をつかうとき、「ひらがなIME」では、つぎのふたつのかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>をえらべます。</p>
+<h1>Kana Input</h1>
+<p>When using Kana input, the Hiragana IME allows you to choose from the following two Kana layouts.</p>
 <table>
 <thead>
 <tr>
-<th><ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>のなまえ</th>
-<th><ruby>説明<rp>(</rp><rt>せつめい</rt><rp>)</rp></ruby></th>
+<th>Layout</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><a href="#jis">JISかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby></a></td>
-<td><ruby>現在<rp>(</rp><rt>げんざい</rt><rp>)</rp></ruby>の<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>キーボードに<ruby>刻印<rp>(</rp><rt>こくいん</rt><rp>)</rp></ruby>されているかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>です。</td>
+<td><a href="#jis">Kana (JIS Layout)</a></td>
+<td>The JIS Kana layout is the current standard layout printed on Japanese keyboards.</td>
 </tr>
 <tr>
-<td><a href="#new_stickney"><ruby>New<rp>(</rp><rt>ニュー</rt><rp>)</rp></ruby> <ruby>Stickney<rp>(</rp><rt>スティックニー</rt><rp>)</rp></ruby> <ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby></a></td>
-<td>JISかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>よりもおぼえやすく、つかいやすい<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>です。</td>
+<td><a href="#new_stickney"><nobr>Kana (New Stickney Layout)</nobr></a></td>
+<td>An experimental new Kana layout that is designed to be easier to remember and faster to type.</td>
 </tr>
 </tbody>
 </table>
-<p>※ かな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>のきりかえは、「<a href="settings.html#layout"><ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>のかえかた ― [キーボード] タブ</a>」をおこないます。</p>
-<h2 id="jis">JISかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby></h2>
-<p>&#x3000;JISかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>は、つかうキーの<ruby>数<rp>(</rp><rt>かず</rt><rp>)</rp></ruby>がおおく、つかいにくいところがあります。「<span class='k'>け</span><span class='s'>せ</span><span class='n'>ぬ</span><span class='h'>へ</span><span class='m'>むめ</span><span class='r'>ろ</span><span class='w'>を</span><span class='x'>ー</span>゛゜」といった<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>が、かなりうちにくい<ruby>位置<rp>(</rp><rt>いち</rt><rp>)</rp></ruby>にあります。</p>
-<h3><ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>キーボード<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby></h3>
+<p><strong>Note</strong>: For instructions on switching to Kana input, refer to <strong>Settings</strong> - <a href="settings.html#layout">Keyboard Tab</a>.</p>
+<h2 id="jis">Kana (JIS Layout)</h2>
+<p>The JIS Kana layout uses all four rows of keys, making it difficult to remember and touch type. Due to historical reasons explained later in this page, "<span class='k'>け</span><span class='s'>せ</span><span class='n'>ぬ</span><span class='h'>へ</span><span class='m'>むめ</span><span class='r'>ろ</span><span class='w'>を</span><span class='x'>ー</span>゛゜" are placed on keys that are not easy to reach.</p>
+<h3>Japanese Keyboard</h3>
 <div class='kbd'>
 <div class='layer109 L0'>
 <div style='line-height: 1em;'>半角/<br>全角&nbsp</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>⌫</div>
@@ -193,12 +193,9 @@ function shrinkToc() {
 </div>
 
 <ul>
-<li><span class='key'>Shift</span>+<span class='key'>0</span>で、_（アンダースコア）を入力できるのは、「ひらがなIME」の<ruby>拡張<rp>(</rp><rt>かくちょう</rt><rp>)</rp></ruby><ruby>機能<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>です。</li>
+<li>With Hiragana IME, you can enter underscore (_) by pressing <span class='key'>Shift</span>+<span class='key'>0</span>.</li>
 </ul>
-<!--
--  <ruby>右<rp>(</rp><rt>みぎ</rt><rp>)</rp></ruby><ruby>上<rp>(</rp><rt>うえ</rt><rp>)</rp></ruby>にある<span class='oadg'><ruby>青<rp>(</rp><rt>あお</rt><rp>)</rp></ruby><ruby>色<rp>(</rp><rt>いろ</rt><rp>)</rp></ruby></span>の<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>や<ruby>記号<rp>(</rp><rt>きごう</rt><rp>)</rp></ruby>（<span class='oadg'>『』£￠ヶ々￢￤</span>）は、<ruby>以前<rp>(</rp><rt>いぜん</rt><rp>)</rp></ruby>の<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>109キーボードなどに<ruby>刻印<rp>(</rp><rt>こくいん</rt><rp>)</rp></ruby>されていたものです。「ひらがなIME」では、<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>モードが「ひらがな」のときに、<span class='key'>Shift</span>キーと<ruby>同時<rp>(</rp><rt>どうじ</rt><rp>)</rp></ruby>におすと<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できます。-->
-
-<h3><ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>キーボード<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby></h3>
+<h3>US Keyboard</h3>
 <div class='kbd'>
 <div class='layer L0'>
 <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'>Backspace</div>
@@ -262,13 +259,13 @@ function shrinkToc() {
 </div>
 
 <ul>
-<li><span class='key'>スペース</span>キーは<span class='key kana'>変換</span>キーになります。</li>
-<li><ruby>空白<rp>(</rp><rt>くうはく</rt><rp>)</rp></ruby>を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>したいときは、<ruby>行頭<rp>(</rp><rt>ぎょうとう</rt><rp>)</rp></ruby>など<ruby>直前<rp>(</rp><rt>ちょくぜん</rt><rp>)</rp></ruby>に<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>できる<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>がないときに<span class='key kana'>変換</span>キーをおせば<ruby>空白<rp>(</rp><rt>くうはく</rt><rp>)</rp></ruby>を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できます。</li>
+<li>The <span class='key'>Space</span> key is used as the <span class='key kana'>変換</span> key.</li>
+<li>You can type a full-width space by pressing the <span class='key'>Space</span> key when there are no characters that can be converted to kanji or katakana before the cursor, for example, when the cursor is at the beginning of a line.</li>
 </ul>
-<p>&#x3000;JISかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>はおぼえにくく、うちにくいと、よくいわれます。このことが、いまでは、おおくのひとがローマ<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>をつかっている<ruby>理由<rp>(</rp><rt>りゆう</rt><rp>)</rp></ruby>のひとつとかんがえられます。</p>
-<h2 id="new_stickney">New Stickney <ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>（<ruby>第<rp>(</rp><rt>だい</rt><rp>)</rp></ruby>17<ruby>案<rp>(</rp><rt>あん</rt><rp>)</rp></ruby>）</h2>
-<p>&#x3000;New Stickney <ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>は、<ruby>研究<rp>(</rp><rt>けんきゅう</rt><rp>)</rp></ruby><ruby>中<rp>(</rp><rt>ちゅう</rt><rp>)</rp></ruby>のあたらしいかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>です。うちやすい３<ruby>段<rp>(</rp><rt>だん</rt><rp>)</rp></ruby>10<ruby>列<rp>(</rp><rt>れつ</rt><rp>)</rp></ruby>のキーのなかに、かな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>をおさめています。かな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>は、おぼえやすいように、五十<ruby>音<rp>(</rp><rt>おん</rt><rp>)</rp></ruby>の<ruby>行<rp>(</rp><rt>ぎょう</rt><rp>)</rp></ruby>ごとにまとめて<ruby>配置<rp>(</rp><rt>はいち</rt><rp>)</rp></ruby>しています。テンテン(゛)をつけられる<span class='k'>か</span>・<span class='s'>さ</span>・<span class='t'>た</span>・<span class='h'>は</span><ruby>行<rp>(</rp><rt>ぎょう</rt><rp>)</rp></ruby>、それから、<span class='y'>や</span><ruby>行<rp>(</rp><rt>ぎょう</rt><rp>)</rp></ruby>のキーはひだり<ruby>手<rp>(</rp><rt>て</rt><rp>)</rp></ruby>がわにあります。</p>
-<p>&#x3000;キーボードの<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>の<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>は、じっさいの<ruby>文章<rp>(</rp><rt>ぶんしょう</rt><rp>)</rp></ruby>をうちやくすくなっていることもたいせつです。たんじゅんな五十<ruby>音<rp>(</rp><rt>おん</rt><rp>)</rp></ruby><ruby>順<rp>(</rp><rt>じゅん</rt><rp>)</rp></ruby>のキーボードは<ruby>文章<rp>(</rp><rt>ぶんしょう</rt><rp>)</rp></ruby>の<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>にはむいていません。かな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>には、<ruby>文中<rp>(</rp><rt>ぶんちゅう</rt><rp>)</rp></ruby>によくでてくる<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>もあれば、そうでない<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>もあります。<ruby>文中<rp>(</rp><rt>ぶんちゅう</rt><rp>)</rp></ruby>のかな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>のならびかたにも、よくあるならびかたと、そうでないものがあります。New Stickney <ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>は、そうした<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>の<ruby>特徴<rp>(</rp><rt>とくちょう</rt><rp>)</rp></ruby>を<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>して、ひとつひとつの<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>をならべています。</p>
+<h2 id="new_stickney">Kana (New Stickney Layout)</h2>
+<p>The New Stickney layout is a new Kana layout currently under research. It aims to simplify the typing of Japanese Kana characters by organizing them in a more intuitive manner. The layout uses just three rows and ten columns, making it easy to touch type. The Kana characters are grouped together by the consonant sounds of letters to make them easier to remember. The keys for characters which can be combined with <span class='key'><span class='small'>゛</span></span> (<em>dakuten</em>) and "<span class='y'>やゆよ</span>" are located on the left-hand side.</p>
+<p>To make typing easier and faster, the placement of characters on a keyboard is very important.
+A simple, alphabetical keyboard layout isn't practical for actual typing. Some Kana characters appear more frequently in text than others, and there are common and uncommon sequences of Kana characters. The New Stickney layout takes these characteristics of the Japanese language into account when arranging character placement.</p>
 <!--
 <span class='a'>■</span>
 <span class='k'>■</span>
@@ -283,7 +280,7 @@ function shrinkToc() {
 <span class='x'>■</span>
 -->
 
-<h3><ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>キーボード<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby></h3>
+<h3>US Keyboard</h3>
 <div class='kbd'>
 <div class='layer L0'>
 <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'>Backspace</div>
@@ -330,7 +327,7 @@ function shrinkToc() {
 <br>
 <div class='k225 kana'></div><div class='y'>よ</div><div class='k'>き</div><div class='k'>こ</div><div class='t'>と</div><div class='t'>ち</div><div><span class='small x'>っ</span></div><div class='x'>ん</div><div>、</div><div>。</div><div><span class='small'>・</span></div><div class='k275 kana'>カタカナ</div>
 <br>
-<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'><span class='kana'>センター シフト</span></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
+<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'><span class='kana'>Center Shift</span></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
 </div>
 
 <div class='layer L4'>
@@ -346,7 +343,7 @@ function shrinkToc() {
 </div>
 </div>
 
-<h3><ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>キーボード<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby></h3>
+<h3>Japanese Keyboard</h3>
 <div class='kbd'>
 <div class='layer109 L0'>
 <div style='line-height: 1em;'>半角/<br>全角&nbsp</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>⌫</div>
@@ -393,7 +390,7 @@ function shrinkToc() {
 <br>
 <div class='k225 kana'></div><div class='y'>よ</div><div class='k'>き</div><div class='k'>こ</div><div class='t'>と</div><div class='t'>ち</div><div><span class='small x'>っ</span></div><div class='x'>ん</div><div>、</div><div>。</div><div><span class='small'>・</span></div><div></div><div class='k175 kana'>カタカナ</div>
 <br>
-<div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150 kana'>A</div><div class='k250 kana'>センター シフト</div><div class='k150 kana'>あ</div><div class='k125'></div><div></div><div></div><div></div><div class='k125'></div>
+<div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150 kana'>A</div><div class='k250 kana'>Center Shift</div><div class='k150 kana'>あ</div><div class='k125'></div><div></div><div></div><div></div><div class='k125'></div>
 </div>
 
 <div class='layer109 L4'>
@@ -409,21 +406,22 @@ function shrinkToc() {
 </div>
 </div>
 
-<!--
-- かな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>は、五十<ruby>音<rp>(</rp><rt>おん</rt><rp>)</rp></ruby>の<ruby>行<rp>(</rp><rt>ぎょう</rt><rp>)</rp></ruby>ごとにまとまっています。テンテン(゛)をつけられる<span class='k'>か</span>・<span class='s'>さ</span>・<span class='t'>た</span>・<span class='h'>は</span><ruby>行<rp>(</rp><rt>ぎょう</rt><rp>)</rp></ruby>、それから、<span class='y'>や</span><ruby>行<rp>(</rp><rt>ぎょう</rt><rp>)</rp></ruby>のかな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>はひだり<ruby>手<rp>(</rp><rt>て</rt><rp>)</rp></ruby>がわにあります。- テンテン(゛)のついた<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>は、あとからテンテンのキー <span class='key'><span class='small'>゛</span></span> をおして<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>します。<br>&#x3000;たとえば: か <span class='key'><span class='small'>゛</span></span> → が
-- マル(゜)のついた<ruby>字<rp>(</rp><rt>じ</rt><rp>)</rp></ruby>は、あとからマルのキー <span class='key'><span class='small h'>゜</span></span> をおして<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>します。- <ruby>半角<rp>(</rp><rt>はんかく</rt><rp>)</rp></ruby>の<ruby>空白<rp>(</rp><rt>くうはく</rt><rp>)</rp></ruby>は、<span class='key kana'>センター シフト</span> <span class='key'>B</span>キーで<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できます。-->
-
 <ul>
-<li><span class='key'>スペース</span>キーは、<span class='key kana'>センター シフト</span>キーになります。シフトがわの<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>するには、さきに<span class='key kana'>センター シフト</span>キーをおします。そのあとで、<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>したい<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>のキーをおします。<br>&#x3000;たとえば: <span class='key kana'>センター シフト</span> <span class='key a'>あ</span> → あ，は <span class='key kana'>センター シフト</span> <span class='key'><span class='small h'>゜</span></span> → ぱ</li>
-<li><span class='key kana'>センター シフト</span>キーをおしたままにしておけば、シフトがわの<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>をつづけて<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できます。<br>&#x3000;たとえば: <span class='key kana'>センター シフト</span>をおしたまま、<span class='key h'>ひ</span> <span class='key h'>゜</span> → ぴ</li>
-<li>ちいさな「っ」は、<span class='key'><span class='small x'>っ</span></span>とかかれているキーをおして<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>します。</li>
-<li>ちいさな「<span class='a'>ぁぃぅぇぉ</span><span class='y'>ゃゅょ</span>」は、あとからテンテンのキー <span class='key'><span class='small'>゛</span></span> をおして<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>します。<br>&#x3000;たとえば: よ <span class='key'><span class='small'>゛</span></span> → ょ</li>
-<li><ruby>全角<rp>(</rp><rt>ぜんかく</rt><rp>)</rp></ruby>の<ruby>空白<rp>(</rp><rt>くうはく</rt><rp>)</rp></ruby>は、<span class='key kana'>センター シフト</span>キーをおしてから、もういちど<span class='key kana'>センター シフト</span>キーをおして<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>します。<ruby>行頭<rp>(</rp><rt>ぎょうとう</rt><rp>)</rp></ruby>など<ruby>直前<rp>(</rp><rt>ちょくぜん</rt><rp>)</rp></ruby>に<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>できる<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>がないときは、<span class='key kana'>変換</span>キーをおせば<ruby>空白<rp>(</rp><rt>くうはく</rt><rp>)</rp></ruby>を<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>できます。</li>
+<li>The <span class='key'>Space</span> key is used as the <span class='key kana'>Center Shift</span> key. To enter characters in the shift layer, press the <span class='key kana'>Center Shift</span> key first and then type the intended letter. You don't have to hold down the <span class='key kana'>Center Shift</span> key while typing the letter.
+<br>&#x3000;Example: <span class='key kana'>Center Shift</span> <span class='key a'>あ</span> → あ，は <span class='key kana'>Center Shift</span> <span class='key'><span class='small h'>゜</span></span> → ぱ</li>
+<li>By holding down the <span class='key kana'>Center Shift</span> key, you can continue to enter characters in the shift layer.
+<br>&#x3000;Example: <span class='key kana'>Center Shift</span> + <span class='key h'>ひ</span> <span class='key h'>゜</span> → ぴ</li>
+<li>Press <span class='key'><span class='small x'>っ</span></span> to enter small "っ".</li>
+<li>Press <span class='key'><span class='small'>゛</span></span> followed by the one of "<span class='a'>あいうえお</span><span class='y'>やゆよ</span>" to enter small "<span class='a'>ぁぃぅぇぉ</span><span class='y'>ゃゅょ</span>".
+<br>&#x3000;Example: よ <span class='key'><span class='small'>゛</span></span> → ょ</li>
+<li>To enter full-width space, press <span class='key kana'>Center Shift</span> key twice.</li>
+<li>You can enter a full-width space by pressing the <span class='key kana'>変換</span> key when there are no characters that can be converted to kanji or katakana before the cursor, for example, when the cursor is at the beginning of a line.</li>
 </ul>
-<h2 id="history">いまのJISかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>がつかいにくいものになった<ruby>経緯<rp>(</rp><rt>けいい</rt><rp>)</rp></ruby></h2>
-<p>&#x3000;<ruby>現在<rp>(</rp><rt>げんざい</rt><rp>)</rp></ruby>のJISかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>は、1923<ruby>年<rp>(</rp><rt>ねん</rt><rp>)</rp></ruby>にバーナム・クース・スティックニーが<ruby>設計<rp>(</rp><rt>せっけい</rt><rp>)</rp></ruby>したかなタイプライター<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>の<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>がもとになっています。かな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>のキーは、おぼえやすいように、五十<ruby>音<rp>(</rp><rt>おん</rt><rp>)</rp></ruby>の<ruby>行<rp>(</rp><rt>ぎょう</rt><rp>)</rp></ruby>ごとにまとめられていました。<ruby>文中<rp>(</rp><rt>ぶんちゅう</rt><rp>)</rp></ruby>にあまりでてこない「<span class='n'>ぬ</span>」や「<span class='m'>む</span>」といった<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>は、シフトキーをつかってうつようになっていました。</p>
-<p>&#x3000;したの<ruby>図<rp>(</rp><rt>ず</rt><rp>)</rp></ruby>は<ruby>現在<rp>(</rp><rt>げんざい</rt><rp>)</rp></ruby>のキーボードにスティックニーのかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>をかさねたものです。かな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>が五十<ruby>音<rp>(</rp><rt>おん</rt><rp>)</rp></ruby>の<ruby>行<rp>(</rp><rt>ぎょう</rt><rp>)</rp></ruby>ごとにまとまっていることが、よくわかります。</p>
-<p><br></p>
+<h2 id="history">Why the current JIS Kana layout is hard to use?</h2>
+<p>The current JIS Kana layout is difficult to use due to historical reasons. It is based on the layout of the Kana typewriter designed by Burnham K. Stickney in 1923.
+In his design, Kana keys were grouped together by the consonant sounds of letters to make them easier to remember. Characters that do not appear often in text, such as '<span class='n'>ぬ</span>' (nu) and '<span class='m'>む</span>' (mu), were placed in the shift layer.
+The figure below shows Stickney's Kana layout.
+As you can see, Stickney's original Kana layout is very easy to remember.</p>
 <div class='kbd'>
 <div class='layer L0'>
 <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'>Backspace</div>
@@ -459,15 +457,18 @@ function shrinkToc() {
 <div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
 </div>
 </div>
-<p><em><ruby>図<rp>(</rp><rt>ず</rt><rp>)</rp></ruby>: スティックニーのかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby></em></p>
-<p>&#x3000;スティックニーは、かな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>をおぼえやすくするために、つぎのような<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby>をもちいました。</p>
+<p><em>Figure: Stickney's Kana Layout</em></p>
+<p>Stickney developed the following methods to make the Kana layout easier to remember:</p>
 <ul>
-<li>かな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>をなるべく五十<ruby>音<rp>(</rp><rt>おん</rt><rp>)</rp></ruby>の<ruby>行<rp>(</rp><rt>ぎょう</rt><rp>)</rp></ruby>ごとにかためて<ruby>配置<rp>(</rp><rt>はいち</rt><rp>)</rp></ruby>する。</li>
-<li>テンテン(゛)をつけられるかな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>は、ひだり<ruby>手<rp>(</rp><rt>て</rt><rp>)</rp></ruby>がわにおく。テンテンを<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>するキーは、みぎ<ruby>手<rp>(</rp><rt>て</rt><rp>)</rp></ruby>がわにおく。</li>
+<li>Group Kana characters as much as possible by the consonant sounds of letters.</li>
+<li>Place Kana characters that can be combined with  <span class='key'><span class='small'>゛</span></span> (dakuten) on the left-hand side. Place the <span class='key'><span class='small'>゛</span></span> key on the right-hand side.</li>
 </ul>
-<p>&#x3000;また、スティックニーは、<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>をおぼえやすいように、「<span class='y'>や</span>」と「<span class='y'>ゃ</span>」のような<ruby>小<rp>(</rp><rt>こ</rt><rp>)</rp></ruby>がきのあるかな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>をふたつセットにして<ruby>最<rp>(</rp><rt>さい</rt><rp>)</rp></ruby><ruby>上段<rp>(</rp><rt>じょうだん</rt><rp>)</rp></ruby>にあつめました。「<span class='a'>い</span>」をひとつしたの、うちやすい<ruby>段<rp>(</rp><rt>だん</rt><rp>)</rp></ruby>にしたのは、「<span class='a'>い</span>」が<ruby>文章<rp>(</rp><rt>ぶんしょう</rt><rp>)</rp></ruby>のなかでよくでてくるためとしるしています。</p>
-<p>&#x3000;<ruby>機械<rp>(</rp><rt>きかい</rt><rp>)</rp></ruby><ruby>式<rp>(</rp><rt>しき</rt><rp>)</rp></ruby>タイプライターでは、ひとつのキーでうてるのは、ノーマルがわとシフトがわの２<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>だけでした。スティックニーは、シフトがわのうちやすい<ruby>位置<rp>(</rp><rt>いち</rt><rp>)</rp></ruby>に、<ruby>数字<rp>(</rp><rt>すうじ</rt><rp>)</rp></ruby>や<ruby>記号<rp>(</rp><rt>きごう</rt><rp>)</rp></ruby>をおきました。</p>
-<p>&#x3000;そうしているうちに、<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>と<ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>どちらもうてるコンビネーション・タイプライターがつくられました。コンビネーション・タイプライターでは、各キーのシフトがわにアルファベットをおきました。そのかわり、もともとシフトがわにあったかな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>が、キーボードの<ruby>右<rp>(</rp><rt>みぎ</rt><rp>)</rp></ruby>すみにうつされました。そのために、五十<ruby>音<rp>(</rp><rt>おん</rt><rp>)</rp></ruby>の<ruby>行<rp>(</rp><rt>ぎょう</rt><rp>)</rp></ruby>ごとのキーのまとまりがくずれました。</p>
+<p>Furthermore, to make the layout easier to remember, Stickney grouped Kana characters with small letters, such as '<span class='y'>や</span>' and '<span class='y'>ゃ</span>', and placed them in the 4th row. However, since '<span class='a'>い</span>' often appears in text, Stickney moved '<span class='a'>い</span>' to the third row to make it easy to type.</p>
+<p>In mechanical typewriters, only two characters can be typed with a single key in the normal and shift cases.
+Stickney placed numbers and symbols in the second and third rows in the shift case.</p>
+<p>After some time, typewriters that could type both Kana and the alphabet were developed.
+In these combination typewriters, the alphabet was placed in the shift case, causing the Kana characters in the shift case to be moved to the far right side of the typewriters.
+This change disrupted the grouping of several keys according to the consonant sounds.</p>
 <p><br></p>
 <div class='kbd'>
 <div class='layer L0'>
@@ -504,12 +505,10 @@ function shrinkToc() {
 <div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150'></div><div class='k250'></div><div class='k150'></div><div class='k125'></div><div></div><div></div><div></div><div class='k125'></div>
 </div>
 </div>
-<p><em><ruby>図<rp>(</rp><rt>ず</rt><rp>)</rp></ruby>: コンビネーション タイプライターの<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby></em></p>
-<p>&#x3000;JIS<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>は、キーボードのキーの<ruby>数<rp>(</rp><rt>かず</rt><rp>)</rp></ruby>をさらにふやして、「<span class='n'>ぬ</span><span class='m'>む</span><span class='r'>ろ</span><span class='x'>ー</span>゛゜」をよりうちにくい<ruby>位置<rp>(</rp><rt>いち</rt><rp>)</rp></ruby>にうつしました。JISかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>がおぼえにくく、うちにくいといわれるのは、こうした<ruby>歴史<rp>(</rp><rt>れきし</rt><rp>)</rp></ruby><ruby>的<rp>(</rp><rt>てき</rt><rp>)</rp></ruby>な<ruby>経緯<rp>(</rp><rt>けいい</rt><rp>)</rp></ruby>によるものです。</p>
-<h3 id="x6004"><ruby>新<rp>(</rp><rt>しん</rt><rp>)</rp></ruby>JIS<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby></h3>
-<p>&#x3000;JISかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>がつかいにくいということで、1986年にあたらしいJISかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>がつくられたことがあります。しかし、この<ruby>新<rp>(</rp><rt>しん</rt><rp>)</rp></ruby>JIS<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>は<ruby>普及<rp>(</rp><rt>ふきゅう</rt><rp>)</rp></ruby>することなく、<ruby>現在<rp>(</rp><rt>げんざい</rt><rp>)</rp></ruby>では<ruby>廃止<rp>(</rp><rt>はいし</rt><rp>)</rp></ruby>されています。<ruby>普及<rp>(</rp><rt>ふきゅう</rt><rp>)</rp></ruby>しなかった<ruby>理由<rp>(</rp><rt>りゆう</rt><rp>)</rp></ruby>はいくつかあげられています。JIS<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>よりもさらにおぼえにくい<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>だったことも、その<ruby>理由<rp>(</rp><rt>りゆう</rt><rp>)</rp></ruby>のひとつとしてあげられています。</p>
-<p>&#x3000;したの<ruby>図<rp>(</rp><rt>ず</rt><rp>)</rp></ruby>は<ruby>現在<rp>(</rp><rt>げんざい</rt><rp>)</rp></ruby>のキーボードに<ruby>新<rp>(</rp><rt>しん</rt><rp>)</rp></ruby>JIS<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>をかさねたものです。キーボードから<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>をさがすのは、もともとのJIS<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>よりもむずかしくなってしまっています。これは、<ruby>専門<rp>(</rp><rt>せんもん</rt><rp>)</rp></ruby>のオペレーターが<ruby>高速<rp>(</rp><rt>こうそく</rt><rp>)</rp></ruby>にタイピングできるようにすることも<ruby>目標<rp>(</rp><rt>もくひょう</rt><rp>)</rp></ruby>にしていたためです。</p>
-<p><br></p>
+<p><em>Figure: Combination Typewriter Layout</em></p>
+<p>The JIS Kanre layout added more keys and moved ‘<span class='n'>ぬ</span><span class='m'>む</span><span class='r'>ろ</span><span class='x'>ー</span>゛゜’ to more difficult positions. The resulting JIS Kana layout became harder to remember and touch type.</p>
+<h3 id="x6004">New JIS Layout</h3>
+<p>Since the original JIS Kana layout was considered difficult to use, a new JIS layout was created in 1986. However, this new layout was not widely adopted. The new layout was designed to help professional typists achieve high typing speeds, but it turned out to be even more difficult to remember than the original JIS layout. The products using the new JIS layout disappeared from the market shortly.</p>
 <div class='kbd'>
 <div class='layer109 L0'>
 <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>⌫</div>
@@ -556,7 +555,7 @@ function shrinkToc() {
 <br>
 <div class='k225'></div><div class='s'>す</div><div class='k'>こ</div><div class='n'>に</div><div class='s'>さ</div><div class='a'>あ</div><div><span class='small x'>っ</span></div><div class='r'>る</div><div>、</div><div>。</div><div><span class='r'>れ</span></div><div class='k275'></div>
 <br>
-<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'><span class='kana'>（センターシフト）</span></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
+<div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'><span class='kana'>Center Shift</span></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
 </div>
 
 <div class='layer109 L4'>
@@ -571,16 +570,17 @@ function shrinkToc() {
 <div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k625'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div><div class='k125'></div>
 </div>
 </div>
-
-<p><br>&#x3000;JIS<ruby>規格<rp>(</rp><rt>きかく</rt><rp>)</rp></ruby>としては<ruby>廃止<rp>(</rp><rt>はいし</rt><rp>)</rp></ruby>されましたが、<ruby>新<rp>(</rp><rt>しん</rt><rp>)</rp></ruby>JIS<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>には、よいところもありました。</p>
+<p><em>Figure: New JIS Kana Layout</em></p>
+<p>While the new JIS Kana layout was discontinued as a JIS standard, it had several nice features.</p>
 <ul>
-<li>うちにくいキーボードの<ruby>最<rp>(</rp><rt>さい</rt><rp>)</rp></ruby><ruby>上段<rp>(</rp><rt>じょうだん</rt><rp>)</rp></ruby>には、かな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>をおかないようにしました。</li>
-<li><ruby>規格<rp>(</rp><rt>きかく</rt><rp>)</rp></ruby><ruby>書<rp>(</rp><rt>しょ</rt><rp>)</rp></ruby>には、<span class='key'>英字/仮名</span>と<span class='key'>Caps Lock</span>は、べつべつのキーとしてかかれていました。うえの<ruby>図<rp>(</rp><rt>ず</rt><rp>)</rp></ruby>では、<ruby>現在<rp>(</rp><rt>げんざい</rt><rp>)</rp></ruby>の<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>キーボードにならってひとつのキーとしています。<span class='key'>A</span>キーの<ruby>左<rp>(</rp><rt>ひだり</rt><rp>)</rp></ruby>がわのキーをつかって<ruby>英数<rp>(</rp><rt>えいすう</rt><rp>)</rp></ruby>モードとかなモードをきりかえる<ruby>方式<rp>(</rp><rt>ほうしき</rt><rp>)</rp></ruby>は、この<ruby>規格<rp>(</rp><rt>きかく</rt><rp>)</rp></ruby><ruby>書<rp>(</rp><rt>しょ</rt><rp>)</rp></ruby>にみることができます。いまのIMEでも、たいていはこのように<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>することができます。</li>
-<li>スペースキーの<ruby>左<rp>(</rp><rt>ひだり</rt><rp>)</rp></ruby>がわに<span class='key'>英字</span>キーを、<ruby>右<rp>(</rp><rt>みぎ</rt><rp>)</rp></ruby>がわに<span class='key'>仮名</span>キーをおく<ruby>方式<rp>(</rp><rt>ほうしき</rt><rp>)</rp></ruby>も<ruby>規定<rp>(</rp><rt>きてい</rt><rp>)</rp></ruby>していました。さいきんの<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>キーボードではこの<ruby>方式<rp>(</rp><rt>ほうしき</rt><rp>)</rp></ruby>も<ruby>標準<rp>(</rp><rt>ひょうじゅん</rt><rp>)</rp></ruby><ruby>的<rp>(</rp><rt>てき</rt><rp>)</rp></ruby>な<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby>になっています。</li>
-<li>スペースキーの<ruby>位置<rp>(</rp><rt>いち</rt><rp>)</rp></ruby>にシフトキーを<ruby>追加<rp>(</rp><rt>ついか</rt><rp>)</rp></ruby>する<ruby>方式<rp>(</rp><rt>ほうしき</rt><rp>)</rp></ruby>も<ruby>許容<rp>(</rp><rt>きょよう</rt><rp>)</rp></ruby>していました（センターシフト<ruby>方式<rp>(</rp><rt>ほうしき</rt><rp>)</rp></ruby>）。センターシフト<ruby>方式<rp>(</rp><rt>ほうしき</rt><rp>)</rp></ruby>をつかうと、シフト<ruby>面<rp>(</rp><rt>めん</rt><rp>)</rp></ruby>にあるかな<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>も<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>しやすくなります。</li>
-<li>JIS<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>の<ruby>右<rp>(</rp><rt>みぎ</rt><rp>)</rp></ruby><ruby>隅<rp>(</rp><rt>すみ</rt><rp>)</rp></ruby>の<span class='key'>_</span>キーをなくしました。_（アンダースコア）は、<span class='key'>0</span>のシフトがわでうてるようにしました。</li>
+<li>The fourth row contains no Kana characters because it's difficult to reach.</li>
+<li>You can switch between alphanumeric and Kana modes using the toggle key placed to the left of the 'A' key. Current input methods can be configured to use this method using the Caps Lock (英数) key.</li>
+<li>You can switch between alphanumeric and Kana modes using the alphanumeric and Kana keys. The alphanumeric key is placed to the left of the space key, and the Kana key is placed to the right. This is the standard layout of the current Japanese keyboards.</li>
+<li>You can use the center shift key, located at the space key's position. The center shift key can be pressed by thumb, making it more comfortable to type Kana characters in the shift layer.</li>
+<li>The underscore key at the far right side of the JIS Kana layout was removed. The underscore (_) could be typed with <span class='key'>Shift</span>+<span class='key'>0</span>.</li>
 </ul>
-<p>&#x3000;New Stickney<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>は、スティックニーのかな<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>と<ruby>新<rp>(</rp><rt>しん</rt><rp>)</rp></ruby>JIS<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>のよい<ruby>部分<rp>(</rp><rt>ぶぶん</rt><rp>)</rp></ruby>を、どちらもいかすように<ruby>設計<rp>(</rp><rt>せっけい</rt><rp>)</rp></ruby>されています。かなの<ruby>配置<rp>(</rp><rt>はいち</rt><rp>)</rp></ruby>も、<ruby>中<rp>(</rp><rt>ちゅう</rt><rp>)</rp></ruby><ruby>段<rp>(</rp><rt>だん</rt><rp>)</rp></ruby>の「<span class='h'>は</span><span class='k'>か</span><span class='s'>し</span>｣,「<span class='h'>うい</span><span>゛</span>」などは<ruby>新<rp>(</rp><rt>しん</rt><rp>)</rp></ruby>JIS<ruby>配列<rp>(</rp><rt>はいれつ</rt><rp>)</rp></ruby>の<ruby>設計<rp>(</rp><rt>せっけい</rt><rp>)</rp></ruby>をそのままひきついでいます。</p>
+<p>Several other Kana layouts were also commercially available, but none succeeded in replacing the current JIS Kana layout. While users might be able to type faster with those layouts, they were harder to remember.
+With this retrospect, the New Stickney layout is designed to incorporate the good aspects of both the new JIS and Stickney layouts.</p>
 </main>
 </div>
 

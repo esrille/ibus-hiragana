@@ -11,3 +11,20 @@ static_files = [
 ]
 
 install_data(static_files, install_dir: moduledir)
+
+if get_option('enable-html') == false
+
+  html_files = [
+    'altgr.html',
+    'index.html',
+    'install.html',
+    'key_assign.html',
+    'layouts.html',
+    'roomazi.html',
+    'settings.html',
+    'usage.html',
+  ]
+
+install_data(html_files, install_dir: moduledir)
+
+endif
