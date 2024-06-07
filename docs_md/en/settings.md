@@ -5,9 +5,9 @@
 You can customize the Hiragana IME in the **Hiragana IME Setup** window.
 To open the **Hiragana IME Setup** window, select **Setup** from the keyboard menu in the desktop top bar.
 
-![Keyboard menu](../keyboard-menu.png)
+![Keyboard menu](keyboard-menu.png)
 
-![「Hiragana IME Setup」Window](../ibus-setup-hiragana_1.png)
+![Hiragana IME Setup Window](ibus-setup-hiragana_1.png)
 
 The **Hiragana IME Setup** window has the following three tabs:
 
@@ -21,7 +21,11 @@ The **Hiragana IME Setup** window has the following three tabs:
 
 ## Keyboard Tab {: #layout}
 
-From the **Typing** drop-down list, you can select the Japanese input method from the followings:
+In the **Keyboard** tab, you can select the Japanese input method using the keyboard.
+
+![Hiragana IME Setup Window](ibus-setup-hiragana_1.png)
+
+Choose the Japanese input method you like from the **Input** drop-down list:
 
 Input | Description
 ---|---
@@ -49,23 +53,12 @@ The correct Rōmaji spelling for 'ん' is <kbd>n</kbd>, or <kbd>n</kbd><kbd>'</k
 
 **Hint**: You can also enter 'ん' by pressing the <kbd>Enter</kbd> key after 'n'.
 
-### Combine '^' to the previous vowel character in alphanumeric mode {: #combining-circumflex}
-
-Enable this option if you want to write Japanese in Rōmaji.
-When you type <span class='key'>^</span> after a vowel character in Alphanumeric mode, it is combined into a single character.
-
-- Example: a<span class='key'>^</span> → â
-
-When you type <span class='key'>^</span> after a vowel character combined with a circumflex, it is separated back into two characters.
-
-- Example: â<span class='key'>^</span> → a^
-
 ## Dictionary Tab {: #dictionary}
 
 Choose the dictionary for kana-kanji conversion from the the **Kanji Dictionary** combo box.
 The Hiragana IME offers dictionaries for each school grade level and an edition assembled for grown up.
 
-![Hiragana IME Setup Window](../ibus-setup-hiragana_2.png)
+![Hiragana IME Setup Window](ibus-setup-hiragana_2.png)
 
 The dictionaries for students in 10th grade and above are composed using kanji from the *List of Chinese Characters in Common Use*, known as the *[Jōyō Kanji Table](https://www.bunka.go.jp/kokugo_nihongo/sisaku/joho/joho/kijun/naikaku/kanji/)*, and kanji characters for use in personal names, known as the *[Jinmeiyō Kanji Table](http://www.moj.go.jp/MINJI/minji86.html)*. The grade-specific dictionary is structured according to the table provided by [MEXT](http://www.mext.go.jp/a_menu/shotou/new-cs/1385768.htm).
 
@@ -73,8 +66,8 @@ The dictionaries for students in 10th grade and above are composed using kanji f
 
 Dictionary | Description
 --|--
-Okurigana: general | Follow the main rules strictly.
-Okurigana: general + permissive | Permit the use of widely used variations.
+Okurigana: strict | Follow the main rules strictly.
+Okurigana: permissive | Permit the use of widely used variations.
 
 For example, the ‘10th+ grade (Okurigana: general + permissible)’ dictionary allows conversions like ‘<ruby>落<rp>(</rp><rt>おと</rt><rp>)</rp></ruby>す’.
 
@@ -184,7 +177,7 @@ During the conversion of homonyms and words with shortened readings, the frequen
 
 You can customize the input assistance feature.
 
-![「Hiragana IME Setup」Window](../ibus-setup-hiragana_3.png)
+![「Hiragana IME Setup」Window](ibus-setup-hiragana_3.png)
 
 ### Use LLM for candidate selection {: #llm}
 
@@ -197,3 +190,14 @@ For example, when converting ‘のぼる’, the pre-selected candidate changes
 - 日が<span style="background-color:#d1eaff">昇る</span>
 
 **Note**: Since this is merely based on a probability calculation, the desired candidate may not always be chosen. This feature is disabled by default because it requires a relatively large amount of computational power.
+
+### Combine '^' to the previous vowel character in alphanumeric mode {: #combining-circumflex}
+
+Enable this option if you want to write Japanese in Rōmaji.
+When you type <span class='key'>^</span> after a vowel character in Alphanumeric mode, it is combined into a single character.
+
+- Example: a<span class='key'>^</span> → â
+
+When you type <span class='key'>^</span> after a vowel character combined with a circumflex, it is separated back into two characters.
+
+- Example: â<span class='key'>^</span> → a^

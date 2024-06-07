@@ -86,7 +86,7 @@ On Fedora and Ubuntu, GNOME is the default desktop environment.
 The Hiragana IME currently works best in GNOME.
 If you're using GNOME, open **Settings** and add **Japanese (Hiragana IME)** to **Input Sources** in the **Keyboard** pane.
 
-![Settings—Keyboard](../settings-keyboard.png)
+![Settings—Keyboard](settings-keyboard.png)
 
 ### Instructions for other desktops
 
@@ -103,7 +103,7 @@ In IBus, you can switch between multiple input methods and use them.
 To enable Hiragana IME, open the keyboard menu of the desktop shell by clicking the current input method logo like <nobr>**ja**</nobr>，<nobr>**あ**</nobr> inside the top bar.
 Then select **Japanese (Hiragana IME)**.
 
-![Keyboard menu](../keyboard-menu.png)
+![Keyboard menu](keyboard-menu.png)
 
 As for the keyboard layout, Hiragana IME uses the previously selected keyboard layout.
 

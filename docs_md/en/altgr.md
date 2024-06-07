@@ -12,7 +12,7 @@ In Japan, <span class='key'>AltGr</span>  layers are not widely used because the
 
 In GNOME desktop, open **GNOME Settings**, then select **Keyboard** from the side bar. In the **Keyboard** pane, look for **Special Character Entry** and set the **Alternate Character Key** to **Right Alt**.
 
-![Settings - Keyboard](../settings-keyboard.png)
+![Settings - Keyboard](settings-keyboard.png)
 
 ## Entering Characters and Symbols on the <span class='key'>AltGr</span> Layers  {: #altgr-characters}
 
