@@ -435,8 +435,6 @@ class EngineModeless(IBus.Engine):
         elif self._surrounding == SURROUNDING_RESET and original_len == 0:
             # We cannot tell yet if the application implements the surrounding text correctly.
             pass
-        elif self.get_mode() != 'あ':
-            pass
         elif original_len < cursor_pos or original_len < anchor_pos:
             # Some applications, including GNOME 46 mutter, still report
             # cursor_pos and anchor_pos in byte offsets, and are basically
