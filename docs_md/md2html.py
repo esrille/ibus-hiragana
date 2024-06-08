@@ -79,9 +79,9 @@ class MyPreprocessor(Preprocessor):
 
 class MyExtension(Extension):
 
-    def extendMarkdown(self, md, md_globals):
+    def extendMarkdown(self, md):
         # Insert code here to change markdown's behavior.
-        md.preprocessors.add('my', MyPreprocessor(md), '_begin')
+        md.preprocessors.register(MyPreprocessor(md), 'my', 29)
 
 
 def main():
