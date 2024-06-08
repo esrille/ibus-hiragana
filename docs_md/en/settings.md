@@ -193,11 +193,22 @@ For example, when converting ‘のぼる’, the pre-selected candidate changes
 
 ### Combine '^' to the previous vowel character in alphanumeric mode {: #combining-circumflex}
 
-Enable this option if you want to write Japanese in Rōmaji.
+Enable this option if you want to write Japanese in Kunrei-shiki Rōmaji.
 When you type <span class='key'>^</span> after a vowel character in Alphanumeric mode, it is combined into a single character.
 
 - Example: a<span class='key'>^</span> → â
 
-When you type <span class='key'>^</span> after a vowel character combined with a circumflex, it is separated back into two characters.
+When you type <span class='key'>^</span> after a vowel character combined with a circumflex, it is separated back into a vowel and '^'.
 
 - Example: â<span class='key'>^</span> → a^
+
+### Combine '~' to the previous vowel character in alphanumeric mode as '¯' {: #combining-macron}
+
+Enable this option if you want to write Japanese in Hepburn romanization.
+When you type <span class='key'>~</span> after a vowel character in Alphanumeric mode, it is combined into a single character as '¯'.
+
+- Example: a<span class='key'>~</span> → ā
+
+When you type <span class='key'>~</span> after a vowel character combined with a macron, it is separated back into a vowel and '~'.
+
+- Example: ā<span class='key'>~</span> → a~

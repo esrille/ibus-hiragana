@@ -422,14 +422,24 @@ When enabled, the Hiragana IME calculates the probabilities of each candidate's 
 </ul>
 <p><strong>Note</strong>: Since this is merely based on a probability calculation, the desired candidate may not always be chosen. This feature is disabled by default because it requires a relatively large amount of computational power.</p>
 <h3 id="combining-circumflex">Combine '^' to the previous vowel character in alphanumeric mode</h3>
-<p>Enable this option if you want to write Japanese in Rōmaji.
+<p>Enable this option if you want to write Japanese in Kunrei-shiki Rōmaji.
 When you type <span class='key'>^</span> after a vowel character in Alphanumeric mode, it is combined into a single character.</p>
 <ul>
 <li>Example: a<span class='key'>^</span> → â</li>
 </ul>
-<p>When you type <span class='key'>^</span> after a vowel character combined with a circumflex, it is separated back into two characters.</p>
+<p>When you type <span class='key'>^</span> after a vowel character combined with a circumflex, it is separated back into a vowel and '^'.</p>
 <ul>
 <li>Example: â<span class='key'>^</span> → a^</li>
+</ul>
+<h3 id="combining-macron">Combine '~' to the previous vowel character in alphanumeric mode as '¯'</h3>
+<p>Enable this option if you want to write Japanese in Hepburn romanization.
+When you type <span class='key'>~</span> after a vowel character in Alphanumeric mode, it is combined into a single character as '¯'.</p>
+<ul>
+<li>Example: a<span class='key'>~</span> → ā</li>
+</ul>
+<p>When you type <span class='key'>~</span> after a vowel character combined with a macron, it is separated back into a vowel and '~'.</p>
+<ul>
+<li>Example: ā<span class='key'>~</span> → a~</li>
 </ul>
 </main>
 </div>
