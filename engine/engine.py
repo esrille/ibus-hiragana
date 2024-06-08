@@ -86,8 +86,11 @@ HANKAKU = ''.join(chr(i) for i in range(0x21, 0x7f)) + ' ❲❳[]¥?'
 TO_HANKAKU = str.maketrans(ZENKAKU, HANKAKU)
 TO_ZENKAKU = str.maketrans(HANKAKU, ZENKAKU)
 
-TO_AIUEO = str.maketrans('âîûêôÂÎÛÊÔ', 'aiueoAIUEO')
+FROM_CIRCUMFLEX = str.maketrans('âîûêôÂÎÛÊÔ', 'aiueoAIUEO')
 TO_CIRCUMFLEX = str.maketrans('aiueoAIUEO', 'âîûêôÂÎÛÊÔ')
+
+FROM_MACRON = str.maketrans('āīūēōĀĪŪĒŌ', 'aiueoAIUEO')
+TO_MACRON = str.maketrans('aiueoAIUEO', 'āīūēōĀĪŪĒŌ')
 
 SOKUON = 'ksthmyrwgzdbpfjv'
 
@@ -489,6 +492,7 @@ class EngineHiragana(EngineModeless):
         self.set_mode(self._load_input_mode())
         self._set_x4063_mode(self._load_x4063_mode())
         self._set_combining_circumflex(self._load_combining_circumflex())
+        self._set_combining_macron(self._load_combining_macron())
 
         self._use_llm = self._load_use_llm()
 
@@ -531,7 +535,10 @@ class EngineHiragana(EngineModeless):
         post = ''
         c = c.lower()
         if c in 'âîûêôÂÎÛÊÔ':
-            c = c.translate(TO_AIUEO)
+            c = c.translate(FROM_CIRCUMFLEX)
+            post = 'ー'
+        elif c in 'āīūēōĀĪŪĒŌ':
+            c = c.translate(FROM_MACRON)
             post = 'ー'
         if preedit == 'n' and self.character_after_n.find(c) < 0:
             yomi = 'ん'
@@ -579,9 +586,14 @@ class EngineHiragana(EngineModeless):
     def _is_tiny(self, c):
         return c == self._to_tiny
 
-    def _load_combining_circumflex(self):
+    def _load_combining_circumflex(self) -> bool:
         mode = self._settings.get_boolean('combining-circumflex')
         LOGGER.info(f'combining-circumflex: {mode}')
+        return mode
+
+    def _load_combining_macron(self) -> bool:
+        mode = self._settings.get_boolean('combining-macron')
+        LOGGER.info(f'combining-macron: {mode}')
         return mode
 
     def _load_dictionary(self, clear_history=False):
@@ -929,12 +941,19 @@ class EngineHiragana(EngineModeless):
                         yomi = text[pos - 1].translate(TO_CIRCUMFLEX)
                         self.delete_surrounding_string(1)
                     elif text[pos - 1] in 'âîûêôÂÎÛÊÔ':
-                        yomi = text[pos - 1].translate(TO_AIUEO) + c
+                        yomi = text[pos - 1].translate(FROM_CIRCUMFLEX) + c
                         self.delete_surrounding_string(1)
                     else:
-                        if chr(e.keyval) == c:
-                            return False
-                        yomi = c
+                        return False
+                elif self.combining_macron and 0 < pos and c == '~':
+                    if text[pos - 1] in 'aiueoAIUEO':
+                        yomi = text[pos - 1].translate(TO_MACRON)
+                        self.delete_surrounding_string(1)
+                    elif text[pos - 1] in 'āīūēōĀĪŪĒŌ':
+                        yomi = text[pos - 1].translate(FROM_MACRON) + c
+                        self.delete_surrounding_string(1)
+                    else:
+                        return False
                 else:
                     if chr(e.keyval) == c:
                         return False
@@ -992,6 +1011,10 @@ class EngineHiragana(EngineModeless):
     def _set_combining_circumflex(self, mode):
         self.combining_circumflex = mode
         LOGGER.info(f'_set_combining_circumflex({mode})')
+
+    def _set_combining_macron(self, mode):
+        self.combining_macron = mode
+        LOGGER.info(f'_set_combining_macron({mode})')
 
     def _set_completed(self, cand):
         LOGGER.info(f'_set_completed("{cand}")')
@@ -1140,6 +1163,8 @@ class EngineHiragana(EngineModeless):
             self._set_x4063_mode(self._load_x4063_mode())
         elif key == 'combining-circumflex':
             self._set_combining_circumflex(self._load_combining_circumflex())
+        elif key == 'combining-macron':
+            self._set_combining_macron(self._load_combining_macron())
         elif key == 'use-llm':
             self._use_llm = self._load_use_llm()
 

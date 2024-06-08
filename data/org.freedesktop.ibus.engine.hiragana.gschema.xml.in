@@ -66,6 +66,14 @@
         If disabled, '^' does not modify the previous character.
       </description>
     </key>
+    <key name='combining-macron' type='b'>
+      <default>false</default>
+      <summary>Combine '~' to the previous vowel character as '¯'</summary>
+      <description>
+        If enabled, '~' is combined to the previous character if it is one of 'aiueoAIUEO' as '¯'.
+        If disabled, '~' does not modify the previous character.
+      </description>
+    </key>
     <key name='logging-level' type='s'>
       <choices>
         <choice value='CRITICAL'/>
