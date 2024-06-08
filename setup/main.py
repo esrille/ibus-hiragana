@@ -48,6 +48,7 @@ class SetupEngineHiragana:
         self._init_dictionary()
         self._init_nn_as_x4063()
         self._init_combining_circumflex()
+        self._init_combining_macron()
         self._init_use_llm()
         self._set_current_keyboard(self._settings.get_string('layout'))
         self._window = self._builder.get_object('SetupDialog')
@@ -116,6 +117,11 @@ class SetupEngineHiragana:
         current = self._settings.get_value('combining-circumflex')
         self._combining_circumflex.set_active(current)
 
+    def _init_combining_macron(self):
+        self._combining_macron = self._builder.get_object('CombiningMacron')
+        current = self._settings.get_value('combining-macron')
+        self._combining_macron.set_active(current)
+
     def _init_use_llm(self):
         self._use_llm = self._builder.get_object('UseLLM')
         current = self._settings.get_value('use-llm')
@@ -140,6 +146,10 @@ class SetupEngineHiragana:
         # combining-circumflex
         combining_circumflex = self._combining_circumflex.get_active()
         self._settings.set_boolean('combining-circumflex', combining_circumflex)
+
+        # combining-macron
+        combining_macron = self._combining_macron.get_active()
+        self._settings.set_boolean('combining-macron', combining_macron)
 
         # dictionary
         i = self._kanzi_dictionaries.get_active()
@@ -171,6 +181,8 @@ class SetupEngineHiragana:
             self._nn_as_x4063.set_active(value.get_boolean())
         elif key == 'combining-circumflex':
             self._combining_circumflex.set_active(value.get_boolean())
+        elif key == 'combining-macron':
+            self._combining_macron.set_active(value.get_boolean())
         elif key == 'dictionary':
             current = value.get_string()
             current = os.path.basename(current)
