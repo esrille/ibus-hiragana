@@ -686,7 +686,6 @@ class EngineHiragana(EngineModeless):
         return enabled
 
     def _assist(self, yomi, pos):
-        LOGGER.debug(f'_assist : {self._use_llm}')
         if not self._use_llm:
             return 0
         cand = self._dict.cand()
@@ -698,9 +697,7 @@ class EngineHiragana(EngineModeless):
         prefix = get_plain_text(yomi[:pos - len(self._dict.reading())])
         if prefix == '':
             return 0
-        for c in cand:
-            inputs.append(prefix + c)
-        return llm.pick(inputs)
+        return llm.pick(prefix, cand)
 
     def _lookup_dictionary(self, yomi, pos, anchor=0):
         self._lookup_table.clear()

@@ -48,24 +48,45 @@ def load(enabled: bool):
         LOGGER.exception(f'Could not load {MODEL_NAME}')
 
 
-def pick(candidates):
+def pick(prefix, candidates):
     if model is None or tokenizer is None:
         return 0
-    LOGGER.debug(f'pick({candidates})')
-    encoded_candidates = tokenizer(candidates)
+    LOGGER.debug(f'pick("{prefix}", {candidates})')
+    inputs = []
+    for cand in candidates:
+        inputs.append(prefix + cand)
+    encoded_candidates = tokenizer(inputs)
+    for ids in encoded_candidates.input_ids:
+        LOGGER.debug(f'  {tokenizer.decode(ids)}')
     transposed = list(zip(*encoded_candidates.input_ids))
     for mask_token_index, ids in enumerate(transposed):
         if len(set(ids)) != 1:
             break
     ids = encoded_candidates.input_ids[0][:mask_token_index]
     ids += (tokenizer.mask_token_id, tokenizer.sep_token_id)
-    inputs = {
+    input = {
         'input_ids': torch.tensor(ids).unsqueeze(0)
     }
-    logits = model(**inputs).logits
     token_ids = list(transposed[mask_token_index])
-    topk = torch.topk(logits[0, mask_token_index][token_ids], k=len(candidates))
-    LOGGER.debug(f'  {topk.values.tolist()}')
-    LOGGER.debug(f'  {topk.indices.tolist()}')
-    LOGGER.debug(f'  A: {candidates[topk.indices[0]]}')
-    return topk.indices[0]
+
+    probabilities = model(**input).logits[0, mask_token_index]
+    probabilities = torch.nn.functional.softmax(probabilities, dim=0)[token_ids]
+    probabilities = probabilities.tolist()
+
+    for i, ids in enumerate(encoded_candidates.input_ids):
+        total_ids = len(ids)
+        if total_ids <= mask_token_index + 2:
+            continue
+        next_ids = encoded_candidates.input_ids[i][:mask_token_index + 1]
+        next_ids += (tokenizer.mask_token_id, tokenizer.sep_token_id)
+        input = {
+            'input_ids': torch.tensor(next_ids).unsqueeze(0)
+        }
+        p = model(**input).logits[0, mask_token_index + 1]
+        p = torch.nn.functional.softmax(p, dim=0)
+        probabilities[i] *= p[transposed[mask_token_index + 1][i]].item()
+
+    index = probabilities.index(max(probabilities))
+    LOGGER.debug(f'  {probabilities}')
+    LOGGER.debug(f'  -> {candidates[index]}')
+    return index
