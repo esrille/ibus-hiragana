@@ -388,9 +388,9 @@ class Dictionary:
         assert '―' in self._yomi
         return False if 0 in self._completed else True
 
-    def confirm(self, shrunk):
+    def confirm(self, shrunk) -> int:
         if not self._yomi:
-            return
+            return 0
 
         # Get a copy of the original candidate list
         yomi = self._yomi
@@ -413,7 +413,7 @@ class Dictionary:
         first = cand[no]
         if first == yomi:
             # Ignore pseudo candidates
-            return
+            return 0
         if 0 < no:
             cand.remove(first)
             cand.insert(0, first)
@@ -434,6 +434,9 @@ class Dictionary:
                 cand.insert(0, first)
                 self._dict[yomi] = cand
                 self._dirty = True
+                no = 0
+
+        return no
 
     def create_pseudo_candidate(self, text):
         LOGGER.debug(f'create_pseudo_candidate("{text}")')

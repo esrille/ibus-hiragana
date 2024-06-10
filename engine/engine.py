@@ -493,6 +493,8 @@ class EngineHiragana(EngineModeless):
         self._set_combining_macron(self._load_combining_macron())
 
         self._use_llm = self._load_use_llm()
+        self._assisted = 0
+        self._ignored = {}
 
         self._about_dialog = None
         self._setup_proc = None
@@ -512,10 +514,42 @@ class EngineHiragana(EngineModeless):
             self._keymap.disconnect(self._keymap_handler)
             self._keymap_handler = 0
 
+    def _assist(self, text, pos):
+        LOGGER.debug(f'_assist("{text}", {pos})')
+        if not self._use_llm:
+            return 0
+        cand = self._dict.cand()
+        if len(cand) <= 1:
+            return 0
+        if cand[0][-1] == '―':
+            return 0
+        yomi = self._dict.reading()
+        prefix = get_plain_text(text[:pos - len(yomi)])
+        if prefix == '':
+            return 0
+        self._assisted = llm.pick(prefix, cand)
+        LOGGER.debug(f'_assist: "{cand[self._assisted]}"/"{yomi}"')
+        if cand[self._assisted] in self._ignored.get(yomi, set()):
+            return 0
+        return self._assisted
+
     def _confirm_candidate(self):
         current = self._dict.current()
         if current:
-            self._dict.confirm(''.join(self._shrunk))
+            LOGGER.debug(f'_confirm_candidate: "{current}"')
+            yomi = self._dict.reading()
+            no = self._dict.confirm(''.join(self._shrunk))
+            if no == self._assisted:
+                LOGGER.debug(f'_confirm_candidate: restore "{current}"/"{yomi}"')
+                if yomi in self._ignored:
+                    self._ignored[yomi].discard(current)
+            elif self._assisted < len(self._dict.cand()):
+                assisted = self._dict.cand()[self._assisted]
+                LOGGER.debug(f'_confirm_candidate: ignore "{assisted}"/"{yomi}"')
+                if yomi in self._ignored:
+                    self._ignored[yomi].add(assisted)
+                else:
+                    self._ignored[yomi] = {assisted}
             self._dict.reset()
             self._lookup_table.clear()
         return current
@@ -684,29 +718,16 @@ class EngineHiragana(EngineModeless):
         llm.load(enabled)
         return enabled
 
-    def _assist(self, yomi, pos):
-        if not self._use_llm:
-            return 0
-        cand = self._dict.cand()
-        if len(cand) <= 1:
-            return 0
-        if cand[0][-1] == '―':
-            return 0
-        inputs = []
-        prefix = get_plain_text(yomi[:pos - len(self._dict.reading())])
-        if prefix == '':
-            return 0
-        return llm.pick(prefix, cand)
-
-    def _lookup_dictionary(self, yomi, pos, anchor=0):
+    def _lookup_dictionary(self, text, pos, anchor=0):
         self._lookup_table.clear()
-        cand = self._dict.lookup(yomi, pos, anchor)
+        cand = self._dict.lookup(text, pos, anchor)
         size = len(self._dict.reading())
+        self._assisted = 0
         if 0 < size and 1 < len(self._dict.cand()):
             for i, c in enumerate(self._dict.cand()):
                 self._lookup_table.append_candidate(IBus.Text.new_from_string(c))
                 self._lookup_table.set_label(i, IBus.Text.new_from_string(' '))
-            cursor_pos = self._assist(yomi, pos)
+            cursor_pos = self._assist(text, pos)
             if 0 < cursor_pos and cursor_pos < self._lookup_table.get_page_size():
                 self._lookup_table.set_cursor_pos(cursor_pos)
                 self._update_candidate()
