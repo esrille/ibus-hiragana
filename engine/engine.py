@@ -1365,7 +1365,7 @@ class EngineHiragana(EngineModeless):
     # inside GNOME Shell on X11. This issue is fixed with Wayland.
     def do_process_key_event(self, keyval: int, keycode: int, state: int) -> bool:
         LOGGER.debug(f'do_process_key_event({keyval:#04x}({IBus.keyval_name(keyval)}), '
-                    f'{keycode}, {state:#010x}({prettify_state(state)}))')
+                     f'{keycode}, {state:#010x}({prettify_state(state)}))')
         if keyval == IBus.Super_L or (state & IBus.ModifierType.MOD4_MASK):
             return False
         if not(state & IBus.ModifierType.RELEASE_MASK):
