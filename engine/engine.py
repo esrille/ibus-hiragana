@@ -788,6 +788,7 @@ class EngineHiragana(EngineModeless):
         return True
 
     def _process_replace(self, e: Event) -> bool:
+        LOGGER.debug(f'_process_replace(): _completed="{self._completed}"')
         if self._dict.current():
             return True
         # Check 'n'
@@ -815,6 +816,7 @@ class EngineHiragana(EngineModeless):
             self._shrunk = []
             self.delete_surrounding_string(size)
             if self._completed:
+                # 直前の変換のおくりがなの部分をスキップするようする。
                 plain = get_plain_text(text[:pos])
                 completed_pos = plain.rfind(self._completed)
                 if 0 <= completed_pos:
@@ -826,7 +828,7 @@ class EngineHiragana(EngineModeless):
                             break
                         LOGGER.debug(f'auto shrink: from "{cand}" to "{current}"')
                         cand = current
-                        size = len(cand)
+                        size = len(self._dict.reading())
         elif not committed_n:
             # Commit a white space
             self.commit_string(' ' if e.is_muhenkan() or self.get_mode() == 'ｱ' else '　')
