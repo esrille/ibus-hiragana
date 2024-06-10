@@ -38,7 +38,7 @@ def load(enabled: bool):
         if tokenizer is None:
             tokenizer = BertJapaneseTokenizer.from_pretrained(MODEL_NAME, local_files_only=True)
     except OSError:
-        LOGGER.info(f'Local {MODEL_NAME} is not found')
+        LOGGER.debug(f'Local {MODEL_NAME} is not found')
     try:
         if model is None:
             model = BertForMaskedLM.from_pretrained(MODEL_NAME)

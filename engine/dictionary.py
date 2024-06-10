@@ -81,7 +81,7 @@ class Dictionary:
         return okuri == yomi
 
     def __init__(self, system: str, user: str, clear_history=False):
-        LOGGER.info(f'Dictionary("{system}", "{user}")')
+        LOGGER.debug(f'Dictionary("{system}", "{user}")')
 
         self._dict_base = {}
         self._dict = {}
@@ -127,7 +127,7 @@ class Dictionary:
         self._orders_path = os.path.join(package.get_user_datadir(), 'dic', system)
         try:
             if clear_history:
-                LOGGER.info('clear_history')
+                LOGGER.debug('clear_history')
                 with open(self._orders_path, 'w') as f:
                     f.write('; ' + DICTIONARY_VERSION + '\n')
             else:
@@ -160,7 +160,7 @@ class Dictionary:
                         self._merge_entry(dic, yomi, cand, reorder_only)
                         if yomi.endswith('―'):
                             self._merge_entry(dic, yomi[:-1], [yomi], reorder_only)
-                LOGGER.info(f'Loaded {path}')
+                LOGGER.debug(f'Loaded {path}')
         except OSError:
             LOGGER.exception(f'could not load "{path}"')
 
@@ -314,6 +314,7 @@ class Dictionary:
                         self._order = []
                         self._completed = []
                         self._numeric = ''
+                        LOGGER.debug(f'  yomi: "{self._yomi}", cand: {self._cand}')
                 else:
                     yy = y.replace(numeric, '#')
                     if yy in self._dict:
@@ -435,6 +436,7 @@ class Dictionary:
                 self._dirty = True
 
     def create_pseudo_candidate(self, text):
+        LOGGER.debug(f'create_pseudo_candidate("{text}")')
         self._yomi = text
         self._cand = [text]
         self._completed = [0]

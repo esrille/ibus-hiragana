@@ -205,7 +205,6 @@ def prettify_state(state: int):
 class EngineModeless(IBus.Engine):
 
     def __init__(self, **kwargs):
-        LOGGER.debug(f'EngineModeless.init({kwargs})')
         super().__init__(**kwargs)
 
         self._platform_version = 42
@@ -225,7 +224,7 @@ class EngineModeless(IBus.Engine):
         self.roman_text = ''
 
     def _forward_backspaces(self, size):
-        LOGGER.info(f'_forward_backspaces({size})')
+        LOGGER.debug(f'_forward_backspaces({size})')
         for i in range(size):
             self.forward_key_event(IBus.BackSpace, 14, 0)
             time.sleep(EVENT_DELAY)
@@ -243,7 +242,7 @@ class EngineModeless(IBus.Engine):
 
     def check_surrounding_support(self):
         if self._surrounding == SURROUNDING_COMMITTED:
-            LOGGER.info(f'check_surrounding_support(): "{self._preedit_text}"')
+            LOGGER.debug(f'check_surrounding_support(): "{self._preedit_text}"')
             self._surrounding = SURROUNDING_BROKEN
             # Hide preedit text for a moment so that the current client can
             # process the backspace keys.
@@ -279,7 +278,7 @@ class EngineModeless(IBus.Engine):
         return text
 
     def commit_string(self, text):
-        LOGGER.info(f'commit_string("{text}"): "{self._preedit_text}"')
+        LOGGER.debug(f'commit_string("{text}"): "{self._preedit_text}"')
         if not text:
             return text
         if not self.has_preedit():
@@ -308,7 +307,7 @@ class EngineModeless(IBus.Engine):
         self._preedit_pos_orig += 1
 
     def delete_surrounding_string(self, size):
-        LOGGER.info(f'delete_surrounding_string({size})')
+        LOGGER.debug(f'delete_surrounding_string({size})')
         assert size <= self._preedit_pos
         self._preedit_text = self._preedit_text[:self._preedit_pos - size] + self._preedit_text[self._preedit_pos:]
         self._preedit_pos -= size
@@ -320,19 +319,19 @@ class EngineModeless(IBus.Engine):
         if text:
             self.commit_string(text)
         if self._surrounding == SURROUNDING_COMMITTED:
-            LOGGER.info(f'flush("{self._preedit_text}"): committed')
+            LOGGER.debug(f'flush("{self._preedit_text}"): committed')
             if self.has_non_empty_preedit():
                 self.commit_text(IBus.Text.new_from_string(self._preedit_text))
             if not force:
                 return self._preedit_text
         elif self.should_draw_preedit():
-            LOGGER.info(f'flush("{self._preedit_text}"): preedit')
+            LOGGER.debug(f'flush("{self._preedit_text}"): preedit')
             if self._preedit_text:
                 self.commit_text(IBus.Text.new_from_string(self._preedit_text))
                 self._surrounding = SURROUNDING_RESET
         else:
-            LOGGER.info(f'flush("{self._preedit_text}"): '
-                        f'{self._preedit_pos_min}:{self._preedit_pos_orig}:{self._preedit_pos}')
+            LOGGER.debug(f'flush("{self._preedit_text}"): '
+                         f'{self._preedit_pos_min}:{self._preedit_pos_orig}:{self._preedit_pos}')
             delete_size = self._preedit_pos_orig - self._preedit_pos_min
             if 0 < delete_size:
                 LOGGER.debug(f'flush: delete: {delete_size}')
@@ -417,7 +416,7 @@ class EngineModeless(IBus.Engine):
     # virtual methods of IBus.Engine
     #
     def do_enable(self) -> None:
-        LOGGER.info('do_enable()')
+        LOGGER.debug('do_enable()')
         # Request the initial surrounding-text when enabled as documented.
         super().get_surrounding_text()
 
@@ -455,7 +454,6 @@ class EngineHiragana(EngineModeless):
     __gtype_name__ = 'EngineHiragana'
 
     def __init__(self, bus: IBus.Bus, object_path: str):
-        logging.info('EngineHiragana.__init__')
         props = {
             'connection': bus.get_connection(),
             'object_path': object_path
@@ -503,7 +501,7 @@ class EngineHiragana(EngineModeless):
         self._focus_id = ''
 
     def __del__(self):
-        logging.info('EngineHiragana.__del__')
+        LOGGER.debug('EngineHiragana.__del__')
         self._disconnect_handlers()
 
     def _disconnect_handlers(self):
@@ -588,12 +586,12 @@ class EngineHiragana(EngineModeless):
 
     def _load_combining_circumflex(self) -> bool:
         mode = self._settings.get_boolean('combining-circumflex')
-        LOGGER.info(f'combining-circumflex: {mode}')
+        LOGGER.debug(f'combining-circumflex: {mode}')
         return mode
 
     def _load_combining_macron(self) -> bool:
         mode = self._settings.get_boolean('combining-macron')
-        LOGGER.info(f'combining-macron: {mode}')
+        LOGGER.debug(f'combining-macron: {mode}')
         return mode
 
     def _load_dictionary(self, clear_history=False):
@@ -605,6 +603,7 @@ class EngineHiragana(EngineModeless):
             if system == 'restrained.dic':
                 system = 'restrained.8.dic'
         user = self._settings.get_string('user-dictionary')
+        LOGGER.info(f'dictionary: "{system}", "{user}", {clear_history}')
         return Dictionary(system, user, clear_history)
 
     def _load_input_mode(self):
@@ -612,11 +611,11 @@ class EngineHiragana(EngineModeless):
         if mode not in INPUT_MODE_NAMES:
             mode = 'A'
             self._settings.reset('mode')
-        LOGGER.info(f'input mode: {mode}')
+        LOGGER.debug(f'input mode: {mode}')
         return mode
 
     def _load_json(self, pathname):
-        LOGGER.info(f'_load_json("{pathname}")')
+        LOGGER.debug(f'_load_json("{pathname}")')
         layout = {}
         try:
             with open(pathname) as f:
@@ -644,7 +643,7 @@ class EngineHiragana(EngineModeless):
             default_layout = os.path.join(package.get_datadir(), 'layouts', 'roomazi.' + 'us' + '.json')
         path = package.load_from_data_dirs(
             os.path.join('layouts', self._settings.get_string('layout') + '.' + xkb_layout + '.json'))
-        LOGGER.info(f'keyboard layout: {path}')
+        LOGGER.info(f'keyboard layout: "{path}"')
         layout = self._load_json(path)
         if not layout:
             layout = self._load_json(default_layout)
@@ -670,7 +669,7 @@ class EngineHiragana(EngineModeless):
         if level not in NAME_TO_LOGGING_LEVEL:
             level = 'WARNING'
             self._settings.reset('logging-level')
-        LOGGER.info(f'logging_level: {level}')
+        LOGGER.info(f'logging-level: {level}')
         logging.getLogger().setLevel(NAME_TO_LOGGING_LEVEL[level])
         return level
 
@@ -1009,14 +1008,14 @@ class EngineHiragana(EngineModeless):
 
     def _set_combining_circumflex(self, mode):
         self.combining_circumflex = mode
-        LOGGER.info(f'_set_combining_circumflex({mode})')
+        LOGGER.debug(f'_set_combining_circumflex({mode})')
 
     def _set_combining_macron(self, mode):
         self.combining_macron = mode
-        LOGGER.info(f'_set_combining_macron({mode})')
+        LOGGER.debug(f'_set_combining_macron({mode})')
 
     def _set_completed(self, cand):
-        LOGGER.info(f'_set_completed("{cand}")')
+        LOGGER.debug(f'_set_completed("{cand}")')
         if cand[-1] in HIRAGANA:
             self._completed = cand
         else:
@@ -1027,7 +1026,7 @@ class EngineHiragana(EngineModeless):
             self.character_after_n = "aiueo'wyn"
         else:
             self.character_after_n = "aiueo'wy"
-        LOGGER.info(f'_set_x4063_mode({on})')
+        LOGGER.debug(f'_set_x4063_mode({on})')
 
     def _update_candidate(self):
         index = self._lookup_table.get_cursor_pos()
@@ -1129,7 +1128,7 @@ class EngineHiragana(EngineModeless):
                 if line == last:
                     continue
                 last = line
-                LOGGER.info(line)
+                LOGGER.info(f'_setup_sync: {line}')
                 if line == 'reload_dictionaries':
                     self._dict = self._load_dictionary()
                 elif line == 'clear_input_history':
@@ -1171,7 +1170,7 @@ class EngineHiragana(EngineModeless):
         if self._controller.is_onoff_by_caps():
             lock = keymap.get_caps_lock_state()
             if self._caps_lock_state != lock:
-                LOGGER.info(f'_keymap_state_changed_cb: {keymap.get_caps_lock_state()}')
+                LOGGER.debug(f'_keymap_state_changed_cb: {keymap.get_caps_lock_state()}')
                 self._caps_lock_state = lock
                 if lock:
                     self.enable_ime()
@@ -1277,7 +1276,7 @@ class EngineHiragana(EngineModeless):
     # virtual methods of IBus.Engine
     #
     def do_candidate_clicked(self, index: int, button: int, state: int) -> None:
-        LOGGER.info(f'do_candidate_clicked({index}, {button}, {state})')
+        LOGGER.debug(f'do_candidate_clicked({index}, {button}, {state})')
         if button != 1 or not self._dict.current():
             return
         cursor_pos = self._lookup_table.get_cursor_pos()
@@ -1313,7 +1312,7 @@ class EngineHiragana(EngineModeless):
         return True
 
     def do_disable(self) -> None:
-        LOGGER.info('do_disable()')
+        LOGGER.debug('do_disable()')
         self._reset()
         self._mode = 'A'
         self._dict.save_orders()
@@ -1330,7 +1329,7 @@ class EngineHiragana(EngineModeless):
         self.do_focus_in_id('', '')
 
     def do_focus_in_id(self, object_path: str, client: str) -> None:
-        LOGGER.info(f'do_focus_in_id("{object_path}", "{client}"): {self._surrounding}')
+        LOGGER.debug(f'do_focus_in_id("{object_path}", "{client}"): {self._surrounding}')
         if client == 'fake':
             return
         if self._focus_id != object_path:
@@ -1347,7 +1346,7 @@ class EngineHiragana(EngineModeless):
         self.do_focus_out_id('')
 
     def do_focus_out_id(self, object_path: str):
-        LOGGER.info(f'do_focus_out_id("{object_path}"): {self._surrounding}')
+        LOGGER.debug(f'do_focus_out_id("{object_path}"): {self._surrounding}')
         if self._surrounding != SURROUNDING_BROKEN:
             self._reset()
             self._dict.save_orders()
@@ -1365,7 +1364,7 @@ class EngineHiragana(EngineModeless):
     # Note IBus.ModifierType.LOCK_MASK bit is always off with the text boxes
     # inside GNOME Shell on X11. This issue is fixed with Wayland.
     def do_process_key_event(self, keyval: int, keycode: int, state: int) -> bool:
-        LOGGER.info(f'do_process_key_event({keyval:#04x}({IBus.keyval_name(keyval)}), '
+        LOGGER.debug(f'do_process_key_event({keyval:#04x}({IBus.keyval_name(keyval)}), '
                     f'{keycode}, {state:#010x}({prettify_state(state)}))')
         if keyval == IBus.Super_L or (state & IBus.ModifierType.MOD4_MASK):
             return False
@@ -1374,7 +1373,7 @@ class EngineHiragana(EngineModeless):
         return self._controller.process_key_event(self, keyval, keycode, state)
 
     def do_property_activate(self, prop_name: str, state: int) -> None:
-        LOGGER.info(f'property_activate({prop_name}, {state})')
+        LOGGER.debug(f'property_activate({prop_name}, {state})')
         if prop_name == 'Setup':
             self._setup_start()
         elif prop_name == 'Help':
@@ -1416,7 +1415,7 @@ class EngineHiragana(EngineModeless):
                 self.set_mode(mode, override=True, update_list=False)
 
     def do_reset(self) -> None:
-        LOGGER.info(f'reset: {self._surrounding}')
+        LOGGER.debug(f'reset: {self._surrounding}')
         if self._surrounding != SURROUNDING_BROKEN:
             self._reset()
         else:

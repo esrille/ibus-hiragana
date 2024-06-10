@@ -206,7 +206,7 @@ class KeyboardController:
         self._modifiers = 0
 
     def process_key_event(self, engine: IBus.Engine, keyval, keycode, state) -> bool:
-        LOGGER.info(f'process_event: {self._modifiers:#07x}')
+        LOGGER.debug(f'process_key_event: {self._modifiers:#07x}')
 
         # Ignore XFree86 anomaly
         if keyval == IBus.ISO_Left_Tab:
@@ -377,7 +377,7 @@ class KeyboardController:
         return processed
 
     def is_onoff_by_caps(self):
-        LOGGER.info(f'is_onoff_by_caps: {self._OnOffByCaps}')
+        LOGGER.debug(f'is_onoff_by_caps: {self._OnOffByCaps}')
         return self._OnOffByCaps
 
     def create_event(self, keyval, keycode, state) -> Event:
