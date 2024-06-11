@@ -24,8 +24,8 @@ Key combination | Character to be entered
 ---|---
 <span class='key'>Alt Gr</span>+<span class='key'>1</span>| 一
 <span class='key'>Alt Gr</span>+<span class='key'>2</span>| 二
-<span class='key'>Alt Gr</span>+<span class='key'>p</span>| π
-<span class='key'>Alt Gr</span>+<span class='key'>Shift</span>+<span class='key'>d</span>| ℃
+<span class='key'>Alt Gr</span>+<span class='key'>P</span>| π
+<span class='key'>Alt Gr</span>+<span class='key'>Shift</span>+<span class='key'>D</span>| ℃
 
 The following figures show the character arrangement on the <span class='key'>AltGr</span>
 layers.

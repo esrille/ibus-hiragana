@@ -27,7 +27,7 @@ The current input mode is displayed in the right corner of the desktop top bar.
 
 To enter a Kanji or Katana word, type the word in Hiragana first, then press the <span class='key'>変換</span> key to convert the word into Kanji or Katakana.
 The text cursor should be at the end of the word before you convert it.
-For example, to enter the sentence "しろうとむけのワープロの登場を期待したいですね。", type as follows in Hiragana mode:
+For example, to enter the sentence "しろうとむけのワープロの￹登場￺とうじょう￻を￹期待￺きたい￻したいですね。", type as follows in Hiragana mode:
 
 <pre><code>siroutomukenowa-puro<span class='key'>変換</span>notouzyou<span class='key'>変換</span>wokitai<span class='key'>変換</span>sitaidesune.
 </code></pre>
@@ -37,14 +37,14 @@ Or as follows using Kana input:
 <pre><code>しろうとむけのわーぷろ<span class='key'>変換</span>のとうじょう<span class='key'>変換</span>をきたい<span class='key'>変換</span>したいですね。
 </code></pre>
 
-<br>**Homonyms**: With Kanji, there are words with the same reading but different meanings, like "衛星" (satellite) and "衛生" (hygiene). These words are called homonyms. When you encounter homonyms, use the <span class='key'>変換</span> key to select the right word from the candidate list. You can also use the up and down arrow keys to select the candidate.
+<br>**Homonyms**: With Kanji, there are words with the same reading but different meanings, like "￹衛星￺えいせい￻" (satellite) and "￹衛生￺えいせい￻" (hygiene). These words are called homonyms. When you encounter homonyms, use the <span class='key'>変換</span> key to select the right word from the candidate list. You can also use the up and down arrow keys to select the candidate.
 
 Later, when you convert the same homonym again, the last selected word will appear first in the candidate list. Less frequently used homonyms will move towards the end of the list.
 So you won't have to keep selecting between homonyms over time.
 
 ## Entering Words with Okurigana {: #input-okurigana}
 
-To enter a word with okurigana, press the <span class='key'>変換</span> key right after the part written in kanji. For example, to enter the sentence "赤いチューリップの花が咲きました。", you will type as follows:
+To enter a word with okurigana, press the <span class='key'>変換</span> key right after the part written in kanji. For example, to enter the sentence "￹赤￺あか￻いチューリップの￹花￺はな￻が￹咲￺さ￻きました。", you will type as follows:
 
 <pre><code>aka<span class='key'>変換</span>ityu-rippu<span class='key'>変換</span>nohana<span class='key'>変換</span>gasa<span class='key'>変換</span>kimasita.
 </code></pre>
@@ -64,16 +64,16 @@ Here are some examples:
 
 As you type okurigana, the candidate list becomes shorter.
 
-When there are multiple conversion candidates, select the one that ends with a '―' (horizontal bar). For example, when you want to convert "咲き", select the candidate "<span style="background-color:#d1eaff">さ―</span>".
+When there are multiple conversion candidates, select the one that ends with a '―' (horizontal bar). For example, when you want to convert "￹咲￺さ￻き", select the candidate "<span style="background-color:#d1eaff">さ―</span>".
 Initially, the conversion candidate ending with a '―' may be at the bottom of the list. However, after using the word, it will move to the top of the list. In this way, you can save the keystrokes.
 
 ## Changing the Length of the Reading {: #input-shrink}
 
-When you want to enter "生きがい論", you will type as below:
+When you want to enter "￹生￺い￻きがい￹論￺ろん￻", you will type as below:
 
 <pre><code>生きがいろん<span class='key'>変換</span></code></pre>
 
-When converting a word into Kanji or Katakana, Hiragana IME selects words with the longest reading. Therefore, Hiragana IME initially selects "概論" (がいろん) instead of "論" (ろん). The screen will be changed like below:
+When converting a word into Kanji or Katakana, Hiragana IME selects words with the longest reading. Therefore, Hiragana IME initially selects "￹概論￺がいろん￻" instead of "￹論￺ろん￻". The screen will be changed like below:
 
 <pre><code>生き<span style="background-color:#d1eaff">概論</span></code></pre>
 
@@ -81,7 +81,7 @@ Press the <span class='key'>Tab</span> key to shorten the reading. The reading
 
 <pre><code>生きが<span style="background-color:#d1eaff">異論</span></code></pre>
 
-Press the <span class='key'>Tab</span> key to shorten the reading again to 'ろん'. The screen will change to '生きがい論' as intended, like below:
+Press the <span class='key'>Tab</span> key to shorten the reading again to 'ろん'. The screen will change to "￹生￺い￻きがい￹論￺ろん￻" as intended, like below:
 
 <pre><code>生きがい<span style="background-color:#d1eaff">論</span></code></pre>
 

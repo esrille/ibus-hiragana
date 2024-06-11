@@ -28,8 +28,8 @@ IMEの￹入力￺にゅうりょく￻モードは、「￹英数￺えいす�
 ---|---
 <span class='key'>Alt Gr</span>+<span class='key'>1</span>| 一
 <span class='key'>Alt Gr</span>+<span class='key'>2</span>| 二
-<span class='key'>Alt Gr</span>+<span class='key'>p</span>| π
-<span class='key'>Alt Gr</span>+<span class='key'>Shift</span>+<span class='key'>d</span>| ℃
+<span class='key'>Alt Gr</span>+<span class='key'>P</span>| π
+<span class='key'>Alt Gr</span>+<span class='key'>Shift</span>+<span class='key'>D</span>| ℃
 
 　<span class='key'>AltGr</span>￹面￺めん￻の￹文字￺もじ￻の￹配置￺はいち￻はつぎの￹図￺ず￻のとおりです。￹英語￺えいご￻キーボードと￹日本語￺にほんご￻キーボードでは、￹文字￺もじ￻の￹配置￺はいち￻されている￹位置￺いち￻がいちぶ￹異￺こと￻なります。
 

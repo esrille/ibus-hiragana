@@ -6,7 +6,7 @@
 
 When using Rōmaji input, you must be careful about the following three points to enter the correct Kana letters.
 
-1. Enter furigana for kanji words. For '東京', enter 'toukyou' instead of 'tōkyō'
+1. Enter furigana for kanji words. For '￹東京￺とうきょう￻', enter 'toukyou' instead of 'tōkyō'
 2. Type <span class='key'>^</span> or <span class='key'>-</span> after the vowel letter for entering letters like âîûêô or āīūēō to be written in Katakan.
 3. Enter Rōmaji corresponding to the Kana letter, not the pronunciation. For 'を', enter 'wo' instead of 'o'. For 'づ', enter 'du' instead of 'zu'.
 

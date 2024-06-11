@@ -186,8 +186,8 @@ When enabled, the Hiragana IME calculates the probabilities of each candidate's 
 
 For example, when converting 'のぼる', the pre-selected candidate changes as below depending on the surrounding text:
 
-- 山に<span style="background-color:#d1eaff">登る</span>
-- 日が<span style="background-color:#d1eaff">昇る</span>
+- ￹山￺やま￻に<span style="background-color:#d1eaff">登る</span>
+- ￹日￺ひ￻が<span style="background-color:#d1eaff">昇る</span>
 
 **Note**: Since this is merely based on a probability calculation, the desired candidate may not always be chosen. This feature is disabled by default because it requires a relatively large amount of computational power.
 

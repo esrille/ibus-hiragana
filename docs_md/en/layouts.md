@@ -473,7 +473,7 @@ Since the original JIS Kana layout was considered difficult to use, a new JIS la
 While the new JIS Kana layout was discontinued as a JIS standard, it had several nice features.
 
 - The fourth row contains no Kana characters because it's difficult to reach.
-- You can switch between alphanumeric and Kana modes using the toggle key placed to the left of the 'A' key. Current input methods can be configured to use this method using the Caps Lock (英数) key.
+- You can switch between alphanumeric and Kana modes using the toggle key placed to the left of the 'A' key. Current input methods can be configured to use this method using the <span class='key'>CapsLock</span> (<span class='key'>英数</span>) key.
 - You can switch between alphanumeric and Kana modes using the alphanumeric and Kana keys. The alphanumeric key is placed to the left of the space key, and the Kana key is placed to the right. This is the standard layout of the current Japanese keyboards.
 - You can use the center shift key, located at the space key's position. The center shift key can be pressed by thumb, making it more comfortable to type Kana characters in the shift layer.
 - The underscore key at the far right side of the JIS Kana layout was removed. The underscore (_) could be typed with <span class='key'>Shift</span>+<span class='key'>0</span>.
