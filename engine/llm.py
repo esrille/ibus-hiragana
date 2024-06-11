@@ -48,6 +48,7 @@ def load(enabled: bool):
         LOGGER.exception(f'Could not load {MODEL_NAME}')
 
 
+@torch.no_grad()
 def pick(prefix, candidates):
     if model is None or tokenizer is None:
         return 0
