@@ -111,7 +111,7 @@ As for the keyboard layout, Hiragana IME uses the previously selected keyboard l
 - To use the US keyboard layout, select **English (US)** from the keyboard menu first, then select **Japanese (Hiragana IME)**.
 
 When you can't find the keyboard layout you want to use, add your preferred layout to the **Input Sources**.
-Currently, Hiragana IME supports three keyboard layouts: “Japanese,” “English (US),” and “English (Dvorak).”
+Currently, Hiragana IME supports three keyboard layouts: **Japanese**, **English (US)**, and **English (Dvorak)**.
 
 **Note**: Often, different keyboard designs are used from country to country for each language. In Japan, both Japanese and US keyboards are used. The US keyboard is designed in the United States. Nevertheless, it is also utilized in many other countries by modifying the letters printed on the keycaps.
 

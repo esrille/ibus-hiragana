@@ -401,7 +401,7 @@ This change disrupted the grouping of several keys according to the consonant so
 </div>
 *Figure: Combination Typewriter Layout*
 
-The JIS Kanre layout added more keys and moved ‘<span class='n'>ぬ</span><span class='m'>む</span><span class='r'>ろ</span><span class='x'>ー</span>゛゜’ to more difficult positions. The resulting JIS Kana layout became harder to remember and touch type.
+The JIS Kanre layout added more keys and moved "<span class='n'>ぬ</span><span class='m'>む</span><span class='r'>ろ</span><span class='x'>ー</span>゛゜" to more difficult positions. The resulting JIS Kana layout became harder to remember and touch type.
 
 ### New JIS Layout {: #x6004}
 

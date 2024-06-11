@@ -4,9 +4,9 @@ You can increase the number of characters and symbols you can enter on the keybo
 
 ## What is <span class='key'>AltGr</span> key? {: #altgr}
 
-<span class='key'>AltGr</span>  stands for “alternate graphic” and is used to input additional characters not found on the standard keyboard layers. It is particularly useful with languages that require one or two extra keyboard layers.
+<span class='key'>AltGr</span>  stands for "alternate graphic" and is used to input additional characters not found on the standard keyboard layers. It is particularly useful with languages that require one or two extra keyboard layers.
 
-In Japan, <span class='key'>AltGr</span>  layers are not widely used because the number of characters increased by using them is still too small to accommodate over a thousand Kanji characters. However, there are also commonly used characters and symbols in Japan aside from kanji, such as the postal code symbol “〒” or the degree Celsius “℃.” You can enter these characters using the keyboard with the <span class='key'>AltGr</span>  key combination in the Hiragana IME.
+In Japan, <span class='key'>AltGr</span>  layers are not widely used because the number of characters increased by using them is still too small to accommodate over a thousand Kanji characters. However, there are also commonly used characters and symbols in Japan aside from kanji, such as the postal code symbol '〒' or the degree Celsius '℃'. You can enter these characters using the keyboard with the <span class='key'>AltGr</span>  key combination in the Hiragana IME.
 
 ## Switching the right <span class='key'>Alt</span> key to the <span class='key'>AltGr</span> key {: #altgr-settings}
 

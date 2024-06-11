@@ -38,9 +38,9 @@ Rōmaji input is taught in the third grade at school.
 You can use Kana input even if you are unfamiliar with Rōmaji.
 Using Kana input, you can enter Japanese sentences with fewer keystrokes than using Rōmaji input.
 
-### Always convert ‘nn’ to ‘ん’ {: #nn}
+### Always convert 'nn' to 'ん' {: #nn}
 
-If you want to enter ‘ん’ by typing <kbd>n</kbd><kbd>n</kbd>, enable **Always convert ‘nn’ to ‘ん’** option.
+If you want to enter 'ん' by typing <kbd>n</kbd><kbd>n</kbd>, enable **Always convert 'nn' to 'ん'** option.
 
 Option | Input | Output
 --|--|--
@@ -69,7 +69,7 @@ Dictionary | Description
 Okurigana: strict | Follow the main rules strictly.
 Okurigana: permissive | Permit the use of widely used variations.
 
-For example, the ‘10th+ grade (Okurigana: general + permissible)’ dictionary allows conversions like ‘<ruby>落<rp>(</rp><rt>おと</rt><rp>)</rp></ruby>す’.
+For example, the *10th+ grade (Okurigana: general + permissible)* dictionary allows conversions like '<ruby>落<rp>(</rp><rt>おと</rt><rp>)</rp></ruby>す'.
 
 Main rules | Permissible rules
 --|--
@@ -77,7 +77,7 @@ Main rules | Permissible rules
 おこな<span class='key'>変換</span>って → 行って | おこ<span class='key'>変換</span>なって → 行なって
 
 Understanding *okurigana* can be quite challenging.
-Without furigana, ‘<ruby>行<rp>(</rp><rt>おこな</rt><rp>)</rp></ruby>って’ and ‘<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>って’ cannot be distinguished by the main rule alone. On the other hand, people who are knowledgeable about kanji do not struggle with reading  ‘<ruby>落<rp>(</rp><rt>おと</rt><rp>)</rp></ruby>す.’
+Without furigana, '<ruby>行<rp>(</rp><rt>おこな</rt><rp>)</rp></ruby>って' and '<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>って' cannot be distinguished by the main rules alone. On the other hand, people who are knowledgeable about kanji do not struggle with reading  '<ruby>落<rp>(</rp><rt>おと</rt><rp>)</rp></ruby>す'.
 
 The public notice does not mandate using kanji; it simply provides guidelines on how to add okurigana when using kanji. In the Japanese version of this guide, most Japanese words are written only in hiragana.
 
@@ -144,7 +144,7 @@ Shimo-ichidan | み― | 見え1
 
 #### For イ (i)-adjectives
 
-In the ‘word’ section, write the kanji, the okurigana up to (if any) the conjugative suffix, and the conjugative suffix symbol: *i*.
+In the word section, write the kanji, the okurigana up to (if any) the conjugative suffix, and the conjugative suffix symbol: *i*.
 
 Reading section | Word section
 ---|---
@@ -184,7 +184,7 @@ You can customize the input assistance feature.
 This feature utilizes so-called *AI*. LLM stands for Large Language Model.
 When enabled, the Hiragana IME calculates the probabilities of each candidate's occurrence in its surrounding text and pre-selects the most probable candidate in the candidate window..
 
-For example, when converting ‘のぼる’, the pre-selected candidate changes as below depending on the surrounding text:
+For example, when converting 'のぼる', the pre-selected candidate changes as below depending on the surrounding text:
 
 - 山に<span style="background-color:#d1eaff">登る</span>
 - 日が<span style="background-color:#d1eaff">昇る</span>
