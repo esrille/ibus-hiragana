@@ -24,20 +24,20 @@ This chart is based on Kunrei-shiki romanization, which is organized in a more s
 &nbsp; | A | I | U | E | O | YA | YU | YO
 --|--|--|--|--|----|--|--|
 | あ a | い i | う u | え e | お o
-K | か ka | き ki | く ku | け ke | こ ko | きゃ kya | きゅ kyu | きょ kyo
-S | さ sa | し si | す su | せ se | そ so | しゃ sya | しゅ syu | しょ syo
-T | た ta | ち ti | つ tu | て te | と to | ちゃ tya | ちゅ tyu | ちょ tyo
-N | な na | に ni | ぬ nu | ね ne | の no | にゃ nya | にゅ nyu | にょ nyo
-H | は ha | ひ hi | ふ hu | へ he | ほ ho | ひゃ hya | ひゅ hyu | ひょ hyo
-M | ま ma | み mi | む mu | め me | も mo | みゃ mya | みゅ myu | みょ myo
-Y | や ya |  | ゆ yu |  | よ yo |
-R | ら ra | り ri | る ru | れ re | ろ ro | りゃ rya | りゅ ryu | りょ ryo
-W | わ wa | | | | *を wo* |
-G | が ga | ぎ gi | ぐ gu | げ ge | ご go | ぎゃ gya | ぎゅ gyu | ぎょ gyo
-Z | ざ za | じ zi | ず zu | ぜ ze | ぞ zo | じゃ zya | じゅ zyu | じょ zyo
-D | だ da | | *づ du* | で de | ど do |
-B | ば ba | び bi | ぶ bu | べ be | ぼ bo | びゃ bya | びゅ byu | びょ byo
-P | ぱ pa | ぴ pi | ぷ pu | ぺ pe | ぽ po | ぴゃ pya | ぴゅ pyu | ぴょ pyo
+**K** | か ka | き ki | く ku | け ke | こ ko | きゃ kya | きゅ kyu | きょ kyo
+**S** | さ sa | し si | す su | せ se | そ so | しゃ sya | しゅ syu | しょ syo
+**T** | た ta | ち ti | つ tu | て te | と to | ちゃ tya | ちゅ tyu | ちょ tyo
+**N** | な na | に ni | ぬ nu | ね ne | の no | にゃ nya | にゅ nyu | にょ nyo
+**H** | は ha | ひ hi | ふ hu | へ he | ほ ho | ひゃ hya | ひゅ hyu | ひょ hyo
+**M** | ま ma | み mi | む mu | め me | も mo | みゃ mya | みゅ myu | みょ myo
+**Y** | や ya |  | ゆ yu |  | よ yo |
+**R** | ら ra | り ri | る ru | れ re | ろ ro | りゃ rya | りゅ ryu | りょ ryo
+**W** | わ wa | | | | **を wo** |
+**G** | が ga | ぎ gi | ぐ gu | げ ge | ご go | ぎゃ gya | ぎゅ gyu | ぎょ gyo
+**Z** | ざ za | じ zi | ず zu | ぜ ze | ぞ zo | じゃ zya | じゅ zyu | じょ zyo
+**D** | だ da | | **づ du** | で de | ど do |
+**B** | ば ba | び bi | ぶ bu | べ be | ぼ bo | びゃ bya | びゅ byu | びょ byo
+**P** | ぱ pa | ぴ pi | ぷ pu | ぺ pe | ぽ po | ぴゃ pya | ぴゅ pyu | ぴょ pyo
 
 <br>
 
