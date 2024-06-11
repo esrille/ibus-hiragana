@@ -198,9 +198,6 @@ class Dictionary:
     def reset(self):
         self._yomi = ''
 
-    def not_selected(self):
-        return self._no == 0
-
     def set_current_to_next(self):
         if self._no + 1 < len(self._cand):
             self._no += 1

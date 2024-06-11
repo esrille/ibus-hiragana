@@ -473,6 +473,7 @@ class EngineHiragana(EngineModeless):
         self._completed = ''
         self._lookup_table = IBus.LookupTable.new(10, 0, True, False)
         self._lookup_table.set_orientation(IBus.Orientation.VERTICAL)
+        self._selected = False  # True if a candidate is selected by the user
 
         self._init_props()
 
@@ -528,7 +529,7 @@ class EngineHiragana(EngineModeless):
         if prefix == '':
             return 0
         self._assisted = llm.pick(prefix, cand)
-        LOGGER.debug(f'_assist: "{cand[self._assisted]}"/"{yomi}"')
+        LOGGER.debug(f'_assist: "{cand[self._assisted]}"/"{yomi}" ({self._assisted})')
         if cand[self._assisted] in self._ignored.get(yomi, set()):
             return 0
         return self._assisted
@@ -722,6 +723,7 @@ class EngineHiragana(EngineModeless):
         self._lookup_table.clear()
         cand = self._dict.lookup(text, pos, anchor)
         size = len(self._dict.reading())
+        self._selected = False
         self._assisted = 0
         if 0 < size and 1 < len(self._dict.cand()):
             for i, c in enumerate(self._dict.cand()):
@@ -914,7 +916,7 @@ class EngineHiragana(EngineModeless):
             if current[-1] == '―':
                 pos_yougen = pos
             elif current[-1] in OKURIGANA or yomi[-1] == '―' or self.roman_text:
-                if self._dict.not_selected():
+                if not self._selected:
                     pos_yougen = pos
                     to_revert = True
                     current = yomi
@@ -1324,11 +1326,13 @@ class EngineHiragana(EngineModeless):
         self._update_preedit()
 
     def do_cursor_down(self) -> bool:
+        self._selected = True
         if self._lookup_table.cursor_down():
             self._update_candidate()
         return True
 
     def do_cursor_up(self) -> bool:
+        self._selected = True
         if self._lookup_table.cursor_up():
             self._update_candidate()
         return True
@@ -1374,11 +1378,13 @@ class EngineHiragana(EngineModeless):
             self._dict.save_orders()
 
     def do_page_down(self) -> bool:
+        self._selected = True
         if self._lookup_table.page_down():
             self._update_candidate()
         return True
 
     def do_page_up(self) -> bool:
+        self._selected = True
         if self._lookup_table.page_up():
             self._update_candidate()
         return True
