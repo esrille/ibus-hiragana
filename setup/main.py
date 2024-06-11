@@ -35,6 +35,20 @@ import package
 from package import _
 
 
+USER_DICTIONARY_COMMENT = _("""; Hiragana IME User Dictionary
+;
+; Lines starting with a semicolon (;) are comments.
+; To add a word, write the reading, followed by a space, and then the word
+; enclosed by slashes (/):
+;
+;   Example) きれい /綺麗/
+;
+; For more details, see the 'Settings' - ‘Dictionary Tab’ in the Help.
+;
+
+""")
+
+
 class SetupEngineHiragana:
 
     def __init__(self):
@@ -217,8 +231,12 @@ class SetupEngineHiragana:
         try:
             if os.path.abspath(path) != path:
                 raise PermissionError(_('Invalid characters in User Dictionary Name'))
-            with open(path, 'a+'):
-                pass
+            if not os.path.isfile(path):
+                with open(path, 'w') as file:
+                    file.write(USER_DICTIONARY_COMMENT)
+            else:
+                with open(path, 'a+'):
+                    pass
             Gtk.show_uri_on_window(None, 'file://' + path, Gdk.CURRENT_TIME)
         except (OSError, GLib.Error) as e:
             logging.exception(f'Could not open "{path}"')

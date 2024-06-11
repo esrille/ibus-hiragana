@@ -3,9 +3,9 @@
 # This file is distributed under the same license as the ibus-hiragana package.
 msgid ""
 msgstr ""
-"Project-Id-Version: ibus-hiragana 0.15.5\n"
+"Project-Id-Version: ibus-hiragana 0.15.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-08 20:40+0900\n"
+"POT-Creation-Date: 2024-06-11 18:34+0900\n"
 "PO-Revision-Date: 2020-09-24 11:59+0900\n"
 "Last-Translator: Esrille Inc. <info@esrille.com>\n"
 "Language-Team: Japanese <info@esrille.com>\n"
@@ -34,88 +34,114 @@ msgstr "全角英数 (Ａ)"
 msgid "Halfwidth Katakana (ｱ)"
 msgstr "半角カタカナ (ｱ)"
 
-#: engine/engine.py:576 engine/engine.py:1040
+#: engine/engine.py:608 engine/engine.py:1059
 #, python-format
 msgid "Input mode (%s)"
 msgstr "入力モード (%s)"
 
-#: engine/engine.py:579
+#: engine/engine.py:611
 msgid "Setup"
 msgstr "設定"
 
-#: engine/engine.py:581
+#: engine/engine.py:613
 msgid "Help"
 msgstr "ヘルプ"
 
-#: engine/engine.py:583
+#: engine/engine.py:615
 msgid "About Hiragana IME..."
 msgstr "ひらがなIMEについて..."
 
-#: engine/engine.py:1382
+#: engine/engine.py:1402
 msgid "en"
 msgstr "ja"
 
-#: engine/engine.py:1394
+#: engine/engine.py:1414
 msgid "Hiragana IME"
 msgstr "ひらがなIME"
 
-#: setup/main.py:61
+#: setup/main.py:37
+msgid ""
+"; Hiragana IME User Dictionary\n"
+";\n"
+"; Lines starting with a semicolon (;) are comments.\n"
+"; To add a word, write the reading, followed by a space, and then the word\n"
+"; enclosed by slashes (/):\n"
+";\n"
+";   Example) きれい /綺麗/\n"
+";\n"
+"; For more details, see the 'Settings' - ‘Dictionary Tab’ in the Help.\n"
+";\n"
+"\n"
+msgstr ""
+"; ひらがな IME ユーザ辞書\n"
+";\n"
+"; セミコロン(;)ではじまる行はコメントです。\n"
+"; 単語は、「よみ」, 半角スペース, そのあとにスラッシュ(/)で語をかこんで登録し"
+"ます。\n"
+";\n"
+";   例) きれい /綺麗/\n"
+";\n"
+"; くわしくは、ヘルプの「設定のかえかた」-「辞書タブ」をみてください。\n"
+";\n"
+"\n"
+
+#: setup/main.py:74
 msgid "Rōmaji"
 msgstr "ローマ字"
 
-#: setup/main.py:62
+#: setup/main.py:75
 msgid "Kana (JIS Layout)"
 msgstr "かな (JIS配列)"
 
-#: setup/main.py:63
+#: setup/main.py:76
 msgid "Kana (New Stickney Layout)"
 msgstr "かな (ニュースティックニー配列)"
 
-#: setup/main.py:82
+#: setup/main.py:95
 msgid "1st grade"
 msgstr "小学校１年生用"
 
-#: setup/main.py:83
+#: setup/main.py:96
 msgid "2nd grade"
 msgstr "小学校２年生用"
 
-#: setup/main.py:84
+#: setup/main.py:97
 msgid "3rd grade"
 msgstr "小学校３年生用"
 
-#: setup/main.py:85
+#: setup/main.py:98
 msgid "4th grade"
 msgstr "小学校４年生用"
 
-#: setup/main.py:86
+#: setup/main.py:99
 msgid "5th grade"
 msgstr "小学校５年生用"
 
-#: setup/main.py:87
+#: setup/main.py:100
 msgid "6th grade"
 msgstr "小学校６年生用"
 
-#: setup/main.py:88
+#: setup/main.py:101
 msgid "7-9th grade"
 msgstr "中学生用"
 
-#: setup/main.py:89
+#: setup/main.py:102
 msgid "10th+ grade (Okurigana: strict)"
 msgstr "おとな用(おくりがな: 本則)"
 
-#: setup/main.py:90
+#: setup/main.py:103
 msgid "10th+ grade (Okurigana: permissible)"
 msgstr "おとな用(おくりがな: 許容)"
 
-#: setup/main.py:219
+#: setup/main.py:232
 msgid "Invalid characters in User Dictionary Name"
 msgstr "個人用辞書名のなかに不正な文字があります"
 
-#: setup/main.py:230
+#: setup/main.py:247
 msgid "Could not open file"
 msgstr "ファイルをひらけません"
 
-#: setup/main.py:232
+#: setup/main.py:249
 #, python-brace-format
 msgid "Error opening file \"{path}\": {message}"
 msgstr "ファイル \"{path}\" をひらくときにエラーがおきました: {message}"
