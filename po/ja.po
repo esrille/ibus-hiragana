@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ibus-hiragana 0.15.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-11 18:34+0900\n"
+"POT-Creation-Date: 2024-06-12 00:15+0900\n"
 "PO-Revision-Date: 2020-09-24 11:59+0900\n"
 "Last-Translator: Esrille Inc. <info@esrille.com>\n"
 "Language-Team: Japanese <info@esrille.com>\n"
@@ -34,32 +34,32 @@ msgstr "全角英数 (Ａ)"
 msgid "Halfwidth Katakana (ｱ)"
 msgstr "半角カタカナ (ｱ)"
 
-#: engine/engine.py:608 engine/engine.py:1059
+#: engine/engine.py:609 engine/engine.py:1061
 #, python-format
 msgid "Input mode (%s)"
 msgstr "入力モード (%s)"
 
-#: engine/engine.py:611
+#: engine/engine.py:612
 msgid "Setup"
 msgstr "設定"
 
-#: engine/engine.py:613
+#: engine/engine.py:614
 msgid "Help"
 msgstr "ヘルプ"
 
-#: engine/engine.py:615
+#: engine/engine.py:616
 msgid "About Hiragana IME..."
 msgstr "ひらがなIMEについて..."
 
-#: engine/engine.py:1402
+#: engine/engine.py:1408
 msgid "en"
 msgstr "ja"
 
-#: engine/engine.py:1414
+#: engine/engine.py:1420
 msgid "Hiragana IME"
 msgstr "ひらがなIME"
 
-#: setup/main.py:37
+#: setup/main.py:38
 msgid ""
 "; Hiragana IME User Dictionary\n"
 ";\n"
@@ -85,63 +85,63 @@ msgstr ""
 ";\n"
 "\n"
 
-#: setup/main.py:74
+#: setup/main.py:75
 msgid "Rōmaji"
 msgstr "ローマ字"
 
-#: setup/main.py:75
+#: setup/main.py:76
 msgid "Kana (JIS Layout)"
 msgstr "かな (JIS配列)"
 
-#: setup/main.py:76
+#: setup/main.py:77
 msgid "Kana (New Stickney Layout)"
 msgstr "かな (ニュースティックニー配列)"
 
-#: setup/main.py:95
+#: setup/main.py:96
 msgid "1st grade"
 msgstr "小学校１年生用"
 
-#: setup/main.py:96
+#: setup/main.py:97
 msgid "2nd grade"
 msgstr "小学校２年生用"
 
-#: setup/main.py:97
+#: setup/main.py:98
 msgid "3rd grade"
 msgstr "小学校３年生用"
 
-#: setup/main.py:98
+#: setup/main.py:99
 msgid "4th grade"
 msgstr "小学校４年生用"
 
-#: setup/main.py:99
+#: setup/main.py:100
 msgid "5th grade"
 msgstr "小学校５年生用"
 
-#: setup/main.py:100
+#: setup/main.py:101
 msgid "6th grade"
 msgstr "小学校６年生用"
 
-#: setup/main.py:101
+#: setup/main.py:102
 msgid "7-9th grade"
 msgstr "中学生用"
 
-#: setup/main.py:102
+#: setup/main.py:103
 msgid "10th+ grade (Okurigana: strict)"
 msgstr "おとな用(おくりがな: 本則)"
 
-#: setup/main.py:103
+#: setup/main.py:104
 msgid "10th+ grade (Okurigana: permissible)"
 msgstr "おとな用(おくりがな: 許容)"
 
-#: setup/main.py:232
+#: setup/main.py:233
 msgid "Invalid characters in User Dictionary Name"
 msgstr "個人用辞書名のなかに不正な文字があります"
 
-#: setup/main.py:247
+#: setup/main.py:248
 msgid "Could not open file"
 msgstr "ファイルをひらけません"
 
-#: setup/main.py:249
+#: setup/main.py:250
 #, python-brace-format
 msgid "Error opening file \"{path}\": {message}"
 msgstr "ファイル \"{path}\" をひらくときにエラーがおきました: {message}"
