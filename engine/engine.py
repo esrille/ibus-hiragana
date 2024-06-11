@@ -1154,6 +1154,7 @@ class EngineHiragana(EngineModeless):
                     self._dict = self._load_dictionary()
                 elif line == 'clear_input_history':
                     self._dict = self._load_dictionary(clear_history=True)
+                    self._ignored = {}
             except queue.Empty:
                 break
 
