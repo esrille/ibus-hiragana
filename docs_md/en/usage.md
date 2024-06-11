@@ -1,6 +1,6 @@
 # Usage
 
-**Note**: For instructions on switching between Romaji input and Kana input, refer to **Settings** - [Keyboard Tab](settings.html#layout).
+**Note**: For instructions on switching between Rōmaji input and Kana input, refer to **Settings** - [Keyboard Tab](settings.html#layout).
 
 ## Changing Input Modes {: #input-mode}
 

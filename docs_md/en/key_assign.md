@@ -42,7 +42,7 @@ In an application that does not support the surrounding text features, the Hirag
 <span class='key'>Tab</span>| <span class='key'>Tab</span>| Move the beginning of the word boundary to the right.
 <nobr><span class='key'>Shift</span>+<span class='key'>Tab</span></nobr> | <nobr><span class='key'>Shift</span>+<span class='key'>Tab</span></nobr> | Move the beginning of the word boundary to the left.
 <span class='key'>Enter</span> | <span class='key'>Enter</span> | Enter the current candidate.<br><small>**Note**: If you continue entering characters, the current candidate is automatically entered without typing the <span class='key'>Enter</span> key.</small>
-<span class='key'>Esc</span> | <span class='key'>Esc</span> | Cancel the current conversion and revert to hiragana.<br><small>**Note**: When entering romaji, the entire pre-edit text is canceled.</small>
+<span class='key'>Esc</span> | <span class='key'>Esc</span> | Cancel the current conversion and revert to hiragana.<br><small>**Note**: When entering rōmaji, the entire pre-edit text is canceled.</small>
 
 The candidate window appears near the cursor when there are two or more candidates. Use the following key bindings for candidate selection:
 
