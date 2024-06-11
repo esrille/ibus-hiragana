@@ -1390,7 +1390,7 @@ class EngineHiragana(EngineModeless):
                      f'{keycode}, {state:#010x}({prettify_state(state)}))')
         if keyval == IBus.Super_L or (state & IBus.ModifierType.MOD4_MASK):
             return False
-        if not(state & IBus.ModifierType.RELEASE_MASK):
+        if not (state & IBus.ModifierType.RELEASE_MASK):
             self.check_surrounding_support()
         return self._controller.process_key_event(self, keyval, keycode, state)
 

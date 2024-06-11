@@ -73,11 +73,11 @@ def pick(prefix, candidates):
         offset = total_ids + 1 - max_tokens
         truncated = [tokenizer.cls_token_id] + ids[1 + offset:]
 
-    input = {
+    encoded_input = {
         'input_ids': torch.tensor(truncated).unsqueeze(0)
     }
     token_ids = list(transposed[mask_token_index])
-    probabilities = model(**input).logits[0, mask_token_index - offset]
+    probabilities = model(**encoded_input).logits[0, mask_token_index - offset]
     probabilities = torch.nn.functional.softmax(probabilities, dim=0)[token_ids]
     probabilities = probabilities.tolist()
 
@@ -92,10 +92,10 @@ def pick(prefix, candidates):
         if 0 < offset:
             truncated = [tokenizer.cls_token_id] + next_ids[1 + offset:]
 
-        input = {
+        encoded_input = {
             'input_ids': torch.tensor(truncated).unsqueeze(0)
         }
-        p = model(**input).logits[0, mask_token_index + 1 - offset]
+        p = model(**encoded_input).logits[0, mask_token_index + 1 - offset]
         p = torch.nn.functional.softmax(p, dim=0)
         probabilities[i] *= p[transposed[mask_token_index + 1][i]].item()
 
