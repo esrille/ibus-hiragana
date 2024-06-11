@@ -14,7 +14,7 @@ foreach grade : grades
     capture: true,
     install: true,
     install_dir: dicdir,
-    depend_files: [files('drop.dic', 'my.dic', 'reigai.dic')],
+    depend_files: [files('drop.dic', 'my.dic', 'reigai.dic', 'zyosuusi.dic')],
   )
 endforeach
 
@@ -26,4 +26,5 @@ katakana = custom_target(
   capture: true,
   install: true,
   install_dir: dicdir,
+  depend_files: [files('drop.katakana.dic')],
 )

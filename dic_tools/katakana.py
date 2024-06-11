@@ -16,6 +16,7 @@
 
 import re
 import sys
+
 import dic
 
 RE_KATAKANA = re.compile(r'[ァ-ー]{2,}')
@@ -65,7 +66,7 @@ def main():
                 gairaigo.discard(line.strip())
 
     print(';; Hiragana IME for IBus')
-    print(';; Copyright (c) 2017-2023 Esrille Inc.')
+    print(';; Copyright (c) 2017-2024 Esrille Inc.')
     print(';;')
     print(';;   https://github.com/esrille/ibus-hiragana')
     print(';;')
@@ -75,7 +76,7 @@ def main():
     print(';;')
     print(';; Note this file is generated from the EDIT2 dictionary file.')
     print(';; EDIT2 is the property of the Electronic Dictionary Research and')
-    print(';; Development Group, and is used in conformance with the Group\'s licence.')
+    print(";; Development Group, and is used in conformance with the Group's licence.")
     print(';;')
     for i in copyright:
         print(';;  ', i)

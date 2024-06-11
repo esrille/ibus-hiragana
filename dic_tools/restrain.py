@@ -16,6 +16,7 @@
 
 import os
 import sys
+
 import dic
 from toolpath import toolpath
 

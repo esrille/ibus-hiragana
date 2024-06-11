@@ -14,6 +14,7 @@
 
 import itertools
 import re
+
 from toolpath import toolpath
 
 
@@ -46,22 +47,22 @@ KIGOU = ('　、。，．・：；？！゛゜´｀¨'
          '•ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯ'
          'ＰＱＲＳＴＵＶＷＸＹＺ∓ℵℏ㏋ℓ'
          '℧ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏ'
-         'ｐｑｒｓｔｕｖｗｘｙｚ゠–⧺⧻' +
-         string_range('Α', 'Ω') +
-         '♤♠♢♦♡♥♧♣' +
-         string_range('α', 'ω') +
-         string_range('⓵', '⓾') +
-         '☖☗〠☎☀☁☂☃♨▱' +
-         string_range('А', 'Я') +
-         '⎾⎿⏀⏁⏂⏃⏄⏅⏆⏇⏈⏉⏊⏋'
-         '⏌' +
-         string_range('а', 'я') +
-         '⋚⋛⅓⅔⅕✓⌘␣⏎'
+         'ｐｑｒｓｔｕｖｗｘｙｚ゠–⧺⧻'
+         + string_range('Α', 'Ω')
+         + '♤♠♢♦♡♥♧♣'
+         + string_range('α', 'ω')
+         + string_range('⓵', '⓾')
+         + '☖☗〠☎☀☁☂☃♨▱'
+         + string_range('А', 'Я')
+         + '⎾⎿⏀⏁⏂⏃⏄⏅⏆⏇⏈⏉⏊⏋⏌'
+         + string_range('а', 'я')
+         + '⋚⋛⅓⅔⅕✓⌘␣⏎'
          '─│┌┐┘└├┬┤┴┼━┃┏┓'
          '┛┗┣┳┫┻╋┠┯┨┷┿┝┰┥┸'
-         '╂' +
-         string_range('㉑', '㉟') + string_range('㊱', '㊿') +
-         '◐◑◒◓‼⁇⁈⁉Ǎ'
+         '╂'
+         + string_range('㉑', '㉟')
+         + string_range('㊱', '㊿')
+         + '◐◑◒◓‼⁇⁈⁉Ǎ'
          'ǎǐḾḿǸǹǑǒǔǖǘǚǜ'
          '€¡¤￤©ª«®￣²³·¸'
          '¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈ'
@@ -78,22 +79,23 @@ KIGOU = ('　、。，．・：；？！゛゜´｀¨'
          'ʔɦʘǂɓɗʄɠƓœŒɨʉɘɵ'
          'əɜɞɐɯʊɤʌɔɑɒʍɥʢʡɕ'
          'ʑɺɧɚæ̀ǽὰάɔ̀ɔ́ʌ̀ʌ́ə̀ə́ɚ̀ɚ́'
-         'ὲέ' +
-         string_range('❶', '❿') + string_range('⓫', '⓴') +
-         string_range('ⅰ', 'ⅻ') +
-         string_range('ⓐ', 'ⓩ') +
-         string_range('㋐', '㋾') +
-         '⁑⁂' +
-         string_range('①', '⑳') +
-         string_range('Ⅰ', 'Ⅺ') +
-         '㍉㌔㌢㍍㌘㌧㌃㌶㍑㍗㌍㌦㌣㌫㍊㌻'
+         'ὲέ'
+         + string_range('❶', '❿')
+         + string_range('⓫', '⓴')
+         + string_range('ⅰ', 'ⅻ')
+         + string_range('ⓐ', 'ⓩ')
+         + string_range('㋐', '㋾')
+         + '⁑⁂'
+         + string_range('①', '⑳')
+         + string_range('Ⅰ', 'Ⅺ')
+         + '㍉㌔㌢㍍㌘㌧㌃㌶㍑㍗㌍㌦㌣㌫㍊㌻'
          '㎜㎝㎞㎎㎏㏄㎡Ⅻ㍻'
          '〝〟№㏍℡㊤㊥㊦㊧㊨㈱㈲㈹㍾㍽㍼'
-         '∮∟⊿❖☞' +
-         '⓪⓿' +
-         string_range('㊀', '㊉') +
-         string_range('㊊', '㊰') +
-         '㋿')
+         '∮∟⊿❖☞'
+         '⓪⓿'
+         + string_range('㊀', '㊉')
+         + string_range('㊊', '㊰')
+         + '㋿')
 
 ZYOUYOU = ('亜哀挨愛曖悪握圧扱宛嵐安案暗以衣位囲医依委威為畏胃尉異移萎偉椅彙意違維慰遺緯域育'
            '一壱逸茨芋引印因咽姻員院淫陰飲隠韻右宇羽雨唄鬱畝浦運雲永泳英映栄営詠影鋭衛易疫益'
@@ -214,7 +216,7 @@ def lookup_words(dict, path):
                     if yomi in rm:
                         rm[yomi].add(word)
                     else:
-                        rm[yomi] = set([word])
+                        rm[yomi] = {word}
     output(rm)
 
 
@@ -469,7 +471,7 @@ def okuri_end(dict):
     for yomi, kanji in dict.items():
         s = []
         for i in kanji:
-            if RE_HIRAGANAu(i[-1]) is not None:
+            if RE_HIRAGANA.search(i[-1]) is not None:
                 s.append(i)
         if s:
             d[yomi] = s
@@ -535,9 +537,9 @@ def _is_hyounai_yomi(zyouyou, yomi, kanji):
             s.add(to_seion(''.join(y)))
             if 2 <= len(y[0]):
                 # 促音化の許容
-                if (0 <= 'きくキク'.find(y[0][-1]) and 0 <= 'かきくけこカキクケコ'.find(y[1][0]) or
-                        0 <= 'ちつチツ'.find(y[0][-1]) and
-                        0 <= 'かきくけこカキクケコさしすせそサシスセソたちつてとタチツテトはひふへほハヒフヘホ'.find(y[1][0])):
+                if (0 <= 'きくキク'.find(y[0][-1]) and 0 <= 'かきくけこカキクケコ'.find(y[1][0])
+                    or 0 <= 'ちつチツ'.find(y[0][-1])
+                        and 0 <= 'かきくけこカキクケコさしすせそサシスセソたちつてとタチツテトはひふへほハヒフヘホ'.find(y[1][0])):
                     s.add(to_seion(y[0][0:-1] + 'つ' + y[1]))
         b = c
     return to_seion(yomi) in s
