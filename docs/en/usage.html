@@ -151,7 +151,7 @@ function shrinkToc() {
 <p><img alt="Input modes" src="../input-modes.gif"></p>
 <ul>
 <li>With Japanese keyboards, you can switch between Hiragana and Alphanumeric modes by pressing <span class='key'>変換</span> and <span class='key'>無変換</span> keys, respectively.</li>
-<li>With English keyboards, you can toggle between Hiragana and Alphanumeric modes by pressing the <span class='key'>Caps Lock</span> key. Hiragana IME is in Hiragana mode when the Caps Lock LED is turned on.</li>
+<li>With US keyboards, you can toggle between Hiragana and Alphanumeric modes by pressing the <span class='key'>Caps Lock</span> key. Hiragana IME is in Hiragana mode when the Caps Lock LED is turned on.</li>
 </ul>
 <h2 id="input-kanji">Inputting Kanji and Katakana Words</h2>
 <p>To enter a Kanji or Katana word, type the word in Hiragana first, then press the <span class='key'>変換</span> key to convert the word into Kanji or Katakana.
@@ -172,6 +172,8 @@ So you won't have to keep selecting between homonyms over time.</p>
 <p>Or like below using Kana input:</p>
 <pre><code>あか<span class='key'>変換</span>いちゅーりっぷ<span class='key'>変換</span>のはな<span class='key'>変換</span>がさ<span class='key'>変換</span>きました。</code></pre>
 
+<p>When there are multiple conversion candidates, select the one that ends with a '―' (horizontal bar). For example, when you enter "<ruby>咲<rp>(</rp><rt>さ</rt><rp>)</rp></ruby>き", select the candidate "<span style="background-color:#d1eaff">さ―</span>".
+Initially, the conversion candidate ending with a '―' may be at the bottom of the list. However, after using the word, it will move to the top of the list. In this way, you can save the keystrokes.</p>
 <p>When you type the first okurigana for a word, the word appears in kanji.
 If you press the <span class='key'>変換</span> key instead of typing okurigana, all candidates will appear.</p>
 <p>Here are some examples:</p>
@@ -180,8 +182,6 @@ If you press the <span class='key'>変換</span> key instead of typing okurigana
 <li>おく<span class='key'>変換</span>→ <span style="background-color:#d1eaff">おく―</span><span class='key'>る</span> → 送る，贈る</li>
 </ul>
 <p>As you type okurigana, the candidate list becomes shorter.</p>
-<p>When there are multiple conversion candidates, select the one that ends with a '―' (horizontal bar). For example, when you want to convert "<ruby>咲<rp>(</rp><rt>さ</rt><rp>)</rp></ruby>き", select the candidate "<span style="background-color:#d1eaff">さ―</span>".
-Initially, the conversion candidate ending with a '―' may be at the bottom of the list. However, after using the word, it will move to the top of the list. In this way, you can save the keystrokes.</p>
 <h2 id="input-shrink">Changing the Length of the Reading</h2>
 <p>When you want to enter "<ruby>生<rp>(</rp><rt>い</rt><rp>)</rp></ruby>きがい<ruby>論<rp>(</rp><rt>ろん</rt><rp>)</rp></ruby>", you will type as below:</p>
 <pre><code>生きがいろん<span class='key'>変換</span></code></pre>

@@ -21,7 +21,7 @@ The current input mode is displayed in the right corner of the desktop top bar.
 ![Input modes](../input-modes.gif)
 
 - With Japanese keyboards, you can switch between Hiragana and Alphanumeric modes by pressing <span class='key'>変換</span> and <span class='key'>無変換</span> keys, respectively.
-- With English keyboards, you can toggle between Hiragana and Alphanumeric modes by pressing the <span class='key'>Caps Lock</span> key. Hiragana IME is in Hiragana mode when the Caps Lock LED is turned on.
+- With US keyboards, you can toggle between Hiragana and Alphanumeric modes by pressing the <span class='key'>Caps Lock</span> key. Hiragana IME is in Hiragana mode when the Caps Lock LED is turned on.
 
 ## Inputting Kanji and Katakana Words {: #input-kanji}
 
@@ -54,6 +54,9 @@ Or like below using Kana input:
 <pre><code>あか<span class='key'>変換</span>いちゅーりっぷ<span class='key'>変換</span>のはな<span class='key'>変換</span>がさ<span class='key'>変換</span>きました。
 </code></pre>
 
+When there are multiple conversion candidates, select the one that ends with a '―' (horizontal bar). For example, when you enter "￹咲￺さ￻き", select the candidate "<span style="background-color:#d1eaff">さ―</span>".
+Initially, the conversion candidate ending with a '―' may be at the bottom of the list. However, after using the word, it will move to the top of the list. In this way, you can save the keystrokes.
+
 When you type the first okurigana for a word, the word appears in kanji.
 If you press the <span class='key'>変換</span> key instead of typing okurigana, all candidates will appear.
 
@@ -63,9 +66,6 @@ Here are some examples:
 - おく<span class='key'>変換</span>→ <span style="background-color:#d1eaff">おく―</span><span class='key'>る</span> → 送る，贈る
 
 As you type okurigana, the candidate list becomes shorter.
-
-When there are multiple conversion candidates, select the one that ends with a '―' (horizontal bar). For example, when you want to convert "￹咲￺さ￻き", select the candidate "<span style="background-color:#d1eaff">さ―</span>".
-Initially, the conversion candidate ending with a '―' may be at the bottom of the list. However, after using the word, it will move to the top of the list. In this way, you can save the keystrokes.
 
 ## Changing the Length of the Reading {: #input-shrink}
 
