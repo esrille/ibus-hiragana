@@ -10,7 +10,6 @@ Requires:      python3
 Requires:      python3-dbus
 Requires:      python-pip
 Requires:      python3-pyxdg
-Requires:      python3-torch
 Requires:      yelp
 BuildRequires: gtk-update-icon-cache
 BuildRequires: gettext-devel

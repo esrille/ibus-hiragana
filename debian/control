@@ -23,7 +23,6 @@ Depends:
  ${misc:Depends},
  ${python3:Depends},
  ibus (>= 1.5.11),
- python3-torch,
  python3-venv,
  yelp
 Description: Hiragana IME for IBus
