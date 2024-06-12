@@ -23,6 +23,7 @@ from transformers import BertForMaskedLM, BertJapaneseTokenizer
 
 LOGGER = logging.getLogger(__name__)
 MODEL_NAME = 'cl-tohoku/bert-base-japanese-v3'
+MAX_CANDIDATES = 10
 
 tokenizer = None
 model = None
@@ -53,6 +54,8 @@ def pick(prefix, candidates):
     if model is None or tokenizer is None:
         return 0
     LOGGER.debug(f'pick("{prefix}", {candidates})')
+    if MAX_CANDIDATES < len(candidates):
+        candidates = candidates[:MAX_CANDIDATES]
     inputs = []
     for cand in candidates:
         inputs.append(prefix + cand)
