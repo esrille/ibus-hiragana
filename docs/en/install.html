@@ -4,7 +4,7 @@
 <meta charset='UTF-8'>
 <meta name='viewport' content='width=device-width, maximum-scale=1.0, user-scalable=yes'>
 <title>Installation — Hiragana IME</title>
-<link href='icon.png' rel='icon'>
+<link href='../icon.png' rel='icon'>
 <link rel='stylesheet' type='text/css' href='default.css'>
 <meta content='Installation' name='description'>
 <meta content='https://esrille.github.io/ibus-hiragana/install.html' property='og:url'>
@@ -53,6 +53,7 @@ function shrinkToc() {
   <li><a href='install.html#input-source'>Add the Hiragana IME to the input sources</a>
   <li><a href='install.html#enable'>Enable the Hiragana IME</a>
   <li><a href='install.html#wayland'>Change the Configuration for Wayland</a>
+  <li><a href='install.html#llm'>Installation of Additional Components for Using a Large-Scale Language Model</a>
 </ul>
 </details>
 <li><details><summary><a href='usage.html'>Usage</a></summary>
@@ -167,7 +168,7 @@ If you're using GNOME, open <strong>Settings</strong> and add <strong>Japanese (
 <p>Open <strong>IBus Preferences</strong>, and select the <strong>Input Method</strong> tab.
 Add <strong>Hiragana IME</strong> to the list of <strong>Input Method</strong> by selecting the following item:
 <br><br>
-  <img alt="icon" src="../icon.png"> <ruby>Hiragana IME
+  <img alt="icon" src="../icon.png"> Hiragana IME
 <br><br></p>
 <h2 id="enable">Enable the Hiragana IME</h2>
 <p>In IBus, you can switch between multiple input methods and use them.</p>
@@ -191,6 +192,34 @@ Currently, Hiragana IME supports three keyboard layouts: <strong>Japanese</stron
 <p><br>
 The Hiragana IME setup is now complete.
 You can use the <a href="settings.html">Hiragana IME Setup</a> window for additional settings.</p>
+<h2 id="llm">Installation of Additional Components for Using a Large-Scale Language Model</h2>
+<p>Hiragana IME has a feature that pre-selects the most probable conversion candidate using a Large-scale Language Model.
+To use this, the following packages need to be installed:</p>
+<ul>
+<li><a href="https://huggingface.co/docs/transformers/">Huggingface Transformers</a></li>
+<li><a href="https://huggingface.co/tohoku-nlp/bert-base-japanese-v3">tohoku-nlp/bert-base-japanese-v3</a></li>
+</ul>
+<p>Hiragana IME runs within a local Python virtual environment (venv).
+To install the above packages with this venv, follow these steps:</p>
+<ol>
+<li>In <strong>Hiragana IME Setup</strong> window, enable the <a href="settings.html#llm">Use LLM for candidate selection</a> option.</li>
+</ol>
+<p><img alt="Hiragana IME Setup Window" src="ibus-setup-hiragana_3.png"></p>
+<ol start="2">
+<li>Click <strong>Apply</strong>, and the following window will open.</li>
+</ol>
+<p><img alt="Post Installation Window" src="postinst_1.png"></p>
+<ol start="3">
+<li>Click <strong>Install</strong> to start the installation. The installation log will be displayed within the window.</li>
+<li>Once the installation is finished, the <strong>Install</strong> button will change to a <strong>Close</strong> button.</li>
+</ol>
+<p><img alt="Post Installation Window" src="postinst_2.png"></p>
+<ol start="5">
+<li>Click <strong>Close</strong> to close the window.</li>
+</ol>
+<p>The installation is now complete.
+When you log in again, you can use the candidate pre-selection feature using the large-scale language model.</p>
+<p><strong>Note</strong>: Hiragana IME creates its venv at <code>~/.local/share/ibus-hiragana/venv</code>. tohoku-nlp/bert-base-japanese-v3 files are stored in <code>~/.cache/huggingface/hub/models--cl-tohoku--bert-base-japanese-v3/</code>.</p>
 </main>
 </div>
 

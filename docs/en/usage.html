@@ -4,7 +4,7 @@
 <meta charset='UTF-8'>
 <meta name='viewport' content='width=device-width, maximum-scale=1.0, user-scalable=yes'>
 <title>Usage — Hiragana IME</title>
-<link href='icon.png' rel='icon'>
+<link href='../icon.png' rel='icon'>
 <link rel='stylesheet' type='text/css' href='default.css'>
 <meta content='Usage' name='description'>
 <meta content='https://esrille.github.io/ibus-hiragana/usage.html' property='og:url'>
@@ -53,6 +53,7 @@ function shrinkToc() {
   <li><a href='install.html#input-source'>Add the Hiragana IME to the input sources</a>
   <li><a href='install.html#enable'>Enable the Hiragana IME</a>
   <li><a href='install.html#wayland'>Change the Configuration for Wayland</a>
+  <li><a href='install.html#llm'>Installation of Additional Components for Using a Large-Scale Language Model</a>
 </ul>
 </details>
 <li><details open><summary><a href='usage.html'>Usage</a></summary>
@@ -165,6 +166,12 @@ For example, to enter the sentence "しろうとむけのワープロの<ruby>�
 <p><br><strong>Homonyms</strong>: With Kanji, there are words with the same reading but different meanings, like "<ruby>衛星<rp>(</rp><rt>えいせい</rt><rp>)</rp></ruby>" (satellite) and "<ruby>衛生<rp>(</rp><rt>えいせい</rt><rp>)</rp></ruby>" (hygiene). These words are called homonyms. When you encounter homonyms, use the <span class='key'>変換</span> key to select the right word from the candidate list. You can also use the up and down arrow keys to select the candidate.</p>
 <p>Later, when you convert the same homonym again, the last selected word will appear first in the candidate list. Less frequently used homonyms will move towards the end of the list.
 So you won't have to keep selecting between homonyms over time.</p>
+<p>By enabling the <a href="settings.html#llm">Use LLM for candidate selection</a> option, Hiragana IME will preselect the most probable candidate based on the surrounding text.
+For example, when converting 'きどう', the preselected candidate changes according to the context as follows:</p>
+<ul>
+<li><ruby>地球<rp>(</rp><rt>ちきゅう</rt><rp>)</rp></ruby>の<span style="background-color:#d1eaff"><ruby>軌道<rp>(</rp><rt>きどう</rt><rp>)</rp></ruby></span></li>
+<li>パソコンの<span style="background-color:#d1eaff"><ruby>起動<rp>(</rp><rt>きどう</rt><rp>)</rp></ruby></span></li>
+</ul>
 <h2 id="input-okurigana">Entering Words with Okurigana</h2>
 <p>To enter a word with okurigana, press the <span class='key'>変換</span> key right after the part written in kanji. For example, to enter the sentence "<ruby>赤<rp>(</rp><rt>あか</rt><rp>)</rp></ruby>いチューリップの<ruby>花<rp>(</rp><rt>はな</rt><rp>)</rp></ruby>が<ruby>咲<rp>(</rp><rt>さ</rt><rp>)</rp></ruby>きました。", you will type as follows:</p>
 <pre><code>aka<span class='key'>変換</span>ityu-rippu<span class='key'>変換</span>nohana<span class='key'>変換</span>gasa<span class='key'>変換</span>kimasita.</code></pre>

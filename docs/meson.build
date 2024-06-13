@@ -3,16 +3,18 @@ moduledir = pkgdatadir / 'docs'
 
 static_files = [
   'default.css',
-  'screenshot.webm',
-  'undo.webm',
   'ibus-setup-hiragana_1.png',
   'ibus-setup-hiragana_2.png',
   'ibus-setup-hiragana_3.png',
   'icon.png',
   'input-modes.gif',
   'keyboard-menu.png',
+  'postinst_1.png',
+  'postinst_2.png',
   'screenshot.png',
   'settings-keyboard.png',
+  'screenshot.webm',
+  'undo.webm',
 ]
 
 install_data(static_files, install_dir: moduledir)

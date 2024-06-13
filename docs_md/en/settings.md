@@ -189,7 +189,10 @@ For example, when converting 'のぼる', the pre-selected candidate changes as 
 - ￹山￺やま￻に<span style="background-color:#d1eaff">登る</span>
 - ￹日￺ひ￻が<span style="background-color:#d1eaff">昇る</span>
 
-**Note**: Since this is merely based on a probability calculation, the desired candidate may not always be chosen. This feature is disabled by default because it requires a relatively large amount of computational power.
+**Note**: Since pre-selection is merely based on a probability calculation, the desired candidate may not always be chosen.
+This feature is disabled by default because it requires a relatively large amount of computational power.
+To enable this feature, you also need to install several packages.
+For more details, please see [Installation of Additional Components for Using a Large-Scale Language Model](install.html#llm).
 
 ### Combine '^' to the previous vowel character in alphanumeric mode {: #combining-circumflex}
 

@@ -42,6 +42,12 @@ Or as follows using Kana input:
 Later, when you convert the same homonym again, the last selected word will appear first in the candidate list. Less frequently used homonyms will move towards the end of the list.
 So you won't have to keep selecting between homonyms over time.
 
+By enabling the [Use LLM for candidate selection](settings.html#llm) option, Hiragana IME will preselect the most probable candidate based on the surrounding text.
+For example, when converting 'きどう', the preselected candidate changes according to the context as follows:
+
+- ￹地球￺ちきゅう￻の<span style="background-color:#d1eaff">￹軌道￺きどう￻</span>
+- パソコンの<span style="background-color:#d1eaff">￹起動￺きどう￻</span>
+
 ## Entering Words with Okurigana {: #input-okurigana}
 
 To enter a word with okurigana, press the <span class='key'>変換</span> key right after the part written in kanji. For example, to enter the sentence "￹赤￺あか￻いチューリップの￹花￺はな￻が￹咲￺さ￻きました。", you will type as follows:

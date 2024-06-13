@@ -93,7 +93,7 @@ If you're using GNOME, open **Settings** and add **Japanese (Hiragana IME)** to 
 Open **IBus Preferences**, and select the **Input Method** tab.
 Add **Hiragana IME** to the list of **Input Method** by selecting the following item:
 <br><br>
-  ![icon](../icon.png) ￹Hiragana IME
+  ![icon](../icon.png) Hiragana IME
 <br><br>
 
 ## Enable the Hiragana IME {: #enable}
@@ -130,3 +130,34 @@ With the Wayland IM module, the surrounding text information sent to input metho
 <br>
 The Hiragana IME setup is now complete.
 You can use the [Hiragana IME Setup](settings.html) window for additional settings.
+
+## Installation of Additional Components for Using a Large-Scale Language Model {: #llm}
+
+Hiragana IME has a feature that pre-selects the most probable conversion candidate using a Large-scale Language Model.
+To use this, the following packages need to be installed:
+
+- [Huggingface Transformers](https://huggingface.co/docs/transformers/)
+- [tohoku-nlp/bert-base-japanese-v3](https://huggingface.co/tohoku-nlp/bert-base-japanese-v3)
+
+Hiragana IME runs within a local Python virtual environment (venv).
+To install the above packages with this venv, follow these steps:
+
+1. In **Hiragana IME Setup** window, enable the [Use LLM for candidate selection](settings.html#llm) option.
+
+![Hiragana IME Setup Window](ibus-setup-hiragana_3.png)
+
+2. Click **Apply**, and the following window will open.
+
+![Post Installation Window](postinst_1.png)
+
+3. Click **Install** to start the installation. The installation log will be displayed within the window.
+4. Once the installation is finished, the **Install** button will change to a **Close** button.
+
+![Post Installation Window](postinst_2.png)
+
+5. Click **Close** to close the window.
+
+The installation is now complete.
+When you log in again, you can use the candidate pre-selection feature using the large-scale language model.
+
+**Note**: Hiragana IME creates its venv at <code>~/.local/share/ibus-hiragana/venv</code>. tohoku-nlp/bert-base-japanese-v3 files are stored in <code>~/.cache/huggingface/hub/models--cl-tohoku--bert-base-japanese-v3/</code>.

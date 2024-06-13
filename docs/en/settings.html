@@ -4,7 +4,7 @@
 <meta charset='UTF-8'>
 <meta name='viewport' content='width=device-width, maximum-scale=1.0, user-scalable=yes'>
 <title>Settings — Hiragana IME</title>
-<link href='icon.png' rel='icon'>
+<link href='../icon.png' rel='icon'>
 <link rel='stylesheet' type='text/css' href='default.css'>
 <meta content='Settings' name='description'>
 <meta content='https://esrille.github.io/ibus-hiragana/settings.html' property='og:url'>
@@ -53,6 +53,7 @@ function shrinkToc() {
   <li><a href='install.html#input-source'>Add the Hiragana IME to the input sources</a>
   <li><a href='install.html#enable'>Enable the Hiragana IME</a>
   <li><a href='install.html#wayland'>Change the Configuration for Wayland</a>
+  <li><a href='install.html#llm'>Installation of Additional Components for Using a Large-Scale Language Model</a>
 </ul>
 </details>
 <li><details><summary><a href='usage.html'>Usage</a></summary>
@@ -420,7 +421,10 @@ When enabled, the Hiragana IME calculates the probabilities of each candidate's 
 <li><ruby>山<rp>(</rp><rt>やま</rt><rp>)</rp></ruby>に<span style="background-color:#d1eaff">登る</span></li>
 <li><ruby>日<rp>(</rp><rt>ひ</rt><rp>)</rp></ruby>が<span style="background-color:#d1eaff">昇る</span></li>
 </ul>
-<p><strong>Note</strong>: Since this is merely based on a probability calculation, the desired candidate may not always be chosen. This feature is disabled by default because it requires a relatively large amount of computational power.</p>
+<p><strong>Note</strong>: Since pre-selection is merely based on a probability calculation, the desired candidate may not always be chosen.
+This feature is disabled by default because it requires a relatively large amount of computational power.
+To enable this feature, you also need to install several packages.
+For more details, please see <a href="install.html#llm">Installation of Additional Components for Using a Large-Scale Language Model</a>.</p>
 <h3 id="combining-circumflex">Combine '^' to the previous vowel character in alphanumeric mode</h3>
 <p>Enable this option if you want to write Japanese in Kunrei-shiki Rōmaji.
 When you type <span class='key'>^</span> after a vowel character in Alphanumeric mode, it is combined into a single character.</p>
