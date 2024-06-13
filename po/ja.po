@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ibus-hiragana 0.15.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-12 00:15+0900\n"
+"POT-Creation-Date: 2024-06-14 04:49+0900\n"
 "PO-Revision-Date: 2020-09-24 11:59+0900\n"
 "Last-Translator: Esrille Inc. <info@esrille.com>\n"
 "Language-Team: Japanese <info@esrille.com>\n"
@@ -59,7 +59,7 @@ msgstr "ja"
 msgid "Hiragana IME"
 msgstr "ひらがなIME"
 
-#: setup/main.py:38
+#: setup/main.py:41
 msgid ""
 "; Hiragana IME User Dictionary\n"
 ";\n"
@@ -85,127 +85,146 @@ msgstr ""
 ";\n"
 "\n"
 
-#: setup/main.py:75
+#: setup/main.py:102 setup/main.py:106
+msgid "Close"
+msgstr "とじる(_W)"
+
+#: setup/main.py:166
 msgid "Rōmaji"
 msgstr "ローマ字"
 
-#: setup/main.py:76
+#: setup/main.py:167
 msgid "Kana (JIS Layout)"
 msgstr "かな (JIS配列)"
 
-#: setup/main.py:77
+#: setup/main.py:168
 msgid "Kana (New Stickney Layout)"
 msgstr "かな (ニュースティックニー配列)"
 
-#: setup/main.py:96
+#: setup/main.py:187
 msgid "1st grade"
 msgstr "小学校１年生用"
 
-#: setup/main.py:97
+#: setup/main.py:188
 msgid "2nd grade"
 msgstr "小学校２年生用"
 
-#: setup/main.py:98
+#: setup/main.py:189
 msgid "3rd grade"
 msgstr "小学校３年生用"
 
-#: setup/main.py:99
+#: setup/main.py:190
 msgid "4th grade"
 msgstr "小学校４年生用"
 
-#: setup/main.py:100
+#: setup/main.py:191
 msgid "5th grade"
 msgstr "小学校５年生用"
 
-#: setup/main.py:101
+#: setup/main.py:192
 msgid "6th grade"
 msgstr "小学校６年生用"
 
-#: setup/main.py:102
+#: setup/main.py:193
 msgid "7-9th grade"
 msgstr "中学生用"
 
-#: setup/main.py:103
+#: setup/main.py:194
 msgid "10th+ grade (Okurigana: strict)"
 msgstr "おとな用(おくりがな: 本則)"
 
-#: setup/main.py:104
+#: setup/main.py:195
 msgid "10th+ grade (Okurigana: permissible)"
 msgstr "おとな用(おくりがな: 許容)"
 
-#: setup/main.py:233
+#: setup/main.py:325
 msgid "Invalid characters in User Dictionary Name"
 msgstr "個人用辞書名のなかに不正な文字があります"
 
-#: setup/main.py:248
+#: setup/main.py:340
 msgid "Could not open file"
 msgstr "ファイルをひらけません"
 
-#: setup/main.py:250
+#: setup/main.py:342
 #, python-brace-format
 msgid "Error opening file \"{path}\": {message}"
 msgstr "ファイル \"{path}\" をひらくときにエラーがおきました: {message}"
 
-#: setup/setup.glade:8
+#: setup/setup.glade:7 setup/setup.glade:150
 msgid "Hiragana IME Setup"
 msgstr "ひらがなIMEの設定"
 
-#: setup/setup.glade:43
+#: setup/setup.glade:44
+msgid "Install"
+msgstr "インストール(_I)"
+
+#: setup/setup.glade:77
+msgid "$"
+msgstr ""
+
+#: setup/setup.glade:122
+msgid "Click [Install] to install requirements for using LLM."
+msgstr ""
+"[インストール]をクリックすると、大規模言語モデルを利用するために必要なファイ"
+"ルを\n"
+"インストールします。"
+
+#: setup/setup.glade:185
 msgid "<b>Keyboard</b>"
 msgstr "<b>キーボード</b>"
 
-#: setup/setup.glade:74
+#: setup/setup.glade:216
 msgid "Input"
 msgstr "入力"
 
-#: setup/setup.glade:127
+#: setup/setup.glade:269
 msgid "<b>Rōmaji</b>"
 msgstr "<b>ローマ字</b>"
 
-#: setup/setup.glade:152
+#: setup/setup.glade:294
 msgid "Always convert 'nn' to 'ん'"
 msgstr "'nn'をかならず「ん」に変換する"
 
-#: setup/setup.glade:192
+#: setup/setup.glade:334
 msgid "Keyboard"
 msgstr "キーボード"
 
-#: setup/setup.glade:219
+#: setup/setup.glade:361
 msgid "<b>Dictionary</b>"
 msgstr "<b>辞書</b>"
 
-#: setup/setup.glade:260
+#: setup/setup.glade:402
 msgid "Kanji Dictionary"
 msgstr "漢字辞書"
 
-#: setup/setup.glade:282
+#: setup/setup.glade:424
 msgid "User Dictionary Name"
 msgstr "個人用辞書名"
 
-#: setup/setup.glade:349
+#: setup/setup.glade:491
 msgid "Clear input history"
 msgstr "入力履歴をクリアする"
 
-#: setup/setup.glade:392
+#: setup/setup.glade:534
 msgid "Dictionary"
 msgstr "辞書"
 
-#: setup/setup.glade:420
+#: setup/setup.glade:562
 msgid "<b>Input Assistance</b>"
 msgstr "<b>入力アシスト</b>"
 
-#: setup/setup.glade:445
+#: setup/setup.glade:587
 msgid "Use LLM for candidate selection"
 msgstr "変換候補の選択に大規模言語モデルを利用する"
 
-#: setup/setup.glade:481
+#: setup/setup.glade:623
 msgid "Combine '^' to the previous vowel character in alphanumeric mode"
 msgstr "英数モードで、'^'を直前の母音字に結合する"
 
-#: setup/setup.glade:517
+#: setup/setup.glade:659
 msgid "Combine '~' to the previous vowel character in alphanumeric mode as '¯'"
 msgstr "英数モードで、'~'を直前の母音字に'¯'として結合する"
 
-#: setup/setup.glade:560
+#: setup/setup.glade:702
 msgid "Option"
 msgstr "オプション"

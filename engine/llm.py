@@ -18,9 +18,6 @@ from __future__ import annotations
 
 import logging
 
-import torch
-from transformers import BertForMaskedLM, BertJapaneseTokenizer
-
 LOGGER = logging.getLogger(__name__)
 MODEL_NAME = 'cl-tohoku/bert-base-japanese-v3'
 MAX_CANDIDATES = 10
@@ -30,8 +27,14 @@ model = None
 
 
 def load(enabled: bool):
-    global model, tokenizer
+    global model, tokenizer, torch
     if not enabled:
+        return
+    try:
+        import torch
+        from transformers import BertForMaskedLM, BertJapaneseTokenizer
+    except ImportError as e:
+        LOGGER.debug(f'{e}')
         return
     try:
         if model is None:
@@ -49,7 +52,6 @@ def load(enabled: bool):
         LOGGER.exception(f'Could not load {MODEL_NAME}')
 
 
-@torch.no_grad()
 def pick(prefix, candidates):
     if model is None or tokenizer is None:
         return 0
@@ -81,7 +83,8 @@ def pick(prefix, candidates):
         'input_ids': torch.tensor(truncated).unsqueeze(0)
     }
     token_ids = list(transposed[mask_token_index])
-    probabilities = model(**encoded_input).logits[0, mask_token_index - offset]
+    with torch.no_grad():
+        probabilities = model(**encoded_input).logits[0, mask_token_index - offset]
     probabilities = torch.nn.functional.softmax(probabilities, dim=0)[token_ids]
     probabilities = probabilities.tolist()
 
@@ -99,7 +102,8 @@ def pick(prefix, candidates):
         encoded_input = {
             'input_ids': torch.tensor(truncated).unsqueeze(0)
         }
-        p = model(**encoded_input).logits[0, mask_token_index + 1 - offset]
+        with torch.no_grad():
+            p = model(**encoded_input).logits[0, mask_token_index + 1 - offset]
         p = torch.nn.functional.softmax(p, dim=0)
         probabilities[i] *= p[transposed[mask_token_index + 1][i]].item()
 

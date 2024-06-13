@@ -46,6 +46,7 @@ Hiragana IME for IBus.
 %{_datadir}/icons/hicolor/scalable/apps/ibus-hiragana.svg
 %{_datadir}/icons/hicolor/scalable/apps/ibus-setup-hiragana.svg
 %{_libexecdir}/ibus-engine-hiragana
+%{_libexecdir}/ibus-postinst-hiragana
 %{_libexecdir}/ibus-setup-hiragana
 
 %changelog

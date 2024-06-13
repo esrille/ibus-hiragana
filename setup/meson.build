@@ -22,6 +22,15 @@ configure_file(
 )
 
 configure_file(
+  input: 'ibus-postinst-hiragana.in',
+  output: 'ibus-postinst-hiragana',
+  configuration: conf,
+  install: true,
+  install_dir: get_option('libexecdir'),
+  install_mode: 'rwxr-xr-x'
+)
+
+configure_file(
   input: 'package.py.in',
   output: 'package.py',
   configuration: conf,

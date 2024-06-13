@@ -24,6 +24,7 @@ Depends:
  ${python3:Depends},
  ibus (>= 1.5.11),
  python3-venv,
+ python3-wheel,
  yelp
 Description: Hiragana IME for IBus
  IBus-Hiragana is a Japanese input method engine for IBus.

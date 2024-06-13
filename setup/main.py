@@ -18,23 +18,26 @@ import gettext
 import locale
 import logging
 import os
+import subprocess
 
 import gi
 gi.require_version('GLib', '2.0')
 gi.require_version('Gdk', '3.0')
 gi.require_version('Gio', '2.0')
 gi.require_version('Gtk', '3.0')
+gi.require_version('Vte', '2.91')
 from gi.repository import GLib
 # set_prgname before importing other modules to show the name in warning messages
 GLib.set_prgname('ibus-setup-hiragana')
 from gi.repository import Gdk
 from gi.repository import Gio
 from gi.repository import Gtk
+from gi.repository import Vte
 
 import package
 from package import _
 
-
+MODEL_NAME = 'cl-tohoku/bert-base-japanese-v3'
 USER_DICTIONARY_COMMENT = _("""; Hiragana IME User Dictionary
 ;
 ; Lines starting with a semicolon (;) are comments.
@@ -47,6 +50,88 @@ USER_DICTIONARY_COMMENT = _("""; Hiragana IME User Dictionary
 ;
 
 """)
+
+
+# Note Python caches the module in the directory when the program starts
+def check_requirements() -> bool:
+    try:
+        import torch
+        from transformers import BertForMaskedLM, BertJapaneseTokenizer
+    except ImportError as e:
+        logging.debug(f'{e}')
+        return False
+    try:
+        model = BertForMaskedLM.from_pretrained(MODEL_NAME, local_files_only=True)
+        tokenizer = BertJapaneseTokenizer.from_pretrained(MODEL_NAME, local_files_only=True)
+    except OSError:
+        return False
+    return True
+
+
+class InstallDialog:
+    def __init__(self, builder):
+        self._pid = -1
+
+        self._builder = builder
+        self._dialog = self._builder.get_object('InstallDialog')
+        self._dialog.set_default_icon_name('ibus-setup-hiragana')
+        self._dialog.set_modal(True)
+
+        log = builder.get_object('Log')
+        self._terminal = Vte.Terminal()
+        self._terminal.set_hexpand(True)
+        self._terminal.set_vexpand(True)
+        self._terminal.connect('child-exited', self.on_child_exited)
+        log.add(self._terminal)
+
+    def destroy(self):
+        self._dialog.destroy()
+
+    def hide(self):
+        self._dialog.hide()
+
+    def is_visible(self):
+        self._dialog.is_visible()
+
+    def show(self):
+        self._dialog.show_all()
+
+    def complete(self):
+        button = self._builder.get_object('InstallButton')
+        button.set_use_underline(True)
+        button.set_label(_('Close'))
+
+    def is_completed(self) -> bool:
+        button = self._builder.get_object('InstallButton')
+        return button.get_label() == _('Close')
+
+    def spawn(self, commands):
+        self._terminal.spawn_async(
+            Vte.PtyFlags.DEFAULT,
+            None,
+            commands,
+            [],
+            GLib.SpawnFlags.DEFAULT,
+            None,
+            None,
+            -1,
+            None,
+            self.spawn_callback,
+            None
+        )
+
+    def set_label(self, commands):
+        label = self._builder.get_object('Command')
+        label.set_text('$ ' + ' '.join(commands))
+
+    def spawn_callback(self, terminal, pid, error, user_data):
+        self._pid = pid
+
+    def on_child_exited(self, terminal, status):
+        self.complete()
+
+    def is_child_alive(self):
+        return self._pid != -1 and not self.is_completed()
 
 
 class SetupEngineHiragana:
@@ -65,6 +150,12 @@ class SetupEngineHiragana:
         self._init_combining_macron()
         self._init_use_llm()
         self._set_current_keyboard(self._settings.get_string('layout'))
+
+        postinst = os.path.join(package.get_prefix(), 'libexec', 'ibus-postinst-hiragana')
+        self._install_dialog = InstallDialog(self._builder)
+        self._install_dialog.set_label([postinst])
+        self._install_dialog.hide()
+
         self._window = self._builder.get_object('SetupDialog')
         self._window.set_default_icon_name('ibus-setup-hiragana')
         self._window.show()
@@ -144,7 +235,7 @@ class SetupEngineHiragana:
     def run(self):
         Gtk.main()
 
-    def apply(self):
+    def apply(self) -> bool:
         # layout
         i = self._keyboard_layouts.get_active()
         layout = self._keyboard_layouts.get_model()[i][1]
@@ -179,13 +270,14 @@ class SetupEngineHiragana:
 
         # use-llm
         use_llm = self._use_llm.get_active()
-        self._settings.set_boolean('use-llm', use_llm)
-
-        if self._clear_input_history.get_active():
-            # clear_input_history also reloads dictionaries
-            print('clear_input_history', flush=True)
-        else:
-            print('reload_dictionaries', flush=True)
+        if use_llm:
+            if self._install_dialog.is_completed() or check_requirements():
+                self._settings.set_boolean('use-llm', use_llm)
+                return True
+            if not self._install_dialog.is_visible():
+                self._install_dialog.show()
+                return False
+        return True
 
     def on_value_changed(self, settings, key):
         value = settings.get_value(key)
@@ -221,8 +313,8 @@ class SetupEngineHiragana:
         self._window.destroy()
 
     def on_ok(self, *args):
-        self.apply()
-        self._window.destroy()
+        if self.apply():
+            self._window.destroy()
 
     def on_edit(self, *args):
         path = self._user_dictionary.get_text().strip()
@@ -254,6 +346,16 @@ class SetupEngineHiragana:
     def on_destroy(self, *args):
         Gtk.main_quit()
 
+    def on_install(self, *args):
+        if self._install_dialog.is_completed():
+            self._install_dialog.hide()
+        elif not self._install_dialog.is_child_alive():
+            postinst = os.path.join(package.get_prefix(), 'libexec', 'ibus-postinst-hiragana')
+            self._install_dialog.spawn([postinst])
+
+    def on_cancel_install(self, *args):
+        if not self._install_dialog.is_child_alive():
+            self._install_dialog.hide()
 
 def main():
     setup = SetupEngineHiragana()
