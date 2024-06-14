@@ -1,5 +1,5 @@
 project('ibus-hiragana',
-          version: '0.15.6~rc2',
+          version: '0.15.6~rc3',
     meson_version: '>= 0.53.0',
   default_options: [ 'warning_level=2', 'werror=false', ],
 )
