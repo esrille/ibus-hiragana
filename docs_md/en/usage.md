@@ -42,8 +42,8 @@ Or as follows using Kana input:
 Later, when you convert the same homonym again, the last selected word will appear first in the candidate list. Less frequently used homonyms will move towards the end of the list.
 So you won't have to keep selecting between homonyms over time.
 
-By enabling the [Use LLM for candidate selection](settings.html#llm) option, Hiragana IME will preselect the most probable candidate based on the surrounding text.
-For example, when converting 'きどう', the preselected candidate changes according to the context as follows:
+Note that if you enable the [Use LLM for candidate selection](settings.html#llm) option, Hiragana IME will pre-select the most probable candidate using a Large Language Model.
+For example, when converting 'きどう', the pre-selected candidate changes according to the surrounding context as follows:
 
 - ￹地球￺ちきゅう￻の<span style="background-color:#d1eaff">￹軌道￺きどう￻</span>
 - パソコンの<span style="background-color:#d1eaff">￹起動￺きどう￻</span>

@@ -131,9 +131,9 @@ With the Wayland IM module, the surrounding text information sent to input metho
 The Hiragana IME setup is now complete.
 You can use the [Hiragana IME Setup](settings.html) window for additional settings.
 
-## Installation of Additional Components for Using a Large-Scale Language Model {: #llm}
+## Installation of Additional Components for Using a Large Language Model {: #llm}
 
-Hiragana IME has a feature that pre-selects the most probable conversion candidate using a Large-scale Language Model.
+Hiragana IME has a feature that pre-selects the most probable conversion candidate using a Large Language Model.
 To use this, the following packages need to be installed:
 
 - [Huggingface Transformers](https://huggingface.co/docs/transformers/)
@@ -158,6 +158,6 @@ To install the above packages with this venv, follow these steps:
 5. Click **Close** to close the window.
 
 The installation is now complete.
-When you log in again, you can use the candidate pre-selection feature using the large-scale language model.
+When you log in again, you can use the candidate pre-selection feature using the large language model.
 
 **Note**: Hiragana IME creates its venv at <code>~/.local/share/ibus-hiragana/venv</code>. tohoku-nlp/bert-base-japanese-v3 files are stored in <code>~/.cache/huggingface/hub/models--cl-tohoku--bert-base-japanese-v3/</code>.
