@@ -271,12 +271,11 @@ class SetupEngineHiragana:
         # use-llm
         use_llm = self._use_llm.get_active()
         if use_llm:
-            if self._install_dialog.is_completed() or check_requirements():
-                self._settings.set_boolean('use-llm', use_llm)
-                return True
-            if not self._install_dialog.is_visible():
-                self._install_dialog.show()
+            if not self._install_dialog.is_completed() and not check_requirements():
+                if not self._install_dialog.is_visible():
+                    self._install_dialog.show()
                 return False
+        self._settings.set_boolean('use-llm', use_llm)
         return True
 
     def on_value_changed(self, settings, key):
