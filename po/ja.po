@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ibus-hiragana 0.15.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-14 04:49+0900\n"
+"POT-Creation-Date: 2024-06-14 11:20+0900\n"
 "PO-Revision-Date: 2020-09-24 11:59+0900\n"
 "Last-Translator: Esrille Inc. <info@esrille.com>\n"
 "Language-Team: Japanese <info@esrille.com>\n"
@@ -137,15 +137,15 @@ msgstr "おとな用(おくりがな: 本則)"
 msgid "10th+ grade (Okurigana: permissible)"
 msgstr "おとな用(おくりがな: 許容)"
 
-#: setup/main.py:325
+#: setup/main.py:324
 msgid "Invalid characters in User Dictionary Name"
 msgstr "個人用辞書名のなかに不正な文字があります"
 
-#: setup/main.py:340
+#: setup/main.py:339
 msgid "Could not open file"
 msgstr "ファイルをひらけません"
 
-#: setup/main.py:342
+#: setup/main.py:341
 #, python-brace-format
 msgid "Error opening file \"{path}\": {message}"
 msgstr "ファイル \"{path}\" をひらくときにエラーがおきました: {message}"
