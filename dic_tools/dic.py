@@ -376,62 +376,56 @@ def copy_header(path):
 
 # 2つの辞書の共通部分をとりだした辞書をかえします。
 def intersection(a, b):
-    dict = {}
-    keys = set(a.keys()).intersection(set(b.keys()))
-    for yomi in keys:
-        if yomi not in a or yomi not in b:
-            continue
-        kanji = [x for x in a[yomi] if x in b[yomi]]
-        if not kanji:
-            continue
-        dict[yomi] = kanji
-    return dict
+    d = {}
+    for yomi in set(a) & set(b):
+        assert yomi in a and yomi in b
+        words = [x for x in a[yomi] if x in b[yomi]]
+        if words:
+            d[yomi] = words
+    return d
 
 
 # 2つの辞書の和集合をとりだした辞書をかえします。
 def union(a, b):
-    c = a.copy()
-    for yomi, kanji in b.items():
-        if yomi not in c:
-            c[yomi] = kanji
+    d = {}
+    for yomi in set(a) | set(b):
+        if yomi not in a:
+            d[yomi] = b[yomi][:]
+        elif yomi not in b:
+            d[yomi] = a[yomi][:]
         else:
-            c[yomi].extend([x for x in kanji if x not in c[yomi]])
-    return c
+            d[yomi] = a[yomi] + [x for x in b[yomi] if x not in a[yomi]]
+    return d
 
 
 # 2つの辞書の差集合をとりだした辞書をかえします。
 def difference(a, b):
-    c = a.copy()
-    for yomi, kanji in b.items():
-        if yomi in c:
-            c[yomi] = [x for x in c[yomi] if x not in kanji]
-            if not c[yomi]:
-                del c[yomi]
-    return c
+    d = {}
+    for yomi in a:
+        if yomi in b:
+            words = [x for x in a[yomi] if x not in b[yomi]]
+            if words:
+                d[yomi] = words
+        else:
+            d[yomi] = a[yomi][:]
+    return d
 
 
 # 2つの辞書のよみの共通部分をとりだした辞書をかえします。
 def intersection_yomi(a, b):
-    dict = {}
-    keys = set(a.keys()).intersection(set(b.keys()))
-    for yomi in keys:
-        if yomi in a and yomi in b:
-            kanji = a[yomi]
-            kanji.extend([x for x in b[yomi] if x not in kanji])
-        elif yomi in a:
-            kanji = a[yomi]
-        else:
-            kanji = b[yomi]
-        dict[yomi] = kanji
-    return dict
+    d = {}
+    for yomi in set(a) & set(b):
+        assert yomi in a and yomi in b
+        d[yomi] = a[yomi] + [x for x in b[yomi] if x not in a[yomi]]
+    return d
 
 
 # 記号をつかっている語をとりだします。
 def kigou(dict):
     d = {}
-    for yomi, kanji in dict.items():
+    for yomi, words in dict.items():
         s = []
-        for i in kanji:
+        for i in words:
             if i not in s and RE_KIGOU.search(i) is not None:
                 s.append(i)
         if s:
@@ -442,9 +436,9 @@ def kigou(dict):
 # 表外漢字をつかっている熟語をとりだします。
 def hyougai(dict):
     d = {}
-    for yomi, kanji in dict.items():
+    for yomi, words in dict.items():
         s = []
-        for i in kanji:
+        for i in words:
             if i not in s and RE_HYOUGAI.search(i) is not None:
                 s.append(i)
         if s:
@@ -455,9 +449,9 @@ def hyougai(dict):
 # おくりがなのある語をとりだします。
 def okuri(dict):
     d = {}
-    for yomi, kanji in dict.items():
+    for yomi, words in dict.items():
         s = []
-        for i in kanji:
+        for i in words:
             if i not in s and RE_HIRAGANA.search(i) is not None:
                 s.append(i)
         if s:
@@ -468,9 +462,9 @@ def okuri(dict):
 # 最後におくりがなのある語をとりだします。
 def okuri_end(dict):
     d = {}
-    for yomi, kanji in dict.items():
+    for yomi, words in dict.items():
         s = []
-        for i in kanji:
+        for i in words:
             if RE_HIRAGANA.search(i[-1]) is not None:
                 s.append(i)
         if s:
@@ -481,26 +475,26 @@ def okuri_end(dict):
 # 用言をリストアップします。
 def yougen(dict):
     d = {}
-    for yomi, kanji in dict.items():
+    for yomi, words in dict.items():
         if yomi[-1] == '―':
-            d[yomi] = kanji
+            d[yomi] = words
     return d
 
 
 # 用言と体言をまとめた辞書をつくります。
 def mix_yougen(dict):
     d = dict.copy()
-    for yomi, kanji in dict.items():
+    for yomi, words in dict.items():
         if yomi[-1] != '―':
             continue
         yomi = yomi[:-1]
         if yomi not in d:
             s = []
-            for i in kanji:
+            for i in words:
                 s.append(i + '―')
             d[yomi] = s
             continue
-        for i in kanji:
+        for i in words:
             if i not in d[yomi]:
                 d[yomi].append(i + '―')
     return d
