@@ -14,7 +14,20 @@ foreach grade : grades
     capture: true,
     install: true,
     install_dir: dicdir,
-    depend_files: [files('drop.dic')],
+    depend_files: [files(
+      'zyouyou-kanji.csv',
+      'add_6.dic',
+      'add_7.dic',
+      'add_8.dic',
+      'add_9.dic',
+      'drop.dic',
+      'drop_6.dic',
+      'huhyou.dic',
+      'reigai.dic',
+      'tc2.compat.dic',
+      'zyosuusi.dic',
+      'dic.py'
+    )],
   )
 endforeach
 

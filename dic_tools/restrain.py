@@ -25,26 +25,23 @@ def main():
     path = toolpath('third_party/skk/SKK-JISYO.ML')
     if 2 <= len(sys.argv):
         path = sys.argv[1]
-    dict = dic.load(path)
-    dict = dic.difference(dict, dic.yougen(dict))         # 用言を削除
-    dict = dic.union(dict, dic.load(toolpath('my.dic')))  # 独自に追加したい熟語を追加。
+    skk = dic.load(path)
+    skk = dic.difference(skk, dic.yougen(skk))                        # 用言を削除
 
+    dict = dic.difference(skk, dic.load(toolpath('drop_6.dic')))
+    dict = dic.union(dict, dic.load(toolpath('add_6.dic')))
     grade = 8
     if 3 <= len(sys.argv):
         grade = int(sys.argv[2])
 
     # 人名、地名、駅名、記号については、人名漢字の使用を許容し、例外辞書に格納しておきます。
-    zinmei = dic.load(toolpath('third_party/skk/SKK-JISYO.jinmei'))
-    reigai_zinmei = dic.intersection(dict, zinmei)
-    geo = dic.load(toolpath('third_party/skk/SKK-JISYO.geo'))
-    reigai_geo = dic.intersection(dict, geo)
-    station = dic.load(toolpath('third_party/skk/SKK-JISYO.station'))
-    reigai_station = dic.intersection(dict, station)
-    reigai_kigou = dic.kigou(dict)
-    reigai = dic.union(reigai_zinmei, reigai_geo)
-    reigai = dic.union(reigai, reigai_station)
-    reigai = dic.union(reigai, reigai_kigou)
-    reigai = dic.union(reigai, dic.load(toolpath('reigai.dic')))      # 独自に追加したい熟語を追加。
+    reigai = dic.load(toolpath('third_party/skk/SKK-JISYO.jinmei'))
+    reigai = dic.union(reigai, dic.load(toolpath('third_party/skk/SKK-JISYO.geo')))
+    reigai = dic.union(reigai, dic.load(toolpath('third_party/skk/SKK-JISYO.station')))
+    reigai = dic.intersection(reigai, skk)
+    reigai = dic.union(reigai, dic.load(toolpath('tc2.compat.dic')))
+    reigai = dic.union(reigai, dic.kigou(skk))
+    reigai = dic.union(dic.load(toolpath('reigai.dic')), reigai)      # 独自に追加したい熟語を追加。
     dict = dic.difference(dict, reigai)                               # 例外辞書の内容を削除
     if grade <= 6:
         reigai = dic.difference(reigai, dic.hyougai(reigai))
@@ -63,15 +60,16 @@ def main():
     dict = dic.union(zyosuusi, dict)                                  # 助数詞を先頭に追加
     dict = dic.union(dict, reigai)                                    # 例外を追加
 
+    if 7 <= grade:
+        dict = dic.union(dict, dic.load(toolpath('add_7.dic')))
     if 8 <= grade:
-        tc2 = dic.load(toolpath('tc2.compat.dic'))
-        tc2 = dic.difference(tc2, dic.okuri(tc2))
-        dict = dic.union(dict, tc2)                                   # tc2のmazegaki.dic辞書から選択した単語を追加。
+        dict = dic.union(dict, dic.load(toolpath('add_8.dic')))
+    if 9 <= grade:
+        dict = dic.union(dict, dic.load(toolpath('add_9.dic')))
     if 6 < grade:
         dict = dic.union(dict, dic.load(toolpath('greek.dic')))       # ギリシア文字辞書を追加。
 
     dict = dic.difference(dict, dic.load(toolpath('drop.dic')))       # 独自に削除したい熟語を削除。
-    dict = dic.union(dict, dic.load(toolpath('basic.dic')))           # 「にほん」を追加。
 
     # ヘッダーを出力します。
     print(';; Hiragana IME for IBus')

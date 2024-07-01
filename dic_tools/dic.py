@@ -289,10 +289,10 @@ def load(path):
     dict = {}
     with open(path, encoding=encoding) as f:
         for row in f:
-            row = row.strip(' \n')
+            row = row.strip()
             if not row or row[0] == ';':
                 continue
-            row = row.split(' ', 1)
+            row = row.split(maxsplit=2)
             yomi = row[0]
             if not RE_SKK_YOMI.match(yomi):
                 continue
