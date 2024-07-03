@@ -41,3 +41,13 @@ katakana = custom_target(
   install_dir: dicdir,
   depend_files: [files('drop.katakana.dic')],
 )
+
+permissible = custom_target(
+  'generate_permissible.dic',
+  input: [files('permissible.py', 'zyouyou-kanji.csv')],
+  output: 'permissible.dic',
+  command: [python_prog, '@INPUT@'],
+  capture: true,
+  install: true,
+  install_dir: dicdir,
+)

@@ -80,7 +80,9 @@ class Dictionary:
     def strcmp(okuri, yomi):
         return okuri == yomi
 
-    def __init__(self, system: str, user: str, clear_history=False):
+    def __init__(self, system: str, user: str,
+                 clear_history: bool = False,
+                 permissible: bool = False):
         LOGGER.debug(f'Dictionary("{system}", "{user}")')
 
         self._dict_base = {}
@@ -105,6 +107,13 @@ class Dictionary:
             self._load_dict(self._dict_base, path)
         except OSError:
             LOGGER.exception('Could not load "katakana.dic"')
+
+        if permissible and system == 'restrained.9.dic':
+            try:
+                path = os.path.join(dir_path, 'permissible.dic')
+                self._load_dict(self._dict_base, path)
+            except OSError:
+                LOGGER.exception('Could not load "permissible.dic"')
 
         try:
             # Load system dictionary

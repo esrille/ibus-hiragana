@@ -485,6 +485,7 @@ class EngineHiragana(EngineModeless):
         self._keymap_handler = 0
 
         self._logging_level = self._load_logging_level()
+
         self._dict = self._load_dictionary()
         self._controller = KeyboardController(self._load_layout())
 
@@ -630,6 +631,7 @@ class EngineHiragana(EngineModeless):
         return mode
 
     def _load_dictionary(self, clear_history=False):
+        permissible = self._settings.get_boolean('permissible')
         system = self._settings.get_string('dictionary')
         slash = system.rfind('/')
         if 0 <= slash:
@@ -639,7 +641,7 @@ class EngineHiragana(EngineModeless):
                 system = 'restrained.8.dic'
         user = self._settings.get_string('user-dictionary')
         LOGGER.info(f'dictionary: "{system}", "{user}", {clear_history}')
-        return Dictionary(system, user, clear_history)
+        return Dictionary(system, user, clear_history, permissible)
 
     def _load_input_mode(self):
         mode = self._settings.get_string('mode')
@@ -1174,7 +1176,7 @@ class EngineHiragana(EngineModeless):
         elif key == 'layout' or key == 'altgr':
             self._reset()
             self._controller = KeyboardController(self._load_layout())
-        elif key == 'dictionary' or key == 'user-dictionary':
+        elif key in ('dictionary', 'user-dictionary', 'permissible'):
             self._reset()
             self._dict = self._load_dictionary()
         elif key == 'mode':

@@ -50,6 +50,13 @@
         The AltGr layout name.
       </description>
     </key>
+    <key name='permissible' type='b'>
+      <default>false</default>
+      <summary>Use permissible okurigana</summary>
+      <description>
+        If enabled, permissible okurigana is included in the kanji dictionary for adults.
+      </description>
+    </key>
     <key name='nn-as-jis-x-4063' type='b'>
       <default>false</default>
       <summary>Convert 'nn' to 'ん'</summary>

@@ -607,3 +607,28 @@ def wago(dict, grade=10):
         if s:
             d[yomi] = s
     return d
+
+# 許容されているおくりがなをとりだします。
+def permissible():
+    dict = {}
+    with open(toolpath('zyouyou-kanji.csv'), 'r') as file:
+        for row in file:
+            row = row.strip().split(',')
+            kanji = row[0]
+            for yomi in row[1:]:
+                if int(yomi[-1]) < 9:
+                    continue
+                yomi = yomi[:-2]
+                yomi = yomi.strip('（）')
+                yomi = to_hirakana(yomi)
+                pos = yomi.find('―')
+                if pos < 0:
+                    continue
+                assert 1 < pos
+                word = kanji + yomi[pos + 1:]
+                yomi = yomi[:pos + 1]
+                if yomi not in dict:
+                    dict[yomi] = [word]
+                elif word not in dict[yomi]:
+                    dict[yomi].append(word)
+    return dict

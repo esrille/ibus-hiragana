@@ -66,6 +66,7 @@ def main():
         dict = dic.union(dict, dic.load(toolpath('add_8.dic')))
     if 9 <= grade:
         dict = dic.union(dict, dic.load(toolpath('add_9.dic')))
+        dict = dic.difference(dict, dic.permissible())                # 許容されているおくりがなを削除
     if 6 < grade:
         dict = dic.union(dict, dic.load(toolpath('greek.dic')))       # ギリシア文字辞書を追加。
 
