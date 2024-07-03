@@ -640,7 +640,6 @@ class EngineHiragana(EngineModeless):
             if system == 'restrained.dic':
                 system = 'restrained.8.dic'
         user = self._settings.get_string('user-dictionary')
-        LOGGER.info(f'dictionary: "{system}", "{user}", {clear_history}')
         return Dictionary(system, user, clear_history, permissible)
 
     def _load_input_mode(self):

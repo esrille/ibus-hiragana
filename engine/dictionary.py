@@ -83,7 +83,7 @@ class Dictionary:
     def __init__(self, system: str, user: str,
                  clear_history: bool = False,
                  permissible: bool = False):
-        LOGGER.debug(f'Dictionary("{system}", "{user}")')
+        LOGGER.debug(f'Dictionary("{system}", "{user}", {clear_history}, {permissible})')
 
         self._dict_base = {}
         self._dict = {}
