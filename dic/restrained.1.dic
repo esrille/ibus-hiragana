@@ -5,10 +5,9 @@
 ;;
 ;; この辞書は、
 ;;   SKK-JISYO.ML
-;; をもとに、ひらがなIME用にプログラムで自動生成した辞書です。
+;; をもとに、ひらがなIME用にプログラムで生成した辞書です。
 ;;
 ;;
-;; -*- mode: fundamental; coding: euc-jp -*-
 ;; Medium-Large size dictionary for SKK system
 ;;
 ;; Copyright (C) 1988-1995, 1997, 1999-2006

@@ -371,6 +371,8 @@ def copy_header(path):
             row = row.strip(' \n')
             if row == ';; okuri-ari entries.':
                 break
+            if 'euc-jp' in row:
+                continue
             print(row)
 
 

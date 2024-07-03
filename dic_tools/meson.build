@@ -23,6 +23,7 @@ foreach grade : grades
       'drop.dic',
       'drop_6.dic',
       'huhyou.dic',
+      'permissible_9.dic',
       'reigai.dic',
       'tc2.compat.dic',
       'zyosuusi.dic',
