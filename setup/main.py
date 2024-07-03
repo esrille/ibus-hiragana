@@ -148,6 +148,7 @@ class SetupEngineHiragana:
         self._init_nn_as_x4063()
         self._init_combining_circumflex()
         self._init_combining_macron()
+        self._init_permissible()
         self._init_use_llm()
         self._set_current_keyboard(self._settings.get_string('layout'))
 
@@ -191,8 +192,8 @@ class SetupEngineHiragana:
         model.append([_('5th grade'), 'restrained.5.dic', 4])
         model.append([_('6th grade'), 'restrained.6.dic', 5])
         model.append([_('7-9th grade'), 'restrained.7.dic', 6])
-        model.append([_('10th+ grade (Okurigana: strict)'), 'restrained.8.dic', 7])
-        model.append([_('10th+ grade (Okurigana: permissible)'), 'restrained.9.dic', 8])
+        model.append([_('10-12th grade'), 'restrained.8.dic', 7])
+        model.append([_('Adults'), 'restrained.9.dic', 8])
         self._kanzi_dictionaries.set_model(model)
         renderer = Gtk.CellRendererText()
         self._kanzi_dictionaries.pack_start(renderer, True)
@@ -226,6 +227,11 @@ class SetupEngineHiragana:
         self._combining_macron = self._builder.get_object('CombiningMacron')
         current = self._settings.get_value('combining-macron')
         self._combining_macron.set_active(current)
+
+    def _init_permissible(self):
+        self._permissible = self._builder.get_object('UsePermissible')
+        current = self._settings.get_value('permissible')
+        self._permissible.set_active(current)
 
     def _init_use_llm(self):
         self._use_llm = self._builder.get_object('UseLLM')
@@ -268,6 +274,10 @@ class SetupEngineHiragana:
         else:
             self._settings.set_string('user-dictionary', user)
 
+        # permissible
+        permissible = self._permissible.get_active()
+        self._settings.set_boolean('permissible', permissible)
+
         # use-llm
         use_llm = self._use_llm.get_active()
         if use_llm:
@@ -296,6 +306,8 @@ class SetupEngineHiragana:
                 if i[1] == current:
                     self._kanzi_dictionaries.set_active(i[2])
                     break
+        elif key == 'permissible':
+            self._permissible.set_active(value.get_boolean())
         elif key == 'user-dictionary':
             current = value.get_string()
             self._user_dictionary.set_text(current)
