@@ -3,9 +3,9 @@
 # This file is distributed under the same license as the ibus-hiragana package.
 msgid ""
 msgstr ""
-"Project-Id-Version: ibus-hiragana 0.15.6\n"
+"Project-Id-Version: ibus-hiragana 0.15.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-14 11:20+0900\n"
+"POT-Creation-Date: 2024-07-03 12:13+0900\n"
 "PO-Revision-Date: 2020-09-24 11:59+0900\n"
 "Last-Translator: Esrille Inc. <info@esrille.com>\n"
 "Language-Team: Japanese <info@esrille.com>\n"
@@ -34,28 +34,28 @@ msgstr "全角英数 (Ａ)"
 msgid "Halfwidth Katakana (ｱ)"
 msgstr "半角カタカナ (ｱ)"
 
-#: engine/engine.py:609 engine/engine.py:1061
+#: engine/engine.py:610 engine/engine.py:1063
 #, python-format
 msgid "Input mode (%s)"
 msgstr "入力モード (%s)"
 
-#: engine/engine.py:612
+#: engine/engine.py:613
 msgid "Setup"
 msgstr "設定"
 
-#: engine/engine.py:614
+#: engine/engine.py:615
 msgid "Help"
 msgstr "ヘルプ"
 
-#: engine/engine.py:616
+#: engine/engine.py:617
 msgid "About Hiragana IME..."
 msgstr "ひらがなIMEについて..."
 
-#: engine/engine.py:1408
+#: engine/engine.py:1410
 msgid "en"
 msgstr "ja"
 
-#: engine/engine.py:1420
+#: engine/engine.py:1422
 msgid "Hiragana IME"
 msgstr "ひらがなIME"
 
@@ -89,63 +89,63 @@ msgstr ""
 msgid "Close"
 msgstr "とじる(_W)"
 
-#: setup/main.py:166
+#: setup/main.py:167
 msgid "Rōmaji"
 msgstr "ローマ字"
 
-#: setup/main.py:167
+#: setup/main.py:168
 msgid "Kana (JIS Layout)"
 msgstr "かな (JIS配列)"
 
-#: setup/main.py:168
+#: setup/main.py:169
 msgid "Kana (New Stickney Layout)"
 msgstr "かな (ニュースティックニー配列)"
 
-#: setup/main.py:187
-msgid "1st grade"
-msgstr "小学校１年生用"
-
 #: setup/main.py:188
-msgid "2nd grade"
-msgstr "小学校２年生用"
+msgid "1st grade"
+msgstr "小学校１年生"
 
 #: setup/main.py:189
-msgid "3rd grade"
-msgstr "小学校３年生用"
+msgid "2nd grade"
+msgstr "小学校２年生"
 
 #: setup/main.py:190
-msgid "4th grade"
-msgstr "小学校４年生用"
+msgid "3rd grade"
+msgstr "小学校３年生"
 
 #: setup/main.py:191
-msgid "5th grade"
-msgstr "小学校５年生用"
+msgid "4th grade"
+msgstr "小学校４年生"
 
 #: setup/main.py:192
-msgid "6th grade"
-msgstr "小学校６年生用"
+msgid "5th grade"
+msgstr "小学校５年生"
 
 #: setup/main.py:193
-msgid "7-9th grade"
-msgstr "中学生用"
+msgid "6th grade"
+msgstr "小学校６年生"
 
 #: setup/main.py:194
-msgid "10th+ grade (Okurigana: strict)"
-msgstr "おとな用(おくりがな: 本則)"
+msgid "7-9th grade"
+msgstr "中学生"
 
 #: setup/main.py:195
-msgid "10th+ grade (Okurigana: permissible)"
-msgstr "おとな用(おくりがな: 許容)"
+msgid "10-12th grade"
+msgstr "高校生"
 
-#: setup/main.py:324
+#: setup/main.py:196
+msgid "Adults"
+msgstr "おとな"
+
+#: setup/main.py:336
 msgid "Invalid characters in User Dictionary Name"
 msgstr "個人用辞書名のなかに不正な文字があります"
 
-#: setup/main.py:339
+#: setup/main.py:351
 msgid "Could not open file"
 msgstr "ファイルをひらけません"
 
-#: setup/main.py:341
+#: setup/main.py:353
 #, python-brace-format
 msgid "Error opening file \"{path}\": {message}"
 msgstr "ファイル \"{path}\" をひらくときにエラーがおきました: {message}"
@@ -160,7 +160,7 @@ msgstr "インストール(_I)"
 
 #: setup/setup.glade:77
 msgid "$"
-msgstr ""
+msgstr "$"
 
 #: setup/setup.glade:122
 msgid "Click [Install] to install requirements for using LLM."
@@ -202,29 +202,33 @@ msgid "User Dictionary Name"
 msgstr "個人用辞書名"
 
 #: setup/setup.glade:491
+msgid "Use permissible okurigana"
+msgstr "おくりがなの「許容」をつかう"
+
+#: setup/setup.glade:526
 msgid "Clear input history"
 msgstr "入力履歴をクリアする"
 
-#: setup/setup.glade:534
+#: setup/setup.glade:569
 msgid "Dictionary"
 msgstr "辞書"
 
-#: setup/setup.glade:562
+#: setup/setup.glade:597
 msgid "<b>Input Assistance</b>"
 msgstr "<b>入力アシスト</b>"
 
-#: setup/setup.glade:587
+#: setup/setup.glade:622
 msgid "Use LLM for candidate selection"
 msgstr "変換候補の選択に大規模言語モデルを利用する"
 
-#: setup/setup.glade:623
+#: setup/setup.glade:658
 msgid "Combine '^' to the previous vowel character in alphanumeric mode"
 msgstr "英数モードで、'^'を直前の母音字に結合する"
 
-#: setup/setup.glade:659
+#: setup/setup.glade:694
 msgid "Combine '~' to the previous vowel character in alphanumeric mode as '¯'"
 msgstr "英数モードで、'~'を直前の母音字に'¯'として結合する"
 
-#: setup/setup.glade:702
+#: setup/setup.glade:737
 msgid "Option"
 msgstr "オプション"
