@@ -55,45 +55,72 @@ The correct Rōmaji spelling for 'ん' is <kbd>n</kbd>, or <kbd>n</kbd><kbd>'</k
 
 ## Dictionary Tab {: #dictionary}
 
-Choose the dictionary for kana-kanji conversion from the the **Kanji Dictionary** combo box.
-The Hiragana IME offers dictionaries for each school grade level and an edition assembled for grown up.
+In the Dictionary tab, you can configure the dictionaries for kana-kanji conversion.
+The Hiragana IME offers dictionaries for elementary, middle, and high school students, as well as adults.
 
 ![Hiragana IME Setup Window](ibus-setup-hiragana_2.png)
 
-The dictionaries for students in 10th grade and above are composed using kanji from the *List of Chinese Characters in Common Use*, known as the *[Jōyō Kanji Table](https://www.bunka.go.jp/kokugo_nihongo/sisaku/joho/joho/kijun/naikaku/kanji/)*, and kanji characters for use in personal names, known as the *[Jinmeiyō Kanji Table](http://www.moj.go.jp/MINJI/minji86.html)*. The grade-specific dictionary is structured according to the table provided by [MEXT](http://www.mext.go.jp/a_menu/shotou/new-cs/1385768.htm).
+### Kanji Dictionary
 
-*Okurigana* are hiragana suffixes attached to words written with kanji characters. Guidelines on using *okurigana* have been issued as a public notice through the Prime Minister in Japan. Children learn these rules at school. In practice, there are variations in okurigana. The Hiragana IME provides two types of dictionaries for convenience.
+Choose the Kanji dictionary you like to use from the **Kanji Dictionary** drop-down list.
+The grade-specific dictionary is structured according to the table provided by [MEXT](http://www.mext.go.jp/a_menu/shotou/new-cs/1385768.htm).
+As students move up each grade, they learn more kanji characters;
+consequently, the number of kanji words in the dictionary also increases.
 
-Dictionary | Description
---|--
-Okurigana: strict | Follow the main rules strictly.
-Okurigana: permissive | Permit the use of widely used variations.
+Kanji Dictionary | Number of Words
+--|--:
+1st grade | 633
+2nd grade | 2,893
+3rd grade | 5,811
+4th grade | 8,960
+5th grade | 11,913
+6th grade | 14,019
+7-9 grades | 28,839
+10-12 grades | 30,995
+Adults | 33,559
 
-For example, the *10th+ grade (Okurigana: general + permissible)* dictionary allows conversions like '<ruby>落<rp>(</rp><rt>おと</rt><rp>)</rp></ruby>す'.
+(As of July, 2024)
+
+Choose a dictionary based on the reader's grade level.
+For personal names and place names, dictionaries for middle school students and above use kanji not listed in the list of Chinese characters in common use, known as the *[Jōyō Kanji Table](https://www.bunka.go.jp/kokugo_nihongo/sisaku/joho/joho/kijun/naikaku/kanji/)*.
+
+### User Dictionary Name
+
+You can add words to your personal dictionary if you can not find a word in the Hiragana IME dictionary.
+You may switch among multiple user dictionaries.
+
+Enter the preferred user dictionary file name in the **User Dictionary Name** textbox.
+By default, 'my.dic' is used.
+Your dictionaries are stored in the directory <code>~/.local/share/ibus-hiragana/</code>.
+
+Click **Edit** to edit your dictionary.
+The file format of the personal dictionary is described later in "[Editing Personal Dictionaries](#personal-dictionary)" on this page.
+
+### Use permissible okurigana
+
+*Okurigana* are hiragana suffixes attached to words written with kanji characters.
+Guidelines on using okurigana have been issued as a [public notice](https://www.bunka.go.jp/kokugo_nihongo/sisaku/joho/joho/kijun/naikaku/okurikana/index.html) through the Prime Minister in Japan.
+Children learn these rules at school.
+
+In practice, there are variations in okurigana.
+Turn on the **Use permissible okurigana** switch to use permissible okurigana.
+
+**Examples**:
 
 Main rules | Permissible rules
 --|--
 お<span class='key'>変換</span>とす → 落とす | おと<span class='key'>変換</span>す → 落す
 おこな<span class='key'>変換</span>って → 行って | おこ<span class='key'>変換</span>なって → 行なって
+とど<span class='key'>変換</span>けで<span class='key'>変換</span> → 届け出 | とどけで<span class='key'>変換</span> → 届出
 
-Understanding *okurigana* can be quite challenging.
+Understanding the okurigana rules can be quite challenging.
 Without furigana, '<ruby>行<rp>(</rp><rt>おこな</rt><rp>)</rp></ruby>って' and '<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>って' cannot be distinguished by the main rules alone. On the other hand, people who are knowledgeable about kanji do not struggle with reading  '<ruby>落<rp>(</rp><rt>おと</rt><rp>)</rp></ruby>す'.
+The public notice does not mandate using kanji; it simply provides guidelines on how to add or remove okurigana when using kanji. In the Japanese version of this guide, most Japanese words are written only in hiragana.
 
-The public notice does not mandate using kanji; it simply provides guidelines on how to add okurigana when using kanji. In the Japanese version of this guide, most Japanese words are written only in hiragana.
+### Clear input history
 
-### User dictionary
-
-You can add words to your personal dictionary if you can not find a word in the default Hiragana IME dictionaries.
-
-You may switch among multiple user dictionaries.
-Your dictionaries are stored in the directory ~/.local/share/ibus-hiragana/.
-Enter the preferred user dictionary file name in the **User Dictionary Name** textbox.
-By default, 'my.dic' is used.
-Click **Edit** to edit your dictionary.
-
-### Clearing the input history
-
-During the conversion of homonyms and words with shortened readings, the frequently used ones will appear at the beginning of the candidate list. If you want to reset the orders to the initial state, turn on the **Clear input history** switch and click **Apply**.
+Frequently used homonyms and words with shortened readings will appear at the beginning of the candidate list.
+To reset the orders to the initial state, turn on the **Clear input history** switch and click **Apply**.
 
 ## Option Tab {: #option}
 
