@@ -77,6 +77,7 @@ function shrinkToc() {
   <li><a href='settings.html#layout'>Keyboard Tab</a>
   <li><a href='settings.html#dictionary'>Dictionary Tab</a>
   <li><a href='settings.html#option'>Option Tab</a>
+  <li><a href='settings.html#personal-dictionary'>Editing Personal Dictionaries</a>
 </ul>
 </details>
 <li><details><summary><a href='layouts.html'>Kana Input</a></summary>
@@ -246,9 +247,47 @@ Without furigana, '<ruby>行<rp>(</rp><rt>おこな</rt><rp>)</rp></ruby>って'
 <p>You may switch among multiple user dictionaries.
 Your dictionaries are stored in the directory ~/.local/share/ibus-hiragana/.
 Enter the preferred user dictionary file name in the <strong>User Dictionary Name</strong> textbox.
-By default, 'my.dic' is used.</p>
-<p>Click <strong>Edit</strong> to edit your dictionary.
-The personal dictionary files are text files using the following format.</p>
+By default, 'my.dic' is used.
+Click <strong>Edit</strong> to edit your dictionary.</p>
+<h3>Clearing the input history</h3>
+<p>During the conversion of homonyms and words with shortened readings, the frequently used ones will appear at the beginning of the candidate list. If you want to reset the orders to the initial state, turn on the <strong>Clear input history</strong> switch and click <strong>Apply</strong>.</p>
+<h2 id="option">Option Tab</h2>
+<p>You can customize the input assistance feature.</p>
+<p><img alt="「Hiragana IME Setup」Window" src="ibus-setup-hiragana_3.png"></p>
+<h3 id="llm">Use LLM for candidate selection</h3>
+<p>This feature utilizes so-called <em>AI</em>. LLM stands for Large Language Model.
+When enabled, the Hiragana IME calculates the probabilities of each candidate's occurrence in its surrounding text and pre-selects the most probable candidate in the candidate window..</p>
+<p>For example, when converting 'のぼる', the pre-selected candidate changes as below depending on the surrounding text:</p>
+<ul>
+<li><ruby>山<rp>(</rp><rt>やま</rt><rp>)</rp></ruby>に<span style="background-color:#d1eaff">登る</span></li>
+<li><ruby>日<rp>(</rp><rt>ひ</rt><rp>)</rp></ruby>が<span style="background-color:#d1eaff">昇る</span></li>
+</ul>
+<p><strong>Note</strong>: Since pre-selection is merely based on a probability calculation, the desired candidate may not always be chosen.
+This feature is disabled by default because it requires a relatively large amount of computational power.
+To enable this feature, you also need to install several packages.
+For more details, please see <a href="install.html#llm">Installation of Additional Components for Using a Large Language Model</a>.</p>
+<h3 id="combining-circumflex">Combine '^' to the previous vowel character in alphanumeric mode</h3>
+<p>Enable this option if you want to write Japanese in Kunrei-shiki Rōmaji.
+When you type <span class='key'>^</span> after a vowel character in Alphanumeric mode, it is combined into a single character.</p>
+<ul>
+<li>Example: a<span class='key'>^</span> → â</li>
+</ul>
+<p>When you type <span class='key'>^</span> after a vowel character combined with a circumflex, it is separated back into a vowel and '^'.</p>
+<ul>
+<li>Example: â<span class='key'>^</span> → a^</li>
+</ul>
+<h3 id="combining-macron">Combine '~' to the previous vowel character in alphanumeric mode as '¯'</h3>
+<p>Enable this option if you want to write Japanese in Hepburn romanization.
+When you type <span class='key'>~</span> after a vowel character in Alphanumeric mode, it is combined into a single character as '¯'.</p>
+<ul>
+<li>Example: a<span class='key'>~</span> → ā</li>
+</ul>
+<p>When you type <span class='key'>~</span> after a vowel character combined with a macron, it is separated back into a vowel and '~'.</p>
+<ul>
+<li>Example: ā<span class='key'>~</span> → a~</li>
+</ul>
+<h2 id="personal-dictionary">Editing Personal Dictionaries</h2>
+<p>The personal dictionary files are text files using the following format.</p>
 <pre><code>; Lines starting with a semicolon (;) are comments.
 ; To add a word, write the reading, followed by a space, and then the word
 ; enclosed by slashes (/).
@@ -263,7 +302,6 @@ The personal dictionary files are text files using the following format.</p>
 ささや― /囁k/
 あお― /碧i/
 </code></pre>
-<p>Press the <strong>OK</strong> or <strong>Apply</strong> button to use the edited personal dictionary. You don't have to restart your PC.</p>
 <h3 id="okurigana">Adding words with okurigana (<em>for Advanced Users Only</em>)</h3>
 <p>In user dictionaries, the reading section of a word with okurigana contains only the hiragana part to be replaced with kanji and terminated with a horizontal bar (―).</p>
 <p>The format of the word section changes based on its grammatical part of speech and conjugation type, as described below.</p>
@@ -408,43 +446,6 @@ The personal dictionary files are text files using the following format.</p>
 </tr>
 </tbody>
 </table>
-<h3>Clearing the input history</h3>
-<p>During the conversion of homonyms and words with shortened readings, the frequently used ones will appear at the beginning of the candidate list. If you want to reset the orders to the initial state, turn on the <strong>Clear input history</strong> switch and click <strong>Apply</strong>.</p>
-<h2 id="option">Option Tab</h2>
-<p>You can customize the input assistance feature.</p>
-<p><img alt="「Hiragana IME Setup」Window" src="ibus-setup-hiragana_3.png"></p>
-<h3 id="llm">Use LLM for candidate selection</h3>
-<p>This feature utilizes so-called <em>AI</em>. LLM stands for Large Language Model.
-When enabled, the Hiragana IME calculates the probabilities of each candidate's occurrence in its surrounding text and pre-selects the most probable candidate in the candidate window..</p>
-<p>For example, when converting 'のぼる', the pre-selected candidate changes as below depending on the surrounding text:</p>
-<ul>
-<li><ruby>山<rp>(</rp><rt>やま</rt><rp>)</rp></ruby>に<span style="background-color:#d1eaff">登る</span></li>
-<li><ruby>日<rp>(</rp><rt>ひ</rt><rp>)</rp></ruby>が<span style="background-color:#d1eaff">昇る</span></li>
-</ul>
-<p><strong>Note</strong>: Since pre-selection is merely based on a probability calculation, the desired candidate may not always be chosen.
-This feature is disabled by default because it requires a relatively large amount of computational power.
-To enable this feature, you also need to install several packages.
-For more details, please see <a href="install.html#llm">Installation of Additional Components for Using a Large Language Model</a>.</p>
-<h3 id="combining-circumflex">Combine '^' to the previous vowel character in alphanumeric mode</h3>
-<p>Enable this option if you want to write Japanese in Kunrei-shiki Rōmaji.
-When you type <span class='key'>^</span> after a vowel character in Alphanumeric mode, it is combined into a single character.</p>
-<ul>
-<li>Example: a<span class='key'>^</span> → â</li>
-</ul>
-<p>When you type <span class='key'>^</span> after a vowel character combined with a circumflex, it is separated back into a vowel and '^'.</p>
-<ul>
-<li>Example: â<span class='key'>^</span> → a^</li>
-</ul>
-<h3 id="combining-macron">Combine '~' to the previous vowel character in alphanumeric mode as '¯'</h3>
-<p>Enable this option if you want to write Japanese in Hepburn romanization.
-When you type <span class='key'>~</span> after a vowel character in Alphanumeric mode, it is combined into a single character as '¯'.</p>
-<ul>
-<li>Example: a<span class='key'>~</span> → ā</li>
-</ul>
-<p>When you type <span class='key'>~</span> after a vowel character combined with a macron, it is separated back into a vowel and '~'.</p>
-<ul>
-<li>Example: ā<span class='key'>~</span> → a~</li>
-</ul>
 </main>
 </div>
 

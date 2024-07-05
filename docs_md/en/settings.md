@@ -89,8 +89,57 @@ You may switch among multiple user dictionaries.
 Your dictionaries are stored in the directory ~/.local/share/ibus-hiragana/.
 Enter the preferred user dictionary file name in the **User Dictionary Name** textbox.
 By default, 'my.dic' is used.
-
 Click **Edit** to edit your dictionary.
+
+### Clearing the input history
+
+During the conversion of homonyms and words with shortened readings, the frequently used ones will appear at the beginning of the candidate list. If you want to reset the orders to the initial state, turn on the **Clear input history** switch and click **Apply**.
+
+## Option Tab {: #option}
+
+You can customize the input assistance feature.
+
+![「Hiragana IME Setup」Window](ibus-setup-hiragana_3.png)
+
+### Use LLM for candidate selection {: #llm}
+
+This feature utilizes so-called *AI*. LLM stands for Large Language Model.
+When enabled, the Hiragana IME calculates the probabilities of each candidate's occurrence in its surrounding text and pre-selects the most probable candidate in the candidate window..
+
+For example, when converting 'のぼる', the pre-selected candidate changes as below depending on the surrounding text:
+
+- ￹山￺やま￻に<span style="background-color:#d1eaff">登る</span>
+- ￹日￺ひ￻が<span style="background-color:#d1eaff">昇る</span>
+
+**Note**: Since pre-selection is merely based on a probability calculation, the desired candidate may not always be chosen.
+This feature is disabled by default because it requires a relatively large amount of computational power.
+To enable this feature, you also need to install several packages.
+For more details, please see [Installation of Additional Components for Using a Large Language Model](install.html#llm).
+
+### Combine '^' to the previous vowel character in alphanumeric mode {: #combining-circumflex}
+
+Enable this option if you want to write Japanese in Kunrei-shiki Rōmaji.
+When you type <span class='key'>^</span> after a vowel character in Alphanumeric mode, it is combined into a single character.
+
+- Example: a<span class='key'>^</span> → â
+
+When you type <span class='key'>^</span> after a vowel character combined with a circumflex, it is separated back into a vowel and '^'.
+
+- Example: â<span class='key'>^</span> → a^
+
+### Combine '~' to the previous vowel character in alphanumeric mode as '¯' {: #combining-macron}
+
+Enable this option if you want to write Japanese in Hepburn romanization.
+When you type <span class='key'>~</span> after a vowel character in Alphanumeric mode, it is combined into a single character as '¯'.
+
+- Example: a<span class='key'>~</span> → ā
+
+When you type <span class='key'>~</span> after a vowel character combined with a macron, it is separated back into a vowel and '~'.
+
+- Example: ā<span class='key'>~</span> → a~
+
+## Editing Personal Dictionaries {: #personal-dictionary}
+
 The personal dictionary files are text files using the following format.
 
 ```
@@ -108,8 +157,6 @@ The personal dictionary files are text files using the following format.
 ささや― /囁k/
 あお― /碧i/
 ```
-
-Press the **OK** or **Apply** button to use the edited personal dictionary. You don't have to restart your PC.
 
 ### Adding words with okurigana (*for Advanced Users Only*) {: #okurigana}
 
@@ -168,50 +215,3 @@ Reading section | Word section
 ---|---
 ひと― | 独り
 すこ― | 少し
-
-### Clearing the input history
-
-During the conversion of homonyms and words with shortened readings, the frequently used ones will appear at the beginning of the candidate list. If you want to reset the orders to the initial state, turn on the **Clear input history** switch and click **Apply**.
-
-## Option Tab {: #option}
-
-You can customize the input assistance feature.
-
-![「Hiragana IME Setup」Window](ibus-setup-hiragana_3.png)
-
-### Use LLM for candidate selection {: #llm}
-
-This feature utilizes so-called *AI*. LLM stands for Large Language Model.
-When enabled, the Hiragana IME calculates the probabilities of each candidate's occurrence in its surrounding text and pre-selects the most probable candidate in the candidate window..
-
-For example, when converting 'のぼる', the pre-selected candidate changes as below depending on the surrounding text:
-
-- ￹山￺やま￻に<span style="background-color:#d1eaff">登る</span>
-- ￹日￺ひ￻が<span style="background-color:#d1eaff">昇る</span>
-
-**Note**: Since pre-selection is merely based on a probability calculation, the desired candidate may not always be chosen.
-This feature is disabled by default because it requires a relatively large amount of computational power.
-To enable this feature, you also need to install several packages.
-For more details, please see [Installation of Additional Components for Using a Large Language Model](install.html#llm).
-
-### Combine '^' to the previous vowel character in alphanumeric mode {: #combining-circumflex}
-
-Enable this option if you want to write Japanese in Kunrei-shiki Rōmaji.
-When you type <span class='key'>^</span> after a vowel character in Alphanumeric mode, it is combined into a single character.
-
-- Example: a<span class='key'>^</span> → â
-
-When you type <span class='key'>^</span> after a vowel character combined with a circumflex, it is separated back into a vowel and '^'.
-
-- Example: â<span class='key'>^</span> → a^
-
-### Combine '~' to the previous vowel character in alphanumeric mode as '¯' {: #combining-macron}
-
-Enable this option if you want to write Japanese in Hepburn romanization.
-When you type <span class='key'>~</span> after a vowel character in Alphanumeric mode, it is combined into a single character as '¯'.
-
-- Example: a<span class='key'>~</span> → ā
-
-When you type <span class='key'>~</span> after a vowel character combined with a macron, it is separated back into a vowel and '~'.
-
-- Example: ā<span class='key'>~</span> → a~
