@@ -286,6 +286,13 @@ class SetupEngineHiragana:
                     self._install_dialog.show()
                 return False
         self._settings.set_boolean('use-llm', use_llm)
+
+        if self._clear_input_history.get_active():
+            # clear_input_history also reloads dictionaries
+            print('clear_input_history', flush=True)
+        else:
+            print('reload_dictionaries', flush=True)
+
         return True
 
     def on_value_changed(self, settings, key):
