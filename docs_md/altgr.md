@@ -85,7 +85,7 @@ IMEの￹入力￺にゅうりょく￻モードは、「￹英数￺えいす�
 </div>
 
 <div class='layer L4'>
-<div>≒</div><div></div><div>²</div><div>³</div><div></div><div></div><div></div><div></div><div>※</div><div>【</div><div>】</div><div></div><div>±</div><div class='k200'></div>
+<div>≒</div><div>十</div><div>²</div><div>³</div><div></div><div></div><div></div><div></div><div>※</div><div>【</div><div>】</div><div></div><div>±</div><div class='k200'></div>
 <br>
 <div class='k150'></div><div></div><div></div><div></div><div></div><div>™</div><div></div><div></div><div></div><div></div><div></div><div>“</div><div>”</div><div class='k150'></div>
 <br>
@@ -149,7 +149,7 @@ IMEの￹入力￺にゅうりょく￻モードは、「￹英数￺えいす�
 </div>
 
 <div class='layer L4'>
-<div>≒</div><div></div><div>²</div><div>³</div><div></div><div></div><div></div><div></div><div>※</div><div>【</div><div>】</div><div>“</div><div>”</div><div class='k200'></div>
+<div>≒</div><div>十</div><div>²</div><div>³</div><div></div><div></div><div></div><div></div><div>※</div><div>【</div><div>】</div><div>“</div><div>”</div><div class='k200'></div>
 <br>
 <div class='k150'></div><div></div><div>≦</div><div>≧</div><div></div><div></div><div></div><div></div><div>©</div><div>™</div><div></div><div>÷</div><div>±</div><div class='k150'></div>
 <br>
@@ -213,7 +213,7 @@ IMEの￹入力￺にゅうりょく￻モードは、「￹英数￺えいす�
 </div>
 
 <div class='layer109 L4'>
-<div></div><div></div><div>²</div><div>³</div><div></div><div></div><div></div><div></div><div>【</div><div>】</div><div></div><div>≠</div>≒<div></div><div></div><div></div>
+<div></div><div>十</div><div>²</div><div>³</div><div></div><div></div><div></div><div></div><div>【</div><div>】</div><div></div><div>≠</div>≒<div></div><div></div><div></div>
 <br>
 <div class='k150'></div><div></div><div></div><div></div><div></div><div>™</div><div></div><div></div><div></div><div></div><div></div><div></div><div>“</div><div class='k150'></div>
 <br>
