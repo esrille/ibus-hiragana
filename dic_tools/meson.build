@@ -23,7 +23,6 @@ foreach grade : grades
       'drop.dic',
       'drop_6.dic',
       'huhyou.dic',
-      'permissible_9.dic',
       'reigai.dic',
       'tc2.compat.dic',
       'zyosuusi.dic',
@@ -45,10 +44,11 @@ katakana = custom_target(
 
 permissible = custom_target(
   'generate_permissible.dic',
-  input: [files('permissible.py', 'zyouyou-kanji.csv')],
+  input: [files('permissible.py', 'permissible_9.dic')],
   output: 'permissible.dic',
   command: [python_prog, '@INPUT@'],
   capture: true,
   install: true,
   install_dir: dicdir,
+  depend_files: [files('zyouyou-kanji.csv')],
 )

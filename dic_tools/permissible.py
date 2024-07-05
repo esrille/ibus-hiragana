@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import sys
+
 import dic
 
 
@@ -24,7 +26,9 @@ def main():
     print(';;')
     print(';;   https://github.com/esrille/ibus-hiragana')
     print(';;')
-    dic.output(dic.permissible())
+    permissible = dic.permissible()
+    permissible = dic.union(permissible, dic.load(sys.argv[1]))
+    dic.output(permissible)
 
 
 if __name__ == '__main__':

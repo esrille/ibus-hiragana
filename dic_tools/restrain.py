@@ -60,7 +60,6 @@ def main():
     if 9 <= grade:
         # おとな用の辞書では漢字制限をゆるめておきます。
         dict = dic.union(dict, dic.load(toolpath('add_9.dic')))
-        dict = dic.union(dict, dic.load(toolpath('permissible_9.dic')))
     dict = dic.difference(dict, dic.hyougai(dict))                    # 表外の漢字を使用している語を削除
     dict = dic.union(dict, dic.load_huhyou(toolpath('huhyou.dic'), grade))    # 常用漢字表・付表の語を追加。
     dict = dic.union(dic.zyouyou(grade), dict)                        # 常用漢字を追加
