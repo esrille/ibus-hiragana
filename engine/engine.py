@@ -1132,16 +1132,16 @@ class EngineHiragana(EngineModeless):
     def _setup_start(self):
         if self._setup_proc:
             if self._setup_proc.poll() is None:
+                self._setup_proc.stdin.write('present\n')
+                self._setup_proc.stdin.flush()
                 return
             self._setup_proc = None
         try:
             filename = os.path.join(package.get_libexecdir(), 'ibus-setup-hiragana')
-            self._setup_proc = subprocess.Popen([filename], text=True, stdout=subprocess.PIPE)
+            self._setup_proc = subprocess.Popen([filename], text=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
             t = threading.Thread(target=self._setup_readline, args=(self._setup_proc,), daemon=True)
             t.start()
-        except OSError:
-            LOGGER.exception('_setup_start')
-        except ValueError:
+        except (OSError, ValueError):
             LOGGER.exception('_setup_start')
 
     def _setup_sync(self):

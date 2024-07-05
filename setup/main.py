@@ -18,7 +18,7 @@ import gettext
 import locale
 import logging
 import os
-import subprocess
+import sys
 
 import gi
 gi.require_version('GLib', '2.0')
@@ -238,7 +238,14 @@ class SetupEngineHiragana:
         current = self._settings.get_value('use-llm')
         self._use_llm.set_active(current)
 
+    def _on_stdin_input(self, source, condition):
+        line = source.readline().strip()
+        if line == 'present':
+            self._window.present()
+        return True
+
     def run(self):
+        GLib.io_add_watch(sys.stdin, GLib.IO_IN, self._on_stdin_input)
         Gtk.main()
 
     def apply(self) -> bool:
@@ -374,6 +381,7 @@ class SetupEngineHiragana:
     def on_cancel_install(self, *args):
         if not self._install_dialog.is_child_alive():
             self._install_dialog.hide()
+
 
 def main():
     setup = SetupEngineHiragana()
