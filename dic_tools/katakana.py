@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 #
-# Copyright (c) 2017-2023 Esrille Inc.
+# Copyright (c) 2017-2024 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 import re
 import sys
 
-import dic
+import diclib
 
 RE_KATAKANA = re.compile(r'[ァ-ー]{2,}')
 
@@ -85,7 +85,7 @@ def main():
     print(';;')
 
     for i in sorted(gairaigo):
-        print(dic.to_hirakana(i), ' /', i, '/', sep='')
+        print(diclib.to_hirakana(i), ' /', i, '/', sep='')
 
 
 if __name__ == '__main__':

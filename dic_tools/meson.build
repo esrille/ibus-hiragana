@@ -26,7 +26,7 @@ foreach grade : grades
       'reigai.dic',
       'tc2.compat.dic',
       'zyosuusi.dic',
-      'dic.py'
+      'diclib.py'
     )],
   )
 endforeach

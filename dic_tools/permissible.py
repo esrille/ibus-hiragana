@@ -16,7 +16,7 @@
 
 import sys
 
-import dic
+import diclib
 
 
 def main():
@@ -26,9 +26,9 @@ def main():
     print(';;')
     print(';;   https://github.com/esrille/ibus-hiragana')
     print(';;')
-    permissible = dic.permissible()
-    permissible = dic.union(permissible, dic.load(sys.argv[1]))
-    dic.output(permissible)
+    permissible = diclib.permissible()
+    permissible = diclib.union(permissible, diclib.load(sys.argv[1]))
+    diclib.output(permissible)
 
 
 if __name__ == '__main__':
