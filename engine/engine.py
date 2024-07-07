@@ -531,23 +531,24 @@ class EngineHiragana(EngineModeless):
             return 0
         self._assisted = llm.pick(prefix, cand)
         LOGGER.debug(f'_assist: "{cand[self._assisted]}"/"{yomi}" ({self._assisted})')
-        if cand[self._assisted] in self._ignored.get(yomi, set()):
+        yomi, assisted = self._dict.get_stem(self._assisted)
+        if assisted in self._ignored.get(yomi, set()):
+            LOGGER.debug(f'_assist: ignore "{cand[self._assisted]}", use "{cand[0]}"')
             return 0
         return self._assisted
 
     def _confirm_candidate(self):
         current = self._dict.current()
         if current:
-            LOGGER.debug(f'_confirm_candidate: "{current}"')
-            yomi = self._dict.reading()
+            yomi, assisted = self._dict.get_stem(self._assisted)
+            LOGGER.debug(f'_confirm_candidate: current: "{current}", assisted: {yomi} /{assisted}/')
             no = self._dict.confirm(''.join(self._shrunk))
             if no == self._assisted:
-                LOGGER.debug(f'_confirm_candidate: restore "{current}"/"{yomi}"')
+                LOGGER.debug(f'_confirm_candidate: restore {yomi} /{assisted}/')
                 if yomi in self._ignored:
-                    self._ignored[yomi].discard(current)
+                    self._ignored[yomi].discard(assisted)
             elif self._assisted < len(self._dict.cand()):
-                assisted = self._dict.cand()[self._assisted]
-                LOGGER.debug(f'_confirm_candidate: ignore "{assisted}"/"{yomi}"')
+                LOGGER.debug(f'_confirm_candidate: ignore {yomi} /{assisted}/')
                 if yomi in self._ignored:
                     self._ignored[yomi].add(assisted)
                 else:

@@ -394,6 +394,22 @@ class Dictionary:
         assert '―' in self._yomi
         return False if 0 in self._completed else True
 
+    def get_stem(self, no):
+        yomi = self._yomi
+        if not yomi:
+            return '', ''
+        if self._order:
+            yomi = yomi[:yomi.find('―') + 1]
+            no = self._order[no]
+            return yomi, self._dict[yomi][no]
+        if self._numeric:
+            yomi = '#' + yomi
+            cand = self._dict[yomi]
+            if len(cand) <= no:
+                return yomi, '#' + self._cand[no]
+            return yomi, cand[no]
+        return yomi, self._cand[no]
+
     def confirm(self, shrunk) -> int:
         if not self._yomi:
             return 0
