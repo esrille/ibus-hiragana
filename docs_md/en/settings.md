@@ -131,7 +131,7 @@ You can customize the input assistance feature.
 ### Use LLM for candidate selection {: #llm}
 
 This feature utilizes so-called *AI*. LLM stands for Large Language Model.
-When enabled, the Hiragana IME calculates the probabilities of each candidate's occurrence in its surrounding text and pre-selects the most probable candidate in the candidate window..
+When enabled, the Hiragana IME calculates the probabilities of each candidate's occurrence in its surrounding text and pre-selects the most probable candidate in the candidate window.
 
 For example, when converting 'のぼる', the pre-selected candidate changes as below depending on the surrounding text:
 
