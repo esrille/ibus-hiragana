@@ -19,10 +19,7 @@ from toolpath import toolpath
 
 
 def string_range(a, b):
-    s = ''
-    for i in range(ord(a), ord(b) + 1):
-        s += chr(i)
-    return s
+    return ''.join([chr(x) for x in range(ord(a), ord(b) + 1)])
 
 
 HIRAGANA = string_range('ぁ', 'ゖ') + 'か゚き゚く゚け゚こ゚'
@@ -151,6 +148,7 @@ ZYOUYOU = ('亜哀挨愛曖悪握圧扱宛嵐安案暗以衣位囲医依委威�
            '履璃離陸立律慄略柳流留竜粒隆硫侶旅虜慮了両良料涼猟陵量僚領寮療瞭糧力緑林厘倫輪隣'
            '臨瑠涙累塁類令礼冷励戻例鈴零霊隷齢麗暦歴列劣烈裂恋連廉練錬呂炉賂路露老労弄郎朗浪'
            '廊楼漏籠六録麓論和話賄脇惑枠湾腕')
+assert len(ZYOUYOU) == 2136
 
 ZINMEI = ('丑丞乃之乎也云亘些亦亥亨亮仔伊伍伽佃佑伶侃侑俄俠俣俐倭俱倦倖偲傭儲允兎兜其冴凌凜凧凪凰凱函劉劫勁勺勿'
           '匁匡廿卜卯卿厨厩叉叡叢叶只吾吞吻哉哨啄哩喬喧喰喋嘩嘉嘗噌噂圃圭坐尭坦埴堰堺堵塙壕壬夷奄奎套娃姪姥娩嬉'
@@ -171,6 +169,7 @@ ZINMEI = ('丑丞乃之乎也云亘些亦亥亨亮仔伊伍伽佃佑伶侃侑俄
           '眞寢愼盡粹醉穗瀨齊靜攝節專戰纖禪祖壯爭莊搜巢曾裝僧層瘦騷增憎藏贈臟卽帶滯瀧單嘆團彈晝鑄著廳徵聽懲鎭轉'
           '傳都嶋燈盜稻德突難拜盃賣梅髮拔繁晚卑祕碑賓敏冨侮福拂佛勉步峯墨飜每萬默埜彌藥與搖樣謠來賴覽欄龍虜凉綠'
           '淚壘類禮曆歷練鍊郞朗廊錄')
+assert len(ZINMEI) == 863
 
 RE_KANA = re.compile('[' + HIRAGANA + KATAKANA + ']')
 RE_HIRAGANA = re.compile('[' + HIRAGANA + ']')
@@ -202,6 +201,13 @@ def output(dict):
         print(yomi, ' /', '/'.join(kanji), '/', sep='')
 
 
+def add_word(dict, yomi, word):
+    if yomi not in dict:
+        dict[yomi] = [word]
+    elif word not in dict[yomi]:
+        dict[yomi].append(word)
+
+
 def lookup_words(dict, path):
     rm = {}
     with open(path) as f:
@@ -225,10 +231,9 @@ def zyouyou(grade=10):
     dict = {}
     with open(toolpath('zyouyou-kanji.csv'), 'r') as f:
         for row in f:
-            row = row.strip(' \n').split(',')
+            row = row.strip().split(',')
             kanji = row[0]
-            row.remove(kanji)
-            for yomi in row[:]:
+            for yomi in row[1:]:
                 g = int(yomi[-1])
                 if grade < g:
                     continue
@@ -264,7 +269,7 @@ def zyouyou_grades():
     with open(toolpath('zyouyou-kanji.csv'), 'r') as f:
         for row in f:
             grade = 10
-            row = row.strip(' \n').split(',')
+            row = row.strip().split(',')
             kanji = row[0]
             for yomi in row[1:]:
                 g = int(yomi[-1])
@@ -546,11 +551,10 @@ def hyougai_yomi(dict, grade=10):
     zyouyou = {}
     with open(toolpath('zyouyou-kanji.csv'), 'r') as f:
         for row in f:
-            row = row.strip(' \n').split(',')
+            row = row.strip().split(',')
             kanji = row[0]
-            row.remove(kanji)
             s = set()
-            for yomi in row[:]:
+            for yomi in row[1:]:
                 g = int(yomi[-1])
                 if grade < g:
                     continue
@@ -580,11 +584,10 @@ def wago(dict, grade=10):
     zyouyou = {}
     with open(toolpath('zyouyou-kanji.csv'), 'r') as f:
         for row in f:
-            row = row.strip(' \n').split(',')
+            row = row.strip().split(',')
             kanji = row[0]
-            row.remove(kanji)
             s = set()
-            for yomi in row[:]:
+            for yomi in row[1:]:
                 g = int(yomi[-1])
                 if grade < g:
                     continue
@@ -610,6 +613,7 @@ def wago(dict, grade=10):
             d[yomi] = s
     return d
 
+
 # 許容されているおくりがなをとりだします。
 def permissible():
     dict = {}
@@ -629,8 +633,5 @@ def permissible():
                 assert 1 < pos
                 word = kanji + yomi[pos + 1:]
                 yomi = yomi[:pos + 1]
-                if yomi not in dict:
-                    dict[yomi] = [word]
-                elif word not in dict[yomi]:
-                    dict[yomi].append(word)
+                add_word(dict, yomi, word)
     return dict
