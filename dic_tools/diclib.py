@@ -14,6 +14,7 @@
 
 import itertools
 import re
+import sys
 
 from toolpath import toolpath
 
@@ -171,15 +172,18 @@ ZINMEI = ('丑丞乃之乎也云亘些亦亥亨亮仔伊伍伽佃佑伶侃侑俄
           '淚壘類禮曆歷練鍊郞朗廊錄')
 assert len(ZINMEI) == 863
 
+CONJUGATION = '1iIkKgsStnbmrwW235'
+
 RE_KANA = re.compile('[' + HIRAGANA + KATAKANA + ']')
 RE_HIRAGANA = re.compile('[' + HIRAGANA + ']')
+RE_HIRAGANA_AND_CONJUGATION = re.compile('[' + HIRAGANA + CONJUGATION + ']')
 RE_SKK_YOMI = re.compile(r'^[ぁ-ゖー#]+[a-z―]?$')
 RE_ALPHA = re.compile(r'[a-zA-Z]')
 RE_ONYOMI = re.compile(r'[^ぁ-ゖー]')
 RE_KIGOU = re.compile('[' + KIGOU + ']')
 
 # 常用漢字、人名漢字、記号にふくまれない字に一致する正規表現
-RE_HYOUGAI = re.compile('[^' + '0-9A-Za-z' + HIRAGANA + KATAKANA + ZYOUYOU + '々' + KIGOU + ZINMEI + ']')
+RE_HYOUGAI = re.compile('[^' + '#0-9A-Za-z' + HIRAGANA + KATAKANA + ZYOUYOU + '々' + KIGOU + ZINMEI + ']')
 
 TO_HIRAGANA = str.maketrans(string_range('ァ', 'ヶ') + 'カ゚キ゚ク゚ケ゚コ゚', string_range('ぁ', 'ゖ') + 'か゚き゚く゚け゚こ゚')
 
@@ -188,7 +192,7 @@ SEION = 'かきくけこさしすせそたちつてとはひふへほはひふ�
 TO_SEION = str.maketrans(DAKUON, SEION)
 
 
-def to_hirakana(s):
+def to_hiragana(s):
     return s.translate(TO_HIRAGANA)
 
 
@@ -196,9 +200,13 @@ def to_seion(s):
     return s.translate(TO_SEION)
 
 
-def output(dict):
-    for yomi, kanji in sorted(dict.items()):
-        print(yomi, ' /', '/'.join(kanji), '/', sep='')
+def output(dict, file=sys.stdout, single=False):
+    for yomi, words in sorted(dict.items()):
+        if not single:
+            print(f'{yomi} /{"/".join(words)}/', file=file)
+        else:
+            for word in words:
+                print(f'{yomi} /{word}/', file=file)
 
 
 def add_word(dict, yomi, word):
@@ -208,22 +216,12 @@ def add_word(dict, yomi, word):
         dict[yomi].append(word)
 
 
-def lookup_words(dict, path):
-    rm = {}
-    with open(path) as f:
-        for word in f:
-            word = word.strip(' \n')
-            if not word or word[0] in '#;':
-                continue
-            if len(word) == 1:
-                continue
-            for yomi, kanji in dict.items():
-                if word in kanji:
-                    if yomi in rm:
-                        rm[yomi].add(word)
-                    else:
-                        rm[yomi] = {word}
-    output(rm)
+def lookup(dict, word):
+    d = {}
+    for yomi, words in dict.items():
+        if word in words:
+            add_word(d, yomi, word)
+    return d
 
 
 # 常用漢字表から辞書をつくります。
@@ -241,7 +239,7 @@ def zyouyou(grade=10):
                 k = kanji
                 yomi = yomi[:-2]
                 yomi = yomi.strip('（）')
-                yomi = to_hirakana(yomi)
+                yomi = to_hiragana(yomi)
                 pos = yomi.find('―')
                 if 0 <= pos:
                     k += yomi[pos + 1:]
@@ -306,14 +304,14 @@ def load(path):
                 yomi = yomi[:-1] + '―'
             kanji = row[1].strip(' \n/').split('/')
             s = []
-            for i in kanji:
-                pos = i.find(';')
+            for word in kanji:
+                pos = word.find(';')
                 if 0 == pos:
                     continue
                 if 0 < pos:
-                    i = i[:pos]
-                if i not in s:
-                    s.append(i)
+                    word = word[:pos]
+                if word not in s:
+                    s.append(word)
             if s:
                 if yomi not in dict:
                     dict[yomi] = s
@@ -432,9 +430,9 @@ def kigou(dict):
     d = {}
     for yomi, words in dict.items():
         s = []
-        for i in words:
-            if i not in s and RE_KIGOU.search(i) is not None:
-                s.append(i)
+        for word in words:
+            if word not in s and RE_KIGOU.search(word):
+                s.append(word)
         if s:
             d[yomi] = s
     return d
@@ -445,22 +443,27 @@ def hyougai(dict):
     d = {}
     for yomi, words in dict.items():
         s = []
-        for i in words:
-            if i not in s and RE_HYOUGAI.search(i) is not None:
-                s.append(i)
+        for word in words:
+            if word not in s and RE_HYOUGAI.search(word):
+                s.append(word)
         if s:
             d[yomi] = s
     return d
 
 
-# おくりがなのある語をとりだします。
+# おくりがなをふくんだ活用しない語をとりだします。
 def okuri(dict):
     d = {}
     for yomi, words in dict.items():
         s = []
-        for i in words:
-            if i not in s and RE_HIRAGANA.search(i) is not None:
-                s.append(i)
+        if yomi[-1] == '―':
+            for word in words:
+                if word[-1] not in CONJUGATION:
+                    s.append(word)
+        else:
+            for word in words:
+                if RE_HIRAGANA.search(word):
+                    s.append(word)
         if s:
             d[yomi] = s
     return d
@@ -471,20 +474,25 @@ def okuri_end(dict):
     d = {}
     for yomi, words in dict.items():
         s = []
-        for i in words:
-            if RE_HIRAGANA.search(i[-1]) is not None:
-                s.append(i)
+        for word in words:
+            if RE_HIRAGANA.search(word[-1]):
+                s.append(word)
         if s:
             d[yomi] = s
     return d
 
 
-# 用言をリストアップします。
+# 活用する語をとりだします
 def yougen(dict):
     d = {}
     for yomi, words in dict.items():
         if yomi[-1] == '―':
-            d[yomi] = words
+            s = []
+            for word in words:
+                if word[-1] in CONJUGATION:
+                    s.append(word)
+            if s:
+                d[yomi] = s
     return d
 
 
@@ -497,31 +505,31 @@ def mix_yougen(dict):
         yomi = yomi[:-1]
         if yomi not in d:
             s = []
-            for i in words:
-                s.append(i + '―')
+            for word in words:
+                s.append(word + '―')
             d[yomi] = s
             continue
-        for i in words:
-            if i not in d[yomi]:
-                d[yomi].append(i + '―')
+        for word in words:
+            if word not in d[yomi]:
+                d[yomi].append(word + '―')
     return d
 
 
-def _is_hyounai_yomi(zyouyou, yomi, kanji):
+def _is_hyounai_yomi(zyouyou, yomi, word):
     # ― と # をとりのぞく。
     yomi = yomi.replace('―', '')
     yomi = yomi.replace('#', '')
-    kanji = kanji.replace('#', '')
-    if len(kanji) == 1:
-        if kanji not in zyouyou:
+    word = word.replace('#', '')
+    if len(word) == 1:
+        if word not in zyouyou:
             return False
-        return yomi in zyouyou[kanji]
-    c = kanji[0]
+        return yomi in zyouyou[word]
+    c = word[0]
     if c not in zyouyou:
         return False
     s = zyouyou[c]
     b = c
-    for c in kanji[1:]:
+    for c in word[1:]:
         if c == '々':
             if b == c:
                 # e.g. 個人々々
@@ -565,28 +573,32 @@ def hyougai_yomi(dict, grade=10):
                     yomi = yomi[:pos]
                 if not yomi:
                     continue
-                s.add(to_hirakana(yomi))
+                s.add(to_hiragana(yomi))
             if s:
                 zyouyou[kanji] = s
     d = {}
     for yomi, kanji in dict.items():
         s = []
-        for i in kanji:
-            if not _is_hyounai_yomi(zyouyou, yomi, i):
-                s.append(i)
+        for word in kanji:
+            if not _is_hyounai_yomi(zyouyou, yomi, word):
+                s.append(word)
         if s:
             d[yomi] = s
     return d
 
 
-# 和語の熟語をとりだします。
-def wago(dict, grade=10):
-    zyouyou = {}
+# 常用漢字表から音よみと訓よみをわけてとりだします。
+def load_onkun(grade=10, okuri=True, drop=''):
+    kunyomi = {}
+    onyomi = {}
     with open(toolpath('zyouyou-kanji.csv'), 'r') as f:
         for row in f:
             row = row.strip().split(',')
             kanji = row[0]
-            s = set()
+            if kanji in drop:
+                continue
+            on = set()
+            kun = set()
             for yomi in row[1:]:
                 g = int(yomi[-1])
                 if grade < g:
@@ -595,20 +607,107 @@ def wago(dict, grade=10):
                 yomi = yomi.strip('（）')
                 pos = yomi.find('―')
                 if 0 <= pos:
-                    yomi = yomi[:pos]
+                    if okuri:
+                        yomi = yomi[:pos]
+                    else:
+                        continue
                 if not yomi:
                     continue
-                if RE_ONYOMI.search(yomi) is not None:
-                    continue
-                s.add(yomi)
-            if s:
-                zyouyou[kanji] = s
+                if RE_ONYOMI.search(yomi):
+                    on.add(to_hiragana(yomi))
+                else:
+                    kun.add(yomi)
+            if kun:
+                kunyomi[kanji] = kun
+            if on:
+                onyomi[kanji] = on
+    return onyomi, kunyomi
+
+
+# 和語の熟語をとりだします。
+def wago(dict, grade=10, okuri=True):
+    onyomi, kunyomi = load_onkun(grade, okuri)
     d = {}
-    for yomi, kanji in dict.items():
+    for yomi, words in dict.items():
         s = []
-        for i in kanji:
-            if _is_hyounai_yomi(zyouyou, yomi, i):
-                s.append(i)
+        for word in words:
+            if _is_hyounai_yomi(kunyomi, yomi, word):
+                s.append(word)
+        if s:
+            d[yomi] = s
+    return d
+
+
+def _is_maze_yomi(first: dict, second: dict, yomi, word):
+    # ― と # をとりのぞく。
+    yomi = yomi.replace('―', '')
+    yomi = yomi.replace('#', '')
+    word = word.replace('#', '')
+    if len(word) != 2:
+        return False
+
+    c = word[0]
+    if c not in first:
+        return False
+    s = first[c]
+    b = c
+
+    c = word[1]
+    if c == '々':
+        return False
+    if c not in second:
+        return False
+    t = set(itertools.product(s, second[c]))
+    s = set()
+    for y in t:
+        s.add(to_seion(''.join(y)))
+        if 2 <= len(y[0]):
+            # 促音化の許容
+            if (0 <= 'きくキク'.find(y[0][-1]) and 0 <= 'かきくけこカキクケコ'.find(y[1][0])
+                or 0 <= 'ちつチツ'.find(y[0][-1])
+                    and 0 <= 'かきくけこカキクケコさしすせそサシスセソたちつてとタチツテトはひふへほハヒフヘホ'.find(y[1][0])):
+                s.add(to_seion(y[0][0:-1] + 'つ' + y[1]))
+
+    return to_seion(yomi) in s
+
+
+# 重箱よみの語をとりだします。
+def zyuubako(dict, grade=10, okuri=True):
+    onyomi, kunyomi = load_onkun(grade, okuri, drop='差死')
+    d = {}
+    for yomi, words in dict.items():
+        s = []
+        for word in words:
+            if _is_maze_yomi(onyomi, kunyomi, yomi, word):
+                s.append(word)
+        if s:
+            d[yomi] = s
+    return d
+
+
+# 湯桶よみの語をとりだします。
+def yutou(dict, grade=10, okuri=True):
+    onyomi, kunyomi = load_onkun(grade, okuri, drop='差死')
+    d = {}
+    for yomi, words in dict.items():
+        s = []
+        for word in words:
+            if _is_maze_yomi(kunyomi, onyomi, yomi, word):
+                s.append(word)
+        if s:
+            d[yomi] = s
+    return d
+
+
+# 重箱よみと湯桶よみの語をとりだします。
+def mazeyomi(dict, grade=10, okuri=True):
+    onyomi, kunyomi = load_onkun(grade, okuri, drop='差死')
+    d = {}
+    for yomi, words in dict.items():
+        s = []
+        for word in words:
+            if _is_maze_yomi(kunyomi, onyomi, yomi, word) or _is_maze_yomi(onyomi, kunyomi, yomi, word):
+                s.append(word)
         if s:
             d[yomi] = s
     return d
@@ -626,7 +725,7 @@ def permissible():
                     continue
                 yomi = yomi[:-2]
                 yomi = yomi.strip('（）')
-                yomi = to_hirakana(yomi)
+                yomi = to_hiragana(yomi)
                 pos = yomi.find('―')
                 if pos < 0:
                     continue
