@@ -650,7 +650,6 @@ def _is_maze_yomi(first: dict, second: dict, yomi, word):
     if c not in first:
         return False
     s = first[c]
-    b = c
 
     c = word[1]
     if c == '々':
