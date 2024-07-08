@@ -86,6 +86,14 @@ HANKAKU = ''.join(chr(i) for i in range(0x21, 0x7f)) + ' ❲❳[]¥?'
 TO_HANKAKU = str.maketrans(ZENKAKU, HANKAKU)
 TO_ZENKAKU = str.maketrans(HANKAKU, ZENKAKU)
 
+ZENKAKU_DIGIT = '０１２３４５６７８９'
+HANKAKU_DIGIT = '0123456789'
+TO_HANKAKU_DIGIT = str.maketrans(ZENKAKU_DIGIT, HANKAKU_DIGIT)
+
+ZENKAKU_DIGIT_EXTRA = '０１２３４５６７８９、。'
+HANKAKU_DIGIT_EXTRA = '0123456789,.'
+TO_HANKAKU_DIGIT_EXTRA = str.maketrans(ZENKAKU_DIGIT_EXTRA, HANKAKU_DIGIT_EXTRA)
+
 FROM_CIRCUMFLEX = str.maketrans('âîûêôÂÎÛÊÔ', 'aiueoAIUEO')
 TO_CIRCUMFLEX = str.maketrans('aiueoAIUEO', 'âîûêôÂÎÛÊÔ')
 
@@ -180,6 +188,14 @@ def to_hankaku(kana):
             'ヴ': 'ｳﾞ'
         }.get(c, c)
     return s
+
+
+def to_hankaku_digit(yomi):
+    return yomi.translate(TO_HANKAKU_DIGIT)
+
+
+def to_hankaku_digit_extra(yomi):
+    return yomi.translate(TO_HANKAKU_DIGIT_EXTRA)
 
 
 def to_zenkaku(asc):
@@ -494,6 +510,8 @@ class EngineHiragana(EngineModeless):
         self._set_combining_circumflex(self._load_combining_circumflex())
         self._set_combining_macron(self._load_combining_macron())
 
+        self._use_half_width_digits = self._load_use_half_width_digits()
+
         self._use_llm = self._load_use_llm()
         self._assisted = 0
         self._ignored = {}
@@ -714,6 +732,11 @@ class EngineHiragana(EngineModeless):
         mode = self._settings.get_boolean('nn-as-jis-x-4063')
         LOGGER.info(f'nn-as-jis-x-4063: {mode}')
         return mode
+
+    def _load_use_half_width_digits(self):
+        enabled = self._settings.get_boolean('use-half-width-digits')
+        LOGGER.info(f'use-half-width-digits: {enabled}')
+        return enabled
 
     def _load_use_llm(self):
         enabled = self._settings.get_boolean('use-llm')
@@ -990,6 +1013,13 @@ class EngineHiragana(EngineModeless):
                         yomi = to_katakana(yomi)
                     elif self.get_mode() == 'ｱ':
                         yomi = to_hankaku(to_katakana(yomi))
+                    if self._use_half_width_digits:
+                        text, pos = self.get_surrounding_string()
+                        if 0 < pos and text[pos - 1] in HANKAKU_DIGIT:
+                            yomi = to_hankaku_digit_extra(yomi)
+                        else:
+                            yomi = to_hankaku_digit(yomi)
+
         elif e.is_prefix():
             pass
         elif self.has_non_empty_preedit() and self.should_draw_preedit():
@@ -1189,6 +1219,8 @@ class EngineHiragana(EngineModeless):
             self._set_combining_circumflex(self._load_combining_circumflex())
         elif key == 'combining-macron':
             self._set_combining_macron(self._load_combining_macron())
+        elif key == 'use-half-width-digits':
+            self._use_half_width_digits = self._load_use_half_width_digits()
         elif key == 'use-llm':
             self._use_llm = self._load_use_llm()
 

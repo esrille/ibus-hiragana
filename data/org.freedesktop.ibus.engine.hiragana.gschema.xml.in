@@ -36,6 +36,13 @@
         If enabled, the most probable word is preselected in the candidate popup.
       </description>
     </key>
+    <key name='use-half-width-digits' type='b'>
+      <default>false</default>
+      <summary>Always use half-width digits</summary>
+      <description>
+        If enabled, always enter Arabic numerals using half-width letters.
+      </description>
+    </key>
     <key name='layout' type='s'>
       <default>"roomazi"</default>
       <summary>Keyboard Layout</summary>
