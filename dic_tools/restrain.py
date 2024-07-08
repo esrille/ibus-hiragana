@@ -63,8 +63,8 @@ def main():
         dict = diclib.union(dict, diclib.load(toolpath('add_9.dic')))
     dict = diclib.difference(dict, diclib.hyougai(dict))                # 表外の漢字を使用している語を削除
     huhyou = diclib.load_huhyou(toolpath('huhyou.dic'), grade)
-    dict = diclib.union(dict, huhyou)                                   # 常用漢字表・付表の語を追加
     dict = diclib.union(diclib.zyouyou(grade), dict)                    # 常用漢字を追加
+    dict = diclib.union(huhyou, dict)                                   # 常用漢字表・付表の語を追加
     dict = diclib.difference(dict, diclib.permissible())                # 許容されているおくりがなを削除
     zyosuusi = diclib.load(toolpath('zyosuusi.dic'))
     zyosuusi = diclib.difference(zyosuusi, diclib.hyougai_yomi(zyosuusi, grade))
