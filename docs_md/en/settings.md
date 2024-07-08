@@ -69,15 +69,15 @@ consequently, the number of kanji words in the dictionary also increases.
 
 Kanji Dictionary | Number of Words
 --|--:
-1st grade | 633
-2nd grade | 2,893
-3rd grade | 5,811
-4th grade | 8,960
-5th grade | 11,913
-6th grade | 14,019
-7-9 grades | 28,839
-10-12 grades | 30,995
-Adults | 33,559
+1st grade | 722
+2nd grade | 3,191
+3rd grade | 6,291
+4th grade | 9,523
+5th grade | 12,536
+6th grade | 14,763
+7-9 grades | 29,891
+10-12 grades | 31,989
+Adults | 34,502
 
 (As of July, 2024)
 
