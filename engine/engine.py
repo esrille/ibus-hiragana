@@ -345,7 +345,7 @@ class EngineModeless(IBus.Engine):
             if self._preedit_text:
                 self.commit_text(IBus.Text.new_from_string(self._preedit_text))
                 self._surrounding = SURROUNDING_RESET
-        else:
+        elif self.has_preedit():
             LOGGER.debug(f'flush("{self._preedit_text}"): '
                          f'{self._preedit_pos_min}:{self._preedit_pos_orig}:{self._preedit_pos}')
             delete_size = self._preedit_pos_orig - self._preedit_pos_min
