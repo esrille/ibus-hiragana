@@ -85,7 +85,7 @@ def main():
     print(';;')
 
     for i in sorted(gairaigo):
-        print(diclib.to_hirakana(i), ' /', i, '/', sep='')
+        print(diclib.to_hiragana(i), ' /', i, '/', sep='')
 
 
 if __name__ == '__main__':
