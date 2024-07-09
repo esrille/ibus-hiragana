@@ -468,6 +468,9 @@ class Dictionary:
         self._no = 0
         self._numeric = ''
 
+    def is_pseudo_candidate(self):
+        return self._yomi and self._yomi in self._cand
+
     def _write_orders(self, filename):
         with open(filename, 'w') as f:
             f.write('; ' + DICTIONARY_VERSION + '\n')

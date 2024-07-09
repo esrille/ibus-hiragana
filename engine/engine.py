@@ -908,6 +908,9 @@ class EngineHiragana(EngineModeless):
                 self._process_escape()
                 return True
             if e.keyval == IBus.Return:
+                if self._dict.is_pseudo_candidate():
+                    self._process_escape()
+                    return True
                 current = self._confirm_candidate()
                 self.commit_string(current)
                 if current[-1] == '―':
