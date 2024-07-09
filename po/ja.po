@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ibus-hiragana 0.15.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-03 12:13+0900\n"
+"POT-Creation-Date: 2024-07-09 17:03+0900\n"
 "PO-Revision-Date: 2020-09-24 11:59+0900\n"
 "Last-Translator: Esrille Inc. <info@esrille.com>\n"
 "Language-Team: Japanese <info@esrille.com>\n"
@@ -34,28 +34,28 @@ msgstr "全角英数 (Ａ)"
 msgid "Halfwidth Katakana (ｱ)"
 msgstr "半角カタカナ (ｱ)"
 
-#: engine/engine.py:610 engine/engine.py:1063
+#: engine/engine.py:629 engine/engine.py:1093
 #, python-format
 msgid "Input mode (%s)"
 msgstr "入力モード (%s)"
 
-#: engine/engine.py:613
+#: engine/engine.py:632
 msgid "Setup"
 msgstr "設定"
 
-#: engine/engine.py:615
+#: engine/engine.py:634
 msgid "Help"
 msgstr "ヘルプ"
 
-#: engine/engine.py:617
+#: engine/engine.py:636
 msgid "About Hiragana IME..."
 msgstr "ひらがなIMEについて..."
 
-#: engine/engine.py:1410
+#: engine/engine.py:1442
 msgid "en"
 msgstr "ja"
 
-#: engine/engine.py:1422
+#: engine/engine.py:1454
 msgid "Hiragana IME"
 msgstr "ひらがなIME"
 
@@ -89,63 +89,63 @@ msgstr ""
 msgid "Close"
 msgstr "とじる(_W)"
 
-#: setup/main.py:167
+#: setup/main.py:168
 msgid "Rōmaji"
 msgstr "ローマ字"
 
-#: setup/main.py:168
+#: setup/main.py:169
 msgid "Kana (JIS Layout)"
 msgstr "かな (JIS配列)"
 
-#: setup/main.py:169
+#: setup/main.py:170
 msgid "Kana (New Stickney Layout)"
 msgstr "かな (ニュースティックニー配列)"
 
-#: setup/main.py:188
+#: setup/main.py:189
 msgid "1st grade"
 msgstr "小学校１年生"
 
-#: setup/main.py:189
+#: setup/main.py:190
 msgid "2nd grade"
 msgstr "小学校２年生"
 
-#: setup/main.py:190
+#: setup/main.py:191
 msgid "3rd grade"
 msgstr "小学校３年生"
 
-#: setup/main.py:191
+#: setup/main.py:192
 msgid "4th grade"
 msgstr "小学校４年生"
 
-#: setup/main.py:192
+#: setup/main.py:193
 msgid "5th grade"
 msgstr "小学校５年生"
 
-#: setup/main.py:193
+#: setup/main.py:194
 msgid "6th grade"
 msgstr "小学校６年生"
 
-#: setup/main.py:194
+#: setup/main.py:195
 msgid "7-9th grade"
 msgstr "中学生"
 
-#: setup/main.py:195
+#: setup/main.py:196
 msgid "10-12th grade"
 msgstr "高校生"
 
-#: setup/main.py:196
+#: setup/main.py:197
 msgid "Adults"
 msgstr "おとな"
 
-#: setup/main.py:336
+#: setup/main.py:362
 msgid "Invalid characters in User Dictionary Name"
 msgstr "個人用辞書名のなかに不正な文字があります"
 
-#: setup/main.py:351
+#: setup/main.py:377
 msgid "Could not open file"
 msgstr "ファイルをひらけません"
 
-#: setup/main.py:353
+#: setup/main.py:379
 #, python-brace-format
 msgid "Error opening file \"{path}\": {message}"
 msgstr "ファイル \"{path}\" をひらくときにエラーがおきました: {message}"
@@ -218,17 +218,21 @@ msgid "<b>Input Assistance</b>"
 msgstr "<b>入力アシスト</b>"
 
 #: setup/setup.glade:622
+msgid "Use half-width digits for Arabic numerals"
+msgstr "算用数字をいつも半角で入力する"
+
+#: setup/setup.glade:658
 msgid "Use LLM for candidate selection"
 msgstr "変換候補の選択に大規模言語モデルを利用する"
 
-#: setup/setup.glade:658
+#: setup/setup.glade:694
 msgid "Combine '^' to the previous vowel character in alphanumeric mode"
 msgstr "英数モードで、'^'を直前の母音字に結合する"
 
-#: setup/setup.glade:694
+#: setup/setup.glade:730
 msgid "Combine '~' to the previous vowel character in alphanumeric mode as '¯'"
 msgstr "英数モードで、'~'を直前の母音字に'¯'として結合する"
 
-#: setup/setup.glade:737
+#: setup/setup.glade:773
 msgid "Option"
 msgstr "オプション"
