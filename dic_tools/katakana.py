@@ -20,7 +20,6 @@ import sys
 import diclib
 
 RE_KATAKANA = re.compile(r'[ァ-ー]{2,}')
-DROP_NAKAGURO = str.maketrans('', '', '・')
 
 copyright = ''
 
@@ -41,10 +40,14 @@ def load(path):
                 continue
             row = row.split(' ', 1)
             words = row[0].strip().split(';')
+            if '(ain:)' in row[1]:
+                continue
             yomi = []
             for word in words:
                 # see https://www.edrdg.org/jmwsgi/edhelp.py?svc=jmdict
                 if word.endswith('(ik)'):     # word containing irregular kana usage
+                    continue
+                if word.endswith('(ok)'):     # out-dated or obsolete kana usage
                     continue
                 if word.endswith('(rk)'):     # rarely used kanji form
                     continue
