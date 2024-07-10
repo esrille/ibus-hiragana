@@ -659,7 +659,9 @@ class EngineHiragana(EngineModeless):
             if system == 'restrained.dic':
                 system = 'restrained.8.dic'
         user = self._settings.get_string('user-dictionary')
-        return Dictionary(system, user, clear_history, permissible)
+        dict = Dictionary(system, user, clear_history, permissible)
+        dict.use_romazi(self._to_kana != self._handle_kana_layout)
+        return dict
 
     def _load_input_mode(self):
         mode = self._settings.get_string('mode')
