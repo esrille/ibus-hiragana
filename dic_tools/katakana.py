@@ -20,13 +20,14 @@ import sys
 import diclib
 
 RE_KATAKANA = re.compile(r'[ァ-ー]{2,}')
+DROP_NAKAGURO = str.maketrans('', '', '・')
 
 copyright = ''
 
 
 def load(path):
     global copyright
-    s = set()
+    dic = {}
     with open(path, encoding='euc_jp') as f:
         for row in f:
             row = row.strip(' \n')
@@ -39,14 +40,23 @@ def load(path):
             if not RE_KATAKANA.match(row):
                 continue
             row = row.split(' ', 1)
-            yomi = row[0]
-            yomi = yomi.strip(' \n/')
-            yomi = re.split(r'[;・]', yomi)
+            words = row[0].strip().split(';')
+            yomi = []
+            for word in words:
+                # see https://www.edrdg.org/jmwsgi/edhelp.py?svc=jmdict
+                if word.endswith('(ik)'):     # word containing irregular kana usage
+                    continue
+                if word.endswith('(rk)'):     # rarely used kanji form
+                    continue
+                if word.endswith('(sk)'):     # search-only kana form
+                    continue
+                yomi.extend(word.split('・'))
             for i in yomi:
                 found = RE_KATAKANA.match(i)
                 if found:
-                    s.add(found.group())
-    return s
+                    word = found.group()
+                    diclib.add_word(dic, diclib.to_hiragana(word), word)
+    return dic
 
 
 # EDICT2 ファイルからカタカナ辞書を生成して出力します。
@@ -56,14 +66,10 @@ def main():
     path = 'edict2'
     if 2 <= len(sys.argv):
         path = sys.argv[1]
-    gairaigo = load(path)
+    dic = load(path)
 
     if 3 <= len(sys.argv):
-        with open(sys.argv[2]) as f:
-            for line in f:
-                if line[0] == ';':
-                    continue
-                gairaigo.discard(line.strip())
+        dic = diclib.difference(dic, diclib.load(sys.argv[2]))
 
     print(';; Hiragana IME for IBus')
     print(';; Copyright (c) 2017-2024 Esrille Inc.')
@@ -83,9 +89,7 @@ def main():
     print(';;')
     print(';;   https://www.edrdg.org/jmdict/edict.html')
     print(';;')
-
-    for i in sorted(gairaigo):
-        print(diclib.to_hiragana(i), ' /', i, '/', sep='')
+    diclib.output(dic, single=True)
 
 
 if __name__ == '__main__':
