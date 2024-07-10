@@ -128,9 +128,18 @@ You can customize the input assistance feature.
 
 ![「Hiragana IME Setup」Window](ibus-setup-hiragana_3.png)
 
+### Use half-width digits for Arabic numerals {: #half-width-digits}
+
+When enabled, the Hiragana IME enters Arabic numerals using half-width letters, even in Hiragana mode.
+
+Setting | Example
+--|--
+Off | １２、３４５。６７８
+On | 12,345.678
+
 ### Use LLM for candidate selection {: #llm}
 
-This feature utilizes so-called *AI*. LLM stands for Large Language Model.
+LLM stands for Large Language Model.
 When enabled, the Hiragana IME calculates the probabilities of each candidate's occurrence in its surrounding text and pre-selects the most probable candidate in the candidate window.
 
 For example, when converting 'のぼる', the pre-selected candidate changes as below depending on the surrounding text:

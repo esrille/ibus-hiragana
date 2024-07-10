@@ -300,8 +300,28 @@ To reset the orders to the initial state, turn on the <strong>Clear input histor
 <h2 id="option">Option Tab</h2>
 <p>You can customize the input assistance feature.</p>
 <p><img alt="「Hiragana IME Setup」Window" src="ibus-setup-hiragana_3.png"></p>
+<h3 id="half-width-digits">Use half-width digits for Arabic numerals</h3>
+<p>When enabled, the Hiragana IME enters Arabic numerals using half-width letters, even in Hiragana mode.</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Off</td>
+<td>１２、３４５。６７８</td>
+</tr>
+<tr>
+<td>On</td>
+<td>12,345.678</td>
+</tr>
+</tbody>
+</table>
 <h3 id="llm">Use LLM for candidate selection</h3>
-<p>This feature utilizes so-called <em>AI</em>. LLM stands for Large Language Model.
+<p>LLM stands for Large Language Model.
 When enabled, the Hiragana IME calculates the probabilities of each candidate's occurrence in its surrounding text and pre-selects the most probable candidate in the candidate window.</p>
 <p>For example, when converting 'のぼる', the pre-selected candidate changes as below depending on the surrounding text:</p>
 <ul>
