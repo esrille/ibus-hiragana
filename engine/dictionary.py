@@ -457,6 +457,13 @@ class Dictionary:
                 self._dict[yomi] = cand
                 self._dirty = True
                 no = 0
+            elif yomi[-1] == '―':
+                cand = self._dict.get(yomi[:-1])
+                if cand:
+                    first = shrunk + first
+                    self._dict[yomi] = [first]
+                    self._dirty = True
+                    no = 0
 
         return no
 
