@@ -389,14 +389,15 @@ class Dictionary:
                     self._numeric = ''
         return self.current()
 
-    # Check if the current yougen is completed
     def is_complete(self):
+        """Return True if the current yougen conversion is completed."""
         current = self.current()
         if not current:
-            return True
+            return False
         if '―' in current:
             return False
-        assert '―' in self._yomi
+        if '―' not in self._yomi:
+            return False
         return False if 0 in self._completed else True
 
     def get_stem(self, no):

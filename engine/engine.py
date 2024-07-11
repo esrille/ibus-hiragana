@@ -752,7 +752,9 @@ class EngineHiragana(EngineModeless):
         size = len(self._dict.reading())
         self._selected = False
         self._assisted = 0
-        if 0 < size and 1 < len(self._dict.cand()):
+        # Note if the current conversion is complete, it is automatically confirmed.
+        # No LLM assistance is necessary in this case.
+        if 0 < size and 1 < len(self._dict.cand()) and not self._dict.is_complete():
             for i, c in enumerate(self._dict.cand()):
                 self._lookup_table.append_candidate(IBus.Text.new_from_string(c))
                 self._lookup_table.set_label(i, IBus.Text.new_from_string(' '))
