@@ -181,6 +181,7 @@ RE_SKK_YOMI = re.compile(r'^[ぁ-ゖー#]+[a-z―]?$')
 RE_ALPHA = re.compile(r'[a-zA-Z]')
 RE_ONYOMI = re.compile(r'[^ぁ-ゖー]')
 RE_KIGOU = re.compile('[' + KIGOU + ']')
+RE_OKURI = re.compile('[' + HIRAGANA + ']+$')
 
 # 常用漢字、人名漢字、記号にふくまれない字に一致する正規表現
 RE_HYOUGAI = re.compile('[^' + '#0-9A-Za-z' + HIRAGANA + KATAKANA + ZYOUYOU + '々' + KIGOU + ZINMEI + ']')
@@ -210,6 +211,7 @@ def output(dict, file=sys.stdout, single=False):
 
 
 def add_word(dict, yomi, word):
+    assert yomi[-1] != '―' or word[-1] in (HIRAGANA + CONJUGATION + 'dehjopuyz')
     if yomi not in dict:
         dict[yomi] = [word]
     elif word not in dict[yomi]:
@@ -299,24 +301,28 @@ def load(path):
             yomi = row[0]
             if not RE_SKK_YOMI.match(yomi):
                 continue
+            skk_code = ''
             if RE_ALPHA.match(yomi[-1]):
                 # SKK辞書のおくりありのよみ
-                yomi = yomi[:-1] + '―'
-            kanji = row[1].strip(' \n/').split('/')
-            s = []
-            for word in kanji:
+                skk_code = yomi[-1]
+                yomi = yomi[:-1]
+            words = row[1].strip(' \n/').split('/')
+            for word in words:
                 pos = word.find(';')
                 if 0 == pos:
                     continue
                 if 0 < pos:
                     word = word[:pos]
-                if word not in s:
-                    s.append(word)
-            if s:
-                if yomi not in dict:
-                    dict[yomi] = s
-                else:
-                    dict[yomi].extend([x for x in s if x not in dict[yomi]])
+                yy = yomi
+                m = RE_OKURI.search(word)
+                if m:
+                    okuri = m.group()
+                    if yomi.endswith(okuri):
+                        yy = yy[:-(len(okuri))] + '―'
+                word += skk_code
+                if skk_code and yomi[-1] != '―':
+                    yy += '―'
+                add_word(dict, yy, word)
     return dict
 
 
@@ -611,12 +617,11 @@ def load_onkun(grade=10, okuri=True, drop=''):
                         yomi = yomi[:pos]
                     else:
                         continue
-                if not yomi:
-                    continue
-                if RE_ONYOMI.search(yomi):
-                    on.add(to_hiragana(yomi))
-                else:
-                    kun.add(yomi)
+                if yomi:
+                    if RE_ONYOMI.search(yomi):
+                        on.add(to_hiragana(yomi))
+                    else:
+                        kun.add(yomi)
             if kun:
                 kunyomi[kanji] = kun
             if on:
@@ -643,6 +648,14 @@ def _is_maze_yomi(first: dict, second: dict, yomi, word):
     yomi = yomi.replace('―', '')
     yomi = yomi.replace('#', '')
     word = word.replace('#', '')
+
+    m = RE_OKURI.search(word)
+    if m:
+        okuri = m.group()
+        word = word[:m.start()]
+        if yomi.endswith(okuri):
+            yomi = yomi[:-(len(okuri))]
+
     if len(word) != 2:
         return False
 

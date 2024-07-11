@@ -25,7 +25,7 @@ def main():
     path = toolpath('third_party/skk/SKK-JISYO.ML')
     if 2 <= len(sys.argv):
         path = sys.argv[1]
-    grade = 8
+    grade = 9
     if 3 <= len(sys.argv):
         grade = int(sys.argv[2])
 
