@@ -183,15 +183,20 @@ class Dictionary:
             else:
                 self._dirty = True
         else:
-            update = list(dic[yomi])
+            update = dic[yomi][:]
+            yougen = []
             for i in reversed(cand):
                 if i in update:
                     update.remove(i)
                     update.insert(0, i)
                 elif not reorder_only or i[0] in HIRAGANA or i[0] == '#':
-                    update.insert(0, i)
+                    if i[-1] == '―':
+                        yougen.insert(0, i)
+                    else:
+                        update.insert(0, i)
                 else:
                     self._dirty = True
+            update.extend(yougen)   # extend() does not return anything
             dic[yomi] = update
 
     def _remove_entry(self, dic: dict[str, list[str]], yomi: str, cand: list[str]):
