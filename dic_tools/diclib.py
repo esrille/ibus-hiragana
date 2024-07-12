@@ -211,7 +211,6 @@ def output(dict, file=sys.stdout, single=False):
 
 
 def add_word(dict, yomi, word):
-    assert yomi[-1] != '―' or word[-1] in (HIRAGANA + CONJUGATION + 'dehjopuyz')
     if yomi not in dict:
         dict[yomi] = [word]
     elif word not in dict[yomi]:
@@ -526,10 +525,21 @@ def _is_hyounai_yomi(zyouyou, yomi, word):
     yomi = yomi.replace('―', '')
     yomi = yomi.replace('#', '')
     word = word.replace('#', '')
+
+    m = RE_OKURI.search(word)
+    if m:
+        okuri = m.group()
+        word = word[:m.start()]
+        if yomi.endswith(okuri):
+            yomi = yomi[:-(len(okuri))]
+
     if len(word) == 1:
         if word not in zyouyou:
             return False
-        return yomi in zyouyou[word]
+        for i in zyouyou[word]:
+            if to_seion(yomi) == to_seion(i):
+                return True
+        return False
     c = word[0]
     if c not in zyouyou:
         return False
