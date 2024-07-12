@@ -558,19 +558,20 @@ class EngineHiragana(EngineModeless):
     def _confirm_candidate(self):
         current = self._dict.current()
         if current:
-            yomi, assisted = self._dict.get_stem(self._assisted)
-            LOGGER.debug(f'_confirm_candidate: current: "{current}", assisted: {yomi} /{assisted}/')
-            no = self._dict.confirm(''.join(self._shrunk))
-            if no == self._assisted:
-                LOGGER.debug(f'_confirm_candidate: restore {yomi} /{assisted}/')
-                if yomi in self._ignored:
-                    self._ignored[yomi].discard(assisted)
-            elif self._assisted < len(self._dict.cand()):
-                LOGGER.debug(f'_confirm_candidate: ignore {yomi} /{assisted}/')
-                if yomi in self._ignored:
-                    self._ignored[yomi].add(assisted)
-                else:
-                    self._ignored[yomi] = {assisted}
+            if not self._dict.is_pseudo_candidate():
+                yomi, assisted = self._dict.get_stem(self._assisted)
+                LOGGER.debug(f'_confirm_candidate: current: "{current}", assisted: {yomi} /{assisted}/')
+                no = self._dict.confirm(''.join(self._shrunk))
+                if no == self._assisted:
+                    LOGGER.debug(f'_confirm_candidate: restore {yomi} /{assisted}/')
+                    if yomi in self._ignored:
+                        self._ignored[yomi].discard(assisted)
+                elif self._assisted < len(self._dict.cand()):
+                    LOGGER.debug(f'_confirm_candidate: ignore {yomi} /{assisted}/')
+                    if yomi in self._ignored:
+                        self._ignored[yomi].add(assisted)
+                    else:
+                        self._ignored[yomi] = {assisted}
             self._dict.reset()
             self._lookup_table.clear()
         return current

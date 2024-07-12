@@ -475,8 +475,10 @@ class Dictionary:
 
     def create_pseudo_candidate(self, text):
         LOGGER.debug(f'create_pseudo_candidate("{text}")')
+        assert '―' in text
         self._yomi = text
         self._cand = [text]
+        self._order = [0]
         self._completed = [0]
         self._no = 0
         self._numeric = ''
