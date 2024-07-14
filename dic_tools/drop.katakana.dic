@@ -2,7 +2,8 @@
 あいうえお /アイウエオ/
 ああだぷた /アアダプタ/
 ああだぷたー /アアダプター/
-ふあん /フアン/
+; rarely used two mora words that make the normal Japanese hard to parse.
+おな /オナ/
 がさ /ガサ/
 がふ /ガフ/
 すく /スク/
@@ -10,8 +11,10 @@
 でみ /デミ/
 はじ /ハジ/
 にか /ニカ/
+にだ /ニダ/
+にと /ニト/
 りこ /リコ/
-; any word that begins 'を' makes the normal Japanese language hard to parse.
+; any word that begins 'を' makes the normal Japanese hard to parse.
 をこと /ヲコト/
 をた /ヲタ/
 をたく /ヲタク/
