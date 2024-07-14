@@ -535,19 +535,24 @@ class EngineHiragana(EngineModeless):
             self._keymap_handler = 0
 
     def _assist(self, text, pos):
-        LOGGER.debug(f'_assist("{text}", {pos})')
         if not self._use_llm:
             return 0
         cand = self._dict.cand()
         if len(cand) <= 1:
             return 0
-        if cand[0][-1] == '―':
-            return 0
+
         yomi = self._dict.reading()
+
+        LOGGER.debug(f'_assist("{text}", {pos}): {yomi}')
+
         prefix = get_plain_text(text[:pos - len(yomi)])
         if prefix == '':
             return 0
-        self._assisted = llm.pick(prefix, cand)
+
+        yougen, yougen_cand = self._dict.lookup_yougen()
+        LOGGER.debug(f'_assist: {yougen}, {yougen_cand}')
+
+        self._assisted = llm.pick(prefix, cand, yougen, yougen_cand)
         LOGGER.debug(f'_assist: "{cand[self._assisted]}"/"{yomi}" ({self._assisted})')
         yomi, assisted = self._dict.get_stem(self._assisted)
         if assisted in self._ignored.get(yomi, set()):

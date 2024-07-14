@@ -296,6 +296,25 @@ class Dictionary:
 
         return -1
 
+    def lookup_yougen(self) -> (int, list):
+        if not self._yomi:
+            return -1, []
+        if '―' in self._yomi:
+            return -1, []
+        yougen = -1
+        yougen_cand = []
+        for i, word in enumerate(self._dict[self._yomi]):
+            if word[-1] == '―':
+                yougen = i
+                for j in self._dict[word]:
+                    m = OKURIGANA.search(j)
+                    if m:
+                        j = j[:m.start()]
+                    if j not in yougen_cand:
+                        yougen_cand.append(j)
+                break
+        return yougen, yougen_cand
+
     def lookup(self, yomi, pos, anchor=0):
         LOGGER.debug(f'lookup({yomi}, {pos}, {anchor})')
 

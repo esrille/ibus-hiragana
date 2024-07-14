@@ -52,31 +52,38 @@ def load(enabled: bool):
         LOGGER.exception(f'Could not load {MODEL_NAME}')
 
 
-def pick(prefix, candidates):
+def pick(prefix, candidates, yougen=-1, yougen_cand=[]):
     if model is None or tokenizer is None:
         return 0
     LOGGER.debug(f'pick("{prefix}", {candidates})')
+
+    candidates = candidates[:]
+    if 0 <= yougen:
+        del candidates[yougen]
     if MAX_CANDIDATES < len(candidates):
         candidates = candidates[:MAX_CANDIDATES]
+    pos_yougen = len(candidates)
+    if MAX_CANDIDATES < len(yougen_cand):
+        yougen_cand = yougen_cand[:MAX_CANDIDATES]
+    candidates.extend(yougen_cand)
+
     inputs = []
     for cand in candidates:
         inputs.append(prefix + cand)
-    encoded_candidates = tokenizer(inputs)
+    encoded_candidates = tokenizer(inputs, padding=True)
     for ids in encoded_candidates.input_ids:
-        LOGGER.debug(f'  {tokenizer.decode(ids)}')
+        LOGGER.debug(f'  {tokenizer.decode(ids)} ({len(ids)})')
     transposed = list(zip(*encoded_candidates.input_ids))
     for mask_token_index, ids in enumerate(transposed):
         if len(set(ids)) != 1:
             break
     ids = encoded_candidates.input_ids[0][:mask_token_index]
     ids += (tokenizer.mask_token_id, tokenizer.sep_token_id)
-    total_ids = len(ids)
 
     truncated = ids
     offset = 0
-    max_tokens = model.config.max_position_embeddings
-    if max_tokens < total_ids + 1:
-        offset = total_ids + 1 - max_tokens
+    if model.config.max_position_embeddings < len(ids) + 1:
+        offset = len(ids) + 1 - model.config.max_position_embeddings
         truncated = [tokenizer.cls_token_id] + ids[1 + offset:]
 
     encoded_input = {
@@ -89,9 +96,9 @@ def pick(prefix, candidates):
     probabilities = probabilities.tolist()
 
     for i, ids in enumerate(encoded_candidates.input_ids):
-        total_ids = len(ids)
-        if total_ids <= mask_token_index + 2:
+        if encoded_candidates.input_ids[i][mask_token_index + 1] in (tokenizer.sep_token_id, tokenizer.pad_token_id):
             continue
+
         next_ids = encoded_candidates.input_ids[i][:mask_token_index + 1]
         next_ids += (tokenizer.mask_token_id, tokenizer.sep_token_id)
 
@@ -110,4 +117,9 @@ def pick(prefix, candidates):
     index = probabilities.index(max(probabilities))
     LOGGER.debug(f'  {probabilities}')
     LOGGER.debug(f'  -> {candidates[index]}')
+
+    if pos_yougen <= index:
+        index = yougen
+    elif 0 <= yougen <= index:
+        index += 1
     return index
