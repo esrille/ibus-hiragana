@@ -68,6 +68,13 @@ def hyougai(args, unparsed, output):
     output_dic(dic, args, unparsed)
 
 
+def hyougai_yomi(args, unparsed, output):
+    dic = {}
+    for path in unparsed:
+        dic = diclib.union(dic, diclib.hyougai_yomi(diclib.load(path)))
+    output_dic(dic, args, unparsed)
+
+
 def intersect(args, unparsed, output):
     dic = {}
     op = ''
@@ -131,7 +138,7 @@ def union(args, unparsed, output):
 def wago(args, unparsed, output):
     dic = {}
     for path in unparsed:
-        dic = diclib.union(dic, diclib.wago(diclib.load(path), okuri=False))
+        dic = diclib.union(dic, diclib.wago(diclib.load(path)))
     dic = diclib.difference(dic, diclib.zyouyou())
     output_dic(dic, args, unparsed)
 
@@ -165,6 +172,8 @@ def dispatch(args, unparsed, output):
         diff(args, unparsed, output)
     elif args.command == 'hyougai':
         hyougai(args, unparsed, output)
+    elif args.command == 'hyougai-yomi':
+        hyougai_yomi(args, unparsed, output)
     elif args.command == 'intersect':
         intersect(args, unparsed, output)
     elif args.command == 'lookup':
@@ -192,6 +201,7 @@ def main():
     parser.add_argument('command', choices=[
         'diff',
         'hyougai',
+        'hyougai-yomi',
         'intersect',
         'lookup',
         'mazeyomi',
