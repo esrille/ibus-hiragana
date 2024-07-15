@@ -32,22 +32,22 @@ def load(enabled: bool):
         return
     try:
         import torch
-        from transformers import BertForMaskedLM, BertJapaneseTokenizer
+        from transformers import AutoModelForMaskedLM, AutoTokenizer
     except ImportError as e:
         LOGGER.debug(f'{e}')
         return
     try:
         if model is None:
-            model = BertForMaskedLM.from_pretrained(MODEL_NAME, local_files_only=True)
+            model = AutoModelForMaskedLM.from_pretrained(MODEL_NAME, local_files_only=True)
         if tokenizer is None:
-            tokenizer = BertJapaneseTokenizer.from_pretrained(MODEL_NAME, local_files_only=True)
+            tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, local_files_only=True)
     except OSError:
         LOGGER.debug(f'Local {MODEL_NAME} is not found')
     try:
         if model is None:
-            model = BertForMaskedLM.from_pretrained(MODEL_NAME)
+            model = AutoModelForMaskedLM.from_pretrained(MODEL_NAME)
         if tokenizer is None:
-            tokenizer = BertJapaneseTokenizer.from_pretrained(MODEL_NAME)
+            tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
     except OSError:
         LOGGER.exception(f'Could not load {MODEL_NAME}')
 
@@ -71,8 +71,6 @@ def pick(prefix, candidates, yougen=-1, yougen_cand=[]):
     for cand in candidates:
         inputs.append(prefix + cand)
     encoded_candidates = tokenizer(inputs, padding=True)
-    for ids in encoded_candidates.input_ids:
-        LOGGER.debug(f'  {tokenizer.decode(ids)} ({len(ids)})')
     transposed = list(zip(*encoded_candidates.input_ids))
     for mask_token_index, ids in enumerate(transposed):
         if len(set(ids)) != 1:
@@ -113,9 +111,10 @@ def pick(prefix, candidates, yougen=-1, yougen_cand=[]):
             p = model(**encoded_input).logits[0, mask_token_index + 1 - offset]
         p = torch.nn.functional.softmax(p, dim=0)
         probabilities[i] *= p[transposed[mask_token_index + 1][i]].item()
-
     index = probabilities.index(max(probabilities))
-    LOGGER.debug(f'  {probabilities}')
+
+    for i, ids in enumerate(encoded_candidates.input_ids):
+        LOGGER.debug(f'  {tokenizer.decode(ids)} ({len(ids)}) {probabilities[i]}')
     LOGGER.debug(f'  -> {candidates[index]}')
 
     if pos_yougen <= index:
