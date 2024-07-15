@@ -182,6 +182,7 @@ RE_ALPHA = re.compile(r'[a-zA-Z]')
 RE_ONYOMI = re.compile(r'[^ぁ-ゖー]')
 RE_KIGOU = re.compile('[' + KIGOU + ']')
 RE_OKURI = re.compile('[' + HIRAGANA + ']+$')
+RE_PREFIX = re.compile('^[' + HIRAGANA + ']+')
 
 # 常用漢字、人名漢字、記号にふくまれない字に一致する正規表現
 RE_HYOUGAI = re.compile('[^' + '#0-9A-Za-z' + HIRAGANA + KATAKANA + ZYOUYOU + '々' + KIGOU + ZINMEI + ']')
@@ -312,6 +313,8 @@ def load(path):
                     continue
                 if 0 < pos:
                     word = word[:pos]
+                if word == '':
+                    continue
                 yy = yomi
                 m = RE_OKURI.search(word)
                 if m:
@@ -526,6 +529,11 @@ def _is_hyounai_yomi(zyouyou, yomi, word):
     yomi = yomi.replace('#', '')
     word = word.replace('#', '')
 
+    m = RE_PREFIX.search(word)
+    if m and yomi.startswith(m.group()):
+        word = word[m.end():]
+        yomi = yomi[m.end():]
+
     m = RE_OKURI.search(word)
     if m:
         okuri = m.group()
@@ -593,9 +601,9 @@ def hyougai_yomi(dict, grade=10):
             if s:
                 zyouyou[kanji] = s
     d = {}
-    for yomi, kanji in dict.items():
+    for yomi, words in dict.items():
         s = []
-        for word in kanji:
+        for word in words:
             if not _is_hyounai_yomi(zyouyou, yomi, word):
                 s.append(word)
         if s:
