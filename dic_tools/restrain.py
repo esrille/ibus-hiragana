@@ -48,6 +48,7 @@ def main():
 
     # 基本辞書をつくります。
     dict = diclib.difference(skk, diclib.load(toolpath('drop_6.dic')))
+    dict = diclib.difference(dict, diclib.zyouyou(9))                  # 常用漢字をいったん削除
     dict = diclib.union(dict, diclib.load(toolpath('add_6.dic')))
     if 7 <= grade:
         dict = diclib.union(dict, diclib.load(toolpath('add_7.dic')))
@@ -63,7 +64,7 @@ def main():
         dict = diclib.union(dict, diclib.load(toolpath('add_9.dic')))
     dict = diclib.difference(dict, diclib.hyougai(dict))                # 表外の漢字を使用している語を削除
     huhyou = diclib.load_huhyou(toolpath('huhyou.dic'), grade)
-    dict = diclib.union(diclib.zyouyou(grade), dict)                    # 常用漢字を追加
+    dict = diclib.union(diclib.zyouyou(grade, exclude_special=True), dict)  # 常用漢字を追加
     dict = diclib.union(huhyou, dict)                                   # 常用漢字表・付表の語を追加
     dict = diclib.difference(dict, diclib.permissible())                # 許容されているおくりがなを削除
     zyosuusi = diclib.load(toolpath('zyosuusi.dic'))

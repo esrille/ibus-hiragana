@@ -227,7 +227,7 @@ def lookup(dict, word):
 
 
 # 常用漢字表から辞書をつくります。
-def zyouyou(grade=10):
+def zyouyou(grade=10, exclude_special=False):
     dict = {}
     with open(toolpath('zyouyou-kanji.csv'), 'r') as f:
         for row in f:
@@ -240,6 +240,8 @@ def zyouyou(grade=10):
                 g = yomi[-2:]
                 k = kanji
                 yomi = yomi[:-2]
+                if yomi[0] == '（' and exclude_special:
+                    continue
                 yomi = yomi.strip('（）')
                 yomi = to_hiragana(yomi)
                 pos = yomi.find('―')
