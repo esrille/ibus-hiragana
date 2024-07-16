@@ -17,6 +17,9 @@
 from __future__ import annotations
 
 import logging
+import os
+
+import package
 
 LOGGER = logging.getLogger(__name__)
 MODEL_NAME = 'cl-tohoku/bert-base-japanese-v3'
@@ -24,10 +27,11 @@ MAX_CANDIDATES = 10
 
 tokenizer = None
 model = None
+yougen_tokens = {}
 
 
 def load(enabled: bool):
-    global model, tokenizer, torch
+    global model, tokenizer, torch, yougen_tokens
     if not enabled:
         return
     try:
@@ -51,8 +55,24 @@ def load(enabled: bool):
     except OSError:
         LOGGER.exception(f'Could not load {MODEL_NAME}')
 
+    if not yougen_tokens:
+        try:
+            vocab = tokenizer.get_vocab()
+            with open(os.path.join(package.get_datadir(), 'dic', 'yougen_token.dic'), 'r') as f:
+                for line in f:
+                    line = line.strip('')
+                    if not line or line[0] == ';':
+                        continue
+                    words = line.split(' ', 1)
+                    yomi = words[0]
+                    words = words[1].strip(' \n/').split('/')
+                    yougen_tokens[yomi] = [vocab[word] for word in words]
+        except OSError:
+            LOGGER.exception('Could not load "yougen_vocab.dic"')
 
-def pick(prefix, candidates, yougen=-1, yougen_cand=[]):
+
+# yougen_cand → yougen_yomi
+def pick(prefix, candidates, yougen=-1, yougen_shrunk='', yougen_yomi=''):
     if model is None or tokenizer is None:
         return 0
     LOGGER.debug(f'pick("{prefix}", {candidates})')
@@ -63,9 +83,8 @@ def pick(prefix, candidates, yougen=-1, yougen_cand=[]):
     if MAX_CANDIDATES < len(candidates):
         candidates = candidates[:MAX_CANDIDATES]
     pos_yougen = len(candidates)
-    if MAX_CANDIDATES < len(yougen_cand):
-        yougen_cand = yougen_cand[:MAX_CANDIDATES]
-    candidates.extend(yougen_cand)
+    if 0 <= yougen:
+        candidates.append(yougen_shrunk + '[UNK]')
 
     inputs = []
     for cand in candidates:
@@ -90,8 +109,14 @@ def pick(prefix, candidates, yougen=-1, yougen_cand=[]):
     token_ids = list(transposed[mask_token_index])
     with torch.no_grad():
         probabilities = model(**encoded_input).logits[0, mask_token_index - offset]
-    probabilities = torch.nn.functional.softmax(probabilities, dim=0)[token_ids]
-    probabilities = probabilities.tolist()
+    probabilities = torch.nn.functional.softmax(probabilities, dim=0)
+
+    if 0 <= yougen and mask_token_index == len(encoded_candidates.input_ids[-1]) - 2:
+        yp = sum(probabilities[yougen_tokens[yougen_yomi]].tolist())
+        probabilities = probabilities[token_ids].tolist()
+        probabilities[-1] = yp
+    else:
+        probabilities = probabilities[token_ids].tolist()
 
     for i, ids in enumerate(encoded_candidates.input_ids):
         if encoded_candidates.input_ids[i][mask_token_index + 1] in (tokenizer.sep_token_id, tokenizer.pad_token_id):
@@ -110,7 +135,13 @@ def pick(prefix, candidates, yougen=-1, yougen_cand=[]):
         with torch.no_grad():
             p = model(**encoded_input).logits[0, mask_token_index + 1 - offset]
         p = torch.nn.functional.softmax(p, dim=0)
-        probabilities[i] *= p[transposed[mask_token_index + 1][i]].item()
+
+        if (i == len(encoded_candidates.input_ids) - 1 and
+                0 <= yougen and mask_token_index + 1 == len(encoded_candidates.input_ids[-1]) - 2):
+            probabilities[i] *= sum(p[yougen_tokens[yougen_yomi]].tolist())
+        else:
+            probabilities[i] *= p[transposed[mask_token_index + 1][i]].item()
+
     index = probabilities.index(max(probabilities))
 
     for i, ids in enumerate(encoded_candidates.input_ids):

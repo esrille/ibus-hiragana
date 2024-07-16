@@ -549,10 +549,10 @@ class EngineHiragana(EngineModeless):
         if prefix == '':
             return 0
 
-        yougen, yougen_cand = self._dict.lookup_yougen()
-        LOGGER.debug(f'_assist: {yougen}, {yougen_cand}')
+        yougen, yougen_shrunk, yougen_yomi = self._dict.lookup_yougen()
+        LOGGER.debug(f'_assist: {yougen}, {yougen_shrunk}, {yougen_yomi}')
 
-        self._assisted = llm.pick(prefix, cand, yougen, yougen_cand)
+        self._assisted = llm.pick(prefix, cand, yougen, yougen_shrunk, yougen_yomi)
         LOGGER.debug(f'_assist: "{cand[self._assisted]}"/"{yomi}" ({self._assisted})')
         yomi, assisted = self._dict.get_stem(self._assisted)
         if assisted in self._ignored.get(yomi, set()):
@@ -765,7 +765,7 @@ class EngineHiragana(EngineModeless):
                 self._lookup_table.append_candidate(IBus.Text.new_from_string(c))
                 self._lookup_table.set_label(i, IBus.Text.new_from_string(' '))
             cursor_pos = self._assist(text, pos)
-            if 0 < cursor_pos and cursor_pos < self._lookup_table.get_page_size():
+            if 0 < cursor_pos:
                 self._lookup_table.set_cursor_pos(cursor_pos)
                 self._update_candidate()
         return cand, size

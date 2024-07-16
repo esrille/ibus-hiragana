@@ -15,4 +15,8 @@ test('Validate schema file',
      compile_schemas,
      args: ['--strict', '--dry-run', meson.current_source_dir()])
 
+pkgdatadir = get_option('prefix') / get_option('datadir') / meson.project_name()
+dicdir = pkgdatadir / 'dic'
+install_data(['yougen_token.dic'], install_dir: dicdir)
+
 subdir('icons')

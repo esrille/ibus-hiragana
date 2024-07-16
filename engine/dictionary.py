@@ -56,6 +56,7 @@ KATUYOU = {
 }
 DAKUON = 'がぎぐげござじずぜぞだぢづでどばびぶべぼ'
 SEION = 'かきくけこさしすせそたちつてとはひふへほ'
+RE_PREFIX = re.compile('^[' + HIRAGANA + ']+')
 
 
 class Dictionary:
@@ -296,24 +297,26 @@ class Dictionary:
 
         return -1
 
-    def lookup_yougen(self) -> (int, list):
+    def lookup_yougen(self) -> (int, str, str):
         if not self._yomi:
-            return -1, []
+            return -1, '', ''
         if '―' in self._yomi:
-            return -1, []
-        yougen = -1
-        yougen_cand = []
+            return -1, '', ''
         for i, word in enumerate(self._dict[self._yomi]):
             if word[-1] == '―':
-                yougen = i
-                for j in self._dict[word]:
-                    m = OKURIGANA.search(j)
-                    if m:
-                        j = j[:m.start()]
-                    if j not in yougen_cand:
-                        yougen_cand.append(j)
-                break
-        return yougen, yougen_cand
+                yomi = word
+                shrunk = ''
+                while yomi not in self._dict:
+                    shrunk += yomi[0]
+                    yomi = yomi[1:]
+                # Check shrunken entries that look like,
+                # にし― / ['に知r']
+                m = RE_PREFIX.search(self._dict[yomi][0])
+                if m and yomi.startswith(m.group()):
+                    shrunk += m.group()
+                    yomi = yomi[m.end():]
+                return i, shrunk, yomi
+        return -1, '', ''
 
     def lookup(self, yomi, pos, anchor=0):
         LOGGER.debug(f'lookup({yomi}, {pos}, {anchor})')
@@ -440,6 +443,8 @@ class Dictionary:
             return 0
 
         # Get a copy of the original candidate list
+        no_orig = self._no
+
         yomi = self._yomi
         no = self._no
 
@@ -490,7 +495,7 @@ class Dictionary:
                     self._dirty = True
                     no = 0
 
-        return no
+        return no_orig
 
     def create_pseudo_candidate(self, text):
         LOGGER.debug(f'create_pseudo_candidate("{text}")')
