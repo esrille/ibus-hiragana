@@ -807,7 +807,9 @@ class EngineHiragana(EngineModeless):
         kana = self._shrunk[-1]
         yomi = self._dict.reading()
         text, pos = self.get_surrounding_string()
-        (cand, size) = self._lookup_dictionary(kana + yomi + text[pos:], len(kana + yomi))
+        text = text[:pos] + yomi + text[pos:]
+        pos += len(yomi)
+        cand, size = self._lookup_dictionary(text, pos, pos - len(kana + yomi))
         assert 0 < size
         self.delete_surrounding_string(len(kana))
         self._shrunk.pop(-1)
@@ -898,13 +900,16 @@ class EngineHiragana(EngineModeless):
         if len(yomi) <= 1 or yomi[1] == '―':
             return True
         text, pos = self.get_surrounding_string()
-        (cand, size) = self._lookup_dictionary(yomi[1:] + text[pos:], len(yomi) - 1)
+        text = text[:pos] + yomi + text[pos:]
+        pos += len(yomi)
+        cand, size = self._lookup_dictionary(text, pos, pos - (len(yomi) - 1))
         if 0 < size:
             kana = yomi[:-size]
             self._shrunk.append(kana)
             self.commit_string(kana)
         else:
-            (cand, size) = self._lookup_dictionary(yomi + text[pos:], len(yomi))
+            # Restore self._dict
+            self._lookup_dictionary(text, pos, pos - len(yomi))
         return True
 
     def _process_surrounding_text(self, e: Event) -> bool:
