@@ -66,6 +66,10 @@ def load_yougen():
                     kun.add(yomi)
             if kun:
                 dic[kanji] = list(kun)
+
+    diclib.add_word(dic, '知', 'し―らs')
+    diclib.add_word(dic, '聞', 'き―かs')
+
     return dic
 
 
@@ -92,8 +96,15 @@ def match(conj, word):
             continue
         cand = conj[:-1] + x
         cand = word[0] + cand[pos + 1:]
-        common = os.path.commonprefix([word, cand])
-        if 2 <= len(common):
+        if len(cand) == 1:
+            continue
+        if word == cand:
+            return True
+        if word.startswith(cand):
+            if conj[-1] in 'sS' and (word.endswith('しい') or word.endswith('しく')):
+                return False
+            return True
+        if cand.startswith(word):
             return True
     return False
 
@@ -104,6 +115,7 @@ def main():
     yougen = load_yougen()
     vocab = load_vocab(tokenizer)
 
+    rev = {}
     dic = {}
     for kanji, words in sorted(vocab.items()):
         if kanji not in yougen:
@@ -114,6 +126,7 @@ def main():
                     yomi = conj[:conj.find('―') + 1]
                     diclib.add_word(dic, yomi, word[0])
                     diclib.add_word(dic, yomi, word)
+                    diclib.add_word(rev, word, yomi)
 
     for kanji, words in sorted(yougen.items()):
         # Note vocab.txt uses '叱' instead of '𠮟'.
@@ -126,8 +139,17 @@ def main():
             if yomi not in dic:
                 diclib.add_word(dic, yomi, kanji)
 
-    diclib.output(dic)
+    for yomi, words in dic.items():
+        dic[yomi] = sorted(dic[yomi])
 
+    if 0:
+        for word, cand in sorted(rev.items()):
+            if len(cand) == 1:
+                continue
+            for yomi in cand:
+                print(f'{word} /{yomi}/')
+    else:
+        diclib.output(dic)
 
 if __name__ == '__main__':
     main()
