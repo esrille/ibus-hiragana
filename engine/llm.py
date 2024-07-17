@@ -75,7 +75,7 @@ def load(enabled: bool):
 def pick(prefix, candidates, yougen=-1, yougen_shrunk='', yougen_yomi=''):
     if model is None or tokenizer is None:
         return 0
-    LOGGER.debug(f'pick("{prefix}", {candidates})')
+    LOGGER.debug(f"pick('{prefix}', {candidates}, {yougen}, '{yougen_shrunk}', {yougen_yomi})")
 
     candidates = candidates[:]
     if 0 <= yougen:
@@ -112,7 +112,10 @@ def pick(prefix, candidates, yougen=-1, yougen_shrunk='', yougen_yomi=''):
     probabilities = torch.nn.functional.softmax(probabilities, dim=0)
 
     if 0 <= yougen and mask_token_index == len(encoded_candidates.input_ids[-1]) - 2:
-        yp = sum(probabilities[yougen_tokens[yougen_yomi]].tolist())
+        if yougen_yomi in yougen_tokens:
+            yp = sum(probabilities[yougen_tokens[yougen_yomi]].tolist())
+        else:
+            yp = 0.0
         probabilities = probabilities[token_ids].tolist()
         probabilities[-1] = yp
     else:
@@ -138,7 +141,10 @@ def pick(prefix, candidates, yougen=-1, yougen_shrunk='', yougen_yomi=''):
 
         if (i == len(encoded_candidates.input_ids) - 1 and
                 0 <= yougen and mask_token_index + 1 == len(encoded_candidates.input_ids[-1]) - 2):
-            probabilities[i] *= sum(p[yougen_tokens[yougen_yomi]].tolist())
+            if yougen_yomi in yougen_tokens:
+                probabilities[i] *= sum(p[yougen_tokens[yougen_yomi]].tolist())
+            else:
+                probabilities[i] = 0.0
         else:
             probabilities[i] *= p[transposed[mask_token_index + 1][i]].item()
 
