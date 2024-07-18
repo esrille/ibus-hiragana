@@ -1373,7 +1373,7 @@ class EngineHiragana(EngineModeless):
         current = self._confirm_candidate()
         self.commit_string(current)
         if current[-1] == '―':
-            self._process_replace(self._controller.create_event(IBus.VoidSymbol, 0, 0, 0))
+            self._process_replace(self._controller.create_event(IBus.Return, 0, 0))
             if self._surrounding in (SURROUNDING_COMMITTED, SURROUNDING_SUPPORTED):
                 self.flush()
         else:
