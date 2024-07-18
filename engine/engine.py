@@ -954,11 +954,16 @@ class EngineHiragana(EngineModeless):
             # Commit the current candidate
             yomi = self._dict.reading()
             self._confirm_candidate()
-            self.commit_string(current)
-            LOGGER.debug(f'current: "{current}", yomi: "{yomi}", roman: "{self.roman_text}"')
+            self.commit_string(current.replace('―', ''))
+            LOGGER.debug(f"yomi: '{yomi}', current: '{current}', roman: '{self.roman_text}'")
             if current[-1] == '―':
+                # yomi: の, current: の―
+                # yomi: うご, current: うご―
                 pos_yougen = pos
-            elif current[-1] in OKURIGANA or yomi[-1] == '―' or self.roman_text:
+                to_revert = True
+            elif current[-1] in OKURIGANA or self.roman_text:
+                # yomi: の―た, current: の―た
+                # yomi: うご―い, current: 動い
                 if not self._selected:
                     pos_yougen = pos
                     to_revert = True
@@ -974,7 +979,7 @@ class EngineHiragana(EngineModeless):
             self._process_katakana()
             return True
         if e.is_backspace():
-            if to_revert:
+            if to_revert and current[-1] != '―':
                 if self.roman_text:
                     self.roman_text = self.roman_text[:-1]
                 else:
@@ -1291,7 +1296,7 @@ class EngineHiragana(EngineModeless):
             return False
         elif e.state & (IBus.ModifierType.CONTROL_MASK | IBus.ModifierType.MOD1_MASK):
             self.clear_roman()
-            self.flush(self._confirm_candidate())
+            self.flush(self._confirm_candidate().replace('―', ''))
             self._update_preedit()
             return False
 
@@ -1339,7 +1344,7 @@ class EngineHiragana(EngineModeless):
         self._override = override
         if self._mode != mode:
             self.clear_roman()
-            self.flush(self._confirm_candidate())
+            self.flush(self._confirm_candidate().replace('―', ''))
             self._update_preedit()
             self._mode = mode
             self._update_lookup_table()
