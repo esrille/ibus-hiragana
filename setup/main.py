@@ -396,6 +396,10 @@ class SetupEngineHiragana:
     def on_destroy(self, *args):
         Gtk.main_quit()
 
+    def on_install_llm(self, *args):
+        if not self._install_dialog.is_visible():
+            self._install_dialog.show()
+
     def on_install(self, *args):
         if self._install_dialog.is_completed():
             self._install_dialog.hide()

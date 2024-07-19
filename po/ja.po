@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ibus-hiragana 0.15.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-09 17:03+0900\n"
+"POT-Creation-Date: 2024-07-19 17:44+0900\n"
 "PO-Revision-Date: 2020-09-24 11:59+0900\n"
 "Last-Translator: Esrille Inc. <info@esrille.com>\n"
 "Language-Team: Japanese <info@esrille.com>\n"
@@ -34,32 +34,32 @@ msgstr "全角英数 (Ａ)"
 msgid "Halfwidth Katakana (ｱ)"
 msgstr "半角カタカナ (ｱ)"
 
-#: engine/engine.py:629 engine/engine.py:1093
+#: engine/engine.py:635 engine/engine.py:1116
 #, python-format
 msgid "Input mode (%s)"
 msgstr "入力モード (%s)"
 
-#: engine/engine.py:632
+#: engine/engine.py:638
 msgid "Setup"
 msgstr "設定"
 
-#: engine/engine.py:634
+#: engine/engine.py:640
 msgid "Help"
 msgstr "ヘルプ"
 
-#: engine/engine.py:636
+#: engine/engine.py:642
 msgid "About Hiragana IME..."
 msgstr "ひらがなIMEについて..."
 
-#: engine/engine.py:1442
+#: engine/engine.py:1467
 msgid "en"
 msgstr "ja"
 
-#: engine/engine.py:1454
+#: engine/engine.py:1479
 msgid "Hiragana IME"
 msgstr "ひらがなIME"
 
-#: setup/main.py:41
+#: setup/main.py:42
 msgid ""
 "; Hiragana IME User Dictionary\n"
 ";\n"
@@ -85,67 +85,67 @@ msgstr ""
 ";\n"
 "\n"
 
-#: setup/main.py:102 setup/main.py:106
+#: setup/main.py:104 setup/main.py:108
 msgid "Close"
 msgstr "とじる(_W)"
 
-#: setup/main.py:168
+#: setup/main.py:178
 msgid "Rōmaji"
 msgstr "ローマ字"
 
-#: setup/main.py:169
+#: setup/main.py:179
 msgid "Kana (JIS Layout)"
 msgstr "かな (JIS配列)"
 
-#: setup/main.py:170
+#: setup/main.py:180
 msgid "Kana (New Stickney Layout)"
 msgstr "かな (ニュースティックニー配列)"
 
-#: setup/main.py:189
+#: setup/main.py:199
 msgid "1st grade"
 msgstr "小学校１年生"
 
-#: setup/main.py:190
+#: setup/main.py:200
 msgid "2nd grade"
 msgstr "小学校２年生"
 
-#: setup/main.py:191
+#: setup/main.py:201
 msgid "3rd grade"
 msgstr "小学校３年生"
 
-#: setup/main.py:192
+#: setup/main.py:202
 msgid "4th grade"
 msgstr "小学校４年生"
 
-#: setup/main.py:193
+#: setup/main.py:203
 msgid "5th grade"
 msgstr "小学校５年生"
 
-#: setup/main.py:194
+#: setup/main.py:204
 msgid "6th grade"
 msgstr "小学校６年生"
 
-#: setup/main.py:195
+#: setup/main.py:205
 msgid "7-9th grade"
 msgstr "中学生"
 
-#: setup/main.py:196
+#: setup/main.py:206
 msgid "10-12th grade"
 msgstr "高校生"
 
-#: setup/main.py:197
+#: setup/main.py:207
 msgid "Adults"
 msgstr "おとな"
 
-#: setup/main.py:362
+#: setup/main.py:375
 msgid "Invalid characters in User Dictionary Name"
 msgstr "個人用辞書名のなかに不正な文字があります"
 
-#: setup/main.py:377
+#: setup/main.py:390
 msgid "Could not open file"
 msgstr "ファイルをひらけません"
 
-#: setup/main.py:379
+#: setup/main.py:392
 #, python-brace-format
 msgid "Error opening file \"{path}\": {message}"
 msgstr "ファイル \"{path}\" をひらくときにエラーがおきました: {message}"
@@ -163,11 +163,12 @@ msgid "$"
 msgstr "$"
 
 #: setup/setup.glade:122
-msgid "Click [Install] to install requirements for using LLM."
+msgid ""
+"Click [Install] to download and install required packages for using LLM."
 msgstr ""
-"[インストール]をクリックすると、大規模言語モデルを利用するために必要なファイ"
-"ルを\n"
-"インストールします。"
+"[インストール]をクリックすると、大規模言語モデルを利用するために必要なパッ"
+"ケージを\n"
+"ダウンロードしてインストールします。"
 
 #: setup/setup.glade:185
 msgid "<b>Keyboard</b>"
@@ -222,17 +223,29 @@ msgid "Use half-width digits for Arabic numerals"
 msgstr "算用数字をいつも半角で入力する"
 
 #: setup/setup.glade:658
-msgid "Use LLM for candidate selection"
-msgstr "変換候補の選択に大規模言語モデルを利用する"
-
-#: setup/setup.glade:694
 msgid "Combine '^' to the previous vowel character in alphanumeric mode"
 msgstr "英数モードで、'^'を直前の母音字に結合する"
 
-#: setup/setup.glade:730
+#: setup/setup.glade:694
 msgid "Combine '~' to the previous vowel character in alphanumeric mode as '¯'"
 msgstr "英数モードで、'~'を直前の母音字に'¯'として結合する"
 
-#: setup/setup.glade:773
+#: setup/setup.glade:742
+msgid "<b>Large Language Model</b>"
+msgstr "<b>大規模言語モデル (LLM)</b>"
+
+#: setup/setup.glade:767
+msgid "Use LLM for candidate selection"
+msgstr "変換候補の選択にLLMを利用する"
+
+#: setup/setup.glade:803
+msgid "Install required packages for using LLM"
+msgstr "LLMを利用するために必要なパッケージをインストールする"
+
+#: setup/setup.glade:813
+msgid "Install..."
+msgstr "インストール..."
+
+#: setup/setup.glade:849
 msgid "Option"
 msgstr "オプション"
