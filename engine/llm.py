@@ -30,6 +30,12 @@ model = None
 yougen_tokens = {}
 
 
+def loaded() -> bool:
+    if model is None or tokenizer is None:
+        return False
+    return True
+
+
 def load(enabled: bool):
     global model, tokenizer, torch, yougen_tokens
     if not enabled:
@@ -47,15 +53,8 @@ def load(enabled: bool):
             tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, local_files_only=True)
     except OSError:
         LOGGER.debug(f'Local {MODEL_NAME} is not found')
-    try:
-        if model is None:
-            model = AutoModelForMaskedLM.from_pretrained(MODEL_NAME)
-        if tokenizer is None:
-            tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
-    except OSError:
-        LOGGER.exception(f'Could not load {MODEL_NAME}')
 
-    if not yougen_tokens:
+    if loaded() and not yougen_tokens:
         try:
             vocab = tokenizer.get_vocab()
             with open(os.path.join(package.get_datadir(), 'dic', 'yougen_token.dic'), 'r') as f:
@@ -73,7 +72,7 @@ def load(enabled: bool):
 
 # yougen_cand → yougen_yomi
 def pick(prefix, candidates, yougen=-1, yougen_shrunk='', yougen_yomi=''):
-    if model is None or tokenizer is None:
+    if not loaded():
         return 0
     LOGGER.debug(f"pick('{prefix}', {candidates}, {yougen}, '{yougen_shrunk}', {yougen_yomi})")
 
