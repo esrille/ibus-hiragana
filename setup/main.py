@@ -76,6 +76,7 @@ class InstallDialog:
         self._dialog = self._builder.get_object('InstallDialog')
         self._dialog.set_default_icon_name('ibus-setup-hiragana')
         self._dialog.set_modal(True)
+        self._dialog.connect('key-press-event', self.on_key_press)
 
         log = builder.get_object('Log')
         self._terminal = Vte.Terminal()
@@ -132,6 +133,12 @@ class InstallDialog:
 
     def is_child_alive(self):
         return self._pid != -1 and not self.is_completed()
+
+    def on_key_press(self, widget, event):
+        if event.keyval == Gdk.KEY_Escape:
+            # Do not close the dialog box
+            return True
+        return False
 
 
 class SetupEngineHiragana:
