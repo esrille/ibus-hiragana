@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import argparse
 import gettext
 import locale
 import logging
@@ -56,13 +57,13 @@ USER_DICTIONARY_COMMENT = _("""; Hiragana IME User Dictionary
 def check_requirements() -> bool:
     try:
         import torch
-        from transformers import BertForMaskedLM, BertJapaneseTokenizer
+        from transformers import AutoModelForMaskedLM, AutoTokenizer
     except ImportError as e:
         logging.debug(f'{e}')
         return False
     try:
-        model = BertForMaskedLM.from_pretrained(MODEL_NAME, local_files_only=True)
-        tokenizer = BertJapaneseTokenizer.from_pretrained(MODEL_NAME, local_files_only=True)
+        model = AutoModelForMaskedLM.from_pretrained(MODEL_NAME, local_files_only=True)
+        tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, local_files_only=True)
     except OSError:
         return False
     return True
@@ -143,7 +144,9 @@ class InstallDialog:
 
 class SetupEngineHiragana:
 
-    def __init__(self):
+    def __init__(self, loaded: bool):
+        self._loaded = loaded
+
         self._settings = Gio.Settings.new('org.freedesktop.ibus.engine.hiragana')
         self._settings.connect('changed', self.on_value_changed)
         self._builder = Gtk.Builder()
@@ -261,6 +264,10 @@ class SetupEngineHiragana:
         GLib.io_add_watch(sys.stdin, GLib.IO_IN, self._on_stdin_input)
         Gtk.main()
 
+    def _has_llm(self) -> bool:
+        return self._loaded or self._install_dialog.is_completed() or check_requirements()
+
+
     def apply(self) -> bool:
         # layout
         i = self._keyboard_layouts.get_active()
@@ -304,11 +311,10 @@ class SetupEngineHiragana:
 
         # use-llm
         use_llm = self._use_llm.get_active()
-        if use_llm:
-            if not self._install_dialog.is_completed() and not check_requirements():
-                if not self._install_dialog.is_visible():
-                    self._install_dialog.show()
-                return False
+        if use_llm and not self._has_llm():
+            if not self._install_dialog.is_visible():
+                self._install_dialog.show()
+            return False
         self._settings.set_boolean('use-llm', use_llm)
 
         if self._clear_input_history.get_active():
@@ -403,7 +409,10 @@ class SetupEngineHiragana:
 
 
 def main():
-    setup = SetupEngineHiragana()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--loaded', action='store_true')
+    args = parser.parse_args()
+    setup = SetupEngineHiragana(args.loaded)
     setup.run()
 
 
