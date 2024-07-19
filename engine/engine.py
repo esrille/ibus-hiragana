@@ -1191,8 +1191,10 @@ class EngineHiragana(EngineModeless):
                 return
             self._setup_proc = None
         try:
-            filename = os.path.join(package.get_libexecdir(), 'ibus-setup-hiragana')
-            self._setup_proc = subprocess.Popen([filename], text=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+            args = [os.path.join(package.get_libexecdir(), 'ibus-setup-hiragana')]
+            if llm.loaded():
+                args.append('--loaded')
+            self._setup_proc = subprocess.Popen(args, text=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
             t = threading.Thread(target=self._setup_readline, args=(self._setup_proc,), daemon=True)
             t.start()
         except (OSError, ValueError):
