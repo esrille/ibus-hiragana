@@ -614,15 +614,13 @@ def hyougai_yomi(dict, grade=10):
 
 
 # 常用漢字表から音よみと訓よみをわけてとりだします。
-def load_onkun(grade=10, okuri=True, drop=''):
+def load_onkun(grade=10, okuri=True, drop=False):
     kunyomi = {}
     onyomi = {}
     with open(toolpath('zyouyou-kanji.csv'), 'r') as f:
         for row in f:
             row = row.strip().split(',')
             kanji = row[0]
-            if kanji in drop:
-                continue
             on = set()
             kun = set()
             for yomi in row[1:]:
@@ -642,6 +640,12 @@ def load_onkun(grade=10, okuri=True, drop=''):
                         on.add(to_hiragana(yomi))
                     else:
                         kun.add(yomi)
+
+            if drop:
+                intersection = kun & on
+                kun -= intersection
+                on -= intersection
+
             if kun:
                 kunyomi[kanji] = kun
             if on:
@@ -705,7 +709,7 @@ def _is_maze_yomi(first: dict, second: dict, yomi, word):
 
 # 重箱よみの語をとりだします。
 def zyuubako(dict, grade=10, okuri=True):
-    onyomi, kunyomi = load_onkun(grade, okuri, drop='差死')
+    onyomi, kunyomi = load_onkun(grade, okuri, drop=True)
     d = {}
     for yomi, words in dict.items():
         s = []
@@ -719,7 +723,7 @@ def zyuubako(dict, grade=10, okuri=True):
 
 # 湯桶よみの語をとりだします。
 def yutou(dict, grade=10, okuri=True):
-    onyomi, kunyomi = load_onkun(grade, okuri, drop='差死')
+    onyomi, kunyomi = load_onkun(grade, okuri, drop=True)
     d = {}
     for yomi, words in dict.items():
         s = []
@@ -733,7 +737,7 @@ def yutou(dict, grade=10, okuri=True):
 
 # 重箱よみと湯桶よみの語をとりだします。
 def mazeyomi(dict, grade=10, okuri=True):
-    onyomi, kunyomi = load_onkun(grade, okuri, drop='差死')
+    onyomi, kunyomi = load_onkun(grade, okuri, drop=True)
     d = {}
     for yomi, words in dict.items():
         s = []
