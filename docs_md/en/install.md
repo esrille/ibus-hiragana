@@ -5,7 +5,7 @@ To set up the Hiragana IME, follow the steps below:
 1. [Install the Hiragana IME software package](#install)
 2. [Add the Hiragana IME to the input sources](#input-source)
 3. [Enable the Hiragana IME](#enable)
-4. [Change the Configuration for Wayland](#wayland)
+4. [Install additional components for using LLM](#llm)
 
 ## Install the Hiragana IME software package {: #install}
 
@@ -144,7 +144,7 @@ To use this, the following packages need to be installed:
 Hiragana IME runs within a local Python virtual environment (venv).
 To install the above packages with this venv, follow these steps:
 
-1. In **Hiragana IME Setup** window, enable the [Use LLM for candidate selection](settings.html#llm) option.
+1. In **[Hiragana IME Setup](settings.html#ibus-setup-hiragana)** window, enable the [Use LLM for candidate selection](settings.html#llm) option.
 
 ![Hiragana IME Setup Window](ibus-setup-hiragana_3.png)
 
