@@ -52,8 +52,10 @@ function shrinkToc() {
   <li><a href='install.html#install'>Install the Hiragana IME software package</a>
   <li><a href='install.html#input-source'>Add the Hiragana IME to the input sources</a>
   <li><a href='install.html#enable'>Enable the Hiragana IME</a>
-  <li><a href='install.html#wayland'>Change the Configuration for Wayland</a>
-  <li><a href='install.html#llm'>Installation of Additional Components for Using a Large Language Model</a>
+  <li><a href='install.html#llm'>Install additional components for using LLM</a>
+  <li><a href='install.html#update'>Updates</a>
+  <li><a href='install.html#uninstall'>Uninstall</a>
+  <li><a href='install.html#user-files'>User data stored in your home directory</a>
 </ul>
 </details>
 <li><details><summary><a href='usage.html'>Usage</a></summary>
@@ -320,18 +322,6 @@ To reset the orders to the initial state, turn on the <strong>Clear input histor
 </tr>
 </tbody>
 </table>
-<h3 id="llm">Use LLM for candidate selection</h3>
-<p>LLM stands for Large Language Model.
-When enabled, the Hiragana IME calculates the probabilities of each candidate's occurrence in its surrounding text and pre-selects the most probable candidate in the candidate window.</p>
-<p>For example, when converting 'のぼる', the pre-selected candidate changes as below depending on the surrounding text:</p>
-<ul>
-<li><ruby>山<rp>(</rp><rt>やま</rt><rp>)</rp></ruby>に<span style="background-color:#d1eaff">登る</span></li>
-<li><ruby>日<rp>(</rp><rt>ひ</rt><rp>)</rp></ruby>が<span style="background-color:#d1eaff">昇る</span></li>
-</ul>
-<p><strong>Note</strong>: Since pre-selection is merely based on a probability calculation, the desired candidate may not always be chosen.
-This feature is disabled by default because it requires a relatively large amount of computational power.
-To enable this feature, you also need to install several packages.
-For more details, please see <a href="install.html#llm">Installation of Additional Components for Using a Large Language Model</a>.</p>
 <h3 id="combining-circumflex">Combine '^' to the previous vowel character in alphanumeric mode</h3>
 <p>Enable this option if you want to write Japanese in Kunrei-shiki Rōmaji.
 When you type <span class='key'>^</span> after a vowel character in Alphanumeric mode, it is combined into a single character.</p>
@@ -352,6 +342,18 @@ When you type <span class='key'>~</span> after a vowel character in Alphanumeric
 <ul>
 <li>Example: ā<span class='key'>~</span> → a~</li>
 </ul>
+<h3 id="llm">Use LLM for candidate selection</h3>
+<p>LLM stands for Large Language Model.
+When enabled, the Hiragana IME calculates the probabilities of each candidate's occurrence in the surrounding text and pre-selects the most probable candidate in the candidate window.</p>
+<p>For example, when converting 'のぼる', the pre-selected candidate changes as below depending on the surrounding text:</p>
+<ul>
+<li><ruby>山<rp>(</rp><rt>やま</rt><rp>)</rp></ruby>に<span style="background-color:#d1eaff">登る</span></li>
+<li><ruby>日<rp>(</rp><rt>ひ</rt><rp>)</rp></ruby>が<span style="background-color:#d1eaff">昇る</span></li>
+</ul>
+<p><strong>Note</strong>: Since pre-selection is merely based on a probability calculation, the desired candidate may not always be chosen.
+This feature is disabled by default because it requires a relatively large amount of computational power.
+To enable this feature, you also need to install several packages.
+For more details, please see <a href="install.html#llm">Installation of Additional Components for Using a Large Language Model</a>.</p>
 <h2 id="personal-dictionary">Editing Personal Dictionaries</h2>
 <p>The personal dictionary files are text files using the following format.</p>
 <pre><code>; Lines starting with a semicolon (;) are comments.

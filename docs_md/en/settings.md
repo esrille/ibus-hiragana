@@ -137,21 +137,6 @@ Setting | Example
 Off | １２、３４５。６７８
 On | 12,345.678
 
-### Use LLM for candidate selection {: #llm}
-
-LLM stands for Large Language Model.
-When enabled, the Hiragana IME calculates the probabilities of each candidate's occurrence in its surrounding text and pre-selects the most probable candidate in the candidate window.
-
-For example, when converting 'のぼる', the pre-selected candidate changes as below depending on the surrounding text:
-
-- ￹山￺やま￻に<span style="background-color:#d1eaff">登る</span>
-- ￹日￺ひ￻が<span style="background-color:#d1eaff">昇る</span>
-
-**Note**: Since pre-selection is merely based on a probability calculation, the desired candidate may not always be chosen.
-This feature is disabled by default because it requires a relatively large amount of computational power.
-To enable this feature, you also need to install several packages.
-For more details, please see [Installation of Additional Components for Using a Large Language Model](install.html#llm).
-
 ### Combine '^' to the previous vowel character in alphanumeric mode {: #combining-circumflex}
 
 Enable this option if you want to write Japanese in Kunrei-shiki Rōmaji.
@@ -173,6 +158,21 @@ When you type <span class='key'>~</span> after a vowel character in Alphanumeric
 When you type <span class='key'>~</span> after a vowel character combined with a macron, it is separated back into a vowel and '~'.
 
 - Example: ā<span class='key'>~</span> → a~
+
+### Use LLM for candidate selection {: #llm}
+
+LLM stands for Large Language Model.
+When enabled, the Hiragana IME calculates the probabilities of each candidate's occurrence in the surrounding text and pre-selects the most probable candidate in the candidate window.
+
+For example, when converting 'のぼる', the pre-selected candidate changes as below depending on the surrounding text:
+
+- ￹山￺やま￻に<span style="background-color:#d1eaff">登る</span>
+- ￹日￺ひ￻が<span style="background-color:#d1eaff">昇る</span>
+
+**Note**: Since pre-selection is merely based on a probability calculation, the desired candidate may not always be chosen.
+This feature is disabled by default because it requires a relatively large amount of computational power.
+To enable this feature, you also need to install several packages.
+For more details, please see [Installation of Additional Components for Using a Large Language Model](install.html#llm).
 
 ## Editing Personal Dictionaries {: #personal-dictionary}
 

@@ -52,8 +52,10 @@ function shrinkToc() {
   <li><a href='install.html#install'>Install the Hiragana IME software package</a>
   <li><a href='install.html#input-source'>Add the Hiragana IME to the input sources</a>
   <li><a href='install.html#enable'>Enable the Hiragana IME</a>
-  <li><a href='install.html#wayland'>Change the Configuration for Wayland</a>
-  <li><a href='install.html#llm'>Installation of Additional Components for Using a Large Language Model</a>
+  <li><a href='install.html#llm'>Install additional components for using LLM</a>
+  <li><a href='install.html#update'>Updates</a>
+  <li><a href='install.html#uninstall'>Uninstall</a>
+  <li><a href='install.html#user-files'>User data stored in your home directory</a>
 </ul>
 </details>
 <li><details><summary><a href='usage.html'>Usage</a></summary>
@@ -142,7 +144,7 @@ sudo apt install ibus-hiragana
 cd ibus-hiragana
 meson setup --prefix /usr _build [-Denable-dic=true] [-Denable-html=true]
 ninja -C _build
-ninja -C _build  install
+ninja -C _build install
 </code></pre>
 <ul>
 <li>Specify -Denable-dic=true to build Kanji and Katakana dictionaries.</li>
@@ -155,6 +157,17 @@ ninja -C _build  install
 <p>If you are using Ubuntu, you can use the following command to install the required packages:</p>
 <pre><code>sudo apt build-dep .
 </code></pre>
+<h3 id="wayland">Change the input method module for Wayland</h3>
+<p>From Ubuntu 21.04 and Fedora 25 onwards, Wayland is used by default for screen rendering.
+Wayland is being developed to replace the classic X server.</p>
+<p>GNOME is also developing a new input method module for Wayland. However, it is still in the early stages of development.
+In GNOME 45 or earlier, the surrounding text information sent to input methods is broken.
+In GNOME 46, the surrounding text information is not sent to input methods at the right time with many applications.</p>
+<p>So, we recommend using the IBus input method module even on Wayland.
+To do so, define GTK_IM_MODULE environment variable in your ~/.bash_profile (in Fedora) or ~/.profile (in Ubuntu) as below.</p>
+<pre><code>export GTK_IM_MODULE=ibus
+</code></pre>
+<p>You can check the version of GNOME by opening the GNOME <strong>Settings</strong> window, then going to <strong>About This System</strong>-<strong>System Details</strong>.</p>
 <h2 id="input-source">Add the Hiragana IME to the input sources</h2>
 <p><strong>Note</strong>: Keyboard layouts and input methods are collectively referred to as <a href="https://wiki.gnome.org/Design/OS/LanguageInput">input sources</a>.</p>
 <p>After installing the Hiragana IME software package, restart your computer.
@@ -184,16 +197,7 @@ Then select <strong>Japanese (Hiragana IME)</strong>.</p>
 <p>When you can't find the keyboard layout you want to use, add your preferred layout to the <strong>Input Sources</strong>.
 Currently, Hiragana IME supports three keyboard layouts: <strong>Japanese</strong>, <strong>English (US)</strong>, and <strong>English (Dvorak)</strong>.</p>
 <p><strong>Note</strong>: Often, different keyboard designs are used from country to country for each language. In Japan, both Japanese and US keyboards are used. The US keyboard is designed in the United States. Nevertheless, it is also utilized in many other countries by modifying the letters printed on the keycaps.</p>
-<h2 id="wayland">Change the Configuration for Wayland</h2>
-<p>From Ubuntu 21.04 and Fedora 25 onwards, Wayland is used by default for screen rendering. Wayland is being developed to replace the classic X server.</p>
-<p>GNOME is also developing a new input method module for Wayland. Since it is still in its early stage of development, we recommend using the IBus input method module even on Wayland. To do so, define the GTK_IM_MODULE environment variable in your ~/.bash_profile (in Fedora) or ~/.profile (in Ubuntu) as below.</p>
-<pre><code>export GTK_IM_MODULE=ibus
-</code></pre>
-<p>With the Wayland IM module, the surrounding text information sent to input methods is broken in GNOME 45 or earlier. In the latest GNOME 46, many applications still cannot send the surrounding text at the right time to the input methods with the Wayland IM module. You can check the version of GNOME by opening the GNOME <strong>Settings</strong> window, then going to <strong>About This System</strong>-<strong>System Details</strong>.</p>
-<p><br>
-The Hiragana IME setup is now complete.
-You can use the <a href="settings.html">Hiragana IME Setup</a> window for additional settings.</p>
-<h2 id="llm">Installation of Additional Components for Using a Large Language Model</h2>
+<h2 id="llm">Install additional components for using LLM</h2>
 <p>Hiragana IME has a feature that pre-selects the most probable conversion candidate using a Large Language Model.
 To use this, the following packages need to be installed:</p>
 <ul>
@@ -207,7 +211,7 @@ To install the above packages with this venv, follow these steps:</p>
 </ol>
 <p><img alt="Hiragana IME Setup Window" src="ibus-setup-hiragana_3.png"></p>
 <ol start="2">
-<li>Click <strong>Apply</strong>, and the following window will open.</li>
+<li>Click <strong>Install</strong>, and the following window will open.</li>
 </ol>
 <p><img alt="Post Installation Window" src="postinst_1.png"></p>
 <ol start="3">
@@ -218,9 +222,66 @@ To install the above packages with this venv, follow these steps:</p>
 <ol start="5">
 <li>Click <strong>Close</strong> to close the window.</li>
 </ol>
-<p>The installation is now complete.
-When you log in again, you can use the candidate pre-selection feature using the large language model.</p>
-<p><strong>Note</strong>: Hiragana IME creates its venv at <code>~/.local/share/ibus-hiragana/venv</code>. tohoku-nlp/bert-base-japanese-v3 files are stored in <code>~/.cache/huggingface/hub/models--cl-tohoku--bert-base-japanese-v3/</code>.</p>
+<p>The installation of the required packages for using LLM is now complete.
+When you log in again, you can use the candidate pre-selection feature using LLM.</p>
+<h2 id="update">Updates</h2>
+<p>When a new release of the Hiragana IME is available, we will announce it on the <a href="https://github.com/esrille/ibus-hiragana/releases">Releases</a> page on GitHub.
+The steps for updating the Hiragana IME depend on how you install it.
+Follow the update steps that correspond to your installation method.</p>
+<h3>Instructions for Fedora</h3>
+<p>The Hiragana IME can be updated just like other Fedora packages.
+To do so from the command line, use the following <code>dnf</code> command:</p>
+<pre><code>sudo dnf update
+</code></pre>
+<h3>Instructions for Ubuntu</h3>
+<p>The Hiragana IME can be updated just like other Ubuntu packages.
+To do so from the command line, use the following <code>apt</code> commands:</p>
+<pre><code>sudo apt update
+sudo apt upgrade
+</code></pre>
+<h3>Updating from the source code</h3>
+<p>To update the Hiragana IME from the source code, enter the following commands into a terminal:</p>
+<pre><code>git pull
+ninja -C _build
+ninja -C _build install
+</code></pre>
+<h2 id="uninstall">Uninstall</h2>
+<p>The steps for uninstalling the Hiragana IME depend on how you install it.
+Follow the uninstall steps that correspond to your installation method.</p>
+<h3>Instructions for Fedora</h3>
+<p>To uninstall the Hiragana IME, use the following <code>dnf</code> command:</p>
+<pre><code>sudo dnf remove ibus-hiragana
+</code></pre>
+<h3>Instructions for Ubuntu</h3>
+<p>To uninstall the Hiragana IME, use the following <code>apt</code> command:</p>
+<pre><code>sudo apt remove ibus-hiragana
+</code></pre>
+<h3>Uninstalling from the source code</h3>
+<p>To uninstall the Hiragana IME that is built from the source code, enter the following command into a terminal:</p>
+<pre><code>sudo ninja -C _build uninstall
+</code></pre>
+<p><code>ninja</code> does not remove the directory <code>/usr/share/ibus-hiragana</code> with the <code>install</code> command.
+To remove this directory, enter the following command into a terminal:</p>
+<pre><code>sudo rm -rf /usr/share/ibus-hiragana
+</code></pre>
+<h2 id="user-files">User data stored in your home directory</h2>
+<p>The Hiragana IME stores user data in the directory <code>~/.local/share/ibus-hiragana/</code>.
+Under this directory, the Hiragana IME stores your input histories, user dictionary file(s), and also its Python venv:</p>
+<pre><code>~/.local/share/ibus-hiragana/
+├── dic/        # Your input histories
+├── my.dic      # User dictionary file
+└── venv/       # Python venv for the Hiragana IME
+</code></pre>
+<p>If you want to install the Hiragana IME on other PCs, you can use the copy of the directory <code>dic/</code> and the file <code>my.dic</code>.</p>
+<h3>Clean uninstall</h3>
+<p>If you want to remove all user data after uninstalling the Hiragana IME, you can remove the directory <code>~/.local/share/ibus-hiragana/</code>:</p>
+<pre><code>rm -rf ~/.local/share/ibus-hiragana
+</code></pre>
+<p>If you used the Hiragana IME with the LLM packages, the <a href="https://huggingface.co/tohoku-nlp/bert-base-japanese-v3">tohoku-nlp/bert-base-japanese-v3</a> files are stored in the directory <code>~/.cache/huggingface/hub/models--cl-tohoku--bert-base-japanese-v3/</code>.
+Please note that these files might be used by other applications that use <a href="https://huggingface.co/docs/transformers/index">Transformers</a>.
+If you are sure that you want to delete these files, enter the following command into a terminal:</p>
+<pre><code>rm -rf ~/.cache/huggingface/hub/models--cl-tohoku--bert-base-japanese-v3
+</code></pre>
 </main>
 </div>
 
