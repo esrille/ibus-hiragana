@@ -188,7 +188,7 @@ P | ぱ pa | ぴ pi | ぷ pu | ぺ pe | ぽ po | ぴゃ pya | ぴゅ pyu | ぴ�
 </div>
 
 <div class='layer109 L4'>
-<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>～</div><div></div><div></div>
+<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>〜</div><div></div><div></div>
 <br>
 <div class='k150'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>…</div><div>『</div><div class='k150'></div>
 <br>

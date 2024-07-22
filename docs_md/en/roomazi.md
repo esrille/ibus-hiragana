@@ -172,7 +172,7 @@ With Hiragana IME, small "**ぁぃぅぇぉっゃゅょ**" can be entered by pre
 </div>
 
 <div class='layer109 L4'>
-<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>～</div><div></div><div></div>
+<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>〜</div><div></div><div></div>
 <br>
 <div class='k150'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>…</div><div>『</div><div class='k150'></div>
 <br>

@@ -65,13 +65,13 @@ The JIS Kana layout uses all four rows of keys, making it difficult to remember 
 </div>
 
 <div class='layer109 L4'>
-<div></div><div></div><div></div><div class='a'>ぁ</div><div class='a'>ぅ</div><div class='a'>ぇ</div><div class='a'>ぉ</div><div class='y'>ゃ</div><div class='y'>ゅ</div><div class='y'>ょ</div><div class='w'>を</div><div><span class='oadg'>£</span></div><div><span class='oadg'>々</span></div><div><span class='oadg'>￢</span></div><div></div>
+<div></div><div></div><div></div><div class='a'>ぁ</div><div class='a'>ぅ</div><div class='a'>ぇ</div><div class='a'>ぉ</div><div class='y'>ゃ</div><div class='y'>ゅ</div><div class='y'>ょ</div><div class='w'>を</div><div></div><div>〜</div><div></div><div></div>
 <br>
-<div class='k150'></div><div></div><div></div><div class='a'>ぃ</div><div></div><div></div><div></div><div></div><div></div><div></div><div><span class='oadg'>『</span></div><div><span class='oadg'>￠</span></div><div>「</div><div class='k150'></div>
+<div class='k150'></div><div></div><div></div><div class='a'>ぃ</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>「</div><div class='k150'></div>
 <br>
-<div class='k175'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div><span class='oadg'>』</span></div><div><span class='oadg'>ヶ</span></div><div>」</div><div class='k125'></div>
+<div class='k175'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>」</div><div class='k125'></div>
 <br>
-<div class='k225'></div><div><span class='small t'>っ</span></div><div></div><div></div><div></div><div></div><div></div><div></div><div>、</div><div>。</div><div><span class='small'>・</span></div><div><span class='oadg'>￤</span></div><div class='k175'></div>
+<div class='k225'></div><div><span class='small t'>っ</span></div><div></div><div></div><div></div><div></div><div></div><div></div><div>、</div><div>。</div><div><span class='small'>・</span></div><div></div><div class='k175'></div>
 <br>
 <div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150'></div><div class='k250'></div><div class='k150'></div><div class='k125'></div><div></div><div></div><div></div><div class='k125'></div>
 </div>
@@ -131,11 +131,11 @@ The JIS Kana layout uses all four rows of keys, making it difficult to remember 
 </div>
 
 <div class='layer L4'>
-<div></div><div></div><div></div><div class='a'>ぁ</div><div class='a'>ぅ</div><div class='a'>ぇ</div><div class='a'>ぉ</div><div class='y'>ゃ</div><div class='y'>ゅ</div><div class='y'>ょ</div><div class='w'>を</div><div><span class='x'>ー</span></div><div><span class='oadg'>々</span></div><div class='k200'></div>
+<div>〜</div><div></div><div></div><div class='a'>ぁ</div><div class='a'>ぅ</div><div class='a'>ぇ</div><div class='a'>ぉ</div><div class='y'>ゃ</div><div class='y'>ゅ</div><div class='y'>ょ</div><div class='w'>を</div><div><span class='x'>ー</span></div><div></div><div class='k200'></div>
 <br>
-<div class='k150'></div><div></div><div></div><div class='a'>ぃ</div><div></div><div></div><div></div><div></div><div></div><div></div><div><span class='oadg'>『</span></div><div>「</div><div>」</div><div class='k150'><span class='oadg'>¬</span></div>
+<div class='k150'></div><div></div><div></div><div class='a'>ぃ</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>「</div><div>」</div><div class='k150'></div>
 <br>
-<div class='k175'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div><span class='oadg'>』</span></div><div><span class='oadg'>ヶ</span></div><div class='k225'></div>
+<div class='k175'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k225'></div>
 <br>
 <div class='k225'></div><div><span class='small t'>っ</span></div><div></div><div></div><div></div><div></div><div></div><div></div><div>、</div><div>。</div><div><span class='small'>・</span></div><div class='k275'></div>
 <br>
@@ -219,7 +219,7 @@ A simple, alphabetical keyboard layout isn't practical for actual typing. Some K
 </div>
 
 <div class='layer L4'>
-<div>～</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'></div>
+<div>〜</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'></div>
 <br>
 <div class='k150'></div><div></div><div class='h'><span class='small h'>゜</span></div><div class='h'>ひ</div><div class='h'>ふ</div><div></div><div class='m'>む</div><div class='a'>え</div><div class='m'>も</div><div class='m'>み</div><div class='m'>め</div><div>『</div><div>』</div><div class='k150'></div>
 <br>
@@ -283,7 +283,7 @@ A simple, alphabetical keyboard layout isn't practical for actual typing. Some K
 </div>
 
 <div class='layer109 L4'>
-<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>～</div><div></div><div></div>
+<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>〜</div><div></div><div></div>
 <br>
 <div class='k150'></div><div></div><div><span class='small h'>゜</span></div><div class='h'>ひ</div><div class='h'>ふ</div><div></div><div class='m'>む</div><div class='a'>え</div><div class='m'>も</div><div class='m'>み</div><div class='m'>め</div><div>…</div><div>『</div><div class='k150'></div>
 <br>

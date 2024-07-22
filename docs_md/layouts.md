@@ -66,23 +66,19 @@
 </div>
 
 <div class='layer109 L4'>
-<div></div><div></div><div></div><div class='a'>ぁ</div><div class='a'>ぅ</div><div class='a'>ぇ</div><div class='a'>ぉ</div><div class='y'>ゃ</div><div class='y'>ゅ</div><div class='y'>ょ</div><div class='w'>を</div><div><span class='oadg'>£</span></div><div><span class='oadg'>々</span></div><div><span class='oadg'>￢</span></div><div></div>
+<div></div><div></div><div></div><div class='a'>ぁ</div><div class='a'>ぅ</div><div class='a'>ぇ</div><div class='a'>ぉ</div><div class='y'>ゃ</div><div class='y'>ゅ</div><div class='y'>ょ</div><div class='w'>を</div><div></div><div><span>〜</span></div><div></div><div></div>
 <br>
-<div class='k150'></div><div></div><div></div><div class='a'>ぃ</div><div></div><div></div><div></div><div></div><div></div><div></div><div><span class='oadg'>『</span></div><div><span class='oadg'>￠</span></div><div>「</div><div class='k150'></div>
+<div class='k150'></div><div></div><div></div><div class='a'>ぃ</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>「</div><div class='k150'></div>
 <br>
-<div class='k175'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div><span class='oadg'>』</span></div><div><span class='oadg'>ヶ</span></div><div>」</div><div class='k125'></div>
+<div class='k175'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>」</div><div class='k125'></div>
 <br>
-<div class='k225'></div><div><span class='small t'>っ</span></div><div></div><div></div><div></div><div></div><div></div><div></div><div>、</div><div>。</div><div><span class='small'>・</span></div><div><span class='oadg'>￤</span></div><div class='k175'></div>
+<div class='k225'></div><div><span class='small t'>っ</span></div><div></div><div></div><div></div><div></div><div></div><div></div><div>、</div><div>。</div><div><span class='small'>・</span></div><div></div><div class='k175'></div>
 <br>
 <div class='k150'></div><div class='k125'></div><div class='k125'></div><div class='k150'></div><div class='k250'></div><div class='k150'></div><div class='k125'></div><div></div><div></div><div></div><div class='k125'></div>
 </div>
 </div>
 
 - <span class='key'>Shift</span>+<span class='key'>0</span>で、_（アンダースコア）を入力できるのは、「ひらがなIME」の￹拡張￺かくちょう￻￹機能￺きのう￻です。
-
-<!--
--  ￹右￺みぎ￻￹上￺うえ￻にある<span class='oadg'>￹青￺あお￻￹色￺いろ￻</span>の￹文字￺もじ￻や￹記号￺きごう￻（<span class='oadg'>『』£￠ヶ々￢￤</span>）は、￹以前￺いぜん￻の￹日本語￺にほんご￻109キーボードなどに￹刻印￺こくいん￻されていたものです。「ひらがなIME」では、￹入力￺にゅうりょく￻モードが「ひらがな」のときに、<span class='key'>Shift</span>キーと￹同時￺どうじ￻におすと￹入力￺にゅうりょく￻できます。
--->
 
 ### ￹英語￺えいご￻キーボード￹用￺よう￻
 
@@ -136,11 +132,11 @@
 </div>
 
 <div class='layer L4'>
-<div></div><div></div><div></div><div class='a'>ぁ</div><div class='a'>ぅ</div><div class='a'>ぇ</div><div class='a'>ぉ</div><div class='y'>ゃ</div><div class='y'>ゅ</div><div class='y'>ょ</div><div class='w'>を</div><div><span class='x'>ー</span></div><div><span class='oadg'>々</span></div><div class='k200'></div>
+<div>〜</div><div></div><div></div><div class='a'>ぁ</div><div class='a'>ぅ</div><div class='a'>ぇ</div><div class='a'>ぉ</div><div class='y'>ゃ</div><div class='y'>ゅ</div><div class='y'>ょ</div><div class='w'>を</div><div><span class='x'>ー</span></div><div></div><div class='k200'></div>
 <br>
-<div class='k150'></div><div></div><div></div><div class='a'>ぃ</div><div></div><div></div><div></div><div></div><div></div><div></div><div><span class='oadg'>『</span></div><div>「</div><div>」</div><div class='k150'><span class='oadg'>¬</span></div>
+<div class='k150'></div><div></div><div></div><div class='a'>ぃ</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>「</div><div>」</div><div class='k150'></div>
 <br>
-<div class='k175'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div><span class='oadg'>』</span></div><div><span class='oadg'>ヶ</span></div><div class='k225'></div>
+<div class='k175'></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k225'></div>
 <br>
 <div class='k225'></div><div><span class='small t'>っ</span></div><div></div><div></div><div></div><div></div><div></div><div></div><div>、</div><div>。</div><div><span class='small'>・</span></div><div class='k275'></div>
 <br>
@@ -233,7 +229,7 @@ New Stickney ￹配列￺はいれつ￻は、そうした￹日本語￺にほ�
 </div>
 
 <div class='layer L4'>
-<div>～</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'></div>
+<div>〜</div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class='k200'></div>
 <br>
 <div class='k150'></div><div></div><div class='h'><span class='small h'>゜</span></div><div class='h'>ひ</div><div class='h'>ふ</div><div></div><div class='m'>む</div><div class='a'>え</div><div class='m'>も</div><div class='m'>み</div><div class='m'>め</div><div>『</div><div>』</div><div class='k150'></div>
 <br>
@@ -297,7 +293,7 @@ New Stickney ￹配列￺はいれつ￻は、そうした￹日本語￺にほ�
 </div>
 
 <div class='layer109 L4'>
-<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>～</div><div></div><div></div>
+<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div>〜</div><div></div><div></div>
 <br>
 <div class='k150'></div><div></div><div><span class='small h'>゜</span></div><div class='h'>ひ</div><div class='h'>ふ</div><div></div><div class='m'>む</div><div class='a'>え</div><div class='m'>も</div><div class='m'>み</div><div class='m'>め</div><div>…</div><div>『</div><div class='k150'></div>
 <br>
