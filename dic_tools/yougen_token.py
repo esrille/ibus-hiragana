@@ -70,6 +70,24 @@ def load_yougen():
     diclib.add_word(dic, '知', 'し―らs')
     diclib.add_word(dic, '聞', 'き―かs')
 
+    # reigai.dic にある語
+    diclib.add_word(dic, '演', 'えん―じ1')
+    diclib.add_word(dic, '応', 'おう―じ1')
+    diclib.add_word(dic, '感', 'かん―じ1')
+    diclib.add_word(dic, '禁', 'きん―じ1')
+    diclib.add_word(dic, '準', 'じゅん―じ1')
+    diclib.add_word(dic, '乗', 'じょう―じ1')
+    diclib.add_word(dic, '生', 'しょう―じ1')
+    diclib.add_word(dic, '信', 'しん―じ1')
+    diclib.add_word(dic, '通', 'つう―じ1')
+    diclib.add_word(dic, '転', 'てん―じ1')
+    diclib.add_word(dic, '投', 'とう―じ1')
+    diclib.add_word(dic, '任', 'にん―じ1')
+    diclib.add_word(dic, '封', 'ふう―じ1')
+    diclib.add_word(dic, '報', 'ほう―じ1')
+    diclib.add_word(dic, '命', 'めい―じ1')
+    diclib.add_word(dic, '論', 'ろん―じ1')
+
     return dic
 
 
