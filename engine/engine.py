@@ -550,7 +550,7 @@ class EngineHiragana(EngineModeless):
             return 0
 
         yougen, yougen_shrunk, yougen_yomi = self._dict.lookup_yougen()
-        LOGGER.debug(f'_assist: {yougen}, {yougen_shrunk}, {yougen_yomi}')
+        LOGGER.debug(f'_assist: {yougen}, "{yougen_shrunk}", {yougen_yomi}')
 
         self._assisted = llm.pick(prefix, cand, yougen, yougen_shrunk, yougen_yomi)
         LOGGER.debug(f'_assist: "{cand[self._assisted]}"/"{yomi}" ({self._assisted})')

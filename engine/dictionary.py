@@ -307,12 +307,14 @@ class Dictionary:
                 yomi = word
                 shrunk = ''
                 while yomi not in self._dict:
+                    LOGGER.debug(f'lookup_yougen: {yomi}')
                     shrunk += yomi[0]
                     yomi = yomi[1:]
                 # Check shrunken entries that look like,
                 # にし― / ['に知r']
                 m = RE_PREFIX.search(self._dict[yomi][0])
                 if m and yomi.startswith(m.group()):
+                    LOGGER.debug(f'lookup_yougen: "{shrunk}" {yomi}')
                     shrunk += m.group()
                     yomi = yomi[m.end():]
                 return i, shrunk, yomi
