@@ -139,10 +139,19 @@ def main():
         if kanji not in yougen:
             continue
         for conj in yougen[kanji]:
+            # ex.
+            # kanji: 信
+            # words: ['信じ', '信じる']
+            # conj: 'しん―じ1'
+            pos = conj.find('―')
+            yomi = conj[:pos + 1]
+            stem = kanji + conj[pos + 1:]
+            if stem[-1] in '1iIkKgsStnbmrwW235':
+                stem = stem[:-1]
+            if stem not in words:
+                diclib.add_word(dic, yomi, kanji)
             for word in sorted(words):
                 if match(conj, word):
-                    yomi = conj[:conj.find('―') + 1]
-                    diclib.add_word(dic, yomi, word[0])
                     diclib.add_word(dic, yomi, word)
                     diclib.add_word(rev, word, yomi)
 
