@@ -252,7 +252,7 @@ class EngineModeless(IBus.Engine):
             self._surrounding = SURROUNDING_BROKEN
             # Hide preedit text for a moment so that the current client can
             # process the backspace keys.
-            self.update_preedit_text(IBus.Text.new_from_string(''), 0, 0)
+            self.update_preedit_text(IBus.Text.new_from_string(''), 0, False)
             # Note delete_surrounding_text() doesn't work here.
             if self.has_non_empty_preedit():
                 self._forward_backspaces(len(self._preedit_text))
@@ -315,12 +315,7 @@ class EngineModeless(IBus.Engine):
         if not self.should_draw_preedit():
             # For FuriganaPad, 'ん' needs to be committed.
             self.commit_text(IBus.Text.new_from_string('ん'))
-            # The following two steps are necessary to support Wayland IM module on GNOME 46.
-            # 1) For LibreOffice, IBus preedit text needs to be cleared before
-            # the forthcoming delete_surrounding_string().
-            text = IBus.Text.new_from_string('')
-            self.update_preedit_text(text, 0, False)
-            # 2) A delay is necessary to process surrounding text.
+            # A short delay would be necessary to support Wayland IM module on GNOME 46.
             time.sleep(EVENT_DELAY)
         self._preedit_pos_min += 1
         self._preedit_pos_orig += 1
@@ -409,8 +404,15 @@ class EngineModeless(IBus.Engine):
         # We mimic GTK IBus's behavior here.
         roman_len = len(self.roman_text)
         if 0 < roman_len and text[:pos].endswith(self.roman_text):
-            text = text[:-roman_len] + text[pos:]
+            text = text[:pos - roman_len] + text[pos:]
             pos -= roman_len
+        katakana_len = len(self.katakana_text)
+        if 0 < katakana_len and text[:pos].endswith(self.katakana_text):
+            text = text[:pos - katakana_len] + text[pos:]
+            pos -= katakana_len
+        if 0 < roman_len or 0 < katakana_len:
+            # By clearing the preedit, remove the redundant characters from the surrounding text.
+            self.update_preedit_text(IBus.Text.new_from_string(''), 0, False)
 
         self._preedit_text = text
         self._preedit_pos = pos
@@ -820,16 +822,6 @@ class EngineHiragana(EngineModeless):
 
     def _process_katakana(self):
         text, pos = self.get_surrounding_string()
-
-        if self.katakana_text and text[:pos].endswith(self.katakana_text):
-            # Some applications, such as Kate and LibreOffice Writer, include the preedit
-            # text in the surrounding text. Clear the preedit first to effectively remove
-            # the redundant characters from the surrounding text.
-            extra = len(self.katakana_text)
-            text = text[:pos - extra] + text[pos:]
-            pos -= extra
-            self.update_preedit_text(IBus.Text.new_from_string(''), 0, False)
-
         if self.roman_text == 'n':
             self.clear_roman()
             text = text[:pos] + 'ん'
