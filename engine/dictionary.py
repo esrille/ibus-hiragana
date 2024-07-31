@@ -516,10 +516,10 @@ class Dictionary:
 
     def _write_orders(self, filename):
         with open(filename, 'w') as f:
-            f.write('; ' + DICTIONARY_VERSION + '\n')
-            for yomi, cand in self._dict.items():
-                if yomi not in self._dict_base or cand != self._dict_base[yomi]:
-                    f.write(yomi + ' /' + '/'.join(cand) + '/\n')
+            f.write(f'; {DICTIONARY_VERSION}\n')
+            for yomi, words in sorted(self._dict.items()):
+                if yomi not in self._dict_base or words != self._dict_base[yomi]:
+                    f.write(f'{yomi} /{"/".join(words)}/\n')
 
     def save_orders(self):
         if not self._dirty:
@@ -544,6 +544,3 @@ class Dictionary:
             self._strdcmp = self.strcmp
         else:
             self._strdcmp = self.strdcmp
-
-    def dump(self):
-        print("'", self._yomi, "' ", self._no, ' ', self._cand, sep='')
