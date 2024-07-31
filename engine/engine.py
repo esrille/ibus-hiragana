@@ -39,7 +39,7 @@ from gi.repository import IBus
 
 import llm
 import package
-from dictionary import Dictionary
+from dictionary import HIRAGANA, KATAKANA, TO_HIRAGANA, TO_KATAKANA, Dictionary
 from event import Event, KeyboardController
 from package import _
 
@@ -52,13 +52,6 @@ INPUT_MODES = (
     ('InputMode.WideAlphanumeric', _('Wide Alphanumeric (Ａ)')),
     ('InputMode.HalfWidthKatakana', _('Halfwidth Katakana (ｱ)'))
 )
-
-HIRAGANA = ('あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん'
-            'ゔがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっゎぱぴぷぺぽゎゐゑ・ーゝゞ')
-KATAKANA = ('アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン'
-            'ヴガギグゲゴザジズゼゾダヂヅデドバビブベボァィゥェォャュョッヮパピプペポヮヰヱ・ーヽヾ')
-
-TO_KATAKANA = str.maketrans(HIRAGANA, KATAKANA)
 
 NON_DAKU = ('あいうえおかきくけこさしすせそたちつてとはひふへほやゆよわ'
             'アイウエオカキクケコサシスセソタチツテトハヒフヘホヤユヨワ'
@@ -156,10 +149,6 @@ def get_plain_text(text):
     return plain
 
 
-def to_katakana(kana):
-    return kana.translate(TO_KATAKANA)
-
-
 def to_hankaku(kana):
     s = ''
     for c in kana:
@@ -238,6 +227,7 @@ class EngineModeless(IBus.Engine):
         self._preedit_pos_orig = 0
         self._preedit_pos_min = 0
         self.roman_text = ''
+        self.katakana_text = ''
 
     def _forward_backspaces(self, size):
         LOGGER.debug(f'_forward_backspaces({size})')
@@ -272,6 +262,7 @@ class EngineModeless(IBus.Engine):
         self._preedit_text = None
         self._preedit_pos = 0
         self.roman_text = ''
+        self.katakana_text = ''
 
     def clear_preedit(self):
         text = self._preedit_text
@@ -291,6 +282,18 @@ class EngineModeless(IBus.Engine):
                 text = 'ん'
             self.commit_string(text)
             self.roman_text = ''
+        return text
+
+    def clear_katakana(self):
+        text = self.katakana_text
+        self.katakana_text = ''
+        return text
+
+    def commit_katakana(self):
+        text = self.katakana_text
+        if text:
+            self.commit_string(text)
+            self.katakana_text = ''
         return text
 
     def commit_string(self, text):
@@ -822,14 +825,11 @@ class EngineHiragana(EngineModeless):
             text = text[:pos] + 'ん'
             pos += 1
             self.commit_string('ん')
-        for i in reversed(range(pos)):
-            if 0 <= KATAKANA.find(text[i]):
-                continue
-            found = HIRAGANA.find(text[i])
+        if 0 < pos:
+            found = HIRAGANA.find(text[pos - 1])
             if 0 <= found:
-                self.delete_surrounding_string(pos - i)
-                self.commit_string(KATAKANA[found] + text[i + 1:pos])
-            break
+                self.delete_surrounding_string(1)
+                self.katakana_text = KATAKANA[found] + self.katakana_text
         return True
 
     def _process_okurigana(self, pos_yougen):
@@ -936,14 +936,19 @@ class EngineHiragana(EngineModeless):
                     self.flush()
                     return True
 
-        if e.keyval == IBus.Return and self.commit_roman():
+        if e.keyval == IBus.Return and (self.commit_roman() or (katakana := self.commit_katakana())):
+            if katakana:
+                self._dict.add_katakana(katakana)
             return True
-        if e.keyval == IBus.Escape and self.clear_roman():
+        if e.keyval == IBus.Escape and (self.clear_roman() or (katakana := self.clear_katakana())):
+            if katakana:
+                self.commit_string(katakana.translate(TO_HIRAGANA))
             return True
 
         if (self.get_mode() == 'あ'
                 and (e.is_henkan() or e.is_muhenkan())
-                and not e.has_altgr()):
+                and not e.has_altgr()
+                and self.katakana_text == ''):
             return self._process_replace(e)
 
         text, pos = self.get_surrounding_string()
@@ -978,6 +983,8 @@ class EngineHiragana(EngineModeless):
         if e.is_katakana():
             self._process_katakana()
             return True
+        self.commit_katakana()
+
         if e.is_backspace():
             if to_revert and current[-1] != '―':
                 if self.roman_text:
@@ -1033,9 +1040,9 @@ class EngineHiragana(EngineModeless):
                 yomi, self.roman_text = self._to_kana(self.roman_text, c, e)
                 if yomi:
                     if self.get_mode() == 'ア':
-                        yomi = to_katakana(yomi)
+                        yomi = yomi.translate(TO_KATAKANA)
                     elif self.get_mode() == 'ｱ':
-                        yomi = to_hankaku(to_katakana(yomi))
+                        yomi = to_hankaku(yomi.translate(TO_KATAKANA))
                     if self._use_half_width_digits:
                         text, pos = self.get_surrounding_string()
                         if 0 < pos and text[pos - 1] in HANKAKU_DIGIT:
@@ -1140,6 +1147,8 @@ class EngineHiragana(EngineModeless):
 
     def _update_preedit(self, locked=''):
         cand = self._dict.current()
+        if not cand:
+            cand = self.katakana_text
         if self.has_non_empty_preedit() and self.should_draw_preedit():
             preedit_text = self._preedit_text
         else:

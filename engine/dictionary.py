@@ -26,8 +26,14 @@ LOGGER = logging.getLogger(__name__)
 
 DICTIONARY_VERSION = 'v1.0.0'
 
+# Constants used for Hiragana - Katakana conversion
 HIRAGANA = ('あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐゑをん'
             'ゔがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっゎぱぴぷぺぽ・ーゝゞ')
+KATAKANA = ('アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヰヱヲン'
+            'ヴガギグゲゴザジズゼゾダヂヅデドバビブベボァィゥェォャュョッヮパピプペポ・ーヽヾ')
+TO_KATAKANA = str.maketrans(HIRAGANA, KATAKANA)
+TO_HIRAGANA = str.maketrans(KATAKANA, HIRAGANA)
+
 YOMI = re.compile(f'^#?[{HIRAGANA}]+―?$')
 
 NON_YOMIGANA = re.compile(r'[^ぁ-ゖァ-ー―]')
@@ -190,10 +196,16 @@ class Dictionary:
             return
 
         katakana = ''
+        if yomi[-1] != '―':
+            katakana = yomi.translate(TO_KATAKANA)
+            if katakana not in words:
+                katakana = ''
 
         if yomi not in dic:
             if not reorder_only:
                 dic[yomi] = words
+            elif katakana:
+                dic[yomi] = [katakana]
             else:
                 self._dirty = True
         else:
@@ -222,6 +234,16 @@ class Dictionary:
             dic[yomi] = update
         else:
             del dic[yomi]
+
+    def add_katakana(self, word):
+        LOGGER.debug(f'add_katakana("{word}")')
+        yomi = word.translate(TO_HIRAGANA)
+        words = self._dict.get(yomi, [])
+        if word in words:
+            words.remove(word)
+        words.insert(0, word)
+        self._dict[yomi] = words
+        self._dirty = True
 
     def reset(self):
         self._yomi = ''
