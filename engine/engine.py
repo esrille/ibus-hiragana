@@ -820,6 +820,16 @@ class EngineHiragana(EngineModeless):
 
     def _process_katakana(self):
         text, pos = self.get_surrounding_string()
+
+        if self.katakana_text and text[:pos].endswith(self.katakana_text):
+            # Some applications, such as Kate and LibreOffice Writer, include the preedit
+            # text in the surrounding text. Clear the preedit first to effectively remove
+            # the redundant characters from the surrounding text.
+            extra = len(self.katakana_text)
+            text = text[:pos - extra] + text[pos:]
+            pos -= extra
+            self.update_preedit_text(IBus.Text.new_from_string(''), 0, False)
+
         if self.roman_text == 'n':
             self.clear_roman()
             text = text[:pos] + 'ん'
