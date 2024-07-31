@@ -25,12 +25,14 @@ import package
 LOGGER = logging.getLogger(__name__)
 
 DICTIONARY_VERSION = 'v1.0.0'
+
+HIRAGANA = ('あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐゑをん'
+            'ゔがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっゎぱぴぷぺぽ・ーゝゞ')
+YOMI = re.compile(f'^#?[{HIRAGANA}]+―?$')
+
 NON_YOMIGANA = re.compile(r'[^ぁ-ゖァ-ー―]')
 YOMIGANA = re.compile(r'^[ぁ-ゖァ-ー―]+[、。，．]?$')
-HIRAGANA = ('あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん'
-            'がぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっぱぴぷぺぽゔ')
-TYOUON = ('あいうえおあいうえおあいうえおあいうえおあいうえおあいうえおあいうえおあうおあいうえおあおん'
-          'あいうえおあいうえおあいうえおあいうえおあいうえおあうおうあいうえおう')
+
 OKURIGANA = re.compile(r'[ぁ-ゖ1iIkKgsStnbmrwW235]+$')
 KATUYOU = {
     '1': ('', 'る', 'れば', 'ろ', 'よう', 'て', 'た', 'な', 'た', 'ま', 'ず', None, None),
@@ -56,7 +58,7 @@ KATUYOU = {
 }
 DAKUON = 'がぎぐげござじずぜぞだぢづでどばびぶべぼ'
 SEION = 'かきくけこさしすせそたちつてとはひふへほ'
-RE_PREFIX = re.compile('^[' + HIRAGANA + ']+')
+RE_PREFIX = re.compile(f'^[{HIRAGANA}]+')
 
 
 class Dictionary:
@@ -124,14 +126,16 @@ class Dictionary:
             LOGGER.exception(f'Could not load "{path}"')
 
         # Load user dictionary
-        self._dict = self._dict_base.copy()
         if user:
             path = os.path.join(package.get_user_datadir(), user)
             if os.path.abspath(path) == path:
                 try:
-                    self._load_dict(self._dict, path, 'a+')
+                    self._load_dict(self._dict_base, path)
                 except OSError:
                     LOGGER.exception(f'Could not load "{path}"')
+
+        # Create the working dictionary
+        self._dict = self._dict_base.copy()
 
         # Load input history
         self._orders_path = os.path.join(package.get_user_datadir(), 'dic', system)
@@ -139,7 +143,7 @@ class Dictionary:
             if clear_history:
                 LOGGER.debug('clear_history')
                 with open(self._orders_path, 'w') as f:
-                    f.write('; ' + DICTIONARY_VERSION + '\n')
+                    f.write(f'; {DICTIONARY_VERSION}\n')
             else:
                 self._load_dict(self._dict, self._orders_path, 'a+', version_checked=False)
         except OSError:
@@ -155,49 +159,58 @@ class Dictionary:
                     if not line:
                         continue
                     if line[0] == ';':
-                        if line == '; ' + DICTIONARY_VERSION:
+                        if line == f'; {DICTIONARY_VERSION}':
                             version_checked = True
                         continue
                     if not version_checked:
                         continue
-                    p = line.split(' ', 1)
-                    yomi = p[0]
-                    cand = p[1].strip(' \n/').split('/')
-                    # TODO: Check yomi is valid
-                    if yomi.startswith('-'):
-                        self._remove_entry(dic, yomi[1:], cand)
-                    else:
-                        self._merge_entry(dic, yomi, cand, reorder_only)
-                        if yomi.endswith('―'):
-                            self._merge_entry(dic, yomi[:-1], [yomi], reorder_only)
+                    words = line.split(' ', 1)
+                    if len(words) < 2:
+                        continue
+                    yomi = words[0]
+                    words = words[1].strip(' \n/').split('/')
+                    self._merge_entry(dic, yomi, words, reorder_only)
+                    if yomi.endswith('―'):
+                        self._merge_entry(dic, yomi[:-1], [yomi], reorder_only)
                 LOGGER.debug(f'Loaded {path}')
         except OSError:
             LOGGER.exception(f'could not load "{path}"')
 
-    def _merge_entry(self, dic: dict[str, list[str]], yomi: str, cand: list[str], reorder_only: bool):
-        if yomi in cand:
-            LOGGER.warning(f'unexpected candidate for "{yomi}": {cand}')
-            cand.remove(yomi)
+    def _merge_entry(self, dic: dict[str, list[str]], yomi: str, words: list[str], reorder_only: bool):
+        if not YOMI.match(yomi):
+            LOGGER.warning(f'invalid candidate: "{yomi}" / {words}')
+            return
+        if yomi in words or '' in words:
+            LOGGER.warning(f'unexpected candidate: "{yomi}" / {words}')
+        words_dict = dict.fromkeys(words)
+        words_dict.pop('', None)
+        words_dict.pop(yomi, None)
+        words = list(words_dict)
+        if not words:
+            return
+
+        katakana = ''
+
         if yomi not in dic:
             if not reorder_only:
-                dic[yomi] = cand
+                dic[yomi] = words
             else:
                 self._dirty = True
         else:
             update = dic[yomi][:]
             yougen = []
-            for i in reversed(cand):
-                if i in update:
-                    update.remove(i)
-                    update.insert(0, i)
-                elif not reorder_only or i[0] in HIRAGANA or i[0] == '#':
-                    if i[-1] == '―':
-                        yougen.insert(0, i)
+            for word in reversed(words):
+                if word in update:
+                    update.remove(word)
+                    update.insert(0, word)
+                elif not reorder_only or word[0] in HIRAGANA or word[0] == '#' or word == katakana:
+                    if word[-1] == '―':
+                        yougen.insert(0, word)
                     else:
-                        update.insert(0, i)
+                        update.insert(0, word)
                 else:
                     self._dirty = True
-            update.extend(yougen)   # extend() does not return anything
+            update.extend(yougen)
             dic[yomi] = update
 
     def _remove_entry(self, dic: dict[str, list[str]], yomi: str, cand: list[str]):
