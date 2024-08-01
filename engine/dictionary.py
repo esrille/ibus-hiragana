@@ -35,11 +35,9 @@ TO_KATAKANA = str.maketrans(HIRAGANA, KATAKANA)
 TO_HIRAGANA = str.maketrans(KATAKANA, HIRAGANA)
 
 YOMI = re.compile(f'^#?[{HIRAGANA}]+―?$')
+OKURI = re.compile(f'^―[{HIRAGANA}]+$')
+SUFFIX = re.compile(f'[{HIRAGANA}]*[1iIkKgsStnbmrwW235]?$')
 
-NON_YOMIGANA = re.compile(r'[^ぁ-ゖァ-ー―]')
-YOMIGANA = re.compile(r'^[ぁ-ゖァ-ー―]+[、。，．]?$')
-
-OKURIGANA = re.compile(r'[ぁ-ゖ1iIkKgsStnbmrwW235]+$')
 KATUYOU = {
     '1': ('', 'る', 'れば', 'ろ', 'よう', 'て', 'た', 'な', 'た', 'ま', 'ず', None, None),
     'i': ('く', 'い', 'ければ', None, 'かろう', 'くて', 'かった', None, None, None, None, None, None, '',
@@ -363,7 +361,7 @@ class Dictionary:
         suffix = yomi[anchor:pos].rfind('―')
         if 0 <= suffix:
             suffix += anchor
-            if not YOMIGANA.match(yomi[suffix:pos]):
+            if not OKURI.match(yomi[suffix:pos]):
                 suffix = -1
         if suffix <= 0:
             numeric = ''
@@ -375,7 +373,7 @@ class Dictionary:
                     if 0 < i and yomi[i - 1].isnumeric():
                         continue
                     has_numeric = True
-                elif NON_YOMIGANA.match(yomi[i]):
+                elif yomi[i] not in HIRAGANA:
                     break
                 y = yomi[i:size]
                 if not has_numeric:
@@ -411,17 +409,17 @@ class Dictionary:
         size = suffix + 1
         y = yomi
         for i in range(len(yomi[size:])):
-            if NON_YOMIGANA.match(yomi[size + i]):
+            if yomi[size + i] not in HIRAGANA:
                 y = y[:size + i]
                 break
         for i in range(size - 2, anchor - 1, -1):
-            if NON_YOMIGANA.match(y[i]):
+            if y[i] not in HIRAGANA:
                 break
             if y[i:size] in self._dict:
                 cand = ([], [])
                 order = ([], [])
                 for n, c in enumerate(self._dict[y[i:size]]):
-                    pattern = OKURIGANA.search(c)
+                    pattern = SUFFIX.search(c)
                     if pattern:
                         pos_okuri = pattern.start()
                     else:

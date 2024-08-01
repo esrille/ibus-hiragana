@@ -39,7 +39,7 @@ from gi.repository import IBus
 
 import llm
 import package
-from dictionary import HIRAGANA, KATAKANA, TO_HIRAGANA, TO_KATAKANA, Dictionary
+from dictionary import Dictionary, HIRAGANA, KATAKANA, TO_HIRAGANA, TO_KATAKANA
 from event import Event, KeyboardController
 from package import _
 
@@ -70,8 +70,8 @@ HANDAKU = 'ぱぴぷぺぽパピプペポはひふへほハヒフヘホ'
 NON_TINY = 'あいうえおつやゆよわアイウエオツヤユヨワぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮ。「」、・｡｢｣､･'
 TINY = 'ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮあいうえおつやゆよわアイウエオツヤユヨワ｡｢｣､･。「」、・'
 
-OKURIGANA = ('あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん'
-             'ゔがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっゎぱぴぷぺぽゎゐゑ゛゜')
+OKURIGANA = ('あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐゑをん'
+             'ゔがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっゎぱぴぷぺぽ゛゜')
 
 ZENKAKU = ''.join(chr(i) for i in range(0xff01, 0xff5f)) + '　〔〕［］￥？'
 HANKAKU = ''.join(chr(i) for i in range(0x21, 0x7f)) + ' ❲❳[]¥?'
