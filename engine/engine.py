@@ -399,20 +399,27 @@ class EngineModeless(IBus.Engine):
         #     if 0x10000 <= ord(text[i]):
         #         pos -= 1
 
-        # Several applications insert the preedit text to the surrounding text.
-        # GTK IBus generally expects that preedit texts are not included in the surrounding text.
-        # We mimic GTK IBus's behavior here.
+        # Several applications, including Kate and LibreOffice, merge the preedit text to
+        # the surrounding text. However, GTK IBus expects that preedit texts are excluded
+        # from the surrounding text.
+        # We mimic GTK IBus's behavior here. The following detection steps can be wrong, but
+        # it is very rare in the actual Japanese context.
         roman_len = len(self.roman_text)
         if 0 < roman_len and text[:pos].endswith(self.roman_text):
             text = text[:pos - roman_len] + text[pos:]
             pos -= roman_len
-        katakana_len = len(self.katakana_text)
-        if 0 < katakana_len and text[:pos].endswith(self.katakana_text):
-            text = text[:pos - katakana_len] + text[pos:]
-            pos -= katakana_len
-        if 0 < roman_len or 0 < katakana_len:
-            # By clearing the preedit, remove the redundant characters from the surrounding text.
+            # Reset the preedit to remove the redundant characters from the surrounding text.
             self.update_preedit_text(IBus.Text.new_from_string(''), 0, False)
+        katakana_len = len(self.katakana_text)
+        if 0 < katakana_len:
+            if text[:pos].endswith(self.katakana_text):
+                text = text[:pos - katakana_len] + text[pos:]
+                pos -= katakana_len
+            # The following steps are necessary to fully reset the preedit with LibreOffice,
+            # when the preedit text contains a letter 'ー'.
+            self.commit_text(IBus.Text.new_from_string(self.katakana_text))
+            self.update_preedit_text(IBus.Text.new_from_string(''), 0, False)
+            self.delete_surrounding_text(-katakana_len, katakana_len)
 
         self._preedit_text = text
         self._preedit_pos = pos
@@ -821,17 +828,19 @@ class EngineHiragana(EngineModeless):
         return True
 
     def _process_katakana(self):
-        text, pos = self.get_surrounding_string()
+        ch = ''
         if self.roman_text == 'n':
             self.clear_roman()
-            text = text[:pos] + 'ん'
-            pos += 1
-            self.commit_string('ん')
-        if 0 < pos:
-            found = HIRAGANA.find(text[pos - 1])
-            if 0 <= found:
-                self.delete_surrounding_string(1)
-                self.katakana_text = KATAKANA[found] + self.katakana_text
+            ch = 'ン'
+        else:
+            text, pos = self.get_surrounding_string()
+            if 0 < pos:
+                found = HIRAGANA.find(text[pos - 1])
+                if 0 <= found:
+                    ch = KATAKANA[found]
+                    self.delete_surrounding_string(1)
+        if ch:
+            self.katakana_text = ch + self.katakana_text
         return True
 
     def _process_okurigana(self, pos_yougen):
