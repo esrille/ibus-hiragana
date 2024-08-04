@@ -74,7 +74,7 @@ def load(enabled: bool):
 def pick(prefix, candidates, yougen=-1, yougen_shrunk='', yougen_yomi=''):
     if not loaded():
         return 0
-    LOGGER.debug(f"pick('{prefix}', {candidates}, {yougen}, '{yougen_shrunk}', {yougen_yomi})")
+    LOGGER.debug(f"pick('{prefix}', {candidates}, {yougen}, '{yougen_shrunk}', '{yougen_yomi}')")
 
     candidates = candidates[:]
     if 0 <= yougen:
@@ -101,7 +101,6 @@ def pick(prefix, candidates, yougen=-1, yougen_shrunk='', yougen_yomi=''):
     if model.config.max_position_embeddings < len(ids) + 1:
         offset = len(ids) + 1 - model.config.max_position_embeddings
         truncated = [tokenizer.cls_token_id] + ids[1 + offset:]
-
     encoded_input = {
         'input_ids': torch.tensor(truncated).unsqueeze(0)
     }
@@ -110,27 +109,26 @@ def pick(prefix, candidates, yougen=-1, yougen_shrunk='', yougen_yomi=''):
         probabilities = model(**encoded_input).logits[0, mask_token_index - offset]
     probabilities = torch.nn.functional.softmax(probabilities, dim=0)
 
-    if 0 <= yougen and mask_token_index == len(encoded_candidates.input_ids[-1]) - 2:
+    if 0 <= yougen and encoded_candidates.input_ids[pos_yougen][mask_token_index] == tokenizer.unk_token_id:
         if yougen_yomi in yougen_tokens:
             yp = sum(probabilities[yougen_tokens[yougen_yomi]].tolist())
         else:
             yp = 0.0
         probabilities = probabilities[token_ids].tolist()
-        probabilities[-1] = yp
+        probabilities[pos_yougen] = yp
     else:
         probabilities = probabilities[token_ids].tolist()
 
     for i, ids in enumerate(encoded_candidates.input_ids):
-        if encoded_candidates.input_ids[i][mask_token_index + 1] in (tokenizer.sep_token_id, tokenizer.pad_token_id):
+        if ids[mask_token_index + 1] in (tokenizer.sep_token_id, tokenizer.pad_token_id):
             continue
 
-        next_ids = encoded_candidates.input_ids[i][:mask_token_index + 1]
+        next_ids = ids[:mask_token_index + 1]
         next_ids += (tokenizer.mask_token_id, tokenizer.sep_token_id)
 
         truncated = next_ids
         if 0 < offset:
             truncated = [tokenizer.cls_token_id] + next_ids[1 + offset:]
-
         encoded_input = {
             'input_ids': torch.tensor(truncated).unsqueeze(0)
         }
@@ -138,8 +136,7 @@ def pick(prefix, candidates, yougen=-1, yougen_shrunk='', yougen_yomi=''):
             p = model(**encoded_input).logits[0, mask_token_index + 1 - offset]
         p = torch.nn.functional.softmax(p, dim=0)
 
-        if (i == len(encoded_candidates.input_ids) - 1 and
-                0 <= yougen and mask_token_index + 1 == len(encoded_candidates.input_ids[-1]) - 2):
+        if 0 <= yougen and i == pos_yougen and ids[mask_token_index + 1] == tokenizer.unk_token_id:
             if yougen_yomi in yougen_tokens:
                 probabilities[i] *= sum(p[yougen_tokens[yougen_yomi]].tolist())
             else:
