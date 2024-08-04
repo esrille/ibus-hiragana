@@ -35,7 +35,7 @@ TO_KATAKANA = str.maketrans(HIRAGANA, KATAKANA)
 TO_HIRAGANA = str.maketrans(KATAKANA, HIRAGANA)
 
 YOMI = re.compile(f'^#?[{HIRAGANA}]+―?$')
-OKURI = re.compile(f'^―[{HIRAGANA}]+$')
+OKURI = re.compile(f'―[{HIRAGANA}]*')       # for match()
 SUFFIX = re.compile(f'[{HIRAGANA}]*[1iIkKgsStnbmrwW235]?$')
 
 KATUYOU = {
@@ -353,99 +353,108 @@ class Dictionary:
                 return i, shrunk, yomi
         return -1, '', ''
 
-    def lookup(self, yomi, pos, anchor=0):
-        LOGGER.debug(f'lookup({yomi}, {pos}, {anchor}): {len(yomi)}')
+    def lookup_next_taigen(self, text, start, pos) -> bool:
+        # Return False if no more lookup is necessary.
+        if text[start] not in HIRAGANA:
+            return False
+        yomi = text[start:pos]
+        if yomi in self._dict:
+            self._yomi = yomi
+            self._cand = self._dict[yomi]
+            self._no = 0
+            self._order = []
+            self._completed = []
+            self._numeric = ''
+            LOGGER.debug(f'  yomi: "{self._yomi}", cand: {self._cand}')
+        return True
 
+    def lookup_numeric(self, text, start, pos, numeric):
+        LOGGER.debug(f'lookup_numeric("{text}", {start}, {pos}, "{numeric}")')
+        assert text[start:].startswith(numeric)
+        yomi = text[start:pos].replace(numeric, '#')
+        if yomi in self._dict:
+            if yomi[1:] == self._yomi:
+                cand = self._cand[:]
+            else:
+                self._yomi = yomi[1:]
+                cand = []
+            for word in reversed(self._dict[yomi]):
+                word = word[1:]
+                if word in cand:
+                    cand.remove(word)
+                cand.insert(0, word)
+            self._cand = cand
+            self._no = 0
+            self._order = []
+            self._completed = []
+            self._numeric = numeric
+
+    def lookup_next_yougen(self, text, start, pos, suffix) -> bool:
+        # Return False if no more lookup is necessary.
+        LOGGER.debug(f'lookup_next_yougen("{text}", {start}, {pos}, {suffix})')
+        end = suffix + 1
+        if text[start] not in HIRAGANA:
+            return False
+        if text[start:end] in self._dict:
+            cand = ([], [])
+            order = ([], [])
+            for n, word in enumerate(self._dict[text[start:end]]):
+                pattern = SUFFIX.search(word)
+                if pattern:
+                    pos_okuri = pattern.start()
+                else:
+                    pos_okuri = len(word)
+                okuri = word[pos_okuri:]
+                p = self._match(okuri, text[end:])
+                LOGGER.debug(f'lookup: {word} {text[end:]} => {p}')
+                word = word[:pos_okuri] + text[end:pos]
+                if 0 <= p:
+                    assert p in (0, 1)
+                    if word not in cand[p]:
+                        cand[p].append(word)
+                        order[p].append(n)
+            if cand[0] or cand[1]:
+                for word in cand[0]:
+                    if word in cand[1]:
+                        at = cand[1].index(word)
+                        del cand[1][at]
+                        del order[1][at]
+                self._yomi = text[start:pos]
+                self._cand = cand[0] + cand[1]
+                self._no = 0
+                self._order = order[0] + order[1]
+                self._completed = [0] * len(cand[0]) + [1] * len(cand[1])
+                LOGGER.debug(f'{self._cand}, {self._order}, {self._completed}')
+                self._numeric = ''
+        return True
+
+    def lookup(self, text, pos, anchor=0):
+        LOGGER.debug(f'lookup("{text}", {pos}, {anchor})')
         self.reset()
-        # Look for the nearest hyphen.
-        suffix = yomi[anchor:pos].rfind('―')
+        suffix = text[anchor:pos].rfind('―')
         if 0 <= suffix:
             suffix += anchor
-            if not OKURI.match(yomi[suffix:pos]):
+            okuri = OKURI.match(text[suffix:])
+            if okuri:
+                text = text[:suffix + okuri.end()]
+            else:
                 suffix = -1
         if suffix <= 0:
             numeric = ''
-            has_numeric = False
-            size = pos
-            for i in range(size - 1, anchor - 1, -1):
-                if not has_numeric and yomi[i].isnumeric():
-                    numeric = yomi[i] + numeric
-                    if 0 < i and yomi[i - 1].isnumeric():
+            for i in range(pos - 1, anchor - 1, -1):
+                if text[i].isnumeric():
+                    numeric = text[i] + numeric
+                    if anchor < i and text[i - 1].isnumeric():
                         continue
-                    has_numeric = True
-                elif yomi[i] not in HIRAGANA:
+                    self.lookup_numeric(text, i, pos, numeric)
                     break
-                y = yomi[i:size]
-                if not has_numeric:
-                    if y in self._dict:
-                        self._yomi = y
-                        self._cand = self._dict[y]
-                        self._no = 0
-                        self._order = []
-                        self._completed = []
-                        self._numeric = ''
-                        LOGGER.debug(f'  yomi: "{self._yomi}", cand: {self._cand}')
                 else:
-                    yy = y.replace(numeric, '#')
-                    if yy in self._dict:
-                        if yy[1:] == self._yomi:
-                            cand = self._cand[:]
-                        else:
-                            self._yomi = yy[1:]
-                            cand = []
-                        for c in reversed(self._dict[yy]):
-                            item = c[1:]
-                            if item in cand:
-                                cand.remove(item)
-                            cand.insert(0, item)
-                        self._cand = cand
-                        self._no = 0
-                        self._order = []
-                        self._completed = []
-                        self._numeric = numeric
-            return self.current()
-
-        # Process suffix
-        size = suffix + 1
-        y = yomi
-        for i in range(len(yomi[size:])):
-            if yomi[size + i] not in HIRAGANA:
-                y = y[:size + i]
-                break
-        for i in range(size - 2, anchor - 1, -1):
-            if y[i] not in HIRAGANA:
-                break
-            if y[i:size] in self._dict:
-                cand = ([], [])
-                order = ([], [])
-                for n, c in enumerate(self._dict[y[i:size]]):
-                    pattern = SUFFIX.search(c)
-                    if pattern:
-                        pos_okuri = pattern.start()
-                    else:
-                        pos_okuri = len(c)
-                    okuri = c[pos_okuri:]
-                    p = self._match(okuri, y[size:])
-                    LOGGER.debug(f'lookup: {c} {y[size:]} => {p}')
-                    c = c[:pos_okuri] + yomi[size:pos]
-                    if 0 <= p:
-                        assert p in (0, 1)
-                        if c not in cand[p]:
-                            cand[p].append(c)
-                            order[p].append(n)
-                if cand[0] or cand[1]:
-                    for c in cand[0]:
-                        if c in cand[1]:
-                            at = cand[1].index(c)
-                            del cand[1][at]
-                            del order[1][at]
-                    self._yomi = yomi[i:pos]
-                    self._cand = cand[0] + cand[1]
-                    self._no = 0
-                    self._order = order[0] + order[1]
-                    self._completed = [0] * len(cand[0]) + [1] * len(cand[1])
-                    LOGGER.debug(f'{self._cand}, {self._order}, {self._completed}')
-                    self._numeric = ''
+                    if not self.lookup_next_taigen(text, i, pos):
+                        break
+        else:
+            for i in range(suffix - 1, anchor - 1, -1):
+                if not self.lookup_next_yougen(text, i, pos, suffix):
+                    break
         return self.current()
 
     def is_complete(self):
