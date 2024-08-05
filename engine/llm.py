@@ -71,19 +71,22 @@ def load(enabled: bool):
 
 
 # yougen_cand → yougen_yomi
-def pick(prefix, candidates, yougen=-1, yougen_shrunk='', yougen_yomi=''):
+def pick(prefix, candidates, yougen=-1, yougen_shrunk='', yougen_yomi='') -> dict[int, str]:
     if not loaded():
         return 0
     LOGGER.debug(f"pick('{prefix}', {candidates}, {yougen}, '{yougen_shrunk}', '{yougen_yomi}')")
 
-    candidates = candidates[:]
-    if 0 <= yougen:
-        del candidates[yougen]
     if MAX_CANDIDATES < len(candidates):
         candidates = candidates[:MAX_CANDIDATES]
-    pos_yougen = len(candidates)
+    else:
+        candidates = candidates[:]
+    pos_yougen = yougen
     if 0 <= yougen:
-        candidates.append(yougen_shrunk + '[UNK]')
+        if yougen < MAX_CANDIDATES:
+            candidates[yougen] = yougen_shrunk + '[UNK]'
+        else:
+            candidates.append(yougen_shrunk + '[UNK]')
+            pos_yougen = MAX_CANDIDATES
 
     inputs = []
     for cand in candidates:
@@ -144,14 +147,13 @@ def pick(prefix, candidates, yougen=-1, yougen_shrunk='', yougen_yomi=''):
         else:
             probabilities[i] *= p[transposed[mask_token_index + 1][i]].item()
 
-    index = probabilities.index(max(probabilities))
-
     for i, ids in enumerate(encoded_candidates.input_ids):
         LOGGER.debug(f'  {tokenizer.decode(ids)} ({len(ids)}) {probabilities[i]}')
-    LOGGER.debug(f'  -> {candidates[index]}')
 
-    if pos_yougen <= index:
-        index = yougen
-    elif 0 <= yougen <= index:
-        index += 1
-    return index
+    if pos_yougen == MAX_CANDIDATES:
+        p_yougen = probabilities.pop()
+        p_dict = {index: value for index, value in enumerate(probabilities)}
+        p_dict[yougen] = p_yougen
+    else:
+        p_dict = { index: value for index, value in enumerate(probabilities) }
+    return p_dict

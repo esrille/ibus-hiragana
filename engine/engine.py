@@ -564,7 +564,8 @@ class EngineHiragana(EngineModeless):
         yougen, yougen_shrunk, yougen_yomi = self._dict.lookup_yougen()
         LOGGER.debug(f'_assist: {yougen}, "{yougen_shrunk}", {yougen_yomi}')
 
-        self._assisted = llm.pick(prefix, cand, yougen, yougen_shrunk, yougen_yomi)
+        p_dict = llm.pick(prefix, cand, yougen, yougen_shrunk, yougen_yomi)
+        self._assisted = max(p_dict, key=p_dict.get)
         LOGGER.debug(f'_assist: "{cand[self._assisted]}"/"{yomi}" ({self._assisted})')
         yomi, assisted = self._dict.get_stem(self._assisted)
         if assisted in self._ignored.get(yomi, set()):
@@ -872,6 +873,7 @@ class EngineHiragana(EngineModeless):
         if e.is_henkan() or e.is_key(IBus.Return):
             cand, size = self._lookup_dictionary(text, pos)
         elif 1 <= pos:
+            # 用言として変換する
             assert e.is_muhenkan()
             suffix = text[:pos].rfind('―')
             if 0 < suffix:
