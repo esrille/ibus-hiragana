@@ -23,7 +23,7 @@ from toolpath import toolpath
 
 
 MODEL_NAME = 'cl-tohoku/bert-base-japanese-v3'
-RE_YOUGEN = re.compile('^[' + diclib.ZYOUYOU + ']([' + diclib.HIRAGANA + ']+)$')
+RE_YOUGEN = re.compile(f'([{diclib.ZYOUYOU}]+)[{diclib.HIRAGANA}]+')
 
 KATUYOU = {
     '1': ('', 'る', 'れば', 'ろ', 'よう', 'て', 'た', 'な', 'た', 'ま', 'ず', None, None),
@@ -62,7 +62,7 @@ def load_yougen():
                 yomi = yomi[:-2]
                 yomi = yomi.strip('（）')
                 pos = yomi.find('―')
-                if 0 <= pos:
+                if 0 < pos:
                     kun.add(yomi)
             if kun:
                 dic[kanji] = list(kun)
@@ -88,6 +88,18 @@ def load_yougen():
     diclib.add_word(dic, '命', 'めい―じ1')
     diclib.add_word(dic, '論', 'ろん―じ1')
 
+    # huhyou.dic にある語
+    diclib.add_word(dic, '浮', 'うわ―つk')
+    diclib.add_word(dic, '支', 'つか―え1')
+    diclib.add_word(dic, '退', 'の―k')
+    diclib.add_word(dic, '手伝', 'てつだ―w')
+    diclib.add_word(dic, '巡', 'まわ―りさん')
+    diclib.add_word(dic, '母', 'かあ―さん')
+    diclib.add_word(dic, '父', 'とう―さん')
+    diclib.add_word(dic, '兄', 'にい―さん')
+    diclib.add_word(dic, '姉', 'ねえ―さん')
+    diclib.add_word(dic, '最寄', 'もよ―り')
+
     return dic
 
 
@@ -95,12 +107,11 @@ def load_vocab(tokenizer):
     vocab = {}
     tokens = tokenizer.get_vocab().keys()
     for token in tokens:
-        m = RE_YOUGEN.search(token)
-        if not m:
-            continue
-        assert token[0] in diclib.ZYOUYOU
-        assert token[0] in tokens
-        diclib.add_word(vocab, token[0], token)
+        m = RE_YOUGEN.match(token)
+        if m:
+            assert token[0] in diclib.ZYOUYOU
+            assert token[0] in tokens
+            diclib.add_word(vocab, m.group(1), token)
     return vocab
 
 
@@ -113,7 +124,9 @@ def match(conj, word):
         if x is None:
             continue
         cand = conj[:-1] + x
-        cand = word[0] + cand[pos + 1:]
+        m = RE_YOUGEN.match(word)
+        assert m
+        cand = m.group(1) + cand[pos + 1:]
         if len(cand) == 1:
             continue
         if word == cand:
