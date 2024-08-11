@@ -173,9 +173,12 @@ class Dictionary:
                         continue
                     yomi = words[0]
                     words = words[1].strip(' \n/').split('/')
-                    self._merge_entry(dic, yomi, words, reorder_only)
-                    if yomi.endswith('―'):
-                        self._merge_entry(dic, yomi[:-1], [yomi], reorder_only)
+                    if yomi.startswith('-'):
+                        self._remove_entries(dic, yomi[1:], words)
+                    else:
+                        self._merge_entry(dic, yomi, words, reorder_only)
+                        if yomi.endswith('―'):
+                            self._merge_entry(dic, yomi[:-1], [yomi], reorder_only)
                 LOGGER.debug(f'Loaded {path}')
         except OSError:
             LOGGER.exception(f'could not load "{path}"')
@@ -223,7 +226,7 @@ class Dictionary:
             update.extend(yougen)
             dic[yomi] = update
 
-    def _remove_entry(self, dic: dict[str, list[str]], yomi: str, cand: list[str]):
+    def _remove_entries(self, dic: dict[str, list[str]], yomi: str, cand: list[str]):
         if yomi not in dic:
             return
         update = [x for x in dic[yomi] if x not in cand]
