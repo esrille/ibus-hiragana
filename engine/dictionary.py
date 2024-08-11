@@ -20,6 +20,7 @@ import logging
 import os
 import re
 
+import llm
 import package
 
 LOGGER = logging.getLogger(__name__)
@@ -103,6 +104,8 @@ class Dictionary:
         self._numeric = ''
         self._dirty = False
         self._strdcmp = self.strcmp
+
+        self._shrunk = ''   # shrunk word by using LLM
 
         self._orders_path = ''
 
@@ -247,7 +250,13 @@ class Dictionary:
         self._dirty = True
 
     def reset(self):
+        if self._shrunk:
+            cand = self._dict.get(self._yomi)
+            if cand and self._shrunk in cand:
+                cand.remove(self._shrunk)
+            self._shrunk = ''
         self._yomi = ''
+        self._numeric = ''
 
     def set_current_to_next(self):
         if self._no + 1 < len(self._cand):
@@ -368,7 +377,7 @@ class Dictionary:
             self._order = []
             self._completed = []
             self._numeric = ''
-            LOGGER.debug(f'  yomi: "{self._yomi}", cand: {self._cand}')
+            LOGGER.debug(f'lookup_next_taigen: yomi: "{self._yomi}", cand: {self._cand}')
         return True
 
     def lookup_numeric(self, text, start, pos, numeric):
@@ -460,6 +469,114 @@ class Dictionary:
                     break
         return self.current()
 
+    def assisted_lookup(self, text, pos, anchor=0):
+        LOGGER.debug(f'assisted_lookup("{text}", {pos}, {anchor})')
+        self.reset()
+        suggested = 0
+        word_assisted = ''
+        shrunk = ''
+        yomi = ''
+        suffix = text[anchor:pos].rfind('―')
+        if 0 <= suffix:
+            suffix += anchor
+            okuri = OKURI.match(text[suffix:])
+            if okuri:
+                text = text[:suffix + okuri.end()]
+            else:
+                suffix = -1
+        if suffix <= 0:
+            numeric = ''
+            for i in range(pos - 1, anchor - 1, -1):
+                if text[i].isnumeric():
+                    numeric = text[i] + numeric
+                    if anchor < i and text[i - 1].isnumeric():
+                        continue
+                    self.lookup_numeric(text, i, pos, numeric)
+                    if self._numeric:
+                        p_dict = llm.assist(text[:pos - len(self._yomi)], self._yomi, self._cand)
+                        suggested = max(p_dict, key=p_dict.get)
+                    break
+                else:
+                    cont = self.lookup_next_taigen(text, i, pos)
+                    if yomi != self._yomi:
+                        if word_assisted:
+                            word_assisted = self._yomi[:-len(yomi)] + word_assisted
+                            if word_assisted not in self._cand:
+                                cand = self._cand[:]
+                                cand.insert(0, word_assisted)
+                                self._cand = cand
+                                shrunk = word_assisted
+                            else:
+                                shrunk = ''
+                        yomi = self._yomi
+                        p_dict = llm.assist(text[:pos - len(self._yomi)], self._yomi, self._cand)
+                        suggested = max(p_dict, key=p_dict.get)
+                        word_assisted = self._cand[suggested]
+                        if shrunk and p_dict[0] < suggested:
+                            del self._cand[0]
+                            shrunk = ''
+                            suggested -= 1
+                        LOGGER.debug(f'assisted_lookup: {self._yomi} /{word_assisted}/ ; /{shrunk}/')
+                    if not cont:
+                        break
+            if shrunk:
+                # Temporarily register shrunk in the working dictionary
+                cand = self._dict.get(yomi)
+                assert cand
+                assert shrunk not in cand
+                cand = cand[:]
+                cand.insert(0, shrunk)
+                self._dict[yomi] = cand
+                self._shrunk = shrunk
+        else:
+            cand = []
+            stem = ''
+            for i in range(suffix - 1, anchor - 1, -1):
+                if text[i] not in HIRAGANA:
+                    break
+                if stem:
+                    cand = self._dict.get(text[i:suffix + 1])
+                    if not cand:
+                        continue
+                    if shrunk:
+                        # Remove shrunk found in the previous lookup.
+                        assert shrunk in cand
+                        cand.remove(shrunk)
+                    shrunk = text[i] + stem
+                    if shrunk not in cand:
+                        # Temporarily register shrunk in the working dictionary
+                        cand = cand[:]
+                        cand.insert(0, shrunk)
+                        self._dict[text[i:suffix + 1]] = cand
+                    else:
+                        shrunk = ''
+                    LOGGER.debug(f'assisted_lookup: {text[i:suffix + 1]}, {shrunk}')
+                cont = self.lookup_next_yougen(text, i, pos, suffix)
+                if yomi != self._yomi:
+                    yomi = self._yomi
+                    p_dict = llm.assist(text[:pos - len(yomi)], yomi, self._cand)
+                    suggested = max(p_dict, key=p_dict.get)
+                    # Look for shrunk word in _cand
+                    yy, stem = self.get_stem(suggested)
+                    if shrunk and stem != shrunk:
+                        for i, word in enumerate(self._cand):
+                            yy, st = self.get_stem(i)
+                            if st == shrunk:
+                                del self._cand[i]
+                                del self._order[i]
+                                del self._completed[i]
+                                suggested -= 1
+                                break
+                        # DO NOT clear shrunk as it is still in self._dict.
+                        # shrunk = ''
+                if not cont:
+                    break
+            if word_assisted:
+                LOGGER.debug(f'assisted_lookup: {self._yomi} /{word_assisted}/ ; /{shrunk}/')
+            self._shrunk = shrunk
+
+        return self.current(), suggested
+
     def is_complete(self):
         """Return True if the current yougen conversion is completed."""
         current = self.current()
@@ -491,9 +608,7 @@ class Dictionary:
         if not self._yomi:
             return 0
 
-        # Get a copy of the original candidate list
         no_orig = self._no
-
         yomi = self._yomi
         no = self._no
 
@@ -508,7 +623,7 @@ class Dictionary:
                 cand.append('#' + self._cand[no])
                 no = len(cand) - 1
         else:
-            cand = self._cand[:]
+            cand = self._cand
 
         # Update the order of the candidates.
         first = cand[no]
@@ -520,6 +635,15 @@ class Dictionary:
             cand.insert(0, first)
             self._dict[yomi] = cand
             self._dirty = True
+
+        if self._shrunk:
+            assert self._shrunk in cand
+            if first == self._shrunk:
+                self._dirty = True
+            else:
+                cand.remove(self._shrunk)
+            self._dict[yomi] = cand
+            self._shrunk = ''
 
         # Personalize the dictionary if the candidate has been selected by shrinking the reading.
         if shrunk and not self._numeric:

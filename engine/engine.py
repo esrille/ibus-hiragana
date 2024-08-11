@@ -584,7 +584,7 @@ class EngineHiragana(EngineModeless):
                     LOGGER.debug(f'_confirm_candidate: restore {yomi} /{assisted}/')
                     if yomi in self._ignored:
                         self._ignored[yomi].discard(assisted)
-                elif self._assisted < len(self._dict.cand()):
+                elif 0 <= self._assisted < len(self._dict.cand()):
                     LOGGER.debug(f'_confirm_candidate: ignore {yomi} /{assisted}/')
                     if yomi in self._ignored:
                         self._ignored[yomi].add(assisted)
@@ -783,6 +783,38 @@ class EngineHiragana(EngineModeless):
                 self._update_candidate()
         return cand, size
 
+    def _assisted_lookup_dictionary(self, text, pos, anchor=0):
+        if not self._use_llm:
+            return self._lookup_dictionary(text, pos, anchor)
+
+        assert anchor <= pos
+        plain = get_plain_text(text[:anchor])
+        anchor = len(plain)
+        plain += get_plain_text(text[anchor:pos])
+        new_pos = len(plain)
+        plain += get_plain_text(text[pos:])
+        pos = new_pos
+
+        self._lookup_table.clear()
+        cand, cursor_pos = self._dict.assisted_lookup(plain, pos, anchor)
+        size = len(self._dict.reading())
+        self._selected = False
+        self._assisted = cursor_pos
+        # Note if the current conversion is complete, it is automatically confirmed.
+        # No LLM assistance is necessary in this case.
+        if 0 < size and 1 < len(self._dict.cand()) and not self._dict.is_complete():
+            yomi, assisted = self._dict.get_stem(cursor_pos)
+            if assisted in self._ignored.get(yomi, set()):
+                cursor_pos = 0 if 0 < cursor_pos else 1
+                LOGGER.debug(f'_assisted_lookup_dictionary: ignore "{assisted}", use "{self._dict.cand()[cursor_pos]}"')
+            for i, c in enumerate(self._dict.cand()):
+                self._lookup_table.append_candidate(IBus.Text.new_from_string(c))
+                self._lookup_table.set_label(i, IBus.Text.new_from_string(' '))
+            if 0 < cursor_pos:
+                self._lookup_table.set_cursor_pos(cursor_pos)
+                self._update_candidate()
+        return cand, size
+
     def _process_dakuten(self, c):
         text, pos = self.get_surrounding_string()
         if pos <= 0:
@@ -847,9 +879,9 @@ class EngineHiragana(EngineModeless):
     def _process_okurigana(self, pos_yougen):
         text, pos = self.get_surrounding_string()
         assert pos_yougen < pos
-        LOGGER.debug(f'_process_okurigana: "{text[:pos_yougen]}:{text[pos_yougen:pos]}", "{self.roman_text}"')
+        LOGGER.debug(f'_process_okurigana({pos_yougen}): "{text[:pos_yougen]}:{text[pos_yougen:pos]}", "{self.roman_text}"')
         if text[-1] != '―':
-            cand, size = self._lookup_dictionary(text, pos, pos_yougen)
+            cand, size = self._assisted_lookup_dictionary(text, pos, pos_yougen)
         if not self._dict.current():
             cand = text[pos_yougen:pos]
             size = len(cand)
@@ -871,17 +903,17 @@ class EngineHiragana(EngineModeless):
         text, pos = self.get_surrounding_string()
         # Check Return for yôgen conversion
         if e.is_henkan() or e.is_key(IBus.Return):
-            cand, size = self._lookup_dictionary(text, pos)
+            cand, size = self._assisted_lookup_dictionary(text, pos)
         elif 1 <= pos:
             # 用言として変換する
             assert e.is_muhenkan()
             suffix = text[:pos].rfind('―')
             if 0 < suffix:
-                cand, size = self._lookup_dictionary(text, pos)
+                cand, size = self._assisted_lookup_dictionary(text, pos)
             else:
                 self.commit_string('―')
                 text, pos = self.get_surrounding_string()
-                cand, size = self._lookup_dictionary(text, pos)
+                cand, size = self._assisted_lookup_dictionary(text, pos)
                 if not cand:
                     self.delete_surrounding_string(1)
         if self._dict.current():
