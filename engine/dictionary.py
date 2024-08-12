@@ -106,6 +106,7 @@ class Dictionary:
         self._strdcmp = self.strcmp
 
         self._shrunk = ''   # shrunk word by using LLM
+        self._rejected = {}  # ignored shrunk words
 
         self._orders_path = ''
 
@@ -155,6 +156,13 @@ class Dictionary:
                 self._load_dict(self._dict, self._orders_path, 'a+', version_checked=False)
         except OSError:
             LOGGER.exception(f'Could not load "{self._orders_path}"')
+
+    def remove_entry(self, yomi: str, word: str):
+        cand = self._dict.get(yomi)
+        if cand and word in cand:
+            cand.remove(word)
+            if not cand:
+                del self._dict[yomi]
 
     def _load_dict(self, dic: dict[str, list[str]], path: str, mode='r', version_checked=True):
         reorder_only = not version_checked
@@ -512,7 +520,7 @@ class Dictionary:
                         p_dict = llm.assist(text[:pos - len(self._yomi)], self._yomi, self._cand)
                         suggested = max(p_dict, key=p_dict.get)
                         word_assisted = self._cand[suggested]
-                        if shrunk and p_dict[0] < suggested:
+                        if shrunk and (p_dict[0] < suggested or self.is_rejected(yomi, shrunk)):
                             del self._cand[0]
                             shrunk = ''
                             suggested -= 1
@@ -558,7 +566,7 @@ class Dictionary:
                     suggested = max(p_dict, key=p_dict.get)
                     # Look for shrunk word in _cand
                     yy, stem = self.get_stem(suggested)
-                    if shrunk and stem != shrunk:
+                    if shrunk and (stem != shrunk or self.is_rejected(yy, shrunk)):
                         for i, word in enumerate(self._cand):
                             yy, st = self.get_stem(i)
                             if st == shrunk:
@@ -640,8 +648,10 @@ class Dictionary:
             assert self._shrunk in cand
             if first == self._shrunk:
                 self._dirty = True
+                self._accept(yomi, self._shrunk)
             else:
                 cand.remove(self._shrunk)
+                self._reject(yomi, self._shrunk)
             self._dict[yomi] = cand
             self._shrunk = ''
 
@@ -713,3 +723,22 @@ class Dictionary:
             self._strdcmp = self.strcmp
         else:
             self._strdcmp = self.strdcmp
+
+    #
+    # self._rejected methods
+    #
+    def is_rejected(self, yomi, word) -> bool:
+        LOGGER.debug(f'is_rejected({yomi}, {word})')
+        return word in self._rejected.get(yomi, set())
+
+    def _reject(self, yomi, word) -> None:
+        LOGGER.debug(f'_rejected({yomi}, {word})')
+        if yomi in self._rejected:
+            self._rejected[yomi].add(word)
+        else:
+            self._rejected[yomi] = {word}
+
+    def _accept(self, yomi, word) -> None:
+        LOGGER.debug(f'_accept({yomi}, {word})')
+        if yomi in self._rejected:
+            self._rejected[yomi].discard(word)

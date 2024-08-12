@@ -590,6 +590,8 @@ class EngineHiragana(EngineModeless):
                         self._ignored[yomi].add(assisted)
                     else:
                         self._ignored[yomi] = {assisted}
+                    if self._dict.is_rejected(yomi, assisted):
+                        self._dict.remove_entry(yomi, assisted)
             self._dict.reset()
             self._lookup_table.clear()
         return current
