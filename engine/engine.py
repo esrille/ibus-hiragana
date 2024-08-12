@@ -880,10 +880,15 @@ class EngineHiragana(EngineModeless):
 
     def _process_okurigana(self, pos_yougen):
         text, pos = self.get_surrounding_string()
-        assert pos_yougen < pos
-        LOGGER.debug(f'_process_okurigana({pos_yougen}): "{text[:pos_yougen]}:{text[pos_yougen:pos]}", "{self.roman_text}"')
-        if text[-1] != '―':
+        suffix = text[pos_yougen:pos].rfind('―')
+        assert suffix
+        suffix += pos_yougen
+        LOGGER.debug(f'_process_okurigana({pos_yougen}): "{text[:pos]}", {suffix}/{pos}')
+        assert pos_yougen < suffix <= pos
+        if suffix + 1 == pos:
             cand, size = self._assisted_lookup_dictionary(text, pos, pos_yougen)
+        elif suffix < pos:
+            cand, size = self._lookup_dictionary(text, pos, pos_yougen)
         if not self._dict.current():
             cand = text[pos_yougen:pos]
             size = len(cand)
