@@ -24,6 +24,7 @@ from toolpath import toolpath
 
 MODEL_NAME = 'cl-tohoku/bert-base-japanese-v3'
 RE_YOUGEN = re.compile(f'([{diclib.ZYOUYOU}]+)[{diclib.HIRAGANA}]+')
+RE_SUFFIX = re.compile(f'[{diclib.HIRAGANA}]*[1iIkKgsStnbmrwW235]?$')
 
 KATUYOU = {
     '1': ('', 'る', 'れば', 'ろ', 'よう', 'て', 'た', 'な', 'た', 'ま', 'ず', None, None),
@@ -70,24 +71,6 @@ def load_yougen():
     diclib.add_word(dic, '知', 'し―らs')
     diclib.add_word(dic, '聞', 'き―かs')
 
-    # reigai.dic にある語
-    diclib.add_word(dic, '演', 'えん―じ1')
-    diclib.add_word(dic, '応', 'おう―じ1')
-    diclib.add_word(dic, '感', 'かん―じ1')
-    diclib.add_word(dic, '禁', 'きん―じ1')
-    diclib.add_word(dic, '準', 'じゅん―じ1')
-    diclib.add_word(dic, '乗', 'じょう―じ1')
-    diclib.add_word(dic, '生', 'しょう―じ1')
-    diclib.add_word(dic, '信', 'しん―じ1')
-    diclib.add_word(dic, '通', 'つう―じ1')
-    diclib.add_word(dic, '転', 'てん―じ1')
-    diclib.add_word(dic, '投', 'とう―じ1')
-    diclib.add_word(dic, '任', 'にん―じ1')
-    diclib.add_word(dic, '封', 'ふう―じ1')
-    diclib.add_word(dic, '報', 'ほう―じ1')
-    diclib.add_word(dic, '命', 'めい―じ1')
-    diclib.add_word(dic, '論', 'ろん―じ1')
-
     # huhyou.dic にある語
     diclib.add_word(dic, '浮', 'うわ―つk')
     diclib.add_word(dic, '支', 'つか―え1')
@@ -100,6 +83,21 @@ def load_yougen():
     diclib.add_word(dic, '姉', 'ねえ―さん')
     diclib.add_word(dic, '最寄', 'もよ―り')
 
+    # reigai.dic にある語
+    with open(toolpath('reigai.dic'), 'r') as f:
+        for row in f:
+            row = row.strip()
+            if not row or row[0] == ';':
+                continue
+            row = row.split(maxsplit=2)
+            yomi = row[0]
+            if yomi[-1] != '―':
+                continue
+            words = row[1].strip(' \n/').split('/')
+            for word in words:
+                suffix = RE_SUFFIX.search(word)
+                kanji = word[:suffix.start()]
+                diclib.add_word(dic, kanji, yomi + suffix.group())
     return dic
 
 
@@ -162,7 +160,7 @@ def main():
             if stem[-1] in '1iIkKgsStnbmrwW235':
                 stem = stem[:-1]
             if stem not in words:
-                diclib.add_word(dic, yomi, kanji)
+                diclib.add_word(dic, yomi, kanji[0])
             for word in sorted(words):
                 if match(conj, word):
                     diclib.add_word(dic, yomi, word)
@@ -175,9 +173,11 @@ def main():
         for yomi in sorted(words):
             pos = yomi.find('―')
             assert 0 < pos
+            suffix = yomi[pos + 1:]
             yomi = yomi[:pos + 1]
             if yomi not in dic:
-                diclib.add_word(dic, yomi, kanji)
+                assert kanji[0] in diclib.ZYOUYOU
+                diclib.add_word(dic, yomi, kanji[0])
 
     for yomi, words in dic.items():
         dic[yomi] = sorted(dic[yomi])
