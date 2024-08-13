@@ -3,9 +3,9 @@
 # This file is distributed under the same license as the ibus-hiragana package.
 msgid ""
 msgstr ""
-"Project-Id-Version: ibus-hiragana 0.15.7\n"
+"Project-Id-Version: ibus-hiragana 0.15.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-19 17:44+0900\n"
+"POT-Creation-Date: 2024-08-14 06:38+0900\n"
 "PO-Revision-Date: 2020-09-24 11:59+0900\n"
 "Last-Translator: Esrille Inc. <info@esrille.com>\n"
 "Language-Team: Japanese <info@esrille.com>\n"
@@ -34,28 +34,28 @@ msgstr "全角英数 (Ａ)"
 msgid "Halfwidth Katakana (ｱ)"
 msgstr "半角カタカナ (ｱ)"
 
-#: engine/engine.py:635 engine/engine.py:1116
+#: engine/engine.py:650 engine/engine.py:1175
 #, python-format
 msgid "Input mode (%s)"
 msgstr "入力モード (%s)"
 
-#: engine/engine.py:638
+#: engine/engine.py:653
 msgid "Setup"
 msgstr "設定"
 
-#: engine/engine.py:640
+#: engine/engine.py:655
 msgid "Help"
 msgstr "ヘルプ"
 
-#: engine/engine.py:642
+#: engine/engine.py:657
 msgid "About Hiragana IME..."
 msgstr "ひらがなIMEについて..."
 
-#: engine/engine.py:1467
+#: engine/engine.py:1528
 msgid "en"
 msgstr "ja"
 
-#: engine/engine.py:1479
+#: engine/engine.py:1540
 msgid "Hiragana IME"
 msgstr "ひらがなIME"
 
@@ -85,70 +85,78 @@ msgstr ""
 ";\n"
 "\n"
 
-#: setup/main.py:104 setup/main.py:108
+#: setup/main.py:103 setup/main.py:107
 msgid "Close"
 msgstr "とじる(_W)"
 
-#: setup/main.py:178
+#: setup/main.py:177
 msgid "Rōmaji"
 msgstr "ローマ字"
 
-#: setup/main.py:179
+#: setup/main.py:178
 msgid "Kana (JIS Layout)"
 msgstr "かな (JIS配列)"
 
-#: setup/main.py:180
+#: setup/main.py:179
 msgid "Kana (New Stickney Layout)"
 msgstr "かな (ニュースティックニー配列)"
 
-#: setup/main.py:199
+#: setup/main.py:198
 msgid "1st grade"
 msgstr "小学校１年生"
 
-#: setup/main.py:200
+#: setup/main.py:199
 msgid "2nd grade"
 msgstr "小学校２年生"
 
-#: setup/main.py:201
+#: setup/main.py:200
 msgid "3rd grade"
 msgstr "小学校３年生"
 
-#: setup/main.py:202
+#: setup/main.py:201
 msgid "4th grade"
 msgstr "小学校４年生"
 
-#: setup/main.py:203
+#: setup/main.py:202
 msgid "5th grade"
 msgstr "小学校５年生"
 
-#: setup/main.py:204
+#: setup/main.py:203
 msgid "6th grade"
 msgstr "小学校６年生"
 
-#: setup/main.py:205
+#: setup/main.py:204
 msgid "7-9th grade"
 msgstr "中学生"
 
-#: setup/main.py:206
+#: setup/main.py:205
 msgid "10-12th grade"
 msgstr "高校生"
 
-#: setup/main.py:207
+#: setup/main.py:206
 msgid "Adults"
 msgstr "おとな"
 
-#: setup/main.py:375
+#: setup/main.py:367
 msgid "Invalid characters in User Dictionary Name"
 msgstr "個人用辞書名のなかに不正な文字があります"
 
-#: setup/main.py:390
+#: setup/main.py:382
 msgid "Could not open file"
 msgstr "ファイルをひらけません"
 
-#: setup/main.py:392
+#: setup/main.py:384
 #, python-brace-format
 msgid "Error opening file \"{path}\": {message}"
 msgstr "ファイル \"{path}\" をひらくときにエラーがおきました: {message}"
+
+#: setup/main.py:412
+msgid "Clear input history"
+msgstr "入力履歴のクリア"
+
+#: setup/main.py:414
+msgid "Do you want to clear your input history?"
+msgstr "入力履歴を消去しますか？"
 
 #: setup/setup.glade:7 setup/setup.glade:150
 msgid "Hiragana IME Setup"
@@ -207,45 +215,49 @@ msgid "Use permissible okurigana"
 msgstr "おくりがなの「許容」をつかう"
 
 #: setup/setup.glade:526
-msgid "Clear input history"
-msgstr "入力履歴をクリアする"
+msgid "Input history"
+msgstr "入力履歴"
 
-#: setup/setup.glade:569
+#: setup/setup.glade:536
+msgid "Clear..."
+msgstr "クリア..."
+
+#: setup/setup.glade:572
 msgid "Dictionary"
 msgstr "辞書"
 
-#: setup/setup.glade:597
+#: setup/setup.glade:600
 msgid "<b>Input Assistance</b>"
 msgstr "<b>入力アシスト</b>"
 
-#: setup/setup.glade:622
+#: setup/setup.glade:625
 msgid "Use half-width digits for Arabic numerals"
 msgstr "算用数字をいつも半角で入力する"
 
-#: setup/setup.glade:658
+#: setup/setup.glade:661
 msgid "Combine '^' to the previous vowel character in alphanumeric mode"
 msgstr "英数モードで、'^'を直前の母音字に結合する"
 
-#: setup/setup.glade:694
+#: setup/setup.glade:697
 msgid "Combine '~' to the previous vowel character in alphanumeric mode as '¯'"
 msgstr "英数モードで、'~'を直前の母音字に'¯'として結合する"
 
-#: setup/setup.glade:742
+#: setup/setup.glade:745
 msgid "<b>Large Language Model</b>"
 msgstr "<b>大規模言語モデル (LLM)</b>"
 
-#: setup/setup.glade:767
+#: setup/setup.glade:770
 msgid "Use LLM for candidate selection"
 msgstr "変換候補の選択にLLMを利用する"
 
-#: setup/setup.glade:803
+#: setup/setup.glade:806
 msgid "Install required packages for using LLM"
 msgstr "LLMを利用するために必要なパッケージをインストールする"
 
-#: setup/setup.glade:813
+#: setup/setup.glade:816
 msgid "Install..."
 msgstr "インストール..."
 
-#: setup/setup.glade:849
+#: setup/setup.glade:852
 msgid "Option"
 msgstr "オプション"

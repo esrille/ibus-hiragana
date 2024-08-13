@@ -56,14 +56,13 @@ USER_DICTIONARY_COMMENT = _("""; Hiragana IME User Dictionary
 # Note Python caches the module in the directory when the program starts
 def check_requirements() -> bool:
     try:
-        import torch
         from transformers import AutoModelForMaskedLM, AutoTokenizer
     except ImportError as e:
         logging.debug(f'{e}')
         return False
     try:
-        model = AutoModelForMaskedLM.from_pretrained(MODEL_NAME, local_files_only=True)
-        tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, local_files_only=True)
+        AutoModelForMaskedLM.from_pretrained(MODEL_NAME, local_files_only=True)
+        AutoTokenizer.from_pretrained(MODEL_NAME, local_files_only=True)
     except OSError:
         return False
     return True
@@ -222,8 +221,6 @@ class SetupEngineHiragana:
         self._user_dictionary.set_text(current)
         self._default_user_dictionary = self._settings.get_default_value('user-dictionary').get_string()
 
-        self._clear_input_history = self._builder.get_object('ClearInputHistory')
-
     def _init_nn_as_x4063(self):
         self._nn_as_x4063 = self._builder.get_object('NnAsX4063')
         current = self._settings.get_value('nn-as-jis-x-4063')
@@ -266,7 +263,6 @@ class SetupEngineHiragana:
 
     def _has_llm(self) -> bool:
         return self._loaded or self._install_dialog.is_completed() or check_requirements()
-
 
     def apply(self) -> bool:
         # layout
@@ -317,11 +313,7 @@ class SetupEngineHiragana:
             return False
         self._settings.set_boolean('use-llm', use_llm)
 
-        if self._clear_input_history.get_active():
-            # clear_input_history also reloads dictionaries
-            print('clear_input_history', flush=True)
-        else:
-            print('reload_dictionaries', flush=True)
+        print('reload_dictionaries', flush=True)
 
         return True
 
@@ -410,6 +402,20 @@ class SetupEngineHiragana:
     def on_cancel_install(self, *args):
         if not self._install_dialog.is_child_alive():
             self._install_dialog.hide()
+
+    def on_clear_history(self, *args):
+        dialog = Gtk.MessageDialog(
+            transient_for=self._window,
+            flags=0,
+            message_type=Gtk.MessageType.INFO,
+            buttons=Gtk.ButtonsType.OK_CANCEL,
+            text=_('Clear input history'),
+        )
+        dialog.format_secondary_text(_('Do you want to clear your input history?'))
+        response = dialog.run()
+        dialog.destroy()
+        if response == Gtk.ResponseType.OK:
+            print('clear_input_history', flush=True)
 
 
 def main():

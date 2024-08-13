@@ -523,7 +523,7 @@
                           <object class="GtkLabel">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">Clear input history</property>
+                            <property name="label" translatable="yes">Input history</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -532,9 +532,12 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkSwitch" id="ClearInputHistory">
+                          <object class="GtkButton" id="ClearInputHistory">
+                            <property name="label" translatable="yes">Clear...</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
+                            <signal name="clicked" handler="on_clear_history" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
