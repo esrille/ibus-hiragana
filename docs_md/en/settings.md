@@ -117,10 +117,13 @@ Understanding the okurigana rules can be quite challenging.
 Without furigana, '<ruby>行<rp>(</rp><rt>おこな</rt><rp>)</rp></ruby>って' and '<ruby>行<rp>(</rp><rt>い</rt><rp>)</rp></ruby>って' cannot be distinguished by the main rules alone. On the other hand, people who are knowledgeable about kanji do not struggle with reading  '<ruby>落<rp>(</rp><rt>おと</rt><rp>)</rp></ruby>す'.
 The public notice does not mandate using kanji; it simply provides guidelines on how to add or remove okurigana when using kanji. In the Japanese version of this guide, most Japanese words are written only in hiragana.
 
-### Clear input history
+### Input history
 
-Frequently used homonyms and words with shortened readings will appear at the beginning of the candidate list.
-To reset the orders to the initial state, turn on the **Clear input history** switch and click **Apply**.
+In the conversion candidate window, frequently used words will appear at the top of the list.
+To reset all orders to their initial state, click the **Clear…** button.
+Then, click **OK** when the following message box appears.
+
+![Hiragana IME Setup Window](ibus-setup-hiragana_4.png)
 
 ## Option Tab {: #option}
 

@@ -6,6 +6,7 @@ static_files = [
   'ibus-setup-hiragana_1.png',
   'ibus-setup-hiragana_2.png',
   'ibus-setup-hiragana_3.png',
+  'ibus-setup-hiragana_4.png',
   'keyboard-menu.png',
   'postinst_1.png',
   'postinst_2.png',
