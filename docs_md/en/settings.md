@@ -69,17 +69,17 @@ consequently, the number of kanji words in the dictionary also increases.
 
 Kanji Dictionary | Number of Words
 --|--:
-1st grade | 722
-2nd grade | 3,191
-3rd grade | 6,291
-4th grade | 9,523
-5th grade | 12,536
-6th grade | 14,763
-7-9 grades | 29,891
-10-12 grades | 31,989
-Adults | 34,502
+1st grade | 730
+2nd grade | 3,210
+3rd grade | 6,315
+4th grade | 9,554
+5th grade | 12,573
+6th grade | 14,796
+7-9 grades | 29,974
+10-12 grades | 32,077
+Adults | 34,594
 
-(As of July, 2024)
+(As of August, 2024)
 
 Choose a dictionary based on the reader's grade level.
 For personal names and place names, dictionaries for middle school students and above use kanji not listed in the list of Chinese characters in common use, known as the *[Jōyō Kanji Table](https://www.bunka.go.jp/kokugo_nihongo/sisaku/joho/joho/kijun/naikaku/kanji/)*.
