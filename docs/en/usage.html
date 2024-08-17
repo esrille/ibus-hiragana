@@ -64,6 +64,7 @@ function shrinkToc() {
   <li><a href='usage.html#input-kanji'>Inputting Kanji and Katakana Words</a>
   <li><a href='usage.html#input-okurigana'>Entering Words with Okurigana</a>
   <li><a href='usage.html#input-shrink'>Changing the Length of the Reading</a>
+  <li><a href='usage.html#katanaka'>Converting into Katakana</a>
 </ul>
 </details>
 <li><details><summary><a href='key_assign.html'>Key Bindings</a></summary>
@@ -151,7 +152,8 @@ function shrinkToc() {
 </tbody>
 </table>
 <p><strong>Note</strong>: You would switch between Hiragana and Alphanumeric modes frequently; the other input modes are rarely used.</p>
-<p>The current input mode is displayed in the right corner of the desktop top bar.</p>
+<p>The current input mode is displayed in the right corner of the desktop top bar.
+The current input mode is Hiragana if 'あ' is shown and Alphanumeric if 'A' is shown.</p>
 <p><img alt="Input modes" src="../input-modes.gif"></p>
 <ul>
 <li>With Japanese keyboards, you can switch between Hiragana and Alphanumeric modes by pressing <span class='key'>変換</span> and <span class='key'>無変換</span> keys, respectively.</li>
@@ -166,24 +168,30 @@ For example, to enter the sentence "しろうとむけのワープロの<ruby>�
 <p>Or as follows using Kana input:</p>
 <pre><code>しろうとむけのわーぷろ<span class='key'>変換</span>のとうじょう<span class='key'>変換</span>をきたい<span class='key'>変換</span>したいですね。</code></pre>
 
-<p><br><strong>Homonyms</strong>: With Kanji, there are words with the same reading but different meanings, like "<ruby>衛星<rp>(</rp><rt>えいせい</rt><rp>)</rp></ruby>" (satellite) and "<ruby>衛生<rp>(</rp><rt>えいせい</rt><rp>)</rp></ruby>" (hygiene). These words are called homonyms. When you encounter homonyms, use the <span class='key'>変換</span> key to select the right word from the candidate list. You can also use the up and down arrow keys to select the candidate.</p>
-<p>Later, when you convert the same homonym again, the last selected word will appear first in the candidate list. Less frequently used homonyms will move towards the end of the list.
-So you won't have to keep selecting between homonyms over time.</p>
-<p>Note that if you enable the <a href="settings.html#llm">Use LLM for candidate selection</a> option, Hiragana IME will pre-select the most probable candidate using a Large Language Model.
+<p><br><strong>Homonyms</strong>: With Kanji, there are words with the same reading but different meanings, like "<ruby>衛星<rp>(</rp><rt>えいせい</rt><rp>)</rp></ruby>" (satellite) and "<ruby>衛生<rp>(</rp><rt>えいせい</rt><rp>)</rp></ruby>" (hygiene).
+These words are called homonyms.
+When you encounter homonyms, use the <span class='key'>変換</span> key to select the right word from the candidate list.
+You can also use the up and down arrow keys to select the candidate.
+Later, the most recently selected word will appear first in the candidate list when you convert the same homonym again.</p>
+<p><strong>Hint</strong>: If you enable the <a href="settings.html#llm">Use LLM for candidate selection</a> option, Hiragana IME will pre-select the most probable candidate using a Large Language Model.
 For example, when converting 'きどう', the pre-selected candidate changes according to the surrounding context as follows:</p>
 <ul>
 <li><ruby>地球<rp>(</rp><rt>ちきゅう</rt><rp>)</rp></ruby>の<span style="background-color:#d1eaff"><ruby>軌道<rp>(</rp><rt>きどう</rt><rp>)</rp></ruby></span></li>
 <li>パソコンの<span style="background-color:#d1eaff"><ruby>起動<rp>(</rp><rt>きどう</rt><rp>)</rp></ruby></span></li>
 </ul>
+<p><strong>Hint</strong>: Words not included in the Hiragana IME dictionaries won't appear in the candidate list when you press the <span class='key'>変換</span> key.
+You can add new words to your <a href="settings.html#dictionary">user dictionary</a>.</p>
 <h2 id="input-okurigana">Entering Words with Okurigana</h2>
-<p>To enter a word with okurigana, press the <span class='key'>変換</span> key right after the part written in kanji. For example, to enter the sentence "<ruby>赤<rp>(</rp><rt>あか</rt><rp>)</rp></ruby>いチューリップの<ruby>花<rp>(</rp><rt>はな</rt><rp>)</rp></ruby>が<ruby>咲<rp>(</rp><rt>さ</rt><rp>)</rp></ruby>きました。", you will type as follows:</p>
+<p>To enter a word with okurigana, press the <span class='key'>変換</span> key right after the part written in kanji.
+For example, to enter the sentence "<ruby>赤<rp>(</rp><rt>あか</rt><rp>)</rp></ruby>いチューリップの<ruby>花<rp>(</rp><rt>はな</rt><rp>)</rp></ruby>が<ruby>咲<rp>(</rp><rt>さ</rt><rp>)</rp></ruby>きました。", you will type as follows:</p>
 <pre><code>aka<span class='key'>変換</span>ityu-rippu<span class='key'>変換</span>nohana<span class='key'>変換</span>gasa<span class='key'>変換</span>kimasita.</code></pre>
 
 <p>Or like below using Kana input:</p>
 <pre><code>あか<span class='key'>変換</span>いちゅーりっぷ<span class='key'>変換</span>のはな<span class='key'>変換</span>がさ<span class='key'>変換</span>きました。</code></pre>
 
-<p>When there are multiple conversion candidates, select the one that ends with a '―' (horizontal bar). For example, when you enter "<ruby>咲<rp>(</rp><rt>さ</rt><rp>)</rp></ruby>き", select the candidate "<span style="background-color:#d1eaff">さ―</span>".
-Initially, the conversion candidate ending with a '―' may be at the bottom of the list. However, after using the word, it will move to the top of the list. In this way, you can save the keystrokes.</p>
+<p>When there are multiple conversion candidates, select the one that ends with a '―' (horizontal bar).
+For example, select the candidate "<span style="background-color:#d1eaff">さ―</span>" to enter "<ruby>咲<rp>(</rp><rt>さ</rt><rp>)</rp></ruby>き".
+After using the word with okurigana, it will also move to the top of the candidate list.</p>
 <p>When you type the first okurigana for a word, the word appears in kanji.
 If you press the <span class='key'>変換</span> key instead of typing okurigana, all candidates will appear.</p>
 <p>Here are some examples:</p>
@@ -191,21 +199,59 @@ If you press the <span class='key'>変換</span> key instead of typing okurigana
 <li>おく<span class='key'>変換</span>→ <span style="background-color:#d1eaff">おく―</span><span class='key'>Enter</span> → 後，遅，送，贈</li>
 <li>おく<span class='key'>変換</span>→ <span style="background-color:#d1eaff">おく―</span><span class='key'>る</span> → 送る，贈る</li>
 </ul>
-<p>As you type okurigana, the candidate list becomes shorter.</p>
+<p>As you type okurigana characters, the number of candidates will decrease.
+The okurigana ‘遅る’ is not common.
+When you enter up to 'おくる', the candidates are narrowed down to '送る' and '贈る'.</p>
 <h2 id="input-shrink">Changing the Length of the Reading</h2>
-<p>When you want to enter "<ruby>生<rp>(</rp><rt>い</rt><rp>)</rp></ruby>きがい<ruby>論<rp>(</rp><rt>ろん</rt><rp>)</rp></ruby>", you will type as below:</p>
-<pre><code>生きがいろん<span class='key'>変換</span></code></pre>
+<p>When converting a word into Kanji or Katakana, Hiragana IME collects words with the longest reading.
+Therefore, when you enter "わたしの<ruby>生<rp>(</rp><rt>い</rt><rp>)</rp></ruby>きがい<ruby>論<rp>(</rp><rt>ろん</rt><rp>)</rp></ruby>", Hiragana IME will initially select "<ruby>概論<rp>(</rp><rt>がいろん</rt><rp>)</rp></ruby>" instead of "<ruby>論<rp>(</rp><rt>ろん</rt><rp>)</rp></ruby>".</p>
+<pre><code>わたしの生きがいろん<span class='key'>変換</span></code></pre>
+<pre><code>わたしの生き<span style="background-color:#d1eaff">概論</span></code></pre>
 
-<p>When converting a word into Kanji or Katakana, Hiragana IME selects words with the longest reading. Therefore, Hiragana IME initially selects "<ruby>概論<rp>(</rp><rt>がいろん</rt><rp>)</rp></ruby>" instead of "<ruby>論<rp>(</rp><rt>ろん</rt><rp>)</rp></ruby>". The screen will be changed like below:</p>
-<pre><code>生き<span style="background-color:#d1eaff">概論</span></code></pre>
+<p>To shorten the reading, press the <span class='key'>Tab</span> key. The reading will be shortened to 'いろん' like below:</p>
+<pre><code>わたしの生き<span style="background-color:#d1eaff">概論</span><span class='key'>Tab</span></code></pre>
+<pre><code>わたしの生きが<span style="background-color:#d1eaff">異論</span></code></pre>
 
-<p>Press the <span class='key'>Tab</span> key to shorten the reading. The reading will be shortened to 'いろん', and the screen will change to:</p>
-<pre><code>生きが<span style="background-color:#d1eaff">異論</span></code></pre>
+<p>Press the <span class='key'>Tab</span> key again to shorten the reading further.
+The reading will be shortened to 'ろん' as intended, like below:</p>
+<pre><code>わたしの生きが<span style="background-color:#d1eaff">異論</span><span class='key'>Tab</span></code></pre>
+<pre><code>わたしの生きがい<span style="background-color:#d1eaff">論</span></code></pre>
 
-<p>Press the <span class='key'>Tab</span> key to shorten the reading again to 'ろん'. The screen will change to "<ruby>生<rp>(</rp><rt>い</rt><rp>)</rp></ruby>きがい<ruby>論<rp>(</rp><rt>ろん</rt><rp>)</rp></ruby>" as intended, like below:</p>
-<pre><code>生きがい<span style="background-color:#d1eaff">論</span></code></pre>
+<p>When you use the same expression next time, "<span style="background-color:#d1eaff">がい論</span>" will appear at the beginning of the candidate list, just like homonyms.</p>
+<pre><code>わたしの生き<span style="background-color:#d1eaff">がい論</span></code></pre>
 
-<p>When using a shortened word next time, it will appear at the beginning of the candidate list, just like homonyms do.</p>
+<p><br><strong>Hint</strong>: If you enable the <a href="settings.html#llm">Use LLM for candidate selection</a> option,
+words with shorter readings would appear in the candidate list according to the surrounding context from the beginning.
+When you enter "わたしの<ruby>生<rp>(</rp><rt>い</rt><rp>)</rp></ruby>きがい<ruby>論<rp>(</rp><rt>ろん</rt><rp>)</rp></ruby>", Hiragana IME will create a candidate "<span style="background-color:#d1eaff">がい論</span>" for you, like below:</p>
+<pre><code>わたしの生きがいろん<span class='key'>変換</span></code></pre>
+<pre><code>わたしの生き<span style="background-color:#d1eaff">がい論</span></code></pre>
+
+<p>Using LLM significantly reduces the time you need to adjust the length of the reading.</p>
+<h2 id="katanaka">Converting into Katakana</h2>
+<p>You can input katakana words using the <span class='key'>カタカナ</span> key even if they are not in the dictionary.
+For example, follow these steps to convert "しどっち" into "シドッチ":</p>
+<p>After pressing the <span class='key'>カタカナ</span> key, "ち" is converted into "チ" and is highlighted with a light blue background.</p>
+<pre><code>しどっち<span class='key'>カタカナ</span></code></pre>
+<pre><code>しどっ<span style="background-color:#d1eaff">チ</span></code></pre>
+
+<p>By pressing the <span class='key'>カタカナ</span> key four times in total, you can get "シドッチ" in katakana.</p>
+<pre><code>しどっ<span style="background-color:#d1eaff">チ</span><span class='key'>カタカナ</span></code></pre>
+
+<pre><code>しど<span style="background-color:#d1eaff">ッチ</span><span class='key'>カタカナ</span></code></pre>
+
+<pre><code>し<span style="background-color:#d1eaff">ドッチ</span><span class='key'>カタカナ</span></code></pre>
+
+<pre><code><span style="background-color:#d1eaff">シドッチ</span></code></pre>
+
+<p>You can add the new katakana word displayed with a light blue background to your input history. To do so, press the <span class='key'>Enter</span> key when the desired word is highlighted.</p>
+<pre><code><span style="background-color:#d1eaff">シドッチ</span><span class='key'>Enter</span></code></pre>
+
+<p>The next time you want to input "シドッチ", you can use the <span class='key'>変換</span> key to enter it.</p>
+<pre><code>しどっち<span class='key'>変換</span></code></pre>
+<pre><code><span style="background-color:#d1eaff">シドッチ<span></code></pre>
+
+<p><br><strong>Hint</strong>: You can use the right <span class='key'>Shift</span> key instead of the <span class='key'>カタカナ</span> key.
+<br><strong>Note</strong>: If you want to use a katakana word after clearing your input history, <a href="settings.html#dictionary">register</a> it into your personal dictionary.</p>
 </main>
 </div>
 
