@@ -101,16 +101,17 @@ The reading will be shortened to 'ろん' as intended, like below:
 <pre><code>わたしの生きが<span style="background-color:#d1eaff">異論</span><span class='key'>Tab</span></code></pre>
 <pre><code>わたしの生きがい<span style="background-color:#d1eaff">論</span></code></pre>
 
-When you use the same expression next time, "<span style="background-color:#d1eaff">がい論</span>" will appear at the beginning of the candidate list, just like homonyms.
+When you use the same expression next time, "<u>がい</u><span style="background-color:#d1eaff">論</span>" will appear at the beginning of the candidate list, just like homonyms.
 
-<pre><code>わたしの生き<span style="background-color:#d1eaff">がい論</span></code></pre>
+<pre><code>わたしの生きがいろん<span class='key'>変換</span></code></pre>
+<pre><code>わたしの生き<u>がい</u><span style="background-color:#d1eaff">論</span></code></pre>
 
 <br>**Hint**: If you enable the [Use LLM for candidate selection](settings.html#llm) option,
 words with shorter readings would appear in the candidate list according to the surrounding context from the beginning.
-When you enter "わたしの￹生￺い￻きがい￹論￺ろん￻", Hiragana IME will create a candidate "<span style="background-color:#d1eaff">がい論</span>" for you, like below:
+When you enter "わたしの￹生￺い￻きがい￹論￺ろん￻", Hiragana IME will create a candidate "<u>がい</u><span style="background-color:#d1eaff">論</span>" for you, like below:
 
 <pre><code>わたしの生きがいろん<span class='key'>変換</span></code></pre>
-<pre><code>わたしの生き<span style="background-color:#d1eaff">がい論</span></code></pre>
+<pre><code>わたしの生き<u>がい</u><span style="background-color:#d1eaff">論</span></code></pre>
 
 Using LLM significantly reduces the time you need to adjust the length of the reading.
 
