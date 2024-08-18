@@ -235,29 +235,29 @@ def assist(prefix, yomi, words) -> dict[int, str]:
     probabilities = probabilities[:pos_cand] + yougen_p
 
     for i, ids in enumerate(encoded_inputs.input_ids):
-        if ids[mask_token_index + 1] in (tokenizer.sep_token_id, tokenizer.pad_token_id):
-            continue
+        for j in range(mask_token_index + 1, len(transposed) - 1):
+            if ids[j] in (tokenizer.sep_token_id, tokenizer.pad_token_id):
+                break
+            next_ids = ids[:j]
+            next_ids += (tokenizer.mask_token_id, tokenizer.sep_token_id)
+            truncated = next_ids
+            if 0 < offset:
+                truncated = [tokenizer.cls_token_id] + next_ids[1 + offset:]
+            encoded_input = {
+                'input_ids': torch.tensor(truncated).unsqueeze(0)
+            }
+            with torch.no_grad():
+                p = model(**encoded_input).logits[0, j - offset]
+            p = torch.nn.functional.softmax(p, dim=0)
 
-        next_ids = ids[:mask_token_index + 1]
-        next_ids += (tokenizer.mask_token_id, tokenizer.sep_token_id)
-        truncated = next_ids
-        if 0 < offset:
-            truncated = [tokenizer.cls_token_id] + next_ids[1 + offset:]
-        encoded_input = {
-            'input_ids': torch.tensor(truncated).unsqueeze(0)
-        }
-        with torch.no_grad():
-            p = model(**encoded_input).logits[0, mask_token_index + 1 - offset]
-        p = torch.nn.functional.softmax(p, dim=0)
-
-        if pos_cand <= i and ids[mask_token_index + 1] == tokenizer.unk_token_id:
-            if yougen_yomi[i - pos_cand] in yougen_tokens:
-                LOGGER.debug(f'{yougen_yomi[i - pos_cand]} {yougen_tokens[yougen_yomi[i - pos_cand]]}')
-                probabilities[i] *= sum(p[yougen_tokens[yougen_yomi[i - pos_cand]]].tolist())
+            if pos_cand <= i and ids[j] == tokenizer.unk_token_id:
+                if yougen_yomi[i - pos_cand] in yougen_tokens:
+                    LOGGER.debug(f'{yougen_yomi[i - pos_cand]} {yougen_tokens[yougen_yomi[i - pos_cand]]}')
+                    probabilities[i] *= sum(p[yougen_tokens[yougen_yomi[i - pos_cand]]].tolist())
+                else:
+                    probabilities[i] = 0.0
             else:
-                probabilities[i] = 0.0
-        else:
-            probabilities[i] *= p[transposed[mask_token_index + 1][i]].item()
+                probabilities[i] *= p[transposed[j][i]].item()
 
     for i, ids in enumerate(encoded_inputs.input_ids):
         LOGGER.debug(f'  {tokenizer.decode(ids)} ({len(ids)}) {probabilities[i]}')
