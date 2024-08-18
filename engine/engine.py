@@ -39,7 +39,7 @@ from gi.repository import IBus
 
 import llm
 import package
-from dictionary import Dictionary, HIRAGANA, KATAKANA, TO_HIRAGANA, TO_KATAKANA
+from dictionary import Dictionary, HIRAGANA, KATAKANA, RE_PREFIX, TO_HIRAGANA, TO_KATAKANA
 from event import Event, KeyboardController
 from package import _
 
@@ -1198,13 +1198,19 @@ class EngineHiragana(EngineModeless):
             self.update_lookup_table(self._lookup_table, visible)
 
     def _update_preedit(self, locked=''):
-        cand = self._dict.current()
-        if not cand:
-            cand = self.katakana_text
         if self.has_non_empty_preedit() and self.should_draw_preedit():
             preedit_text = self._preedit_text
         else:
             preedit_text = ''
+        cand = self._dict.current()
+        if cand:
+            if cand[-1] != '―':
+                m = RE_PREFIX.match(cand)
+                if m:
+                    preedit_text += m.group()
+                    cand = cand[m.end():]
+        else:
+            cand = self.katakana_text
         text = IBus.Text.new_from_string(preedit_text + cand + self.roman_text + locked)
         preedit_len = len(preedit_text)
         cand_len = len(cand)
