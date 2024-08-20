@@ -224,7 +224,7 @@ def assist(prefix, yomi, words) -> dict[int, str]:
     for i in range(pos_cand, len(words)):
         if encoded_inputs.input_ids[i][mask_token_index] == tokenizer.unk_token_id:
             if yougen_yomi[i - pos_cand] in yougen_tokens:
-                LOGGER.debug(f'{yougen_yomi[i - pos_cand]} {yougen_tokens[yougen_yomi[i - pos_cand]]}')
+                LOGGER.debug(f'assist: {yougen_yomi[i - pos_cand]} {tokenizer.decode(yougen_tokens[yougen_yomi[i - pos_cand]])}')
                 p = sum(probabilities[yougen_tokens[yougen_yomi[i - pos_cand]]].tolist())
             else:
                 p = 0.0
@@ -241,7 +241,8 @@ def assist(prefix, yomi, words) -> dict[int, str]:
             if j in calculated:
                 continue
             if ids[i] in (tokenizer.sep_token_id, tokenizer.pad_token_id):
-                p_max = max(p_max, probabilities[j])
+                if j != pos_yougen:
+                    p_max = max(p_max, probabilities[j])
                 continue
             if probabilities[j] <= p_max:
                 continue
@@ -259,7 +260,7 @@ def assist(prefix, yomi, words) -> dict[int, str]:
 
             if pos_cand <= j and ids[i] == tokenizer.unk_token_id:
                 if yougen_yomi[j - pos_cand] in yougen_tokens:
-                    LOGGER.debug(f'{yougen_yomi[j - pos_cand]} {yougen_tokens[yougen_yomi[j - pos_cand]]}')
+                    LOGGER.debug(f'assist: {yougen_yomi[j - pos_cand]} {tokenizer.decode(yougen_tokens[yougen_yomi[j - pos_cand]])}')
                     probabilities[j] *= sum(p[yougen_tokens[yougen_yomi[j - pos_cand]]].tolist())
                 else:
                     probabilities[j] = 0.0
