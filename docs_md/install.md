@@ -249,7 +249,7 @@ rm -rf ~/.local/share/ibus-hiragana
 ```
 
 　また、かな￹漢字￺かんじ￻￹変換￺へんかん￻に￹大規模￺だいきぼ￻￹言語￺げんご￻モデルを￹利用￺りよう￻しているばあいは、[tohoku-nlp/bert-base-japanese-v3](https://huggingface.co/tohoku-nlp/bert-base-japanese-v3) のファイルが、ディレクトリ <code>~/.cache/huggingface/hub/models--cl-tohoku--bert-base-japanese-v3/</code> のなかに￹保存￺ほぞん￻されています。
-このファイルは、ひらがなIME￹以外￺いがい￻の[Transformers](https://huggingface.co/docs/transformers/ja/index)を￹利用￺りよう￻しているアプリか￹利用￺りよう￻していることがあります。
+このファイルは、ひらがなIME￹以外￺いがい￻の[Transformers](https://huggingface.co/docs/transformers/ja/index)を￹利用￺りよう￻しているアプリが￹利用￺りよう￻していることがあります。
 「ひらがなIME」のほかに、そのようなアプリがなければ、このディレクトリも￹削除￺さくじょ￻してかまいません。
 
 ```
