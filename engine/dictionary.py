@@ -502,6 +502,7 @@ class Dictionary:
                     self.lookup_numeric(text, i, pos, numeric)
                     if self._numeric:
                         p_dict = llm.assist(text[:pos - len(self._yomi)], self._yomi, self._cand)
+                        shrunk = ''
                         suggested = max(p_dict, key=p_dict.get)
                     break
                 else:
