@@ -21,6 +21,7 @@ import json
 import logging
 import os
 import queue
+import re
 import subprocess
 import threading
 import time
@@ -94,6 +95,8 @@ FROM_MACRON = str.maketrans('āīūēōĀĪŪĒŌ', 'aiueoAIUEO')
 TO_MACRON = str.maketrans('aiueoAIUEO', 'āīūēōĀĪŪĒŌ')
 
 SOKUON = 'ksthmyrwgzdbpfjv'
+
+RE_TO_KATAKANA = re.compile(f'([{HIRAGANA}]?)([{KATAKANA}]*)$')
 
 NAME_TO_LOGGING_LEVEL = {
     'DEBUG': logging.DEBUG,
@@ -290,9 +293,9 @@ class EngineModeless(IBus.Engine):
         return text
 
     def commit_katakana(self):
+        # Note the katakana part has been committed in get_surrounding_string().
         text = self.katakana_text
         if text:
-            self.commit_string(text)
             self.katakana_text = ''
         return text
 
@@ -415,11 +418,11 @@ class EngineModeless(IBus.Engine):
             if text[:pos].endswith(self.katakana_text):
                 text = text[:pos - katakana_len] + text[pos:]
                 pos -= katakana_len
-            # The following steps are necessary to fully reset the preedit with LibreOffice,
-            # when the preedit text contains a letter 'ー'.
+                # Reset the preedit to remove the redundant characters from the surrounding text.
+                self.update_preedit_text(IBus.Text.new_from_string(''), 0, False)
             self.commit_text(IBus.Text.new_from_string(self.katakana_text))
-            self.update_preedit_text(IBus.Text.new_from_string(''), 0, False)
-            self.delete_surrounding_text(-katakana_len, katakana_len)
+            text = text[:pos] + self.katakana_text + text[pos:]
+            pos += len(self.katakana_text)
 
         self._preedit_text = text
         self._preedit_pos = pos
@@ -863,19 +866,16 @@ class EngineHiragana(EngineModeless):
         return True
 
     def _process_katakana(self):
+        text, pos = self.get_surrounding_string()
         ch = ''
         if self.roman_text == 'n':
             self.clear_roman()
-            ch = 'ン'
-        else:
-            text, pos = self.get_surrounding_string()
-            if 0 < pos:
-                found = HIRAGANA.find(text[pos - 1])
-                if 0 <= found:
-                    ch = KATAKANA[found]
-                    self.delete_surrounding_string(1)
-        if ch:
-            self.katakana_text = ch + self.katakana_text
+            ch = 'ん'
+        m = RE_TO_KATAKANA.search(text[:pos] + ch)
+        LOGGER.debug(f'_process_katakana: "{text[:pos] + ch}", {m}')
+        if m:
+            self.delete_surrounding_string(len(m.group()) - len(ch))
+            self.katakana_text = m.group(1).translate(TO_KATAKANA) + m.group(2)
         return True
 
     def _process_okurigana(self, pos_yougen):
@@ -994,6 +994,7 @@ class EngineHiragana(EngineModeless):
             return True
         if e.keyval == IBus.Escape and (self.clear_roman() or (katakana := self.clear_katakana())):
             if katakana:
+                self.delete_surrounding_string(len(katakana))
                 self.commit_string(katakana.translate(TO_HIRAGANA))
             return True
 
@@ -1569,8 +1570,12 @@ class EngineHiragana(EngineModeless):
                 self.set_mode(mode, override=True, update_list=False)
 
     def do_reset(self) -> None:
-        LOGGER.debug(f'reset: {self._surrounding}')
+        LOGGER.debug(f'do_reset(): {self._surrounding} "{self._dict.current()}" "{self.katakana_text}"')
         if self._surrounding != SURROUNDING_BROKEN:
+            if self._dict.current() or self.katakana_text:
+                # Firefox 129.0.2 signals an unexpected reset during the conversion.
+                # Simply ignore it as the real reset is very rare during the conversion.
+                return
             self._reset()
         else:
             self._update_preedit()
