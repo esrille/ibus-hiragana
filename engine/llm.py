@@ -158,7 +158,7 @@ def pick(prefix, candidates, yougen=-1, yougen_shrunk='', yougen_yomi='') -> dic
         p_dict = {index: value for index, value in enumerate(probabilities)}
         p_dict[yougen] = p_yougen
     else:
-        p_dict = { index: value for index, value in enumerate(probabilities) }
+        p_dict = {index: value for index, value in enumerate(probabilities)}
     return p_dict
 
 
@@ -275,7 +275,7 @@ def assist(prefix, yomi, words) -> dict[int, str]:
         LOGGER.debug(f'  {tokenizer.decode(ids)} ({len(ids)}) {probabilities[i]}')
 
     if pos_yougen < 0:
-        p_dict = { index: value for index, value in enumerate(probabilities) }
+        p_dict = {index: value for index, value in enumerate(probabilities)}
     else:
         p_dict = {index: value for index, value in enumerate(probabilities[:pos_cand])}
         p_dict[pos_yougen] = sum(probabilities[pos_cand:])
