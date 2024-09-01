@@ -15,11 +15,14 @@
 # limitations under the License.
 
 import gettext
+import logging
 import os
 
 import gi
 gi.require_version('GLib', '2.0')
 from gi.repository import GLib
+
+FORMAT = '%(asctime)s:%(levelname)s:%(name)s:%(message)s'
 
 
 def get_name():
@@ -61,3 +64,15 @@ def load_from_data_dirs(file):
 
 def _(text):
     return gettext.dgettext(get_name(), text)
+
+
+def config_logging(level=logging.WARNING, filemode='w'):
+    if __debug__:
+        logging.basicConfig(level=logging.DEBUG, format=FORMAT)
+    else:
+        logfile = os.path.join(get_user_datadir(), get_name() + '.log')
+        logging.basicConfig(filename=logfile,
+                            filemode=filemode,
+                            level=level,
+                            format=FORMAT,
+                            force=True)

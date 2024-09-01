@@ -745,13 +745,14 @@ class EngineHiragana(EngineModeless):
         self._to_tiny = layout.get('Tiny')
         return layout
 
-    def _load_logging_level(self):
+    def _load_logging_level(self) -> int:
         level = self._settings.get_string('logging-level')
         if level not in NAME_TO_LOGGING_LEVEL:
             level = 'WARNING'
             self._settings.reset('logging-level')
         LOGGER.info(f'logging-level: {level}')
-        logging.getLogger().setLevel(NAME_TO_LOGGING_LEVEL[level])
+        level = NAME_TO_LOGGING_LEVEL[level]
+        package.config_logging(level=level, filemode='a')
         return level
 
     def _load_x4063_mode(self):
@@ -1280,6 +1281,7 @@ class EngineHiragana(EngineModeless):
                 if line == 'reload_dictionaries':
                     self._dict = self._load_dictionary()
                 elif line == 'clear_input_history':
+                    package.config_logging(level=self._logging_level, filemode='w')
                     self._dict = self._load_dictionary(clear_history=True)
                     self._ignored = {}
             except queue.Empty:

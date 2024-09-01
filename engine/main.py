@@ -34,7 +34,7 @@ from gi.repository import IBus
 import package
 from factory import EngineFactory
 
-FORMAT = '%(asctime)s:%(levelname)s:%(name)s:%(message)s'
+
 DICT_NAMES = ('restrained.1.dic',
               'restrained.2.dic',
               'restrained.3.dic',
@@ -144,16 +144,7 @@ def cleanup(app: IMApp):
 
 def main():
     initialize()
-
-    if __debug__:
-        logging.basicConfig(level=logging.DEBUG, format=FORMAT)
-    else:
-        # Create a debug log file
-        logfile = os.path.join(package.get_user_datadir(), package.get_name() + '.log')
-        logging.basicConfig(filename=logfile,
-                            filemode='w',
-                            level=logging.WARNING,
-                            format=FORMAT)
+    package.config_logging()
 
     exec_by_ibus = False
     daemonize = False
