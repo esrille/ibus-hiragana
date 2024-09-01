@@ -14,6 +14,7 @@ subdir('docs')
 subdir('engine')
 subdir('layouts')
 subdir('setup')
+subdir('tests')
 subdir('po')
 
 if get_option('enable-dic') == true
