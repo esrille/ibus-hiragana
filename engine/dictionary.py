@@ -95,6 +95,7 @@ class Dictionary:
 
         self._dict_base = {}
         self._dict = {}
+        self._max_len = 0   # maximum length of a reading
 
         self._yomi = ''
         self._no = 0
@@ -220,6 +221,12 @@ class Dictionary:
                 dic[yomi] = [katakana]
             else:
                 self._dirty = True
+
+            size = len(yomi)
+            if yomi[-1] == '―':
+                size -= 1
+            self._max_len = max(size, self._max_len)
+
         else:
             update = dic[yomi][:]
             yougen = []
@@ -450,6 +457,8 @@ class Dictionary:
 
     def lookup(self, text, pos, anchor=0):
         LOGGER.debug(f'lookup("{text}", {pos}, {anchor})')
+        if anchor + self._max_len < pos:
+            anchor = pos - self._max_len
         self.reset()
         suffix = text[anchor:pos].rfind('―')
         if 0 <= suffix:
@@ -479,6 +488,8 @@ class Dictionary:
 
     def assisted_lookup(self, text, pos, anchor=0):
         LOGGER.debug(f'assisted_lookup("{text}", {pos}, {anchor})')
+        if anchor + self._max_len < pos:
+            anchor = pos - self._max_len
         self.reset()
         suggested = 0
         word_assisted = ''
