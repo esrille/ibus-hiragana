@@ -3,7 +3,7 @@ moduledir = pkgdatadir / 'engine'
 test_dir = meson.source_root() / 'tests'
 
 pymod = import('python')
-python = pymod.find_installation('python')
+python = pymod.find_installation('python3')
 
 # Run tests using the install directory to include generated python source file(s).
 test_env = environment()
