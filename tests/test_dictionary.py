@@ -124,6 +124,9 @@ class TestDictionary(unittest.TestCase):
         # self.assertEqual(result, 0)
 
     def test_zyosuusi(self):
+        if not llm.loaded():
+            self.skipTest('LLM not loaded')
+            return
         text = '2かげつ'
         cand, suggested = self.dict.assisted_lookup(text, len(text), 0)
         self.dict.confirm('')
