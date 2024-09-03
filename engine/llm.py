@@ -25,6 +25,7 @@ LOGGER = logging.getLogger(__name__)
 MODEL_NAME = 'cl-tohoku/bert-base-japanese-v3'
 MAX_CANDIDATES = 10
 
+device = None
 tokenizer = None
 model = None
 yougen_tokens = {}
@@ -36,23 +37,30 @@ def loaded() -> bool:
     return True
 
 
-def load(enabled: bool):
-    global model, tokenizer, torch, yougen_tokens
-    if not enabled:
+def load(enable: bool, device_type: str = 'cpu'):
+    global device, model, tokenizer, torch, yougen_tokens
+    if not enable:
         return
     try:
         import torch
         from transformers import AutoModelForMaskedLM, AutoTokenizer
-    except ImportError as e:
-        LOGGER.debug(f'{e}')
+    except ImportError:
+        LOGGER.exception('load(): Could not import transformers')
         return
     try:
         if model is None:
+            if device_type == 'cuda' and torch.cuda.is_available():
+                LOGGER.debug(f'torch.cuda.is_available: {torch.cuda.is_available()}')
+                device = torch.device('cuda')
+            else:
+                device = torch.device('cpu')
             model = AutoModelForMaskedLM.from_pretrained(MODEL_NAME, local_files_only=True)
+            model.to(device)
         if tokenizer is None:
             tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, local_files_only=True)
     except OSError:
-        LOGGER.debug(f'Local {MODEL_NAME} is not found')
+        LOGGER.exception(f'Local {MODEL_NAME} is not found')
+        return
 
     if loaded() and not yougen_tokens:
         try:
@@ -67,7 +75,7 @@ def load(enabled: bool):
                     words = words[1].strip(' \n/').split('/')
                     yougen_tokens[yomi] = [vocab[word] for word in words]
         except OSError:
-            LOGGER.exception('Could not load "yougen_vocab.dic"')
+            LOGGER.exception('load(): Could not load "yougen_vocab.dic"')
 
 
 def pick(prefix, candidates, yougen=-1, yougen_shrunk='', yougen_yomi='') -> dict[int, str]:
@@ -108,7 +116,7 @@ def pick(prefix, candidates, yougen=-1, yougen_shrunk='', yougen_yomi='') -> dic
         offset = len(ids) + 1 - model.config.max_position_embeddings
         truncated = [tokenizer.cls_token_id] + ids[1 + offset:]
     encoded_input = {
-        'input_ids': torch.tensor(truncated).unsqueeze(0)
+        'input_ids': torch.tensor(truncated).unsqueeze(0).to(device)
     }
     token_ids = list(transposed[mask_token_index])
     with torch.no_grad():
@@ -136,7 +144,7 @@ def pick(prefix, candidates, yougen=-1, yougen_shrunk='', yougen_yomi='') -> dic
         if 0 < offset:
             truncated = [tokenizer.cls_token_id] + next_ids[1 + offset:]
         encoded_input = {
-            'input_ids': torch.tensor(truncated).unsqueeze(0)
+            'input_ids': torch.tensor(truncated).unsqueeze(0).to(device)
         }
         with torch.no_grad():
             p = model(**encoded_input).logits[0, mask_token_index + 1 - offset]
@@ -213,7 +221,7 @@ def assist(prefix, yomi, words) -> dict[int, str]:
         offset = len(ids) + 1 - model.config.max_position_embeddings
         truncated = [tokenizer.cls_token_id] + ids[1 + offset:]
     encoded_input = {
-        'input_ids': torch.tensor(truncated).unsqueeze(0)
+        'input_ids': torch.tensor(truncated).unsqueeze(0).to(device)
     }
     token_ids = list(transposed[mask_token_index])
     with torch.no_grad():
@@ -252,7 +260,7 @@ def assist(prefix, yomi, words) -> dict[int, str]:
             if 0 < offset:
                 truncated = [tokenizer.cls_token_id] + next_ids[1 + offset:]
             encoded_input = {
-                'input_ids': torch.tensor(truncated).unsqueeze(0)
+                'input_ids': torch.tensor(truncated).unsqueeze(0).to(device)
             }
             with torch.no_grad():
                 p = model(**encoded_input).logits[0, i - offset]
