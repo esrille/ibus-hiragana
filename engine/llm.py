@@ -45,7 +45,7 @@ def load(enable: bool, device_type: str = 'cpu'):
         import torch
         from transformers import AutoModelForMaskedLM, AutoTokenizer
     except ImportError:
-        LOGGER.exception('load(): Could not import transformers')
+        LOGGER.warning('Could not import transformers')
         return
     try:
         if model is None:
@@ -59,7 +59,7 @@ def load(enable: bool, device_type: str = 'cpu'):
         if tokenizer is None:
             tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, local_files_only=True)
     except OSError:
-        LOGGER.exception(f'Local {MODEL_NAME} is not found')
+        LOGGER.warning(f'Local {MODEL_NAME} is not found')
         return
 
     if loaded() and not yougen_tokens:
@@ -75,7 +75,7 @@ def load(enable: bool, device_type: str = 'cpu'):
                     words = words[1].strip(' \n/').split('/')
                     yougen_tokens[yomi] = [vocab[word] for word in words]
         except OSError:
-            LOGGER.exception('load(): Could not load "yougen_vocab.dic"')
+            LOGGER.warning('Could not load "yougen_vocab.dic"')
 
 
 def pick(prefix, candidates, yougen=-1, yougen_shrunk='', yougen_yomi='') -> dict[int, str]:
