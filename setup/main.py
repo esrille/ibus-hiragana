@@ -159,6 +159,7 @@ class SetupEngineHiragana:
         self._init_combining_macron()
         self._init_permissible()
         self._init_use_half_width_digits()
+        self._init_use_cuda()
         self._init_use_llm()
         self._set_current_keyboard(self._settings.get_string('layout'))
 
@@ -251,6 +252,11 @@ class SetupEngineHiragana:
         current = self._settings.get_value('use-llm')
         self._use_llm.set_active(current)
 
+    def _init_use_cuda(self):
+        self._use_cuda = self._builder.get_object('UseCUDA')
+        current = self._settings.get_value('use-cuda')
+        self._use_cuda.set_active(current)
+
     def _on_stdin_input(self, source, condition):
         line = source.readline().strip()
         if line == 'present':
@@ -305,6 +311,10 @@ class SetupEngineHiragana:
         use_half_width_digits = self._use_half_width_digits.get_active()
         self._settings.set_boolean('use-half-width-digits', use_half_width_digits)
 
+        # use-cuda
+        use_cuda = self._use_cuda.get_active()
+        self._settings.set_boolean('use-cuda', use_cuda)
+
         # use-llm
         use_llm = self._use_llm.get_active()
         if use_llm and not self._has_llm():
@@ -342,6 +352,8 @@ class SetupEngineHiragana:
             self._user_dictionary.set_text(current)
         elif key == 'use-half-width-digits':
             self._use_half_width_digits.set_active(value.get_boolean())
+        elif key == 'use-cuda':
+            self._use_cuda.set_active(value.get_boolean())
         elif key == 'use-llm':
             self._use_llm.set_active(value.get_boolean())
 
