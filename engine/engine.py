@@ -807,8 +807,6 @@ class EngineHiragana(EngineModeless):
         size = len(self._dict.reading())
         self._selected = False
         self._assisted = cursor_pos
-        # Note if the current conversion is complete, it is automatically confirmed.
-        # No LLM assistance is necessary in this case.
         if 0 < size and 1 < len(self._dict.cand()) and not self._dict.is_complete():
             yomi, assisted = self._dict.get_stem(cursor_pos)
             if assisted in self._ignored.get(yomi, set()):
