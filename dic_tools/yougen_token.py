@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 #
 # Copyright (c) 2024 Esrille Inc.
 #
@@ -170,6 +171,7 @@ def main():
         # Note vocab.txt uses '叱' instead of '𠮟'.
         if kanji == '𠮟':
             kanji = '叱'
+
         for yomi in sorted(words):
             pos = yomi.find('―')
             assert 0 < pos
@@ -178,6 +180,12 @@ def main():
             if yomi not in dic:
                 assert kanji[0] in diclib.ZYOUYOU
                 diclib.add_word(dic, yomi, kanji[0])
+            else:
+                for cand in dic[yomi]:
+                    if cand.startswith(kanji):
+                        break
+                if not cand.startswith(kanji):
+                    diclib.add_word(dic, yomi, kanji[0])
 
     for yomi, words in dic.items():
         dic[yomi] = sorted(dic[yomi])
