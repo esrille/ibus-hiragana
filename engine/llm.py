@@ -205,6 +205,8 @@ def _match(token, word, conj) -> bool:
 def assist_yougen(prefix, yomi, stem_list) -> dict[int, float]:
     assert '―' in yomi
     LOGGER.debug(f"_assist_yougen('{prefix}', '{yomi}', {stem_list})")
+    if len(stem_list) == 1:
+        return {0: 1.0}
 
     vocab = tokenizer.get_vocab()
 
