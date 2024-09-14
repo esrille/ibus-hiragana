@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import logging
 import os
+import re
 
 import package
 
@@ -25,10 +26,18 @@ LOGGER = logging.getLogger(__name__)
 MODEL_NAME = 'cl-tohoku/bert-base-japanese-v3'
 MAX_CANDIDATES = 10
 
+HIRAGANA = ('あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐゑをん'
+            'ゔがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉゃゅょっゎぱぴぷぺぽ・ーゝゞ')
+RE_HIRAGANA = re.compile(f'[{HIRAGANA}]+')
+RE_PREFIX = re.compile(f'[{HIRAGANA}]+')
+RE_SUFFIX = re.compile(f'[{HIRAGANA}]*[1iIkKgsStnbmrwW235]?$')
+
+
 device = None
 tokenizer = None
 model = None
 yougen_tokens = {}
+katuyou_tokens = {}
 
 
 def loaded() -> bool:
@@ -38,7 +47,7 @@ def loaded() -> bool:
 
 
 def load(enable: bool, device_type: str = 'cpu'):
-    global device, model, tokenizer, torch, yougen_tokens
+    global device, model, katuyou_tokens, tokenizer, torch, yougen_tokens
     if not enable:
         return
     try:
@@ -74,6 +83,17 @@ def load(enable: bool, device_type: str = 'cpu'):
                     yomi = words[0]
                     words = words[1].strip(' \n/').split('/')
                     yougen_tokens[yomi] = [vocab[word] for word in words]
+
+            with open(os.path.join(package.get_datadir(), 'dic', 'katuyou_token.dic'), 'r') as f:
+                for line in f:
+                    line = line.strip('')
+                    if not line or line[0] == ';':
+                        continue
+                    words = line.split(' ', 1)
+                    stem = words[0]
+                    words = words[1].strip(' \n/').split('/')
+                    katuyou_tokens[stem] = words
+
         except OSError:
             LOGGER.warning('Could not load "yougen_vocab.dic"')
 
@@ -170,10 +190,140 @@ def pick(prefix, candidates, yougen=-1, yougen_shrunk='', yougen_yomi='') -> dic
     return p_dict
 
 
+def _match(token, word, conj) -> bool:
+    if word == token:
+        return True
+    if word.startswith(token):
+        if conj[-1] in 'sS' and (word.endswith('しい') or word.endswith('しく')):
+            return False
+        return True
+    if token.startswith(word):
+        return True
+    return False
+
+
+def assist_yougen(prefix, yomi, stem_list) -> dict[int, str]:
+    assert('―' in yomi)
+    LOGGER.debug(f"_assist_yougen('{prefix}', '{yomi}', {stem_list})")
+
+    vocab = tokenizer.get_vocab()
+
+    yougen_list = []
+    yomi_list = []
+    shrink_list = []
+
+    shrink_index = []
+
+    pos = yomi.rfind('―')
+    for i in range(0, pos, 1):
+        if yomi[i:pos + 1] in yougen_tokens:
+            yougen_list.append(yomi[:i] + '[UNK]')
+            yomi_list.append(yomi[i:pos])
+            shrink_list.append(i)
+    assert(yougen_list)
+
+    for stem in stem_list:
+        m = RE_PREFIX.match(stem)
+        if not m:
+            shrink_index.append(0)
+        else:
+            shrink = len(m.group())
+            assert shrink in shrink_list
+            shrink_index.append(shrink_list.index(shrink))
+
+    inputs = [prefix + yougen for yougen in yougen_list]
+
+    encoded_inputs = tokenizer(inputs, padding=True)
+    transposed = list(zip(*encoded_inputs.input_ids))
+    for mask_token_index, ids in enumerate(transposed):
+        if len(set(ids)) != 1:
+            break
+    if mask_token_index == len(transposed) - 1:
+        mask_token_index = len(transposed) - 2
+
+    ids = encoded_inputs.input_ids[0][:mask_token_index]
+    ids += (tokenizer.mask_token_id, tokenizer.sep_token_id)
+    truncated = ids
+    offset = 0
+    if model.config.max_position_embeddings < len(ids) + 1:
+        offset = len(ids) + 1 - model.config.max_position_embeddings
+        truncated = [tokenizer.cls_token_id] + ids[1 + offset:]
+    encoded_input = {
+        'input_ids': torch.tensor(truncated).unsqueeze(0).to(device)
+    }
+    with torch.no_grad():
+        probabilities = model(**encoded_input).logits[0, mask_token_index - offset]
+    probabilities = torch.nn.functional.softmax(probabilities, dim=0)
+
+    prefix_p = [1.0] * len(yougen_list)
+    yougen_p = [0.0] * len(stem_list)
+    for i in range(len(yougen_list)):
+        if encoded_inputs.input_ids[i][mask_token_index] == tokenizer.unk_token_id:
+            for j, stem in enumerate(stem_list):
+                if shrink_index[j] == i:
+                    stem = stem[shrink_list[i]:]
+                    assert stem in katuyou_tokens
+                    v = []
+                    for token in katuyou_tokens[stem]:
+                        suffix = RE_SUFFIX.search(stem)
+                        assert suffix
+                        word = stem[:suffix.start()] + yomi[pos + 1:]
+                        if _match(token, word, stem[suffix.start():]):
+                            LOGGER.debug(f'{token}')
+                            v.append(vocab[token])
+                    if v:
+                        yougen_p[j] = sum(probabilities[v].tolist())
+        else:
+            prefix_p[i] = probabilities[transposed[mask_token_index][i]].item()
+
+    for i in range(mask_token_index + 1, len(transposed) - 1):
+        for j, ids in enumerate(encoded_inputs.input_ids):
+            if ids[i] in (tokenizer.sep_token_id, tokenizer.pad_token_id):
+                continue
+            next_ids = ids[:i]
+            next_ids += (tokenizer.mask_token_id, tokenizer.sep_token_id)
+            truncated = next_ids
+            if 0 < offset:
+                truncated = [tokenizer.cls_token_id] + next_ids[1 + offset:]
+            encoded_input = {
+                'input_ids': torch.tensor(truncated).unsqueeze(0).to(device)
+            }
+            with torch.no_grad():
+                p = model(**encoded_input).logits[0, i - offset]
+            p = torch.nn.functional.softmax(p, dim=0)
+            if ids[i] == tokenizer.unk_token_id:
+                for k, stem in enumerate(stem_list):
+                    if shrink_index[k] == j:
+                        stem = stem[shrink_list[j]:]
+                        assert stem in katuyou_tokens
+                        v = []
+                        for token in katuyou_tokens[stem]:
+                            suffix = RE_SUFFIX.search(stem)
+                            assert suffix
+                            word = stem[:suffix.start()] + yomi[pos + 1:]
+                            if _match(token, word, stem[suffix.start():]):
+                                LOGGER.debug(f'{token}')
+                                v.append(vocab[token])
+                        if v:
+                            yougen_p[k] = sum(probabilities[v].tolist())
+            else:
+                prefix_p[j] *= p[transposed[i][j]].item()
+
+    p_list = []
+    for i in range(len(stem_list)):
+        p_list.append(prefix_p[shrink_index[i]] * yougen_p[i])
+        LOGGER.debug(f'  {stem_list[i]} {prefix_p[shrink_index[i]]} * {yougen_p[i]} = {p_list[i]}')
+
+    for i, p in enumerate(p_list):
+        LOGGER.debug(f'  {stem_list[i]} {p}')
+
+    p_dict = {index: value for index, value in enumerate(p_list)}
+    return p_dict
+
+
 def assist(prefix, yomi, words) -> dict[int, str]:
-    if not loaded():
-        return 0
     LOGGER.debug(f"assist('{prefix}', '{yomi}', {words})")
+    assert loaded()
 
     yougen_yomi = []
     yougen_list = []

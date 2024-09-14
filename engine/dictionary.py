@@ -433,7 +433,7 @@ class Dictionary:
                     pos_okuri = len(word)
                 okuri = word[pos_okuri:]
                 p = self._match(okuri, text[end:])
-                LOGGER.debug(f'lookup: {word} {text[end:]} => {p}')
+                LOGGER.debug(f'lookup_next_yougen: {word} {text[end:]} => {p}')
                 word = word[:pos_okuri] + text[end:pos]
                 if 0 <= p:
                     assert p in (0, 1)
@@ -451,7 +451,7 @@ class Dictionary:
                 self._no = 0
                 self._order = order[0] + order[1]
                 self._completed = [0] * len(cand[0]) + [1] * len(cand[1])
-                LOGGER.debug(f'{self._cand}, {self._order}, {self._completed}')
+                LOGGER.debug(f'lookup_next_yougen: {self._cand}, {self._order}, {self._completed}')
                 self._numeric = ''
         return True
 
@@ -485,6 +485,14 @@ class Dictionary:
                 if not self.lookup_next_yougen(text, i, pos, suffix):
                     break
         return self.current()
+
+    # Get stem list from self._cand
+    def _get_stem_list(self):
+        stem_list = []
+        for i in range(len(self._cand)):
+            yomi, stem = self.get_stem(i)
+            stem_list.append(stem)
+        return stem_list
 
     def assisted_lookup(self, text, pos, anchor=0):
         LOGGER.debug(f'assisted_lookup("{text}", {pos}, {anchor})')
@@ -574,7 +582,8 @@ class Dictionary:
                 cont = self.lookup_next_yougen(text, i, pos, suffix)
                 if yomi != self._yomi:
                     yomi = self._yomi
-                    p_dict = llm.assist(text[:pos - len(yomi)], yomi, self._cand)
+                    stem_list = self._get_stem_list()
+                    p_dict = llm.assist_yougen(text[:pos - len(yomi)], yomi, stem_list)
                     suggested = max(p_dict, key=p_dict.get)
                     # Look for shrunk word in _cand
                     yy, stem = self.get_stem(suggested)
@@ -591,8 +600,8 @@ class Dictionary:
                         # shrunk = ''
                 if not cont:
                     break
-            if word_assisted:
-                LOGGER.debug(f'assisted_lookup: {self._yomi} /{word_assisted}/ ; /{shrunk}/')
+            if 0 <= suggested:
+                LOGGER.debug(f'assisted_lookup: {self._yomi} "{shrunk}-{self._cand[suggested]}"')
             self._shrunk = shrunk
 
         return self.current(), suggested

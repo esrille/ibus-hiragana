@@ -885,10 +885,8 @@ class EngineHiragana(EngineModeless):
         suffix += pos_yougen
         LOGGER.debug(f'_process_okurigana({pos_yougen}): "{text[:pos]}", {suffix}/{pos}')
         assert pos_yougen < suffix <= pos
-        if suffix + 1 == pos:
+        if suffix < pos:
             cand, size = self._assisted_lookup_dictionary(text, pos, pos_yougen)
-        elif suffix < pos:
-            cand, size = self._lookup_dictionary(text, pos, pos_yougen)
         if not self._dict.current():
             cand = text[pos_yougen:pos]
             size = len(cand)
