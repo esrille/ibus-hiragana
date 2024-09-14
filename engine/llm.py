@@ -202,8 +202,8 @@ def _match(token, word, conj) -> bool:
     return False
 
 
-def assist_yougen(prefix, yomi, stem_list) -> dict[int, str]:
-    assert('―' in yomi)
+def assist_yougen(prefix, yomi, stem_list) -> dict[int, float]:
+    assert '―' in yomi
     LOGGER.debug(f"_assist_yougen('{prefix}', '{yomi}', {stem_list})")
 
     vocab = tokenizer.get_vocab()
@@ -220,7 +220,7 @@ def assist_yougen(prefix, yomi, stem_list) -> dict[int, str]:
             yougen_list.append(yomi[:i] + '[UNK]')
             yomi_list.append(yomi[i:pos])
             shrink_list.append(i)
-    assert(yougen_list)
+    assert yougen_list
 
     for stem in stem_list:
         m = RE_PREFIX.match(stem)
@@ -321,9 +321,9 @@ def assist_yougen(prefix, yomi, stem_list) -> dict[int, str]:
     return p_dict
 
 
-def assist(prefix, yomi, words) -> dict[int, str]:
-    LOGGER.debug(f"assist('{prefix}', '{yomi}', {words})")
+def assist(prefix, yomi, words) -> dict[int, float]:
     assert loaded()
+    LOGGER.debug(f"assist('{prefix}', '{yomi}', {words})")
 
     yougen_yomi = []
     yougen_list = []
