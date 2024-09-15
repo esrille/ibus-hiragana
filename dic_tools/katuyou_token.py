@@ -134,7 +134,7 @@ def main():
                     yomi = ''
                 if token.startswith(gokan) and 0 <= dictionary_match(okuri, yomi):
                     tokens.append(token)
-            if not tokens:
+            if not tokens or gokan not in tokens:
                 tokens.append(kanji[0])
             katuyou_dic[stem] = sorted(tokens)
 
