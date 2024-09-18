@@ -45,6 +45,7 @@ function shrinkToc() {
 <ul>
   <li><a href='index.html#introduction'>はじめに</a>
   <li><a href='index.html#modeless'>モードレス<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby><ruby>方式<rp>(</rp><rt>ほうしき</rt><rp>)</rp></ruby></a>
+  <li><a href='index.html#llm'>かな<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby><ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>での<ruby>大規模<rp>(</rp><rt>だいきぼ</rt><rp>)</rp></ruby><ruby>言語<rp>(</rp><rt>げんご</rt><rp>)</rp></ruby>モデルの<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby></a>
 </ul>
 </details>
 <li><details open><summary><a href='install.html'>インストール<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby></a></summary>
@@ -189,14 +190,14 @@ ninja -C _build install
 <p><br>
 <strong>メモ</strong>: キーボードは<ruby>国<rp>(</rp><rt>くに</rt><rp>)</rp></ruby>や<ruby>言語<rp>(</rp><rt>げんご</rt><rp>)</rp></ruby>によってスイッチのレイアウトがことなります。<ruby>日本<rp>(</rp><rt>にほん</rt><rp>)</rp></ruby>では、<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>キーボードのほかに<ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>(US)キーボードも<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>されています。<ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>(US)キーボードは、アメリカで<ruby>一般的<rp>(</rp><rt>いっぱんてき</rt><rp>)</rp></ruby>につかわれているキーボードです。USはUnited States (of America)の<ruby>略<rp>(</rp><rt>りゃく</rt><rp>)</rp></ruby>です。<ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>キーボードでも、イギリスのものはアメリカのものとまたすこしキーボード レイアウトがちがいます。</p>
 <h2 id="llm"><ruby>大規模<rp>(</rp><rt>だいきぼ</rt><rp>)</rp></ruby><ruby>言語<rp>(</rp><rt>げんご</rt><rp>)</rp></ruby>モデルを<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>するときの<ruby>追加<rp>(</rp><rt>ついか</rt><rp>)</rp></ruby>のインストール</h2>
-<p>&#x3000;「ひらがなIME」には、<ruby>大規模<rp>(</rp><rt>だいきぼ</rt><rp>)</rp></ruby><ruby>言語<rp>(</rp><rt>げんご</rt><rp>)</rp></ruby>モデルを<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>して<ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby><ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>の<ruby>選択<rp>(</rp><rt>せんたく</rt><rp>)</rp></ruby>をアシストする<ruby>機能<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>があります。この<ruby>機能<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>を<ruby>有効<rp>(</rp><rt>ゆうこう</rt><rp>)</rp></ruby>にするには、つぎのようなパッケージを<ruby>追加<rp>(</rp><rt>ついか</rt><rp>)</rp></ruby>でインストールする<ruby>必要<rp>(</rp><rt>ひつよう</rt><rp>)</rp></ruby>があります。</p>
+<p>&#x3000;「ひらがなIME」には、<ruby>大規模<rp>(</rp><rt>だいきぼ</rt><rp>)</rp></ruby><ruby>言語<rp>(</rp><rt>げんご</rt><rp>)</rp></ruby>モデル(LLM)を<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>して、かな<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby><ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>をアシストする<ruby>機能<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>があります。この<ruby>機能<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>を<ruby>有効<rp>(</rp><rt>ゆうこう</rt><rp>)</rp></ruby>にするには、つぎのようなパッケージを<ruby>追加<rp>(</rp><rt>ついか</rt><rp>)</rp></ruby>でインストールする<ruby>必要<rp>(</rp><rt>ひつよう</rt><rp>)</rp></ruby>があります。</p>
 <ul>
 <li><a href="https://huggingface.co/docs/transformers/ja/installation">Huggingface Transformers</a></li>
 <li><a href="https://huggingface.co/tohoku-nlp/bert-base-japanese-v3">tohoku-nlp/bert-base-japanese-v3</a></li>
 </ul>
-<p>&#x3000;「ひらがなIME」は、ローカルのPython venvのなかで<ruby>実行<rp>(</rp><rt>じっこう</rt><rp>)</rp></ruby>されています。このvenvにあわせて、<ruby>上記<rp>(</rp><rt>じょうき</rt><rp>)</rp></ruby>のものをインストールするには、つぎのようにします。</p>
+<p>&#x3000;「ひらがなIME」は、ローカルのPython venvのなかで<ruby>実行<rp>(</rp><rt>じっこう</rt><rp>)</rp></ruby>されています。つぎのようにすると、このvenvに<ruby>上記<rp>(</rp><rt>じょうき</rt><rp>)</rp></ruby>のパッケージをインストールできます。</p>
 <ol>
-<li>「<a href="settings.html#ibus-setup-hiragana">ひらがなIMEの<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby></a>」ウィンドウで、「<a href="settings.html#llm"><ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby><ruby>候補<rp>(</rp><rt>こうほ</rt><rp>)</rp></ruby>の<ruby>選択<rp>(</rp><rt>せんたく</rt><rp>)</rp></ruby>にLLMを<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>する</a>」を<ruby>有効<rp>(</rp><rt>ゆうこう</rt><rp>)</rp></ruby>にする。</li>
+<li>「<a href="settings.html#ibus-setup-hiragana">ひらがなIMEの<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby></a>」ウィンドウで、「オプション」タブをひらきます。</li>
 </ol>
 <p><img alt="「ひらがなIMEの設定」ウィンドウ" src="ibus-setup-hiragana_3.png"></p>
 <ol start="2">
@@ -204,14 +205,14 @@ ninja -C _build install
 </ol>
 <p><img alt="ポストインストール ウィンドウ" src="postinst_1.png"></p>
 <ol start="3">
-<li>[インストール]をクリックすると、パッケージのダウンロードとインストールがはじまります。その<ruby>経過<rp>(</rp><rt>けいか</rt><rp>)</rp></ruby>もウィンドウ<ruby>内<rp>(</rp><rt>ない</rt><rp>)</rp></ruby>に<ruby>表示<rp>(</rp><rt>ひょうじ</rt><rp>)</rp></ruby>されます。</li>
-<li>インストールが<ruby>完了<rp>(</rp><rt>かんりょう</rt><rp>)</rp></ruby>すると、[インストール]ボタンが[とじる]ボタンにかわります。</li>
+<li>[インストール]をクリックすると、パッケージのダウンロードとインストールがはじまります。ウィンドウ<ruby>内<rp>(</rp><rt>ない</rt><rp>)</rp></ruby>にはインストールの<ruby>経過<rp>(</rp><rt>けいか</rt><rp>)</rp></ruby>が<ruby>表示<rp>(</rp><rt>ひょうじ</rt><rp>)</rp></ruby>されます。</li>
 </ol>
 <p><img alt="ポストインストール ウィンドウ" src="postinst_2.png"></p>
-<ol start="5">
-<li>[とじる]ボタンをクリックして、ウィンドウをとじます。</li>
+<ol start="4">
+<li>インストールが<ruby>完了<rp>(</rp><rt>かんりょう</rt><rp>)</rp></ruby>して、<ruby>右<rp>(</rp><rt>みぎ</rt><rp>)</rp></ruby><ruby>下<rp>(</rp><rt>した</rt><rp>)</rp></ruby>のボタンが[とじる]にかわったら、クリックしてウィンドウをとじます。</li>
 </ol>
-<p>&#x3000;LLMを<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>するために<ruby>必要<rp>(</rp><rt>ひつよう</rt><rp>)</rp></ruby>なパッケージのインストールはこれで<ruby>完了<rp>(</rp><rt>かんりょう</rt><rp>)</rp></ruby>です。さいごに、LLMを<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>できるように、いちど、ログインしなおして「ひらがなIME」を<ruby>再<rp>(</rp><rt>さい</rt><rp>)</rp></ruby><ruby>起動<rp>(</rp><rt>きどう</rt><rp>)</rp></ruby>します。</p>
+<p>&#x3000;LLMを<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>するために<ruby>必要<rp>(</rp><rt>ひつよう</rt><rp>)</rp></ruby>なパッケージのインストールはこれで<ruby>完了<rp>(</rp><rt>かんりょう</rt><rp>)</rp></ruby>です。LLMを<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>できるように、いちど、ログインしなおして「ひらがなIME」を<ruby>再<rp>(</rp><rt>さい</rt><rp>)</rp></ruby><ruby>起動<rp>(</rp><rt>きどう</rt><rp>)</rp></ruby>します。</p>
+<p><br><strong>ヒント</strong>: PCにNVIDIA<ruby>社<rp>(</rp><rt>しゃ</rt><rp>)</rp></ruby>のGPUを<ruby>搭載<rp>(</rp><rt>とうさい</rt><rp>)</rp></ruby>していれば、CUDAを<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>してLLMの<ruby>計算<rp>(</rp><rt>けいさん</rt><rp>)</rp></ruby>を<ruby>高速<rp>(</rp><rt>こうそく</rt><rp>)</rp></ruby><ruby>化<rp>(</rp><rt>か</rt><rp>)</rp></ruby>することができます。<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby><ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby>については、「<a href="settings.html#cuda">LLMの<ruby>計算<rp>(</rp><rt>けいさん</rt><rp>)</rp></ruby>にCUDAを<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>する</a>」をみてください。</p>
 <h2 id="update">アップデートのしかた</h2>
 <p>&#x3000;あたらしいバージョンの「ひらがなIME」をリリースしたときは、GitHubの<a href="https://github.com/esrille/ibus-hiragana/releases">Releases</a>ページからおしらせしています。インストールした<ruby>手順<rp>(</rp><rt>てじゅん</rt><rp>)</rp></ruby>にあった<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby>でソフトウェアのアップデートをおこなってください。</p>
 <h3>Fedoraのばあい</h3>

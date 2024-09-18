@@ -44,13 +44,10 @@ When you encounter homonyms, use the <span class='key'>変換</span> key to sele
 You can also use the up and down arrow keys to select the candidate.
 Later, the most recently selected word will appear first in the candidate list when you convert the same homonym again.
 
-**Hint**: If you enable the [Use LLM for candidate selection](settings.html#llm) option, Hiragana IME will pre-select the most probable candidate using a Large Language Model.
-For example, when converting 'きどう', the pre-selected candidate changes according to the surrounding context as follows:
+### Hints
 
-- ￹地球￺ちきゅう￻の<span style="background-color:#d1eaff">￹軌道￺きどう￻</span>
-- パソコンの<span style="background-color:#d1eaff">￹起動￺きどう￻</span>
-
-**Hint**: Words not included in the Hiragana IME dictionaries won't appear in the candidate list when you press the <span class='key'>変換</span> key.
+- If you enable the [Use LLM for candidate selection](settings.html#llm) option, Hiragana IME will pre-select the most probable candidate from homonyms using LLM.
+- Words not included in the Hiragana IME dictionaries won't appear in the candidate list when you press the <span class='key'>変換</span> key.
 You can add new words to your [user dictionary](settings.html#dictionary).
 
 ## Entering Words with Okurigana {: #input-okurigana}
@@ -107,13 +104,11 @@ When you use the same expression next time, "<u>がい</u><span style="backgroun
 <pre><code>わたしの生き<u>がい</u><span style="background-color:#d1eaff">論</span></code></pre>
 
 <br>**Hint**: If you enable the [Use LLM for candidate selection](settings.html#llm) option,
-words with shorter readings would appear in the candidate list according to the surrounding context from the beginning.
-When you enter "わたしの￹生￺い￻きがい￹論￺ろん￻", Hiragana IME will create a candidate "<u>がい</u><span style="background-color:#d1eaff">論</span>" for you, like below:
+a candidate with a shorter reading would appear according to the surrounding text.
+When you want to enter "わたしの￹生￺い￻きがい￹論￺ろん￻", Hiragana IME will suggest "<u>がい</u><span style="background-color:#d1eaff">論</span>" as a candidate from the beginning, as shown below:
 
 <pre><code>わたしの生きがいろん<span class='key'>変換</span></code></pre>
 <pre><code>わたしの生き<u>がい</u><span style="background-color:#d1eaff">論</span></code></pre>
-
-Using LLM significantly reduces the time you need to adjust the length of the reading.
 
 ## Converting into Katakana {: #katanaka}
 

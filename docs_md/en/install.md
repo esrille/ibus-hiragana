@@ -142,9 +142,9 @@ To use this, the following packages need to be installed:
 - [tohoku-nlp/bert-base-japanese-v3](https://huggingface.co/tohoku-nlp/bert-base-japanese-v3)
 
 Hiragana IME runs within a local Python virtual environment (venv).
-To install the above packages with this venv, follow these steps:
+To install the above packages in this venv, follow these steps:
 
-1. In **[Hiragana IME Setup](settings.html#ibus-setup-hiragana)** window, enable the [Use LLM for candidate selection](settings.html#llm) option.
+1. In **[Hiragana IME Setup](settings.html#ibus-setup-hiragana)** window, open the **Option** tab:
 
 ![Hiragana IME Setup Window](ibus-setup-hiragana_3.png)
 
@@ -153,14 +153,16 @@ To install the above packages with this venv, follow these steps:
 ![Post Installation Window](postinst_1.png)
 
 3. Click **Install** to start the installation. The installation log will be displayed within the window.
-4. Once the installation is finished, the **Install** button will change to a **Close** button.
 
 ![Post Installation Window](postinst_2.png)
 
-5. Click **Close** to close the window.
+4. Once the installation is finished, the **Install** button will change to a **Close** button. Click it to close the window.
 
 The installation of the required packages for using LLM is now complete.
 When you log in again, you can use the candidate pre-selection feature using LLM.
+
+<br>**Hint**: If your PC has an NVIDIA GPU, the Hiragana IME can use CUDA to accelerate the LLM calculation.
+For more details, please see "[Use CUDA for LLM calculation](settings.html#cuda)".
 
 ## Updates {: #update}
 

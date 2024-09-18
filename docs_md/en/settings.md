@@ -2,7 +2,7 @@
 
 ## Hiragana IME Setup Window {: #ibus-setup-hiragana}
 
-You can customize the Hiragana IME in the **Hiragana IME Setup** window.
+You can customize Hiragana IME in the **Hiragana IME Setup** window.
 To open the **Hiragana IME Setup** window, select **Setup** from the keyboard menu in the desktop top bar.
 
 ![Keyboard menu](keyboard-menu.png)
@@ -86,7 +86,7 @@ For personal names and place names, dictionaries for middle school students and 
 
 ### User Dictionary Name
 
-You can add words to your personal dictionary if you can not find a word in the Hiragana IME dictionary.
+You can add words to your personal dictionary if you can not find a word in Hiragana IME dictionary.
 You may switch among multiple user dictionaries.
 
 Enter the preferred user dictionary file name in the **User Dictionary Name** textbox.
@@ -127,13 +127,13 @@ Then, click **OK** when the following message box appears.
 
 ## Option Tab {: #option}
 
-You can customize the input assistance feature.
+In the **Option** tab, you can customize the input assistance features.
 
 ![「Hiragana IME Setup」Window](ibus-setup-hiragana_3.png)
 
 ### Use half-width digits for Arabic numerals {: #half-width-digits}
 
-When enabled, the Hiragana IME enters Arabic numerals using half-width letters, even in Hiragana mode.
+When enabled, Hiragana IME enters Arabic numerals using half-width letters, even in Hiragana mode.
 
 Setting | Example
 --|--
@@ -164,18 +164,24 @@ When you type <span class='key'>~</span> after a vowel character combined with a
 
 ### Use LLM for candidate selection {: #llm}
 
-LLM stands for Large Language Model.
-When enabled, the Hiragana IME calculates the probabilities of each candidate's occurrence in the surrounding text and pre-selects the most probable candidate in the candidate window.
+When enabled, Hiragana IME calculates the probabilities of each candidate's occurrence in the surrounding text and pre-selects the most probable candidate in the candidate window.
 
-For example, when converting 'のぼる', the pre-selected candidate changes as below depending on the surrounding text:
+For example, when converting 'かいとう', the pre-selected candidate changes as below:
 
-- ￹山￺やま￻に<span style="background-color:#d1eaff">登る</span>
-- ￹日￺ひ￻が<span style="background-color:#d1eaff">昇る</span>
+- アンケートにかいとう<span class='key'>変換</span> → アンケートに<span style="background-color:#d1eaff">回答</span>
+- 問題のかいとう<span class='key'>変換</span> → 問題の<span style="background-color:#d1eaff">解答</span>
 
-**Note**: Since pre-selection is merely based on a probability calculation, the desired candidate may not always be chosen.
-This feature is disabled by default because it requires a relatively large amount of computational power.
-To enable this feature, you also need to install several packages.
-For more details, please see [Installation of Additional Components for Using a Large Language Model](install.html#llm).
+### Use CUDA for LLM calculation {: #cuda}
+
+When enabled, Hiragana IME uses CUDA to calculate the probabilities of each candidate's occurrence with LLM.
+If your PC has an NVIDIA GPU, you can reduce the time it takes for the candidate to appear after pressing the conversion key.
+
+**Caution**: CUDA needs to be installed separately from Hiragana IME. Please refer to "[NVIDIA CUDA Installation Guide for Linux](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/)" for the instructions at the NVIDIA site.
+
+### Install required packages for using LLM {: #transformers}
+
+By clicking the **Install…** button, you can install the required packages to use LLM for candidate selection.
+For more details, please see "[Install additional components for using LLM](install.html#llm)".
 
 ## Editing Personal Dictionaries {: #personal-dictionary}
 

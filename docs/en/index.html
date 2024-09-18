@@ -44,7 +44,8 @@ function shrinkToc() {
 <li><details open><summary><a href='index.html'>Hiragana IME for IBus</a></summary>
 <ul>
   <li><a href='index.html#introduction'>Introduction</a>
-  <li><a href='index.html#modeless'>Modeless input methods</a>
+  <li><a href='index.html#modeless'>Modeless Input Methods</a>
+  <li><a href='index.html#llm'>Utilizing a Large Language Model for Kana-Kanji Conversion</a>
 </ul>
 </details>
 <li><details><summary><a href='install.html'>Installation</a></summary>
@@ -128,7 +129,7 @@ Screenshot
 <p>Additionally, when using the <a href="https://github.com/esrille/furiganapad">FuriganaPad</a> with Hiragana IME, you can automatically add Furigana, or readings, to the kanji. Not everyone can easily read kanji due to dyslexia and other reasons, even in Japan. Digital Japanese textbooks now include Furigana for Japanese schoolchildren.
 It is crucial to reshape our society so that no one is left behind just because they cannot read kanji.</p>
 <p>You can use Hiragana IME on operating systems that support <a href="https://github.com/ibus/ibus/wiki">IBus</a>, such as Fedora and Ubuntu.</p>
-<h2 id="modeless">Modeless input methods</h2>
+<h2 id="modeless">Modeless Input Methods</h2>
 <p>With the traditional Japanese input methods, you had to convert Hiragana into kanji before entering them into a document using the pre-edit mode.
 You had to learn complicated keyboard bindings to process text in the pre-edit mode.
 With Hiragana IME, you can enter Hiragana into the document without using the pre-edit mode.</p>
@@ -149,6 +150,24 @@ However, several essential applications still need to support modeless input met
 You can usually input Latin characters without using a dedicated input method.
 As a result, applications primarily used with Latin characters often do not fully support the surrounding text features.
 In such applications, Hiragana IME disables modeless input and uses the pre-edit mode to input characters.</p>
+<h2 id="llm">Utilizing a Large Language Model for Kana-Kanji Conversion</h2>
+<p>Hiragana IME has a feature that assists kana-kanji conversion using a Large Language Model (LLM).
+When enabled, Hiragana IME calculates the probabilities of each candidate's occurrence in the surrounding text and pre-selects the most probable candidate in the candidate window.</p>
+<p>For example, when converting 'かいとう', the pre-selected candidate changes as below:</p>
+<ul>
+<li>アンケートにかいとう<span class='key'>変換</span> → アンケートに<span style="background-color:#d1eaff">回答</span></li>
+<li><ruby>問題<rp>(</rp><rt>もんだい</rt><rp>)</rp></ruby>のかいとう<span class='key'>変換</span> → <ruby>問題<rp>(</rp><rt>もんだい</rt><rp>)</rp></ruby>の<span style="background-color:#d1eaff">解答</span></li>
+</ul>
+<p>This feature is also effective when converting words with <em>okurigana</em>:</p>
+<ul>
+<li><ruby>車<rp>(</rp><rt>くるま</rt><rp>)</rp></ruby>にの<span class='key'>変換</span>っ → <ruby>車<rp>(</rp><rt>くるま</rt><rp>)</rp></ruby>に<span style="background-color:#d1eaff">乗っ</span></li>
+<li><ruby>新聞<rp>(</rp><rt>しんぶん</rt><rp>)</rp></ruby>にの<span class='key'>変換</span>っ → <ruby>新聞<rp>(</rp><rt>しんぶん</rt><rp>)</rp></ruby>に<span style="background-color:#d1eaff">載っ</span></li>
+</ul>
+<p><br>
+<strong>Note</strong>: Since pre-selection is solely based on probability calculations, Hiragana IME may not always choose your desired candidate.
+This feature is disabled by default because it requires a relatively large amount of computational power.
+To enable this feature, you also need to install several packages.
+For more details, please see <a href="install.html#llm">Install additional components for using LLM</a>.</p>
 <hr>
 <p><br><small>Copyright 2017-2024 Esrille Inc.</small></p>
 </main>

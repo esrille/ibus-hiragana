@@ -44,7 +44,8 @@ function shrinkToc() {
 <li><details><summary><a href='index.html'>Hiragana IME for IBus</a></summary>
 <ul>
   <li><a href='index.html#introduction'>Introduction</a>
-  <li><a href='index.html#modeless'>Modeless input methods</a>
+  <li><a href='index.html#modeless'>Modeless Input Methods</a>
+  <li><a href='index.html#llm'>Utilizing a Large Language Model for Kana-Kanji Conversion</a>
 </ul>
 </details>
 <li><details><summary><a href='install.html'>Installation</a></summary>
@@ -113,7 +114,7 @@ function shrinkToc() {
 <main>
 <h1>Settings</h1>
 <h2 id="ibus-setup-hiragana">Hiragana IME Setup Window</h2>
-<p>You can customize the Hiragana IME in the <strong>Hiragana IME Setup</strong> window.
+<p>You can customize Hiragana IME in the <strong>Hiragana IME Setup</strong> window.
 To open the <strong>Hiragana IME Setup</strong> window, select <strong>Setup</strong> from the keyboard menu in the desktop top bar.</p>
 <p><img alt="Keyboard menu" src="keyboard-menu.png"></p>
 <p><img alt="Hiragana IME Setup Window" src="ibus-setup-hiragana_1.png"></p>
@@ -258,7 +259,7 @@ consequently, the number of kanji words in the dictionary also increases.</p>
 <p>Choose a dictionary based on the reader's grade level.
 For personal names and place names, dictionaries for middle school students and above use kanji not listed in the list of Chinese characters in common use, known as the <em><a href="https://www.bunka.go.jp/kokugo_nihongo/sisaku/joho/joho/kijun/naikaku/kanji/">Jōyō Kanji Table</a></em>.</p>
 <h3>User Dictionary Name</h3>
-<p>You can add words to your personal dictionary if you can not find a word in the Hiragana IME dictionary.
+<p>You can add words to your personal dictionary if you can not find a word in Hiragana IME dictionary.
 You may switch among multiple user dictionaries.</p>
 <p>Enter the preferred user dictionary file name in the <strong>User Dictionary Name</strong> textbox.
 By default, 'my.dic' is used.
@@ -303,10 +304,10 @@ To reset all orders to their initial state, click the <strong>Clear…</strong> 
 Then, click <strong>OK</strong> when the following message box appears.</p>
 <p><img alt="Hiragana IME Setup Window" src="ibus-setup-hiragana_4.png"></p>
 <h2 id="option">Option Tab</h2>
-<p>You can customize the input assistance feature.</p>
+<p>In the <strong>Option</strong> tab, you can customize the input assistance features.</p>
 <p><img alt="「Hiragana IME Setup」Window" src="ibus-setup-hiragana_3.png"></p>
 <h3 id="half-width-digits">Use half-width digits for Arabic numerals</h3>
-<p>When enabled, the Hiragana IME enters Arabic numerals using half-width letters, even in Hiragana mode.</p>
+<p>When enabled, Hiragana IME enters Arabic numerals using half-width letters, even in Hiragana mode.</p>
 <table>
 <thead>
 <tr>
@@ -346,17 +347,19 @@ When you type <span class='key'>~</span> after a vowel character in Alphanumeric
 <li>Example: ā<span class='key'>~</span> → a~</li>
 </ul>
 <h3 id="llm">Use LLM for candidate selection</h3>
-<p>LLM stands for Large Language Model.
-When enabled, the Hiragana IME calculates the probabilities of each candidate's occurrence in the surrounding text and pre-selects the most probable candidate in the candidate window.</p>
-<p>For example, when converting 'のぼる', the pre-selected candidate changes as below depending on the surrounding text:</p>
+<p>When enabled, Hiragana IME calculates the probabilities of each candidate's occurrence in the surrounding text and pre-selects the most probable candidate in the candidate window.</p>
+<p>For example, when converting 'かいとう', the pre-selected candidate changes as below:</p>
 <ul>
-<li><ruby>山<rp>(</rp><rt>やま</rt><rp>)</rp></ruby>に<span style="background-color:#d1eaff">登る</span></li>
-<li><ruby>日<rp>(</rp><rt>ひ</rt><rp>)</rp></ruby>が<span style="background-color:#d1eaff">昇る</span></li>
+<li>アンケートにかいとう<span class='key'>変換</span> → アンケートに<span style="background-color:#d1eaff">回答</span></li>
+<li>問題のかいとう<span class='key'>変換</span> → 問題の<span style="background-color:#d1eaff">解答</span></li>
 </ul>
-<p><strong>Note</strong>: Since pre-selection is merely based on a probability calculation, the desired candidate may not always be chosen.
-This feature is disabled by default because it requires a relatively large amount of computational power.
-To enable this feature, you also need to install several packages.
-For more details, please see <a href="install.html#llm">Installation of Additional Components for Using a Large Language Model</a>.</p>
+<h3 id="cuda">Use CUDA for LLM calculation</h3>
+<p>When enabled, Hiragana IME uses CUDA to calculate the probabilities of each candidate's occurrence with LLM.
+If your PC has an NVIDIA GPU, you can reduce the time it takes for the candidate to appear after pressing the conversion key.</p>
+<p><strong>Caution</strong>: CUDA needs to be installed separately from Hiragana IME. Please refer to "<a href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/">NVIDIA CUDA Installation Guide for Linux</a>" for the instructions at the NVIDIA site.</p>
+<h3 id="transformers">Install required packages for using LLM</h3>
+<p>By clicking the <strong>Install…</strong> button, you can install the required packages to use LLM for candidate selection.
+For more details, please see "<a href="install.html#llm">Install additional components for using LLM</a>".</p>
 <h2 id="personal-dictionary">Editing Personal Dictionaries</h2>
 <p>The personal dictionary files are text files using the following format.</p>
 <pre><code>; Lines starting with a semicolon (;) are comments.

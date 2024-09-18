@@ -44,7 +44,8 @@ function shrinkToc() {
 <li><details><summary><a href='index.html'>Hiragana IME for IBus</a></summary>
 <ul>
   <li><a href='index.html#introduction'>Introduction</a>
-  <li><a href='index.html#modeless'>Modeless input methods</a>
+  <li><a href='index.html#modeless'>Modeless Input Methods</a>
+  <li><a href='index.html#llm'>Utilizing a Large Language Model for Kana-Kanji Conversion</a>
 </ul>
 </details>
 <li><details><summary><a href='install.html'>Installation</a></summary>
@@ -173,14 +174,12 @@ These words are called homonyms.
 When you encounter homonyms, use the <span class='key'>変換</span> key to select the right word from the candidate list.
 You can also use the up and down arrow keys to select the candidate.
 Later, the most recently selected word will appear first in the candidate list when you convert the same homonym again.</p>
-<p><strong>Hint</strong>: If you enable the <a href="settings.html#llm">Use LLM for candidate selection</a> option, Hiragana IME will pre-select the most probable candidate using a Large Language Model.
-For example, when converting 'きどう', the pre-selected candidate changes according to the surrounding context as follows:</p>
+<h3>Hints</h3>
 <ul>
-<li><ruby>地球<rp>(</rp><rt>ちきゅう</rt><rp>)</rp></ruby>の<span style="background-color:#d1eaff"><ruby>軌道<rp>(</rp><rt>きどう</rt><rp>)</rp></ruby></span></li>
-<li>パソコンの<span style="background-color:#d1eaff"><ruby>起動<rp>(</rp><rt>きどう</rt><rp>)</rp></ruby></span></li>
+<li>If you enable the <a href="settings.html#llm">Use LLM for candidate selection</a> option, Hiragana IME will pre-select the most probable candidate from homonyms using LLM.</li>
+<li>Words not included in the Hiragana IME dictionaries won't appear in the candidate list when you press the <span class='key'>変換</span> key.
+You can add new words to your <a href="settings.html#dictionary">user dictionary</a>.</li>
 </ul>
-<p><strong>Hint</strong>: Words not included in the Hiragana IME dictionaries won't appear in the candidate list when you press the <span class='key'>変換</span> key.
-You can add new words to your <a href="settings.html#dictionary">user dictionary</a>.</p>
 <h2 id="input-okurigana">Entering Words with Okurigana</h2>
 <p>To enter a word with okurigana, press the <span class='key'>変換</span> key right after the part written in kanji.
 For example, to enter the sentence "<ruby>赤<rp>(</rp><rt>あか</rt><rp>)</rp></ruby>いチューリップの<ruby>花<rp>(</rp><rt>はな</rt><rp>)</rp></ruby>が<ruby>咲<rp>(</rp><rt>さ</rt><rp>)</rp></ruby>きました。", you will type as follows:</p>
@@ -222,12 +221,11 @@ The reading will be shortened to 'ろん' as intended, like below:</p>
 <pre><code>わたしの生き<u>がい</u><span style="background-color:#d1eaff">論</span></code></pre>
 
 <p><br><strong>Hint</strong>: If you enable the <a href="settings.html#llm">Use LLM for candidate selection</a> option,
-words with shorter readings would appear in the candidate list according to the surrounding context from the beginning.
-When you enter "わたしの<ruby>生<rp>(</rp><rt>い</rt><rp>)</rp></ruby>きがい<ruby>論<rp>(</rp><rt>ろん</rt><rp>)</rp></ruby>", Hiragana IME will create a candidate "<u>がい</u><span style="background-color:#d1eaff">論</span>" for you, like below:</p>
+a candidate with a shorter reading would appear according to the surrounding text.
+When you want to enter "わたしの<ruby>生<rp>(</rp><rt>い</rt><rp>)</rp></ruby>きがい<ruby>論<rp>(</rp><rt>ろん</rt><rp>)</rp></ruby>", Hiragana IME will suggest "<u>がい</u><span style="background-color:#d1eaff">論</span>" as a candidate from the beginning, as shown below:</p>
 <pre><code>わたしの生きがいろん<span class='key'>変換</span></code></pre>
 <pre><code>わたしの生き<u>がい</u><span style="background-color:#d1eaff">論</span></code></pre>
 
-<p>Using LLM significantly reduces the time you need to adjust the length of the reading.</p>
 <h2 id="katanaka">Converting into Katakana</h2>
 <p>You can input katakana words using the <span class='key'>カタカナ</span> key even if they are not in the dictionary.
 For example, follow these steps to convert "しどっち" into "シドッチ":</p>

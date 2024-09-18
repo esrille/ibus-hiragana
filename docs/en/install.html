@@ -44,7 +44,8 @@ function shrinkToc() {
 <li><details><summary><a href='index.html'>Hiragana IME for IBus</a></summary>
 <ul>
   <li><a href='index.html#introduction'>Introduction</a>
-  <li><a href='index.html#modeless'>Modeless input methods</a>
+  <li><a href='index.html#modeless'>Modeless Input Methods</a>
+  <li><a href='index.html#llm'>Utilizing a Large Language Model for Kana-Kanji Conversion</a>
 </ul>
 </details>
 <li><details open><summary><a href='install.html'>Installation</a></summary>
@@ -206,9 +207,9 @@ To use this, the following packages need to be installed:</p>
 <li><a href="https://huggingface.co/tohoku-nlp/bert-base-japanese-v3">tohoku-nlp/bert-base-japanese-v3</a></li>
 </ul>
 <p>Hiragana IME runs within a local Python virtual environment (venv).
-To install the above packages with this venv, follow these steps:</p>
+To install the above packages in this venv, follow these steps:</p>
 <ol>
-<li>In <strong><a href="settings.html#ibus-setup-hiragana">Hiragana IME Setup</a></strong> window, enable the <a href="settings.html#llm">Use LLM for candidate selection</a> option.</li>
+<li>In <strong><a href="settings.html#ibus-setup-hiragana">Hiragana IME Setup</a></strong> window, open the <strong>Option</strong> tab:</li>
 </ol>
 <p><img alt="Hiragana IME Setup Window" src="ibus-setup-hiragana_3.png"></p>
 <ol start="2">
@@ -217,14 +218,15 @@ To install the above packages with this venv, follow these steps:</p>
 <p><img alt="Post Installation Window" src="postinst_1.png"></p>
 <ol start="3">
 <li>Click <strong>Install</strong> to start the installation. The installation log will be displayed within the window.</li>
-<li>Once the installation is finished, the <strong>Install</strong> button will change to a <strong>Close</strong> button.</li>
 </ol>
 <p><img alt="Post Installation Window" src="postinst_2.png"></p>
-<ol start="5">
-<li>Click <strong>Close</strong> to close the window.</li>
+<ol start="4">
+<li>Once the installation is finished, the <strong>Install</strong> button will change to a <strong>Close</strong> button. Click it to close the window.</li>
 </ol>
 <p>The installation of the required packages for using LLM is now complete.
 When you log in again, you can use the candidate pre-selection feature using LLM.</p>
+<p><br><strong>Hint</strong>: If your PC has an NVIDIA GPU, the Hiragana IME can use CUDA to accelerate the LLM calculation.
+For more details, please see "<a href="settings.html#cuda">Use CUDA for LLM calculation</a>".</p>
 <h2 id="update">Updates</h2>
 <p>When a new release of the Hiragana IME is available, we will announce it on the <a href="https://github.com/esrille/ibus-hiragana/releases">Releases</a> page on GitHub.
 The steps for updating the Hiragana IME depend on how you install it.
