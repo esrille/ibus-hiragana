@@ -8,8 +8,9 @@ Source0:       https://github.com/esrille/%{name}/releases/download/v${source_ve
 Requires:      ibus >= 1.5.11
 Requires:      python3
 Requires:      python3-dbus
-Requires:      python-pip
+Requires:      python3-pip
 Requires:      python3-pyxdg
+Requires:      python3-wheel
 Requires:      yelp
 BuildRequires: gtk-update-icon-cache
 BuildRequires: gettext-devel
@@ -18,6 +19,7 @@ BuildRequires: libtool
 BuildRequires: meson >= 0.53.0
 BuildRequires: pkgconfig
 BuildRequires: python3-devel
+BuildRequires: python3-markdown
 BuildArch:     noarch
 
 %description
