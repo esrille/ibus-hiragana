@@ -2,10 +2,11 @@ pkgdatadir = get_option('prefix') / get_option('datadir') / meson.project_name()
 moduledir = pkgdatadir / 'setup'
 gnome = import('gnome')
 
-python = import('python')
+pymod = import('python')
+python = pymod.find_installation(get_option('python'))
 
 conf = configuration_data()
-conf.set('PYTHON', python.find_installation('python3').path())
+conf.set('PYTHON', python.path())
 conf.set('PACKAGE_NAME', meson.project_name())
 conf.set('VERSION', meson.project_version())
 conf.set('prefix', get_option('prefix'))
