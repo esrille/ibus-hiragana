@@ -19,5 +19,12 @@ PKGDATAHOME=~/.local/share/ibus-hiragana
 mkdir -p $PKGDATAHOME
 @PYTHON@ -m venv --system-site-packages $PKGDATAHOME/venv
 source $PKGDATAHOME/venv/bin/activate
+# A workaround for Fedora 41 beta
+python -m pip install PyGObject
+IBUS_PY=/usr/lib64/python3.13/site-packages/gi/overrides/IBus.py
+OVERRIDES=~/.local/share/ibus-hiragana/venv/lib64/python3.12/site-packages/gi/overrides
+if [ -f $IBUS_PY ] && [ -d $OVERRIDES ]; then
+  cp -pu $IBUS_PY $OVERRIDES
+fi
 python -O @prefix@/share/ibus-hiragana/engine/main.py $@
 deactivate

@@ -21,6 +21,9 @@ BuildRequires: pkgconfig
 BuildRequires: python3-devel
 BuildRequires: python3-markdown
 BuildArch:     noarch
+Requires:      python3.12-devel
+Requires:      cairo-gobject-devel
+Requires:      gobject-introspection-devel
 
 %description
 Hiragana IME for IBus.
@@ -31,7 +34,7 @@ Hiragana IME for IBus.
 %autosetup
 
 %build
-%meson
+%meson -Dpython=python3.12
 %meson_build
 
 %install
