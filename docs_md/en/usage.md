@@ -141,3 +141,18 @@ The next time you want to input "シドッチ", you can use the <span class='key
 
 <br>**Hint**: You can use the right <span class='key'>Shift</span> key instead of the <span class='key'>カタカナ</span> key.
 <br>**Note**: If you want to use a katakana word after clearing your input history, [register](settings.html#dictionary) it into your personal dictionary.
+
+## Find Information about Hiragana IME {: #about}
+
+Select **About Hiragana IME…** from the keyboard menu on the top bar to open the **About** dialog box.
+
+![Keyboard menu](keyboard-menu.png)
+
+In the About dialog box, you see the following information:
+
+- Hiragana IME version
+- LLM and CUDA information
+
+![About...](about.png)
+
+You can also check your GPU model if you have enabled the [Use CUDA for LLM calculation](settings.html#option) option in the Settings window.

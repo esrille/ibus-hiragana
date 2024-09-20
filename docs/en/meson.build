@@ -2,6 +2,7 @@ pkgdatadir = get_option('prefix') / get_option('datadir') / meson.project_name()
 moduledir = pkgdatadir / 'docs' / 'en'
 
 static_files = [
+  'about.png',
   'default.css',
   'ibus-setup-hiragana_1.png',
   'ibus-setup-hiragana_2.png',
