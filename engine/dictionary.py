@@ -193,7 +193,7 @@ class Dictionary:
                             self._merge_entry(dic, yomi[:-1], [yomi], reorder_only)
                 LOGGER.debug(f'Loaded {path}')
         except OSError:
-            LOGGER.exception(f'could not load "{path}"')
+            LOGGER.warning(f'could not load "{path}"')
 
     def _merge_entry(self, dic: dict[str, list[str]], yomi: str, words: list[str], reorder_only: bool):
         if not YOMI.match(yomi):
