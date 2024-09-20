@@ -90,13 +90,15 @@ export GTK_IM_MODULE=ibus
 
 You can check the version of GNOME by opening the GNOME **Settings** window, then going to **About This System**-**System Details**.
 
+### Restart your computer
+
+Please restart your computer to apply the changes before proceeding to the next section.
+
 ## Add the Hiragana IME to the input sources {: #input-source}
 
-**Note**: Keyboard layouts and input methods are collectively referred to as [input sources](https://wiki.gnome.org/Design/OS/LanguageInput).
-
-After installing the Hiragana IME software package, restart your computer.
-Then, follow the steps below to add the Hiragana IME to the input sources.
-The steps for setting up the input sources differ depending on your desktop environment.
+Next, we will add the Hiragana IME to the input sources.
+We call keyboard layouts and input methods collectively as **Input Sources** on GNOME.
+The setup process varies depending on your desktop environment.
 
 ### Instructions for GNOME
 
