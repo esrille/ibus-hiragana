@@ -440,3 +440,10 @@ def assist(prefix, yomi, words) -> dict[int, float]:
         p_dict = {index: value for index, value in enumerate(probabilities[:pos_cand])}
         p_dict[pos_yougen] = sum(probabilities[pos_cand:])
     return p_dict
+
+def get_info() -> str:
+    if not loaded():
+        return ''
+    if torch.cuda.is_available() and device.type == 'cuda':
+        return f'LLM/CUDA ({torch.cuda.get_device_name(device).replace("NVIDIA ", "")})'
+    return 'LLM'

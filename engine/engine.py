@@ -1551,7 +1551,12 @@ class EngineHiragana(EngineModeless):
             dialog.set_website_label('Esrille Inc.')
             dialog.set_logo_icon_name(package.get_name())
             dialog.set_default_icon_name(package.get_name())
-            dialog.set_version(package.get_version())
+            info = llm.get_info()
+            if info:
+                info = f'{package.get_version()} with {info}'
+            else:
+                info = package.get_version()
+            dialog.set_version(info)
             # To close the dialog when "close" is clicked on Raspberry Pi OS,
             # we connect the "response" signal to _about_response_cb
             dialog.connect('response', self._about_response_cb)
