@@ -769,8 +769,7 @@ class EngineHiragana(EngineModeless):
         enabled = self._settings.get_boolean('use-llm')
         use_cuda = self._settings.get_boolean('use-cuda')
         LOGGER.info(f'use-llm: {enabled}, use-cuda: {use_cuda}')
-        llm.load(enabled, 'cuda' if use_cuda else 'cpu')
-        return enabled
+        return llm.load(enabled, 'cuda' if use_cuda else 'cpu')
 
     def _lookup_dictionary(self, text, pos, anchor=0):
         self._lookup_table.clear()

@@ -46,16 +46,16 @@ def loaded() -> bool:
     return True
 
 
-def load(enable: bool, device_type: str = 'cpu'):
+def load(enable: bool, device_type: str = 'cpu') -> bool:
     global device, model, katuyou_tokens, tokenizer, torch, yougen_tokens
     if not enable:
-        return
+        return False
     try:
         import torch
         from transformers import AutoModelForMaskedLM, AutoTokenizer
     except ImportError:
         LOGGER.warning('Could not import transformers')
-        return
+        return False
     try:
         if model is None:
             if device_type == 'cuda' and torch.cuda.is_available():
@@ -69,8 +69,7 @@ def load(enable: bool, device_type: str = 'cpu'):
             tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, local_files_only=True)
     except OSError:
         LOGGER.warning(f'Local {MODEL_NAME} is not found')
-        return
-
+        return False
     if loaded() and not yougen_tokens:
         try:
             vocab = tokenizer.get_vocab()
@@ -83,7 +82,6 @@ def load(enable: bool, device_type: str = 'cpu'):
                     yomi = words[0]
                     words = words[1].strip(' \n/').split('/')
                     yougen_tokens[yomi] = [vocab[word] for word in words]
-
             with open(os.path.join(package.get_datadir(), 'dic', 'katuyou_token.dic'), 'r') as f:
                 for line in f:
                     line = line.strip('')
@@ -93,9 +91,10 @@ def load(enable: bool, device_type: str = 'cpu'):
                     stem = words[0]
                     words = words[1].strip(' \n/').split('/')
                     katuyou_tokens[stem] = words
-
         except OSError:
             LOGGER.warning('Could not load "yougen_vocab.dic"')
+            return False
+    return True
 
 
 def pick(prefix, candidates, yougen=-1, yougen_shrunk='', yougen_yomi='') -> dict[int, str]:
