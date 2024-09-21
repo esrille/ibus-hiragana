@@ -14,17 +14,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-prefix=@prefix@
 PKGDATAHOME=~/.local/share/ibus-hiragana
+PYTHON_VERSION=$(@PYTHON@ --version 2>&1)
+
 mkdir -p $PKGDATAHOME
 @PYTHON@ -m venv --system-site-packages $PKGDATAHOME/venv
 source $PKGDATAHOME/venv/bin/activate
+
+# Update venv if necessary
+VENV_VERSION=$(python --version 2>&1)
+if [ "$PYTHON_VERSION" != "$VENV_VERSION" ]; then
+  deactivate
+  rm -rf $PKGDATAHOME/venv
+  @PYTHON@ -m venv --system-site-packages $PKGDATAHOME/venv
+  source $PKGDATAHOME/venv/bin/activate
+fi
+
 # A workaround for Fedora 41 beta
 python -m pip install PyGObject
 IBUS_PY=/usr/lib64/python3.13/site-packages/gi/overrides/IBus.py
-OVERRIDES=~/.local/share/ibus-hiragana/venv/lib64/python3.12/site-packages/gi/overrides
-if [ -f $IBUS_PY ] && [ -d $OVERRIDES ]; then
-  cp -pu $IBUS_PY $OVERRIDES
+OVERRIDES_DIR=~/.local/share/ibus-hiragana/venv/lib64/python3.12/site-packages/gi/overrides
+if [ -f $IBUS_PY ] && [ -d $OVERRIDES_DIR ]; then
+  cp -pu $IBUS_PY $OVERRIDES_DIR
 fi
+
+# Run IBus engine
 python -O @prefix@/share/ibus-hiragana/engine/main.py $@
 deactivate
