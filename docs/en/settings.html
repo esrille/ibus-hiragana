@@ -357,7 +357,9 @@ When you type <span class='key'>~</span> after a vowel character in Alphanumeric
 <h3 id="cuda">Use CUDA for LLM calculation</h3>
 <p>When enabled, Hiragana IME uses CUDA to calculate the probabilities of each candidate's occurrence with LLM.
 If your PC has an NVIDIA GPU, you can reduce the time it takes for the candidate to appear after pressing the conversion key.</p>
-<p><strong>Caution</strong>: CUDA needs to be installed separately from Hiragana IME. Please refer to "<a href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/">NVIDIA CUDA Installation Guide for Linux</a>" for the instructions at the NVIDIA site.</p>
+<p><strong>Note</strong>: An NVIDIA driver is necessary to use CUDA with your GPU.
+Newer Fedora and Ubuntu offer NVIDIA drivers from the official software repositories.
+If the driver is successfully installed, you can see your GPU model name in the <strong><a href="usage.html#about">About</a></strong> dialog box.</p>
 <h3 id="transformers">Install required packages for using LLM</h3>
 <p>By clicking the <strong>Install…</strong> button, you can install the required packages to use LLM for candidate selection.
 For more details, please see "<a href="install.html#llm">Install additional components for using LLM</a>".</p>

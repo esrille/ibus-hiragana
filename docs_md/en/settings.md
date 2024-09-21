@@ -176,7 +176,9 @@ For example, when converting 'かいとう', the pre-selected candidate changes 
 When enabled, Hiragana IME uses CUDA to calculate the probabilities of each candidate's occurrence with LLM.
 If your PC has an NVIDIA GPU, you can reduce the time it takes for the candidate to appear after pressing the conversion key.
 
-**Caution**: CUDA needs to be installed separately from Hiragana IME. Please refer to "[NVIDIA CUDA Installation Guide for Linux](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/)" for the instructions at the NVIDIA site.
+**Note**: An NVIDIA driver is necessary to use CUDA with your GPU.
+Newer Fedora and Ubuntu offer NVIDIA drivers from the official software repositories.
+If the driver is successfully installed, you can see your GPU model name in the **[About](usage.html#about)** dialog box.
 
 ### Install required packages for using LLM {: #transformers}
 
