@@ -790,15 +790,17 @@ class EngineHiragana(EngineModeless):
         return cand, size
 
     def _assisted_lookup_dictionary(self, text, pos, anchor=0):
+        LOGGER.debug(f'_assisted_lookup_dictionary("{text}", {pos}, {anchor})')
+        assert anchor <= pos
         if not self._model:
             return self._lookup_dictionary(text, pos, anchor)
 
-        assert anchor <= pos
         plain = get_plain_text(text[:anchor])
-        anchor = len(plain)
+        new_anchor = len(plain)
         plain += get_plain_text(text[anchor:pos])
         new_pos = len(plain)
         plain += get_plain_text(text[pos:])
+        anchor = new_anchor
         pos = new_pos
 
         self._lookup_table.clear()
