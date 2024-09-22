@@ -527,7 +527,7 @@ class EngineHiragana(EngineModeless):
 
         self._use_half_width_digits = self._load_use_half_width_digits()
 
-        self._use_llm = self._load_use_llm()
+        self._model = self._load_use_llm()
         self._assisted = 0
         self._ignored = {}
 
@@ -550,7 +550,7 @@ class EngineHiragana(EngineModeless):
             self._keymap_handler = 0
 
     def _assist(self, text, pos):
-        if not self._use_llm:
+        if not self._model:
             return 0
         cand = self._dict.cand()
         if len(cand) <= 1:
@@ -567,7 +567,7 @@ class EngineHiragana(EngineModeless):
         yougen, yougen_shrunk, yougen_yomi = self._dict.lookup_yougen()
         LOGGER.debug(f'_assist: {yougen}, "{yougen_shrunk}", {yougen_yomi}')
 
-        p_dict = llm.pick(prefix, cand, yougen, yougen_shrunk, yougen_yomi)
+        p_dict = self._model.pick(prefix, cand, yougen, yougen_shrunk, yougen_yomi)
         self._assisted = max(p_dict, key=p_dict.get)
         LOGGER.debug(f'_assist: "{cand[self._assisted]}"/"{yomi}" ({self._assisted})')
         yomi, assisted = self._dict.get_stem(self._assisted)
@@ -790,7 +790,7 @@ class EngineHiragana(EngineModeless):
         return cand, size
 
     def _assisted_lookup_dictionary(self, text, pos, anchor=0):
-        if not self._use_llm:
+        if not self._model:
             return self._lookup_dictionary(text, pos, anchor)
 
         assert anchor <= pos
@@ -802,7 +802,7 @@ class EngineHiragana(EngineModeless):
         pos = new_pos
 
         self._lookup_table.clear()
-        cand, cursor_pos = self._dict.assisted_lookup(plain, pos, anchor)
+        cand, cursor_pos = self._dict.assisted_lookup(self._model, plain, pos, anchor)
         size = len(self._dict.reading())
         self._selected = False
         self._assisted = cursor_pos
@@ -1257,7 +1257,7 @@ class EngineHiragana(EngineModeless):
             self._setup_proc = None
         try:
             args = [os.path.join(package.get_libexecdir(), 'ibus-setup-hiragana')]
-            if llm.loaded():
+            if self._model:
                 args.append('--loaded')
             self._setup_proc = subprocess.Popen(args, text=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
             t = threading.Thread(target=self._setup_readline, args=(self._setup_proc,), daemon=True)
@@ -1313,7 +1313,7 @@ class EngineHiragana(EngineModeless):
         elif key == 'use-half-width-digits':
             self._use_half_width_digits = self._load_use_half_width_digits()
         elif key == 'use-llm':
-            self._use_llm = self._load_use_llm()
+            self._model = self._load_use_llm()
 
     def _keymap_state_changed_cb(self, keymap):
         if self._controller.is_onoff_by_caps():

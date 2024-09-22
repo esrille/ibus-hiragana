@@ -20,7 +20,6 @@ import logging
 import os
 import re
 
-import llm
 import package
 
 LOGGER = logging.getLogger(__name__)
@@ -494,7 +493,7 @@ class Dictionary:
             stem_list.append(stem)
         return stem_list
 
-    def assisted_lookup(self, text, pos, anchor=0):
+    def assisted_lookup(self, model, text, pos, anchor=0):
         LOGGER.debug(f'assisted_lookup("{text}", {pos}, {anchor})')
         if anchor + self._max_len < pos:
             anchor = pos - self._max_len
@@ -520,7 +519,7 @@ class Dictionary:
                         continue
                     self.lookup_numeric(text, i, pos, numeric)
                     if self._numeric:
-                        p_dict = llm.assist(text[:pos - len(self._yomi)], self._yomi, self._cand)
+                        p_dict = model.assist(text[:pos - len(self._yomi)], self._yomi, self._cand)
                         shrunk = ''
                         suggested = max(p_dict, key=p_dict.get)
                     break
@@ -537,7 +536,7 @@ class Dictionary:
                             else:
                                 shrunk = ''
                         yomi = self._yomi
-                        p_dict = llm.assist(text[:pos - len(self._yomi)], self._yomi, self._cand)
+                        p_dict = model.assist(text[:pos - len(self._yomi)], self._yomi, self._cand)
                         suggested = max(p_dict, key=p_dict.get)
                         word_assisted = self._cand[suggested]
                         if shrunk and (p_dict[0] < suggested or self.is_rejected(yomi, shrunk)):
@@ -583,7 +582,7 @@ class Dictionary:
                 if yomi != self._yomi:
                     yomi = self._yomi
                     stem_list = self._get_stem_list()
-                    p_dict = llm.assist_yougen(text[:pos - len(yomi)], yomi, stem_list)
+                    p_dict = model.assist_yougen(text[:pos - len(yomi)], yomi, stem_list)
                     suggested = max(p_dict, key=p_dict.get)
                     # Look for shrunk word in _cand
                     yy, stem = self.get_stem(suggested)
