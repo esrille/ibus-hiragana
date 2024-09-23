@@ -123,6 +123,15 @@ class TestDictionary(unittest.TestCase):
         # result = self.dict._match('w', 'っは')
         # self.assertEqual(result, 0)
 
+    def test_assisted_lookup(self):
+        if not self.model:
+            self.skipTest('LLM not loaded')
+            return
+        text = 'たまわ―る'
+        cand, suggested = self.dict.assisted_lookup(self.model, text, len(text), 0)
+        self.dict.confirm('')
+        self.assertEqual(cand, '賜る')
+
     def test_zyosuusi(self):
         if not self.model:
             self.skipTest('LLM not loaded')
