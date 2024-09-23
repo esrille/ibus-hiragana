@@ -558,6 +558,8 @@ class Dictionary:
         else:
             cand = []
             stem = ''
+            pos_found = -1
+            pos_shrunk = -1
             for i in range(suffix - 1, anchor - 1, -1):
                 if text[i] not in HIRAGANA:
                     break
@@ -566,10 +568,12 @@ class Dictionary:
                     if not cand:
                         continue
                     if shrunk:
-                        # Remove shrunk found in the previous lookup.
-                        assert shrunk in cand
-                        cand.remove(shrunk)
-                    shrunk = text[i] + stem
+                        # Remove shrunk created in the previous lookup
+                        cand_shrunk = self._dict.get(text[pos_shrunk:suffix + 1])
+                        assert shrunk in cand_shrunk
+                        cand_shrunk.remove(shrunk)
+                    shrunk = text[i:pos_found] + stem
+                    pos_shrunk = i
                     if shrunk not in cand:
                         # Temporarily register shrunk in the working dictionary
                         cand = cand[:]
@@ -581,6 +585,7 @@ class Dictionary:
                 cont = self.lookup_next_yougen(text, i, pos, suffix)
                 if yomi != self._yomi:
                     yomi = self._yomi
+                    pos_found = i
                     stem_list = self._get_stem_list()
                     p_dict = model.assist_yougen(text[:pos - len(yomi)], yomi, stem_list)
                     suggested = max(p_dict, key=p_dict.get)
