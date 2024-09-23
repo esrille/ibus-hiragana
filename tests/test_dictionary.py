@@ -39,7 +39,7 @@ class TestDictionary(unittest.TestCase):
         path = settings.get_string('dictionary')
         user = settings.get_string('user-dictionary')
         cls.dict = Dictionary(path, user, True)
-        llm.load(True)
+        cls.model = llm.load(True)
 
     def test__match(self):
         self.dict.use_romazi(False)
@@ -124,11 +124,11 @@ class TestDictionary(unittest.TestCase):
         # self.assertEqual(result, 0)
 
     def test_zyosuusi(self):
-        if not llm.loaded():
+        if not self.model:
             self.skipTest('LLM not loaded')
             return
         text = '2かげつ'
-        cand, suggested = self.dict.assisted_lookup(text, len(text), 0)
+        cand, suggested = self.dict.assisted_lookup(self.model, text, len(text), 0)
         self.dict.confirm('')
         self.assertEqual(cand, 'か月')
 
