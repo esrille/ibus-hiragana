@@ -20,6 +20,7 @@ if get_option('enable-html') == false
 
   html_files = [
     'altgr.html',
+    'developer.html',
     'index.html',
     'install.html',
     'key_assign.html',

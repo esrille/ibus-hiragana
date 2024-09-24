@@ -43,35 +43,6 @@ sudo apt update
 sudo apt install ibus-hiragana
 ```
 
-### Install from source
-
-To install the Hiragana IME from the source code, enter the following commands into a terminal:
-
-```
-git clone https://github.com/esrille/ibus-hiragana.git
-cd ibus-hiragana
-meson setup --prefix /usr _build [-Denable-dic=true] [-Denable-html=true]
-ninja -C _build
-ninja -C _build install
-```
-
-- Specify -Denable-dic=true to build Kanji and Katakana dictionaries.
-- Specify -Denable-html=true to generate HTML documents from the markdown files.
-
-Refer to Build-Depends in debian/control or BuildRequires in ibus-hiragana.spec for the packages required for building the Hiragana IME.
-
-If you are using Fedora, you can use the following command to install the required packages:
-
-```
-sudo yum-builddep ibus-hiragana.spec
-```
-
-If you are using Ubuntu, you can use the following command to install the required packages:
-
-```
-sudo apt build-dep .
-```
-
 ### Change the input method module for Wayland {: #wayland}
 
 From Ubuntu 21.04 and Fedora 25 onwards, Wayland is used by default for screen rendering.
@@ -191,16 +162,6 @@ sudo apt update
 sudo apt upgrade
 ```
 
-### Updating from the source code
-
-To update the Hiragana IME from the source code, enter the following commands into a terminal:
-
-```
-git pull
-ninja -C _build
-ninja -C _build install
-```
-
 ## Uninstall {: #uninstall}
 
 The steps for uninstalling the Hiragana IME depend on how you install it.
@@ -220,21 +181,6 @@ To uninstall the Hiragana IME, use the following <code>apt</code> command:
 
 ```
 sudo apt remove ibus-hiragana
-```
-
-### Uninstalling from the source code
-
-To uninstall the Hiragana IME that is built from the source code, enter the following command into a terminal:
-
-```
-sudo ninja -C _build uninstall
-```
-
-<code>ninja</code> does not remove the directory <code>/usr/share/ibus-hiragana</code> with the <code>install</code> command.
-To remove this directory, enter the following command into a terminal:
-
-```
-sudo rm -rf /usr/share/ibus-hiragana
 ```
 
 ## User data stored in your home directory {: #user-files}

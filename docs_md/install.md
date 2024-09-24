@@ -42,33 +42,6 @@ sudo apt update
 sudo apt install ibus-hiragana
 ```
 
-### ソースコードからインストールするばあい
-
-　「ひらがなIME」をソースコードからビルドしてインストールするには、つぎのようにします。
-
-```
-git clone https://github.com/esrille/ibus-hiragana.git
-cd ibus-hiragana
-meson setup --prefix /usr _build [-Denable-dic=true] [-Denable-html=true]
-ninja -C _build
-ninja -C _build install
-```
-
-- -Denable-dic=trueを￹指定￺してい￻すると、￹漢字￺かんじ￻￹辞書￺じしょ￻とカタカナ￹辞書￺じしょ￻をビルドすることができます。
-- -Denable-html=trueを￹指定￺してい￻すると、マークダウン ファイルからヘルプ￹用￺よう￻のhtmlファイルをビルドすることができます。
-
-　ビルドするときに￹必要￺ひつよう￻なパッケージについては、debian/controlのBuild-Depends、あるいは、ibus-hiragana.specのBuildRequiresを￹参考￺さんこう￻にしてください。
-　Fedoraであれば、つぎのコマンドでビルドに￹必要￺ひつよう￻なパッケージをインストールできます。
-
-```
-sudo yum-builddep ibus-hiragana.spec
-```
-
-　Ubuntuであれば、つぎのコマンドでビルドに￹必要￺ひつよう￻なパッケージをインストールできます。
-```
-sudo apt build-dep .
-```
-
 ### Wayland￹用￺よう￻のインプットメソッドモジュールを￹変更￺へんこう￻をする {: #wayland}
 
 　Ubuntu 21.04￹以降￺いこう￻やFedora 25￹以降￺いこう￻では、デフォルトで￹画面￺がめん￻の￹描画￺びょうが￻にWaylandをつかうようになっています。
@@ -135,7 +108,7 @@ GNOMEでは、キーボード￹配列￺はいれつ￻やインプット メ�
 USはUnited States (of America)の￹略￺りゃく￻です。
 ￹英語￺えいご￻キーボードでも、イギリスのものはアメリカのものとまたすこしキーボード レイアウトがちがいます。
 
-## ￹大規模￺だいきぼ￻￹言語￺げんご￻モデルを￹利用￺りよう￻するときの￹追加￺ついか￻のインストール {: #llm}
+## ￹大規模￺だいきぼ￻￹言語￺げんご￻モデルを￹利用￺りよう￻するための￹追加￺ついか￻のインストール {: #llm}
 
 　「ひらがなIME」には、￹大規模￺だいきぼ￻￹言語￺げんご￻モデル(LLM)を￹利用￺りよう￻して、かな￹漢字￺かんじ￻￹変換￺へんかん￻をアシストする￹機能￺きのう￻があります。
 この￹機能￺きのう￻を￹有効￺ゆうこう￻にするには、つぎのようなパッケージを￹追加￺ついか￻でインストールする￹必要￺ひつよう￻があります。
@@ -143,7 +116,7 @@ USはUnited States (of America)の￹略￺りゃく￻です。
 - [Huggingface Transformers](https://huggingface.co/docs/transformers/ja/installation)
 - [tohoku-nlp/bert-base-japanese-v3](https://huggingface.co/tohoku-nlp/bert-base-japanese-v3)
 
-　「ひらがなIME」は、ローカルのPython venvのなかで￹実行￺じっこう￻されています。
+　「ひらがなIME」は、Pythonのvenvのなかで￹実行￺じっこう￻されています。
 つぎのようにすると、このvenvに￹上記￺じょうき￻のパッケージをインストールできます。
 
 1. 「[ひらがなIMEの￹設定￺せってい￻](settings.html#ibus-setup-hiragana)」ウィンドウで、「オプション」タブをひらきます。
@@ -189,16 +162,6 @@ sudo apt update
 sudo apt upgrade
 ```
 
-### ソースコードからインストールしたばあい
-
-　￹以下￺いか￻のコマンドを￹参考￺さんこう￻に、￹最新￺さいしん￻のソースコードを￹取得￺しゅとく￻してビルドしなおしてください。
-
-```
-git pull
-ninja -C _build
-ninja -C _build install
-```
-
 ## アンインストールのしかた {: #uninstall}
 
 　「ひらがなIME」のアンインストールは、インストールした￹方法￺ほうほう￻にあわせて、おこなってください。
@@ -216,19 +179,6 @@ sudo dnf remove ibus-hiragana
 　aptコマンドで「ひらがなIME」をアンインストールします。
 ```
 sudo apt remove ibus-hiragana
-```
-
-### ソースコードからインストールしたばあい
-
-　ソースコードからインストールした「ひらがなIME」をアンインストールするには、つぎのようにします。
-
-```
-sudo ninja -C _build uninstall
-```
-　ninjaのuninstallコマンドは、ディレクトリ <code>/usr/share/ibus-hiragana</code> までは￹削除￺さくじょ￻しません。
-このディレクトリが￹不要￺ふよう￻なときは、つぎのようにして￹削除￺さくじょ￻します。
-```
-sudo rm -rf /usr/share/ibus-hiragana
 ```
 
 ## ホームディレクトリ￹内￺ない￻に￹保存￺ほぞん￻されるユーザーのデータについて {: #user-files}

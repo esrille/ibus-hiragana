@@ -14,7 +14,8 @@ toc = custom_target(
     'settings.md',
     'layouts.md',
     'roomazi.md',
-    'altgr.md'
+    'altgr.md',
+    'developer.md'
   )],
   output: 'toc.txt',
   command: [python_prog, '@INPUT@'],
@@ -22,14 +23,15 @@ toc = custom_target(
 )
 
 contents = [
-  ['index.md', 'altgr.md', 'install.md', 'index.html'],
+  ['index.md', 'developer.md', 'install.md', 'index.html'],
   ['install.md', 'index.md', 'usage.md', 'install.html'],
   ['usage.md', 'install.md', 'key_assign.md', 'usage.html'],
   ['key_assign.md', 'usage.md', 'settings.md', 'key_assign.html'],
   ['settings.md', 'key_assign.md', 'layouts.md', 'settings.html'],
   ['layouts.md', 'settings.md', 'roomazi.md', 'layouts.html'],
   ['roomazi.md', 'layouts.md', 'altgr.md', 'roomazi.html'],
-  ['altgr.md', 'roomazi.md', 'index.md', 'altgr.html'],
+  ['altgr.md', 'roomazi.md', 'developer.md', 'altgr.html'],
+  ['developer.md', 'altgr.md', 'index.md', 'developer.html']
 ]
 
 foreach content : contents

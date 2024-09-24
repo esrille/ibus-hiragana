@@ -106,6 +106,13 @@ function shrinkToc() {
   <li><a href='altgr.html#altgr-characters'>Entering Characters and Symbols on the <span class='key'>AltGr</span> Layers</a>
 </ul>
 </details>
+<li><details><summary><a href='developer.html'>Development</a></summary>
+<ul>
+  <li>Install from source
+  <li><a href='developer.html#tests'>Unit Testing</a>
+  <li><a href='developer.html#uninstall'>Uninstall</a>
+</ul>
+</details>
 
 </ul>
 <hr>
@@ -140,25 +147,6 @@ To enable this repository, enter the following command into a terminal:</p>
 <p>To install the Hiragana IME, use the following <strong>apt</strong> command as usual:</p>
 <pre><code>sudo apt update
 sudo apt install ibus-hiragana
-</code></pre>
-<h3>Install from source</h3>
-<p>To install the Hiragana IME from the source code, enter the following commands into a terminal:</p>
-<pre><code>git clone https://github.com/esrille/ibus-hiragana.git
-cd ibus-hiragana
-meson setup --prefix /usr _build [-Denable-dic=true] [-Denable-html=true]
-ninja -C _build
-ninja -C _build install
-</code></pre>
-<ul>
-<li>Specify -Denable-dic=true to build Kanji and Katakana dictionaries.</li>
-<li>Specify -Denable-html=true to generate HTML documents from the markdown files.</li>
-</ul>
-<p>Refer to Build-Depends in debian/control or BuildRequires in ibus-hiragana.spec for the packages required for building the Hiragana IME.</p>
-<p>If you are using Fedora, you can use the following command to install the required packages:</p>
-<pre><code>sudo yum-builddep ibus-hiragana.spec
-</code></pre>
-<p>If you are using Ubuntu, you can use the following command to install the required packages:</p>
-<pre><code>sudo apt build-dep .
 </code></pre>
 <h3 id="wayland">Change the input method module for Wayland</h3>
 <p>From Ubuntu 21.04 and Fedora 25 onwards, Wayland is used by default for screen rendering.
@@ -244,12 +232,6 @@ To do so from the command line, use the following <code>apt</code> commands:</p>
 <pre><code>sudo apt update
 sudo apt upgrade
 </code></pre>
-<h3>Updating from the source code</h3>
-<p>To update the Hiragana IME from the source code, enter the following commands into a terminal:</p>
-<pre><code>git pull
-ninja -C _build
-ninja -C _build install
-</code></pre>
 <h2 id="uninstall">Uninstall</h2>
 <p>The steps for uninstalling the Hiragana IME depend on how you install it.
 Follow the uninstall steps that correspond to your installation method.</p>
@@ -260,14 +242,6 @@ Follow the uninstall steps that correspond to your installation method.</p>
 <h3>Instructions for Ubuntu</h3>
 <p>To uninstall the Hiragana IME, use the following <code>apt</code> command:</p>
 <pre><code>sudo apt remove ibus-hiragana
-</code></pre>
-<h3>Uninstalling from the source code</h3>
-<p>To uninstall the Hiragana IME that is built from the source code, enter the following command into a terminal:</p>
-<pre><code>sudo ninja -C _build uninstall
-</code></pre>
-<p><code>ninja</code> does not remove the directory <code>/usr/share/ibus-hiragana</code> with the <code>install</code> command.
-To remove this directory, enter the following command into a terminal:</p>
-<pre><code>sudo rm -rf /usr/share/ibus-hiragana
 </code></pre>
 <h2 id="user-files">User data stored in your home directory</h2>
 <p>The Hiragana IME stores user data in the directory <code>~/.local/share/ibus-hiragana/</code>.

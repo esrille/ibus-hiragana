@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, maximum-scale=1.0, user-scalable=yes'>
+<title>Development — Hiragana IME</title>
+<link href='../icon.png' rel='icon'>
+<link rel='stylesheet' type='text/css' href='default.css'>
+<meta content='Development' name='description'>
+<meta content='https://esrille.github.io/ibus-hiragana/developer.html' property='og:url'>
+<meta content='Development — Hiragana IME' property='og:title'>
+<meta content='Development' property='og:description'>
+<meta content='https://esrille.github.io/ibus-hiragana/screenshot.png' property='og:image'>
+<meta content='product' property='og:type'>
+<meta content='summary_large_image' name='twitter:card'>
+<meta content='@esrille' name='twitter:creator'>
+<script>
+function expandToc() {
+  document.getElementById('toc').querySelectorAll('details').forEach((e) => {
+    e.setAttribute('open', 'open')
+  })
+}
+function shrinkToc() {
+  document.getElementById('toc').querySelectorAll('details').forEach((e) => {
+    e.removeAttribute('open')
+  })
+}
+</script>
+</head>
+<body>
+<div id='wrapper'>
+<div id='sidebar'>
+<header id='title'>
+<a href='https://github.com/esrille/ibus-hiragana'><img alt='icon' src='../icon.png'> Hiragana IME</a>
+<div style='float: right; font-size: 10px;'>
+<div style='position: relative; top: 18px;'>
+<button onclick='shrinkToc()'>▲</button>
+<button onclick='expandToc()'>▼</button>
+</div>
+</div>
+</header>
+<div id='toc'>
+<ul>
+<li><details><summary><a href='index.html'>Hiragana IME for IBus</a></summary>
+<ul>
+  <li><a href='index.html#introduction'>Introduction</a>
+  <li><a href='index.html#modeless'>Modeless Input Methods</a>
+  <li><a href='index.html#llm'>Utilizing a Large Language Model for Kana-Kanji Conversion</a>
+</ul>
+</details>
+<li><details><summary><a href='install.html'>Installation</a></summary>
+<ul>
+  <li><a href='install.html#install'>Install the Hiragana IME software package</a>
+  <li><a href='install.html#input-source'>Add the Hiragana IME to the input sources</a>
+  <li><a href='install.html#enable'>Enable the Hiragana IME</a>
+  <li><a href='install.html#llm'>Install additional components for using LLM</a>
+  <li><a href='install.html#update'>Updates</a>
+  <li><a href='install.html#uninstall'>Uninstall</a>
+  <li><a href='install.html#user-files'>User data stored in your home directory</a>
+</ul>
+</details>
+<li><details><summary><a href='usage.html'>Usage</a></summary>
+<ul>
+  <li><a href='usage.html#input-mode'>Changing Input Modes</a>
+  <li><a href='usage.html#input-kanji'>Inputting Kanji and Katakana Words</a>
+  <li><a href='usage.html#input-okurigana'>Entering Words with Okurigana</a>
+  <li><a href='usage.html#input-shrink'>Changing the Length of the Reading</a>
+  <li><a href='usage.html#katanaka'>Converting into Katakana</a>
+  <li><a href='usage.html#about'>Find Information about Hiragana IME</a>
+</ul>
+</details>
+<li><details><summary><a href='key_assign.html'>Key Bindings</a></summary>
+<ul>
+  <li><a href='key_assign.html#input-mode'>Key Bindings for Changing Input Mode</a>
+  <li><a href='key_assign.html#input-hiragana-mode'>Key bindings in Hiragana Mode</a>
+  <li><a href='key_assign.html#input-conversion'>Key Bindings during Conversion</a>
+</ul>
+</details>
+<li><details><summary><a href='settings.html'>Settings</a></summary>
+<ul>
+  <li><a href='settings.html#ibus-setup-hiragana'>Hiragana IME Setup Window</a>
+  <li><a href='settings.html#layout'>Keyboard Tab</a>
+  <li><a href='settings.html#dictionary'>Dictionary Tab</a>
+  <li><a href='settings.html#option'>Option Tab</a>
+  <li><a href='settings.html#personal-dictionary'>Editing Personal Dictionaries</a>
+</ul>
+</details>
+<li><details><summary><a href='layouts.html'>Kana Input</a></summary>
+<ul>
+  <li><a href='layouts.html#jis'>Kana (JIS Layout)</a>
+  <li><a href='layouts.html#new_stickney'>Kana (New Stickney Layout)</a>
+  <li><a href='layouts.html#history'>Why the current JIS Kana layout is hard to use?</a>
+</ul>
+</details>
+<li><details><summary><a href='roomazi.html'>Rōmaji Input</a></summary>
+<ul>
+  <li><a href='roomazi.html#tuzuri'>Inputting Japanese in Rōmaji</a>
+  <li><a href='roomazi.html#hyo'>Romanization Charts</a>
+  <li><a href='roomazi.html#keyboard'>Key Bindings</a>
+</ul>
+</details>
+<li><details><summary><a href='altgr.html'>AltGr Key</a></summary>
+<ul>
+  <li><a href='altgr.html#altgr'>What is <span class='key'>AltGr</span> key?</a>
+  <li><a href='altgr.html#altgr-settings'>Switching the right <span class='key'>Alt</span> key to the <span class='key'>AltGr</span> key</a>
+  <li><a href='altgr.html#altgr-characters'>Entering Characters and Symbols on the <span class='key'>AltGr</span> Layers</a>
+</ul>
+</details>
+<li><details open><summary><a href='developer.html'>Development</a></summary>
+<ul>
+  <li>Install from source
+  <li><a href='developer.html#tests'>Unit Testing</a>
+  <li><a href='developer.html#uninstall'>Uninstall</a>
+</ul>
+</details>
+
+</ul>
+<hr>
+<a href='../index.html' id='toc-lang'>日本語 🌎</a>
+</div>
+</div>
+<main>
+<h1>Development</h1>
+<h2>Install from source</h2>
+<p>To install Hiragana IME from the source code, enter the following commands into a terminal:</p>
+<pre><code>git clone https://github.com/esrille/ibus-hiragana.git
+cd ibus-hiragana
+meson setup --prefix /usr _build [-Denable-dic=true] [-Denable-html=true]
+ninja -C _build
+ninja -C _build install
+</code></pre>
+<ul>
+<li>Specify -Denable-dic=true to build Kanji and Katakana dictionaries.</li>
+<li>Specify -Denable-html=true to generate HTML documents from the markdown files.</li>
+</ul>
+<p>Refer to Build-Depends in debian/control or BuildRequires in ibus-hiragana.spec for the packages required for building the Hiragana IME.</p>
+<p>If you are using Fedora, you can use the following command to install the required packages:</p>
+<pre><code>sudo yum-builddep ibus-hiragana.spec
+</code></pre>
+<p>If you are using Ubuntu, you can use the following command to install the required packages:</p>
+<pre><code>sudo apt build-dep .
+</code></pre>
+<h2 id="tests">Unit Testing</h2>
+<p>Hiragana IME runs within a local Python virtual environment (venv).
+You need to run tests within this venv.
+You also need to <a href="install.html#llm">install</a> additional components to use LLM for testing some tests.</p>
+<p>To run tests, enter the following commands into a terminal:</p>
+<pre><code>source ~/.local/share/ibus-hiragana/venv/bin/activate
+meson test -C _build --verbose
+</code></pre>
+<h2 id="uninstall">Uninstall</h2>
+<p>To uninstall Hiragana IME that is built from the source code, enter the following command into a terminal:</p>
+<pre><code>sudo ninja -C _build uninstall
+</code></pre>
+<p><code>ninja</code> does not remove the directory <code>/usr/share/ibus-hiragana</code> with the <code>uninstall</code> command.
+To remove this directory, enter the following command into a terminal:</p>
+<pre><code>sudo rm -rf /usr/share/ibus-hiragana
+</code></pre>
+</main>
+</div>
+
+<nav>
+<a href=altgr.html id='nav-prev'><div>&lt;</div></a>
+<a href=index.html id='nav-next'><div>&gt;</div></a>
+</nav>
+</body>
+</html>
