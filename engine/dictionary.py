@@ -494,12 +494,16 @@ class Dictionary:
         return stem_list
 
     def assisted_lookup(self, model, text, pos, anchor=0):
-        LOGGER.debug(f'assisted_lookup("{text}", {pos}, {anchor})')
+        LOGGER.debug(f'assisted_lookup("{text}", {pos}, {anchor}) : _shrunk="{self._shrunk}"')
+
+        # Clear self._shrunk
+        self.reset()
+
         if anchor + self._max_len < pos:
             anchor = pos - self._max_len
         self.reset()
         suggested = 0
-        word_assisted = ''
+        suggested_word = ''
         shrunk = ''
         yomi = ''
         suffix = text[anchor:pos].rfind('―')
@@ -526,24 +530,24 @@ class Dictionary:
                 else:
                     cont = self.lookup_next_taigen(text, i, pos)
                     if yomi != self._yomi:
-                        if word_assisted:
-                            word_assisted = self._yomi[:-len(yomi)] + word_assisted
-                            if word_assisted not in self._cand:
+                        if suggested_word:
+                            suggested_word = self._yomi[:-len(yomi)] + suggested_word
+                            if suggested_word not in self._cand:
                                 cand = self._cand[:]
-                                cand.insert(0, word_assisted)
+                                cand.insert(0, suggested_word)
                                 self._cand = cand
-                                shrunk = word_assisted
+                                shrunk = suggested_word
                             else:
                                 shrunk = ''
                         yomi = self._yomi
                         p_dict = model.assist(text[:pos - len(self._yomi)], self._yomi, self._cand)
                         suggested = max(p_dict, key=p_dict.get)
-                        word_assisted = self._cand[suggested]
+                        suggested_word = self._cand[suggested]
                         if shrunk and (p_dict[0] < suggested or self.is_rejected(yomi, shrunk)):
                             del self._cand[0]
                             shrunk = ''
                             suggested -= 1
-                        LOGGER.debug(f'assisted_lookup: {self._yomi} /{word_assisted}/ ; /{shrunk}/')
+                        LOGGER.debug(f'assisted_lookup: {self._yomi} /{suggested_word}/ ; /{shrunk}/')
                     if not cont:
                         break
             if shrunk:

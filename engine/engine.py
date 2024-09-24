@@ -549,33 +549,6 @@ class EngineHiragana(EngineModeless):
             self._keymap.disconnect(self._keymap_handler)
             self._keymap_handler = 0
 
-    def _assist(self, text, pos):
-        if not self._model:
-            return 0
-        cand = self._dict.cand()
-        if len(cand) <= 1:
-            return 0
-
-        yomi = self._dict.reading()
-
-        LOGGER.debug(f'_assist("{text}", {pos}): {yomi}')
-
-        prefix = get_plain_text(text[:pos - len(yomi)])
-        if prefix == '':
-            return 0
-
-        yougen, yougen_shrunk, yougen_yomi = self._dict.lookup_yougen()
-        LOGGER.debug(f'_assist: {yougen}, "{yougen_shrunk}", {yougen_yomi}')
-
-        p_dict = self._model.pick(prefix, cand, yougen, yougen_shrunk, yougen_yomi)
-        self._assisted = max(p_dict, key=p_dict.get)
-        LOGGER.debug(f'_assist: "{cand[self._assisted]}"/"{yomi}" ({self._assisted})')
-        yomi, assisted = self._dict.get_stem(self._assisted)
-        if assisted in self._ignored.get(yomi, set()):
-            LOGGER.debug(f'_assist: ignore "{cand[self._assisted]}", use "{cand[0]}"')
-            return 0
-        return self._assisted
-
     def _confirm_candidate(self):
         current = self._dict.current()
         if current:
@@ -778,15 +751,10 @@ class EngineHiragana(EngineModeless):
         self._selected = False
         self._assisted = 0
         # Note if the current conversion is complete, it is automatically confirmed.
-        # No LLM assistance is necessary in this case.
         if 0 < size and 1 < len(self._dict.cand()) and not self._dict.is_complete():
             for i, c in enumerate(self._dict.cand()):
                 self._lookup_table.append_candidate(IBus.Text.new_from_string(c))
                 self._lookup_table.set_label(i, IBus.Text.new_from_string(' '))
-            cursor_pos = self._assist(text, pos)
-            if 0 < cursor_pos:
-                self._lookup_table.set_cursor_pos(cursor_pos)
-                self._update_candidate()
         return cand, size
 
     def _assisted_lookup_dictionary(self, text, pos, anchor=0):
@@ -860,7 +828,7 @@ class EngineHiragana(EngineModeless):
         text, pos = self.get_surrounding_string()
         text = text[:pos] + yomi + text[pos:]
         pos += len(yomi)
-        cand, size = self._lookup_dictionary(text, pos, pos - len(kana + yomi))
+        cand, size = self._assisted_lookup_dictionary(text, pos, pos - len(kana + yomi))
         assert 0 < size
         self.delete_surrounding_string(len(kana))
         self._shrunk.pop(-1)
@@ -953,14 +921,14 @@ class EngineHiragana(EngineModeless):
         text, pos = self.get_surrounding_string()
         text = text[:pos] + yomi + text[pos:]
         pos += len(yomi)
-        cand, size = self._lookup_dictionary(text, pos, pos - (len(yomi) - 1))
+        cand, size = self._assisted_lookup_dictionary(text, pos, pos - (len(yomi) - 1))
         if 0 < size:
             kana = yomi[:-size]
             self._shrunk.append(kana)
             self.commit_string(kana)
         else:
             # Restore self._dict
-            self._lookup_dictionary(text, pos, pos - len(yomi))
+            self._assisted_lookup_dictionary(text, pos, pos - len(yomi))
         return True
 
     def _process_surrounding_text(self, e: Event) -> bool:
