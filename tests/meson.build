@@ -1,13 +1,15 @@
-pkgdatadir = get_option('prefix') / get_option('datadir') / meson.project_name()
-moduledir = pkgdatadir / 'engine'
 test_dir = meson.source_root() / 'tests'
 
 pymod = import('python')
 python = pymod.find_installation('python')
 
-# Run tests using the install directory to include generated python source file(s).
+# Include generated python source file(s).
+python_paths = [
+  meson.current_build_dir() / '..' / 'engine',
+  meson.source_root() / 'engine'
+]
 test_env = environment()
-test_env.set('PYTHONPATH', moduledir)
+test_env.set('PYTHONPATH', python_paths)
 
 # To test, execute the following command within a venv:
 # $ meson test -C _build
