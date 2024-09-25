@@ -108,7 +108,7 @@ function shrinkToc() {
 </details>
 <li><details open><summary><a href='developer.html'>Development</a></summary>
 <ul>
-  <li>Install from source
+  <li>Build and Install
   <li><a href='developer.html#tests'>Unit Testing</a>
   <li><a href='developer.html#uninstall'>Uninstall</a>
 </ul>
@@ -121,17 +121,19 @@ function shrinkToc() {
 </div>
 <main>
 <h1>Development</h1>
-<h2>Install from source</h2>
-<p>To install Hiragana IME from the source code, enter the following commands into a terminal:</p>
+<h2>Build and Install</h2>
+<p>To build and install Hiragana IME from the source code, enter the following commands into a terminal:</p>
 <pre><code>git clone https://github.com/esrille/ibus-hiragana.git
 cd ibus-hiragana
-meson setup --prefix /usr _build [-Denable-dic=true] [-Denable-html=true]
+meson setup --prefix /usr _build [-Denable-dic=false] [-Denable-html=false] [-Dpython=python3]
 ninja -C _build
 ninja -C _build install
 </code></pre>
+<p>With <code>meson setup</code>, you can specify the following options:</p>
 <ul>
-<li>Specify -Denable-dic=true to build Kanji and Katakana dictionaries.</li>
-<li>Specify -Denable-html=true to generate HTML documents from the markdown files.</li>
+<li>Specify <code>-Denable-dic=true</code> to build Kanji and Katakana dictionaries.</li>
+<li>Specify <code>-Denable-html=true</code> to generate HTML documents from the markdown files.</li>
+<li>Use <code>-Dpython</code> to specify the Python command. For instance, to use Python 3.12, set <code>-Dpython=python3.12</code>.</li>
 </ul>
 <p>Refer to Build-Depends in debian/control or BuildRequires in ibus-hiragana.spec for the packages required for building the Hiragana IME.</p>
 <p>If you are using Fedora, you can use the following command to install the required packages:</p>

@@ -7,13 +7,16 @@
 ```
 git clone https://github.com/esrille/ibus-hiragana.git
 cd ibus-hiragana
-meson setup --prefix /usr _build [-Denable-dic=true] [-Denable-html=true]
+meson setup --prefix /usr _build [-Denable-dic=false] [-Denable-html=false] [-Dpython=python3]
 ninja -C _build
 ninja -C _build install
 ```
 
-- -Denable-dic=trueを￹指定￺してい￻すると、￹漢字￺かんじ￻￹辞書￺じしょ￻とカタカナ￹辞書￺じしょ￻をビルドすることができます。
-- -Denable-html=trueを￹指定￺してい￻すると、マークダウン ファイルからヘルプ￹用￺よう￻のhtmlファイルをビルドすることができます。
+　<code>meson setup</code> では、つぎのようなオプションを￹指定￺してい￻できます。
+
+- <code>-Denable-dic=true</code> を￹指定￺してい￻すると、￹漢字￺かんじ￻￹辞書￺じしょ￻とカタカナ￹辞書￺じしょ￻をビルドすることができます。
+- <code>-Denable-html=true</code> を￹指定￺してい￻すると、マークダウン ファイルからヘルプ￹用￺よう￻のhtmlファイルをビルドすることができます。
+- <code>-Dpython</code> をつかうと、￹使用￺しよう￻するpythonコマンドを￹指定￺してい￻できます。たとえば、Python 3.12を￹使用￺しよう￻したいときは、<code><nobr>-Dpython=python3.12</nobr></code> のように￹指定￺してい￻します。
 
 　ビルドするときに￹必要￺ひつよう￻なパッケージについては、debian/controlのBuild-Depends、あるいは、ibus-hiragana.specのBuildRequiresを￹参考￺さんこう￻にしてください。
 　Fedoraであれば、つぎのコマンドでビルドに￹必要￺ひつよう￻なパッケージをインストールできます。

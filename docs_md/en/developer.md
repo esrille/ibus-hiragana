@@ -1,19 +1,22 @@
 # Development
 
-## Install from source
+## Build and Install
 
-To install Hiragana IME from the source code, enter the following commands into a terminal:
+To build and install Hiragana IME from the source code, enter the following commands into a terminal:
 
 ```
 git clone https://github.com/esrille/ibus-hiragana.git
 cd ibus-hiragana
-meson setup --prefix /usr _build [-Denable-dic=true] [-Denable-html=true]
+meson setup --prefix /usr _build [-Denable-dic=false] [-Denable-html=false] [-Dpython=python3]
 ninja -C _build
 ninja -C _build install
 ```
 
-- Specify -Denable-dic=true to build Kanji and Katakana dictionaries.
-- Specify -Denable-html=true to generate HTML documents from the markdown files.
+With <code>meson setup</code>, you can specify the following options:
+
+- Specify <code>-Denable-dic=true</code> to build Kanji and Katakana dictionaries.
+- Specify <code>-Denable-html=true</code> to generate HTML documents from the markdown files.
+- Use <code>-Dpython</code> to specify the Python command. For instance, to use Python 3.12, set <code>-Dpython=python3.12</code>.
 
 Refer to Build-Depends in debian/control or BuildRequires in ibus-hiragana.spec for the packages required for building the Hiragana IME.
 
