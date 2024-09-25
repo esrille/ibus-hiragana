@@ -53,7 +53,7 @@ function shrinkToc() {
   <li><a href='install.html#install'>ソフトウェア パッケージをインストールする</a>
   <li><a href='install.html#input-source'>OSの<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソースに<ruby>追加<rp>(</rp><rt>ついか</rt><rp>)</rp></ruby>する</a>
   <li><a href='install.html#enable'>「ひらがなIME」を<ruby>有効<rp>(</rp><rt>ゆうこう</rt><rp>)</rp></ruby>にする</a>
-  <li><a href='install.html#llm'><ruby>大規模<rp>(</rp><rt>だいきぼ</rt><rp>)</rp></ruby><ruby>言語<rp>(</rp><rt>げんご</rt><rp>)</rp></ruby>モデルを<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>するための<ruby>追加<rp>(</rp><rt>ついか</rt><rp>)</rp></ruby>のインストール</a>
+  <li><a href='install.html#llm'><ruby>大規模<rp>(</rp><rt>だいきぼ</rt><rp>)</rp></ruby><ruby>言語<rp>(</rp><rt>げんご</rt><rp>)</rp></ruby>モデルのインストール</a>
   <li><a href='install.html#update'>アップデートのしかた</a>
   <li><a href='install.html#uninstall'>アンインストールのしかた</a>
   <li><a href='install.html#user-files'>ホームディレクトリ<ruby>内<rp>(</rp><rt>ない</rt><rp>)</rp></ruby>に<ruby>保存<rp>(</rp><rt>ほぞん</rt><rp>)</rp></ruby>されるユーザーのデータについて</a>
@@ -240,16 +240,16 @@ function shrinkToc() {
 
 <p><br><strong>ヒント</strong>: <span class='key'>カタカナ</span>キーのかわりに、<ruby>右<rp>(</rp><rt>みぎ</rt><rp>)</rp></ruby><span class='key'>Shift</span>キーをつかうこともできます。<br><strong><ruby>注意<rp>(</rp><rt>ちゅうい</rt><rp>)</rp></ruby></strong>: <ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby><ruby>履歴<rp>(</rp><rt>りれき</rt><rp>)</rp></ruby>をクリアしたあともつかいたいカタカナの<ruby>単語<rp>(</rp><rt>たんご</rt><rp>)</rp></ruby>は、<ruby>個人<rp>(</rp><rt>こじん</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>の<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>に<a href="settings.html#dictionary"><ruby>登録<rp>(</rp><rt>とうろく</rt><rp>)</rp></ruby></a>してください。</p>
 <h2 id="about">ひらがなIMEの<ruby>情報<rp>(</rp><rt>じょうほう</rt><rp>)</rp></ruby>をみる</h2>
-<p>&#x3000;トップバーのキーボードメニューから「ひらがなIMEについて...」をえらぶと、バージョン<ruby>情報<rp>(</rp><rt>じょうほう</rt><rp>)</rp></ruby>ダイアログボックスが<ruby>表示<rp>(</rp><rt>ひょうじ</rt><rp>)</rp></ruby>されます。</p>
+<p>&#x3000;トップバーのキーボードメニューから「ひらがなIMEについて...」をえらぶと、<ruby>情報<rp>(</rp><rt>じょうほう</rt><rp>)</rp></ruby>ダイアログボックスが<ruby>表示<rp>(</rp><rt>ひょうじ</rt><rp>)</rp></ruby>されます。</p>
 <p><img alt="キーボード メニュー" src="keyboard-menu.png"></p>
 <p><br></p>
-<p>&#x3000;バージョン<ruby>情報<rp>(</rp><rt>じょうほう</rt><rp>)</rp></ruby>ダイアログボックスでは、つぎのような<ruby>情報<rp>(</rp><rt>じょうほう</rt><rp>)</rp></ruby>を<ruby>確認<rp>(</rp><rt>かくにん</rt><rp>)</rp></ruby>できます。</p>
+<p>&#x3000;<ruby>情報<rp>(</rp><rt>じょうほう</rt><rp>)</rp></ruby>ダイアログボックスでは、つぎのような<ruby>情報<rp>(</rp><rt>じょうほう</rt><rp>)</rp></ruby>を<ruby>確認<rp>(</rp><rt>かくにん</rt><rp>)</rp></ruby>できます。</p>
 <ul>
 <li>ひらがなIMEのバージョン<ruby>番号<rp>(</rp><rt>ばんごう</rt><rp>)</rp></ruby></li>
-<li>LLMおよびCUDAの<ruby>使用<rp>(</rp><rt>しよう</rt><rp>)</rp></ruby><ruby>状況<rp>(</rp><rt>じょうきょう</rt><rp>)</rp></ruby></li>
+<li>LLMおよびCUDAの<ruby>使用<rp>(</rp><rt>しよう</rt><rp>)</rp></ruby><ruby>状況<rp>(</rp><rt>じょうきょう</rt><rp>)</rp></ruby>。LLMを<ruby>使用<rp>(</rp><rt>しよう</rt><rp>)</rp></ruby>しているときは、バージョン<ruby>番号<rp>(</rp><rt>ばんごう</rt><rp>)</rp></ruby>のあとに “with LLM” と<ruby>表示<rp>(</rp><rt>ひょうじ</rt><rp>)</rp></ruby>されます。</li>
 </ul>
 <p><img alt="情報ダイアログボックス" src="about.png"></p>
-<p>&#x3000;<a href="settings.html#option"><ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>ウィンドウ</a>で、LLMの<ruby>計算<rp>(</rp><rt>けいさん</rt><rp>)</rp></ruby>にCUDAを<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>するように<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>しているときは、つかっているGPUも<ruby>確認<rp>(</rp><rt>かくにん</rt><rp>)</rp></ruby>できます。</p>
+<p>&#x3000;<a href="settings.html#option"><ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>ウィンドウ</a>でCUDAを<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>するように<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>しているときは、つかっているGPUも<ruby>確認<rp>(</rp><rt>かくにん</rt><rp>)</rp></ruby>できます。</p>
 </main>
 </div>
 

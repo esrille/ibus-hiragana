@@ -53,7 +53,7 @@ function shrinkToc() {
   <li><a href='install.html#install'>ソフトウェア パッケージをインストールする</a>
   <li><a href='install.html#input-source'>OSの<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソースに<ruby>追加<rp>(</rp><rt>ついか</rt><rp>)</rp></ruby>する</a>
   <li><a href='install.html#enable'>「ひらがなIME」を<ruby>有効<rp>(</rp><rt>ゆうこう</rt><rp>)</rp></ruby>にする</a>
-  <li><a href='install.html#llm'><ruby>大規模<rp>(</rp><rt>だいきぼ</rt><rp>)</rp></ruby><ruby>言語<rp>(</rp><rt>げんご</rt><rp>)</rp></ruby>モデルを<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>するための<ruby>追加<rp>(</rp><rt>ついか</rt><rp>)</rp></ruby>のインストール</a>
+  <li><a href='install.html#llm'><ruby>大規模<rp>(</rp><rt>だいきぼ</rt><rp>)</rp></ruby><ruby>言語<rp>(</rp><rt>げんご</rt><rp>)</rp></ruby>モデルのインストール</a>
   <li><a href='install.html#update'>アップデートのしかた</a>
   <li><a href='install.html#uninstall'>アンインストールのしかた</a>
   <li><a href='install.html#user-files'>ホームディレクトリ<ruby>内<rp>(</rp><rt>ない</rt><rp>)</rp></ruby>に<ruby>保存<rp>(</rp><rt>ほぞん</rt><rp>)</rp></ruby>されるユーザーのデータについて</a>
@@ -178,13 +178,13 @@ sudo apt install ibus-hiragana
 <p>&#x3000;<ruby>使用<rp>(</rp><rt>しよう</rt><rp>)</rp></ruby>するキーボードのレイアウトがみつからないときは、GNOMEの「<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby>」をひらいて、「キーボード」の「<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ソース」にレイアウトを<ruby>追加<rp>(</rp><rt>ついか</rt><rp>)</rp></ruby>してください。「ひらがなIME」は、いまのところ、「<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>」,「<ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>(US)」,「<ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>(Dvorak)」の３つのキーボード レイアウトをサポートしています。</p>
 <p><br>
 <strong>メモ</strong>: キーボードは<ruby>国<rp>(</rp><rt>くに</rt><rp>)</rp></ruby>や<ruby>言語<rp>(</rp><rt>げんご</rt><rp>)</rp></ruby>によってスイッチのレイアウトがことなります。<ruby>日本<rp>(</rp><rt>にほん</rt><rp>)</rp></ruby>では、<ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>キーボードのほかに<ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>(US)キーボードも<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>されています。<ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>(US)キーボードは、アメリカで<ruby>一般的<rp>(</rp><rt>いっぱんてき</rt><rp>)</rp></ruby>につかわれているキーボードです。USはUnited States (of America)の<ruby>略<rp>(</rp><rt>りゃく</rt><rp>)</rp></ruby>です。<ruby>英語<rp>(</rp><rt>えいご</rt><rp>)</rp></ruby>キーボードでも、イギリスのものはアメリカのものとまたすこしキーボード レイアウトがちがいます。</p>
-<h2 id="llm"><ruby>大規模<rp>(</rp><rt>だいきぼ</rt><rp>)</rp></ruby><ruby>言語<rp>(</rp><rt>げんご</rt><rp>)</rp></ruby>モデルを<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>するための<ruby>追加<rp>(</rp><rt>ついか</rt><rp>)</rp></ruby>のインストール</h2>
+<h2 id="llm"><ruby>大規模<rp>(</rp><rt>だいきぼ</rt><rp>)</rp></ruby><ruby>言語<rp>(</rp><rt>げんご</rt><rp>)</rp></ruby>モデルのインストール</h2>
 <p>&#x3000;「ひらがなIME」には、<ruby>大規模<rp>(</rp><rt>だいきぼ</rt><rp>)</rp></ruby><ruby>言語<rp>(</rp><rt>げんご</rt><rp>)</rp></ruby>モデル(LLM)を<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>して、かな<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby><ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>をアシストする<ruby>機能<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>があります。この<ruby>機能<rp>(</rp><rt>きのう</rt><rp>)</rp></ruby>を<ruby>有効<rp>(</rp><rt>ゆうこう</rt><rp>)</rp></ruby>にするには、つぎのようなパッケージを<ruby>追加<rp>(</rp><rt>ついか</rt><rp>)</rp></ruby>でインストールする<ruby>必要<rp>(</rp><rt>ひつよう</rt><rp>)</rp></ruby>があります。</p>
 <ul>
 <li><a href="https://huggingface.co/docs/transformers/ja/installation">Huggingface Transformers</a></li>
 <li><a href="https://huggingface.co/tohoku-nlp/bert-base-japanese-v3">tohoku-nlp/bert-base-japanese-v3</a></li>
 </ul>
-<p>&#x3000;「ひらがなIME」は、Pythonのvenvのなかで<ruby>実行<rp>(</rp><rt>じっこう</rt><rp>)</rp></ruby>されています。つぎのようにすると、このvenvに<ruby>上記<rp>(</rp><rt>じょうき</rt><rp>)</rp></ruby>のパッケージをインストールできます。</p>
+<p>&#x3000;「ひらがなIME」は、Pythonの<ruby>仮想<rp>(</rp><rt>かそう</rt><rp>)</rp></ruby><ruby>環境<rp>(</rp><rt>かんきょう</rt><rp>)</rp></ruby>のなかで<ruby>実行<rp>(</rp><rt>じっこう</rt><rp>)</rp></ruby>されています。この<ruby>仮想<rp>(</rp><rt>かそう</rt><rp>)</rp></ruby><ruby>環境<rp>(</rp><rt>かんきょう</rt><rp>)</rp></ruby>のなかに<ruby>上記<rp>(</rp><rt>じょうき</rt><rp>)</rp></ruby>のパッケージをインストールするには、つぎのようにします。</p>
 <ol>
 <li>「<a href="settings.html#ibus-setup-hiragana">ひらがなIMEの<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby></a>」ウィンドウで、「オプション」タブをひらきます。</li>
 </ol>
@@ -201,7 +201,11 @@ sudo apt install ibus-hiragana
 <li>インストールが<ruby>完了<rp>(</rp><rt>かんりょう</rt><rp>)</rp></ruby>して、<ruby>右<rp>(</rp><rt>みぎ</rt><rp>)</rp></ruby><ruby>下<rp>(</rp><rt>した</rt><rp>)</rp></ruby>のボタンが[とじる]にかわったら、クリックしてウィンドウをとじます。</li>
 </ol>
 <p>&#x3000;LLMを<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>するために<ruby>必要<rp>(</rp><rt>ひつよう</rt><rp>)</rp></ruby>なパッケージのインストールはこれで<ruby>完了<rp>(</rp><rt>かんりょう</rt><rp>)</rp></ruby>です。LLMを<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>できるように、いちど、ログインしなおして「ひらがなIME」を<ruby>再<rp>(</rp><rt>さい</rt><rp>)</rp></ruby><ruby>起動<rp>(</rp><rt>きどう</rt><rp>)</rp></ruby>します。</p>
-<p><br><strong>ヒント</strong>: PCにNVIDIA<ruby>社<rp>(</rp><rt>しゃ</rt><rp>)</rp></ruby>のGPUを<ruby>搭載<rp>(</rp><rt>とうさい</rt><rp>)</rp></ruby>していれば、CUDAを<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>してLLMの<ruby>計算<rp>(</rp><rt>けいさん</rt><rp>)</rp></ruby>を<ruby>高速<rp>(</rp><rt>こうそく</rt><rp>)</rp></ruby><ruby>化<rp>(</rp><rt>か</rt><rp>)</rp></ruby>することができます。<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby><ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby>については、「<a href="settings.html#cuda">LLMの<ruby>計算<rp>(</rp><rt>けいさん</rt><rp>)</rp></ruby>にCUDAを<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>する</a>」をみてください。</p>
+<h3>ヒント</h3>
+<ul>
+<li><a href="usage.html#about"><ruby>情報<rp>(</rp><rt>じょうほう</rt><rp>)</rp></ruby>ダイアログボックス</a>をひらくと、「ひらがなIME」がLLMを<ruby>使用<rp>(</rp><rt>しよう</rt><rp>)</rp></ruby>しているかどうか<ruby>確認<rp>(</rp><rt>かくにん</rt><rp>)</rp></ruby>できます。</li>
+<li>PCがNVIDIAのGPUを<ruby>搭載<rp>(</rp><rt>とうさい</rt><rp>)</rp></ruby>していれば、CUDAを<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>してLLMの<ruby>計算<rp>(</rp><rt>けいさん</rt><rp>)</rp></ruby>を<ruby>高速<rp>(</rp><rt>こうそく</rt><rp>)</rp></ruby><ruby>化<rp>(</rp><rt>か</rt><rp>)</rp></ruby>することができます。<ruby>設定<rp>(</rp><rt>せってい</rt><rp>)</rp></ruby><ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby>については、「<a href="settings.html#cuda">LLMの<ruby>計算<rp>(</rp><rt>けいさん</rt><rp>)</rp></ruby>にCUDAを<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>する</a>」をみてください。</li>
+</ul>
 <h2 id="update">アップデートのしかた</h2>
 <p>&#x3000;あたらしいバージョンの「ひらがなIME」をリリースしたときは、GitHubの<a href="https://github.com/esrille/ibus-hiragana/releases">Releases</a>ページからおしらせしています。インストールした<ruby>手順<rp>(</rp><rt>てじゅん</rt><rp>)</rp></ruby>にあった<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby>でソフトウェアのアップデートをおこなってください。</p>
 <h3>Fedoraのばあい</h3>
@@ -213,6 +217,7 @@ sudo apt install ibus-hiragana
 <pre><code>sudo apt update
 sudo apt upgrade
 </code></pre>
+<p><br><strong><ruby>注意<rp>(</rp><rt>ちゅうい</rt><rp>)</rp></ruby></strong>: OSにインストールされているPythonもアップデートされることがあります。Pythonがアップデートされたときは、「ひらがなIME」も<ruby>仮想<rp>(</rp><rt>かそう</rt><rp>)</rp></ruby><ruby>環境<rp>(</rp><rt>かんきょう</rt><rp>)</rp></ruby>で<ruby>使用<rp>(</rp><rt>しよう</rt><rp>)</rp></ruby>するPythonを<ruby>更新<rp>(</rp><rt>こうしん</rt><rp>)</rp></ruby>します。</p>
 <h2 id="uninstall">アンインストールのしかた</h2>
 <p>&#x3000;「ひらがなIME」のアンインストールは、インストールした<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby>にあわせて、おこなってください。</p>
 <h3>Fedoraのばあい</h3>
@@ -224,11 +229,11 @@ sudo apt upgrade
 <pre><code>sudo apt remove ibus-hiragana
 </code></pre>
 <h2 id="user-files">ホームディレクトリ<ruby>内<rp>(</rp><rt>ない</rt><rp>)</rp></ruby>に<ruby>保存<rp>(</rp><rt>ほぞん</rt><rp>)</rp></ruby>されるユーザーのデータについて</h2>
-<p>&#x3000;「ひらがなIME」は、ディレクトリ <code>~/.local/share/ibus-hiragana/</code> のなかに、<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby><ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>の<ruby>学習<rp>(</rp><rt>がくしゅう</rt><rp>)</rp></ruby><ruby>結果<rp>(</rp><rt>けっか</rt><rp>)</rp></ruby>などを<ruby>保存<rp>(</rp><rt>ほぞん</rt><rp>)</rp></ruby>しています。また、「ひらがなIME」が<ruby>使用<rp>(</rp><rt>しよう</rt><rp>)</rp></ruby>するPythonのvenvもこのディレクトリのなかにあります。</p>
+<p>&#x3000;「ひらがなIME」は、ディレクトリ <code>~/.local/share/ibus-hiragana/</code> のなかに、<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby><ruby>変換<rp>(</rp><rt>へんかん</rt><rp>)</rp></ruby>の<ruby>学習<rp>(</rp><rt>がくしゅう</rt><rp>)</rp></ruby><ruby>結果<rp>(</rp><rt>けっか</rt><rp>)</rp></ruby>などを<ruby>保存<rp>(</rp><rt>ほぞん</rt><rp>)</rp></ruby>しています。また、「ひらがなIME」が<ruby>使用<rp>(</rp><rt>しよう</rt><rp>)</rp></ruby>するPythonの<ruby>仮想<rp>(</rp><rt>かそう</rt><rp>)</rp></ruby><ruby>環境<rp>(</rp><rt>かんきょう</rt><rp>)</rp></ruby>もこのディレクトリのなかにあります。</p>
 <pre><code>~/.local/share/ibus-hiragana/
 ├── dic/        # 辞書の学習結果
 ├── my.dic      # 個人辞書ファイル
-└── venv/       # ひらがなIME用のPython venv
+└── venv/       # ひらがなIME用のPythonの仮想環境
 </code></pre>
 <p>&#x3000;「ひらがなIME」を<ruby>複数<rp>(</rp><rt>ふくすう</rt><rp>)</rp></ruby>のパーソナルコンピューターで<ruby>使用<rp>(</rp><rt>しよう</rt><rp>)</rp></ruby>するときは、ディレクトリ <code>dic</code> や <code>my.dic</code> をコピーして<ruby>使用<rp>(</rp><rt>しよう</rt><rp>)</rp></ruby>することもできます。</p>
 <h3>クリーンアップ<ruby>方法<rp>(</rp><rt>ほうほう</rt><rp>)</rp></ruby></h3>
