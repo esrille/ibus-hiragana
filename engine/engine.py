@@ -425,6 +425,8 @@ class EngineModeless(IBus.Engine):
             self.commit_text(IBus.Text.new_from_string(self.katakana_text))
             text = text[:pos] + self.katakana_text + text[pos:]
             pos += len(self.katakana_text)
+            # A short delay is necessary with some input elements in Firefox 130.
+            time.sleep(EVENT_DELAY)
 
         self._preedit_text = text
         self._preedit_pos = pos
