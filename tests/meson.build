@@ -1,7 +1,7 @@
 test_dir = meson.source_root() / 'tests'
 
 pymod = import('python')
-python = pymod.find_installation('python')
+python = pymod.find_installation('python3')
 
 # Include generated python source file(s).
 python_paths = [
