@@ -131,8 +131,7 @@ To install the above packages in this venv, follow these steps:
 
 4. Once the installation is finished, the **Install** button will change to a **Close** button. Click it to close the window.
 
-The installation of the required packages for using LLM is now complete.
-When you log in again, you can use the candidate pre-selection feature using LLM.
+All the packages you need for using the LLM are now installed.
 
 ### Hint
 
