@@ -9,6 +9,7 @@ static_files = [
   'ibus-setup-hiragana_3.png',
   'ibus-setup-hiragana_4.png',
   'keyboard-menu.png',
+  'notification.png',
   'postinst_1.png',
   'postinst_2.png',
   'settings-keyboard.png',

@@ -164,8 +164,13 @@ sudo apt upgrade
 ```
 
 <br>
-**Note**: The OS updates may include a newer Python package.
+**Note**: The OS updates may include a newer version of the Python package.
 When Python is updated, Hiragana IME will recreate its virtual environment using the updated Python command.
+After this upgrade, you will need to reinstall the LLM packages.
+If you see a desktop notification like the one below, please proceed to reinstall the LLM-related packages.
+
+&nbsp;&nbsp;![Desktop Notification](notification.png)
+
 
 ## Uninstall {: #uninstall}
 

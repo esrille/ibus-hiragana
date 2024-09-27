@@ -11,6 +11,7 @@ static_files = [
   'icon.png',
   'input-modes.gif',
   'keyboard-menu.png',
+  'notification.png',
   'postinst_1.png',
   'postinst_2.png',
   'screenshot.png',
