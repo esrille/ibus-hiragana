@@ -6,7 +6,7 @@ License:       Apache-2.0 AND GPL-2.0-or-later AND CC-BY-SA-3.0
 URL:           https://github.com/esrille/%{name}
 Source0:       https://github.com/esrille/%{name}/releases/download/v${source_version}/%{name}-${source_version}.tar.xz
 Requires:      ibus >= 1.5.11
-Requires:      python3.12
+Requires:      python3
 Requires:      python3-dbus
 Requires:      python3-pip
 Requires:      python3-pyxdg
@@ -21,9 +21,13 @@ BuildRequires: pkgconfig
 BuildRequires: python3-devel
 BuildRequires: python3-markdown
 BuildArch:     noarch
+
+# a workaround for fedora 41 beta
+Requires:      python3.12
 Requires:      python3.12-devel
 Requires:      cairo-gobject-devel
 Requires:      gobject-introspection-devel
+BuildRequires: python3.12-devel
 
 %description
 Hiragana IME for IBus.
