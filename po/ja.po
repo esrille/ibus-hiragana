@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ibus-hiragana 0.15.11\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-03 17:00+0900\n"
+"POT-Creation-Date: 2024-09-27 14:32+0900\n"
 "PO-Revision-Date: 2020-09-24 11:59+0900\n"
 "Last-Translator: Esrille Inc. <info@esrille.com>\n"
 "Language-Team: Japanese <info@esrille.com>\n"
@@ -14,48 +14,60 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: engine/engine.py:50
+#: engine/engine.py:52
 msgid "Alphanumeric (A)"
 msgstr "英数 (A)"
 
-#: engine/engine.py:51
+#: engine/engine.py:53
 msgid "Hiragana (あ)"
 msgstr "ひらがな (あ)"
 
-#: engine/engine.py:52
+#: engine/engine.py:54
 msgid "Katakana (ア)"
 msgstr "カタカナ (ア)"
 
-#: engine/engine.py:53
+#: engine/engine.py:55
 msgid "Wide Alphanumeric (Ａ)"
 msgstr "全角英数 (Ａ)"
 
-#: engine/engine.py:54
+#: engine/engine.py:56
 msgid "Halfwidth Katakana (ｱ)"
 msgstr "半角カタカナ (ｱ)"
 
-#: engine/engine.py:653 engine/engine.py:1178
+#: engine/engine.py:630 engine/engine.py:1150
 #, python-format
 msgid "Input mode (%s)"
 msgstr "入力モード (%s)"
 
-#: engine/engine.py:656
+#: engine/engine.py:633
 msgid "Setup"
 msgstr "設定"
 
-#: engine/engine.py:658
+#: engine/engine.py:635
 msgid "Help"
 msgstr "ヘルプ"
 
-#: engine/engine.py:660
+#: engine/engine.py:637
 msgid "About Hiragana IME..."
 msgstr "ひらがなIMEについて..."
 
-#: engine/engine.py:1538
+#: engine/engine.py:1279
+msgid "Please install LLM packages."
+msgstr "LLM関連のパッケージをインストールしてください。"
+
+#: engine/engine.py:1280
+msgid "Hiragna IME has updated its python virtual environment."
+msgstr "ひらがなIMEのPython仮想環境が更新されました。"
+
+#: engine/engine.py:1283 setup/setup.glade:852
+msgid "Install..."
+msgstr "インストール..."
+
+#: engine/engine.py:1533
 msgid "en"
 msgstr "ja"
 
-#: engine/engine.py:1550
+#: engine/engine.py:1545
 msgid "Hiragana IME"
 msgstr "ひらがなIME"
 
@@ -89,72 +101,72 @@ msgstr ""
 msgid "Close"
 msgstr "とじる(_W)"
 
-#: setup/main.py:178
+#: setup/main.py:182
 msgid "Rōmaji"
 msgstr "ローマ字"
 
-#: setup/main.py:179
+#: setup/main.py:183
 msgid "Kana (JIS Layout)"
 msgstr "かな (JIS配列)"
 
-#: setup/main.py:180
+#: setup/main.py:184
 msgid "Kana (New Stickney Layout)"
 msgstr "かな (ニュースティックニー配列)"
 
-#: setup/main.py:199
+#: setup/main.py:203
 msgid "1st grade"
 msgstr "小学校１年生"
 
-#: setup/main.py:200
+#: setup/main.py:204
 msgid "2nd grade"
 msgstr "小学校２年生"
 
-#: setup/main.py:201
+#: setup/main.py:205
 msgid "3rd grade"
 msgstr "小学校３年生"
 
-#: setup/main.py:202
+#: setup/main.py:206
 msgid "4th grade"
 msgstr "小学校４年生"
 
-#: setup/main.py:203
+#: setup/main.py:207
 msgid "5th grade"
 msgstr "小学校５年生"
 
-#: setup/main.py:204
+#: setup/main.py:208
 msgid "6th grade"
 msgstr "小学校６年生"
 
-#: setup/main.py:205
+#: setup/main.py:209
 msgid "7-9th grade"
 msgstr "中学生"
 
-#: setup/main.py:206
+#: setup/main.py:210
 msgid "10-12th grade"
 msgstr "高校生"
 
-#: setup/main.py:207
+#: setup/main.py:211
 msgid "Adults"
 msgstr "おとな"
 
-#: setup/main.py:379
+#: setup/main.py:383
 msgid "Invalid characters in User Dictionary Name"
 msgstr "個人用辞書名のなかに不正な文字があります"
 
-#: setup/main.py:394
+#: setup/main.py:398
 msgid "Could not open file"
 msgstr "ファイルをひらけません"
 
-#: setup/main.py:396
+#: setup/main.py:400
 #, python-brace-format
 msgid "Error opening file \"{path}\": {message}"
 msgstr "ファイル \"{path}\" をひらくときにエラーがおきました: {message}"
 
-#: setup/main.py:424
+#: setup/main.py:435
 msgid "Clear input history"
 msgstr "入力履歴のクリア"
 
-#: setup/main.py:426
+#: setup/main.py:437
 msgid "Do you want to clear your input history?"
 msgstr "入力履歴を消去しますか？"
 
@@ -257,10 +269,6 @@ msgstr "LLMの計算にCUDAを利用する"
 #: setup/setup.glade:842
 msgid "Install required packages for using LLM"
 msgstr "LLMを利用するために必要なパッケージをインストールする"
-
-#: setup/setup.glade:852
-msgid "Install..."
-msgstr "インストール..."
 
 #: setup/setup.glade:888
 msgid "Option"

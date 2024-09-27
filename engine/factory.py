@@ -29,12 +29,13 @@ ENGINE_PATH = '/com/esrille/IBus/engines/Hiragana/Engine/%d'
 
 class EngineFactory(IBus.Factory):
 
-    def __init__(self, bus: IBus.Bus) -> None:
+    def __init__(self, bus: IBus.Bus, app) -> None:
         self._bus = bus
+        self._app = app
         self._engine_id = 0
         super().__init__(connection=bus.get_connection(), object_path=IBus.PATH_FACTORY)
 
     def do_create_engine(self, engine_name: str) -> EngineHiragana:
         assert engine_name == 'hiragana', 'Invalid engine name'
         self._engine_id += 1
-        return EngineHiragana(self._bus, ENGINE_PATH % self._engine_id)
+        return EngineHiragana(self._bus, ENGINE_PATH % self._engine_id, self._app)

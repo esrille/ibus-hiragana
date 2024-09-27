@@ -32,11 +32,13 @@ gi.require_version('Gdk', '3.0')
 gi.require_version('Gio', '2.0')
 gi.require_version('GnomeDesktop', '3.0')
 gi.require_version('Gtk', '3.0')
+gi.require_version('Notify', '0.7')
 from gi.repository import Gdk
 from gi.repository import Gio
 from gi.repository import GnomeDesktop
 from gi.repository import Gtk
 from gi.repository import IBus
+from gi.repository import Notify
 
 import llm
 import package
@@ -484,7 +486,7 @@ class EngineModeless(IBus.Engine):
 class EngineHiragana(EngineModeless):
     __gtype_name__ = 'EngineHiragana'
 
-    def __init__(self, bus: IBus.Bus, object_path: str):
+    def __init__(self, bus: IBus.Bus, object_path: str, app):
         props = {
             'connection': bus.get_connection(),
             'object_path': object_path
@@ -494,6 +496,8 @@ class EngineHiragana(EngineModeless):
         if hasattr(IBus.Engine.props, 'has_focus_id'):
             props['has_focus_id'] = True
         super().__init__(**props)
+
+        self._app = app
 
         self._mode = 'A'  # _mode must be one of _input_mode_names
         self._override = False
@@ -527,7 +531,7 @@ class EngineHiragana(EngineModeless):
 
         self._use_half_width_digits = self._load_use_half_width_digits()
 
-        self._model = self._load_use_llm()
+        self._model = self._load_llm()
         self._assisted = 0
         self._ignored = {}
 
@@ -738,11 +742,14 @@ class EngineHiragana(EngineModeless):
         LOGGER.info(f'use-half-width-digits: {enabled}')
         return enabled
 
-    def _load_use_llm(self):
+    def _load_llm(self):
         enabled = self._settings.get_boolean('use-llm')
         use_cuda = self._settings.get_boolean('use-cuda')
         LOGGER.info(f'use-llm: {enabled}, use-cuda: {use_cuda}')
-        return llm.load(enabled, 'cuda' if use_cuda else 'cpu')
+        model = llm.load(enabled, 'cuda' if use_cuda else 'cpu')
+        if enabled and not model:
+            self._notify()
+        return model
 
     def _lookup_dictionary(self, text, pos, anchor=0):
         self._lookup_table.clear()
@@ -1218,7 +1225,7 @@ class EngineHiragana(EngineModeless):
             if process.poll() is not None:
                 return
 
-    def _setup_start(self):
+    def _setup_start(self, install=False):
         if self._setup_proc:
             if self._setup_proc.poll() is None:
                 self._setup_proc.stdin.write('present\n')
@@ -1229,6 +1236,8 @@ class EngineHiragana(EngineModeless):
             args = [os.path.join(package.get_libexecdir(), 'ibus-setup-hiragana')]
             if self._model:
                 args.append('--loaded')
+            if install:
+                args.append('--install')
             self._setup_proc = subprocess.Popen(args, text=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
             t = threading.Thread(target=self._setup_readline, args=(self._setup_proc,), daemon=True)
             t.start()
@@ -1237,7 +1246,8 @@ class EngineHiragana(EngineModeless):
 
     def _setup_sync(self):
         last = ''
-        while True:
+        quit = False
+        while not quit:
             try:
                 line = self._q.get_nowait()
                 if line == last:
@@ -1250,8 +1260,28 @@ class EngineHiragana(EngineModeless):
                     package.config_logging(level=self._logging_level, filemode='w')
                     self._dict = self._load_dictionary(clear_history=True)
                     self._ignored = {}
+                elif line == 'restart':
+                    quit = True
             except queue.Empty:
                 break
+        if quit:
+            self._app.quit(75)
+
+    #
+    # notification methods
+    #
+    def _reinstall(self, *user_data):
+        LOGGER.debug(f'_reinstall: {user_data}')
+        self._setup_start(install=True)
+
+    def _notify(self):
+        icon = os.path.join(package.get_prefix(), 'share/icons/hicolor/scalable/apps/ibus-setup-hiragana.svg')
+        self._notification = Notify.Notification.new(_('Please install LLM packages.'),
+                                                     _('Hiragna IME has updated its python virtual environment.'),
+                                                     icon)
+        self._notification.set_app_name(package.get_name())
+        self._notification.add_action('reinstall', _('Install...'), self._reinstall)
+        self._notification.show()
 
     #
     # callback methods
@@ -1283,7 +1313,7 @@ class EngineHiragana(EngineModeless):
         elif key == 'use-half-width-digits':
             self._use_half_width_digits = self._load_use_half_width_digits()
         elif key == 'use-llm':
-            self._model = self._load_use_llm()
+            self._model = self._load_llm()
 
     def _keymap_state_changed_cb(self, keymap):
         if self._controller.is_onoff_by_caps():

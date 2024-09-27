@@ -28,8 +28,10 @@ import sys
 import gi
 gi.require_version('GLib', '2.0')
 gi.require_version('IBus', '1.0')
+gi.require_version('Notify', '0.7')
 from gi.repository import GLib
 from gi.repository import IBus
+from gi.repository import Notify
 
 import package
 from factory import EngineFactory
@@ -52,9 +54,10 @@ class IMApp:
 
     def __init__(self, exec_by_ibus):
         self._mainloop = GLib.MainLoop()
+        self._status = 0
         self._bus = IBus.Bus()
         self._bus.connect('disconnected', self._bus_disconnected_cb)
-        self._factory = self._factory = EngineFactory(self._bus)
+        self._factory = self._factory = EngineFactory(self._bus, self)
         if exec_by_ibus:
             self._bus.request_name('org.freedesktop.IBus.Hiragana', 0)
         else:
@@ -82,8 +85,9 @@ class IMApp:
     def run(self):
         self._mainloop.run()
 
-    def quit(self):
-        LOGGER.debug('quit()')
+    def quit(self, status: int = 0):
+        LOGGER.debug(f'quit({status})')
+        self._status = status
         self._bus_disconnected_cb()
 
     def _bus_disconnected_cb(self, bus=None):
@@ -167,13 +171,16 @@ def main():
 
     if daemonize:
         if os.fork():
-            sys.exit()
+            return 0
 
+    Notify.init('Hiragana IME')
     IBus.init()
     app = IMApp(exec_by_ibus)
     signal.signal(signal.SIGTERM, lambda signum, frame: cleanup(app))
     signal.signal(signal.SIGINT, lambda signum, frame: cleanup(app))
     app.run()
+    Notify.uninit()
+    return app._status
 
 
 # Catch exceptions from GLib.MainLoop
@@ -185,4 +192,5 @@ if __name__ == '__main__':
     sys.excepthook = handle_exception
     locale.bindtextdomain(package.get_name(), package.get_localedir())
     gettext.bindtextdomain(package.get_name(), package.get_localedir())
-    main()
+    status = main()
+    sys.exit(status)

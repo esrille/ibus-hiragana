@@ -143,8 +143,8 @@ class InstallDialog:
 
 class SetupEngineHiragana:
 
-    def __init__(self, loaded: bool):
-        self._loaded = loaded
+    def __init__(self, args):
+        self._args = args
 
         self._settings = Gio.Settings.new('org.freedesktop.ibus.engine.hiragana')
         self._settings.connect('changed', self.on_value_changed)
@@ -166,11 +166,15 @@ class SetupEngineHiragana:
         postinst = os.path.join(package.get_prefix(), 'libexec', 'ibus-postinst-hiragana')
         self._install_dialog = InstallDialog(self._builder)
         self._install_dialog.set_label([postinst])
-        self._install_dialog.hide()
 
         self._window = self._builder.get_object('SetupDialog')
         self._window.set_default_icon_name('ibus-setup-hiragana')
-        self._window.show()
+
+        if self._args.install:
+            self._install_dialog.show()
+        else:
+            self._install_dialog.hide()
+            self._window.show()
 
     def _init_keyboard_layout(self):
         self._keyboard_layouts = self._builder.get_object('KeyboardLayout')
@@ -268,7 +272,7 @@ class SetupEngineHiragana:
         Gtk.main()
 
     def _has_llm(self) -> bool:
-        return self._loaded or self._install_dialog.is_completed() or check_requirements()
+        return self._args.loaded or self._install_dialog.is_completed() or check_requirements()
 
     def apply(self) -> bool:
         # layout
@@ -407,6 +411,9 @@ class SetupEngineHiragana:
     def on_install(self, *args):
         if self._install_dialog.is_completed():
             self._install_dialog.hide()
+            if self._args.install:
+                self._window.destroy()
+                print('restart', flush=True)
         elif not self._install_dialog.is_child_alive():
             postinst = os.path.join(package.get_prefix(), 'libexec', 'ibus-postinst-hiragana')
             self._install_dialog.spawn([postinst])
@@ -414,6 +421,10 @@ class SetupEngineHiragana:
     def on_cancel_install(self, *args):
         if not self._install_dialog.is_child_alive():
             self._install_dialog.hide()
+            if self._args.install:
+                self._window.destroy()
+                if self._install_dialog.is_completed():
+                    print('restart', flush=True)
 
     def on_clear_history(self, *args):
         dialog = Gtk.MessageDialog(
@@ -433,8 +444,9 @@ class SetupEngineHiragana:
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--loaded', action='store_true')
+    parser.add_argument('--install', action='store_true')
     args = parser.parse_args()
-    setup = SetupEngineHiragana(args.loaded)
+    setup = SetupEngineHiragana(args)
     setup.run()
 
 
