@@ -1,8 +1,11 @@
 #!/usr/bin/make -f
 
-# use the default libexec path.
-override_dh_auto_configure:
-	dh_auto_configure -- --libexecdir=/usr/libexec
-
 %:
 	dh $@ --buildsystem=meson --with python3
+
+# 1) use the default libexec path
+# 2) disable tests
+override_dh_auto_configure:
+	dh_auto_configure -- \
+		--libexecdir=/usr/libexec \
+		-Dtests=false
