@@ -14,17 +14,20 @@ subdir('docs')
 subdir('engine')
 subdir('layouts')
 subdir('setup')
-subdir('tests')
 subdir('po')
 
-if get_option('enable-dic') == true
+if get_option('enable-dic')
   subdir('dic_tools')
 else
   subdir('dic')
 endif
 
-if get_option('enable-html') == true
+if get_option('enable-html')
   subdir('docs_md')
+endif
+
+if get_option('tests')
+  subdir('tests')
 endif
 
 install_data([
