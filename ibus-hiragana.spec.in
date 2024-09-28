@@ -38,7 +38,7 @@ Hiragana IME for IBus.
 %autosetup
 
 %build
-%meson -Dpython=python3.12
+%meson -Dtests=false -Dpython=python3.12
 %meson_build
 
 %install
