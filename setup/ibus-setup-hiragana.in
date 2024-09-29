@@ -19,5 +19,4 @@ PKGDATAHOME=~/.local/share/ibus-hiragana
 mkdir -p $PKGDATAHOME
 @PYTHON@ -m venv --system-site-packages $PKGDATAHOME/venv
 source $PKGDATAHOME/venv/bin/activate > /dev/null 2>&1
-python -O @prefix@/share/ibus-hiragana/setup/main.py $@
-deactivate > /dev/null 2>&1
+exec python -O @prefix@/share/ibus-hiragana/setup/main.py $@
