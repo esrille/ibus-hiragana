@@ -533,13 +533,13 @@ class EngineHiragana(EngineModeless):
 
         self._use_half_width_digits = self._load_use_half_width_digits()
 
-        self._model = self._load_llm()
-        self._assisted = 0
-        self._ignored = {}
-
         self._about_dialog = None
         self._setup_proc = None
         self._q = queue.Queue()
+
+        self._model = self._load_llm()
+        self._assisted = 0
+        self._ignored = {}
 
         self._focus_id = ''
 
