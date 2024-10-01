@@ -516,6 +516,7 @@ class EngineHiragana(EngineModeless):
         self._lookup_table = IBus.LookupTable.new(10, 0, True, False)
         self._lookup_table.set_orientation(IBus.Orientation.VERTICAL)
         self._selected = False  # True if a candidate is selected by the user
+        self._cursor_pos = -1
 
         self._init_props()
 
@@ -759,16 +760,13 @@ class EngineHiragana(EngineModeless):
         return model
 
     def _lookup_dictionary(self, text, pos, anchor=0):
-        self._lookup_table.clear()
         cand = self._dict.lookup(text, pos, anchor)
         size = len(self._dict.reading())
         self._selected = False
         self._assisted = 0
         # Note if the current conversion is complete, it is automatically confirmed.
         if 0 < size and 1 < len(self._dict.cand()) and not self._dict.is_complete():
-            for i, c in enumerate(self._dict.cand()):
-                self._lookup_table.append_candidate(IBus.Text.new_from_string(c))
-                self._lookup_table.set_label(i, IBus.Text.new_from_string(' '))
+            self._cursor_pos = 0
         return cand, size
 
     def _assisted_lookup_dictionary(self, text, pos, anchor=0):
@@ -785,23 +783,35 @@ class EngineHiragana(EngineModeless):
         anchor = new_anchor
         pos = new_pos
 
-        self._lookup_table.clear()
         cand, cursor_pos = self._dict.assisted_lookup(self._model, plain, pos, anchor)
         size = len(self._dict.reading())
         self._selected = False
         self._assisted = cursor_pos
+        # Note if the current conversion is complete, it is automatically confirmed.
         if 0 < size and 1 < len(self._dict.cand()) and not self._dict.is_complete():
-            yomi, assisted = self._dict.get_stem(cursor_pos)
-            if assisted in self._ignored.get(yomi, set()):
-                cursor_pos = 0 if 0 < cursor_pos else 1
-                LOGGER.debug(f'_assisted_lookup_dictionary: ignore "{assisted}", use "{self._dict.cand()[cursor_pos]}"')
-            for i, c in enumerate(self._dict.cand()):
-                self._lookup_table.append_candidate(IBus.Text.new_from_string(c))
-                self._lookup_table.set_label(i, IBus.Text.new_from_string(' '))
             if 0 < cursor_pos:
-                self._lookup_table.set_cursor_pos(cursor_pos)
-                self._update_candidate()
+                yomi, assisted = self._dict.get_stem(cursor_pos)
+                if assisted in self._ignored.get(yomi, set()):
+                    cursor_pos = 0
+                    LOGGER.debug(f'_assisted_lookup_dictionary: ignore "{assisted}", '
+                                 f'use "{self._dict.cand()[cursor_pos]}"')
+                else:
+                    self._dict.set_current(cursor_pos)
+            self._cursor_pos = cursor_pos
         return cand, size
+
+    def _create_lookup_table(self):
+        assert 0 <= self._cursor_pos
+        cursor_pos = self._cursor_pos
+        self._cursor_pos = -1
+        size = len(self._dict.reading())
+        assert 0 < size
+        self._lookup_table.clear()
+        assert 0 < size and 1 < len(self._dict.cand()) and not self._dict.is_complete()
+        for i, c in enumerate(self._dict.cand()):
+            self._lookup_table.append_candidate(IBus.Text.new_from_string(c))
+            self._lookup_table.set_label(i, IBus.Text.new_from_string(' '))
+        self._lookup_table.set_cursor_pos(cursor_pos)
 
     def _process_dakuten(self, c):
         text, pos = self.get_surrounding_string()
@@ -1406,12 +1416,15 @@ class EngineHiragana(EngineModeless):
         elif self._surrounding in (SURROUNDING_COMMITTED, SURROUNDING_SUPPORTED):
             self.flush()
 
-        # Lastly, update the preedit text. To support LibreOffice, the
-        # surrounding text needs to be updated before updating the preedit text.
+        # Lastly, update the lookup table and preedit text. To support LibreOffice,
+        # the surrounding text needs to be updated before making these updates.
+        if 0 <= self._cursor_pos:
+            self._create_lookup_table()
         if e.is_prefix():
             self._update_preedit('＿' if e.is_prefixed() else '')
         else:
             self._update_preedit()
+
         return result
 
     def set_mode(self, mode, override=False, update_list=True) -> None:
