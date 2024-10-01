@@ -335,21 +335,22 @@ class EngineModeless(IBus.Engine):
 
     # Note _roman_text is not flushed; use commit_roman() first.
     def flush(self, text='', force=False):
+        LOGGER.debug(f'flush("{text}", {force})')
         if text:
             self.commit_string(text)
         if self._surrounding == SURROUNDING_COMMITTED:
-            LOGGER.debug(f'flush("{self._preedit_text}"): committed')
+            LOGGER.debug(f'flush: SURROUNDING_COMMITTED: "{self._preedit_text}"')
             if self.has_non_empty_preedit():
                 self.commit_text(IBus.Text.new_from_string(self._preedit_text))
             if not force:
                 return self._preedit_text
         elif self.should_draw_preedit():
-            LOGGER.debug(f'flush("{self._preedit_text}"): preedit')
+            LOGGER.debug(f'flush: should_draw_preedit: "{self._preedit_text}"')
             if self._preedit_text:
                 self.commit_text(IBus.Text.new_from_string(self._preedit_text))
                 self._surrounding = SURROUNDING_RESET
         elif self.has_preedit():
-            LOGGER.debug(f'flush("{self._preedit_text}"): '
+            LOGGER.debug(f'flush: "{self._preedit_text}" '
                          f'{self._preedit_pos_min}:{self._preedit_pos_orig}:{self._preedit_pos}')
             delete_size = self._preedit_pos_orig - self._preedit_pos_min
             if 0 < delete_size:
