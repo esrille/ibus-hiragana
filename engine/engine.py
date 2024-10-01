@@ -372,7 +372,7 @@ class EngineModeless(IBus.Engine):
     def get_platform_version(self):
         return self._platform_version
 
-    def get_surrounding_string(self):
+    def get_surrounding_string(self, preedit=''):
         if not (self.client_capabilities & IBus.Capabilite.SURROUNDING_TEXT):
             self._surrounding = SURROUNDING_NOT_SUPPORTED
 
@@ -427,6 +427,10 @@ class EngineModeless(IBus.Engine):
             pos += len(self.katakana_text)
             # A short delay is necessary with some input elements in Firefox 130.
             time.sleep(EVENT_DELAY)
+        preedit_len = len(preedit)
+        if 0 < preedit_len and text[:pos].endswith(preedit):
+            text = text[:pos - preedit_len] + text[pos:]
+            pos -= preedit_len
 
         self._preedit_text = text
         self._preedit_pos = pos
@@ -1392,7 +1396,7 @@ class EngineHiragana(EngineModeless):
                 return True
 
         # Cache the current surrounding text into the EngineModless's local buffer.
-        self.get_surrounding_string()
+        self.get_surrounding_string(self._dict.current())
         # Edit the local surrounding text buffer as we need.
         result = self._process_surrounding_text(e)
         # Flush the local surrounding text buffer into the IBus client.
