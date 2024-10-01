@@ -1538,7 +1538,10 @@ class EngineHiragana(EngineModeless):
             url = 'file://' + os.path.join(package.get_datadir(), 'docs', lang, 'index.html')
             LOGGER.debug(f'{url}')
             # Use yelp to open local HTML help files.
-            subprocess.Popen(['yelp', url])
+            # cf. https://bugs.webkit.org/show_bug.cgi?id=261874
+            yelp_env = os.environ.copy()
+            yelp_env['WEBKIT_DISABLE_DMABUF_RENDERER'] = '1'
+            subprocess.Popen(['yelp', url], env=yelp_env)
         elif prop_name == 'About':
             if self._about_dialog:
                 self._about_dialog.present()
