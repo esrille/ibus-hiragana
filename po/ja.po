@@ -3,9 +3,9 @@
 # This file is distributed under the same license as the ibus-hiragana package.
 msgid ""
 msgstr ""
-"Project-Id-Version: ibus-hiragana 0.15.11\n"
+"Project-Id-Version: ibus-hiragana 0.15.12\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-30 05:11+0900\n"
+"POT-Creation-Date: 2024-10-02 16:42+0900\n"
 "PO-Revision-Date: 2020-09-24 11:59+0900\n"
 "Last-Translator: Esrille Inc. <info@esrille.com>\n"
 "Language-Team: Japanese <info@esrille.com>\n"
@@ -34,40 +34,40 @@ msgstr "全角英数 (Ａ)"
 msgid "Halfwidth Katakana (ｱ)"
 msgstr "半角カタカナ (ｱ)"
 
-#: engine/engine.py:632 engine/engine.py:1152
+#: engine/engine.py:638 engine/engine.py:1167
 #, python-format
 msgid "Input mode (%s)"
 msgstr "入力モード (%s)"
 
-#: engine/engine.py:635
+#: engine/engine.py:641
 msgid "Setup"
 msgstr "設定"
 
-#: engine/engine.py:637
+#: engine/engine.py:643
 msgid "Help"
 msgstr "ヘルプ"
 
-#: engine/engine.py:639
+#: engine/engine.py:645
 msgid "About Hiragana IME..."
 msgstr "ひらがなIMEについて..."
 
-#: engine/engine.py:1281
+#: engine/engine.py:1296
 msgid "Please install LLM packages."
 msgstr "LLM関連のパッケージをインストールしてください。"
 
-#: engine/engine.py:1282
+#: engine/engine.py:1297
 msgid "Hiragna IME has updated its python virtual environment."
 msgstr "ひらがなIMEのPython仮想環境が更新されました。"
 
-#: engine/engine.py:1285 setup/setup.glade:852
+#: engine/engine.py:1300 setup/setup.glade:852
 msgid "Install..."
 msgstr "インストール..."
 
-#: engine/engine.py:1535
+#: engine/engine.py:1553
 msgid "en"
 msgstr "ja"
 
-#: engine/engine.py:1547
+#: engine/engine.py:1568
 msgid "Hiragana IME"
 msgstr "ひらがなIME"
 
