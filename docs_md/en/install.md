@@ -125,18 +125,24 @@ To install the above packages in this venv, follow these steps:
 
 ![Post Installation Window](postinst_1.png)
 
-3. Click **Install** to start the installation. The installation log will be displayed within the window.
+3. Click **Install** to begin the installation.
+The installation log will appear in the window.
+Once the installation is finished, the **Install** button will change to **Close**.
+Click **Close** to exit the window.
 
 ![Post Installation Window](postinst_2.png)
 
-4. Once the installation is finished, the **Install** button will change to a **Close** button. Click it to close the window.
+4. In the **Option** tab of the **[Hiragana IME Setup](settings.html#ibus-setup-hiragana)** window, select the **Use LLM for candidate selection** option.
 
+![Hiragana IME Setup Window](ibus-setup-hiragana_5.png)
+
+If your PC has an NVIDIA GPU, Hiragana IME can use [CUDA](settings.html#cuda) to accelerate the LLM calculation.
+To use CUDA, select the **Use CUDA for LLM calculation** option as well.
+
+5. Click **OK** to exit the the **[Hiragana IME Setup](settings.html#ibus-setup-hiragana)** window.
 All the packages you need for using the LLM are now installed.
 
-### Hint
-
-- In the [About](usage.html#about) dialog box, you can check whether Hiragana IME uses LLM.
-- If your PC has an NVIDIA GPU, Hiragana IME can use CUDA to accelerate the LLM calculation. For more details, please see "[Use CUDA for LLM calculation](settings.html#cuda)".
+**Hint**: In the [About](usage.html#about) dialog box, you can check whether Hiragana IME uses LLM.
 
 ## Updates {: #update}
 
