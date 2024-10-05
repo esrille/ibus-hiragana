@@ -62,6 +62,9 @@ Hiragana IME for IBus.
 * ${date} Esrille Inc. <info@esrille.com> - ${version}-1
 - See https://github.com/esrille/ibus-hiragana/releases/tag/v${source_version}
 
+* Wed Oct 02 2024 Esrille Inc. <info@esrille.com> - 0.15.12-1
+- See https://github.com/esrille/ibus-hiragana/releases/tag/v0.15.12
+
 * Mon Sep 30 2024 Esrille Inc. <info@esrille.com> - 0.15.11-1
 - See https://github.com/esrille/ibus-hiragana/releases/tag/v0.15.11
 
