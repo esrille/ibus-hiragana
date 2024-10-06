@@ -5,7 +5,7 @@ python_prog = find_program('python3')
 
 toc = custom_target(
   'generate_toc.txt',
-  input: [files(
+  input: [
     'toc.py',
     'index.md',
     'install.md',
@@ -16,7 +16,7 @@ toc = custom_target(
     'roomazi.md',
     'altgr.md',
     'developer.md'
-  )],
+  ],
   output: 'toc.txt',
   command: [python_prog, '@INPUT@'],
   capture: true,
@@ -37,7 +37,7 @@ contents = [
 foreach content : contents
   html = custom_target(
     'generate_' + content[3],
-    input: [files('md2html.py', content[0], content[1], content[2], 'template.html'), toc],
+    input: ['md2html.py', content[0], content[1], content[2], 'template.html', toc],
     output: content[3],
     command: [python_prog, '@INPUT@', '@OUTPUT@'],
     install: true,
