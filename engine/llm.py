@@ -279,7 +279,7 @@ class LanguageModel:
                 if yougen_yomi[i - pos_cand] in self._yougen_tokens:
                     LOGGER.debug(f'assist: {yougen_yomi[i - pos_cand]} '
                                  f'{self._tokenizer.decode(self._yougen_tokens[yougen_yomi[i - pos_cand]])}')
-                    p = sum(probabilities[self._yougen_tokens[yougen_yomi[i - pos_cand]]].tolist())
+                    p = torch.sum(probabilities[self._yougen_tokens[yougen_yomi[i - pos_cand]]])
                 else:
                     p = 0.0
             else:
@@ -316,7 +316,7 @@ class LanguageModel:
                     if yougen_yomi[j - pos_cand] in self._yougen_tokens:
                         LOGGER.debug(f'assist: {yougen_yomi[j - pos_cand]} '
                                      f'{self._tokenizer.decode(self._yougen_tokens[yougen_yomi[j - pos_cand]])}')
-                        probabilities[j] *= sum(p[self._yougen_tokens[yougen_yomi[j - pos_cand]]].tolist())
+                        probabilities[j] *= torch.sum(p[self._yougen_tokens[yougen_yomi[j - pos_cand]]])
                     else:
                         probabilities[j] = 0.0
                 else:
