@@ -183,6 +183,7 @@ RE_ONYOMI = re.compile(r'[^ぁ-ゖー]')
 RE_KIGOU = re.compile('[' + KIGOU + ']')
 RE_OKURI = re.compile('[' + HIRAGANA + ']+$')
 RE_PREFIX = re.compile('^[' + HIRAGANA + ']+')
+RE_KATAKANA = re.compile('^[' + KATAKANA + ']+')
 
 # 常用漢字、人名漢字、記号にふくまれない字に一致する正規表現
 RE_HYOUGAI = re.compile('[^' + '#0-9A-Za-z' + HIRAGANA + KATAKANA + ZYOUYOU + '々' + KIGOU + ZINMEI + ']')
@@ -743,6 +744,19 @@ def mazeyomi(dict, grade=10, okuri=True):
         s = []
         for word in words:
             if _is_maze_yomi(kunyomi, onyomi, yomi, word) or _is_maze_yomi(onyomi, kunyomi, yomi, word):
+                s.append(word)
+        if s:
+            d[yomi] = s
+    return d
+
+
+# カタカナの語をとりだします。
+def katakana(dict):
+    d = {}
+    for yomi, words in dict.items():
+        s = []
+        for word in words:
+            if RE_KATAKANA.match(word):
                 s.append(word)
         if s:
             d[yomi] = s

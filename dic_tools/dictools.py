@@ -47,7 +47,7 @@ def output_dic(dic, args, unparsed, header=''):
             output_inner(dic, args, unparsed, header, file)
 
 
-def diff(args, unparsed, output):
+def diff(args, unparsed):
     dic = {}
     op = ''
     header = '; '
@@ -61,21 +61,21 @@ def diff(args, unparsed, output):
     output_dic(dic, args, unparsed, header)
 
 
-def hyougai(args, unparsed, output):
+def hyougai(args, unparsed):
     dic = {}
     for path in unparsed:
         dic = diclib.union(dic, diclib.hyougai(diclib.load(path)))
     output_dic(dic, args, unparsed)
 
 
-def hyougai_yomi(args, unparsed, output):
+def hyougai_yomi(args, unparsed):
     dic = {}
     for path in unparsed:
         dic = diclib.union(dic, diclib.hyougai_yomi(diclib.load(path)))
     output_dic(dic, args, unparsed)
 
 
-def intersect(args, unparsed, output):
+def intersect(args, unparsed):
     dic = {}
     op = ''
     header = '; '
@@ -89,7 +89,7 @@ def intersect(args, unparsed, output):
     output_dic(dic, args, unparsed, header)
 
 
-def lookup(args, unparsed, output):
+def lookup(args, unparsed):
     if len(unparsed) < 2:
         return
     word = unparsed[0]
@@ -100,7 +100,7 @@ def lookup(args, unparsed, output):
     output_dic(dic, args, unparsed[1:])
 
 
-def mazeyomi(args, unparsed, output):
+def mazeyomi(args, unparsed):
     dic = {}
     for path in unparsed:
         dic = diclib.union(dic, diclib.mazeyomi(diclib.load(path)))
@@ -108,7 +108,7 @@ def mazeyomi(args, unparsed, output):
     output_dic(dic, args, unparsed)
 
 
-def symbol(args, unparsed, output):
+def symbol(args, unparsed):
     dic = {}
     for path in unparsed:
         dic = diclib.union(dic, diclib.kigou(diclib.load(path)))
@@ -116,7 +116,7 @@ def symbol(args, unparsed, output):
 
 
 # 常用漢字表にない、おくりがなをふくんだ活用しない語をとりだします
-def taigen(args, unparsed, output):
+def taigen(args, unparsed):
     dic = {}
     for path in unparsed:
         dic = diclib.union(dic, diclib.okuri(diclib.load(path)))
@@ -124,7 +124,7 @@ def taigen(args, unparsed, output):
     output_dic(dic, args, unparsed)
 
 
-def union(args, unparsed, output):
+def union(args, unparsed):
     dic = {}
     op = ''
     header = '; '
@@ -135,7 +135,7 @@ def union(args, unparsed, output):
     output_dic(dic, args, unparsed, header)
 
 
-def wago(args, unparsed, output):
+def wago(args, unparsed):
     dic = {}
     for path in unparsed:
         dic = diclib.union(dic, diclib.wago(diclib.load(path)))
@@ -143,7 +143,7 @@ def wago(args, unparsed, output):
     output_dic(dic, args, unparsed)
 
 
-def yougen(args, unparsed, output):
+def yougen(args, unparsed):
     dic = {}
     for path in unparsed:
         dic = diclib.union(dic, diclib.yougen(diclib.load(path)))
@@ -151,7 +151,7 @@ def yougen(args, unparsed, output):
     output_dic(dic, args, unparsed)
 
 
-def yutou(args, unparsed, output):
+def yutou(args, unparsed):
     dic = {}
     for path in unparsed:
         dic = diclib.union(dic, diclib.yutou(diclib.load(path)))
@@ -159,7 +159,7 @@ def yutou(args, unparsed, output):
     output_dic(dic, args, unparsed)
 
 
-def zyuubako(args, unparsed, output):
+def zyuubako(args, unparsed):
     dic = {}
     for path in unparsed:
         dic = diclib.union(dic, diclib.zyuubako(diclib.load(path)))
@@ -167,33 +167,43 @@ def zyuubako(args, unparsed, output):
     output_dic(dic, args, unparsed)
 
 
-def dispatch(args, unparsed, output):
+def katakana(args, unparsed):
+    dic = {}
+    for path in unparsed:
+        dic = diclib.union(dic, diclib.katakana(diclib.load(path)))
+    dic = diclib.difference(dic, diclib.zyouyou())
+    output_dic(dic, args, unparsed)
+
+
+def dispatch(args, unparsed):
     if args.command == 'diff':
-        diff(args, unparsed, output)
+        diff(args, unparsed)
     elif args.command == 'hyougai':
-        hyougai(args, unparsed, output)
+        hyougai(args, unparsed)
     elif args.command == 'hyougai-yomi':
-        hyougai_yomi(args, unparsed, output)
+        hyougai_yomi(args, unparsed)
     elif args.command == 'intersect':
-        intersect(args, unparsed, output)
+        intersect(args, unparsed)
+    elif args.command == 'katakana':
+        katakana(args, unparsed)
     elif args.command == 'lookup':
-        lookup(args, unparsed, output)
+        lookup(args, unparsed)
     elif args.command == 'mazeyomi':
-        mazeyomi(args, unparsed, output)
+        mazeyomi(args, unparsed)
     elif args.command == 'symbol':
-        symbol(args, unparsed, output)
+        symbol(args, unparsed)
     elif args.command == 'taigen':
-        taigen(args, unparsed, output)
+        taigen(args, unparsed)
     elif args.command == 'union':
-        union(args, unparsed, output)
+        union(args, unparsed)
     elif args.command == 'wago':
-        wago(args, unparsed, output)
+        wago(args, unparsed)
     elif args.command == 'yougen':
-        yougen(args, unparsed, output)
+        yougen(args, unparsed)
     elif args.command == 'yutou':
-        yutou(args, unparsed, output)
+        yutou(args, unparsed)
     elif args.command == 'zyuubako':
-        zyuubako(args, unparsed, output)
+        zyuubako(args, unparsed)
 
 
 def main():
@@ -203,6 +213,7 @@ def main():
         'hyougai',
         'hyougai-yomi',
         'intersect',
+        'katakana',
         'lookup',
         'mazeyomi',
         'symbol',
@@ -217,7 +228,7 @@ def main():
     parser.add_argument('--header', action='store_true')
     parser.add_argument('--single', action='store_true')
     args, unparsed = parser.parse_known_args()
-    dispatch(args, unparsed, sys.stdout)
+    dispatch(args, unparsed)
 
 
 if __name__ == '__main__':
