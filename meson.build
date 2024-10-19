@@ -13,6 +13,7 @@ subdir('data')
 subdir('docs')
 subdir('engine')
 subdir('layouts')
+subdir('man')
 subdir('setup')
 subdir('po')
 

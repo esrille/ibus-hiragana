@@ -7,6 +7,7 @@ python_prog = find_program('python3')
 
 conf = configuration_data()
 conf.set('PYTHON', python.path())
+conf.set('VERSION', meson.project_version())
 conf.set('prefix', get_option('prefix'))
 
 configure_file(

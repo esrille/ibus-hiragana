@@ -1,0 +1,66 @@
+.TH IBUS-HIRAGANA-TOOL "1" "October 2024" "ibus-hiragana-tool @VERSION@" "User Commands"
+.SH NAME
+\fBibus-hiragana-tool\fP \- Hiragana IME dictionary utilities
+.SH SYNOPSIS
+ibus\-hiragana\-tool [\-h] [\-o OUTPUT] [\-\-header] [\-\-one] [\-\-version]
+[{diff,hyougai,hyougai\-yomi,intersect,katakana,lookup,mazeyomi,symbol,taigen,union,wago,yougen,yutou,zyuubako} ...]
+.SH DESCRIPTION
+.SS "commands:"
+.TP
+\fBdiff\fR ...
+output words in the first input file that are not in other input files
+.TP
+\fBhyougai\fR ...
+output words that use hyougai\-kanji in input files
+.TP
+\fBhyougai\-yomi\fR ...
+output words that use hyougai\-yomi in input files
+.TP
+\fBintersect\fR ...
+output words that are common to all input files
+.TP
+\fBkatakana\fR ...
+output words that are in katakana in input files
+.TP
+\fBlookup\fR WORD ...
+find WORD in the input files
+.TP
+\fBmazeyomi\fR ...
+output yutou\-yomi and zyuubako\-yomi words in all input files
+.TP
+\fBsymbol\fR ...
+output words using symbol characters in all input files
+.TP
+\fBtaigen\fR ...
+output words without okurigana in all input files
+.TP
+\fBunion\fR ...
+output all words in input files
+.TP
+\fBwago\fR ...
+output native Japanese words in all input files
+.TP
+\fByougen\fR ...
+output words with okurigana in all input files
+.TP
+\fByutou\fR ...
+output yutou\-yomi words in all input files
+.TP
+\fBzyuubako\fR ...
+output zyuubako\-yomi words in all input files
+.SS "options:"
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+show this help message and exit
+.TP
+\fB\-o\fR OUTPUT, \fB\-\-output\fR OUTPUT
+write output to OUTPUT
+.TP
+\fB\-\-header\fR
+output the header of the first input file
+.TP
+\fB\-\-one\fR
+list one word per line
+.TP
+\fB\-\-version\fR
+print version information

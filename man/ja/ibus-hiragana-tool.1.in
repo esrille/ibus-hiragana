@@ -1,0 +1,66 @@
+.TH IBUS-HIRAGANA-TOOL "1" "October 2024" "ibus-hiragana-tool @VERSION@" "User Commands"
+.SH 名前
+\fBibus-hiragana-tool\fP \- ひらがなIME辞書ツール
+.SH 書式
+ibus\-hiragana\-tool [\-h] [\-o OUTPUT] [\-\-header] [\-\-one] [\-\-version]
+[{diff,hyougai,hyougai\-yomi,intersect,katakana,lookup,mazeyomi,symbol,taigen,union,wago,yougen,yutou,zyuubako} ...]
+.SH 説明
+.SS "コマンド:"
+.TP
+\fBdiff\fR ...
+最初の入力ファイルにある語のうち、他の入力ファイルにはない語を書き出す。
+.TP
+\fBhyougai\fR ...
+表外漢字を含んだ語を書き出す。
+.TP
+\fBhyougai\-yomi\fR ...
+表外の読みを含んだ語を書き出す。
+.TP
+\fBintersect\fR ...
+すべての入力ファイルに含まれている語を書き出す。
+.TP
+\fBkatakana\fR ...
+入力ファイル中のカタカナの語を書き出す。
+.TP
+\fBlookup\fR WORD ...
+入力ファイルの中から WORD を探す。
+.TP
+\fBmazeyomi\fR ...
+入力ファイル中の湯桶読みと重箱読みの語を書き出す。
+.TP
+\fBsymbol\fR ...
+入力ファイル中の記号を含んだ語を書き出す。
+.TP
+\fBtaigen\fR ...
+入力ファイル中の体言を書き出す。
+.TP
+\fBunion\fR ...
+入力ファイルに含まれている、すべての語を書き出す。
+.TP
+\fBwago\fR ...
+入力ファイル中の和語を書き出す。
+.TP
+\fByougen\fR ...
+入力ファイル中の用言を書き出す。
+.TP
+\fByutou\fR ...
+入力ファイル中の湯桶読みの語を書き出す。
+.TP
+\fBzyuubako\fR ...
+入力ファイル中の重箱読みの語を書き出す。
+.SS "オプション:"
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+ヘルプ メッセージを表示して終了する。
+.TP
+\fB\-o\fR OUTPUT, \fB\-\-output\fR OUTPUT
+OUTPUTに書き出す。
+.TP
+\fB\-\-header\fR
+最初の入力ファイルのヘッダーを書き出す。
+.TP
+\fB\-\-one\fR
+１行ずつ語を書き出す。
+.TP
+\fB\-\-version\fR
+バージョン番号を表示する。

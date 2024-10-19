@@ -34,7 +34,7 @@ def get_header(filename):
 def output_inner(dic, args, unparsed, header='', file=sys.stdout):
     if header:
         print(header, file=file)
-    diclib.output(dic, file=file, single=args.single)
+    diclib.output(dic, file=file, single=args.one)
 
 
 def output_dic(dic, args, unparsed, header=''):
@@ -205,28 +205,71 @@ def dispatch(args, unparsed):
     elif args.command == 'zyuubako':
         zyuubako(args, unparsed)
 
+DESCRIPTION='''Hiragana IME dictionary utilities
+
+commands:
+  diff ...
+    output words in the first input file that are not in other input files
+  hyougai ...
+    output words that use hyougai-kanji in input files
+  hyougai-yomi ...
+    output words that use hyougai-yomi in input files
+  intersect ...
+    output words that are common to all input files
+  katakana ...
+    output words that are in katakana in input files
+  lookup WORD ...
+    find WORD in the input files
+  mazeyomi ...
+    output yutou-yomi and zyuubako-yomi words in all input files
+  symbol ...
+    output words using symbol characters in all input files
+  taigen ...
+    output words without okurigana in all input files
+  union ...
+    output all words in input files
+  wago ...
+    output native Japanese words in all input files
+  yougen ...
+    output words with okurigana in all input files
+  yutou ...
+    output yutou-yomi words in all input files
+  zyuubako ...
+    output zyuubako-yomi words in all input files
+'''
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('command', choices=[
-        'diff',
-        'hyougai',
-        'hyougai-yomi',
-        'intersect',
-        'katakana',
-        'lookup',
-        'mazeyomi',
-        'symbol',
-        'taigen',
-        'union',
-        'wago',
-        'yougen',
-        'yutou',
-        'zyuubako',
-    ])
-    parser.add_argument('-o', '--output')
-    parser.add_argument('--header', action='store_true')
-    parser.add_argument('--single', action='store_true')
+    parser = argparse.ArgumentParser(prog='ibus-hiragana-tool',
+                                     description=DESCRIPTION,
+                                     formatter_class=argparse.RawTextHelpFormatter)
+    parser.add_argument('command',
+                        choices=[
+                            'diff',
+                            'hyougai',
+                            'hyougai-yomi',
+                            'intersect',
+                            'katakana',
+                            'lookup',
+                            'mazeyomi',
+                            'symbol',
+                            'taigen',
+                            'union',
+                            'wago',
+                            'yougen',
+                            'yutou',
+                            'zyuubako',
+                        ])
+    parser.add_argument('-o', '--output',
+                        help='write output to OUTPUT')
+    parser.add_argument('--header',
+                        help='output the header of the first input file',
+                        action='store_true')
+    parser.add_argument('--one',
+                        help='list one word per line',
+                        action='store_true')
+    parser.add_argument('--version',
+                        help='print version information',
+                        action='store_true')
     args, unparsed = parser.parse_known_args()
     dispatch(args, unparsed)
 
