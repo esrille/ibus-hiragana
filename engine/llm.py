@@ -167,7 +167,6 @@ class LanguageModel:
                             assert suffix
                             word = stem[:suffix.start()] + yomi[pos + 1:]
                             if self._match(token, word, stem[suffix.start():]):
-                                LOGGER.debug(f'{token}')
                                 v.append(vocab[token])
                         if v:
                             yougen_p[j] = sum(probabilities[v].tolist())
@@ -200,7 +199,6 @@ class LanguageModel:
                                 assert suffix
                                 word = stem[:suffix.start()] + yomi[pos + 1:]
                                 if self._match(token, word, stem[suffix.start():]):
-                                    LOGGER.debug(f'{token}')
                                     v.append(vocab[token])
                             if v:
                                 yougen_p[k] = sum(probabilities[v].tolist())
@@ -210,10 +208,9 @@ class LanguageModel:
         p_list = []
         for i in range(len(stem_list)):
             p_list.append(prefix_p[shrink_index[i]] * yougen_p[i])
-            LOGGER.debug(f'  {stem_list[i]} {prefix_p[shrink_index[i]]} * {yougen_p[i]} = {p_list[i]}')
 
         for i, p in enumerate(p_list):
-            LOGGER.debug(f'  {stem_list[i]} {p}')
+            LOGGER.debug(f'{stem_list[i]} {p * 100:.8f}%')
 
         p_dict = {index: value for index, value in enumerate(p_list)}
         return p_dict
@@ -327,7 +324,7 @@ class LanguageModel:
                             calculated.add(k)
 
         for i, ids in enumerate(encoded_inputs.input_ids):
-            LOGGER.debug(f'  {self._tokenizer.decode(ids)} ({len(ids)}) {probabilities[i]}')
+            LOGGER.debug(f'{self._tokenizer.decode(ids)} ({len(ids)}) {probabilities[i] * 100:.8f}%')
 
         if pos_yougen < 0:
             p_dict = {index: value for index, value in enumerate(probabilities)}
