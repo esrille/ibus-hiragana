@@ -536,6 +536,8 @@ def _is_hyounai_yomi(zyouyou, yomi, word):
     if m and yomi.startswith(m.group()):
         word = word[m.end():]
         yomi = yomi[m.end():]
+    if not yomi or not word:
+        return True
 
     m = RE_OKURI.search(word)
     if m:
@@ -543,6 +545,8 @@ def _is_hyounai_yomi(zyouyou, yomi, word):
         word = word[:m.start()]
         if yomi.endswith(okuri):
             yomi = yomi[:-(len(okuri))]
+        if not word:
+            return True
 
     if len(word) == 1:
         if word not in zyouyou:
@@ -607,7 +611,7 @@ def hyougai_yomi(dict, grade=10):
     for yomi, words in dict.items():
         s = []
         for word in words:
-            if not _is_hyounai_yomi(zyouyou, yomi, word):
+            if not _is_hyounai_yomi(zyouyou, yomi, to_hiragana(word)):
                 s.append(word)
         if s:
             d[yomi] = s
