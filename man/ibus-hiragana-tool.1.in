@@ -32,7 +32,7 @@ output yutou\-yomi and zyuubako\-yomi words in all input files
 output words using symbol characters in all input files
 .TP
 \fBtaigen\fR ...
-output words without okurigana in all input files
+output non-conjugating words with okurigana in all input files, excluding single-kanji taigen listed in zyouyou kanji table
 .TP
 \fBunion\fR ...
 output all words in input files
@@ -41,7 +41,7 @@ output all words in input files
 output native Japanese words in all input files
 .TP
 \fByougen\fR ...
-output words with okurigana in all input files
+output conjugating words in all input files, excluding single-kanji yougen listed in zyouyou kanji table
 .TP
 \fByutou\fR ...
 output yutou\-yomi words in all input files
