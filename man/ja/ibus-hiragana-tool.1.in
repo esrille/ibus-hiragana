@@ -51,7 +51,7 @@ ibus\-hiragana\-tool [\-h] [\-o OUTPUT] [\-\-header] [\-\-one] [\-\-version]
 .SS "オプション:"
 .TP
 \fB\-h\fR, \fB\-\-help\fR
-ヘルプ メッセージを表示して終了する。
+ヘルプのオプションを表示する。
 .TP
 \fB\-o\fR OUTPUT, \fB\-\-output\fR OUTPUT
 OUTPUTに書き出す。

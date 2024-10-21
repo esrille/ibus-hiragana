@@ -9,6 +9,7 @@ conf = configuration_data()
 conf.set('PYTHON', python.path())
 conf.set('VERSION', meson.project_version())
 conf.set('prefix', get_option('prefix'))
+conf.set('localedir', get_option('prefix') / get_option('localedir'))
 
 configure_file(
   input: 'ibus-hiragana-tool.in',

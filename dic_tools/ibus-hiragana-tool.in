@@ -18,4 +18,5 @@ if [ "$1" == "--version" ]; then
   echo $(basename "$0") @VERSION@
   exit
 fi
+export LOCALEDIR=@localedir@
 exec @PYTHON@ -O @prefix@/share/ibus-hiragana/dic_tools/dictools.py $@

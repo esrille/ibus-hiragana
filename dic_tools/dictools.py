@@ -15,9 +15,15 @@
 # limitations under the License.
 
 import argparse
+import gettext
+import os
 import sys
 
 import diclib
+
+
+def _(text):
+    return gettext.dgettext('ibus-hiragana', text)
 
 
 def get_header(filename):
@@ -205,7 +211,8 @@ def dispatch(args, unparsed):
     elif args.command == 'zyuubako':
         zyuubako(args, unparsed)
 
-DESCRIPTION='''Hiragana IME dictionary utilities
+
+DESCRIPTION = _("""Hiragana IME dictionary utilities
 
 commands:
   diff ...
@@ -236,10 +243,12 @@ commands:
     output yutou-yomi words in all input files
   zyuubako ...
     output zyuubako-yomi words in all input files
-'''
+""")
+
 
 def main():
     parser = argparse.ArgumentParser(prog='ibus-hiragana-tool',
+                                     add_help=False,
                                      description=DESCRIPTION,
                                      formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('command',
@@ -259,20 +268,24 @@ def main():
                             'yutou',
                             'zyuubako',
                         ])
+    parser.add_argument('-h', '--help',
+                        action='help',
+                        help=_('show help options'))
     parser.add_argument('-o', '--output',
-                        help='write output to OUTPUT')
+                        help=_('write output to OUTPUT'))
     parser.add_argument('--header',
-                        help='output the header of the first input file',
+                        help=_('output the header of the first input file'),
                         action='store_true')
     parser.add_argument('--one',
-                        help='list one word per line',
+                        help=_('list one word per line'),
                         action='store_true')
     parser.add_argument('--version',
-                        help='print version information',
+                        help=_('print version information'),
                         action='store_true')
     args, unparsed = parser.parse_known_args()
     dispatch(args, unparsed)
 
 
 if __name__ == '__main__':
+    gettext.bindtextdomain('ibus-hiragana', os.getenv('LOCALEDIR'))
     main()
