@@ -139,6 +139,11 @@ Click **Close** to exit the window.
 If your PC has an NVIDIA GPU, Hiragana IME can use [CUDA](settings.html#cuda) to accelerate the LLM calculation.
 To use CUDA, select the **Use CUDA for LLM calculation** option as well.
 
+**Caution**: When using CUDA, make sure that the [power management support](https://download.nvidia.com/XFree86/Linux-x86_64/550.67/README/powermanagement.html) of the NVIDIA driver,
+including the <code>NVreg_PreserveVideoMemoryAllocations=1</code> option,
+is properly configured.
+If not, kanji conversion may not work after resuming from suspend mode.
+
 5. Click **OK** to exit the the **[Hiragana IME Setup](settings.html#ibus-setup-hiragana)** window.
 All the packages you need for using the LLM are now installed.
 

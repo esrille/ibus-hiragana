@@ -139,6 +139,10 @@ USはUnited States (of America)の￹略￺りゃく￻です。
 
 　NVIDIAのGPUを￹搭載￺とうさい￻しているPCでは、[CUDA](settings.html#cuda)をつかってLLMの￹計算￺けいさん￻を￹高速￺こうそく￻￹化￺か￻することができます。CUDAをつかうときは、「LLMの￹計算￺けいさん￻にCUDAを￹利用￺りよう￻する」もオンにします。
 
+<br>**￹注意￺ちゅうい￻**: CUDAを￹使用￺しよう￻するばあいは、NVIDIAドライバーの[￹電源￺でんげん￻￹管理￺かんり￻の￹設定￺せってい￻](https://download.nvidia.com/XFree86/Linux-x86_64/550.67/README/powermanagement.html)もあわせておこなってください。￹設定￺せってい￻しておかないと、サスペンド￹状態￺じょうたい￻からレジュームしたあと、￹漢字￺かんじ￻￹変換￺へんかん￻ができなくなることがあります。
+<br>※ <code>NVreg_PreserveVideoMemoryAllocations=1</code>オプションなどの￹設定￺せってい￻が￹必要￺ひつよう￻です。
+
+
 5. [OK]をクリックして、「[ひらがなIMEの￹設定￺せってい￻](settings.html#ibus-setup-hiragana)」ウィンドウをとじます。
 LLMを￹利用￺りよう￻するために￹必要￺ひつよう￻なパッケージのインストールと￹設定￺せってい￻はこれで￹完了￺かんりょう￻です。
 
