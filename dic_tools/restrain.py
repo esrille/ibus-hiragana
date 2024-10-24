@@ -60,7 +60,6 @@ def main():
     dict = diclib.difference(dict, diclib.wago(dict, grade))            # 和語の語を削除
     dict = diclib.difference(dict, diclib.mazeyomi(dict, grade))        # 重箱よみと湯桶よみの語を削除
     if 9 <= grade:
-        # おとな用の辞書では漢字制限をゆるめておきます。
         dict = diclib.union(dict, diclib.load(toolpath('add_9.dic')))
     dict = diclib.difference(dict, diclib.hyougai(dict))                # 表外の漢字を使用している語を削除
     huhyou = diclib.load_huhyou(toolpath('huhyou.dic'), grade)
