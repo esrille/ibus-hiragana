@@ -55,38 +55,20 @@ The correct Rōmaji spelling for 'ん' is <kbd>n</kbd>, or <kbd>n</kbd><kbd>'</k
 
 ## Dictionary Tab {: #dictionary}
 
-In the Dictionary tab, you can configure the dictionaries for kana-kanji conversion.
-The Hiragana IME offers dictionaries for elementary, middle, and high school students, as well as adults.
+In the **Dictionary** tab, you can set up the dictionaries used for kana-kanji conversion.
 
 ![Hiragana IME Setup Window](ibus-setup-hiragana_2.png)
 
 ### Kanji Dictionary
 
-Choose the Kanji dictionary you like to use from the **Kanji Dictionary** drop-down list.
-The grade-specific dictionary is structured according to the table provided by [MEXT](http://www.mext.go.jp/a_menu/shotou/new-cs/1385768.htm).
-As students move up each grade, they learn more kanji characters;
-consequently, the number of kanji words in the dictionary also increases.
+Choose your preferred dictionary from the **Kanji Dictionary** drop-down list.
+Hiragana IME offers dictionaries for elementary, middle, and high school students, as well as for adults.
+Details about the grade-specific dictionaries are described in the [Hiragana IME Dictionary](dictionary.html).
 
-Kanji Dictionary | Number of Words
---|--:
-1st grade | 730
-2nd grade | 3,210
-3rd grade | 6,315
-4th grade | 9,554
-5th grade | 12,573
-6th grade | 14,796
-7-9 grades | 29,974
-10-12 grades | 32,077
-Adults | 34,594
-
-(As of August, 2024)
-
-Choose a dictionary based on the reader's grade level.
-For personal names and place names, dictionaries for middle school students and above use kanji not listed in the list of Chinese characters in common use, known as the *[Jōyō Kanji Table](https://www.bunka.go.jp/kokugo_nihongo/sisaku/joho/joho/kijun/naikaku/kanji/)*.
 
 ### User Dictionary Name
 
-You can add words to your personal dictionary if you can not find a word in Hiragana IME dictionary.
+You can add words to your personal dictionary if you can not find them in Hiragana IME dictionaries.
 You may switch among multiple user dictionaries.
 
 Enter the preferred user dictionary file name in the **User Dictionary Name** textbox.
@@ -94,7 +76,7 @@ By default, 'my.dic' is used.
 Your dictionaries are stored in the directory <code>~/.local/share/ibus-hiragana/</code>.
 
 Click **Edit** to edit your dictionary.
-The file format of the personal dictionary is described later in "[Editing Personal Dictionaries](#personal-dictionary)" on this page.
+The file format of the Hiragana IME dictionary is described in [Editing Dictionaries](dictionary.html#personal-dictionary).
 
 ### Use permissible okurigana
 
@@ -184,81 +166,3 @@ If the driver is successfully installed, you can see your GPU model name in the 
 
 By clicking the **Install…** button, you can install the required packages to use LLM for candidate selection.
 For more details, please see "[Install additional components for using LLM](install.html#llm)".
-
-## Editing Personal Dictionaries {: #personal-dictionary}
-
-The personal dictionary files are text files using the following format.
-
-```
-; Lines starting with a semicolon (;) are comments.
-; To add a word, write the reading, followed by a space, and then the word
-; enclosed by slashes (/).
-きれい /綺麗/
-; When you prefix the reading with a minus sign (-), you can revoke words
-; in the system dictionary.
--きれい /奇麗/
-; Words with the same reading can be added together in one line.
-かいざん /改竄/改ざん/
-; The reading section of a word with okurigana contains only the hiragana
-; part to be replaced with kanji and terminated with a horizontal bar (―).
-ささや― /囁k/
-あお― /碧i/
-```
-
-### Adding words with okurigana (*for Advanced Users Only*) {: #okurigana}
-
-In user dictionaries, the reading section of a word with okurigana contains only the hiragana part to be replaced with kanji and terminated with a horizontal bar (―).
-
-The format of the word section changes based on its grammatical part of speech and conjugation type, as described below.
-
-#### For verbs with Godan conjugation:
-
-In the word section, write kanji, okurigana up to (if any) the conjugative suffix, and one of the conjugative suffix symbols: *kgstnbmrw*.
-
-Gyō | Reading Section | Word Section
----|---|---
-か (ka) gyō | か― | 書k
-が (ga) gyō | およ― | 泳g
-さ (sa) gyō | ち― | 散らs
-た (ta) gyō | う― | 打t
-な (na) gyō | し― | 死n
-ば (ba) gyō | あそ― | 遊b
-ま (ma) gyō | あか― | 赤らm
-ら (ra) gyō | あず― | 預かr
-わ (wa) gyō | あ― | 会w
-
-#### For verbs with Kami-ichiidan or Shimo-ichidan conjugation:
-
-In the word section, write kanji, the first letter of the okurigana, which is one of the letters in イ (i)-dan or エ (e)-dan, and the conjugative suffix symbol: *1*.
-
-Conjugation Type | Reading Section | Word Section
----|---|---
-Kami-ichiidan | お― | 起き1
-Shimo-ichidan | み― | 見え1
-
-#### For イ (i)-adjectives
-
-In the word section, write the kanji, the okurigana up to (if any) the conjugative suffix, and the conjugative suffix symbol: *i*.
-
-Reading section | Word section
----|---
-あか― | 赤i
-つめ― | 冷たi
-
-#### For ナ (na)-adjectives
-
-In the word section, write kanji and then stem in hiragana.
-
-Reading section | Word section
----|---
-あき― | 明らか
-しず― | 静か
-
-#### The other types of *okurigana*
-
-In the word section, write kanji and okurigana as they are.
-
-Reading section | Word section
----|---
-ひと― | 独り
-すこ― | 少し

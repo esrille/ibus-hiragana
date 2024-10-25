@@ -82,7 +82,6 @@ function shrinkToc() {
   <li><a href='settings.html#layout'>Keyboard Tab</a>
   <li><a href='settings.html#dictionary'>Dictionary Tab</a>
   <li><a href='settings.html#option'>Option Tab</a>
-  <li><a href='settings.html#personal-dictionary'>Editing Personal Dictionaries</a>
 </ul>
 </details>
 <li><details><summary><a href='layouts.html'>Kana Input</a></summary>
@@ -104,6 +103,12 @@ function shrinkToc() {
   <li><a href='altgr.html#altgr'>What is <span class='key'>AltGr</span> key?</a>
   <li><a href='altgr.html#altgr-settings'>Switching the right <span class='key'>Alt</span> key to the <span class='key'>AltGr</span> key</a>
   <li><a href='altgr.html#altgr-characters'>Entering Characters and Symbols on the <span class='key'>AltGr</span> Layers</a>
+</ul>
+</details>
+<li><details><summary><a href='dictionary.html'>The Hiragana IME Dictionary</a></summary>
+<ul>
+  <li><a href='dictionary.html#personal-dictionary'>Editing Dictionaries</a>
+  <li><a href='dictionary.html#okurigana'>Adding words with okurigana</a>
 </ul>
 </details>
 <li><details><summary><a href='developer.html'>Development</a></summary>
@@ -209,71 +214,20 @@ However, this <kbd>n</kbd><kbd>n</kbd> method was deprecated in 2009 at JIS, and
 The correct Rōmaji spelling for 'ん' is <kbd>n</kbd>, or <kbd>n</kbd><kbd>'</kbd> if 'n' is followed by one of 'aiueoy'.</p>
 <p><strong>Hint</strong>: You can also enter 'ん' by pressing the <kbd>Enter</kbd> key after 'n'.</p>
 <h2 id="dictionary">Dictionary Tab</h2>
-<p>In the Dictionary tab, you can configure the dictionaries for kana-kanji conversion.
-The Hiragana IME offers dictionaries for elementary, middle, and high school students, as well as adults.</p>
+<p>In the <strong>Dictionary</strong> tab, you can set up the dictionaries used for kana-kanji conversion.</p>
 <p><img alt="Hiragana IME Setup Window" src="ibus-setup-hiragana_2.png"></p>
 <h3>Kanji Dictionary</h3>
-<p>Choose the Kanji dictionary you like to use from the <strong>Kanji Dictionary</strong> drop-down list.
-The grade-specific dictionary is structured according to the table provided by <a href="http://www.mext.go.jp/a_menu/shotou/new-cs/1385768.htm">MEXT</a>.
-As students move up each grade, they learn more kanji characters;
-consequently, the number of kanji words in the dictionary also increases.</p>
-<table>
-<thead>
-<tr>
-<th>Kanji Dictionary</th>
-<th align="right">Number of Words</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1st grade</td>
-<td align="right">730</td>
-</tr>
-<tr>
-<td>2nd grade</td>
-<td align="right">3,210</td>
-</tr>
-<tr>
-<td>3rd grade</td>
-<td align="right">6,315</td>
-</tr>
-<tr>
-<td>4th grade</td>
-<td align="right">9,554</td>
-</tr>
-<tr>
-<td>5th grade</td>
-<td align="right">12,573</td>
-</tr>
-<tr>
-<td>6th grade</td>
-<td align="right">14,796</td>
-</tr>
-<tr>
-<td>7-9 grades</td>
-<td align="right">29,974</td>
-</tr>
-<tr>
-<td>10-12 grades</td>
-<td align="right">32,077</td>
-</tr>
-<tr>
-<td>Adults</td>
-<td align="right">34,594</td>
-</tr>
-</tbody>
-</table>
-<p>(As of August, 2024)</p>
-<p>Choose a dictionary based on the reader's grade level.
-For personal names and place names, dictionaries for middle school students and above use kanji not listed in the list of Chinese characters in common use, known as the <em><a href="https://www.bunka.go.jp/kokugo_nihongo/sisaku/joho/joho/kijun/naikaku/kanji/">Jōyō Kanji Table</a></em>.</p>
+<p>Choose your preferred dictionary from the <strong>Kanji Dictionary</strong> drop-down list.
+Hiragana IME offers dictionaries for elementary, middle, and high school students, as well as for adults.
+Details about the grade-specific dictionaries are described in the <a href="dictionary.html">Hiragana IME Dictionary</a>.</p>
 <h3>User Dictionary Name</h3>
-<p>You can add words to your personal dictionary if you can not find a word in Hiragana IME dictionary.
+<p>You can add words to your personal dictionary if you can not find them in Hiragana IME dictionaries.
 You may switch among multiple user dictionaries.</p>
 <p>Enter the preferred user dictionary file name in the <strong>User Dictionary Name</strong> textbox.
 By default, 'my.dic' is used.
 Your dictionaries are stored in the directory <code>~/.local/share/ibus-hiragana/</code>.</p>
 <p>Click <strong>Edit</strong> to edit your dictionary.
-The file format of the personal dictionary is described later in "<a href="#personal-dictionary">Editing Personal Dictionaries</a>" on this page.</p>
+The file format of the Hiragana IME dictionary is described in <a href="dictionary.html#personal-dictionary">Editing Dictionaries</a>.</p>
 <h3>Use permissible okurigana</h3>
 <p><em>Okurigana</em> are hiragana suffixes attached to words written with kanji characters.
 Guidelines on using okurigana have been issued as a <a href="https://www.bunka.go.jp/kokugo_nihongo/sisaku/joho/joho/kijun/naikaku/okurikana/index.html">public notice</a> through the Prime Minister in Japan.
@@ -370,166 +324,6 @@ If the driver is successfully installed, you can see your GPU model name in the 
 <h3 id="transformers">Install required packages for using LLM</h3>
 <p>By clicking the <strong>Install…</strong> button, you can install the required packages to use LLM for candidate selection.
 For more details, please see "<a href="install.html#llm">Install additional components for using LLM</a>".</p>
-<h2 id="personal-dictionary">Editing Personal Dictionaries</h2>
-<p>The personal dictionary files are text files using the following format.</p>
-<pre><code>; Lines starting with a semicolon (;) are comments.
-; To add a word, write the reading, followed by a space, and then the word
-; enclosed by slashes (/).
-きれい /綺麗/
-; When you prefix the reading with a minus sign (-), you can revoke words
-; in the system dictionary.
--きれい /奇麗/
-; Words with the same reading can be added together in one line.
-かいざん /改竄/改ざん/
-; The reading section of a word with okurigana contains only the hiragana
-; part to be replaced with kanji and terminated with a horizontal bar (―).
-ささや― /囁k/
-あお― /碧i/
-</code></pre>
-<h3 id="okurigana">Adding words with okurigana (<em>for Advanced Users Only</em>)</h3>
-<p>In user dictionaries, the reading section of a word with okurigana contains only the hiragana part to be replaced with kanji and terminated with a horizontal bar (―).</p>
-<p>The format of the word section changes based on its grammatical part of speech and conjugation type, as described below.</p>
-<h4>For verbs with Godan conjugation:</h4>
-<p>In the word section, write kanji, okurigana up to (if any) the conjugative suffix, and one of the conjugative suffix symbols: <em>kgstnbmrw</em>.</p>
-<table>
-<thead>
-<tr>
-<th>Gyō</th>
-<th>Reading Section</th>
-<th>Word Section</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>か (ka) gyō</td>
-<td>か―</td>
-<td>書k</td>
-</tr>
-<tr>
-<td>が (ga) gyō</td>
-<td>およ―</td>
-<td>泳g</td>
-</tr>
-<tr>
-<td>さ (sa) gyō</td>
-<td>ち―</td>
-<td>散らs</td>
-</tr>
-<tr>
-<td>た (ta) gyō</td>
-<td>う―</td>
-<td>打t</td>
-</tr>
-<tr>
-<td>な (na) gyō</td>
-<td>し―</td>
-<td>死n</td>
-</tr>
-<tr>
-<td>ば (ba) gyō</td>
-<td>あそ―</td>
-<td>遊b</td>
-</tr>
-<tr>
-<td>ま (ma) gyō</td>
-<td>あか―</td>
-<td>赤らm</td>
-</tr>
-<tr>
-<td>ら (ra) gyō</td>
-<td>あず―</td>
-<td>預かr</td>
-</tr>
-<tr>
-<td>わ (wa) gyō</td>
-<td>あ―</td>
-<td>会w</td>
-</tr>
-</tbody>
-</table>
-<h4>For verbs with Kami-ichiidan or Shimo-ichidan conjugation:</h4>
-<p>In the word section, write kanji, the first letter of the okurigana, which is one of the letters in イ (i)-dan or エ (e)-dan, and the conjugative suffix symbol: <em>1</em>.</p>
-<table>
-<thead>
-<tr>
-<th>Conjugation Type</th>
-<th>Reading Section</th>
-<th>Word Section</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Kami-ichiidan</td>
-<td>お―</td>
-<td>起き1</td>
-</tr>
-<tr>
-<td>Shimo-ichidan</td>
-<td>み―</td>
-<td>見え1</td>
-</tr>
-</tbody>
-</table>
-<h4>For イ (i)-adjectives</h4>
-<p>In the word section, write the kanji, the okurigana up to (if any) the conjugative suffix, and the conjugative suffix symbol: <em>i</em>.</p>
-<table>
-<thead>
-<tr>
-<th>Reading section</th>
-<th>Word section</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>あか―</td>
-<td>赤i</td>
-</tr>
-<tr>
-<td>つめ―</td>
-<td>冷たi</td>
-</tr>
-</tbody>
-</table>
-<h4>For ナ (na)-adjectives</h4>
-<p>In the word section, write kanji and then stem in hiragana.</p>
-<table>
-<thead>
-<tr>
-<th>Reading section</th>
-<th>Word section</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>あき―</td>
-<td>明らか</td>
-</tr>
-<tr>
-<td>しず―</td>
-<td>静か</td>
-</tr>
-</tbody>
-</table>
-<h4>The other types of <em>okurigana</em></h4>
-<p>In the word section, write kanji and okurigana as they are.</p>
-<table>
-<thead>
-<tr>
-<th>Reading section</th>
-<th>Word section</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ひと―</td>
-<td>独り</td>
-</tr>
-<tr>
-<td>すこ―</td>
-<td>少し</td>
-</tr>
-</tbody>
-</table>
 </main>
 </div>
 
