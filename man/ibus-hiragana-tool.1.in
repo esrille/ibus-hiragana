@@ -11,10 +11,10 @@ ibus\-hiragana\-tool [\-h] [\-o OUTPUT] [\-\-header] [\-\-one] [\-\-version]
 output words in the first input file that are not in other input files
 .TP
 \fBhyougai\fR ...
-output words that use hyougai\-kanji in input files
+output words that use hyōgai\-kanji in input files
 .TP
 \fBhyougai\-yomi\fR ...
-output words that use hyougai\-yomi in input files
+output words that use hyōgai\-yomi in input files
 .TP
 \fBintersect\fR ...
 output words that are common to all input files
@@ -26,28 +26,28 @@ output words that are in katakana in input files
 find WORD in the input files
 .TP
 \fBmazeyomi\fR ...
-output yutou\-yomi and zyuubako\-yomi words in all input files
+output yutō\-yomi and zyūbako\-yomi words in input files
 .TP
 \fBsymbol\fR ...
-output words using symbol characters in all input files
+output words using symbol characters in input files
 .TP
 \fBtaigen\fR ...
-output non-conjugating words with okurigana in all input files, excluding single-kanji taigen listed in zyouyou kanji table
+output non-conjugating words with okurigana in input files, excluding single-kanji taigen listed in jōyō kanji table
 .TP
 \fBunion\fR ...
 output all words in input files
 .TP
 \fBwago\fR ...
-output native Japanese words in all input files
+output native Japanese words in input files
 .TP
 \fByougen\fR ...
-output conjugating words in all input files, excluding single-kanji yougen listed in zyouyou kanji table
+output conjugating words in input files, excluding single-kanji yōgen listed in jōyō kanji table
 .TP
 \fByutou\fR ...
-output yutou\-yomi words in all input files
+output yutō\-yomi words in input files
 .TP
 \fBzyuubako\fR ...
-output zyuubako\-yomi words in all input files
+output zyūbako\-yomi words in input files
 .SS "options:"
 .TP
 \fB\-h\fR, \fB\-\-help\fR

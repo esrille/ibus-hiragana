@@ -109,6 +109,7 @@ function shrinkToc() {
 <ul>
   <li><a href='dictionary.html#personal-dictionary'><ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>ファイルのかきかた</a>
   <li><a href='dictionary.html#okurigana'>おくりがなのある<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>の<ruby>登録<rp>(</rp><rt>とうろく</rt><rp>)</rp></ruby>のしかた</a>
+  <li><a href='dictionary.html#tool'>コマンドライン<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>ツール</a>
 </ul>
 </details>
 <li><details><summary><a href='developer.html'><ruby>開発<rp>(</rp><rt>かいはつ</rt><rp>)</rp></ruby><ruby>者<rp>(</rp><rt>しゃ</rt><rp>)</rp></ruby>むけの<ruby>情報<rp>(</rp><rt>じょうほう</rt><rp>)</rp></ruby></a></summary>
@@ -357,6 +358,115 @@ function shrinkToc() {
 <tr>
 <td>すこ―</td>
 <td>少し</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tool">コマンドライン<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>ツール</h2>
+<p>&#x3000;ひらがなIMEは、<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>のメンテナンス<ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>のコマンドラインツール <code>ibus-hiragana-tool</code> を<ruby>用意<rp>(</rp><rt>ようい</rt><rp>)</rp></ruby>しています。<ruby>個人<rp>(</rp><rt>こじん</rt><rp>)</rp></ruby><ruby>用<rp>(</rp><rt>よう</rt><rp>)</rp></ruby>の<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>ファイルを<ruby>編集<rp>(</rp><rt>へんしゅう</rt><rp>)</rp></ruby>するときなどに<ruby>利用<rp>(</rp><rt>りよう</rt><rp>)</rp></ruby>できます。</p>
+<h3><ruby>書式<rp>(</rp><rt>しょしき</rt><rp>)</rp></ruby></h3>
+<pre><code>ibus-hiragana-tool [-h] [-o OUTPUT] [--header] [--one] [--version]
+[{diff,hyougai,hyougai-yomi,intersect,katakana,lookup,
+  mazeyomi,symbol,taigen,union,wago,yougen,yutou,zyuubako} ...]
+</code></pre>
+<p><br>&#x3000;<code>ibus-hiragana-tool</code> は、サブコマンドをひとつ<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>して<ruby>使用<rp>(</rp><rt>しよう</rt><rp>)</rp></ruby>します。たとえば、union サブコマンドをつかうと、ふたつの<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>ファイルをまぜあわせることができます。</p>
+<pre><code>$ ibus-hiragana-tool union a.dic b.dic -o c.dic
+</code></pre>
+<p>このときは、a.dic と b.dic をまぜあわせて、c.dic という<ruby>辞書<rp>(</rp><rt>じしょ</rt><rp>)</rp></ruby>ファイルをつくります。<ruby>出力<rp>(</rp><rt>しゅつりょく</rt><rp>)</rp></ruby>するファイル<ruby>名<rp>(</rp><rt>めい</rt><rp>)</rp></ruby>を-oオプションで<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>しなければ、<ruby>標準<rp>(</rp><rt>ひょうじゅん</rt><rp>)</rp></ruby><ruby>出力<rp>(</rp><rt>しゅつりょく</rt><rp>)</rp></ruby>に<ruby>結果<rp>(</rp><rt>けっか</rt><rp>)</rp></ruby>が<ruby>表示<rp>(</rp><rt>ひょうじ</rt><rp>)</rp></ruby>されます。</p>
+<p>&#x3000;<code>ibus-hiragana-tool</code> のサブコマンドには<ruby>以下<rp>(</rp><rt>いか</rt><rp>)</rp></ruby>のものがあります。</p>
+<table>
+<thead>
+<tr>
+<th>サブコマンド</th>
+<th><ruby>説明<rp>(</rp><rt>せつめい</rt><rp>)</rp></ruby></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>diff</td>
+<td>さいしょの<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ファイルにある<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>のうち、ほかの<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ファイルにはない<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>をかきだす。</td>
+</tr>
+<tr>
+<td>hyougai</td>
+<td><ruby>表外<rp>(</rp><rt>ひょうがい</rt><rp>)</rp></ruby><ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>をふくんだ<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>をかきだす。</td>
+</tr>
+<tr>
+<td><nobr>hyougai-yomi</nobr></td>
+<td><ruby>表外<rp>(</rp><rt>ひょうがい</rt><rp>)</rp></ruby>のよみをふくんだ<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>をかきだす。</td>
+</tr>
+<tr>
+<td>intersect</td>
+<td>すべての<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ファイルにふくまれている<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>をかきだす。</td>
+</tr>
+<tr>
+<td>katakana</td>
+<td><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ファイル<ruby>中<rp>(</rp><rt>ちゅう</rt><rp>)</rp></ruby>のカタカナの<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>をかきだす。</td>
+</tr>
+<tr>
+<td><nobr>lookup WORD</nobr></td>
+<td><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ファイルのなかから WORD をさがす。</td>
+</tr>
+<tr>
+<td>mazeyomi</td>
+<td><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ファイル<ruby>中<rp>(</rp><rt>ちゅう</rt><rp>)</rp></ruby>の<ruby>湯桶<rp>(</rp><rt>ゆとう</rt><rp>)</rp></ruby>よみと<ruby>重箱<rp>(</rp><rt>じゅうばこ</rt><rp>)</rp></ruby>よみの<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>をかきだす。</td>
+</tr>
+<tr>
+<td>symbol</td>
+<td><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ファイル<ruby>中<rp>(</rp><rt>ちゅう</rt><rp>)</rp></ruby>の<ruby>記号<rp>(</rp><rt>きごう</rt><rp>)</rp></ruby>をふくんだ<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>をかきだす。</td>
+</tr>
+<tr>
+<td>taigen</td>
+<td><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ファイル<ruby>中<rp>(</rp><rt>ちゅう</rt><rp>)</rp></ruby>のおくりがなをふくんだ<ruby>活用<rp>(</rp><rt>かつよう</rt><rp>)</rp></ruby>しない<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>をかきだす。<ruby>常用<rp>(</rp><rt>じょうよう</rt><rp>)</rp></ruby><ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby><ruby>表<rp>(</rp><rt>ひょう</rt><rp>)</rp></ruby><ruby>内<rp>(</rp><rt>ない</rt><rp>)</rp></ruby>の<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>1<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>の<ruby>体言<rp>(</rp><rt>たいげん</rt><rp>)</rp></ruby>はのぞきます。</td>
+</tr>
+<tr>
+<td>union</td>
+<td><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ファイルにふくまれている、すべての<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>をかきだす。</td>
+</tr>
+<tr>
+<td>wago</td>
+<td><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ファイル<ruby>中<rp>(</rp><rt>ちゅう</rt><rp>)</rp></ruby>の<ruby>和語<rp>(</rp><rt>わご</rt><rp>)</rp></ruby>をかきだす。</td>
+</tr>
+<tr>
+<td>yougen</td>
+<td><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ファイル<ruby>中<rp>(</rp><rt>ちゅう</rt><rp>)</rp></ruby>の<ruby>活用<rp>(</rp><rt>かつよう</rt><rp>)</rp></ruby>する<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>をかきだす。<ruby>常用<rp>(</rp><rt>じょうよう</rt><rp>)</rp></ruby><ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby><ruby>表<rp>(</rp><rt>ひょう</rt><rp>)</rp></ruby><ruby>内<rp>(</rp><rt>ない</rt><rp>)</rp></ruby>の<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>1<ruby>文字<rp>(</rp><rt>もじ</rt><rp>)</rp></ruby>の<ruby>用言<rp>(</rp><rt>ようげん</rt><rp>)</rp></ruby>はのぞきます。</td>
+</tr>
+<tr>
+<td>yutou</td>
+<td><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ファイル<ruby>中<rp>(</rp><rt>ちゅう</rt><rp>)</rp></ruby>の<ruby>湯桶<rp>(</rp><rt>ゆとう</rt><rp>)</rp></ruby>よみの<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>をかきだす。</td>
+</tr>
+<tr>
+<td>zyuubako</td>
+<td><ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ファイル<ruby>中<rp>(</rp><rt>ちゅう</rt><rp>)</rp></ruby>の<ruby>重箱<rp>(</rp><rt>じゅうばこ</rt><rp>)</rp></ruby>よみの<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>をかきだす。</td>
+</tr>
+</tbody>
+</table>
+<p>&#x3000;また、つぎのコマンドライン オプションをサポートしています。</p>
+<table>
+<thead>
+<tr>
+<th>オプション</th>
+<th><ruby>説明<rp>(</rp><rt>せつめい</rt><rp>)</rp></ruby></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-h, --help</td>
+<td>ヘルプのオプションを<ruby>表示<rp>(</rp><rt>ひょうじ</rt><rp>)</rp></ruby>する。</td>
+</tr>
+<tr>
+<td>-o OUTPUT, --output OUTPUT</td>
+<td>OUTPUT にかきだす。</td>
+</tr>
+<tr>
+<td>--header</td>
+<td>さいしょの<ruby>入力<rp>(</rp><rt>にゅうりょく</rt><rp>)</rp></ruby>ファイルのヘッダーをかきだす。</td>
+</tr>
+<tr>
+<td>--one</td>
+<td>1行ずつ<ruby>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>をかきだす。</td>
+</tr>
+<tr>
+<td>--version</td>
+<td>バージョン<ruby>情報<rp>(</rp><rt>じょうほう</rt><rp>)</rp></ruby>を<ruby>表示<rp>(</rp><rt>ひょうじ</rt><rp>)</rp></ruby>する。</td>
 </tr>
 </tbody>
 </table>

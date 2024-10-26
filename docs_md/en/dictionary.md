@@ -108,3 +108,58 @@ Reading section | Word section
 ---|---
 ひと― | 独り
 すこ― | 少し
+
+
+## Command-line dictionary tool {: #tool}
+
+Hiragana IME provides a command-line tool called <code>ibus-hiragana-tool</code> for maintaining dictionaries.
+This tool is especially useful for creating large personal dictionary files.
+
+### Synopsis
+
+```
+ibus-hiragana-tool [-h] [-o OUTPUT] [--header] [--one] [--version]
+[{diff,hyougai,hyougai-yomi,intersect,katakana,lookup,
+  mazeyomi,symbol,taigen,union,wago,yougen,yutou,zyuubako} ...]
+```
+
+<code>ibus-hiragana-tool</code> takes a single sub-command as its argument.
+For example, to merge two dictionary files, use the <code>union</code> command:
+
+
+```
+$ ibus-hiragana-tool union a.dic b.dic -o c.dic
+```
+
+
+In this example, a dictionary file named <code>c.dic</code> is created by merging <code>a.dic</code> and <code>b.dic</code>.
+If the output file name is not specified with the <code>-o</code> option, the result will be printed into the standard output.
+
+<code>ibus-hiragana-tool</code> supports the following sub-commands:
+
+<nobr>Sub-command</nobr>| Description
+--|--
+diff | output words in the first input file that are not in other input files
+hyougai | output words that use *hyōgai* kanji in input files
+<nobr>hyougai-yomi</nobr> | output words that use *hyōgai-yomi* in input files
+intersect | output words that are common to all input files
+katakana | output words that are in katakana in input files
+<nobr>lookup WORD</nobr> | find WORD in the input files
+mazeyomi | output *yutō-yomi* and *jūbako-yomi* words in input files
+symbol | output words using symbol characters in input files
+taigen | output non-conjugating words with *okurigana* in input files, excluding single-kanji *taigen* listed in *jōyō* kanji table
+union | output all words in input files
+wago | output native Japanese words in input files
+yougen | output conjugating words in input files, excluding single-kanji *yōgen* listed in *jōyō* kanji table
+yutou | output *yutō-yomi* words in input files
+zyuubako | output *jūbako-yomi* words in input files
+
+And <code>ibus-hiragana-tool</code> support the following command-line options:
+
+Option | Description
+--|--
+-h, --help | show help options
+-o OUTPUT, --output OUTPUT | write output to OUTPUT
+--header | output the header of the first input file
+--one | list one word per line
+--version | print version information

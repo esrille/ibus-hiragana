@@ -109,6 +109,7 @@ function shrinkToc() {
 <ul>
   <li><a href='dictionary.html#personal-dictionary'>Editing Dictionaries</a>
   <li><a href='dictionary.html#okurigana'>Adding words with okurigana</a>
+  <li><a href='dictionary.html#tool'>Command-line dictionary tool</a>
 </ul>
 </details>
 <li><details><summary><a href='developer.html'>Development</a></summary>
@@ -367,6 +368,118 @@ The format of the word section changes based on its grammatical type, as describ
 <tr>
 <td>すこ―</td>
 <td>少し</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tool">Command-line dictionary tool</h2>
+<p>Hiragana IME provides a command-line tool called <code>ibus-hiragana-tool</code> for maintaining dictionaries.
+This tool is especially useful for creating large personal dictionary files.</p>
+<h3>Synopsis</h3>
+<pre><code>ibus-hiragana-tool [-h] [-o OUTPUT] [--header] [--one] [--version]
+[{diff,hyougai,hyougai-yomi,intersect,katakana,lookup,
+  mazeyomi,symbol,taigen,union,wago,yougen,yutou,zyuubako} ...]
+</code></pre>
+<p><code>ibus-hiragana-tool</code> takes a single sub-command as its argument.
+For example, to merge two dictionary files, use the <code>union</code> command:</p>
+<pre><code>$ ibus-hiragana-tool union a.dic b.dic -o c.dic
+</code></pre>
+<p>In this example, a dictionary file named <code>c.dic</code> is created by merging <code>a.dic</code> and <code>b.dic</code>.
+If the output file name is not specified with the <code>-o</code> option, the result will be printed into the standard output.</p>
+<p><code>ibus-hiragana-tool</code> supports the following sub-commands:</p>
+<table>
+<thead>
+<tr>
+<th><nobr>Sub-command</nobr></th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>diff</td>
+<td>output words in the first input file that are not in other input files</td>
+</tr>
+<tr>
+<td>hyougai</td>
+<td>output words that use <em>hyōgai</em> kanji in input files</td>
+</tr>
+<tr>
+<td><nobr>hyougai-yomi</nobr></td>
+<td>output words that use <em>hyōgai-yomi</em> in input files</td>
+</tr>
+<tr>
+<td>intersect</td>
+<td>output words that are common to all input files</td>
+</tr>
+<tr>
+<td>katakana</td>
+<td>output words that are in katakana in input files</td>
+</tr>
+<tr>
+<td><nobr>lookup WORD</nobr></td>
+<td>find WORD in the input files</td>
+</tr>
+<tr>
+<td>mazeyomi</td>
+<td>output <em>yutō-yomi</em> and <em>jūbako-yomi</em> words in input files</td>
+</tr>
+<tr>
+<td>symbol</td>
+<td>output words using symbol characters in input files</td>
+</tr>
+<tr>
+<td>taigen</td>
+<td>output non-conjugating words with <em>okurigana</em> in input files, excluding single-kanji <em>taigen</em> listed in <em>jōyō</em> kanji table</td>
+</tr>
+<tr>
+<td>union</td>
+<td>output all words in input files</td>
+</tr>
+<tr>
+<td>wago</td>
+<td>output native Japanese words in input files</td>
+</tr>
+<tr>
+<td>yougen</td>
+<td>output conjugating words in input files, excluding single-kanji <em>yōgen</em> listed in <em>jōyō</em> kanji table</td>
+</tr>
+<tr>
+<td>yutou</td>
+<td>output <em>yutō-yomi</em> words in input files</td>
+</tr>
+<tr>
+<td>zyuubako</td>
+<td>output <em>jūbako-yomi</em> words in input files</td>
+</tr>
+</tbody>
+</table>
+<p>And <code>ibus-hiragana-tool</code> support the following command-line options:</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-h, --help</td>
+<td>show help options</td>
+</tr>
+<tr>
+<td>-o OUTPUT, --output OUTPUT</td>
+<td>write output to OUTPUT</td>
+</tr>
+<tr>
+<td>--header</td>
+<td>output the header of the first input file</td>
+</tr>
+<tr>
+<td>--one</td>
+<td>list one word per line</td>
+</tr>
+<tr>
+<td>--version</td>
+<td>print version information</td>
 </tr>
 </tbody>
 </table>
