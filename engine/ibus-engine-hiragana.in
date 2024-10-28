@@ -39,12 +39,16 @@ if [ -f $IBUS_PY ] && [ -d $OVERRIDES_DIR ]; then
 fi
 
 # Run IBus engine
+python -O @prefix@/share/ibus-hiragana/engine/main.py $@
+status=$?
 while true; do
-  python -O @prefix@/share/ibus-hiragana/engine/main.py $@
-  status=$?
   if [ $status -ne 75 ]; then
     break
   fi
+  # Avoid setting the --ibus option when restarting the engine to prevent
+  # unexpected freezes.
+  python -O @prefix@/share/ibus-hiragana/engine/main.py
+  status=$?
 done
 
 deactivate

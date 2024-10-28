@@ -254,7 +254,6 @@ class LanguageModel:
                 break
         if mask_token_index == len(transposed) - 1:
             mask_token_index = len(transposed) - 2
-
         ids = encoded_inputs.input_ids[0][:mask_token_index]
         ids += (self._tokenizer.mask_token_id, self._tokenizer.sep_token_id)
         truncated = ids

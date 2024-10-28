@@ -83,7 +83,10 @@ class IMApp:
             self._bus.set_global_engine_async('hiragana', -1, None, None, None)
 
     def run(self):
+        prev_excepthook = sys.excepthook
+        sys.excepthook = self._handle_exception
         self._mainloop.run()
+        sys.excepthook = prev_excepthook
 
     def quit(self, status: int = 0):
         LOGGER.debug(f'quit({status})')
@@ -92,6 +95,14 @@ class IMApp:
 
     def _bus_disconnected_cb(self, bus=None):
         self._mainloop.quit()
+
+    def _handle_exception(self, exception_type, value, traceback):
+        LOGGER.error('crashed:', exc_info=(exception_type, value, traceback))
+        if issubclass(exception_type, RuntimeError):
+            # If the NVIDIA driver is not configured with its power management support,
+            # Torch raises a RuntimeError exception after resuming from suspend mode.
+            # In this case, the engine needs to be restarted.
+            self.quit(75)
 
 
 def print_help(v=0):
@@ -183,13 +194,7 @@ def main():
     return app._status
 
 
-# Catch exceptions from GLib.MainLoop
-def handle_exception(exception_type, value, traceback):
-    LOGGER.error('crashed:', exc_info=(exception_type, value, traceback))
-
-
 if __name__ == '__main__':
-    sys.excepthook = handle_exception
     locale.bindtextdomain(package.get_name(), package.get_localedir())
     gettext.bindtextdomain(package.get_name(), package.get_localedir())
     status = main()
