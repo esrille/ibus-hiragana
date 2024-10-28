@@ -19,7 +19,6 @@
 
 import getopt
 import gettext
-import locale
 import logging
 import os
 import signal
@@ -195,7 +194,6 @@ def main():
 
 
 if __name__ == '__main__':
-    locale.bindtextdomain(package.get_name(), package.get_localedir())
     gettext.bindtextdomain(package.get_name(), package.get_localedir())
     status = main()
     sys.exit(status)
