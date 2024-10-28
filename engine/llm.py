@@ -49,7 +49,8 @@ class LanguageModel:
             self._device = torch.device('cpu')
         self._model = AutoModelForMaskedLM.from_pretrained(MODEL_NAME, local_files_only=True)
         self._model.to(self._device)
-        self._tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, local_files_only=True)
+        self._tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, local_files_only=True,
+                                                        clean_up_tokenization_spaces=True)
         self._yougen_tokens = {}
         self._katuyou_tokens = {}
         vocab = self._tokenizer.get_vocab()
