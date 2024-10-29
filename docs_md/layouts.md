@@ -305,14 +305,6 @@ New Stickney ￹配列￺はいれつ￻は、そうした￹日本語￺にほ�
 </div>
 </div>
 
-<!--
-- かな￹文字￺もじ￻は、五十￹音￺おん￻の￹行￺ぎょう￻ごとにまとまっています。テンテン(゛)をつけられる<span class='k'>か</span>・<span class='s'>さ</span>・<span class='t'>た</span>・<span class='h'>は</span>￹行￺ぎょう￻、それから、<span class='y'>や</span>￹行￺ぎょう￻のかな￹文字￺もじ￻はひだり￹手￺て￻がわにあります。
-- テンテン(゛)のついた￹字￺じ￻は、あとからテンテンのキー <span class='key'><span class='small'>゛</span></span> をおして￹入力￺にゅうりょく￻します。
-<br>　たとえば: か <span class='key'><span class='small'>゛</span></span> → が
-- マル(゜)のついた￹字￺じ￻は、あとからマルのキー <span class='key'><span class='small h'>゜</span></span> をおして￹入力￺にゅうりょく￻します。
-- ￹半角￺はんかく￻の￹空白￺くうはく￻は、<span class='key kana'>センター シフト</span> <span class='key'>B</span>キーで￹入力￺にゅうりょく￻できます。
--->
-
 - <span class='key'>スペース</span>キーは、<span class='key kana'>センター シフト</span>キーになります。シフトがわの￹文字￺もじ￻を￹入力￺にゅうりょく￻するには、さきに<span class='key kana'>センター シフト</span>キーをおします。そのあとで、￹入力￺にゅうりょく￻したい￹文字￺もじ￻のキーをおします。
 <br>　たとえば: <span class='key kana'>センター シフト</span> <span class='key a'>あ</span> → あ，は <span class='key kana'>センター シフト</span> <span class='key'><span class='small h'>゜</span></span> → ぱ
 - <span class='key kana'>センター シフト</span>キーをおしたままにしておけば、シフトがわの￹文字￺もじ￻をつづけて￹入力￺にゅうりょく￻できます。

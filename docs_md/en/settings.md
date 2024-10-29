@@ -17,8 +17,6 @@ The **Hiragana IME Setup** window has the following three tabs:
 [Dictionary](#dictionary) | Select the kanji dictionary.
 [Option](#option) | Choose the optional settings.
 
-<!--Click **OK** or **Accept** to confirm the settings immediately.-->
-
 ## Keyboard Tab {: #layout}
 
 In the **Keyboard** tab, you can select the Japanese input method using the keyboard.
