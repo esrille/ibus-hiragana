@@ -57,6 +57,8 @@ Hiragana IME for IBus.
 %{_libexecdir}/ibus-engine-hiragana
 %{_libexecdir}/ibus-postinst-hiragana
 %{_libexecdir}/ibus-setup-hiragana
+%{_mandir}/man1/ibus-hiragana-tool.1*
+%{_mandir}/ja/man1/ibus-hiragana-tool.1*
 
 %changelog
 * ${date} Esrille Inc. <info@esrille.com> - ${version}-1
