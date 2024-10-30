@@ -136,8 +136,11 @@ Click **Close** to exit the window.
 
 ![Hiragana IME Setup Window](ibus-setup-hiragana_5.png)
 
-If your PC has an NVIDIA GPU, Hiragana IME can use [CUDA](settings.html#cuda) to accelerate the LLM calculation.
-To use CUDA, select the **Use CUDA for LLM calculation** option as well.
+If your computer has an NVIDIA GPU and the NVIDIA driver installed, Hiragana IME can use CUDA to accelerate the LLM calculation.
+To enable CUDA, select the **Use CUDA for LLM calculation** option.
+
+**Note**: CUDA may become unusable after resuming your computer from suspend mode.
+In such cases, please refer to the information gathered in PyTorch's "[CUDA fails to reinitialize after system suspend](https://discuss.pytorch.org/t/cuda-fails-to-reinitialize-after-system-suspend/158108)" and other sources, and configure the NVIDIA driver accordingly.
 
 5. Click **OK** to exit the the **[Hiragana IME Setup](settings.html#ibus-setup-hiragana)** window.
 All the packages you need for using the LLM are now installed.

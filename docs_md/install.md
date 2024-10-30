@@ -137,7 +137,12 @@ USはUnited States (of America)の￹略￺りゃく￻です。
 
 ![「ひらがなIMEの設定」ウィンドウ](ibus-setup-hiragana_5.png)
 
-　NVIDIAのGPUを￹搭載￺とうさい￻しているPCでは、[CUDA](settings.html#cuda)をつかってLLMの￹計算￺けいさん￻を￹高速￺こうそく￻￹化￺か￻することができます。CUDAをつかうときは、「LLMの￹計算￺けいさん￻にCUDAを￹利用￺りよう￻する」もオンにします。
+　NVIDIAのGPUを￹搭載￺とうさい￻しているPCでは、[CUDA](settings.html#cuda)をつかってLLMの￹計算￺けいさん￻を￹高速￺こうそく￻￹化￺か￻することができます。
+CUDAをつかうときは、「LLMの￹計算￺けいさん￻にCUDAを￹利用￺りよう￻する」もオンにします。
+なお、NVIDIAのドライバーは、あらかじめインストールしておく￹必要￺ひつよう￻があります。
+
+<br>**￹注意￺ちゅうい￻**: コンピューターをサスペンド￹状態￺じょうたい￻からレジュームしたとき、CUDAを￹利用￺りよう￻できなくなっていることがあります。
+そのようなときは、PyTorchの「[CUDA fails to reinitialize after system suspend](https://discuss.pytorch.org/t/cuda-fails-to-reinitialize-after-system-suspend/158108)」にあつめられている￹情報￺じょうほう￻などを￹参考￺さんこう￻にNVIDIAドライバーの￹設定￺せってい￻をおこなってください。
 
 5. [OK]をクリックして、「[ひらがなIMEの￹設定￺せってい￻](settings.html#ibus-setup-hiragana)」ウィンドウをとじます。
 LLMを￹利用￺りよう￻するために￹必要￺ひつよう￻なパッケージのインストールと￹設定￺せってい￻はこれで￹完了￺かんりょう￻です。
