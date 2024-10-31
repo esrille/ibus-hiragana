@@ -27,7 +27,7 @@ MODEL_NAME = 'cl-tohoku/bert-base-japanese-v3'
 try:
     print(f'Retrieving "{MODEL_NAME}" from huggingface.co and cache')
     model = AutoModelForMaskedLM.from_pretrained(MODEL_NAME)
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, clean_up_tokenization_spaces=True)
 except OSError:
     pass
 EOF
