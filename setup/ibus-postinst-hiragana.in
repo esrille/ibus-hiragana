@@ -20,6 +20,7 @@ mkdir -p $PKGDATAHOME
 @PYTHON@ -m venv --system-site-packages $PKGDATAHOME/venv
 source $PKGDATAHOME/venv/bin/activate
 echo "Installing requirements"
+python -m pip install unidic-lite==1.0.8
 python -m pip install -r @prefix@/share/ibus-hiragana/requirements.txt
 python <<EOF
 from transformers import AutoModelForMaskedLM, AutoTokenizer
