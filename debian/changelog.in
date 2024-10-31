@@ -4,6 +4,12 @@ ibus-hiragana (${version}) unstable; urgency=low
 
  -- Esrille Inc. <info@esrille.com>  ${date}
 
+ibus-hiragana (1.0) unstable; urgency=low
+
+  * See https://github.com/esrille/ibus-hiragana/releases/tag/v1.0
+
+ -- Esrille Inc. <info@esrille.com>  Wed, 30 Oct 2024 22:43:22 +0900
+
 ibus-hiragana (0.15.12) unstable; urgency=low
 
   * See https://github.com/esrille/ibus-hiragana/releases/tag/v0.15.12
