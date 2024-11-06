@@ -22,13 +22,6 @@ BuildRequires: python3-devel
 BuildRequires: python3-markdown
 BuildArch:     noarch
 
-# a workaround for fedora 41
-Requires:      python3.12
-Requires:      python3.12-devel
-Requires:      cairo-gobject-devel
-Requires:      gobject-introspection-devel
-BuildRequires: python3.12-devel
-
 %description
 Hiragana IME for IBus.
 
@@ -38,7 +31,7 @@ Hiragana IME for IBus.
 %autosetup
 
 %build
-%meson -Dtests=false -Dpython=python3.12
+%meson -Dtests=false
 %meson_build
 
 %install
