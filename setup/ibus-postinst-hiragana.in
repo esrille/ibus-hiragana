@@ -20,8 +20,8 @@ mkdir -p $PKGDATAHOME
 @PYTHON@ -m venv --system-site-packages $PKGDATAHOME/venv
 source $PKGDATAHOME/venv/bin/activate
 echo "Installing requirements"
-python -m pip install unidic-lite==1.0.8
 python -m pip install -r @prefix@/share/ibus-hiragana/requirements.txt
+python -m pip install transformers[torch]==4.46.2
 python <<EOF
 from transformers import AutoModelForMaskedLM, AutoTokenizer
 MODEL_NAME = 'cl-tohoku/bert-base-japanese-v3'
