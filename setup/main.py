@@ -62,7 +62,8 @@ def check_requirements() -> bool:
         return False
     try:
         AutoModelForMaskedLM.from_pretrained(MODEL_NAME, local_files_only=True)
-        AutoTokenizer.from_pretrained(MODEL_NAME, local_files_only=True)
+        AutoTokenizer.from_pretrained(MODEL_NAME, local_files_only=True,
+                                      clean_up_tokenization_spaces=True)
     except OSError:
         return False
     return True
@@ -372,6 +373,8 @@ class SetupEngineHiragana:
 
     def on_ok(self, *args):
         if self.apply():
+            if self._install_dialog.is_completed():
+                print('restart', flush=True)
             self._window.destroy()
 
     def on_edit(self, *args):
