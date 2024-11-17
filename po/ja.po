@@ -3,9 +3,9 @@
 # This file is distributed under the same license as the ibus-hiragana package.
 msgid ""
 msgstr ""
-"Project-Id-Version: ibus-hiragana 1.0\n"
+"Project-Id-Version: ibus-hiragana 1.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-30 05:31+0900\n"
+"POT-Creation-Date: 2024-11-17 22:52+0900\n"
 "PO-Revision-Date: 2020-09-24 11:59+0900\n"
 "Last-Translator: Esrille Inc. <info@esrille.com>\n"
 "Language-Team: Japanese <info@esrille.com>\n"
@@ -15,7 +15,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: dic_tools/dictools.py:215
-#, fuzzy
 msgid ""
 "Hiragana IME dictionary utilities\n"
 "\n"
@@ -189,76 +188,76 @@ msgstr ""
 ";\n"
 "\n"
 
-#: setup/main.py:103 setup/main.py:107
+#: setup/main.py:104 setup/main.py:108
 msgid "Close"
 msgstr "とじる(_W)"
 
-#: setup/main.py:182
+#: setup/main.py:183
 msgid "Rōmaji"
 msgstr "ローマ字"
 
-#: setup/main.py:183
+#: setup/main.py:184
 msgid "Kana (JIS Layout)"
 msgstr "かな (JIS配列)"
 
-#: setup/main.py:184
+#: setup/main.py:185
 msgid "Kana (New Stickney Layout)"
 msgstr "かな (ニュースティックニー配列)"
 
-#: setup/main.py:203
+#: setup/main.py:204
 msgid "1st grade"
 msgstr "小学校１年生"
 
-#: setup/main.py:204
+#: setup/main.py:205
 msgid "2nd grade"
 msgstr "小学校２年生"
 
-#: setup/main.py:205
+#: setup/main.py:206
 msgid "3rd grade"
 msgstr "小学校３年生"
 
-#: setup/main.py:206
+#: setup/main.py:207
 msgid "4th grade"
 msgstr "小学校４年生"
 
-#: setup/main.py:207
+#: setup/main.py:208
 msgid "5th grade"
 msgstr "小学校５年生"
 
-#: setup/main.py:208
+#: setup/main.py:209
 msgid "6th grade"
 msgstr "小学校６年生"
 
-#: setup/main.py:209
+#: setup/main.py:210
 msgid "7-9th grade"
 msgstr "中学生"
 
-#: setup/main.py:210
+#: setup/main.py:211
 msgid "10-12th grade"
 msgstr "高校生"
 
-#: setup/main.py:211
+#: setup/main.py:212
 msgid "Adults"
 msgstr "おとな"
 
-#: setup/main.py:383
+#: setup/main.py:386
 msgid "Invalid characters in User Dictionary Name"
 msgstr "個人用辞書名のなかに不正な文字があります"
 
-#: setup/main.py:398
+#: setup/main.py:401
 msgid "Could not open file"
 msgstr "ファイルをひらけません"
 
-#: setup/main.py:400
+#: setup/main.py:403
 #, python-brace-format
 msgid "Error opening file \"{path}\": {message}"
 msgstr "ファイル \"{path}\" をひらくときにエラーがおきました: {message}"
 
-#: setup/main.py:435
+#: setup/main.py:438
 msgid "Clear input history"
 msgstr "入力履歴のクリア"
 
-#: setup/main.py:437
+#: setup/main.py:440
 msgid "Do you want to clear your input history?"
 msgstr "入力履歴を消去しますか？"
 
