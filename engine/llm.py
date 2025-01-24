@@ -161,7 +161,8 @@ class LanguageModel:
                 for j, stem in enumerate(stem_list):
                     if shrink_index[j] == i:
                         stem = stem[shrink_list[i]:]
-                        assert stem in self._katuyou_tokens
+                        if stem not in self._katuyou_tokens:
+                            continue
                         v = []
                         for token in self._katuyou_tokens[stem]:
                             suffix = RE_SUFFIX.search(stem)
@@ -193,7 +194,8 @@ class LanguageModel:
                     for k, stem in enumerate(stem_list):
                         if shrink_index[k] == j:
                             stem = stem[shrink_list[j]:]
-                            assert stem in self._katuyou_tokens
+                            if stem not in self._katuyou_tokens:
+                                continue
                             v = []
                             for token in self._katuyou_tokens[stem]:
                                 suffix = RE_SUFFIX.search(stem)
