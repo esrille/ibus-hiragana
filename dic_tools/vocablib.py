@@ -112,7 +112,8 @@ def match(conj, word):
     pos = conj.find('―')
     assert 0 <= pos
     if '1iIkKgsStnbmrwW235'.find(conj[-1]) < 0:
-        return (conj[:pos + 1] + word[1:]).startswith(conj)
+        suffix = RE_SUFFIX.search(word)
+        return (conj[:pos + 1] + word[suffix.start():]).startswith(conj)
     for x in KATUYOU[conj[-1]]:
         if x is None:
             continue
