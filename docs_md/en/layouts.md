@@ -299,7 +299,7 @@ A simple, alphabetical keyboard layout isn't practical for actual typing. Some K
 <br>　Example: <span class='key kana'>Center Shift</span> <span class='key a'>あ</span> → あ，は <span class='key kana'>Center Shift</span> <span class='key'><span class='small h'>゜</span></span> → ぱ
 - By holding down the <span class='key kana'>Center Shift</span> key, you can continue to enter characters in the shift layer.
 <br>　Example: <span class='key kana'>Center Shift</span> + <span class='key h'>ひ</span> <span class='key h'>゜</span> → ぴ
-- Press <span class='key'><span class='small x'>っ</span></span> to enter small "っ".
+- Press <span class='key'><span class='small x'>っ</span></span> to enter small "っ". Note that <span class='key'><span class='small x'>っ</span></span> is distinct from <span class='key'><span class='t'>つ</span></span> in "<span class='t'>たちつてと</span>".
 - To enter one of the small "ぁぃぅぇぉゃゅょ", type the corresponding character from "<span class='a'>あいうえお</span><span class='y'>やゆよ</span>" and then press <nobr><span class='key'><span class='small'>゛</span></span>.</nobr>
 <br>　Example:  <span class='key y'>よ</span> <span class='key'><span class='small'>゛</span></span> → ょ
 - To enter full-width space, press <span class='key kana'>Center Shift</span> key twice.
