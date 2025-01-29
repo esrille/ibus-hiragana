@@ -70,4 +70,4 @@ For more details, please see [Install additional components for using LLM](insta
 
 
 <hr>
-<br><small>Copyright 2017-2024 Esrille Inc.</small>
+<br><small>Copyright 2017-2025 Esrille Inc.</small>
