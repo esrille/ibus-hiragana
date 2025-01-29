@@ -310,8 +310,8 @@ New Stickney ￹配列￺はいれつ￻は、そうした￹日本語￺にほ�
 - <span class='key kana'>センター シフト</span>キーをおしたままにしておけば、シフトがわの￹文字￺もじ￻をつづけて￹入力￺にゅうりょく￻できます。
 <br>　たとえば: <span class='key kana'>センター シフト</span>をおしたまま、<span class='key h'>ひ</span> <span class='key h'>゜</span> → ぴ
 - ちいさな「っ」は、<span class='key'><span class='small x'>っ</span></span>とかかれているキーをおして￹入力￺にゅうりょく￻します。
-- ちいさな「<span class='a'>ぁぃぅぇぉ</span><span class='y'>ゃゅょ</span>」は、あとからテンテンのキー <span class='key'><span class='small'>゛</span></span> をおして￹入力￺にゅうりょく￻します。
-<br>　たとえば: よ <span class='key'><span class='small'>゛</span></span> → ょ
+- ちいさな「ぁぃぅぇぉゃゅょ」は、「<span class='a'>あいうえお</span><span class='y'>やゆよ</span>」のあとにテンテンのキー <span class='key'><span class='small'>゛</span></span> をおして￹入力￺にゅうりょく￻します。
+<br>　たとえば: <span class='key y'>よ</span> <span class='key'><span class='small'>゛</span></span> → ょ
 - ￹全角￺ぜんかく￻の￹空白￺くうはく￻は、<span class='key kana'>センター シフト</span>キーをおしてから、もういちど<span class='key kana'>センター シフト</span>キーをおして￹入力￺にゅうりょく￻します。￹行頭￺ぎょうとう￻など￹直前￺ちょくぜん￻に￹変換￺へんかん￻できる￹文字￺もじ￻がないときは、<span class='key kana'>変換</span>キーをおせば￹空白￺くうはく￻を￹入力￺にゅうりょく￻できます。
 
 ## いまのJISかな￹配列￺はいれつ￻がつかいにくいものになった￹経緯￺けいい￻ {: #history}
