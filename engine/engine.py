@@ -979,6 +979,7 @@ class EngineHiragana(EngineModeless):
                     self.flush()
                     return True
 
+        katakana = ''
         if e.keyval == IBus.Return and (self.commit_roman() or (katakana := self.commit_katakana())):
             if katakana:
                 self._dict.add_katakana(katakana)
