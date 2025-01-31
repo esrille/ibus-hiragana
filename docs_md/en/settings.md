@@ -45,11 +45,8 @@ Option | Input | Output
 Enabled | konnnitiha | こんにちは
 Disabled | konnitiha | こんにちは
 
-If you have been using word processors for a long time, you would be familiar with this behavior.
-However, this <kbd>n</kbd><kbd>n</kbd> method was deprecated in 2009 at JIS, and currently, no standard validates this convention.
-The correct Rōmaji spelling for 'ん' is <kbd>n</kbd>, or <kbd>n</kbd><kbd>'</kbd> if 'n' is followed by one of 'aiueoy'.
-
-**Hint**: You can also enter 'ん' by pressing the <kbd>Enter</kbd> key after 'n'.
+**Note**: This classic Japanese word processor method is incorrect as Rōmaji spelling.
+The JIS standard X4063, which defined this method, was deprecated in 2010.
 
 ## Dictionary Tab {: #dictionary}
 

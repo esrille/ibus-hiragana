@@ -4,22 +4,22 @@
 
 ## Inputting Japanese in Rōmaji {: #tuzuri}
 
-When using Rōmaji input, you must be careful about the following three points to enter the correct Kana letters.
+When using Rōmaji input, follow these three tips to enter kanji and *kana* correctly.
 
-1. Enter furigana for kanji words. For '￹東京￺とうきょう￻', enter 'toukyou' instead of 'tōkyō'
-2. Type <span class='key'>^</span> or <span class='key'>-</span> after the vowel letter for entering letters like âîûêô or āīūēō to be written in Katakan.
-3. Enter Rōmaji corresponding to the Kana letter, not the pronunciation. For 'を', enter 'wo' instead of 'o'. For 'づ', enter 'du' instead of 'zu'.
+1. Enter *furigana* for kanji words. For '￹東京￺とうきょう￻', enter 'toukyou' instead of 'Tōkyō'.
+2. Type <span class='key'>-</span> or <span class='key'>^</span> after one of 'aiueo' for entering 'ー' (long vowel mark) in *katakana* words. Note that when writing Japanese in Rōmaji, '-' (hyphen-minus) is not used as 'ー' (long vowel mark). The <span class='key'>-</span> key is used just for convenience.
+3. Enter Rōmaji corresponding to the *kana*, not the pronunciation. For 'を', enter 'wo' instead of 'o'. For 'づ', enter 'du' instead of 'zu'.
 
 In Kana and Kanji | In Rōmaji input | In Kunrei-shiki | In Hepburn romanization
 ---|---|---|---
 <ruby>東京<rp>(</rp><rt>とうきょう</rt><rp>)</rp></ruby> | toukyou | Tôkyô | Tōkyō
 <ruby>寿司<rp>(</rp><rt>すし</rt><rp>)</rp></ruby> | susi | susi | sushi
-コーヒー | ko-hi-<br>ko^hi^| kôhî | kōhī
+コーヒー | ko<span class='key'>-</span>hi<span class='key'>-</span><br>ko<span class='key'>^</span>hi<span class='key'>^</span> | kôhî | kōhī
 を | wo | o | o
 
 ## Romanization Charts {: #hyo}
 
-This chart is based on Kunrei-shiki romanization, which is organized in a more systematic way than Hepburn romanization.
+This chart is based on *Kunrei-shiki* romanization, which is organized in a more systematic way than Hepburn romanization.
 
 &nbsp; | A | I | U | E | O | YA | YU | YO
 --|--|--|--|--|----|--|--|
@@ -41,17 +41,30 @@ This chart is based on Kunrei-shiki romanization, which is organized in a more s
 
 <br>
 
-&nbsp; | <nobr>Kana</nobr>| In Rōmaji input | <nobr>Example</nobr>
+&nbsp; | <nobr>Kana</nobr>| Rōmaji | <nobr>Example</nobr>
 --|--|--|--
-**Syllabic /n/** | ん | n<br>n' (before one of *aiueoy*)| かんじ<br>kanzi<br>ほんや <br>hon'ya
+**Syllabic /n/** | ん | n<br>n' (before one of *aiueoy*) | かんじ<br>kanzi<br>ほんや <br>hon'ya
 **Long consonant** | っ | Repeat the consonant | <nobr>がっこう</nobr><br>gakkou
-**Long vowel** | ー | Type <span class='key'>^</span> or <span class='key'>-</span> after the vowel letter<br>(for Katakana words)| ra^men<br><nobr>ra-men </nobr><br>ラーメン
+**Long vowel** | ー | Add ^ or ¯ above the vowel letter (for *katakana* words) | ラーメン<br>râmen<br>rāmen
 
 ## Key Bindings {: #keyboard}
 
-With Hiragana IME, small "**ぁぃぅぇぉっゃゅょ**" can be entered by pressing <span class='key kana'>大⬄小</span> after "**あいうえおつやゆよ**".
+There are some keyboard operations that are specific to Hiragana IME for Rōmaji input; normally, use the standard Rōmaji spelling.
 
-- あ<span class='key kana'>大⬄小</span>→ ぁ
+### Hiragana IME extensions
+
+- Small "**ぁぃぅぇぉっゃゅょ**" can be entered by pressing <span class='key kana'>大⬄小</span> after "**あいうえおつやゆよ**".<br>Example: よ<span class='key kana'>大⬄小</span> → ょ, ょ<span class='key kana'>大⬄小</span>→ よ
+- "**ん**" can be entered by typing n<span class='key'>Enter</span>.
+
+### The classic Japanese word processor methods
+
+Hiragana IME also supports several methods that were widely used in classic Japanese word processors.
+
+- Small "**ぁぃぅぇぉっゃゅょ**" can be entered by typing "**あいうえおつやゆよ**" after typing <span class='key kana'>x</span>.<br>Example: <span class='key kana'>x</span>よ → ょ
+- "**ん**" can be entered by typing <span class='key'>n</span><span class='key'>n</span>. To use this <span class='key'>n</span><span class='key'>n</span> method, enable the setting [Always convert 'nn' to 'ん'](settings.html#nn).
+
+**Note**: The classic Japanese word processor methods are incorrect as Rōmaji spelling. The JIS standard X4063, which defined these methods, was deprecated in 2010.
+
 
 ### US Keyboard
 

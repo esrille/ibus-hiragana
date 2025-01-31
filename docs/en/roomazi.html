@@ -129,11 +129,11 @@ function shrinkToc() {
 <h1>Rōmaji Input</h1>
 <p><strong>Note</strong>: For instructions on switching to Rōmaji input, refer to <strong>Settings</strong> - <a href="settings.html#layout">Keyboard Tab</a>.</p>
 <h2 id="tuzuri">Inputting Japanese in Rōmaji</h2>
-<p>When using Rōmaji input, you must be careful about the following three points to enter the correct Kana letters.</p>
+<p>When using Rōmaji input, follow these three tips to enter kanji and <em>kana</em> correctly.</p>
 <ol>
-<li>Enter furigana for kanji words. For '<ruby>東京<rp>(</rp><rt>とうきょう</rt><rp>)</rp></ruby>', enter 'toukyou' instead of 'tōkyō'</li>
-<li>Type <span class='key'>^</span> or <span class='key'>-</span> after the vowel letter for entering letters like âîûêô or āīūēō to be written in Katakan.</li>
-<li>Enter Rōmaji corresponding to the Kana letter, not the pronunciation. For 'を', enter 'wo' instead of 'o'. For 'づ', enter 'du' instead of 'zu'.</li>
+<li>Enter <em>furigana</em> for kanji words. For '<ruby>東京<rp>(</rp><rt>とうきょう</rt><rp>)</rp></ruby>', enter 'toukyou' instead of 'Tōkyō'.</li>
+<li>Type <span class='key'>-</span> or <span class='key'>^</span> after one of 'aiueo' for entering 'ー' (long vowel mark) in <em>katakana</em> words. Note that when writing Japanese in Rōmaji, '-' (hyphen-minus) is not used as 'ー' (long vowel mark). The <span class='key'>-</span> key is used just for convenience.</li>
+<li>Enter Rōmaji corresponding to the <em>kana</em>, not the pronunciation. For 'を', enter 'wo' instead of 'o'. For 'づ', enter 'du' instead of 'zu'.</li>
 </ol>
 <table>
 <thead>
@@ -159,7 +159,7 @@ function shrinkToc() {
 </tr>
 <tr>
 <td>コーヒー</td>
-<td>ko-hi-<br>ko^hi^</td>
+<td>ko<span class='key'>-</span>hi<span class='key'>-</span><br>ko<span class='key'>^</span>hi<span class='key'>^</span></td>
 <td>kôhî</td>
 <td>kōhī</td>
 </tr>
@@ -172,7 +172,7 @@ function shrinkToc() {
 </tbody>
 </table>
 <h2 id="hyo">Romanization Charts</h2>
-<p>This chart is based on Kunrei-shiki romanization, which is organized in a more systematic way than Hepburn romanization.</p>
+<p>This chart is based on <em>Kunrei-shiki</em> romanization, which is organized in a more systematic way than Hepburn romanization.</p>
 <table>
 <thead>
 <tr>
@@ -361,7 +361,7 @@ function shrinkToc() {
 <tr>
 <th>&nbsp;</th>
 <th><nobr>Kana</nobr></th>
-<th>In Rōmaji input</th>
+<th>Rōmaji</th>
 <th><nobr>Example</nobr></th>
 </tr>
 </thead>
@@ -381,16 +381,25 @@ function shrinkToc() {
 <tr>
 <td><strong>Long vowel</strong></td>
 <td>ー</td>
-<td>Type <span class='key'>^</span> or <span class='key'>-</span> after the vowel letter<br>(for Katakana words)</td>
-<td>ra^men<br><nobr>ra-men </nobr><br>ラーメン</td>
+<td>Add ^ or ¯ above the vowel letter (for <em>katakana</em> words)</td>
+<td>ラーメン<br>râmen<br>rāmen</td>
 </tr>
 </tbody>
 </table>
 <h2 id="keyboard">Key Bindings</h2>
-<p>With Hiragana IME, small "<strong>ぁぃぅぇぉっゃゅょ</strong>" can be entered by pressing <span class='key kana'>大⬄小</span> after "<strong>あいうえおつやゆよ</strong>".</p>
+<p>There are some keyboard operations that are specific to Hiragana IME for Rōmaji input; normally, use the standard Rōmaji spelling.</p>
+<h3>Hiragana IME extensions</h3>
 <ul>
-<li>あ<span class='key kana'>大⬄小</span>→ ぁ</li>
+<li>Small "<strong>ぁぃぅぇぉっゃゅょ</strong>" can be entered by pressing <span class='key kana'>大⬄小</span> after "<strong>あいうえおつやゆよ</strong>".<br>Example: よ<span class='key kana'>大⬄小</span> → ょ, ょ<span class='key kana'>大⬄小</span>→ よ</li>
+<li>"<strong>ん</strong>" can be entered by typing n<span class='key'>Enter</span>.</li>
 </ul>
+<h3>The classic Japanese word processor methods</h3>
+<p>Hiragana IME also supports several methods that were widely used in classic Japanese word processors.</p>
+<ul>
+<li>Small "<strong>ぁぃぅぇぉっゃゅょ</strong>" can be entered by typing "<strong>あいうえおつやゆよ</strong>" after typing <span class='key kana'>x</span>.<br>Example: <span class='key kana'>x</span>よ → ょ</li>
+<li>"<strong>ん</strong>" can be entered by typing <span class='key'>n</span><span class='key'>n</span>. To use this <span class='key'>n</span><span class='key'>n</span> method, enable the setting <a href="settings.html#nn">Always convert 'nn' to 'ん'</a>.</li>
+</ul>
+<p><strong>Note</strong>: The classic Japanese word processor methods are incorrect as Rōmaji spelling. The JIS standard X4063, which defined these methods, was deprecated in 2010.</p>
 <h3>US Keyboard</h3>
 <div class='kbd'>
 <div class='layer L0'>
