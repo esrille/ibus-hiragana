@@ -1,4 +1,4 @@
-# Copyright (c) 2017-2024 Esrille Inc.
+# Copyright (c) 2017-2025 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -527,7 +527,6 @@ def mix_yougen(dict):
 
 
 def _is_hyounai_yomi(zyouyou, yomi, word):
-    # ― と # をとりのぞく。
     yomi = yomi.replace('―', '')
     yomi = yomi.replace('#', '')
     word = word.replace('#', '')
@@ -538,6 +537,10 @@ def _is_hyounai_yomi(zyouyou, yomi, word):
         yomi = yomi[m.end():]
     if not yomi or not word:
         return True
+
+    if word[-1] in CONJUGATION:
+        word = word[:-1]
+        assert(word)
 
     m = RE_OKURI.search(word)
     if m:
