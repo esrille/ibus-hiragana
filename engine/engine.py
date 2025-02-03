@@ -3,7 +3,7 @@
 # Using source code derived from
 #   ibus-tmpl - The Input Bus template project
 #
-# Copyright (c) 2017-2024 Esrille Inc.
+# Copyright (c) 2017-2025 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -1567,7 +1567,7 @@ class EngineHiragana(EngineModeless):
                 return
             dialog = Gtk.AboutDialog()
             dialog.set_program_name(_('Hiragana IME'))
-            dialog.set_copyright('Copyright 2017-2024 Esrille Inc.')
+            dialog.set_copyright('Copyright 2017-2025 Esrille Inc.')
             dialog.set_authors(['Esrille Inc.'])
             dialog.set_documenters(['Esrille Inc.'])
             dialog.set_website('https://www.esrille.com/')
