@@ -35,7 +35,7 @@ This chart is based on *Kunrei-shiki* romanization, which is organized in a more
 **W** | わ wa | | | | **を wo** |
 **G** | が ga | ぎ gi | ぐ gu | げ ge | ご go | ぎゃ gya | ぎゅ gyu | ぎょ gyo
 **Z** | ざ za | じ zi | ず zu | ぜ ze | ぞ zo | じゃ zya | じゅ zyu | じょ zyo
-**D** | だ da | | **づ du** | で de | ど do |
+**D** | だ da | **ぢ di** | **づ du** | で de | ど do |
 **B** | ば ba | び bi | ぶ bu | べ be | ぼ bo | びゃ bya | びゅ byu | びょ byo
 **P** | ぱ pa | ぴ pi | ぷ pu | ぺ pe | ぽ po | ぴゃ pya | ぴゅ pyu | ぴょ pyo
 
