@@ -1,6 +1,6 @@
 # ibus-hiragana - Hiragana IME for IBus
 #
-# Copyright (c) 2017-2024 Esrille Inc.
+# Copyright (c) 2017-2025 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -547,6 +547,11 @@ class Dictionary:
                             del self._cand[0]
                             shrunk = ''
                             suggested -= 1
+                            if suggested < 0:
+                                del p_dict[0]
+                                suggested = max(p_dict, key=p_dict.get)
+                                suggested -= 1
+                                suggested_word = self._cand[suggested]
                         LOGGER.debug(f'assisted_lookup: {self._yomi} /{suggested_word}/ ; /{shrunk}/')
                     if not cont:
                         break
@@ -603,6 +608,10 @@ class Dictionary:
                                 del self._order[i]
                                 del self._completed[i]
                                 suggested -= 1
+                                if suggested < 0:
+                                    del p_dict[0]
+                                    suggested = max(p_dict, key=p_dict.get)
+                                    suggested -= 1
                                 break
                         # DO NOT clear shrunk as it is still in self._dict.
                         # shrunk = ''

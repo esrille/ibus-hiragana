@@ -18,8 +18,9 @@ test('Validate schema file',
 pkgdatadir = get_option('prefix') / get_option('datadir') / meson.project_name()
 dicdir = pkgdatadir / 'dic'
 install_data([
-    'yougen_token.dic',
-    'katuyou_token.dic'
+    'kango_token.json',
+    'katuyou_token.dic',
+    'yougen_token.dic'
   ],
   install_dir: dicdir,
 )

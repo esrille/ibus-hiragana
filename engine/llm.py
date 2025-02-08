@@ -16,6 +16,7 @@
 
 from __future__ import annotations
 
+import json
 import logging
 import os
 import re
@@ -52,31 +53,73 @@ class LanguageModel:
         self._tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, local_files_only=True,
                                                         clean_up_tokenization_spaces=True)
         self._yougen_tokens = {}
+        self._yougen_token_groups = {}
         self._katuyou_tokens = {}
         vocab = self._tokenizer.get_vocab()
+
         with open(os.path.join(package.get_datadir(), 'dic', 'yougen_token.dic'), 'r') as f:
             for line in f:
                 line = line.strip('')
                 if not line or line[0] == ';':
                     continue
-                words = line.split(' ', 1)
-                yomi = words[0]
-                words = words[1].strip(' \n/').split('/')
-                self._yougen_tokens[yomi] = [vocab[word] for word in words]
+                tokens = line.split(' ', 1)
+                yomi = tokens[0]
+                tokens = tokens[1].strip(' \n/').split('/')
+                self._yougen_tokens[yomi] = [vocab[token] for token in tokens]
+                d = {}
+                for token in tokens:
+                    m = RE_HIRAGANA.search(token)
+                    pos = m.start() if m else len(token)
+                    kanji = token[:pos]
+                    if kanji not in d:
+                        d[kanji] = [vocab[token]]
+                    elif token not in d[kanji]:
+                        d[kanji].append(vocab[token])
+                self._yougen_token_groups[yomi] = []
+                for tokens in d.values():
+                    self._yougen_token_groups[yomi].append(tokens)
+
         with open(os.path.join(package.get_datadir(), 'dic', 'katuyou_token.dic'), 'r') as f:
             for line in f:
                 line = line.strip('')
                 if not line or line[0] == ';':
                     continue
-                words = line.split(' ', 1)
-                stem = words[0]
-                words = words[1].strip(' \n/').split('/')
-                self._katuyou_tokens[stem] = words
+                tokens = line.split(' ', 1)
+                yomi = tokens[0]
+                tokens = tokens[1].strip(' \n/').split('/')
+                self._katuyou_tokens[yomi] = tokens
+
+        self._kango_tokens = {}
+        try:
+            with open(os.path.join(package.get_datadir(), 'dic', 'kango_token.json'), 'r') as f:
+                self._kango_tokens = json.load(f)
+        except OSError:
+            LOGGER.exception('could not load "kango_token.json"')
+        for yomi, tokens in self._kango_tokens.items():
+            for kanji in tokens:
+                tokens[kanji] = [vocab[token] for token in tokens[kanji]]
 
     def __del__(self):
         del self._model
         del self._tokenizer
         torch.cuda.empty_cache()
+
+    def _get_yougen_probability(self, probabilities, yomi):
+        return max([torch.sum(probabilities[tokens]) for tokens in self._yougen_token_groups[yomi]])
+
+    def _is_kango_verb(self, ids, i, yomi, word) -> bool:
+        if yomi not in self._kango_tokens:
+            return False
+        if word not in self._kango_tokens[yomi]:
+            return False
+        if ids[i + 1] not in (self._tokenizer.sep_token_id, self._tokenizer.pad_token_id):
+            return False
+        if ids[i] == self._tokenizer.unk_token_id:
+            return False
+        LOGGER.debug('_is_kango_verb: '
+                     f'yomi: {yomi}, word: {word}, '
+                     f'kanji: {self._tokenizer.convert_ids_to_tokens(ids[i])}')
+        return True
 
     def device_type(self) -> str:
         return self._device.type
@@ -89,6 +132,7 @@ class LanguageModel:
 
     @staticmethod
     def _match(token, word, conj) -> bool:
+        LOGGER.debug(f"_match('{token}', '{word}', {conj})")
         if word == token:
             return True
         if word.startswith(token):
@@ -171,7 +215,7 @@ class LanguageModel:
                             if self._match(token, word, stem[suffix.start():]):
                                 v.append(vocab[token])
                         if v:
-                            yougen_p[j] = sum(probabilities[v].tolist())
+                            yougen_p[j] = max(probabilities[v].tolist())
             else:
                 prefix_p[i] = probabilities[transposed[mask_token_index][i]].item()
 
@@ -204,7 +248,7 @@ class LanguageModel:
                                 if self._match(token, word, stem[suffix.start():]):
                                     v.append(vocab[token])
                             if v:
-                                yougen_p[k] = sum(probabilities[v].tolist())
+                                yougen_p[k] = max(probabilities[v].tolist())
                 else:
                     prefix_p[j] *= p[transposed[i][j]].item()
 
@@ -213,7 +257,7 @@ class LanguageModel:
             p_list.append(prefix_p[shrink_index[i]] * yougen_p[i])
 
         for i, p in enumerate(p_list):
-            LOGGER.debug(f'{stem_list[i]} {p * 100:.8f}%')
+            LOGGER.debug(f'{stem_list[i]} {p * 100:.12f}%')
 
         p_dict = {index: value for index, value in enumerate(p_list)}
         return p_dict
@@ -268,22 +312,34 @@ class LanguageModel:
             'input_ids': torch.tensor(truncated).unsqueeze(0).to(self._device)
         }
         token_ids = list(transposed[mask_token_index])
+
+        # probabilities: ids[mask_token_index]にくるトークンの確率
         with torch.no_grad():
             probabilities = self._model(**encoded_input).logits[0, mask_token_index - offset]
         probabilities = torch.nn.functional.softmax(probabilities, dim=0)
 
+        # 漢語動詞の出現確率を計算
+        for i in range(pos_cand):
+            ids = encoded_inputs.input_ids[i]
+            if self._is_kango_verb(ids, mask_token_index, yomi, words[i]):
+                id = self._tokenizer.convert_tokens_to_ids(words[i])
+                probabilities[id] = torch.sum(probabilities[self._kango_tokens[yomi][words[i]]])
+
+        # 用言の活用形の出現確率を計算
         yougen_p = []
         for i in range(pos_cand, len(words)):
             if encoded_inputs.input_ids[i][mask_token_index] == self._tokenizer.unk_token_id:
                 if yougen_yomi[i - pos_cand] in self._yougen_tokens:
                     LOGGER.debug(f'assist: {yougen_yomi[i - pos_cand]} '
                                  f'{self._tokenizer.decode(self._yougen_tokens[yougen_yomi[i - pos_cand]])}')
-                    p = torch.sum(probabilities[self._yougen_tokens[yougen_yomi[i - pos_cand]]])
+                    p = self._get_yougen_probability(probabilities, yougen_yomi[i - pos_cand])
                 else:
                     p = 0.0
             else:
                 p = probabilities[transposed[mask_token_index][i]].item()
             yougen_p.append(p)
+
+        # probabilities: ids[mask_token_index]にくるwordsの確率
         probabilities = probabilities[token_ids].tolist()
         probabilities = probabilities[:pos_cand] + yougen_p
 
@@ -307,6 +363,8 @@ class LanguageModel:
                 encoded_input = {
                     'input_ids': torch.tensor(truncated).unsqueeze(0).to(self._device)
                 }
+
+                # p: ids[i]にくるトークンの確率
                 with torch.no_grad():
                     p = self._model(**encoded_input).logits[0, i - offset]
                 p = torch.nn.functional.softmax(p, dim=0)
@@ -315,24 +373,31 @@ class LanguageModel:
                     if yougen_yomi[j - pos_cand] in self._yougen_tokens:
                         LOGGER.debug(f'assist: {yougen_yomi[j - pos_cand]} '
                                      f'{self._tokenizer.decode(self._yougen_tokens[yougen_yomi[j - pos_cand]])}')
-                        probabilities[j] *= torch.sum(p[self._yougen_tokens[yougen_yomi[j - pos_cand]]])
+                        probabilities[j] *= self._get_yougen_probability(p, yougen_yomi[j - pos_cand])
                     else:
                         probabilities[j] = 0.0
                 else:
-                    probabilities[j] *= p[transposed[i][j]].item()
+                    if self._is_kango_verb(ids, i, yomi, words[j]):
+                        probabilities[j] *= torch.sum(p[self._kango_tokens[yomi][words[j]]])
+                    else:
+                        probabilities[j] *= p[transposed[i][j]].item()
                     for k in range(j + 1, len(inputs)):
                         if ids[mask_token_index:i] == encoded_inputs.input_ids[k][mask_token_index:i]:
-                            probabilities[k] *= p[transposed[i][k]].item()
+                            if self._is_kango_verb(ids, i, yomi, words[k]):
+                                probabilities[k] *= torch.sum(p[self._kango_tokens[yomi][words[k]]])
+                            else:
+                                probabilities[k] *= p[transposed[i][k]].item()
                             calculated.add(k)
 
         for i, ids in enumerate(encoded_inputs.input_ids):
-            LOGGER.debug(f'{self._tokenizer.decode(ids)} ({len(ids)}) {probabilities[i] * 100:.8f}%')
+            LOGGER.debug(f'{self._tokenizer.decode(ids)} ({len(ids)}) {probabilities[i] * 100:.12f}%')
 
         if pos_yougen < 0:
             p_dict = {index: value for index, value in enumerate(probabilities)}
         else:
             p_dict = {index: value for index, value in enumerate(probabilities[:pos_cand])}
-            p_dict[pos_yougen] = sum(probabilities[pos_cand:])
+            # Note probabilities[pos_cand:] can be empty.
+            p_dict[pos_yougen] = max([0.0] + probabilities[pos_cand:])
         return p_dict
 
 
