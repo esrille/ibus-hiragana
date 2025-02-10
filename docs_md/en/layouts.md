@@ -77,7 +77,7 @@ The JIS Kana layout uses all four rows of keys, making it difficult to remember 
 </div>
 </div>
 
-- With Hiragana IME, you can enter underscore (_) by pressing <span class='key'>Shift</span>+<span class='key'>0</span>.
+- You can enter an underscore (_) by pressing <span class='key'>Shift</span>+<span class='key'>0</span> in Alphanumeric Mode. Note that this is an extended feature of Hiragana IME.
 
 ### US Keyboard
 
