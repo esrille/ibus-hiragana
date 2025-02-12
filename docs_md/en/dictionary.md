@@ -6,18 +6,18 @@ Consequently, the number of kanji words included in the Hiragana IME dictionarie
 
 Kanji Dictionary | # of kanji to learn | # of words | Note
 --|--:|--:|--
-1st grade | 80 | 730
-2nd grade | 160 | 3,210
-3rd grade | 200 | 6,315
-4th grade | 202 | 9,555
-5th grade | 193 | 12,574
-6th grade | 191 | 14,797 | Learn a total of 1,026 kanji in elementary school
-7-9 grades | 1,110 | 29,975 | Learn to read approximately 1,110 more kanji
-10-12 grades | (ditto) |32,078 | Learn to write approximately 1,110 more kanji
-Adults | — | 34,596
-Total | 2,136 | 34,596 | Learn 2,136 Jōyō kanji through schooling
+1st grade | 80 | 732
+2nd grade | 160 | 3,222
+3rd grade | 200 | 6,339
+4th grade | 202 | 9,582
+5th grade | 193 | 12,606
+6th grade | 191 | 14,834 | Learn a total of 1,026 kanji in elementary school
+7-9 grades | 1,110 | 29,993 | Learn to read approximately 1,110 more kanji
+10-12 grades | (ditto) |32,069 | Learn to write approximately 1,110 more kanji
+Adults | — | 34,614
+Total | 2,136 | 34,614 | Learn 2,136 Jōyō kanji through schooling
 
-(As of October, 2024)
+(As of February, 2025)
 
 The grade-specific dictionaries are structured according to the table provided by [MEXT](http://www.mext.go.jp/a_menu/shotou/new-cs/1385768.htm).
 For personal names and place names, dictionaries for middle school students and above use kanji not listed in the list of Chinese characters in common use, known as the [Jōyō Kanji Table](https://www.bunka.go.jp/kokugo_nihongo/sisaku/joho/joho/kijun/naikaku/kanji/).
