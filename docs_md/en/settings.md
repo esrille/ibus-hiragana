@@ -81,6 +81,7 @@ Children learn these rules at school.
 
 In practice, there are variations in okurigana.
 Turn on the **Use permissible okurigana** switch to use permissible okurigana.
+Note that this switch is only effective when using the **Kanji Dictionary** for Adults.
 
 **Examples**:
 
