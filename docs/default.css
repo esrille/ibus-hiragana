@@ -451,37 +451,37 @@ em:lang(ja), h1:lang(ja), h2:lang(ja), h3:lang(ja), h4:lang(ja), h5:lang(ja), h6
 }
 
 .a {
-  color: #e14;
+  color: hsla(0,   100%, 50%, 1);
 }
 .k {
-  color: #f01;
+  color: hsla(24,  100%, 50%, 1);
 }
 .s {
-  color: #f50;
+  color: hsla(30,  100%, 60%, 1);
 }
 .t {
-  color: #5c0;
+  color: hsla(120, 100%, 40%, 1);
 }
 .n {
-  color: #1c0;
+  color: hsla(165, 100%, 40%, 1);
 }
 .h {
-  color: #0af;
+  color: hsla(204, 100%, 50%, 1);
 }
 .m {
-  color: #39f;
+  color: hsla(215, 100%, 60%, 1);
 }
 .y {
-  color: #35f;
+  color: hsla(240, 100%, 60%, 1);
 }
 .r {
-  color: #71f;
+  color: hsla(275, 100%, 60%, 1);
 }
 .w {
-  color: #a2f;
+  color: hsla(287, 100%, 60%, 1);
 }
 .x {
-  color: #d0f;
+  color: hsla(300, 100%, 60%, 1);
 }
 .sp {
   color: #89f;
