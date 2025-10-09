@@ -22,14 +22,11 @@ mkdir -p $TMPDIR
 @PYTHON@ -m venv --system-site-packages $PKGDATAHOME/venv
 source $PKGDATAHOME/venv/bin/activate
 echo "Installing requirements"
-read MAJOR MINOR < <(python -c 'import sys; print(sys.version_info.major, sys.version_info.minor)')
 python -m pip install -r @prefix@/share/ibus-hiragana/requirements.txt
-if [ "$MAJOR" -gt 3 ] || { [ "$MAJOR" -eq 3 ] && [ "$MINOR" -ge 14 ]; }; then
+if ! python -m pip install torch; then
     python -m pip install --pre torch --index-url https://download.pytorch.org/whl/nightly/cu126
-else
-    python -m pip install torch
 fi
-python -m pip install transformers[torch]==4.57.0
+python -m pip install "transformers[torch]>=4.57.1"
 python <<EOF
 from transformers import AutoModelForMaskedLM, AutoTokenizer
 MODEL_NAME = 'cl-tohoku/bert-base-japanese-v3'
