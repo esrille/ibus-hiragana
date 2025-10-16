@@ -22,8 +22,9 @@ mkdir -p $TMPDIR
 @PYTHON@ -m venv --system-site-packages $PKGDATAHOME/venv
 source $PKGDATAHOME/venv/bin/activate
 echo "Installing requirements"
+python -m pip install --upgrade pip
 python -m pip install -r @prefix@/share/ibus-hiragana/requirements.txt
-if ! python -m pip install torch; then
+if ! python -m pip install "torch>=2.9.0"; then
     python -m pip install --pre torch --index-url https://download.pytorch.org/whl/nightly/cu126
 fi
 python -m pip install "transformers[torch]>=4.57.1"
