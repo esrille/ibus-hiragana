@@ -35,9 +35,8 @@
 ;; General Public License for more details.
 ;;
 ;; You should have received a copy of the GNU General Public License
-;; along with Daredevil SKK, see the file COPYING.  If not, write to
-;; the Free Software Foundation Inc., 51 Franklin St, Fifth Floor,
-;; Boston, MA 02110-1301, USA.
+;; along with Daredevil SKK, see the file COPYING.  If not, see
+;; <https://www.gnu.org/licenses/>.
 ;;
 ;; M 辞書と L 辞書の中間サイズの辞書、という意味で ML 辞書と名付けまし
 ;; た。PDA などハードディスク (メモリ) が限られた機種でも使用できるよ

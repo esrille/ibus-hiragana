@@ -387,6 +387,12 @@ def copy_header(path):
                 break
             if 'euc-jp' in row:
                 continue
+            if row == ';; along with Daredevil SKK, see the file COPYING.  If not, write to':
+                row = ';; along with Daredevil SKK, see the file COPYING.  If not, see'
+            if row == ';; the Free Software Foundation Inc., 51 Franklin St, Fifth Floor,':
+                row = ';; <https://www.gnu.org/licenses/>.'
+            if row == ';; Boston, MA 02110-1301, USA.':
+                continue
             print(row)
 
 
