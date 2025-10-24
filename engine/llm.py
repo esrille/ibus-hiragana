@@ -412,8 +412,8 @@ def load(enable: bool, device_type: str = 'cpu'):
     model = None
     try:
         model = LanguageModel(device_type)
-    except ImportError:
-        LOGGER.exception('Could not import transformers')
+    except (ImportError, ValueError):
+        LOGGER.exception('Could not use transformers')
     except OSError:
         LOGGER.exception(f'Could not load {MODEL_NAME}')
     return model
