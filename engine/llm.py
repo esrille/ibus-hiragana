@@ -184,12 +184,14 @@ class LanguageModel:
         if mask_token_index == len(transposed) - 1:
             mask_token_index = len(transposed) - 2
 
+        offset = 0
+        if self._model.config.max_position_embeddings < len(transposed):
+            offset = len(transposed) - self._model.config.max_position_embeddings
+
         ids = encoded_inputs.input_ids[0][:mask_token_index]
         ids += (self._tokenizer.mask_token_id, self._tokenizer.sep_token_id)
         truncated = ids
-        offset = 0
-        if self._model.config.max_position_embeddings < len(ids) + 1:
-            offset = len(ids) + 1 - self._model.config.max_position_embeddings
+        if 0 < offset:
             truncated = [self._tokenizer.cls_token_id] + ids[1 + offset:]
         encoded_input = {
             'input_ids': torch.tensor(truncated).unsqueeze(0).to(self._device)
@@ -301,12 +303,15 @@ class LanguageModel:
                 break
         if mask_token_index == len(transposed) - 1:
             mask_token_index = len(transposed) - 2
+
+        offset = 0
+        if self._model.config.max_position_embeddings < len(transposed):
+            offset = len(transposed) - self._model.config.max_position_embeddings
+
         ids = encoded_inputs.input_ids[0][:mask_token_index]
         ids += (self._tokenizer.mask_token_id, self._tokenizer.sep_token_id)
         truncated = ids
-        offset = 0
-        if self._model.config.max_position_embeddings < len(ids) + 1:
-            offset = len(ids) + 1 - self._model.config.max_position_embeddings
+        if 0 < offset:
             truncated = [self._tokenizer.cls_token_id] + ids[1 + offset:]
         encoded_input = {
             'input_ids': torch.tensor(truncated).unsqueeze(0).to(self._device)
