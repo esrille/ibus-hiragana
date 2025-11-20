@@ -374,6 +374,9 @@ class EngineModeless(IBus.Engine):
         return self._platform_version
 
     def get_surrounding_string(self, preedit=''):
+        """
+        # NOTE: Keep katakana text in preedit during conversion
+        """
         if not (self.client_capabilities & IBus.Capabilite.SURROUNDING_TEXT):
             self._surrounding = SURROUNDING_NOT_SUPPORTED
 
@@ -384,6 +387,12 @@ class EngineModeless(IBus.Engine):
             if not self.has_preedit():
                 self.clear_preedit()
             assert len(self._preedit_text) == self._preedit_pos
+            katakana_len = len(self.katakana_text)
+            if 0 < katakana_len:
+                text, pos = self._preedit_text, self._preedit_pos
+                self._preedit_text = text[:pos] + self.katakana_text + text[pos:]
+                self._preedit_pos += katakana_len
+                self.katakana_text = ''
             return self._preedit_text, self._preedit_pos
 
         if self._preedit_text is not None:
@@ -425,7 +434,7 @@ class EngineModeless(IBus.Engine):
                 self.update_preedit_text(IBus.Text.new_from_string(''), 0, False)
             self.commit_text(IBus.Text.new_from_string(self.katakana_text))
             text = text[:pos] + self.katakana_text + text[pos:]
-            pos += len(self.katakana_text)
+            pos += katakana_len
             # A short delay is necessary with some input elements in Firefox 130.
             time.sleep(EVENT_DELAY)
         preedit_len = len(preedit)
