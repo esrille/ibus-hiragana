@@ -1344,14 +1344,7 @@ class EngineHiragana(EngineModeless):
 
     def _keymap_state_changed_cb(self, keymap):
         if self._controller.is_onoff_by_caps():
-            lock = keymap.get_caps_lock_state()
-            if self._caps_lock_state != lock:
-                LOGGER.debug(f'_keymap_state_changed_cb: {keymap.get_caps_lock_state()}')
-                self._caps_lock_state = lock
-                if lock:
-                    self.enable_ime()
-                else:
-                    self.disable_ime()
+            self.set_mode_by_caps_lock(keymap.get_caps_lock_state())
         return True
 
     #
@@ -1370,6 +1363,16 @@ class EngineHiragana(EngineModeless):
             self.set_mode('あ', override)
             return True
         return False
+
+    def set_mode_by_caps_lock(self, lock: bool) -> None:
+        if self._caps_lock_state == lock:
+            return
+        LOGGER.debug(f'set_mode_by_caps_lock({lock})')
+        self._caps_lock_state = lock
+        if lock:
+            self.set_mode('あ')
+        else:
+            self.set_mode('A')
 
     def get_mode(self):
         return self._mode
@@ -1502,8 +1505,9 @@ class EngineHiragana(EngineModeless):
     def do_enable(self) -> None:
         super().do_enable()
         self._caps_lock_state = None
-        self._keymap_state_changed_cb(self._keymap)
-        self._keymap_handler = self._keymap.connect('state-changed', self._keymap_state_changed_cb)
+        if self._controller.is_onoff_by_caps() and not self.is_wayland():
+            self.set_mode_by_caps_lock(self._keymap.get_caps_lock_state())
+            self._keymap_handler = self._keymap.connect('state-changed', self._keymap_state_changed_cb)
         self._settings_handler = self._settings.connect('changed', self._config_value_changed_cb)
 
     def do_focus_in(self) -> None:
@@ -1545,7 +1549,8 @@ class EngineHiragana(EngineModeless):
         return True
 
     # Note IBus.ModifierType.LOCK_MASK bit is always off with the text boxes
-    # inside GNOME Shell on X11. This issue is fixed with Wayland.
+    # inside GNOME Shell on X11, so X11 needs Gdk.Keymap for CapsLock state
+    # while Wayland tracks it from Caps_Lock key events.
     def do_process_key_event(self, keyval: int, keycode: int, state: int) -> bool:
         LOGGER.debug(f'do_process_key_event({keyval:#04x}({IBus.keyval_name(keyval)}), '
                      f'{keycode}, {state:#010x}({prettify_state(state)}))')

@@ -1,6 +1,6 @@
 # ibus-hiragana - Hiragana IME for IBus
 #
-# Copyright (c) 2017-2024 Esrille Inc.
+# Copyright (c) 2017-2026 Esrille Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,10 +15,14 @@
 # limitations under the License.
 
 import logging
+from typing import TYPE_CHECKING
 
 import gi
 gi.require_version('IBus', '1.0')
 from gi.repository import IBus
+
+if TYPE_CHECKING:
+    from engine import EngineHiragana
 
 LOGGER = logging.getLogger(__name__)
 
@@ -205,7 +209,7 @@ class KeyboardController:
     def reset(self):
         self._modifiers = 0
 
-    def process_key_event(self, engine: IBus.Engine, keyval, keycode, state) -> bool:
+    def process_key_event(self, engine: 'EngineHiragana', keyval, keycode, state) -> bool:
         LOGGER.debug(f'process_key_event: {self._modifiers:#07x}')
 
         # Ignore XFree86 anomaly
@@ -272,22 +276,13 @@ class KeyboardController:
             if (self._modifiers & ALT_R_BIT) and keyval != IBus.Alt_R:
                 self._modifiers |= NOT_DUAL_ALT_R_BIT
 
-            # Check CAPS LOCK for IME on/off
-            if self._OnOffByCaps:
-                if keyval == IBus.Caps_Lock:
-                    # Note CAPS LOCK LED is turned off after the key release event.
-                    if state & IBus.ModifierType.LOCK_MASK:
-                        engine.disable_ime()
-                    else:
-                        engine.enable_ime()
-                    return False
-                elif not engine.is_overridden() and engine.is_wayland():
-                    # Do not run the following block on X11 due to the reason
-                    # commented in EngineHiragana.do_process_key_event.
-                    if state & IBus.ModifierType.LOCK_MASK:
-                        engine.enable_ime()
-                    else:
-                        engine.disable_ime()
+            if self._OnOffByCaps and keyval == IBus.Caps_Lock:
+                if engine.is_wayland():
+                    # Caps_Lock key press reports the previous LOCK_MASK
+                    # state because the CAPS LOCK LED changes after the key
+                    # release event, so invert it to track the new LED state.
+                    engine.set_mode_by_caps_lock(not (state & IBus.ModifierType.LOCK_MASK))
+                return False
 
             if keyval in (IBus.Muhenkan, IBus.Hangul_Hanja):
                 # [無変換], [A]
