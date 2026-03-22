@@ -67,5 +67,4 @@
 くわしくは、「[￹大規模￺だいきぼ￻￹言語￺げんご￻モデルのインストール](install.html#llm)」をみてください。
 
 <hr>
-<br><small>Copyright 2017-2025 Esrille Inc.</small>
-
+<br><small>Copyright 2017-2026 Esrille Inc.</small>
